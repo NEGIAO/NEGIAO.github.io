@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Awesome-pyecharts</title>
                 <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
             <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts-wordcloud.min.js"></script>
@@ -20,6 +21,12 @@
                     position: absolute;
                     top: 0;
                     left: 0;
+                }
+                /* Additional styles for mobile devices */
+                @media (max-width: 768px) {
+                    .chart-title {
+                        font-size: 16px !important; 
+                    }
                 }
             </style>
 </head>
@@ -1141,15 +1148,19 @@
             "itemGap": 10,
             "textAlign": "auto",
             "textVerticalAlign": "auto",
-            "triggerEvent": false
+            "triggerEvent": false,
+            "textStyle": {
+                "className": "chart-title"
+            }
         }
     ]
 };
         chart_f04bfb9315bc4889b96a117428095d04.setOption(option_f04bfb9315bc4889b96a117428095d04);
-        // 添加在 script 标签末尾
-    window.addEventListener('resize', function() {
-        chart_f04bfb9315bc4889b96a117428095d04.resize();
-    });
+        
+        // Add resize event handler to ensure responsiveness
+        window.addEventListener('resize', function() {
+            chart_f04bfb9315bc4889b96a117428095d04.resize();
+        });
     </script>
 </body>
 </html>

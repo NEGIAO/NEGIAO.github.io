@@ -10,6 +10,26 @@
     <meta name="theme-color" content="#2c3e50">
     <link rel="icon" href="favicon.ico">
     <link rel="manifest" href="site.webmanifest">
+    <!-- Resource hints for performance optimization -->
+    <link rel="dns-prefetch" href="//unpkg.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//assets7.lottiefiles.com">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://assets7.lottiefiles.com" crossorigin>
+
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="https://unpkg.com/leaflet/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.locatecontrol/0.72.0/L.Control.Locate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.locatecontrol/0.72.0/L.Control.Locate.min.css">
+    </noscript>
+
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -835,18 +855,15 @@
         }
     </style>
     <!-- Scroll Reveal 库 -->
-    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://unpkg.com/scrollreveal" async></script>
     <!-- Lottie 动画库 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js" async></script>
     <!-- Vivus.js 用于 SVG 路径绘制动画 -->
-    <script src="https://cdn.jsdelivr.net/npm/vivus@0.4.6/dist/vivus.min.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.locatecontrol/0.72.0/L.Control.Locate.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.locatecontrol/0.72.0/L.Control.Locate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vivus@0.4.6/dist/vivus.min.js" async></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" async></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.locatecontrol/0.72.0/L.Control.Locate.min.js" async></script>
 </head>
 <body>
     <!-- 跳转到主内容，提高可访问性 -->
@@ -1001,7 +1018,7 @@
         <section id="external-content" class="container">
           <h2>外部内容展示</h2>
           <div class="iframe-container">
-            <iframe src="https://negiao.github.io/WebGIS/index.html" title="外部内容"></iframe>
+            <iframe src="https://negiao.github.io/WebGIS/index.html" title="外部内容" loading="lazy"></iframe>
           </div>
         </section>
     </main>

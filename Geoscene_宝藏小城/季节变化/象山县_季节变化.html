@@ -8,7 +8,7 @@
 
 </head>
 <body >
-    <div id="a2d5eda53c9a4ac1921e9834e61d77d7" class="chart-container" style="width:900px; height:500px; "></div>
+    <div id="a2d5eda53c9a4ac1921e9834e61d77d7" class="chart-container" style="width:1000px; height:600px; "></div>
     <script>
         var chart_a2d5eda53c9a4ac1921e9834e61d77d7 = echarts.init(
             document.getElementById('a2d5eda53c9a4ac1921e9834e61d77d7'), 'white', {renderer: 'canvas'});
@@ -452,11 +452,7 @@
                 "silent": false,
                 "symbol": "none",
                 "precision": 2,
-                "label": {
-                    "show": true,
-                    "margin": 8,
-                    "valueAnimation": false
-                },
+                "label": { "show": false },
                 "lineStyle": {
                     "show": true,
                     "width": 1.5,
@@ -521,7 +517,9 @@
                 "label": {
                     "show": true,
                     "margin": 8,
-                    "valueAnimation": false
+                    "valueAnimation": false,
+                    "fontSize": 16,
+                    "offset": [0, 25]
                 },
                 "data": [
                     [

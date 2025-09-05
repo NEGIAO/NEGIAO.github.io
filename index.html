@@ -53,7 +53,7 @@
     
     <!-- 预加载关键资源 -->
     <link rel="preload" href="Pages/style.css" as="style">
-    <link rel="preload" href="avatar.jpg" as="image" fetchpriority="high">
+    <link rel="preload" href="Pages/avatar.jpg" as="image" fetchpriority="high">
     
     <!-- 预连接第三方资源 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -194,8 +194,8 @@
                     <div class="project-badge" style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-primary); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 600;">
                         🏆 特色项目
                     </div>
-                    <div class="project-image-container" style="height: 200px; margin-bottom: var(--space-lg); border-radius: var(--radius-lg); overflow: hidden; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-chart-area" style="font-size: 3rem; color: white; opacity: 0.9;"></i>
+                    <div class="project-image-container" style="background: var(--gradient-primary);">
+                        <i class="fas fa-chart-area" style="color: white; opacity: 0.9;"></i>
                     </div>
                     <h3 class="project__title">Geoscene - 宝藏小城</h3>
                     <p class="project__description" style="margin-bottom: var(--space-lg);">
@@ -214,8 +214,8 @@
                 
                 <!-- WebGIS项目 -->
                 <div class="card">
-                    <div class="project-image-container" style="height: 200px; margin-bottom: var(--space-lg); border-radius: var(--radius-lg); overflow: hidden; background: var(--gradient-accent); display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-globe" style="font-size: 3rem; color: white; opacity: 0.9;"></i>
+                    <div class="project-image-container" style="background: var(--gradient-accent);">
+                        <i class="fas fa-globe" style="color: white; opacity: 0.9;"></i>
                     </div>
                     <h3 class="project__title">WebGIS 地理信息系统</h3>
                     <p class="project__description" style="margin-bottom: var(--space-lg);">
@@ -234,8 +234,8 @@
                 
                 <!-- 词云图项目 -->
                 <div class="card">
-                    <div class="project-image-container" style="height: 200px; margin-bottom: var(--space-lg); border-radius: var(--radius-lg); overflow: hidden; background: var(--gradient-cool); display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-cloud" style="font-size: 3rem; color: white; opacity: 0.9;"></i>
+                    <div class="project-image-container" style="background: var(--gradient-cool);">
+                        <i class="fas fa-cloud" style="color: white; opacity: 0.9;"></i>
                     </div>
                     <h3 class="project__title">地区词云可视化</h3>
                     <p class="project__description" style="margin-bottom: var(--space-lg);">
@@ -261,21 +261,12 @@
             </div>
         </div>
     </section>
-                    <div class="project-image-container">
-                        <div class="project-image-placeholder" style="background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%); opacity: 0.7;">
-                            <i class="fas fa-book-open" style="font-size: 2.5rem; color: white;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- 季节变化专题 -->
     <section class="section">
         <div class="container">
-            <h2 style="margin-bottom: var(--space-xl);">季节变化研究</h2>
-            <div class="grid grid--3">
+            <h2 class="text-center gradient-text" style="margin-bottom: var(--space-2xl);">季节变化研究</h2>
+            <div class="grid grid--3-fixed">
                 <a href="Geoscene_宝藏小城/季节变化/利川市_季节变化.html" class="card" style="text-decoration: none;">
                     <h4 style="color: var(--primary);">利川市</h4>
                     <p style="color: var(--text-light); margin-bottom: 0;">探索利川市的季节性变化数据和趋势分析</p>

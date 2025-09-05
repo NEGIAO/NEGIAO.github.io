@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (loadingScreen.parentNode) {
                         loadingScreen.parentNode.removeChild(loadingScreen);
                     }
-                }, 500);
-            }, 300);
+                }, 150);
+            }, 150);
         });
     }
 
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 icon.className = isMenuOpen ? 'fas fa-times' : 'fas fa-bars';
                 icon.style.transform = 'rotate(0deg)';
-            }, 150);
+            }, 75);
         }
         
         // Prevent body scroll when menu is open
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isMenuOpen) {
             const firstLink = mobileMenu.querySelector('.mobile-menu__link');
             if (firstLink) {
-                setTimeout(() => firstLink.focus(), 300);
+                setTimeout(() => firstLink.focus(), 150);
             }
         }
     }
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const targetPosition = target.offsetTop - offset;
         const startPosition = window.pageYOffset;
         const distance = targetPosition - startPosition;
-        const duration = Math.min(Math.abs(distance) / 2, 800);
+        const duration = Math.min(Math.abs(distance) / 2, 400);
         let start = null;
 
         function animation(currentTime) {
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     target.addEventListener('blur', () => {
                         target.removeAttribute('tabindex');
                     }, { once: true });
-                }, 100);
+                }, 50);
             }
         });
     });
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add initial styles for animation
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
-        el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        el.style.transition = `opacity 0.3s ease ${index * 0.05}s, transform 0.3s ease ${index * 0.05}s`;
         animationObserver.observe(el);
     });
 
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 background: rgba(0, 217, 255, 0.3);
                 border-radius: 50%;
                 transform: scale(0);
-                animation: ripple 0.6s linear;
+                animation: ripple 0.3s linear;
                 pointer-events: none;
                 z-index: 1;
             `;
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (ripple.parentNode) {
                     ripple.parentNode.removeChild(ripple);
                 }
-            }, 600);
+            }, 300);
         });
     });
 

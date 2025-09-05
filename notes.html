@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>笔记 - NEGIAO</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marked/marked.min.js">
     <style>
         :root {
             --background: #0D1117;
             --surface: #161B22;
+            --surface-alt: #21262D;
             --primary: #58A6FF;
             --text: #C9D1D9;
             --text-light: #8B949E;
@@ -25,13 +25,39 @@
             padding: 2rem;
         }
         .container {
-            max-width: 800px;
+            max-width: 90%;
             margin: 0 auto;
+        }
+        .editor-container {
+            display: flex;
+            height: calc(100vh - 12rem);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .editor-pane, .preview-pane {
+            width: 50%;
+            height: 100%;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+        .editor-pane {
+            border-right: 1px solid var(--border);
+        }
+        #markdown-editor {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
         }
         #content {
             background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 2rem;
             border-radius: 6px;
         }
         h1, h2, h3 {
@@ -77,52 +103,237 @@
             margin-bottom: 2rem;
             font-weight: 500;
         }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.5rem;
+        }
+        th {
+            background-color: var(--surface-alt);
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="index.html" class="back-link">&larr; 返回主页</a>
-        <div id="content"></div>
+        <h1 style="text-align: center; margin-bottom: 2rem;">实时 Markdown 编辑器</h1>
+        <div class="editor-container">
+            <div class="editor-pane">
+                <textarea id="markdown-editor" spellcheck="false"></textarea>
+            </div>
+            <div class="preview-pane" id="content">
+                <!-- Rendered HTML will appear here -->
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
+        const editor = document.getElementById('markdown-editor');
+        const preview = document.getElementById('content');
+
         const markdownContent = `
-# 我的学习笔记
+# Markdown 语法指南
 
-欢迎来到我的笔记页面。这里记录了我在WebGIS、数据可视化和其他技术领域的学习心得和实践总结。
+欢迎来到Markdown学习笔记。Markdown是一种轻量级标记语言，让你能够使用易于阅读、易于编写的纯文本格式编写文档。
 
-## WebGIS开发
+---
 
-### OpenLayers vs. Leaflet
+## 1. 标题 (Headers)
 
-- **OpenLayers**: 功能强大，适合复杂、专业的GIS应用。API较为复杂。
-- **Leaflet**: 轻量级，移动端友好，API简单直观。适合快速构建地图应用。
+使用\`#\`号可以创建标题，\`#\`的数量代表标题的级别。
 
-选择哪个取决于项目需求。对于需要大量GIS功能和自定义的，我倾向于OpenLayers。
-
-## 数据可视化
-
-### D3.js
-
-D3 (Data-Driven Documents) 是一个强大的JavaScript库，用于根据数据操作文档。它允许你将任意数据绑定到DOM，然后将数据驱动的转换应用于文档。
-
-\`\`\`javascript
-d3.select('body')
-  .selectAll('p')
-  .data([4, 8, 15, 16, 23, 42])
-  .enter().append('p')
-    .text(d => 'This is number ' + d + '!');
+\`\`\`markdown
+# 这是一级标题
+## 这是二级标题
+### 这是三级标题
+#### 这是四级标题
+##### 这是五级标题
+###### 这是六级标题
 \`\`\`
 
-> D3的哲学是赋予Web开发者全部的能力，而不是作为一个单一的框架。
+---
 
-## 其他
+## 2. 文本样式 (Text Styling)
 
-这只是一个示例。你可以通过修改这个Markdown字符串来更新你的笔记内容。未来可以考虑从一个.md文件动态加载内容。
+- **粗体**: 使用两个星号\`**\`或两个下划线\`__\`。
+- *斜体*: 使用一个星号\`*\`或一个下划线\`_\`。
+- ~~删除线~~: 使用两个波浪线\`~~\`。
+
+\`\`\`markdown
+**这是粗体文本**
+*这是斜体文本*
+~~这是带删除线的文本~~
+***这是粗斜体文本***
+\`\`\`
+
+---
+
+## 3. 列表 (Lists)
+
+### 无序列表
+
+使用星号\`*\`、加号\`+\`或减号\`-\`来创建无序列表。
+
+\`\`\`markdown
+* 苹果
+* 香蕉
+  * 红香蕉
+  * 绿香蕉
+* 橙子
+\`\`\`
+
+### 有序列表
+
+使用数字加\`.\`来创建有序列表。
+
+\`\`\`markdown
+1. 第一步
+2. 第二步
+3. 第三步
+\`\`\`
+
+---
+
+## 4. 链接 (Links)
+
+链接可以让你跳转到其他网页。
+
+\`\`\`markdown
+[访问我的GitHub主页](https://github.com/NEGIAO)
+\`\`\`
+
+**效果:** [访问我的GitHub主页](https://github.com/NEGIAO)
+
+---
+
+## 5. 图片 (Images)
+
+图片语法与链接类似，只是在前面多一个感叹号\`!\`。
+
+\`\`\`markdown
+![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png)
+\`\`\`
+
+**效果:** ![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png)
+
+---
+
+## 6. 代码 (Code)
+
+### 行内代码
+
+使用反引号 \` \` 来包裹行内代码。
+
+\`\`\`markdown
+在JavaScript中，使用 \`console.log()\` 来打印信息。
+\`\`\`
+
+**效果:** 在JavaScript中，使用 \`console.log()\` 来打印信息。
+
+### 代码块
+
+使用三个反引号 \`\`\` 来创建代码块，并可以指定语言以获得语法高亮。
+
+\`\`\`markdown
+\`\`\`javascript
+function greet(name) {
+  console.log('Hello, ' + name + '!');
+}
+
+greet('World');
+\`\`\`
+\`\`\`
+
+---
+
+## 7. 引用 (Blockquotes)
+
+使用大于号\`>\`来创建引用块。
+
+\`\`\`markdown
+> 这是一段引用。
+>
+> > 引用可以嵌套。
+>
+> —— 引用出处
+\`\`\`
+
+**效果:**
+> 这是一段引用。
+> > 引用可以嵌套。
+>
+> —— 引用出处
+
+---
+
+## 8. 表格 (Tables)
+
+使用管道符\`|\`和连字符\`-\`来创建表格。使用冒号\`:\`来定义对齐方式。
+
+\`\`\`markdown
+| 左对齐 | 居中对齐 | 右对齐 |
+| :--- | :---: | ---: |
+| 单元格1 | 单元格2 | 单元格3 |
+| 单元格4 | 单元格5 | 单元格6 |
+\`\`\`
+
+**效果:**
+
+| 左对齐 | 居中对齐 | 右对齐 |
+| :--- | :---: | ---: |
+| 单元格1 | 单元格2 | 单元格3 |
+| 单元格4 | 单元格5 | 单元格6 |
+
+---
+
+## 9. 分割线 (Horizontal Rules)
+
+使用三个或更多的星号\`***\`、减号\`---\`或下划线\`___\`来创建分割线。
+
+\`\`\`markdown
+---
+***
+___
+\`\`\`
+
+---
+
+## 10. 任务列表 (Task Lists)
+
+这是GitHub Flavored Markdown (GFM) 的扩展功能。
+
+\`\`\`markdown
+- [x] 完成Markdown语法学习
+- [ ] 开始撰写新的笔记
+- [ ] 部署更新到GitHub Pages
+\`\`\`
+
+**效果:**
+- [x] 完成Markdown语法学习
+- [ ] 开始撰写新的笔记
+- [ ] 部署更新到GitHub Pages
+
+这只是Markdown的基础功能，但已经足够满足大部分日常的文档编写需求。
         `;
 
-        document.getElementById('content').innerHTML = marked.parse(markdownContent);
+        // Set initial content
+        editor.value = markdownContent.trim();
+
+        // Function to render markdown
+        function renderMarkdown() {
+            preview.innerHTML = marked.parse(editor.value);
+        }
+
+        // Initial render
+        renderMarkdown();
+
+        // Add event listener for real-time updates
+        editor.addEventListener('input', renderMarkdown);
     </script>
 </body>
 </html>

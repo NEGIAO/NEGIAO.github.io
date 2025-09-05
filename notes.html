@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笔记 - NEGIAO</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marked/marked.min.js">
+    <style>
+        :root {
+            --background: #0D1117;
+            --surface: #161B22;
+            --primary: #58A6FF;
+            --text: #C9D1D9;
+            --text-light: #8B949E;
+            --border: #30363D;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--background);
+            margin: 0;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 6px;
+        }
+        h1, h2, h3 {
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background: var(--background);
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+        }
+        pre {
+            background: var(--background);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        blockquote {
+            border-left: 4px solid var(--primary);
+            padding-left: 1rem;
+            color: var(--text-light);
+            margin-left: 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; 返回主页</a>
+        <div id="content"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        const markdownContent = `
+# 我的学习笔记
+
+欢迎来到我的笔记页面。这里记录了我在WebGIS、数据可视化和其他技术领域的学习心得和实践总结。
+
+## WebGIS开发
+
+### OpenLayers vs. Leaflet
+
+- **OpenLayers**: 功能强大，适合复杂、专业的GIS应用。API较为复杂。
+- **Leaflet**: 轻量级，移动端友好，API简单直观。适合快速构建地图应用。
+
+选择哪个取决于项目需求。对于需要大量GIS功能和自定义的，我倾向于OpenLayers。
+
+## 数据可视化
+
+### D3.js
+
+D3 (Data-Driven Documents) 是一个强大的JavaScript库，用于根据数据操作文档。它允许你将任意数据绑定到DOM，然后将数据驱动的转换应用于文档。
+
+\`\`\`javascript
+d3.select('body')
+  .selectAll('p')
+  .data([4, 8, 15, 16, 23, 42])
+  .enter().append('p')
+    .text(d => 'This is number ' + d + '!');
+\`\`\`
+
+> D3的哲学是赋予Web开发者全部的能力，而不是作为一个单一的框架。
+
+## 其他
+
+这只是一个示例。你可以通过修改这个Markdown字符串来更新你的笔记内容。未来可以考虑从一个.md文件动态加载内容。
+        `;
+
+        document.getElementById('content').innerHTML = marked.parse(markdownContent);
+    </script>
+</body>
+</html>

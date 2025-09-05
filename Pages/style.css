@@ -87,7 +87,6 @@
   --z-popover: 1050;
   --z-tooltip: 1060;
 }
-}
 
 /* Reset & Enhanced Base Styles */
 *,
@@ -657,13 +656,16 @@ a:focus {
 }
 
 .mobile-menu__item {
-  padding: 0 var(--space-lg);
+  padding: 0;
   width: 100%;
-  text-align: center;
+  box-sizing: border-box;
 }
 
 .mobile-menu__link {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   color: var(--text-secondary);
   padding: var(--space-md) 0;
   font-weight: 500;
@@ -672,6 +674,7 @@ a:focus {
   border-bottom: 1px solid transparent;
   text-align: center;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .mobile-menu__link:hover {

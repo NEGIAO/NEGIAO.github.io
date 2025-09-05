@@ -982,6 +982,44 @@ a:focus {
   }
 }
 
+/* Mobile: make top navbar brand and action button inline and sized appropriately */
+@media (max-width: 768px) {
+  .navbar__container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: var(--space-sm) !important;
+  }
+
+  .navbar__brand {
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    display: inline-block !important;
+    margin-right: var(--space-sm) !important;
+    white-space: nowrap !important;
+  }
+
+  /* Buttons in navbar should be compact on mobile and not full-width */
+  .navbar__container .btn,
+  .mobile-navbar .btn,
+  .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem 0.9rem !important; /* slightly smaller touch target */
+    font-size: 0.95rem !important;
+    min-width: 56px !important; /* accessible touch size */
+    max-width: 160px !important; /* prevent overly wide buttons */
+    width: auto !important;
+  }
+
+  /* Secondary buttons get a subtle outline and compact look on mobile */
+  .btn--secondary {
+    padding: 0.4rem 0.85rem !important;
+    border-radius: calc(var(--radius-md));
+  }
+}
+
 /* Floating Elements */
 .floating-shapes {
   align-items: center;

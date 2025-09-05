@@ -17,7 +17,13 @@
         </div>
     </nav>
 
-    <main class="container section note-layout">
+#    <main class="container section note-layout">
+
+        <aside class="note-toc card" aria-label="文章章节目录">
+            <h4 class="note-toc__title">文章目录</h4>
+            <nav class="note-toc__nav" id="note-toc"></nav>
+        </aside>
+
         <article class="note-content card" id="note-content">
             <script type="text/markdown" id="note-markdown">
 # WebGIS开发实践
@@ -84,12 +90,7 @@ const map = new Map({
 
 *笔记持续更新中...*
             </script>
-        </article>
-
-        <aside class="note-toc card" aria-label="文章章节目录">
-            <h4 class="note-toc__title">文章目录</h4>
-            <nav class="note-toc__nav" id="note-toc"></nav>
-        </aside>
+    </article>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>

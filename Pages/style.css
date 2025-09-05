@@ -337,25 +337,35 @@ a:focus {
 }
 
 @media (max-width: 768px) {
-  /* On tablets and smaller, TOC is no longer fixed */
+  /* On tablets and smaller, make TOC an inline block above the article
+     by using column flex + ordering so the existing DOM (aside after article)
+     will render visually before the article. */
+  .note-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  /* push content further below the fixed navbar on mobile; increase spacing for better visual breathing room */
+  padding-top: calc(4.5rem + var(--space-2xl));
+  }
+
   .note-toc {
+    order: -1;
     position: static;
     width: 100%;
     max-height: 50vh; /* Limit height on mobile */
     top: auto;
     right: auto;
     transform: none;
-    margin-top: var(--space-xl);
+  /* ensure clear spacing from the fixed navbar on mobile */
+  margin: var(--space-2xl) 0 var(--space-lg) 0;
     box-shadow: var(--shadow-lg);
   }
+
   .note-content {
     /* Content takes full width */
     padding: var(--space-lg);
     max-width: 100%;
-  }
-  .note-layout {
-    /* Normal document flow */
-    display: block;
+    min-height: auto;
   }
 }
 
@@ -509,6 +519,15 @@ a:focus {
     right: 12px !important;
     opacity: 0.98 !important;
   }
+}
+
+/* Ensure navbar is above all floating elements (TOC, popovers) */
+.navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 110000 !important; /* higher than .note-toc 99999 */
 }
 
 @keyframes heroFloat {

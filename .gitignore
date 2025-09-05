@@ -1,0 +1,31 @@
+# Temporary files
+.tmp/
+tmp/
+temp/
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# Node modules (if any future development)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs (if any)
+dist/
+build/
+
+# Large temporary image files
+*.tmp.jpg
+*.tmp.png
+*.backup.*

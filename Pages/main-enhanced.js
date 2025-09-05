@@ -1,8 +1,9 @@
 // Enhanced Navigation and Interactive Features for NEGIAO.github.io
 document.addEventListener('DOMContentLoaded', function() {
-    // Loading screen with improved performance
+    // Loading screen with improved performance and timeout
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
+        // Hide loading screen after page load
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadingScreen.style.opacity = '0';
@@ -15,6 +16,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 150);
             }, 150);
         });
+        
+        // Emergency timeout - hide loading screen after 5 seconds regardless
+        setTimeout(() => {
+            if (loadingScreen && loadingScreen.parentNode) {
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.visibility = 'hidden';
+                setTimeout(() => {
+                    if (loadingScreen.parentNode) {
+                        loadingScreen.parentNode.removeChild(loadingScreen);
+                    }
+                }, 150);
+            }
+        }, 5000);
     }
 
     // Enhanced Navbar with scroll effects

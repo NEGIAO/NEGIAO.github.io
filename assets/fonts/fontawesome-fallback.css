@@ -1,0 +1,34 @@
+/* Font Awesome Fallback CSS - Essential Icons Only */
+/* Unicode fallbacks for key icons when Font Awesome fails to load */
+
+.fas, .fab, .far {
+    font-family: inherit;
+    font-weight: normal;
+}
+
+/* Navigation and UI Icons */
+.fa-bars::before { content: "☰"; }
+.fa-github::before { content: "⚠"; }
+.fa-envelope::before { content: "✉"; }
+.fa-paper-plane::before { content: "✈"; }
+.fa-qq::before { content: "💬"; }
+.fa-external-link-alt::before { content: "↗"; }
+.fa-eye::before { content: "👁"; }
+
+/* Technical Icons */
+.fa-globe-americas::before, .fa-globe::before { content: "🌍"; }
+.fa-chart-pie::before { content: "📊"; }
+.fa-chart-area::before, .fa-chart-bar::before { content: "📈"; }
+.fa-laptop-code::before { content: "💻"; }
+.fa-code::before { content: "⌨"; }
+.fa-map-marked-alt::before { content: "🗺"; }
+.fa-cloud::before { content: "☁"; }
+.fa-rocket::before { content: "🚀"; }
+.fa-book-open::before { content: "📖"; }
+.fa-user-cog::before { content: "⚙"; }
+
+/* Ensure icons display inline */
+.fas::before, .fab::before, .far::before {
+    display: inline-block;
+    margin-right: 0.25em;
+}

@@ -51,14 +51,13 @@
         }
     </style>
     
-    <!-- 预加载关键资源 -->
-    <link rel="preload" href="Pages/style.css" as="style">
-    <link rel="preload" href="Pages/avatar.jpg" as="image" fetchpriority="high">
-    
-    <!-- 预连接第三方资源 -->
+    <!-- 关键首屏样式已内联以优化首次渲染；避免对完整 CSS 的 preload（会产生重复请求成本） -->
+    <!-- 如果需要优先加载头像，可保留 img 的 fetchpriority 属性，但不必单独 preload -->
+
+    <!-- 预连接第三方资源（仅保留必要项） -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.bootcdn.net">
+    <!-- 注意：如将 Font Awesome 或其他第三方资源本地化，可删除对 cdn.bootcdn.net 的预连接 -->
     
     <!-- 使用中国CDN提高中国境内访问速度 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">

@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Performance optimizations
     // Preload critical images
-    const criticalImages = ['avatar.jpg'];
+    const criticalImages = ['Pages/avatar.jpg'];
     criticalImages.forEach(src => {
         const img = new Image();
         img.src = src;

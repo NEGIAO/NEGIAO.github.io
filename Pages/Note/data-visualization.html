@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGIS开发实践 - NEGIAO</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script defer src="../notes-toc.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="../notes.html" class="btn btn--secondary">返回索引</a>
+        </div>
+    </nav>
+
+    <main class="container section note-layout">
+        <article class="note-content card" id="note-content">
+            <script type="text/markdown" id="note-markdown">
+# WebGIS开发实践
+
+这是关于WebGIS开发实践的笔记，记录了从基础概念到实际项目中的一些经验。
+
+## 1. 核心概念
+
+WebGIS的核心是将地理空间数据通过Web技术进行展示、分析和交互。
+
+### 1.1 地图引擎
+
+- **OpenLayers**: 功能强大，社区活跃，适合复杂GIS应用。
+- **Leaflet**: 轻量级，API简单，适合快速开发和移动端应用。
+
+### 1.2 数据格式
+
+- **GeoJSON**: 基于JSON的地理空间数据格式，Web友好。
+- **KML/KMZ**: Google Earth使用的格式，适合标记和简单矢量。
+- **Shapefile**: 传统的GIS数据格式，通常需要在服务端转换为Web格式。
+
+## 2. OpenLayers入门
+
+创建一个基本的OpenLayers地图非常简单。
+
+\`\`\`javascript
+import Map from 'ol/Map';
+import View from 'ol/View';
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
+
+const map = new Map({
+  target: 'map-container',
+  layers: [
+    new TileLayer({
+      source: new OSM()
+    })
+  ],
+  view: new View({
+    center: [0, 0],
+    zoom: 2
+  })
+});
+\`\`\`
+
+> **注意**: `target`需要对应HTML中一个div的id。
+
+## 3. 交互与控件
+
+为地图添加交互功能是提升用户体验的关键。
+
+- **缩放**: `ZoomSlider`, `Zoom`
+- **平移**: 默认支持
+- **选择要素**: `Select` interaction
+- **绘制要素**: `Draw` interaction
+
+## 4. 性能优化
+
+- **矢量切片 (Vector Tiles)**: 在客户端渲染，提供高分辨率和动态样式。
+- **数据抽稀**: 在不同缩放级别下显示不同密度的点。
+- **代码分割**: 按需加载地图模块。
+
+---
+
+*笔记持续更新中...*
+            </script>
+        </article>
+
+        <aside class="note-toc card" aria-label="文章章节目录">
+            <h4 class="note-toc__title">文章目录</h4>
+            <nav class="note-toc__nav" id="note-toc"></nav>
+        </aside>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>
+        (function () {
+            var src = document.getElementById('note-markdown');
+            if (!src) return;
+            var md = src.textContent || src.innerText || '';
+            var html = (window.marked || window.markdownit && window.markdownit()).parse ? (window.marked ? window.marked.parse(md) : window.markdownit().render(md)) : md;
+            var container = document.getElementById('note-content');
+            container.innerHTML = html;
+            if (window.buildNoteTOC) window.buildNoteTOC();
+            container.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        })();
+    </script>
+</body>
+</html>

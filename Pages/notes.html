@@ -1,216 +1,156 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NEGIAO的技术笔记 - WebGIS、数据可视化和前端开发学习心得与实践总结">
-    <title>我的笔记 - NEGIAO</title>
+    <meta name="description" content="NEGIAO的技术笔记索引 - WebGIS、数据可视化和前端开发学习心得与实践总结">
+    <title>笔记索引 - NEGIAO</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* 针对笔记页面的特定样式 */
-        .notes-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .notes-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-xl);
-            flex-wrap: wrap;
-            gap: var(--space-md);
-        }
-        
-        .notes-header .back-link {
-            margin-bottom: 0;
-        }
-        
-        #notes-content h1, 
-        #notes-content h2, 
-        #notes-content h3 {
-            color: var(--primary);
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 0.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        #notes-content code {
-            background: var(--surface);
-            padding: 0.2em 0.4em;
-            margin: 0;
-            font-size: 85%;
-            border-radius: 3px;
-            font-family: var(--font-mono);
-        }
-        
-        #notes-content pre {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 1rem;
-            border-radius: 6px;
-            overflow-x: auto;
-        }
-        
-        #notes-content pre code {
-            padding: 0;
-            background: none;
-        }
-        
-        #notes-content blockquote {
-            border-left: 4px solid var(--primary);
-            padding-left: 1rem;
-            color: var(--text-light);
-            margin-left: 0;
-        }
-        
-        #notes-content table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 1rem;
-        }
-        
-        #notes-content th, 
-        #notes-content td {
-            border: 1px solid var(--border);
-            padding: 0.5rem;
-        }
-        
-        #notes-content th {
-            background-color: var(--surface-alt);
-        }
-        
-        @media (max-width: 576px) {
-            .notes-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .notes-header .btn {
-                align-self: stretch;
-                justify-content: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="notes-container">
-        <div class="notes-header">
-            <a href="../index.html" class="back-link">&larr; 返回主页</a>
-            <a href="markdown_editor.html" class="btn btn--secondary">
-                <i class="fas fa-pencil-alt"></i> 打开编辑器
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="../index.html" class="btn btn--secondary">
+                <i class="fas fa-home"></i> 返回首页
             </a>
         </div>
-        
-        <!-- Markdown 渲染区域 -->
-        <div id="notes-content"></div>
+    </nav>
 
-        <!-- 
-            在这里用 Markdown 语法撰写你的笔记
-            ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-        -->
-        <div id="markdown-source" style="display: none;">
-_______________________________________________________________________________________________________________________
-# 我的技术笔记
-
-欢迎来到我的笔记空间。这里记录了我在 WebGIS、数据可视化和前端开发领域的学习心得和实践总结。
-
----
-
-## WebGIS 学习
-
-### 1. OpenLayers 基础
-
-OpenLayers 是一个强大的开源 WebGIS 引擎。学习它的第一步是理解其核心概念：
-
-- **Map**: 地图容器，所有图层的载体。
-- **View**: 控制地图的中心、缩放级别和投影。
-- **Layers**: 不同的数据图层，例如瓦片图层、矢量图层等。
-- **Sources**: 图层的数据来源，可以是 OGC 服务 (WMS, WFS)、XYZ 瓦片服务或静态文件 (GeoJSON, KML)。
-- **Controls & Interactions**: 地图控件（如缩放按钮）和用户交互（如拖拽、缩放）。
-
-**代码示例：** 创建一个简单的地图
-\`\`\`javascript
-import Map from 'ol/Map';
-import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
-
-const map = new Map({
-  target: 'map', // 对应HTML中的div id
-  layers: [
-    new TileLayer({
-      source: new OSM() // 使用开放街道地图作为底图
-    })
-  ],
-  view: new View({
-    center: [0, 0],
-    zoom: 2
-  })
-});
-\`\`\`
-
----
-
-## 数据可视化
-
-### 1. D3.js 的数据绑定
-
-D3 (Data-Driven Documents) 的核心思想是将数据绑定到 DOM 元素上。`enter()`, `update()`, `exit()` 模式是其精髓。
-
-- **`enter()`**: 处理需要被创建的新元素（当数据项多于 DOM 元素时）。
-- **`update()`**: 处理需要被更新的现有元素（数据项和 DOM 元素匹配）。
-- **`exit()`**: 处理需要被移除的多余元素（当数据项少于 DOM 元素时）。
-
-> D3 提供了极高的灵活性，但学习曲线也相对陡峭。相比之下，ECharts 或 Chart.js 提供了更快速的图表实现方案。
-
----
-
-## 前端开发技巧
-
-### 1. CSS 变量 (Custom Properties)
-
-使用 CSS 变量可以极大地提高样式代码的可维护性，特别是在主题切换等场景中。
-
-\`\`\`css
-:root {
-  --primary-color: #58A6FF;
-  --background-color: #0D1117;
-  --text-color: #C9D1D9;
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-a {
-  color: var(--primary-color);
-}
-\`\`\`
-
-通过 JavaScript 动态修改这些变量，就可以轻松实现主题切换。
-_______________________________________________________________________________________________________________________
+    <main class="container section">
+        <div class="notes-index-header">
+            <h1 class="gradient-text">📚 笔记索引</h1>
+            <p class="notes-subtitle">技术学习心得与实践总结</p>
         </div>
-        <!-- 
-            ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-            在这里用 Markdown 语法撰写你的笔记
-        -->
 
-    </div>
+        <section class="notes-grid">
+            <div class="note-card">
+                <div class="note-card__header">
+                    <div class="note-icon">✏️</div>
+                    <div>
+                        <h3>实时 Markdown 编辑器</h3>
+                        <span class="note-badge note-badge--tool">工具</span>
+                    </div>
+                </div>
+                <p class="note-card__description">在线实时预览的 Markdown 编辑器，方便快速编写和测试笔记内容</p>
+                <div class="note-card__meta">
+                    <span class="note-meta__item">
+                        <i class="fas fa-tools"></i> 在线工具
+                    </span>
+                </div>
+                <div class="note-card__actions">
+                    <a href="markdown_editor.html" class="btn btn--primary">
+                        <i class="fas fa-edit"></i> 打开编辑器
+                    </a>
+                </div>
+            </div>
 
-    <!-- 引入 marked.js 用于解析 Markdown -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const markdownSource = document.getElementById('markdown-source').textContent;
-            const notesContent = document.getElementById('notes-content');
-            
-            if (markdownSource && notesContent) {
-                notesContent.innerHTML = marked.parse(markdownSource);
-            }
-        });
-    </script>
+            <div class="note-card">
+                <div class="note-card__header">
+                    <div class="note-icon">📖</div>
+                    <div>
+                        <h3>笔记模板</h3>
+                        <span class="note-badge note-badge--template">模板</span>
+                    </div>
+                </div>
+                <p class="note-card__description">用于创建新笔记的标准模板，包含Markdown渲染和章节索引功能</p>
+                <div class="note-card__meta">
+                    <span class="note-meta__item">
+                        <i class="fas fa-calendar"></i> 模板文件
+                    </span>
+                </div>
+                <div class="note-card__actions">
+                    <a href="Note/note-template.html" class="btn btn--primary">
+                        <i class="fas fa-eye"></i> 查看模板
+                    </a>
+                </div>
+            </div>
+
+            <div class="note-card">
+                <div class="note-card__header">
+                    <div class="note-icon">🌍</div>
+                    <div>
+                        <h3>WebGIS开发实践</h3>
+                        <span class="note-badge note-badge--tech">技术</span>
+                    </div>
+                </div>
+                <p class="note-card__description">WebGIS技术栈学习，包括OpenLayers、Leaflet等前端地图库的使用心得</p>
+                <div class="note-card__meta">
+                    <span class="note-meta__item">
+                        <i class="fas fa-calendar"></i> 即将上线
+                    </span>
+                </div>
+                <div class="note-card__actions">
+                    <a href="Note/webgis-practice.html" class="btn btn--primary">
+                        <i class="fas fa-book-open"></i> 阅读笔记
+                    </a>
+                </div>
+            </div>
+
+            <div class="note-card">
+                <div class="note-card__header">
+                    <div class="note-icon">📊</div>
+                    <div>
+                        <h3>数据可视化学习</h3>
+                        <span class="note-badge note-badge--data">数据</span>
+                    </div>
+                </div>
+                <p class="note-card__description">ECharts、D3.js等数据可视化技术的学习笔记和案例分析</p>
+                <div class="note-card__meta">
+                    <span class="note-meta__item">
+                        <i class="fas fa-calendar"></i> 即将上线
+                    </span>
+                </div>
+                <div class="note-card__actions">
+                    <a href="Note/data-visualization.html" class="btn btn--primary">
+                        <i class="fas fa-chart-bar"></i> 阅读笔记
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="notes-info">
+            <h2>📝 使用说明</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-icon">📋</div>
+                    <h4>创建新笔记</h4>
+                    <p>复制模板文件，重命名后编辑其中的Markdown内容即可创建新笔记</p>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">🔗</div>
+                    <h4>章节导航</h4>
+                    <p>每个笔记页面右侧都有自动生成的章节目录，方便快速跳转到不同章节</p>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">📱</div>
+                    <h4>响应式设计</h4>
+                    <p>支持桌面和移动设备，TOC在移动端会自动调整到内容下方</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="notes-stats">
+            <div class="stats-item">
+                <h3>3</h3>
+                <p>笔记文件</p>
+            </div>
+            <div class="stats-item">
+                <h3>∞</h3>
+                <p>学习机会</p>
+            </div>
+            <div class="stats-item">
+                <h3>📚</h3>
+                <p>知识积累</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 NEGIAO. 持续学习，记录成长。</p>
+        </div>
+    </footer>
 </body>
 </html>

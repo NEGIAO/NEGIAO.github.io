@@ -217,6 +217,235 @@ a:focus {
   padding: 0 var(--space-md);
 }
 
+/* Notes layout: content + right-side TOC */
+.note-layout {
+  /* Use a single column layout, the TOC will be fixed on the right */
+  display: block;
+  position: relative;
+}
+
+.note-content {
+  /* Content area: fill the viewport width for immersive reading; TOC will overlay */
+  width: 100%;
+  max-width: 100vw;
+  padding: calc(var(--space-lg) * 1.25) var(--space-lg);
+  margin: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Make media and code inside notes responsive and not overflow the viewport */
+.note-content img,
+.note-content iframe,
+.note-content video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: var(--space-md) 0;
+}
+
+.note-content pre,
+.note-content code {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.note-toc {
+  /* Fixed TOC on the right, vertically centered, floating above content */
+  position: fixed;
+  right: 20px;
+  top: 50%; /* vertically center relative to viewport */
+  transform: translateY(-50%) translateZ(0); /* robust centering and preserve 3d layer */
+  width: 280px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: calc(var(--space-lg) * 0.9);
+  /* Higher-contrast opaque background so TOC stands out from page content */
+  background: linear-gradient(180deg, rgba(18,22,30,1), rgba(12,14,18,1));
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: calc(var(--radius-xl) - 4px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 10px 36px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.4);
+  z-index: 1050; /* Higher than navbar but not excessive */
+  transition: transform 0.28s cubic-bezier(.2,.9,.2,1), right 0.25s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  position: fixed;
+}
+
+/* Collapsed state: slide TOC to the right, out of the way (toggle button remains) */
+.note-toc.note-toc--collapsed {
+  transform: translateY(-50%) translateX(120%);
+  opacity: 0.98;
+  pointer-events: auto; /* allow any visible parts to still receive events if needed */
+}
+
+/* Toggle button fixed at the right edge of the viewport */
+#toc-toggle {
+  position: fixed;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08));
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100000; /* above the TOC */
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+#toc-toggle:hover { transform: translateY(-50%) scale(1.05); }
+
+/* Hide the toggle on small screens (mobile) */
+@media (max-width: 768px) {
+  #toc-toggle { display: none; }
+  .note-toc { position: static; transform: none; right: auto; top: auto; }
+}
+
+/* Responsive adjustments */
+@media (min-width: 1400px) {
+  .note-content {
+    /* Keep full-bleed content but increase horizontal padding on very wide screens */
+    max-width: 100vw;
+    padding: var(--space-lg) var(--space-3xl);
+    width: 100%;
+  }
+  .note-toc {
+    width: 300px;
+    right: 30px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .note-content {
+    max-width: 100vw;
+    padding: var(--space-lg) var(--space-lg);
+    width: 100%;
+  }
+  .note-toc {
+    width: 260px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* On tablets and smaller, TOC is no longer fixed */
+  .note-toc {
+    position: static;
+    width: 100%;
+    max-height: 50vh; /* Limit height on mobile */
+    top: auto;
+    right: auto;
+    transform: none;
+    margin-top: var(--space-xl);
+    box-shadow: var(--shadow-lg);
+  }
+  .note-content {
+    /* Content takes full width */
+    padding: var(--space-lg);
+    max-width: 100%;
+  }
+  .note-layout {
+    /* Normal document flow */
+    display: block;
+  }
+}
+
+.note-toc__title {
+  margin: 0 0 var(--space-sm) 0;
+  text-align: left;
+  font-size: 1rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.note-toc__title .toc-accent {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--primary);
+  box-shadow: 0 0 8px rgba(0,217,255,0.12);
+}
+
+.note-toc__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.note-toc__item { 
+  margin: var(--space-sm) 0; 
+}
+
+.note-toc__link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.92rem;
+  padding: calc(var(--space-xs) * 0.9) calc(var(--space-sm) * 0.9);
+  border-radius: calc(var(--radius-sm) + 2px);
+  display: block;
+  transition: color 0.12s ease, background 0.12s ease, transform 0.12s ease;
+  padding-left: var(--space-sm);
+}
+
+.note-toc__link:hover { 
+  color: var(--primary);
+  background: linear-gradient(90deg, rgba(0,217,255,0.06), rgba(78,205,196,0.02));
+  transform: translateX(6px) scale(1.01);
+}
+
+.note-toc__link.is-active {
+  color: var(--primary);
+  font-weight: 700;
+  background: linear-gradient(90deg, rgba(0,217,255,0.12), rgba(0,217,255,0.06));
+  box-shadow: inset 0 0 0 1px rgba(0,217,255,0.02);
+}
+
+/* Indentation by heading level */
+.note-toc-level-h3 { margin-left: var(--space-lg); }
+.note-toc-level-h4 { margin-left: calc(var(--space-lg) * 2); font-size: 0.85rem; }
+
+/* custom scrollbar for TOC */
+.note-toc::-webkit-scrollbar { width: 8px; }
+.note-toc::-webkit-scrollbar-track { background: transparent; }
+.note-toc::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); border-radius: 8px; }
+.note-toc::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04)); }
+
+/* Collapsed state should be fully opaque (no transparency) and visible as a solid block */
+.note-toc.note-toc--collapsed {
+  transform: translateY(-50%) translateX(120%) !important;
+  right: 12px !important;
+  opacity: 1 !important;
+  background: linear-gradient(180deg, rgba(14,16,18,1), rgba(10,12,14,1)) !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.65) !important;
+}
+
+/* Responsive: stack TOC under content on small screens */
+@media (max-width: 1024px) {
+  /* This is now handled by the 992px breakpoint */
+}
+
+@media (max-width: 768px) {
+  .note-toc {
+    /* Further adjustments for small phones if needed */
+    padding: var(--space-md);
+  }
+  .note-content {
+    padding: var(--space-md);
+  }
+}
+
 .section {
   padding: var(--space-4xl) 0;
   position: relative;
@@ -259,6 +488,27 @@ a:focus {
   z-index: -1;
   animation: heroFloat 20s infinite alternate ease-in-out;
   backdrop-filter: blur(1px);
+}
+
+/* Strong override: ensure note TOC stays fixed and on top for desktop viewports.
+   This is placed late in the stylesheet to avoid accidental overrides earlier. */
+@media (min-width: 769px) {
+  .note-toc {
+    position: fixed !important;
+    right: 28px !important;
+    top: 50% !important;
+    transform: translateY(-50%) translateZ(0) !important;
+    width: 300px !important;
+    max-height: 70vh !important;
+    z-index: 99999 !important;
+    box-shadow: var(--shadow-2xl) !important;
+  }
+  /* Ensure collapsed class can override the important defaults above */
+  .note-toc.note-toc--collapsed {
+    transform: translateY(-50%) translateX(120%) !important;
+    right: 12px !important;
+    opacity: 0.98 !important;
+  }
 }
 
 @keyframes heroFloat {
@@ -683,6 +933,55 @@ a:focus {
   transform: translateY(-2px);
 }
 
+/* When mobile menu is open, make items and nested lists fill full width and center content */
+@media (max-width: 768px) {
+  .mobile-menu.active .mobile-menu__item {
+    width: 100%;
+    margin: var(--space-sm) 0; /* small vertical gap between items */
+    box-sizing: border-box;
+    display: block;
+  }
+
+  .mobile-menu.active .mobile-menu__link {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* center icon + label horizontally */
+    width: 100%;
+    padding: var(--space-md);
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: var(--radius-md);
+    color: var(--text);
+    background: transparent;
+  }
+
+  .mobile-menu.active .mobile-menu__link i {
+    margin-right: var(--space-sm);
+    min-width: 1.6rem;
+    text-align: center;
+  }
+
+  /* Ensure nested lists inside the mobile menu also fill width and center text */
+  .mobile-menu.active .mobile-menu__nav,
+  .mobile-menu.active .mobile-menu__nav ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .mobile-menu.active .mobile-menu__nav li {
+    width: 100%;
+  }
+
+  .mobile-menu.active .mobile-menu__nav li a {
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: var(--space-md);
+  }
+}
+
 /* Floating Elements */
 .floating-shapes {
   align-items: center;
@@ -768,7 +1067,8 @@ a:focus {
   position: relative;
   width: 200px;
   height: 200px;
-  margin: 0 auto var(--space-2xl);
+  /* place avatar below the fixed navbar (navbar height 4.5rem) with a smaller gap on desktop */
+  margin: calc(4.5rem + calc(var(--space-md) * 0.5)) auto var(--space-2xl);
 }
 
 .avatar {
@@ -1250,12 +1550,14 @@ a:focus {
   }
   
   .navbar__container {
-    padding: 0 var(--space-lg);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-md);
-    position: relative;
+   padding: 0 var(--space-lg);
+   /* Keep navbar items in a single row on smaller screens so the mobile toggle
+     can sit to the right of the brand. Use space-between to separate brand and toggle. */
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   gap: var(--space-md);
+   position: relative;
   }
   
   .grid--3-fixed {
@@ -1316,11 +1618,33 @@ a:focus {
   .mobile-menu {
     display: flex;
   }
+
+  /* Center the brand and pin the mobile toggle to the right on small screens */
+  .navbar__container {
+    justify-content: center; /* center items horizontally */
+    position: relative; /* establish containing block for absolute children */
+  }
+
+  .navbar__brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050;
+  }
+
+  .mobile-menu-toggle {
+    position: absolute;
+    right: var(--space-md);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1060;
+  }
   
   .avatar-container {
     width: 160px;
     height: 160px;
-    margin-bottom: var(--space-xl);
+  /* keep avatar under the navbar on tablet/smaller screens */
+  margin: calc(4.5rem + var(--space-md)) auto var(--space-xl);
   }
   
   .avatar {
@@ -1398,7 +1722,8 @@ a:focus {
   .avatar-container {
     width: 140px;
     height: 140px;
-    margin-bottom: var(--space-lg);
+  /* on phones the navbar is slightly shorter (4rem) */
+  margin: calc(4rem + var(--space-sm)) auto var(--space-lg);
   }
   
   .avatar {
@@ -1431,13 +1756,14 @@ a:focus {
   }
   
   .navbar__container {
-    height: 4rem;
-    padding: 0 var(--space-sm);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-sm);
-    position: relative;
+  height: 4rem;
+  padding: 0 var(--space-sm);
+  /* Keep horizontal layout on phones: brand at left, toggle at right */
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  position: relative;
   }
   
   .navbar__brand {
@@ -1470,6 +1796,8 @@ a:focus {
   .avatar-container {
     width: 120px;
     height: 120px;
+  /* extra-small phones use same top offset as phones */
+  margin: calc(4rem + var(--space-sm)) auto var(--space-md);
   }
   
   .avatar {
@@ -1562,6 +1890,210 @@ a:focus {
 /* Performance optimizations */
 .will-change {
   will-change: transform;
+}
+
+/* Notes Index Page Styles */
+.notes-index-header {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.notes-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-md);
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.note-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  transition: all var(--transition-normal);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+
+.note-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.note-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0, 217, 255, 0.4);
+  box-shadow: var(--shadow-xl), 0 0 30px rgba(0, 217, 255, 0.15);
+}
+
+.note-card:hover::before {
+  opacity: 1;
+}
+
+.note-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.note-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.note-card__header h3 {
+  margin: 0 0 var(--space-xs) 0;
+  color: var(--text);
+  font-size: 1.25rem;
+}
+
+.note-badge {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.note-badge--template {
+  background: rgba(255, 217, 61, 0.2);
+  color: var(--warning);
+  border: 1px solid rgba(255, 217, 61, 0.3);
+}
+
+.note-badge--tech {
+  background: rgba(0, 217, 255, 0.2);
+  color: var(--primary);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+}
+
+.note-badge--data {
+  background: rgba(81, 207, 102, 0.2);
+  color: var(--success);
+  border: 1px solid rgba(81, 207, 102, 0.3);
+}
+
+.note-card__description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-lg);
+}
+
+.note-card__meta {
+  margin-bottom: var(--space-lg);
+}
+
+.note-meta__item {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.note-card__actions {
+  margin-top: auto;
+}
+
+.notes-info {
+  margin-bottom: var(--space-3xl);
+}
+
+.notes-info h2 {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-xl);
+}
+
+.info-item {
+  text-align: center;
+  padding: var(--space-lg);
+  background: rgba(0, 217, 255, 0.05);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0, 217, 255, 0.1);
+}
+
+.info-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-md);
+}
+
+.info-item h4 {
+  color: var(--primary);
+  margin-bottom: var(--space-sm);
+}
+
+.info-item p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.notes-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3xl);
+  margin-bottom: var(--space-3xl);
+}
+
+.stats-item {
+  text-align: center;
+}
+
+.stats-item h3 {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: var(--space-xs);
+}
+
+.stats-item p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .notes-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .notes-stats {
+    gap: var(--space-xl);
+  }
+  
+  .stats-item h3 {
+    font-size: 2rem;
+  }
 }
 
 /* Utility Classes */

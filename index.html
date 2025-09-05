@@ -3,1367 +3,468 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEGIAO 的个人主页</title>
-    <meta name="description" content="NEGIAO 的个人主页，展示WebGIS与数据可视化项目与技术栈。">
-    <meta name="keywords" content="NEGIAO, WebGIS, 数据可视化, GIS, OpenLayers, Vue.js">
-    <meta name="author" content="NEGIAO">
-    <meta name="theme-color" content="#2c3e50">
-    <link rel="icon" href="favicon.ico">
-    <link rel="manifest" href="site.webmanifest">
-    <!-- Resource hints for performance optimization -->
-    <link rel="dns-prefetch" href="//unpkg.com">
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="//assets7.lottiefiles.com">
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://assets7.lottiefiles.com" crossorigin>
-
-    <!-- Preload critical CSS -->
-    <link rel="preload" href="https://unpkg.com/leaflet/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.locatecontrol/0.72.0/L.Control.Locate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.locatecontrol/0.72.0/L.Control.Locate.min.css">
-    </noscript>
-
+    <meta name="description" content="NEGIAO's Personal GitHub Page - WebGIS, Data Visualization and Geospatial Technologies">
+    <meta name="theme-color" content="#0D1117">
+    <title>NEGIAO - GitHub Page</title>
+    
+    <!-- 性能优化：内联关键CSS -->
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --background-color: #ecf0f1;
-            --text-color: #34495e;
-            --card-bg-color: #ffffff;
-            --shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        nav .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: var(--secondary-color);
-        }
-
-        /* Avatar */
-        .avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-            object-fit: cover;
-        }
-
-        /* Hero Section */
-        #hero {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            text-align: center;
-            padding: 80px 20px;
-        }
-
-        #hero h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-animation 8s ease infinite;
-        }
-
-        #hero p {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-
-        .social-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
-        .social-links a:hover {
-            transform: scale(1.2);
-        }
-
-        /* Section Styling */
-        section {
-            padding: 60px 0;
-        }
-
-        h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            color: var(--primary-color);
-        }
-
-        /* Projects Section */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .project-card {
-            background-color: var(--card-bg-color);
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-
-        .project-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .project-content {
-            padding: 20px;
-        }
-
-        .project-content h3 {
-            margin-top: 0;
-            color: var(--secondary-color);
-        }
-
-        .project-content p {
-            margin-bottom: 15px;
-        }
-
-        .project-link {
-            display: inline-block;
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .project-link:hover {
-            background-color: #2980b9;
-        }
-        
-        /* Skills Section */
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            list-style: none;
-            padding: 0;
-        }
-
-        .skills-list li {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-
-        /* Contact Section */
-        #contact {
-            text-align: center;
-        }
-
-        .contact-info {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: var(--card-bg-color);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-        }
-
-        .contact-info p {
-            font-size: 1.1rem;
-            margin: 15px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .contact-info svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--secondary-color);
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        /* 访问统计样式 */
-        .visitor-stats {
-            background: linear-gradient(135deg, rgba(52, 73, 94, 0.9), rgba(52, 152, 219, 0.9));
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin: 20px auto;
-            max-width: 400px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            backdrop-filter: blur(10px);
-        }
-
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .stat-item {
-            text-align: center;
-            flex: 1;
-        }
-
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #ecf0f1;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            color: #bdc3c7;
-        }
-
-        .stats-divider {
-            width: 1px;
-            height: 40px;
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* 点赞功能样式 */
-        .like-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin: 30px auto;
-            max-width: 300px;
-        }
-
-        .like-button {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            border: none;
-            border-radius: 50px;
-            padding: 12px 24px;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .like-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
-            background: linear-gradient(135deg, #c0392b, #a93226);
-        }
-
-        .like-button:active {
-            transform: translateY(0);
-            transition: transform 0.1s;
-        }
-
-        .like-button.liked {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            animation: likeAnimation 0.6s ease-out;
-        }
-
-        .like-button .heart {
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .like-button:hover .heart {
-            transform: scale(1.2);
-        }
-
-        .like-button.liked .heart {
-            animation: heartBeat 0.6s ease-out;
-        }
-
-        .like-count {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* 点赞动画 */
-        @keyframes likeAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes heartBeat {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.3); }
-            50% { transform: scale(1.1); }
-            75% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        /* 点赞特效粒子 */
-        .like-particles {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #ff6b6b;
-            border-radius: 50%;
-            animation: particleFloat 1.5s ease-out forwards;
-            opacity: 0;
-        }
-
-        @keyframes particleFloat {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--random-x), var(--random-y)) scale(0);
-            }
-        }
-
-        /* 花里胡哨特效样式 */
-        
-        /* 1. 页面加载动画 */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
-        .loading-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loader {
-            width: 80px;
-            height: 80px;
-            border: 8px solid rgba(255,255,255,0.2);
-            border-top: 8px solid #fff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* 2. 动态背景粒子 */
-        .particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle-bg {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(52,152,219,0.8) 0%, rgba(155,89,182,0.4) 100%);
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* 3. 鼠标跟随光晕 */
-        .cursor-glow {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, rgba(52,152,219,0.8) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            mix-blend-mode: screen;
-            transition: transform 0.1s ease;
-        }
-
-        /* 4. 打字机效果 */
-        .typewriter {
-            overflow: hidden;
-            border-right: .15em solid #3498db;
-            white-space: nowrap;
-            margin: 0 auto;
-            letter-spacing: .15em;
-            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: #3498db; }
-        }
-
-        /* 5. 技能标签3D效果 */
-        .skills-list li {
-            background: linear-gradient(145deg, var(--secondary-color), #2980b9);
-            transform-style: preserve-3d;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skills-list li::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .skills-list li:hover {
-            transform: translateY(-5px) rotateX(15deg);
-            box-shadow: 0 10px 20px rgba(52,152,219,0.3);
-        }
-
-        .skills-list li:hover::before {
-            left: 100%;
-        }
-
-        /* 6. 项目卡片悬浮效果增强 */
-        .project-card {
-            transform-style: preserve-3d;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .project-card:hover {
-            transform: translateY(-15px) rotateY(5deg) rotateX(5deg);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-        /* 7. 主题切换按钮 */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 60px;
-            height: 30px;
-            background: var(--primary-color);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            padding: 3px;
-        }
-
-        .theme-toggle::before {
-            content: '🌙';
-            position: absolute;
-            left: 5px;
-            font-size: 18px;
-        }
-
-        .theme-toggle::after {
-            content: '☀️';
-            position: absolute;
-            right: 5px;
-            font-size: 18px;
-        }
-
-        .theme-toggle-switch {
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        }
-
-        /* 8. 暗色主题 */
-        body.dark-theme {
-            --primary-color: #1a1a1a;
-            --secondary-color: #3b82f6;
-            --background-color: #0f0f0f;
-            --text-color: #e5e5e5;
-            --card-bg-color: #1f1f1f;
-        }
-
-        .dark-theme .theme-toggle-switch {
-            transform: translateX(30px);
-        }
-
-        /* 9. 代码雨效果 */
-        .matrix-rain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -2;
-            opacity: 0.1;
-        }
-
-        .matrix-column {
-            position: absolute;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            animation: matrixFall linear infinite;
-        }
-
-        @keyframes matrixFall {
-            0% {
-                transform: translateY(-100vh);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-        }
-
-        /* 实时数字时钟样式 */
-        .live-clock {
-            display: none;
-        }
-
-        /* 新增渐变文字动态效果 */
-        @keyframes gradient-animation {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        #hero h1 {
-          background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-          background-size: 400% 400%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: gradient-animation 8s ease infinite;
-        }
-
-        /* 10. 音乐播放器 */
-        .music-player {
-            display: none;
-        }
-
-        /* 11. 滚动指示器 */
-        .scroll-indicator {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
-            z-index: 1002;
-            transition: width 0.3s ease;
-        }
-
-        /* 14. 滚动视差效果 */
-        [data-speed] {
-            transition: transform 0.1s linear;
-            will-change: transform;
-        }
-
-        /* 12. 浮动动作按钮 */
-        .floating-actions {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1001;
-        }
-
-        .fab {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(52,152,219,0.3);
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateX(100px);
-            animation: fabSlideIn 0.5s ease forwards;
-        }
-
-        .fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(52,152,219,0.4);
-        }
-
-        @keyframes fabSlideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* 13. 雪花效果 */
-        .snowflake {
-            position: fixed;
-            top: -10px;
-            color: #fff;
-            pointer-events: none;
-            z-index: -1;
-            animation: snowfall linear infinite;
-        }
-
-        @keyframes snowfall {
-            0% {
-                transform: translateY(-100vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* 15. Lottie 动画容器 */
-        .lottie-container {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-        }
-
-        /* 16. 鼠标拖尾效果 */
-        .cursor-trail {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: rgba(52,152,219,0.7);
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 1;
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-            z-index: 9999;
-        }
-
-        /* 跳转链接样式 */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--secondary-color);
-            color: white;
-            padding: 8px;
-            z-index: 10000;
-            transition: top 0.3s;
-            text-decoration: none;
-        }
-
-        .skip-link:focus {
-            top: 0;
-        }
-
-        /* 自定义 iframe 样式 */
-        .iframe-container {
-          position: relative;
-          width: 100%;
-          padding-bottom: 56.25%; /* 16:9 比例 */
-          margin: 40px 0;
-        }
-        .iframe-container iframe {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          border: none;
-        }
-
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .theme-toggle, .music-player, .floating-actions {
-                display: none;
-            }
-            
-            .particles-container {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .visitor-stats {
-                margin: 20px 10px;
-                padding: 12px 15px;
-            }
-            
-            .stats-container {
-                gap: 15px;
-            }
-            
-            .stat-number {
-                font-size: 1.3rem;
-            }
-            
-            .stat-label {
-                font-size: 0.8rem;
-            }
-
-            .like-section {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .like-button {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* GIS 仪表盘样式 */
-        #mapDashboard {
-          width: 100%;
-          height: 400px;
-          border-radius: 8px;
-          box-shadow: var(--shadow);
-        }
+        :root{--background:#0D1117;--surface:#161B22;--primary:#58A6FF;--text:#C9D1D9;--text-light:#8B949E}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.6;color:var(--text);background:var(--background);margin:0;padding:0}
+        .navbar{position:fixed;top:0;left:0;right:0;background:rgba(13,17,23,0.8);backdrop-filter:blur(12px);z-index:1000;height:4rem}
+        .container{max-width:1200px;margin:0 auto;padding:0 1rem}
+        .navbar__container{display:flex;align-items:center;justify-content:space-between;height:4rem}
+        .loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--background);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.5s ease-out,visibility 0.5s ease-out}
+        .loading-spinner{width:50px;height:50px;border:3px solid rgba(88,166,255,0.1);border-radius:50%;border-top-color:var(--primary);animation:spin 1s ease-in-out infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
     </style>
-    <!-- Scroll Reveal 库 -->
-    <script src="https://unpkg.com/scrollreveal" async></script>
-    <!-- Lottie 动画库 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js" async></script>
-    <!-- Vivus.js 用于 SVG 路径绘制动画 -->
-    <script src="https://cdn.jsdelivr.net/npm/vivus@0.4.6/dist/vivus.min.js" async></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js" async></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" async></script>
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js" async></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.locatecontrol/0.72.0/L.Control.Locate.min.js" async></script>
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="avatar.jpg" as="image" fetchpriority="high">
+    
+    <!-- 预连接第三方资源 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.bootcdn.net">
+    
+    <!-- 使用中国CDN提高中国境内访问速度 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- 设置缓存控制 -->
+    <meta http-equiv="Cache-Control" content="max-age=86400">
 </head>
 <body>
-    <!-- 跳转到主内容，提高可访问性 -->
-    <a href="#main" class="skip-link">跳转到主内容</a>
-
-    <!-- 页面加载动画 -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loader"></div>
+    <!-- 加载屏幕 -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-spinner"></div>
     </div>
-
-    <!-- 滚动进度条 -->
-    <div class="scroll-indicator" id="scrollIndicator"></div>
-
-    <!-- 主题切换按钮 -->
-    <div class="theme-toggle" id="themeToggle" role="button" aria-label="切换主题" tabindex="0">
-        <div class="theme-toggle-switch"></div>
-    </div>
-
-    <!-- 鼠标跟随光晕 -->
-    <div class="cursor-glow" id="cursorGlow"></div>
-
-    <!-- 动态背景粒子 -->
-    <div class="particles-container" id="particlesContainer"></div>
-
-    <!-- 代码雨效果 -->
-    <div class="matrix-rain" id="matrixRain"></div>
-
-    <!-- 移除实时时钟 -->
-    <!-- <div class="live-clock" id="liveClock" aria-label="实时时钟"></div> -->
-
-    <header>
-        <nav>
-            <div class="logo">NEGIAO</div>
-            <ul>
-                <li><a href="#about">关于我</a></li>
-                <li><a href="#projects">项目</a></li>
-                <li><a href="#skills">技能</a></li>
-                <li><a href="#contact">联系我</a></li>
-            </ul>
-        </nav>
+    
+    <!-- 导航栏 -->
+    <header class="navbar">
+        <div class="container navbar__container">
+            <a href="index.html" class="navbar__brand">NEGIAO</a>
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="打开菜单">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul class="navbar__nav">
+                    <li><a href="#projects" class="navbar__link">项目</a></li>
+                    <li><a href="#about" class="navbar__link">关于我</a></li>
+                    <li><a href="notes.html" class="navbar__link">笔记</a></li>
+                    <li><a href="#contact" class="navbar__link">联系我</a></li>
+                    <li><a href="https://github.com/NEGIAO" target="_blank" class="navbar__link"><i class="fab fa-github"></i> GitHub</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
+    
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobile-menu">
+        <ul class="mobile-menu__nav">
+            <li class="mobile-menu__item"><a href="#projects" class="mobile-menu__link">项目</a></li>
+            <li class="mobile-menu__item"><a href="#about" class="mobile-menu__link">关于我</a></li>
+            <li class="mobile-menu__item"><a href="notes.html" class="mobile-menu__link">笔记</a></li>
+            <li class="mobile-menu__item"><a href="#contact" class="mobile-menu__link">联系我</a></li>
+            <li class="mobile-menu__item"><a href="https://github.com/NEGIAO" target="_blank" class="mobile-menu__link"><i class="fab fa-github"></i> GitHub</a></li>
+        </ul>
+    </div>
 
-    <main id="main">
-        <section id="hero" data-speed="0.3">
-            <img src="avatar.jpg" alt="我的头像" class="avatar" loading="lazy">
-            <h1 class="typewriter">你好，我是 NEGIAO</h1>
-            <p>一位对 WebGIS 和数据可视化充满热情的开发者。</p>
-            <div class="social-links">
-                <a href="https://github.com/NEGIAO" target="_blank" title="GitHub">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                </a>
-            </div>
-            <div class="lottie-container" id="lottieHero"></div>
-        </section>
-
-        <section id="about" class="container">
-            <h2>关于我</h2>
-            <p style="text-align: center; max-width: 800px; margin: 0 auto;">
-        <section id="projects" class="container">
-            <h2>我的项目</h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-content">
-                        <h3>WebGIS 校园导览</h3>
-                        <p>一个基于 OpenLayers 的交互式校园地图应用。实现了地图浏览、兴趣点查询和空间分析等功能，旨在为用户提供便捷的校园导航服务。</p>
-                        <a href="./WebGIS/index.html" class="project-link" target="_blank">查看项目</a>
-                    </div>
+    <!-- 英雄区域 -->
+    <section class="section section--hero">
+        <div class="container">
+            <div class="hero">
+                <div class="avatar-container">
+                    <img src="avatar.jpg" alt="NEGIAO's Avatar" class="avatar" fetchpriority="high">
+                    <div class="avatar-glow"></div>
                 </div>
-                <div class="project-card">
-                    <div class="project-content">
-                        <h3>Geoscene 宝藏小城</h3>
-                        <p>一个结合了地图故事和数据可视化的项目。通过嵌入动态图表（如词云），生动地讲述了“宝藏小城”的独特魅力。</p>
-                        <a href="./Geoscene_宝藏小城/awesome.html" class="project-link" target="_blank">查看项目</a>
-                    </div>
+                <h1 class="hero__title gpu-accelerated">NEGIAO</h1>
+                <p class="hero__subtitle">WebGIS 开发 | 数据可视化 | 地理空间技术</p>
+                <div class="hero-tech-badges">
+                    <span class="tech-badge"><i class="fas fa-map-marked-alt"></i> GIS</span>
+                    <span class="tech-badge"><i class="fas fa-chart-bar"></i> 数据科学</span>
+                    <span class="tech-badge"><i class="fas fa-code"></i> Web开发</span>
                 </div>
-                <div class="project-card">
-                    <div class="project-content">
-                        <h3>更多项目</h3>
-                        <p>我还在不断学习和探索中，未来会有更多有趣的项目在这里展示。敬请期待！</p>
-                        <a href="https://github.com/NEGIAO?tab=repositories" class="project-link" target="_blank">查看仓库</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="skills" class="container">
-            <h2>技术栈</h2>
-            <ul class="skills-list">
-                <li>HTML5</li>
-                <li>CSS3</li>
-                <li>JavaScript</li>
-                <li>Vue.js</li>
-                <li>OpenLayers</li>
-                <li>WebGIS</li>
-                <li>数据可视化</li>
-                <li>Git & GitHub</li>
-            </ul>
-        </section>
-
-        <section id="contact" class="container">
-            <h2>联系我</h2>
-            <div class="contact-info">
-                <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.031c-5.523 0-10 3.582-10 8 0 2.536 1.535 4.788 3.875 6.219-1.101 2.75-2.875 4.75-2.875 4.75s2.25-1.062 4.5-2.5c1.449.344 2.963.531 4.5.531 5.523 0 10-3.582 10-8s-4.477-8-10-8zm0 14.969c-1.375 0-2.719-.188-4-.531-2.25 1.438-4.5 2.5-4.5 2.5s1.773-2 2.875-4.75c-2.34-1.431-3.875-3.683-3.875-6.219 0-3.531 3.594-7 9-7s9 3.469 9 7-4.031 8-9 8z"/></svg>
-                    QQ: 1482918576
-                </p>
-                <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
-                    邮箱: <a href="mailto:1482918576@qq.com">1482918576@qq.com</a>
-                </p>
-                <p>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2.25 18.25c-.414 0-.75-.336-.75-.75s.336-.75.75-.75c.414 0 .75.336.75.75s-.336.75-.75.75zm0-3.5c-.414 0-.75-.336-.75-.75s.336-.75.75-.75c.414 0 .75.336.75.75s-.336.75-.75.75zm4.5 3.5c-.414 0-.75-.336-.75-.75s.336-.75.75-.75c.414 0 .75.336.75.75s-.336.75-.75.75zm0-3.5c-.414 0-.75-.336-.75-.75s.336-.75.75-.75c.414 0 .75.336.75.75s-.336.75-.75.75zm-2.25-5.75c-2.071 0-3.75-1.679-3.75-3.75s1.679-3.75 3.75-3.75 3.75 1.679 3.75 3.75-1.679 3.75-3.75 3.75z"/></svg>
-                    微信: y1482918576
-                </p>
-            </div>
-        </section>
-
-        <div class="visitor-stats">
-            <div class="stats-container">
-                <div class="stat-item">
-                    <div class="stat-number">1,234</div>
-                    <div class="stat-label">访问量</div>
-                </div>
-                <div class="stats-divider"></div>
-                <div class="stat-item">
-                    <div class="stat-number">567</div>
-                    <div class="stat-label">独立访客</div>
-                </div>
-                <div class="stats-divider"></div>
-                <div class="stat-item">
-                    <div class="stat-number">89</div>
-                    <div class="stat-label">在线</div>
+                <div class="hero__actions">
+                    <a href="#projects" class="btn btn--primary">浏览项目 <i class="fas fa-chevron-right"></i></a>
+                    <a href="notes.html" class="btn btn--secondary">我的笔记 <i class="fas fa-book"></i></a>
                 </div>
             </div>
         </div>
+        <!-- 增加视觉元素 -->
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </section>
 
-        <section class="like-section">
-            <button class="like-button" id="likeButton" aria-label="点赞按钮">
-                <span class="heart" id="heartIcon">❤️</span>
-                <span>点赞</span>
-            </button>
-            <div class="like-count" id="likeCount">已赞：0</div>
-        </section>
-
-        <!-- GIS 仪表盘 Section -->
-        <section id="dashboard" class="container">
-          <h2>地图展示</h2>
-          <div id="mapDashboard"></div>
-        </section>
-
-        <!-- iframe 外部内容区块 -->
-        <section id="external-content" class="container">
-          <h2>外部内容展示</h2>
-          <div class="iframe-container">
-            <iframe src="https://negiao.github.io/WebGIS/index.html" title="外部内容" loading="lazy"></iframe>
-          </div>
-        </section>
-    </main>
-
-    <footer>
+    <!-- 特色区域 -->
+    <section class="section features" id="about">
         <div class="container">
-            <p>&copy; 2025 NEGIAO. All Rights Reserved.</p>
+            <h2 class="text-center" style="margin-bottom: var(--space-xl);">关于我</h2>
+            <div class="grid grid--3">
+                <div class="feature card">
+                    <div class="feature__icon"><i class="fas fa-map"></i></div>
+                    <h3 class="feature__title">WebGIS</h3>
+                    <p class="feature__description">专注于交互式地图应用程序和地理空间数据可视化的开发。熟悉 OpenLayers, Leaflet 等框架。</p>
+                </div>
+                <div class="feature card">
+                    <div class="feature__icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="feature__title">数据可视化</h3>
+                    <p class="feature__description">利用 D3.js 和其他可视化库创建引人入胜的数据故事，专注于地理和环境数据的展示。</p>
+                </div>
+                <div class="feature card">
+                    <div class="feature__icon"><i class="fas fa-code"></i></div>
+                    <h3 class="feature__title">Web开发</h3>
+                    <p class="feature__description">构建性能优良、用户友好的网站和应用程序，关注可访问性和响应式设计。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目区域 -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <h2 style="margin-bottom: var(--space-xl); text-align: center;">项目展示</h2>
+            
+            <!-- 宝藏小城项目 -->
+            <div class="card project-card" style="margin-bottom: var(--space-xl);">
+                <div class="project-content">
+                    <div>
+                        <h3 class="project__title">Geoscene - 宝藏小城</h3>
+                        <div class="project__tags" style="margin-bottom: var(--space-md);">
+                            <span class="project__tag">数据可视化</span>
+                            <span class="project__tag">HTML/CSS/JS</span>
+                            <span class="project__tag">地理数据</span>
+                        </div>
+                        <p class="project__description">多地区地理空间数据可视化项目，展示中国多个城市的季节变化、年内变化和年际变化数据。通过交互式图表和地图，呈现地理空间数据的时空规律和特点。</p>
+                        <div class="project__actions" style="margin-top: var(--space-lg);">
+                            <a href="Geoscene_宝藏小城/awesome.html" class="btn btn--primary">
+                                <i class="fas fa-eye"></i> 查看项目
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-image-container">
+                        <div class="project-image-placeholder" style="background: var(--gradient-blue); opacity: 0.7;">
+                            <i class="fas fa-chart-line" style="font-size: 2.5rem; color: white;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- WebGIS项目 -->
+            <div class="card project-card" style="margin-bottom: var(--space-xl);">
+                <div class="project-content">
+                    <div>
+                        <h3 class="project__title">WebGIS 地理信息系统</h3>
+                        <div class="project__tags" style="margin-bottom: var(--space-md);">
+                            <span class="project__tag">WebGIS</span>
+                            <span class="project__tag">OpenLayers</span>
+                            <span class="project__tag">JavaScript</span>
+                        </div>
+                        <p class="project__description">交互式地图应用程序，使用 OpenLayers 构建，提供丰富的地理信息浏览和查询功能。支持多图层管理、空间分析和地理数据可视化。</p>
+                        <div class="project__actions" style="margin-top: var(--space-lg);">
+                            <a href="WebGIS/index.html" class="btn btn--primary">
+                                <i class="fas fa-map-marked-alt"></i> 查看项目
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-image-container">
+                        <div class="project-image-placeholder" style="background: var(--gradient-accent); opacity: 0.7;">
+                            <i class="fas fa-map" style="font-size: 2.5rem; color: white;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 词云图项目 -->
+            <div class="card project-card" style="margin-bottom: var(--space-xl);">
+                <div class="project-content">
+                    <div>
+                        <h3 class="project__title">地区词云可视化</h3>
+                        <div class="project__tags" style="margin-bottom: var(--space-md);">
+                            <span class="project__tag">词云</span>
+                            <span class="project__tag">文本分析</span>
+                            <span class="project__tag">可视化</span>
+                        </div>
+                        <p class="project__description">基于各地区特色数据生成的词云图，直观展示不同地区的关键词和特点。通过文本挖掘技术，从海量数据中提取地域特征和文化元素。</p>
+                        <div class="project__actions" style="margin-top: var(--space-lg);">
+                            <a href="Geoscene_宝藏小城/wordcloud.html" class="btn btn--primary">
+                                <i class="fas fa-cloud"></i> 查看项目
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-image-container">
+                        <div class="project-image-placeholder" style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); opacity: 0.7;">
+                            <i class="fas fa-font" style="font-size: 2.5rem; color: white;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 笔记项目 -->
+            <div class="card project-card">
+                <div class="project-content">
+                    <div>
+                        <h3 class="project__title">技术笔记</h3>
+                        <div class="project__tags" style="margin-bottom: var(--space-md);">
+                            <span class="project__tag">Markdown</span>
+                            <span class="project__tag">知识库</span>
+                            <span class="project__tag">技术总结</span>
+                        </div>
+                        <p class="project__description">我在WebGIS、数据可视化和地理空间技术方面的学习笔记和心得体会。包含代码示例、最佳实践和解决方案。</p>
+                        <div class="project__actions" style="margin-top: var(--space-lg);">
+                            <a href="notes.html" class="btn btn--primary">
+                                <i class="fas fa-book"></i> 查看笔记
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-image-container">
+                        <div class="project-image-placeholder" style="background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%); opacity: 0.7;">
+                            <i class="fas fa-book-open" style="font-size: 2.5rem; color: white;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 季节变化专题 -->
+    <section class="section">
+        <div class="container">
+            <h2 style="margin-bottom: var(--space-xl);">季节变化研究</h2>
+            <div class="grid grid--3">
+                <a href="Geoscene_宝藏小城/季节变化/利川市_季节变化.html" class="card" style="text-decoration: none;">
+                    <h4 style="color: var(--primary);">利川市</h4>
+                    <p style="color: var(--text-light); margin-bottom: 0;">探索利川市的季节性变化数据和趋势分析</p>
+                </a>
+                <a href="Geoscene_宝藏小城/季节变化/淮安市_季节变化.html" class="card" style="text-decoration: none;">
+                    <h4 style="color: var(--primary);">淮安市</h4>
+                    <p style="color: var(--text-light); margin-bottom: 0;">淮安市地区季节变化的详细数据可视化</p>
+                </a>
+                <a href="Geoscene_宝藏小城/季节变化/荣成市_季节变化.html" class="card" style="text-decoration: none;">
+                    <h4 style="color: var(--primary);">荣成市</h4>
+                    <p style="color: var(--text-light); margin-bottom: 0;">荣成市四季变迁的地理环境数据研究</p>
+                </a>
+                <a href="Geoscene_宝藏小城/季节变化/象山县_季节变化.html" class="card" style="text-decoration: none;">
+                    <h4 style="color: var(--primary);">象山县</h4>
+                    <p style="color: var(--text-light); margin-bottom: 0;">象山县季节性地理特征的可视化展示</p>
+                </a>
+                <a href="Geoscene_宝藏小城/季节变化/铜仁市_季节变化.html" class="card" style="text-decoration: none;">
+                    <h4 style="color: var(--primary);">铜仁市</h4>
+                    <p style="color: var(--text-light); margin-bottom: 0;">铜仁市季节变化趋势及特点分析</p>
+                </a>
+                <a href="Geoscene_宝藏小城/季节变化/隰县_季节变化.html" class="card" style="text-decoration: none;">
+                    <h4 style="color: var(--primary);">隰县</h4>
+                    <p style="color: var(--text-light); margin-bottom: 0;">隰县地区季节性环境变化的研究数据</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系方式部分 -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: var(--space-xl);">联系我</h2>
+            <div class="card contact-card-container" style="max-width: 600px; margin: 0 auto;">
+                <div class="contact-method">
+                    <div class="contact-icon-container">
+                        <i class="fas fa-envelope contact-icon"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>邮箱</h4>
+                        <a href="mailto:1482918576@qq.com" class="contact-link">1482918576@qq.com</a>
+                        <p class="contact-description">欢迎通过邮件联系我，我会尽快回复</p>
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-icon-container">
+                        <i class="fab fa-qq contact-icon"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>QQ</h4>
+                        <a href="tencent://message/?uin=1482918576" class="contact-link">1482918576</a>
+                        <p class="contact-description">可以通过QQ随时联系我</p>
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-icon-container">
+                        <i class="fab fa-github contact-icon"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>GitHub</h4>
+                        <a href="https://github.com/NEGIAO" target="_blank" class="contact-link">NEGIAO</a>
+                        <p class="contact-description">查看我的开源项目和代码贡献</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div>
+                    <p>&copy; <span id="current-year">2025</span> NEGIAO. 保留所有权利。</p>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/NEGIAO" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="mailto:1482918576@qq.com" class="social-link"><i class="fas fa-envelope"></i></a>
+                    <a href="tencent://message/?uin=1482918576" class="social-link"><i class="fab fa-qq"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- 在页面末尾插入返回顶部与分享按钮 -->
-    <div class="floating-actions">
-        <button class="fab" onclick="scrollToTop()" aria-label="返回顶部">↑</button>
-        <button class="fab" onclick="shareWebsite()" aria-label="分享本站">🔗</button>
-    </div>
-
+    <!-- 优化的脚本 -->
     <script>
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        // 页面加载完成后隐藏加载屏幕
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.visibility = 'hidden';
+            }, 500);
+        });
 
-                const targetElement = document.querySelector(this.getAttribute('href'));
-                if (targetElement) {
-                    targetElement.scrollIntoView({
+        // 设置正确的年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 使用事件委托优化平滑滚动效果
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('a[href^="#"]');
+            if (target) {
+                e.preventDefault();
+                const element = document.querySelector(target.getAttribute('href'));
+                if (element) {
+                    element.scrollIntoView({
                         behavior: 'smooth'
                     });
                 }
-            });
+            }
         });
 
-        // 访问统计功能
-        class VisitorStats {
-            constructor() {
-                this.storageKey = 'negiao_visitor_stats';
-                this.sessionKey = 'negiao_session_' + Date.now();
-                this.init();
-            }
+        // 使用requestAnimationFrame优化导航栏滚动效果
+        const navbar = document.querySelector('.navbar');
+        let lastScrollPosition = 0;
+        let scrollTimer = null;
 
-            init() {
-                this.updateStats();
-                this.displayStats();
-            }
-
-            updateStats() {
-                let stats = this.getStats();
-                
-                // 检查是否是新的访问会话
-                const lastVisit = sessionStorage.getItem('last_visit');
-                const currentTime = Date.now();
-                
-                if (!lastVisit || currentTime - parseInt(lastVisit) > 30 * 60 * 1000) { // 30分钟超时
-                    stats.totalVisits++;
-                    sessionStorage.setItem('last_visit', currentTime.toString());
-                }
-                
-                // 检查是否是独立访客
-                const visitorId = this.getVisitorId();
-                if (!stats.uniqueVisitors.includes(visitorId)) {
-                    stats.uniqueVisitors.push(visitorId);
-                    
-                    // 只保留最近1000个访客ID以节省存储空间
-                    if (stats.uniqueVisitors.length > 1000) {
-                        stats.uniqueVisitors = stats.uniqueVisitors.slice(-1000);
+        function handleScroll() {
+            if (scrollTimer === null) {
+                scrollTimer = window.requestAnimationFrame(function() {
+                    const currentScrollPosition = window.scrollY;
+                    if (currentScrollPosition > 10) {
+                        navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                    } else {
+                        navbar.style.boxShadow = 'none';
                     }
-                }
-                
-                this.saveStats(stats);
-            }
-
-            getStats() {
-                const defaultStats = {
-                    totalVisits: 0,
-                    uniqueVisitors: [],
-                    lastUpdate: Date.now()
-                };
-                
-                try {
-                    const saved = localStorage.getItem(this.storageKey);
-                    return saved ? { ...defaultStats, ...JSON.parse(saved) } : defaultStats;
-                } catch (error) {
-                    console.warn('读取访问统计失败，使用默认值');
-                    return defaultStats;
-                }
-            }
-
-            saveStats(stats) {
-                try {
-                    localStorage.setItem(this.storageKey, JSON.stringify(stats));
-                } catch (error) {
-                    console.warn('保存访问统计失败');
-                }
-            }
-
-            getVisitorId() {
-                let visitorId = localStorage.getItem('visitor_id');
-                if (!visitorId) {
-                    visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                    localStorage.setItem('visitor_id', visitorId);
-                }
-                return visitorId;
-            }
-
-            displayStats() {
-                const stats = this.getStats();
-                
-                // 模拟在线人数（1-20之间的随机数）
-                const onlineCount = Math.floor(Math.random() * 20) + 1;
-                
-                // 更新显示
-                this.updateDisplay('.stat-item:nth-child(1) .stat-number', this.formatNumber(stats.totalVisits));
-                this.updateDisplay('.stat-item:nth-child(3) .stat-number', this.formatNumber(stats.uniqueVisitors.length));
-                this.updateDisplay('.stat-item:nth-child(5) .stat-number', onlineCount.toString());
-            }
-
-            updateDisplay(selector, value) {
-                const element = document.querySelector(selector);
-                if (element) {
-                    element.textContent = value;
-                }
-            }
-
-            formatNumber(num) {
-                if (num >= 1000000) {
-                    return (num / 1000000).toFixed(1) + 'M';
-                } else if (num >= 1000) {
-                    return (num / 1000).toFixed(1) + 'K';
-                } else {
-                    return num.toString();
-                }
+                    
+                    lastScrollPosition = currentScrollPosition;
+                    scrollTimer = null;
+                });
             }
         }
+        
+        window.addEventListener('scroll', handleScroll, { passive: true });
 
-        // 页面加载完成后初始化统计
-        document.addEventListener('DOMContentLoaded', function() {
-            new VisitorStats();
-        });
-
-        // 定期更新在线人数（每30秒）
-        setInterval(() => {
-            const onlineElement = document.querySelector('.stat-item:nth-child(5) .stat-number');
-            if (onlineElement) {
-                const onlineCount = Math.floor(Math.random() * 20) + 1;
-                onlineElement.textContent = onlineCount.toString();
-            }
-        }, 30000);
-
-        // 点赞功能调整：移除取消逻辑，每次点击均累加点赞数
-        document.addEventListener('DOMContentLoaded', function() {
-            const likeButton = document.getElementById('likeButton');
-            const likeCount = document.getElementById('likeCount');
-            let currentCount = 0;
-
-            likeButton.addEventListener('click', function(event) {
-                currentCount++;
-                likeButton.classList.add('liked');
-                createParticles(event);
-                likeCount.textContent = '已赞：' + currentCount;
+        // 实现图片懒加载
+        if ('loading' in HTMLImageElement.prototype) {
+            // 浏览器支持原生懒加载
+            const images = document.querySelectorAll('img[data-src]');
+            images.forEach(img => {
+                img.src = img.dataset.src;
+                img.loading = 'lazy';
             });
-
-            function createParticles(event) {
-                const particlesContainer = document.createElement('div');
-                particlesContainer.classList.add('like-particles');
-                document.body.appendChild(particlesContainer);
-
-                const rect = event.target.getBoundingClientRect();
-                const x = rect.left + rect.width / 2;
-                const y = rect.top + rect.height / 2;
-
-                for (let i = 0; i < 30; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    particle.style.setProperty('--random-x', Math.random() * 100 - 50 + 'px');
-                    particle.style.setProperty('--random-y', Math.random() * 100 - 50 + 'px');
-                    particlesContainer.appendChild(particle);
-
-                    particle.addEventListener('animationend', () => {
-                        particle.remove();
+        } else {
+            // 回退到 Intersection Observer API
+            document.addEventListener("DOMContentLoaded", function() {
+                const lazyImages = document.querySelectorAll('img[data-src]');
+                if (lazyImages.length > 0) {
+                    const imageObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const img = entry.target;
+                                img.src = img.dataset.src;
+                                img.removeAttribute('data-src');
+                                observer.unobserve(img);
+                            }
+                        });
+                    });
+                    
+                    lazyImages.forEach(img => {
+                        imageObserver.observe(img);
                     });
                 }
-
-                setTimeout(() => {
-                    particlesContainer.remove();
-                }, 1500);
-            }
-        });
-
-        // 页面加载后初始化各种特效
-        window.addEventListener('load', function() {
-            document.getElementById('loadingScreen').classList.add('hidden');
-            initParticlesBackground();
-            initMatrixRain();
-            initSnowflakes();
-        });
-
-        // 动态背景粒子
-        function initParticlesBackground() {
-            const container = document.getElementById('particlesContainer');
-            for (let i = 0; i < 50; i++) {
-                const p = document.createElement('div');
-                p.classList.add('particle-bg');
-                p.style.width = p.style.height = Math.random() * 8 + 4 + 'px';
-                p.style.left = Math.random() * 100 + 'vw';
-                p.style.animationDuration = 10 + Math.random() * 20 + 's';
-                p.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(p);
-            }
-        }
-
-        // 鼠标跟随光晕
-        document.addEventListener('mousemove', function(e) {
-            const glow = document.getElementById('cursorGlow');
-            glow.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
-        });
-
-        // 主题切换
-        const themeToggleBtn = document.getElementById('themeToggle');
-        themeToggleBtn.addEventListener('click', function() {
-            document.body.classList.toggle('dark-theme');
-        });
-
-        // 滚动进度条
-        window.addEventListener('scroll', function() {
-            const winScroll = document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('scrollIndicator').style.width = scrolled + '%';
-        });
-
-        // 代码雨效果
-        function initMatrixRain() {
-            const container = document.getElementById('matrixRain');
-            const columns = Math.floor(window.innerWidth / 20);
-            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-            for (let i = 0; i < columns; i++) {
-                const column = document.createElement('div');
-                column.classList.add('matrix-column');
-                column.style.left = i * 20 + 'px';
-                column.style.animationDuration = 5 + Math.random() * 10 + 's';
-                column.textContent = Array.from({ length: 30 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
-                container.appendChild(column);
-            }
-        }
-
-        // 浮动按钮功能
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        function shareWebsite() {
-            if (navigator.share) {
-                navigator.share({ title: document.title, url: location.href });
-            } else {
-                prompt('请复制链接分享', location.href);
-            }
-        }
-        let snowEnabled = true;
-        function toggleSnow() {
-            snowEnabled = !snowEnabled;
-            if (!snowEnabled) {
-                document.querySelectorAll('.snowflake').forEach(el => el.remove());
-            } else {
-                initSnowflakes();
-            }
-        }
-
-        // 雪花特效
-        function initSnowflakes() {
-            const count = 50;
-            for (let i = 0; i < count; i++) {
-                const flake = document.createElement('div');
-                flake.classList.add('snowflake');
-                flake.textContent = '❄';
-                flake.style.left = Math.random() * 100 + 'vw';
-                flake.style.animationDuration = 5 + Math.random() * 5 + 's';
-                flake.style.fontSize = 10 + Math.random() * 20 + 'px';
-                document.body.appendChild(flake);
-            }
-        }
-
-        // 滚动视差效果
-        document.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            document.querySelectorAll('[data-speed]').forEach(el => {
-                const speed = parseFloat(el.getAttribute('data-speed'));
-                el.style.transform = `translateY(${scrolled * speed}px)`;
             });
-        });
+        }
 
-        // ScrollReveal 初始化
-        ScrollReveal({ distance: '60px', duration: 1500, easing: 'ease-in-out', reset: false });
-        ScrollReveal().reveal('#hero h1, #hero p, .social-links a', { origin: 'top', interval: 200 });
-        ScrollReveal().reveal('#about h2, #about p', { origin: 'left', delay: 300 });
-        ScrollReveal().reveal('#projects .project-card', { origin: 'bottom', interval: 200 });
-        ScrollReveal().reveal('#skills .skills-list li', { origin: 'left', interval: 100 });
-        ScrollReveal().reveal('#contact .contact-info p, .visitor-stats', { origin: 'right', interval: 200 });
-        ScrollReveal().reveal('.fab', { scale: 0.85, interval: 100 });
+        // 添加动画减少性能优化（对于低端设备）
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (prefersReducedMotion.matches) {
+            // 移除动画效果，提高性能
+            document.documentElement.classList.add('reduced-motion');
+        }
 
-        // Lottie 动画初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            lottie.loadAnimation({
-                container: document.getElementById('lottieHero'), // Lottie 容器
-                renderer: 'svg',
-                loop: true,
-                autoplay: true,
-                path: 'https://assets7.lottiefiles.com/packages/lf20_vf7zfdh2.json' // 替换为你的 JSON 动画地址
+        // 防抖函数用于性能优化
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
+            };
+        }
+
+        // 优化resize事件处理
+        const handleResize = debounce(function() {
+            // 这里可以处理任何需要在resize时执行的代码
+            // 目前没有特别需要处理的，但保留这个模式以备将来扩展
+        }, 100);
+
+        window.addEventListener('resize', handleResize, { passive: true });
+        
+        // 移动端菜单功能
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu__link');
+        
+        if (mobileMenuToggle && mobileMenu) {
+            let isMenuOpen = false;
+            
+            function toggleMenu() {
+                isMenuOpen = !isMenuOpen;
+                mobileMenu.classList.toggle('active', isMenuOpen);
+                mobileMenuToggle.innerHTML = isMenuOpen ? 
+                    '<i class="fas fa-times"></i>' : 
+                    '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+            }
+            
+            mobileMenuToggle.addEventListener('click', toggleMenu);
+            
+            // 点击菜单项关闭菜单
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (isMenuOpen) {
+                        toggleMenu();
+                    }
+                });
             });
-        });
-
-        // 鼠标拖尾效果
-        document.addEventListener('mousemove', function(e) {
-            const trail = document.createElement('div');
-            trail.classList.add('cursor-trail');
-            document.body.appendChild(trail);
-            trail.style.left = e.clientX + 'px';
-            trail.style.top = e.clientY + 'px';
-            // 渐隐并移除
-            setTimeout(() => { trail.style.opacity = '0'; }, 50);
-            setTimeout(() => { trail.remove(); }, 500);
-        });
-
-        // 初始化GIS地图仪表盘
-        var map = L.map('mapDashboard').setView([39.9, 116.4], 5);
-        // 影像底图 (置底)
-        L.tileLayer('https://0414.gggis.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-            attribution: '影像图层',
-            maxZoom: 18,
-            zIndex: 0
-        }).addTo(map);
-        // 天地图 IBO 注记 (中层)
-        L.tileLayer('https://t0.tianditu.gov.cn/ibo_w/wmts?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=ibo&STYLE=default&FORMAT=tiles&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=4267820f43926eaf808d61dc07269beb', {
-            attribution: '天地图注记',
-            maxZoom: 18,
-            zIndex: 100
-        }).addTo(map);
-        // 将最顶层标注图层替换为 CIA 注记
-        L.tileLayer('https://t0.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&LAYER=cia&STYLE=default&FORMAT=tiles&TILEMATRIXSET=w&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=4267820f43926eaf808d61dc07269beb', {
-            attribution: '天地图CIA注记',
-            maxZoom: 18,
-            zIndex: 200
-        }).addTo(map);
-        // 地名搜索控件
-        L.Control.geocoder({ defaultMarkGeocode: true }).addTo(map);
-        // 定位当前位置控件
-        L.control.locate({ position: 'topright', strings: { title: '定位当前位置' }, locateOptions: { enableHighAccuracy: true } }).addTo(map);
+            
+            // 点击菜单外部关闭菜单
+            document.addEventListener('click', (e) => {
+                if (isMenuOpen && 
+                    !mobileMenu.contains(e.target) && 
+                    !mobileMenuToggle.contains(e.target)) {
+                    toggleMenu();
+                }
+            });
+        }
     </script>
-
 </body>
 </html>

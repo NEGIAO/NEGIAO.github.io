@@ -9,18 +9,50 @@
     
     <!-- 性能优化：内联关键CSS -->
     <style>
-        :root{--background:#0D1117;--surface:#161B22;--primary:#58A6FF;--text:#C9D1D9;--text-light:#8B949E}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.6;color:var(--text);background:var(--background);margin:0;padding:0}
-        .navbar{position:fixed;top:0;left:0;right:0;background:rgba(13,17,23,0.8);backdrop-filter:blur(12px);z-index:1000;height:4rem}
-        .container{max-width:1200px;margin:0 auto;padding:0 1rem}
-        .navbar__container{display:flex;align-items:center;justify-content:space-between;height:4rem}
-        .loading-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--background);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity 0.5s ease-out,visibility 0.5s ease-out}
-        .loading-spinner{width:50px;height:50px;border:3px solid rgba(88,166,255,0.1);border-radius:50%;border-top-color:var(--primary);animation:spin 1s ease-in-out infinite}
+        :root{
+            --background:#0A0E13;--surface:#1A1F2E;--primary:#00D9FF;--text:#F7FAFC;--text-secondary:#E2E8F0;
+            --gradient-primary:linear-gradient(135deg,#00D9FF 0%,#0EA5E9 50%,#3B82F6 100%);
+            --transition-fast:0.1s cubic-bezier(0.4,0,0.2,1);--transition-normal:0.2s cubic-bezier(0.4,0,0.2,1);
+            --space-sm:0.5rem;--space-md:1rem;--space-lg:1.5rem;--space-xl:2rem;--space-2xl:3rem;
+            --radius-md:8px;--radius-lg:12px;--shadow-lg:0 10px 15px rgba(0,0,0,0.1),0 4px 6px rgba(0,0,0,0.05);
+        }
+        body{
+            font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            line-height:1.65;color:var(--text);background:var(--background);margin:0;padding:0;
+            overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+        }
+        .navbar{
+            position:fixed;top:0;left:0;right:0;z-index:1030;
+            background:rgba(26,31,46,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+            border-bottom:1px solid rgba(255,255,255,0.1);height:4.5rem;
+            transition:all var(--transition-normal);
+        }
+        .container{max-width:min(1400px,calc(100vw - 2rem));margin:0 auto;padding:0 var(--space-md)}
+        .navbar__container{display:flex;align-items:center;justify-content:space-between;height:4.5rem}
+        .loading-screen{
+            position:fixed;top:0;left:0;width:100%;height:100%;background:var(--background);
+            display:flex;align-items:center;justify-content:center;z-index:9999;
+            transition:opacity 0.5s ease-out,visibility 0.5s ease-out;
+        }
+        .loading-spinner{
+            width:50px;height:50px;border:3px solid rgba(0,217,255,0.1);border-radius:50%;
+            border-top-color:var(--primary);animation:spin 1s ease-in-out infinite;
+        }
         @keyframes spin{to{transform:rotate(360deg)}}
+        .hero__title{
+            background:var(--gradient-primary);-webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;background-clip:text;
+        }
+        .mobile-menu-toggle{display:none}
+        @media (max-width:768px){
+            .navbar__nav{display:none}
+            .mobile-menu-toggle{display:flex}
+            .container{padding:0 var(--space-sm)}
+        }
     </style>
     
     <!-- 预加载关键资源 -->
-    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="Pages/style.css" as="style">
     <link rel="preload" href="avatar.jpg" as="image" fetchpriority="high">
     
     <!-- 预连接第三方资源 -->
@@ -31,7 +63,7 @@
     <!-- 使用中国CDN提高中国境内访问速度 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Pages/style.css">
     
     <!-- 设置缓存控制 -->
     <meta http-equiv="Cache-Control" content="max-age=86400">
@@ -46,14 +78,14 @@
     <header class="navbar">
         <div class="container navbar__container">
             <a href="index.html" class="navbar__brand">NEGIAO</a>
-            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="打开菜单">
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="打开菜单" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
-            <nav>
+            <nav aria-label="主导航">
                 <ul class="navbar__nav">
                     <li><a href="#projects" class="navbar__link">项目</a></li>
                     <li><a href="#about" class="navbar__link">关于我</a></li>
-                    <li><a href="notes.html" class="navbar__link">笔记</a></li>
+                    <li><a href="Pages/notes.html" class="navbar__link">笔记</a></li>
                     <li><a href="#contact" class="navbar__link">联系我</a></li>
                     <li><a href="https://github.com/NEGIAO" target="_blank" class="navbar__link"><i class="fab fa-github"></i> GitHub</a></li>
                 </ul>
@@ -62,38 +94,49 @@
     </header>
     
     <!-- 移动端菜单 -->
-    <div class="mobile-menu" id="mobile-menu">
+    <nav class="mobile-menu" id="mobile-menu" aria-label="移动端菜单">
         <ul class="mobile-menu__nav">
             <li class="mobile-menu__item"><a href="#projects" class="mobile-menu__link">项目</a></li>
             <li class="mobile-menu__item"><a href="#about" class="mobile-menu__link">关于我</a></li>
-            <li class="mobile-menu__item"><a href="notes.html" class="mobile-menu__link">笔记</a></li>
+            <li class="mobile-menu__item"><a href="Pages/notes.html" class="mobile-menu__link">笔记</a></li>
             <li class="mobile-menu__item"><a href="#contact" class="mobile-menu__link">联系我</a></li>
             <li class="mobile-menu__item"><a href="https://github.com/NEGIAO" target="_blank" class="mobile-menu__link"><i class="fab fa-github"></i> GitHub</a></li>
         </ul>
-    </div>
+    </nav>
 
-    <!-- 英雄区域 -->
+    <main id="main">
     <section class="section section--hero">
         <div class="container">
             <div class="hero">
                 <div class="avatar-container">
-                    <img src="avatar.jpg" alt="NEGIAO's Avatar" class="avatar" fetchpriority="high">
+                    <div class="avatar-ring"></div>
                     <div class="avatar-glow"></div>
+                    <img src="Pages/avatar.jpg" alt="NEGIAO's Avatar" class="avatar" fetchpriority="high">
                 </div>
-                <h1 class="hero__title gpu-accelerated">NEGIAO</h1>
-                <p class="hero__subtitle">WebGIS 开发 | 数据可视化 | 地理空间技术</p>
+                <h1 class="hero__title">NEGIAO</h1>
+                <p class="hero__subtitle">WebGIS 开发专家 | 数据可视化工程师 | 地理空间技术创新者</p>
                 <div class="hero-tech-badges">
-                    <span class="tech-badge"><i class="fas fa-map-marked-alt"></i> GIS</span>
-                    <span class="tech-badge"><i class="fas fa-chart-bar"></i> 数据科学</span>
-                    <span class="tech-badge"><i class="fas fa-code"></i> Web开发</span>
+                    <span class="tech-badge tech-badge--primary">
+                        <i class="fas fa-map-marked-alt"></i> WebGIS
+                    </span>
+                    <span class="tech-badge tech-badge--accent">
+                        <i class="fas fa-chart-bar"></i> 数据可视化
+                    </span>
+                    <span class="tech-badge tech-badge--success">
+                        <i class="fas fa-code"></i> 全栈开发
+                    </span>
                 </div>
                 <div class="hero__actions">
-                    <a href="#projects" class="btn btn--primary">浏览项目 <i class="fas fa-chevron-right"></i></a>
-                    <a href="notes.html" class="btn btn--secondary">我的笔记 <i class="fas fa-book"></i></a>
+                    <a href="#projects" class="btn btn--primary btn--large">
+                        <i class="fas fa-rocket"></i> 探索项目
+                    </a>
+                    <a href="Pages/notes.html" class="btn btn--outline">
+                        <i class="fas fa-book-open"></i> 技术笔记
+                    </a>
                 </div>
             </div>
         </div>
-        <!-- 增加视觉元素 -->
+        <!-- 视觉装饰元素 -->
         <div class="floating-shapes">
             <div class="shape shape-1"></div>
             <div class="shape shape-2"></div>
@@ -104,22 +147,37 @@
     <!-- 特色区域 -->
     <section class="section features" id="about">
         <div class="container">
-            <h2 class="text-center" style="margin-bottom: var(--space-xl);">关于我</h2>
-            <div class="grid grid--3">
-                <div class="feature card">
-                    <div class="feature__icon"><i class="fas fa-map"></i></div>
-                    <h3 class="feature__title">WebGIS</h3>
-                    <p class="feature__description">专注于交互式地图应用程序和地理空间数据可视化的开发。熟悉 OpenLayers, Leaflet 等框架。</p>
+            <h2 class="text-center gradient-text" style="margin-bottom: var(--space-2xl);">专业技能</h2>
+            <div class="grid grid--responsive">
+                <div class="feature card card--featured">
+                    <div class="feature__icon" style="background: var(--gradient-primary);">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h3 class="feature__title">WebGIS 开发</h3>
+                    <p class="feature__description">
+                        专注于构建高性能的地理信息系统，掌握 OpenLayers、Leaflet、ArcGIS API 等主流框架，
+                        具备丰富的空间数据处理和地图可视化经验。
+                    </p>
                 </div>
                 <div class="feature card">
-                    <div class="feature__icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="feature__icon" style="background: var(--gradient-accent);">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
                     <h3 class="feature__title">数据可视化</h3>
-                    <p class="feature__description">利用 D3.js 和其他可视化库创建引人入胜的数据故事，专注于地理和环境数据的展示。</p>
+                    <p class="feature__description">
+                        运用 D3.js、ECharts、Three.js 等技术创建交互式数据可视化作品，
+                        擅长将复杂的地理和环境数据转化为直观易懂的图表和动画。
+                    </p>
                 </div>
                 <div class="feature card">
-                    <div class="feature__icon"><i class="fas fa-code"></i></div>
-                    <h3 class="feature__title">Web开发</h3>
-                    <p class="feature__description">构建性能优良、用户友好的网站和应用程序，关注可访问性和响应式设计。</p>
+                    <div class="feature__icon" style="background: var(--gradient-success);">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="feature__title">全栈开发</h3>
+                    <p class="feature__description">
+                        精通前端技术栈（HTML5、CSS3、JavaScript、React）和后端开发，
+                        注重用户体验设计、性能优化和无障碍访问。
+                    </p>
                 </div>
             </div>
         </div>
@@ -128,100 +186,81 @@
     <!-- 项目区域 -->
     <section class="section projects" id="projects">
         <div class="container">
-            <h2 style="margin-bottom: var(--space-xl); text-align: center;">项目展示</h2>
+            <h2 class="text-center gradient-text" style="margin-bottom: var(--space-2xl);">精选项目</h2>
             
-            <!-- 宝藏小城项目 -->
-            <div class="card project-card" style="margin-bottom: var(--space-xl);">
-                <div class="project-content">
-                    <div>
-                        <h3 class="project__title">Geoscene - 宝藏小城</h3>
-                        <div class="project__tags" style="margin-bottom: var(--space-md);">
-                            <span class="project__tag">数据可视化</span>
-                            <span class="project__tag">HTML/CSS/JS</span>
-                            <span class="project__tag">地理数据</span>
-                        </div>
-                        <p class="project__description">多地区地理空间数据可视化项目，展示中国多个城市的季节变化、年内变化和年际变化数据。通过交互式图表和地图，呈现地理空间数据的时空规律和特点。</p>
-                        <div class="project__actions" style="margin-top: var(--space-lg);">
-                            <a href="Geoscene_宝藏小城/awesome.html" class="btn btn--primary">
-                                <i class="fas fa-eye"></i> 查看项目
-                            </a>
-                        </div>
+            <div class="grid grid--responsive">
+                <!-- 宝藏小城项目 -->
+                <div class="card card--featured">
+                    <div class="project-badge" style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-primary); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 600;">
+                        🏆 特色项目
                     </div>
-                    <div class="project-image-container">
-                        <div class="project-image-placeholder" style="background: var(--gradient-blue); opacity: 0.7;">
-                            <i class="fas fa-chart-line" style="font-size: 2.5rem; color: white;"></i>
-                        </div>
+                    <div class="project-image-container" style="height: 200px; margin-bottom: var(--space-lg); border-radius: var(--radius-lg); overflow: hidden; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-chart-area" style="font-size: 3rem; color: white; opacity: 0.9;"></i>
                     </div>
+                    <h3 class="project__title">Geoscene - 宝藏小城</h3>
+                    <p class="project__description" style="margin-bottom: var(--space-lg);">
+                        多地区地理空间数据可视化项目，通过交互式图表展示中国六个城市的时空变化规律，
+                        涵盖季节变化、年内变化和年际变化的综合分析。
+                    </p>
+                    <div class="project__tags" style="margin-bottom: var(--space-lg);">
+                        <span class="tech-badge tech-badge--small" style="background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">数据可视化</span>
+                        <span class="tech-badge tech-badge--small" style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">时空分析</span>
+                        <span class="tech-badge tech-badge--small" style="background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">地理数据</span>
+                    </div>
+                    <a href="Geoscene_宝藏小城/awesome.html" class="btn btn--primary" style="width: 100%;">
+                        <i class="fas fa-external-link-alt"></i> 探索项目
+                    </a>
+                </div>
+                
+                <!-- WebGIS项目 -->
+                <div class="card">
+                    <div class="project-image-container" style="height: 200px; margin-bottom: var(--space-lg); border-radius: var(--radius-lg); overflow: hidden; background: var(--gradient-accent); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-globe" style="font-size: 3rem; color: white; opacity: 0.9;"></i>
+                    </div>
+                    <h3 class="project__title">WebGIS 地理信息系统</h3>
+                    <p class="project__description" style="margin-bottom: var(--space-lg);">
+                        基于 OpenLayers 构建的交互式地图应用，提供丰富的地理信息浏览、
+                        查询和空间分析功能，支持多图层管理和数据可视化。
+                    </p>
+                    <div class="project__tags" style="margin-bottom: var(--space-lg);">
+                        <span class="tech-badge tech-badge--small" style="background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">WebGIS</span>
+                        <span class="tech-badge tech-badge--small" style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">OpenLayers</span>
+                        <span class="tech-badge tech-badge--small" style="background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">JavaScript</span>
+                    </div>
+                    <a href="WebGIS/index.html" class="btn btn--secondary" style="width: 100%;">
+                        <i class="fas fa-map-marked-alt"></i> 查看演示
+                    </a>
+                </div>
+                
+                <!-- 词云图项目 -->
+                <div class="card">
+                    <div class="project-image-container" style="height: 200px; margin-bottom: var(--space-lg); border-radius: var(--radius-lg); overflow: hidden; background: var(--gradient-cool); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-cloud" style="font-size: 3rem; color: white; opacity: 0.9;"></i>
+                    </div>
+                    <h3 class="project__title">地区词云可视化</h3>
+                    <p class="project__description" style="margin-bottom: var(--space-lg);">
+                        通过文本挖掘技术生成的地区特色词云图，直观展示不同地区的
+                        关键词特征和文化元素，支持多种词云样式和交互效果。
+                    </p>
+                    <div class="project__tags" style="margin-bottom: var(--space-lg);">
+                        <span class="tech-badge tech-badge--small" style="background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">词云生成</span>
+                        <span class="tech-badge tech-badge--small" style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">文本分析</span>
+                        <span class="tech-badge tech-badge--small" style="background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">可视化</span>
+                    </div>
+                    <a href="Geoscene_宝藏小城/wordcloud.html" class="btn btn--secondary" style="width: 100%;">
+                        <i class="fas fa-eye"></i> 查看词云
+                    </a>
                 </div>
             </div>
             
-            <!-- WebGIS项目 -->
-            <div class="card project-card" style="margin-bottom: var(--space-xl);">
-                <div class="project-content">
-                    <div>
-                        <h3 class="project__title">WebGIS 地理信息系统</h3>
-                        <div class="project__tags" style="margin-bottom: var(--space-md);">
-                            <span class="project__tag">WebGIS</span>
-                            <span class="project__tag">OpenLayers</span>
-                            <span class="project__tag">JavaScript</span>
-                        </div>
-                        <p class="project__description">交互式地图应用程序，使用 OpenLayers 构建，提供丰富的地理信息浏览和查询功能。支持多图层管理、空间分析和地理数据可视化。</p>
-                        <div class="project__actions" style="margin-top: var(--space-lg);">
-                            <a href="WebGIS/index.html" class="btn btn--primary">
-                                <i class="fas fa-map-marked-alt"></i> 查看项目
-                            </a>
-                        </div>
-                    </div>
-                    <div class="project-image-container">
-                        <div class="project-image-placeholder" style="background: var(--gradient-accent); opacity: 0.7;">
-                            <i class="fas fa-map" style="font-size: 2.5rem; color: white;"></i>
-                        </div>
-                    </div>
-                </div>
+            <!-- 更多项目按钮 -->
+            <div class="text-center" style="margin-top: var(--space-2xl);">
+                <a href="Pages/notes.html" class="btn btn--outline btn--large">
+                    <i class="fas fa-book-open"></i> 查看技术笔记
+                </a>
             </div>
-            
-            <!-- 词云图项目 -->
-            <div class="card project-card" style="margin-bottom: var(--space-xl);">
-                <div class="project-content">
-                    <div>
-                        <h3 class="project__title">地区词云可视化</h3>
-                        <div class="project__tags" style="margin-bottom: var(--space-md);">
-                            <span class="project__tag">词云</span>
-                            <span class="project__tag">文本分析</span>
-                            <span class="project__tag">可视化</span>
-                        </div>
-                        <p class="project__description">基于各地区特色数据生成的词云图，直观展示不同地区的关键词和特点。通过文本挖掘技术，从海量数据中提取地域特征和文化元素。</p>
-                        <div class="project__actions" style="margin-top: var(--space-lg);">
-                            <a href="Geoscene_宝藏小城/wordcloud.html" class="btn btn--primary">
-                                <i class="fas fa-cloud"></i> 查看项目
-                            </a>
-                        </div>
-                    </div>
-                    <div class="project-image-container">
-                        <div class="project-image-placeholder" style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); opacity: 0.7;">
-                            <i class="fas fa-font" style="font-size: 2.5rem; color: white;"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 笔记项目 -->
-            <div class="card project-card">
-                <div class="project-content">
-                    <div>
-                        <h3 class="project__title">技术笔记</h3>
-                        <div class="project__tags" style="margin-bottom: var(--space-md);">
-                            <span class="project__tag">Markdown</span>
-                            <span class="project__tag">知识库</span>
-                            <span class="project__tag">技术总结</span>
-                        </div>
-                        <p class="project__description">我在WebGIS、数据可视化和地理空间技术方面的学习笔记和心得体会。包含代码示例、最佳实践和解决方案。</p>
-                        <div class="project__actions" style="margin-top: var(--space-lg);">
-                            <a href="notes.html" class="btn btn--primary">
-                                <i class="fas fa-book"></i> 查看笔记
-                            </a>
-                        </div>
-                    </div>
+        </div>
+    </section>
                     <div class="project-image-container">
                         <div class="project-image-placeholder" style="background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%); opacity: 0.7;">
                             <i class="fas fa-book-open" style="font-size: 2.5rem; color: white;"></i>
@@ -265,206 +304,117 @@
         </div>
     </section>
 
-    <!-- 联系方式部分 -->
+    <!-- 联系区域 -->
     <section class="section" id="contact">
         <div class="container">
-            <h2 style="text-align: center; margin-bottom: var(--space-xl);">联系我</h2>
-            <div class="card contact-card-container" style="max-width: 600px; margin: 0 auto;">
-                <div class="contact-method">
-                    <div class="contact-icon-container">
-                        <i class="fas fa-envelope contact-icon"></i>
+            <h2 class="text-center gradient-text" style="margin-bottom: var(--space-2xl);">联系我</h2>
+            <div class="grid grid--responsive">
+                <div class="card glass">
+                    <div class="contact-icon-container" style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-lg);">
+                        <i class="fas fa-envelope" style="font-size: 1.5rem; color: white;"></i>
                     </div>
-                    <div class="contact-details">
-                        <h4>邮箱</h4>
-                        <a href="mailto:1482918576@qq.com" class="contact-link">1482918576@qq.com</a>
-                        <p class="contact-description">欢迎通过邮件联系我，我会尽快回复</p>
-                    </div>
+                    <h4 class="text-center" style="margin-bottom: var(--space-sm);">邮箱联系</h4>
+                    <p class="text-center" style="margin-bottom: var(--space-md); color: var(--text-muted);">商务合作与技术交流</p>
+                    <a href="mailto:1482918576@qq.com" class="btn btn--outline" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> 发送邮件
+                    </a>
                 </div>
-                <div class="contact-method">
-                    <div class="contact-icon-container">
-                        <i class="fab fa-qq contact-icon"></i>
+                
+                <div class="card glass">
+                    <div class="contact-icon-container" style="width: 60px; height: 60px; background: var(--gradient-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-lg);">
+                        <i class="fab fa-github" style="font-size: 1.5rem; color: white;"></i>
                     </div>
-                    <div class="contact-details">
-                        <h4>QQ</h4>
-                        <a href="tencent://message/?uin=1482918576" class="contact-link">1482918576</a>
-                        <p class="contact-description">可以通过QQ随时联系我</p>
-                    </div>
+                    <h4 class="text-center" style="margin-bottom: var(--space-sm);">GitHub</h4>
+                    <p class="text-center" style="margin-bottom: var(--space-md); color: var(--text-muted);">查看开源项目与代码</p>
+                    <a href="https://github.com/NEGIAO" target="_blank" class="btn btn--outline" style="width: 100%;">
+                        <i class="fab fa-github"></i> 访问 GitHub
+                    </a>
                 </div>
-                <div class="contact-method">
-                    <div class="contact-icon-container">
-                        <i class="fab fa-github contact-icon"></i>
+                
+                <div class="card glass">
+                    <div class="contact-icon-container" style="width: 60px; height: 60px; background: var(--gradient-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-lg);">
+                        <i class="fab fa-qq" style="font-size: 1.5rem; color: white;"></i>
                     </div>
-                    <div class="contact-details">
-                        <h4>GitHub</h4>
-                        <a href="https://github.com/NEGIAO" target="_blank" class="contact-link">NEGIAO</a>
-                        <p class="contact-description">查看我的开源项目和代码贡献</p>
-                    </div>
+                    <h4 class="text-center" style="margin-bottom: var(--space-sm);">即时通讯</h4>
+                    <p class="text-center" style="margin-bottom: var(--space-md); color: var(--text-muted);">QQ 在线交流沟通</p>
+                    <a href="tencent://message/?uin=1482918576" class="btn btn--outline" style="width: 100%;">
+                        <i class="fab fa-qq"></i> QQ 联系
+                    </a>
                 </div>
             </div>
         </div>
     </section>
+    </main>
 
-    <!-- 页脚 -->
+    <!-- 现代化页脚 -->
     <footer class="footer">
         <div class="container">
-            <div class="footer__content">
-                <div>
-                    <p>&copy; <span id="current-year">2025</span> NEGIAO. 保留所有权利。</p>
+            <div class="footer__content" style="text-align: center;">
+                <!-- 快速导航 -->
+                <div class="footer__navigation" style="margin-bottom: var(--space-xl);">
+                    <h4 style="margin-bottom: var(--space-lg); color: var(--text-secondary); font-size: 1.1rem;">快速导航</h4>
+                    <nav>
+                        <ul style="list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-lg);">
+                            <li>
+                                <a href="#projects" style="color: var(--text-muted); transition: all var(--transition-fast); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm);">
+                                    <i class="fas fa-rocket" style="margin-right: var(--space-xs);"></i>项目展示
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#about" style="color: var(--text-muted); transition: all var(--transition-fast); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm);">
+                                    <i class="fas fa-user-cog" style="margin-right: var(--space-xs);"></i>专业技能
+                                </a>
+                            </li>
+                            <li>
+                                <a href="Pages/notes.html" style="color: var(--text-muted); transition: all var(--transition-fast); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm);">
+                                    <i class="fas fa-book-open" style="margin-right: var(--space-xs);"></i>技术笔记
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#contact" style="color: var(--text-muted); transition: all var(--transition-fast); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm);">
+                                    <i class="fas fa-envelope" style="margin-right: var(--space-xs);"></i>联系我
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-                <div class="social-links">
-                    <a href="https://github.com/NEGIAO" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
-                    <a href="mailto:1482918576@qq.com" class="social-link"><i class="fas fa-envelope"></i></a>
-                    <a href="tencent://message/?uin=1482918576" class="social-link"><i class="fab fa-qq"></i></a>
+
+                <!-- NEGIAO 品牌信息 -->
+                <div class="footer__brand" style="margin-bottom: var(--space-xl);">
+                    <h3 class="gradient-text" style="font-size: 1.5rem; margin-bottom: var(--space-md);">NEGIAO</h3>
+                    <p style="color: var(--text-muted); margin-bottom: var(--space-lg); line-height: 1.6; max-width: 500px; margin-left: auto; margin-right: auto;">
+                        专注于 WebGIS 开发、数据可视化与地理空间技术创新，致力于创造现代化的地理信息解决方案。
+                    </p>
+                    <div class="social-links" style="justify-content: center;">
+                        <a href="https://github.com/NEGIAO" target="_blank" class="social-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="mailto:1482918576@qq.com" class="social-link" aria-label="邮箱">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tencent://message/?uin=1482918576" class="social-link" aria-label="QQ">
+                            <i class="fab fa-qq"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 其他信息 -->
+                <div class="footer__meta" style="border-top: 1px solid var(--border); padding-top: var(--space-lg);">
+                    <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: var(--space-sm);">
+                        &copy; <span id="current-year">2025</span> NEGIAO. 保留所有权利。
+                    </p>
+                    <p style="color: var(--text-disabled); font-size: 0.8rem; margin-bottom: var(--space-sm);">
+                        用 ❤️ 和现代技术构建
+                    </p>
+                    <div style="font-size: 0.75rem; color: var(--text-disabled);">
+                        <span>WebGIS</span> • <span>数据可视化</span> • <span>全栈开发</span>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- 优化的脚本 -->
-    <script>
-        // 页面加载完成后隐藏加载屏幕
-        window.addEventListener('load', function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-                loadingScreen.style.visibility = 'hidden';
-            }, 500);
-        });
-
-        // 设置正确的年份
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // 使用事件委托优化平滑滚动效果
-        document.addEventListener('click', function(e) {
-            const target = e.target.closest('a[href^="#"]');
-            if (target) {
-                e.preventDefault();
-                const element = document.querySelector(target.getAttribute('href'));
-                if (element) {
-                    element.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-
-        // 使用requestAnimationFrame优化导航栏滚动效果
-        const navbar = document.querySelector('.navbar');
-        let lastScrollPosition = 0;
-        let scrollTimer = null;
-
-        function handleScroll() {
-            if (scrollTimer === null) {
-                scrollTimer = window.requestAnimationFrame(function() {
-                    const currentScrollPosition = window.scrollY;
-                    if (currentScrollPosition > 10) {
-                        navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-                    } else {
-                        navbar.style.boxShadow = 'none';
-                    }
-                    
-                    lastScrollPosition = currentScrollPosition;
-                    scrollTimer = null;
-                });
-            }
-        }
-        
-        window.addEventListener('scroll', handleScroll, { passive: true });
-
-        // 实现图片懒加载
-        if ('loading' in HTMLImageElement.prototype) {
-            // 浏览器支持原生懒加载
-            const images = document.querySelectorAll('img[data-src]');
-            images.forEach(img => {
-                img.src = img.dataset.src;
-                img.loading = 'lazy';
-            });
-        } else {
-            // 回退到 Intersection Observer API
-            document.addEventListener("DOMContentLoaded", function() {
-                const lazyImages = document.querySelectorAll('img[data-src]');
-                if (lazyImages.length > 0) {
-                    const imageObserver = new IntersectionObserver((entries, observer) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                const img = entry.target;
-                                img.src = img.dataset.src;
-                                img.removeAttribute('data-src');
-                                observer.unobserve(img);
-                            }
-                        });
-                    });
-                    
-                    lazyImages.forEach(img => {
-                        imageObserver.observe(img);
-                    });
-                }
-            });
-        }
-
-        // 添加动画减少性能优化（对于低端设备）
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        if (prefersReducedMotion.matches) {
-            // 移除动画效果，提高性能
-            document.documentElement.classList.add('reduced-motion');
-        }
-
-        // 防抖函数用于性能优化
-        function debounce(func, wait) {
-            let timeout;
-            return function() {
-                const context = this;
-                const args = arguments;
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(context, args), wait);
-            };
-        }
-
-        // 优化resize事件处理
-        const handleResize = debounce(function() {
-            // 这里可以处理任何需要在resize时执行的代码
-            // 目前没有特别需要处理的，但保留这个模式以备将来扩展
-        }, 100);
-
-        window.addEventListener('resize', handleResize, { passive: true });
-        
-        // 移动端菜单功能
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileMenuLinks = document.querySelectorAll('.mobile-menu__link');
-        
-        if (mobileMenuToggle && mobileMenu) {
-            let isMenuOpen = false;
-            
-            function toggleMenu() {
-                isMenuOpen = !isMenuOpen;
-                mobileMenu.classList.toggle('active', isMenuOpen);
-                mobileMenuToggle.innerHTML = isMenuOpen ? 
-                    '<i class="fas fa-times"></i>' : 
-                    '<i class="fas fa-bars"></i>';
-                document.body.style.overflow = isMenuOpen ? 'hidden' : '';
-            }
-            
-            mobileMenuToggle.addEventListener('click', toggleMenu);
-            
-            // 点击菜单项关闭菜单
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (isMenuOpen) {
-                        toggleMenu();
-                    }
-                });
-            });
-            
-            // 点击菜单外部关闭菜单
-            document.addEventListener('click', (e) => {
-                if (isMenuOpen && 
-                    !mobileMenu.contains(e.target) && 
-                    !mobileMenuToggle.contains(e.target)) {
-                    toggleMenu();
-                }
-            });
-        }
-    </script>
+    <!-- 引入优化的脚本 -->
+    <script src="Pages/main-enhanced.js" defer></script>
 </body>
 </html>

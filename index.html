@@ -57,12 +57,22 @@
     <!-- 预连接第三方资源（仅保留必要项） -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
     <!-- 注意：如将 Font Awesome 或其他第三方资源本地化，可删除对 cdn.bootcdn.net 的预连接 -->
     
     <!-- 使用中国CDN提高中国境内访问速度 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Pages/style.css">
+    
+    <!-- Google Analytics 跟踪代码 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KYJ7Y4LE2N');
+    </script>
     
     <!-- 设置缓存控制 -->
     <meta http-equiv="Cache-Control" content="max-age=86400">
@@ -394,8 +404,11 @@
                         &copy; <span id="current-year">2025</span> NEGIAO. All rights reserved.
                     </p>
                     <p style="color: var(--text-disabled); font-size: 0.8rem; margin-bottom: var(--space-sm);">
-                        用 ❤️ 和现代技术构建  <p>Version-1.0.4
+                        用 ❤️ 和现代技术构建  <p>Version-1.0.5
                     </p>
+                    <div id="visit-counter" style="font-size: 0.8rem; color: var(--primary); margin-bottom: var(--space-sm);">
+                        页面访问次数：<span id="visit-count">--</span>
+                    </div>
                     <div style="font-size: 0.75rem; color: var(--text-disabled);">
                         <span>WebGIS</span> • <span>数据可视化</span> • <span>全栈开发</span>
                     </div>
@@ -406,5 +419,40 @@
 
     <!-- 引入优化的脚本 -->
     <script src="Pages/main-enhanced.js" defer></script>
+    
+    <!-- 访问统计脚本 -->
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取当前访问计数
+            let visits = localStorage.getItem('page_visits') || 0;
+            visits = parseInt(visits) + 1;
+            
+            // 保存更新后的计数
+            localStorage.setItem('page_visits', visits);
+            
+            // 在页脚显示访问计数
+            const visitCountElement = document.getElementById('visit-count');
+            if (visitCountElement) {
+                visitCountElement.textContent = visits;
+            } else {
+                // 如果元素不存在，创建一个
+                const counterElement = document.createElement('div');
+                counterElement.className = 'visit-counter';
+                counterElement.style.fontSize = '0.8rem';
+                counterElement.style.color = 'var(--primary)';
+                counterElement.style.marginBottom = 'var(--space-sm)';
+                counterElement.innerHTML = `页面访问次数：<span>${visits}</span>`;
+                
+                const footerMeta = document.querySelector('.footer__meta');
+                if (footerMeta) {
+                    footerMeta.insertBefore(counterElement, footerMeta.children[1]);
+                }
+            }
+            
+            // 记录到控制台
+            console.log('页面访问次数:', visits);
+        });
+    </script>
 </body>
 </html>

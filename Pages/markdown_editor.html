@@ -396,6 +396,36 @@ ___
 
         // Add event listener for real-time updates
         editor.addEventListener('input', renderMarkdown);
+        
+        // 增加访问计数功能
+        function updateVisitCounter() {
+            // 尝试获取当前访问计数
+            let visits = localStorage.getItem('markdown_editor_visits') || 0;
+            visits = parseInt(visits) + 1;
+            
+            // 保存更新后的计数
+            localStorage.setItem('markdown_editor_visits', visits);
+            
+            // 显示访问计数
+            const counterElement = document.createElement('div');
+            counterElement.className = 'visit-counter';
+            counterElement.textContent = `访问次数: ${visits}`;
+            counterElement.style.position = 'fixed';
+            counterElement.style.bottom = '10px';
+            counterElement.style.right = '10px';
+            counterElement.style.padding = '5px 10px';
+            counterElement.style.background = 'var(--surface)';
+            counterElement.style.border = '1px solid var(--border)';
+            counterElement.style.borderRadius = '4px';
+            counterElement.style.fontSize = '12px';
+            counterElement.style.color = 'var(--text-light)';
+            counterElement.style.zIndex = '999';
+            
+            document.body.appendChild(counterElement);
+        }
+        
+        // 页面加载时调用
+        updateVisitCounter();
 
         // Toolbar functionality
         const clearBtn = document.getElementById('clear-btn');

@@ -3,11 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebGIS开发实践 - NEGIAO</title>
+    <title>笔记模板 - NEGIAO</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script defer src="../notes-toc.js"></script>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="../notes-toc.js" as="script">
+    
+    <!-- Defer non-critical CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css"></noscript>
+    
+    <!-- Load JS with performance attributes -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <script src="../notes-toc.js" defer></script>
 </head>
 <body>
     <nav class="navbar">
@@ -17,7 +24,7 @@
         </div>
     </nav>
 
-#    <main class="container section note-layout">
+    <main class="container section note-layout">
 
         <aside class="note-toc card" aria-label="文章章节目录">
             <h4 class="note-toc__title">文章目录</h4>

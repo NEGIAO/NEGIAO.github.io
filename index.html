@@ -63,7 +63,6 @@
     <!-- 使用中国CDN提高中国境内访问速度 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Pages/style.css">
     
     <!-- Google Analytics 跟踪代码 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N"></script>
@@ -76,6 +75,11 @@
     
     <!-- 设置缓存控制 -->
     <meta http-equiv="Cache-Control" content="max-age=86400">
+    
+    <!-- 为关键资源设置更长的缓存时间 -->
+    <link rel="stylesheet" href="Pages/style.css" media="all">
+    <link rel="preload" href="Pages/avatar.jpg" as="image" fetchpriority="high">
+    <script src="Pages/main-enhanced.js" defer></script>
 </head>
 <body>
     <!-- 加载屏幕 -->
@@ -416,9 +420,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- 引入优化的脚本 -->
-    <script src="Pages/main-enhanced.js" defer></script>
     
     <!-- 访问统计脚本 -->
     <script>

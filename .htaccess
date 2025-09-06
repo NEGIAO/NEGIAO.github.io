@@ -1,0 +1,44 @@
+# 设置资源缓存
+<IfModule mod_expires.c>
+  ExpiresActive On
+  
+  # 默认缓存时间
+  ExpiresDefault "access plus 1 month"
+  
+  # CSS文件
+  ExpiresByType text/css "access plus 1 year"
+  
+  # JavaScript文件
+  ExpiresByType application/javascript "access plus 1 year"
+  
+  # 图片文件
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  
+  # 字体文件
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/font-woff "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# 添加缓存控制头
+<IfModule mod_headers.c>
+  # 为静态资源设置缓存控制
+  <FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2)$">
+    Header set Cache-Control "max-age=31536000, public"
+  </FilesMatch>
+  
+  # 特别对关键资源设置更长缓存
+  <FilesMatch "style\.css$">
+    Header set Cache-Control "max-age=31536000, public"
+  </FilesMatch>
+  <FilesMatch "avatar\.jpg$">
+    Header set Cache-Control "max-age=31536000, public"
+  </FilesMatch>
+  <FilesMatch "main-enhanced\.js$">
+    Header set Cache-Control "max-age=31536000, public"
+  </FilesMatch>
+</IfModule>

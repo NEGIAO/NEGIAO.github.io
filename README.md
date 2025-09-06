@@ -102,7 +102,7 @@ python -m http.server 8080
 
 1. **已移除的重复JS文件**:
    - ✅ `Pages/main.js` - 由 `main-enhanced.js` 替代
-   - ✅ 更新了 `Pages/notes-toc.js` 和 `notes-toc.min.js` 内容
+   - ✅ 更新了 `Pages/notes-toc.js` 内容
 
 2. **已移除的空文件与文件夹**:
    - ✅ `Pages/js/` - 空文件夹

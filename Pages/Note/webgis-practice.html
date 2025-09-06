@@ -6,7 +6,7 @@
     <title>WebGIS开发实践 - NEGIAO</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script defer src="../notes-toc.js"></script>
 </head>
 <body>
@@ -17,7 +17,7 @@
         </div>
     </nav>
 
-#    <main class="container section note-layout">
+    <main class="container section note-layout">
 
         <aside class="note-toc card" aria-label="文章章节目录">
             <h4 class="note-toc__title">文章目录</h4>
@@ -38,18 +38,20 @@ WebGIS的核心是将地理空间数据通过Web技术进行展示、分析和�
 
 - **OpenLayers**: 功能强大，社区活跃，适合复杂GIS应用。
 - **Leaflet**: 轻量级，API简单，适合快速开发和移动端应用。
+- **Mapbox GL JS**: 高性能矢量渲染，适合复杂可视化和大数据展示。
 
 ### 1.2 数据格式
 
 - **GeoJSON**: 基于JSON的地理空间数据格式，Web友好。
 - **KML/KMZ**: Google Earth使用的格式，适合标记和简单矢量。
 - **Shapefile**: 传统的GIS数据格式，通常需要在服务端转换为Web格式。
+- **MVT (Mapbox Vector Tiles)**: 矢量瓦片格式，高效且灵活。
 
 ## 2. OpenLayers入门
 
 创建一个基本的OpenLayers地图非常简单。
 
-\`\`\`javascript
+```javascript
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
@@ -67,7 +69,7 @@ const map = new Map({
     zoom: 2
   })
 });
-\`\`\`
+```
 
 > **注意**: `target`需要对应HTML中一个div的id。
 
@@ -85,6 +87,153 @@ const map = new Map({
 - **矢量切片 (Vector Tiles)**: 在客户端渲染，提供高分辨率和动态样式。
 - **数据抽稀**: 在不同缩放级别下显示不同密度的点。
 - **代码分割**: 按需加载地图模块。
+- **WebWorkers**: 将复杂计算和数据处理放到后台线程。
+- **WebAssembly**: 用于性能密集型空间分析和计算。
+
+## 5. 后端技术集成
+
+在WebGIS应用中，后端技术与前端的无缝集成是构建强大功能的关键。
+
+### 5.1 地理空间数据库
+
+**PostGIS** 是基于PostgreSQL的地理空间数据库扩展，提供了强大的空间索引和查询能力：
+
+```sql
+-- 创建带有空间索引的地理表
+CREATE TABLE points (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50),
+  geom GEOMETRY(POINT, 4326)
+);
+
+-- 创建空间索引
+CREATE INDEX points_geom_idx ON points USING GIST (geom);
+
+-- 空间查询示例：查找指定区域内的点
+SELECT * FROM points 
+WHERE ST_Within(geom, ST_MakeEnvelope(120.0, 30.0, 121.0, 31.0, 4326));
+```
+
+### 5.2 地图服务架构
+
+现代WebGIS应用通常采用微服务架构，便于扩展和维护：
+
+```mermaid
+graph TB
+    Client[前端地图客户端]
+    VectorTile[矢量瓦片服务]
+    RasterTile[栅格瓦片服务]
+    SpatialAPI[空间分析API]
+    GeoData[地理数据库]
+
+    Client --> VectorTile
+    Client --> RasterTile
+    Client --> SpatialAPI
+    VectorTile --> GeoData
+    RasterTile --> GeoData
+    SpatialAPI --> GeoData
+```
+
+### 5.3 实时数据集成
+
+使用WebSocket实现实时地图更新，适合监控和物联网场景：
+
+```javascript
+// 服务端 (Node.js + Socket.io)
+const io = require('socket.io')(server);
+
+// 监听新的GPS数据
+io.on('connection', socket => {
+  gpsStream.on('data', point => {
+    socket.emit('gps-update', {
+      id: point.id,
+      lat: point.latitude,
+      lon: point.longitude,
+      speed: point.speed
+    });
+  });
+});
+
+// 前端接收和更新
+const socket = io.connect('http://localhost:3000');
+socket.on('gps-update', data => {
+  // 更新地图上的要素
+  const feature = vectorSource.getFeatureById(data.id);
+  if (feature) {
+    feature.setGeometry(new Point([data.lon, data.lat]));
+    feature.set('speed', data.speed);
+  }
+});
+```
+
+### 5.4 边缘计算在WebGIS中的应用
+
+在设备或边缘服务器上预处理地理数据，减轻中心服务器负担：
+
+```javascript
+// 边缘端代码 (例如在传感器网关上运行)
+function processGeoData(rawData) {
+  // 1. 过滤异常值
+  const filteredData = filterOutliers(rawData);
+  
+  // 2. 简化几何
+  const simplifiedGeom = simplifyGeometry(filteredData, 0.0001);
+  
+  // 3. 计算本地统计
+  const stats = calculateLocalStats(simplifiedGeom);
+  
+  // 4. 只发送必要数据到云端
+  sendToCloud({
+    summary: stats,
+    geometry: simplifiedGeom
+  });
+}
+```
+
+### 5.5 Serverless GIS
+
+使用云函数按需处理空间数据和请求：
+
+```javascript
+// AWS Lambda 函数示例
+exports.handler = async (event) => {
+  const { bbox, layer } = JSON.parse(event.body);
+  
+  // 连接到地理数据库
+  const client = await connectToPostGIS();
+  
+  // 根据边界框查询要素
+  const features = await client.query(`
+    SELECT id, name, ST_AsGeoJSON(geom) as geometry
+    FROM ${layer}
+    WHERE ST_Intersects(
+      geom,
+      ST_MakeEnvelope(${bbox.join(',')}, 4326)
+    )
+  `);
+  
+  // 返回GeoJSON格式
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      type: "FeatureCollection",
+      features: features.rows.map(f => ({
+        type: "Feature",
+        id: f.id,
+        properties: { name: f.name },
+        geometry: JSON.parse(f.geometry)
+      }))
+    })
+  };
+};
+```
+
+## 6. 下一代WebGIS技术趋势
+
+- **3D地理可视化**: 使用WebGL和Three.js实现沉浸式体验
+- **机器学习集成**: 自动特征提取和预测分析
+- **AR/VR地理应用**: 结合实境增强和虚拟现实
+- **去中心化地理数据**: 区块链和IPFS在地理数据共享中的应用
 
 ---
 
@@ -93,20 +242,85 @@ const map = new Map({
     </article>
     </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <!-- Load highlight.js with defer to improve page load performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
+    
     <script>
-        (function () {
-            var src = document.getElementById('note-markdown');
-            if (!src) return;
-            var md = src.textContent || src.innerText || '';
-            var html = (window.marked || window.markdownit && window.markdownit()).parse ? (window.marked ? window.marked.parse(md) : window.markdownit().render(md)) : md;
-            var container = document.getElementById('note-content');
-            container.innerHTML = html;
-            if (window.buildNoteTOC) window.buildNoteTOC();
-            container.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightBlock(block);
+        // Optimized markdown rendering
+        document.addEventListener('DOMContentLoaded', function() {
+            // Process markdown asynchronously for better performance
+            setTimeout(function() {
+                const src = document.getElementById('note-markdown');
+                if (!src) return;
+                
+                // Extract markdown content
+                const md = src.textContent || src.innerText || '';
+                
+                // Process markdown in chunks for better responsiveness
+                processMarkdown(md, function(html) {
+                    const container = document.getElementById('note-content');
+                    if (!container) return;
+                    
+                    // Insert the HTML
+                    container.innerHTML = html;
+                    
+                    // Build table of contents
+                    if (window.buildNoteTOC) {
+                        requestAnimationFrame(function() {
+                            window.buildNoteTOC();
+                        });
+                    }
+                    
+                    // Apply syntax highlighting
+                    if (window.hljs) {
+                        // Use requestIdleCallback for non-critical task if available
+                        (window.requestIdleCallback || setTimeout)(function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        }, { timeout: 500 });
+                    } else {
+                        // Wait for highlight.js to load
+                        window.onhljsready = function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        };
+                    }
+                });
+            }, 0);
+        });
+        
+        // Process markdown in chunks for better UI responsiveness
+        function processMarkdown(md, callback) {
+            // Use requestAnimationFrame to avoid blocking the main thread
+            requestAnimationFrame(function() {
+                let html;
+                try {
+                    // Use available markdown parser
+                    if (window.marked) {
+                        html = window.marked.parse(md);
+                    } else if (window.markdownit) {
+                        html = window.markdownit().render(md);
+                    } else {
+                        html = md; // Fallback
+                    }
+                    callback(html);
+                } catch (e) {
+                    console.error('Error parsing markdown:', e);
+                    callback('<p>Error parsing markdown content.</p>');
+                }
             });
-        })();
+        }
+        
+        // Set up highlight.js load callback
+        if (typeof hljs === 'undefined') {
+            window.addEventListener('load', function() {
+                if (typeof hljs !== 'undefined' && typeof window.onhljsready === 'function') {
+                    window.onhljsready();
+                }
+            });
+        }
     </script>
 </body>
 </html>

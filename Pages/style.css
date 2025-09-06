@@ -259,8 +259,9 @@ a:focus {
   top: 50%; /* vertically center relative to viewport */
   transform: translateY(-50%) translateZ(0); /* robust centering and preserve 3d layer */
   width: 280px;
-  max-height: 60vh;
-  overflow-y: auto;
+  max-height: 70vh; /* 增加最大高度以容纳更多内容 */
+  overflow-y: auto; /* 确保垂直滚动 */
+  overflow-x: hidden; /* 防止水平滚动 */
   padding: calc(var(--space-lg) * 0.9);
   /* Higher-contrast opaque background so TOC stands out from page content */
   background: linear-gradient(180deg, rgba(18,22,30,1), rgba(12,14,18,1));
@@ -271,7 +272,8 @@ a:focus {
   box-shadow: 0 10px 36px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.4);
   z-index: 1050; /* Higher than navbar but not excessive */
   transition: transform 0.28s cubic-bezier(.2,.9,.2,1), right 0.25s ease, opacity 0.2s ease, box-shadow 0.2s ease;
-  position: fixed;
+  display: flex; /* 使用弹性布局 */
+  flex-direction: column; /* 垂直排列 */
 }
 
 /* Collapsed state: slide TOC to the right, out of the way (toggle button remains) */
@@ -284,13 +286,13 @@ a:focus {
 /* Toggle button fixed at the right edge of the viewport */
 #toc-toggle {
   position: fixed;
-  right: 12px;
+  right: 18px;
   top: 50%;
   transform: translateY(-50%);
   width: 44px;
   height: 44px;
   border-radius: 9999px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.604);
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08));
   color: var(--text);
   display: flex;
@@ -371,6 +373,7 @@ a:focus {
 
 .note-toc__title {
   margin: 0 0 var(--space-sm) 0;
+  flex-shrink: 0; /* 防止标题被压缩 */
   text-align: left;
   font-size: 1rem;
   color: var(--text);
@@ -387,10 +390,21 @@ a:focus {
   box-shadow: 0 0 8px rgba(0,217,255,0.12);
 }
 
+/* 添加导航区域的样式 */
+.note-toc__nav {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: auto; /* 允许导航内容溢出时滚动 */
+  max-height: calc(70vh - 60px); /* 减去标题的高度 */
+}
+
 .note-toc__list {
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-right: 5px; /* 为滚动条留出空间 */
+  flex-grow: 1; /* 允许列表区域占据剩余空间 */
 }
 
 .note-toc__item { 
@@ -426,10 +440,23 @@ a:focus {
 .note-toc-level-h4 { margin-left: calc(var(--space-lg) * 2); font-size: 0.85rem; }
 
 /* custom scrollbar for TOC */
-.note-toc::-webkit-scrollbar { width: 8px; }
-.note-toc::-webkit-scrollbar-track { background: transparent; }
-.note-toc::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); border-radius: 8px; }
-.note-toc::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04)); }
+.note-toc::-webkit-scrollbar,
+.note-toc__nav::-webkit-scrollbar { 
+  width: 6px; 
+}
+.note-toc::-webkit-scrollbar-track,
+.note-toc__nav::-webkit-scrollbar-track { 
+  background: transparent; 
+}
+.note-toc::-webkit-scrollbar-thumb,
+.note-toc__nav::-webkit-scrollbar-thumb { 
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); 
+  border-radius: 6px; 
+}
+.note-toc::-webkit-scrollbar-thumb:hover,
+.note-toc__nav::-webkit-scrollbar-thumb:hover { 
+  background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04)); 
+}
 
 /* Collapsed state should be fully opaque (no transparency) and visible as a solid block */
 .note-toc.note-toc--collapsed {
@@ -450,6 +477,10 @@ a:focus {
   .note-toc {
     /* Further adjustments for small phones if needed */
     padding: var(--space-md);
+    max-height: 50vh; /* 在移动设备上限制最大高度 */
+  }
+  .note-toc__nav {
+    max-height: calc(50vh - 60px); /* 在移动设备上调整导航区域最大高度 */
   }
   .note-content {
     padding: var(--space-md);
@@ -512,6 +543,15 @@ a:focus {
     max-height: 70vh !important;
     z-index: 99999 !important;
     box-shadow: var(--shadow-2xl) !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .note-toc__nav {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+    overflow-y: auto !important;
+    max-height: calc(70vh - 60px) !important; /* 确保在桌面环境下有足够空间 */
   }
   /* Ensure collapsed class can override the important defaults above */
   .note-toc.note-toc--collapsed {

@@ -266,11 +266,26 @@
                 </div>
             </div>
             
-            <!-- 更多项目按钮 -->
-            <div class="text-center" style="margin-top: var(--space-2xl);">
-                <a href="Pages/notes.html" class="btn btn--outline btn--large">
-                    <i class="fas fa-book-open"></i> 查看技术笔记
-                </a>
+            <!-- 技术笔记项目 -->
+            <div class="grid grid--responsive" style="margin-top: var(--space-2xl);">
+                <div class="card">
+                    <div class="project-image-container" style="background: var(--gradient-primary);">
+                        <i class="fas fa-book-open" style="color: white; opacity: 0.9;"></i>
+                    </div>
+                    <h3 class="project__title">技术笔记分享</h3>
+                    <p class="project__description" style="margin-bottom: var(--space-lg);">
+                        个人学习笔记与经验分享，包括WebGIS、数据可视化等领域的技术积累。
+                        最近更新：改进了章节目录（TOC）在内容较多时的滚动功能。
+                    </p>
+                    <div class="project__tags" style="margin-bottom: var(--space-lg);">
+                        <span class="tech-badge tech-badge--small" style="background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">技术笔记</span>
+                        <span class="tech-badge tech-badge--small" style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">UI优化</span>
+                        <span class="tech-badge tech-badge--small" style="background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.3); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.75rem;">经验分享</span>
+                    </div>
+                    <a href="Pages/notes.html" class="btn btn--primary" style="width: 100%;">
+                        <i class="fas fa-book-open"></i> 查看技术笔记
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -408,7 +423,7 @@
                         &copy; <span id="current-year">2025</span> NEGIAO. All rights reserved.
                     </p>
                     <p style="color: var(--text-disabled); font-size: 0.8rem; margin-bottom: var(--space-sm);">
-                        用 ❤️ 和现代技术构建  <p>Version-1.0.5
+                        用 ❤️ 和现代技术构建  <p>Version-1.0.6
                     </p>
                     <div id="visit-counter" style="font-size: 0.8rem; color: var(--primary); margin-bottom: var(--space-sm);">
                         页面访问次数：<span id="visit-count">--</span>

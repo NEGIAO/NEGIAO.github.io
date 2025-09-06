@@ -3,48 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>笔记模板 - NEGIAO</title>
+    <title>TOC滚动测试 - NEGIAO</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script defer src="../notes-toc.min.js"></script>
-    <style>
-        /* TOC toggle button style */
-        #toc-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            border: none;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 99999;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        @media (max-width: 768px) {
-            #toc-toggle {
-                display: none;
-            }
-        }
-        
-        .note-toc--collapsed {
-            transform: translateX(120%);
-            transition: transform 0.3s ease;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar__container">
-            <a href="../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="../../index.html" class="navbar__brand">NEGIAO</a>
             <a href="../notes.html" class="btn btn--secondary">返回索引</a>
         </div>
     </nav>
@@ -52,7 +21,7 @@
     <main class="container section note-layout">
 
         <aside class="note-toc card" aria-label="文章章节目录">
-            <h4 class="note-toc__title">文章目录</h4>
+            <h4 class="note-toc__title"><span class="toc-accent"></span> 文章目录</h4>
             <nav class="note-toc__nav" id="note-toc"></nav>
         </aside>
         
@@ -63,29 +32,42 @@
 
         <article class="note-content card" id="note-content">
             <script type="text/markdown" id="note-markdown">
-# 笔记模板
+# TOC滚动测试文档
 
-这是一个带有目录的笔记模板，支持自动生成章节索引和目录切换。
+这是一个用于测试长目录滚动行为的文档，包含多个标题和子标题。
 
-## 1. 章节示例
+## 1. 第一章标题
 
-这是第一个章节内容，可以在这里编写正文。
+这是第一章内容，可以在这里编写正文。
 
 ### 1.1 子章节示例
 
 子章节内容。
 
-## 2. 使用方法
+### 1.2 另一个子章节
+
+子章节内容。
+
+## 2. 第二章标题
 
 将本模板复制后，替换内容即可创建新笔记。
 
-### 2.1 目录功能
+### 2.1 第二章子节
 
-- 自动生成文章目录
-- 支持目录显示/隐藏切换
-- 平滑滚动到对应章节
+- 这是第二章的子节点
+- 包含一些列表内容
 
-## 3. 代码示例
+### 2.2 第二章另一个子节
+
+更多内容...
+
+## 3. 第三章标题
+
+一些测试内容。
+
+### 3.1 子节内容
+
+代码示例：
 
 ```javascript
 // JavaScript代码示例
@@ -94,11 +76,159 @@ function exampleFunction() {
 }
 ```
 
+### 3.2 更多子节
+
+更多内容...
+
+## 4. 第四章标题
+
+内容...
+
+### 4.1 子节点
+
+内容...
+
+### 4.2 另一个子节点
+
+更多内容...
+
+## 5. 第五章标题
+
+内容...
+
+### 5.1 子节点
+
+内容...
+
+### 5.2 另一个子节点
+
+更多内容...
+
+## 6. 第六章标题
+
+内容...
+
+### 6.1 子节点
+
+内容...
+
+### 6.2 另一个子节点
+
+更多内容...
+
+## 7. 第七章标题
+
+内容...
+
+### 7.1 子节点
+
+内容...
+
+### 7.2 另一个子节点
+
+更多内容...
+
+## 8. 第八章标题
+
+内容...
+
+### 8.1 子节点
+
+内容...
+
+### 8.2 另一个子节点
+
+更多内容...
+
+## 9. 第九章标题
+
+内容...
+
+### 9.1 子节点
+
+内容...
+
+### 9.2 另一个子节点
+
+更多内容...
+
+## 10. 第十章标题
+
+内容...
+
+### 10.1 子节点
+
+内容...
+
+### 10.2 另一个子节点
+
+更多内容...
+
+## 11. 第十一章标题
+
+内容...
+
+### 11.1 子节点
+
+内容...
+
+### 11.2 另一个子节点
+
+更多内容...
+
+## 12. 第十二章标题
+
+内容...
+
+### 12.1 子节点
+
+内容...
+
+### 12.2 另一个子节点
+
+更多内容...
+
+## 13. 第十三章标题
+
+内容...
+
+### 13.1 子节点
+
+内容...
+
+### 13.2 另一个子节点
+
+更多内容...
+
+## 14. 第十四章标题
+
+内容...
+
+### 14.1 子节点
+
+内容...
+
+### 14.2 另一个子节点
+
+更多内容...
+
+## 15. 第十五章标题
+
+内容...
+
+### 15.1 子节点
+
+内容...
+
+### 15.2 另一个子节点
+
+更多内容...
+
 ---
 
-*笔记持续更新中...*
+*测试文档结束*
             </script>
-    </article>
+        </article>
     </main>
 
     <!-- Load highlight.js with defer to improve page load performance -->

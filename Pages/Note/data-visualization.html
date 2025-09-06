@@ -3,110 +3,358 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebGIS开发实践 - NEGIAO</title>
+    <title>TOC滚动测试 - NEGIAO</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script defer src="../notes-toc.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <script defer src="../notes-toc.js"></script>
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar__container">
-            <a href="../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="../../index.html" class="navbar__brand">NEGIAO</a>
             <a href="../notes.html" class="btn btn--secondary">返回索引</a>
         </div>
     </nav>
 
-#    <main class="container section note-layout">
+    <main class="container section note-layout">
 
         <aside class="note-toc card" aria-label="文章章节目录">
-            <h4 class="note-toc__title">文章目录</h4>
             <nav class="note-toc__nav" id="note-toc"></nav>
         </aside>
+        
+        <!-- TOC Toggle Button -->
+        <button id="toc-toggle" aria-expanded="true" title="切换章节索引显示/隐藏">
+            <i class="fas fa-list"></i>
+        </button>
 
         <article class="note-content card" id="note-content">
             <script type="text/markdown" id="note-markdown">
-# WebGIS开发实践
+# TOC滚动测试文档
 
-这是关于WebGIS开发实践的笔记，记录了从基础概念到实际项目中的一些经验。
+这是一个用于测试长目录滚动行为的文档，包含多个标题和子标题。
 
-## 1. 核心概念
+## 1. 第一章标题
 
-WebGIS的核心是将地理空间数据通过Web技术进行展示、分析和交互。
+这是第一章内容，可以在这里编写正文。
 
-### 1.1 地图引擎
+### 1.1 子章节示例
 
-- **OpenLayers**: 功能强大，社区活跃，适合复杂GIS应用。
-- **Leaflet**: 轻量级，API简单，适合快速开发和移动端应用。
+子章节内容。
 
-### 1.2 数据格式
+### 1.2 另一个子章节
 
-- **GeoJSON**: 基于JSON的地理空间数据格式，Web友好。
-- **KML/KMZ**: Google Earth使用的格式，适合标记和简单矢量。
-- **Shapefile**: 传统的GIS数据格式，通常需要在服务端转换为Web格式。
+子章节内容。
 
-## 2. OpenLayers入门
+## 2. 第二章标题
 
-创建一个基本的OpenLayers地图非常简单。
+将本模板复制后，替换内容即可创建新笔记。
 
-\`\`\`javascript
-import Map from 'ol/Map';
-import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
+### 2.1 第二章子节
 
-const map = new Map({
-  target: 'map-container',
-  layers: [
-    new TileLayer({
-      source: new OSM()
-    })
-  ],
-  view: new View({
-    center: [0, 0],
-    zoom: 2
-  })
-});
-\`\`\`
+- 这是第二章的子节点
+- 包含一些列表内容
 
-> **注意**: `target`需要对应HTML中一个div的id。
+### 2.2 第二章另一个子节
 
-## 3. 交互与控件
+更多内容...
 
-为地图添加交互功能是提升用户体验的关键。
+## 3. 第三章标题
 
-- **缩放**: `ZoomSlider`, `Zoom`
-- **平移**: 默认支持
-- **选择要素**: `Select` interaction
-- **绘制要素**: `Draw` interaction
+一些测试内容。
 
-## 4. 性能优化
+### 3.1 子节内容
 
-- **矢量切片 (Vector Tiles)**: 在客户端渲染，提供高分辨率和动态样式。
-- **数据抽稀**: 在不同缩放级别下显示不同密度的点。
-- **代码分割**: 按需加载地图模块。
+代码示例：
+
+```javascript
+// JavaScript代码示例
+function exampleFunction() {
+    console.log("Hello, World!");
+}
+```
+
+### 3.2 更多子节
+
+更多内容...
+
+## 4. 第四章标题
+
+内容...
+
+### 4.1 子节点
+
+内容...
+
+### 4.2 另一个子节点
+
+更多内容...
+
+## 5. 第五章标题
+
+内容...
+
+### 5.1 子节点
+
+内容...
+
+### 5.2 另一个子节点
+
+更多内容...
+
+## 6. 第六章标题
+
+内容...
+
+### 6.1 子节点
+
+内容...
+
+### 6.2 另一个子节点
+
+更多内容...
+
+## 7. 第七章标题
+
+内容...
+
+### 7.1 子节点
+
+内容...
+
+### 7.2 另一个子节点
+
+更多内容...
+
+## 8. 第八章标题
+
+内容...
+
+### 8.1 子节点
+
+内容...
+
+### 8.2 另一个子节点
+
+更多内容...
+
+## 9. 第九章标题
+
+内容...
+
+### 9.1 子节点
+
+内容...
+
+### 9.2 另一个子节点
+
+更多内容...
+
+## 10. 第十章标题
+
+内容...
+
+### 10.1 子节点
+
+内容...
+
+### 10.2 另一个子节点
+
+更多内容...
+
+## 11. 第十一章标题
+
+内容...
+
+### 11.1 子节点
+
+内容...
+
+### 11.2 另一个子节点
+
+更多内容...
+
+## 12. 第十二章标题
+
+内容...
+
+### 12.1 子节点
+
+内容...
+
+### 12.2 另一个子节点
+
+更多内容...
+
+## 13. 第十三章标题
+
+内容...
+
+### 13.1 子节点
+
+内容...
+
+### 13.2 另一个子节点
+
+更多内容...
+
+## 14. 第十四章标题
+
+内容...
+
+### 14.1 子节点
+
+内容...
+
+### 14.2 另一个子节点
+
+更多内容...
+
+## 15. 第十五章标题
+
+内容...
+
+### 15.1 子节点
+
+内容...
+
+### 15.2 另一个子节点
+
+更多内容...
 
 ---
 
-*笔记持续更新中...*
+*测试文档结束*
             </script>
-    </article>
+        </article>
     </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <!-- Load highlight.js with defer to improve page load performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
+    
     <script>
-        (function () {
-            var src = document.getElementById('note-markdown');
-            if (!src) return;
-            var md = src.textContent || src.innerText || '';
-            var html = (window.marked || window.markdownit && window.markdownit()).parse ? (window.marked ? window.marked.parse(md) : window.markdownit().render(md)) : md;
-            var container = document.getElementById('note-content');
-            container.innerHTML = html;
-            if (window.buildNoteTOC) window.buildNoteTOC();
-            container.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightBlock(block);
+        // Optimized markdown rendering
+        document.addEventListener('DOMContentLoaded', function() {
+            // Process markdown asynchronously for better performance
+            setTimeout(function() {
+                const src = document.getElementById('note-markdown');
+                if (!src) return;
+                
+                // Extract markdown content
+                const md = src.textContent || src.innerText || '';
+                
+                // Process markdown in chunks for better responsiveness
+                processMarkdown(md, function(html) {
+                    const container = document.getElementById('note-content');
+                    if (!container) return;
+                    
+                    // Insert the HTML
+                    container.innerHTML = html;
+                    
+                    // Build table of contents
+                    if (window.buildNoteTOC) {
+                        requestAnimationFrame(function() {
+                            window.buildNoteTOC();
+                            
+                            // Set up TOC toggle functionality
+                            setupTocToggle();
+                        });
+                    }
+                    
+                    // Apply syntax highlighting
+                    if (window.hljs) {
+                        // Use requestIdleCallback for non-critical task if available
+                        (window.requestIdleCallback || setTimeout)(function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        }, { timeout: 500 });
+                    } else {
+                        // Wait for highlight.js to load
+                        window.onhljsready = function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        };
+                    }
+                });
+            }, 0);
+        });
+        
+        // Process markdown in chunks for better UI responsiveness
+        function processMarkdown(md, callback) {
+            // Use requestAnimationFrame to avoid blocking the main thread
+            requestAnimationFrame(function() {
+                let html;
+                try {
+                    // Use available markdown parser
+                    if (window.marked) {
+                        html = window.marked.parse(md);
+                    } else if (window.markdownit) {
+                        html = window.markdownit().render(md);
+                    } else {
+                        html = md; // Fallback
+                    }
+                    callback(html);
+                } catch (e) {
+                    console.error('Error parsing markdown:', e);
+                    callback('<p>Error parsing markdown content.</p>');
+                }
             });
-        })();
+        }
+        
+        // Set up TOC toggle functionality
+        function setupTocToggle() {
+            const tocToggle = document.getElementById('toc-toggle');
+            const tocAside = document.querySelector('.note-toc');
+            
+            if (tocToggle && tocAside) {
+                tocToggle.addEventListener('click', function() {
+                    tocAside.classList.toggle('note-toc--collapsed');
+                    const collapsed = tocAside.classList.contains('note-toc--collapsed');
+                    tocToggle.setAttribute('aria-expanded', String(!collapsed));
+                    
+                    // 缓存状态到localStorage
+                    try { 
+                        localStorage.setItem('note-toc-collapsed', collapsed ? '1' : '0'); 
+                    } catch (err) {}
+                    
+                    // 立即更新视觉状态
+                    if (window.innerWidth >= 769) {
+                        if (collapsed) {
+                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
+                            tocAside.style.right = '12px';
+                        } else {
+                            tocAside.style.transform = 'translateY(-50%) translateZ(0)';
+                            tocAside.style.right = '28px';
+                        }
+                    }
+                });
+                
+                // 恢复保存的状态
+                try {
+                    const saved = localStorage.getItem('note-toc-collapsed');
+                    if (saved === '1') {
+                        tocAside.classList.add('note-toc--collapsed');
+                        if (window.innerWidth >= 769) {
+                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
+                            tocAside.style.right = '12px';
+                        }
+                        tocToggle.setAttribute('aria-expanded', 'false');
+                    }
+                } catch (err) {}
+            }
+        }
+        
+        // Set up highlight.js load callback
+        if (typeof hljs === 'undefined') {
+            window.addEventListener('load', function() {
+                if (typeof hljs !== 'undefined' && typeof window.onhljsready === 'function') {
+                    window.onhljsready();
+                }
+            });
+        }
     </script>
 </body>
 </html>

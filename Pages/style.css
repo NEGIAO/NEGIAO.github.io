@@ -422,6 +422,33 @@ a:focus {
   padding-left: var(--space-sm);
 }
 
+/* 不同级别标题的样式差异 */
+.note-toc__link.toc-level-1 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.note-toc__link.toc-level-2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.note-toc__link.toc-level-3 {
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.note-toc__link.toc-level-4,
+.note-toc__link.toc-level-5,
+.note-toc__link.toc-level-6 {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
 .note-toc__link:hover { 
   color: var(--primary);
   background: linear-gradient(90deg, rgba(0,217,255,0.06), rgba(78,205,196,0.02));
@@ -436,8 +463,11 @@ a:focus {
 }
 
 /* Indentation by heading level */
-.note-toc-level-h3 { margin-left: var(--space-lg); }
-.note-toc-level-h4 { margin-left: calc(var(--space-lg) * 2); font-size: 0.85rem; }
+.note-toc-level-h2 { margin-left: 0; }
+.note-toc-level-h3 { margin-left: var(--space-md); }
+.note-toc-level-h4 { margin-left: calc(var(--space-md) * 2); }
+.note-toc-level-h5 { margin-left: calc(var(--space-md) * 3); }
+.note-toc-level-h6 { margin-left: calc(var(--space-md) * 4); }
 
 /* custom scrollbar for TOC */
 .note-toc::-webkit-scrollbar,
@@ -480,11 +510,34 @@ a:focus {
     max-height: 50vh; /* 在移动设备上限制最大高度 */
   }
   .note-toc__nav {
-    max-height: calc(50vh - 60px); /* 在移动设备上调整导航区域最大高度 */
+    max-height: calc(50vh - 20px); /* 在移动设备上调整导航区域最大高度 */
   }
   .note-content {
     padding: var(--space-md);
   }
+  
+  /* 目录在移动设备上的样式优化 */
+  .note-toc__link.toc-level-1 {
+    font-size: 1.05rem;
+  }
+  .note-toc__link.toc-level-2 {
+    font-size: 0.95rem;
+  }
+  .note-toc__link.toc-level-3 {
+    font-size: 0.85rem;
+  }
+  .note-toc__link.toc-level-4,
+  .note-toc__link.toc-level-5,
+  .note-toc__link.toc-level-6 {
+    font-size: 0.8rem;
+  }
+  
+  /* 减小移动设备上的缩进距离 */
+  .note-toc-level-h2 { margin-left: 0; }
+  .note-toc-level-h3 { margin-left: var(--space-sm); }
+  .note-toc-level-h4 { margin-left: calc(var(--space-sm) * 2); }
+  .note-toc-level-h5 { margin-left: calc(var(--space-sm) * 3); }
+  .note-toc-level-h6 { margin-left: calc(var(--space-sm) * 4); }
 }
 
 .section {

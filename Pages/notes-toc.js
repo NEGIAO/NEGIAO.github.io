@@ -111,7 +111,10 @@
       const a = document.createElement('a');
       a.href = '#' + id;
       a.textContent = h.textContent;
-      a.className = 'note-toc__link';
+      
+      // 获取标题级别并添加对应的类名
+      const level = parseInt(h.tagName.charAt(1));
+      a.className = 'note-toc__link toc-level-' + level;
       a.addEventListener('click', function (e) {
         e.preventDefault();
         

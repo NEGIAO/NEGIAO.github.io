@@ -1225,7 +1225,7 @@
             document.getElementById('timeDisplay').textContent = timeString;
         }
 
-        // 获取当前时间对应的课程状态
+        // 获取当前时间对应的课程状态 - 重新设计版本
         function getCurrentPeriodStatus() {
             const now = new Date();
             const currentDay = now.getDay(); // 0=周日, 1=周一, ..., 6=周六
@@ -1236,54 +1236,109 @@
                 return { current: null, next: null };
             }
 
-            let currentPeriod = null;
-            let nextPeriod = null;
+            let currentCourseBlocks = [];
+            let nextCourseBlock = null;
 
-            // 检查当前是否在课程时间内
-            for (let i = 0; i < timeSlots.length; i++) {
-                const slot = timeSlots[i];
-                const startTime = parseInt(slot.start.split(':')[0]) * 60 + parseInt(slot.start.split(':')[1]);
-                const endTime = parseInt(slot.end.split(':')[0]) * 60 + parseInt(slot.end.split(':')[1]);
+            // 找出当前正在进行的课程块
+            for (let period = 1; period <= 13; period++) {
+                if (schedule[currentDay] && schedule[currentDay][period]) {
+                    const slot = timeSlots.find(s => s.period === period);
+                    const startTime = timeToMinutes(slot.start);
+                    const endTime = timeToMinutes(slot.end);
 
-                if (currentTime >= startTime && currentTime <= endTime) {
-                    // 当前在课程时间内，检查是否有课程安排
-                    if (schedule[currentDay] && schedule[currentDay][slot.period]) {
-                        currentPeriod = { day: currentDay, period: slot.period };
+                    // 检查当前时间是否在这个课程时间范围内
+                    if (currentTime >= startTime && currentTime <= endTime) {
+                        // 找到这个课程的完整时间块（连续的同名课程）
+                        const courseBlock = findCourseBlock(currentDay, period);
+                        if (courseBlock) {
+                            currentCourseBlocks.push(courseBlock);
+                        }
+                        break; // 找到当前课程就退出
                     }
-                    // 查找下一节课
-                    for (let j = i + 1; j < timeSlots.length; j++) {
-                        if (schedule[currentDay] && schedule[currentDay][timeSlots[j].period]) {
-                            nextPeriod = { day: currentDay, period: timeSlots[j].period };
+                }
+            }
+
+            // 如果没有当前课程，或者当前课程即将结束，找下一节课
+            if (currentCourseBlocks.length === 0) {
+                // 找下一节有课的时间段
+                for (let period = 1; period <= 13; period++) {
+                    if (schedule[currentDay] && schedule[currentDay][period]) {
+                        const slot = timeSlots.find(s => s.period === period);
+                        const startTime = timeToMinutes(slot.start);
+
+                        if (currentTime < startTime) {
+                            nextCourseBlock = findCourseBlock(currentDay, period);
                             break;
                         }
                     }
+                }
+            } else {
+                // 如果有当前课程，找当前课程结束后的下一节课
+                const currentBlock = currentCourseBlocks[0];
+                for (let period = currentBlock.endPeriod + 1; period <= 13; period++) {
+                    if (schedule[currentDay] && schedule[currentDay][period]) {
+                        nextCourseBlock = findCourseBlock(currentDay, period);
+                        break;
+                    }
+                }
+            }
+
+            return { 
+                current: currentCourseBlocks.length > 0 ? currentCourseBlocks[0] : null, 
+                next: nextCourseBlock 
+            };
+        }
+
+        // 找到一个课程的完整时间块（连续的同名课程）
+        function findCourseBlock(day, startPeriod) {
+            if (!schedule[day] || !schedule[day][startPeriod]) {
+                return null;
+            }
+
+            const courseName = schedule[day][startPeriod].name;
+            const courseLocation = schedule[day][startPeriod].location;
+            
+            // 向前查找块的真正开始
+            let blockStart = startPeriod;
+            for (let p = startPeriod - 1; p >= 1; p--) {
+                if (schedule[day][p] && 
+                    schedule[day][p].name === courseName && 
+                    isAdjacentPeriod(p, p + 1)) {
+                    blockStart = p;
+                } else {
                     break;
                 }
             }
 
-            // 如果当前没有课程，查找下一节课（包括通勤时间提醒）
-            if (!currentPeriod) {
-                for (let i = 0; i < timeSlots.length; i++) {
-                    const slot = timeSlots[i];
-                    const startTime = parseInt(slot.start.split(':')[0]) * 60 + parseInt(slot.start.split(':')[1]);
-                    
-                    // 检查是否有课程安排
-                    if (schedule[currentDay] && schedule[currentDay][slot.period]) {
-                        // 如果距离上课时间在40分钟以内，显示为下节课（通勤提醒）
-                        if (currentTime < startTime && (startTime - currentTime) <= 40) {
-                            nextPeriod = { day: currentDay, period: slot.period };
-                            break;
-                        }
-                        // 如果课程还没开始，且不在通勤时间内
-                        else if (currentTime < startTime) {
-                            nextPeriod = { day: currentDay, period: slot.period };
-                            break;
-                        }
-                    }
+            // 向后查找块的结束
+            let blockEnd = startPeriod;
+            for (let p = startPeriod + 1; p <= 13; p++) {
+                if (schedule[day][p] && 
+                    schedule[day][p].name === courseName && 
+                    isAdjacentPeriod(p - 1, p)) {
+                    blockEnd = p;
+                } else {
+                    break;
                 }
             }
 
-            return { current: currentPeriod, next: nextPeriod };
+            const startSlot = timeSlots.find(s => s.period === blockStart);
+            const endSlot = timeSlots.find(s => s.period === blockEnd);
+
+            const block = {
+                day: day,
+                startPeriod: blockStart,
+                endPeriod: blockEnd,
+                courseName: courseName,
+                location: courseLocation,
+                startTime: timeToMinutes(startSlot.start),
+                endTime: timeToMinutes(endSlot.end)
+            };
+
+            // 调试输出（可选，可以注释掉）
+            // console.log('Found course block:', block);
+            
+            return block;
         }
 
         // 生成课程表HTML
@@ -1376,21 +1431,24 @@
                             </div>
                         `;
                         
-                        // 添加当前课程或下节课的高亮（只对当前具体的课程时段高亮）
+                        // 添加课程状态高亮 - 新的块级逻辑
                         if (status.current && status.current.day === day && 
-                            status.current.period === slot.period) {
+                            slot.period >= status.current.startPeriod && 
+                            slot.period <= status.current.endPeriod &&
+                            schedule[day][slot.period] && 
+                            schedule[day][slot.period].name === status.current.courseName) {
                             cell.classList.add('current-period');
                         } else if (status.next && status.next.day === day && 
-                                   status.next.period === slot.period) {
-                            // 检查是否在通勤时间内（课程开始前40分钟内）
+                                   slot.period >= status.next.startPeriod && 
+                                   slot.period <= status.next.endPeriod &&
+                                   schedule[day][slot.period] && 
+                                   schedule[day][slot.period].name === status.next.courseName) {
+                            // 检查是否在通勤时间内（课程块开始前40分钟内）
                             const now = new Date();
                             const currentTime = now.getHours() * 60 + now.getMinutes();
                             
-                            // 使用当前课程块的实际开始时间
-                            const currentSlot = timeSlots.find(s => s.period === slot.period);
-                            const startTime = timeToMinutes(currentSlot.start);
-                            
-                            if (currentTime < startTime && (startTime - currentTime) <= 40) {
+                            if (currentTime < status.next.startTime && 
+                                (status.next.startTime - currentTime) <= 40) {
                                 cell.classList.add('commute-period');
                             } else {
                                 cell.classList.add('next-period');
@@ -1419,16 +1477,20 @@
             updateCurrentTime();
             generateScheduleTable();
             
-            // 优化：减少更新频率，只在需要时更新
+            // 时间显示每秒更新（性能影响很小）
+            setInterval(() => {
+                updateCurrentTime();
+            }, 1000);
+            
+            // 课程状态每分钟更新一次（减少性能消耗）
             setInterval(() => {
                 const now = Date.now();
-                // 每分钟更新一次，减少性能消耗
+                // 每分钟更新一次课程状态和表格
                 if (now - lastUpdateTime >= 60000) {
-                    updateCurrentTime();
                     generateScheduleTable();
                     lastUpdateTime = now;
                 }
-            }, 60000); // 改为1分钟更新一次
+            }, 60000);
             
             // 添加页面可见性API优化
             document.addEventListener('visibilitychange', () => {

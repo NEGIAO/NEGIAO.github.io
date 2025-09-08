@@ -545,116 +545,57 @@
             color: var(--text-muted);
         }
 
-        /* 现代化当前课程高亮 - 增强呼吸灯效果 */
+        /* 现代化当前课程高亮 - 简化版本 */
         .current-period {
             background: linear-gradient(135deg, 
-                rgba(76, 175, 80, 0.95) 0%, 
-                rgba(129, 199, 132, 0.9) 50%,
-                rgba(165, 214, 167, 0.85) 100%) !important;
-            border: 2px solid rgba(255, 255, 255, 0.4) !important;
-            box-shadow: 
-                0 15px 35px rgba(76, 175, 80, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                0 0 40px rgba(76, 175, 80, 0.6) !important;
-            animation: currentBreathingGlow 3s ease-in-out infinite;
-            position: relative;
-            overflow: visible;
-            z-index: 5;
+                rgba(76, 175, 80, 0.2) 0%, 
+                rgba(129, 199, 132, 0.15) 50%,
+                rgba(165, 214, 167, 0.1) 100%) !important;
         }
 
-        .current-period::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            background: linear-gradient(45deg, 
-                rgba(76, 175, 80, 0.3) 0%, 
-                rgba(255, 255, 255, 0.4) 25%, 
-                rgba(76, 175, 80, 0.3) 50%,
-                rgba(255, 255, 255, 0.4) 75%,
-                rgba(76, 175, 80, 0.3) 100%);
-            border-radius: inherit;
-            animation: currentShimmer 2s infinite;
-            z-index: -1;
-        }
 
-        .current-period::after {
-            content: '🔥';
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            font-size: 1.2rem;
-            animation: currentPulse 2s ease-in-out infinite;
-            z-index: 10;
-        }
 
         .current-period .course-name {
-            color: #ffffff !important;
-            font-weight: 700;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-            position: relative;
-            z-index: 1;
+            color: var(--text) !important;
+            font-weight: 600;
         }
 
         .current-period .course-location {
-            color: rgba(255, 255, 255, 0.95) !important;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
-            position: relative;
-            z-index: 1;
+            color: var(--text-muted) !important;
         }
 
-        /* 现代化下节课程高亮 */
+        /* 现代化下节课程高亮 - 简化版本 */
         .next-period {
             background: linear-gradient(135deg, 
-                rgba(255, 152, 0, 0.9) 0%, 
-                rgba(255, 183, 77, 0.85) 50%,
-                rgba(255, 204, 128, 0.8) 100%) !important;
-            border: 2px solid rgba(255, 255, 255, 0.4) !important;
-            box-shadow: 
-                0 12px 28px rgba(255, 152, 0, 0.35),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(255, 152, 0, 0.5) !important;
-            animation: nextGlow 2.5s ease-in-out infinite alternate;
-            position: relative;
+                rgba(255, 152, 0, 0.2) 0%, 
+                rgba(255, 183, 77, 0.15) 50%,
+                rgba(255, 204, 128, 0.1) 100%) !important;
         }
 
         .next-period .course-name {
-            color: #ffffff !important;
+            color: var(--text) !important;
             font-weight: 600;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
         }
 
         .next-period .course-location {
-            color: rgba(255, 255, 255, 0.9) !important;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            color: var(--text-muted) !important;
         }
 
-        /* 现代化通勤提醒高亮 */
+        /* 现代化通勤提醒高亮 - 简化版本 */
         .commute-period {
             background: linear-gradient(135deg, 
-                rgba(33, 150, 243, 0.9) 0%, 
-                rgba(100, 181, 246, 0.85) 50%,
-                rgba(144, 202, 249, 0.8) 100%) !important;
-            border: 2px solid rgba(255, 255, 255, 0.4) !important;
-            box-shadow: 
-                0 12px 28px rgba(33, 150, 243, 0.35),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(33, 150, 243, 0.5) !important;
-            animation: commuteRipple 2s ease-in-out infinite;
-            position: relative;
+                rgba(33, 150, 243, 0.2) 0%, 
+                rgba(100, 181, 246, 0.15) 50%,
+                rgba(144, 202, 249, 0.1) 100%) !important;
         }
 
         .commute-period .course-name {
-            color: #ffffff !important;
-            font-weight: 700;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+            color: var(--text) !important;
+            font-weight: 600;
         }
 
         .commute-period .course-location {
-            color: rgba(255, 255, 255, 0.95) !important;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+            color: var(--text-muted) !important;
         }
 
         /* 现代化动画效果 */
@@ -669,63 +610,7 @@
             }
         }
 
-        @keyframes currentBreathingGlow {
-            0%, 100% {
-                box-shadow: 
-                    0 15px 35px rgba(76, 175, 80, 0.4),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                    0 0 40px rgba(76, 175, 80, 0.6),
-                    0 0 60px rgba(76, 175, 80, 0.3);
-                transform: scale(1);
-                border-color: rgba(255, 255, 255, 0.4);
-            }
-            50% {
-                box-shadow: 
-                    0 25px 50px rgba(76, 175, 80, 0.7),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                    0 0 80px rgba(76, 175, 80, 0.9),
-                    0 0 120px rgba(76, 175, 80, 0.5);
-                transform: scale(1.03);
-                border-color: rgba(255, 255, 255, 0.7);
-            }
-        }
 
-        @keyframes currentShimmer {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        @keyframes nextGlow {
-            0% { 
-                box-shadow: 
-                    0 12px 28px rgba(255, 152, 0, 0.35),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                    0 0 30px rgba(255, 152, 0, 0.5);
-            }
-            100% { 
-                box-shadow: 
-                    0 16px 35px rgba(255, 152, 0, 0.5),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                    0 0 45px rgba(255, 152, 0, 0.7);
-            }
-        }
-
-        @keyframes commuteRipple {
-            0%, 100% {
-                box-shadow: 
-                    0 12px 28px rgba(33, 150, 243, 0.35),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-                    0 0 30px rgba(33, 150, 243, 0.5);
-                transform: scale(1);
-            }
-            50% {
-                box-shadow: 
-                    0 16px 35px rgba(33, 150, 243, 0.5),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                    0 0 45px rgba(33, 150, 243, 0.7);
-                transform: scale(1.005);
-            }
-        }
 
         /* Empty period */
         .empty-period {

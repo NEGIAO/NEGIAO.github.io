@@ -1153,7 +1153,7 @@
             '摄影测量学': 'course-photogrammetry'
         };
 
-        // 检查连续课程
+        // 检查连续课程 - 修复版本，只有时间真正连续才合并
         function getContinuousCourses(day, period) {
             if (!schedule[day] || !schedule[day][period]) {
                 return { isFirst: false, isLast: false, isMiddle: false, isSingle: true };
@@ -1164,15 +1164,17 @@
             let isLast = true;
             let isMiddle = false;
 
-            // 检查前一节课
+            // 检查前一节课：必须是相邻的节次且课程名称相同
             if (period > 1 && schedule[day][period - 1] && 
-                schedule[day][period - 1].name === currentCourse.name) {
+                schedule[day][period - 1].name === currentCourse.name &&
+                isAdjacentPeriod(period - 1, period)) {
                 isFirst = false;
             }
 
-            // 检查后一节课
+            // 检查后一节课：必须是相邻的节次且课程名称相同
             if (period < 13 && schedule[day][period + 1] && 
-                schedule[day][period + 1].name === currentCourse.name) {
+                schedule[day][period + 1].name === currentCourse.name &&
+                isAdjacentPeriod(period, period + 1)) {
                 isLast = false;
             }
 
@@ -1184,6 +1186,28 @@
             const isSingle = isFirst && isLast;
 
             return { isFirst, isLast, isMiddle, isSingle };
+        }
+
+        // 检查两个节次是否在时间上相邻（考虑课间休息）
+        function isAdjacentPeriod(period1, period2) {
+            const slot1 = timeSlots.find(s => s.period === period1);
+            const slot2 = timeSlots.find(s => s.period === period2);
+            
+            if (!slot1 || !slot2) return false;
+            
+            // 转换时间为分钟数进行比较
+            const end1 = timeToMinutes(slot1.end);
+            const start2 = timeToMinutes(slot2.start);
+            
+            // 如果两节课之间的间隔小于等于20分钟，认为是连续的
+            // 这样可以包括正常的课间休息（10-15分钟）
+            return (start2 - end1) <= 20;
+        }
+
+        // 将时间字符串转换为分钟数
+        function timeToMinutes(timeStr) {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes;
         }
 
         // 更新当前时间显示
@@ -1317,14 +1341,15 @@
                     if (schedule[day] && schedule[day][slot.period]) {
                         const course = schedule[day][slot.period];
                         
-                        // 计算连续课程的数量
+                        // 计算真正连续课程的数量（考虑时间间隔）
                         let continuousCount = 1;
                         let currentPeriod = slot.period + 1;
                         
                         while (currentPeriod <= 13 && 
                                schedule[day] && 
                                schedule[day][currentPeriod] && 
-                               schedule[day][currentPeriod].name === course.name) {
+                               schedule[day][currentPeriod].name === course.name &&
+                               isAdjacentPeriod(currentPeriod - 1, currentPeriod)) {
                             continuousCount++;
                             processedCells.add(`${day}-${currentPeriod}`);
                             currentPeriod++;
@@ -1351,30 +1376,19 @@
                             </div>
                         `;
                         
-                        // 添加当前课程或下节课的高亮（应用到整个连续课程块）
+                        // 添加当前课程或下节课的高亮（只对当前具体的课程时段高亮）
                         if (status.current && status.current.day === day && 
-                            schedule[day] && schedule[day][status.current.period] && 
-                            schedule[day][status.current.period].name === course.name) {
+                            status.current.period === slot.period) {
                             cell.classList.add('current-period');
                         } else if (status.next && status.next.day === day && 
-                                   schedule[day] && schedule[day][status.next.period] && 
-                                   schedule[day][status.next.period].name === course.name) {
+                                   status.next.period === slot.period) {
                             // 检查是否在通勤时间内（课程开始前40分钟内）
                             const now = new Date();
                             const currentTime = now.getHours() * 60 + now.getMinutes();
                             
-                            // 找到这个课程的第一节课时间
-                            let firstPeriod = slot.period;
-                            for (let p = slot.period - 1; p >= 1; p--) {
-                                if (schedule[day] && schedule[day][p] && schedule[day][p].name === course.name) {
-                                    firstPeriod = p;
-                                } else {
-                                    break;
-                                }
-                            }
-                            
-                            const firstSlot = timeSlots.find(s => s.period === firstPeriod);
-                            const startTime = parseInt(firstSlot.start.split(':')[0]) * 60 + parseInt(firstSlot.start.split(':')[1]);
+                            // 使用当前课程块的实际开始时间
+                            const currentSlot = timeSlots.find(s => s.period === slot.period);
+                            const startTime = timeToMinutes(currentSlot.start);
                             
                             if (currentTime < startTime && (startTime - currentTime) <= 40) {
                                 cell.classList.add('commute-period');

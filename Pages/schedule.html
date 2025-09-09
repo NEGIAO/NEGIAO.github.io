@@ -545,12 +545,14 @@
             color: var(--text-muted);
         }
 
-        /* 现代化当前课程高亮 - 简化版本 */
+        /* 当前课程高亮 - 呼吸灯效果 */
         .current-period {
             background: linear-gradient(135deg, 
-                rgba(76, 175, 80, 0.2) 0%, 
-                rgba(129, 199, 132, 0.15) 50%,
-                rgba(165, 214, 167, 0.1) 100%) !important;
+                rgba(76, 175, 80, 0.18) 0%, 
+                rgba(129, 199, 132, 0.13) 50%,
+                rgba(165, 214, 167, 0.09) 100%) !important;
+            animation: breathingGlow 2.8s ease-in-out infinite;
+            box-shadow: 0 0 0 0 rgba(76,175,80,0.18), 0 2px 8px rgba(76,175,80,0.10);
         }
 
 
@@ -559,9 +561,19 @@
             color: var(--text) !important;
             font-weight: 600;
         }
-
         .current-period .course-location {
             color: var(--text-muted) !important;
+        }
+        /* 呼吸灯动画 */
+        @keyframes breathingGlow {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(76,175,80,0.18), 0 2px 8px rgba(76,175,80,0.10);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 16px 8px rgba(76,175,80,0.22), 0 4px 16px rgba(76,175,80,0.13);
+                transform: scale(1.025);
+            }
         }
 
         /* 现代化下节课程高亮 - 简化版本 */

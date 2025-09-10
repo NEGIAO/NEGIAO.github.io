@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R语言空间分析 - NEGIAO</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <script defer src="../notes-toc.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="../../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="../notes.html" class="btn btn--secondary">返回索引</a>
+        </div>
+    </nav>
+
+    <main class="container section note-layout">
+        <aside class="note-toc card" aria-label="文章章节目录">
+            <nav class="note-toc__nav" id="note-toc"></nav>
+        </aside>
+        
+        <!-- TOC Toggle Button -->
+        <button id="toc-toggle" aria-expanded="true" title="切换章节索引显示/隐藏">
+            <i class="fas fa-list"></i>
+        </button>
+
+        <article class="note-content card" id="note-content">
+            <script type="text/markdown" id="note-markdown">
+# R语言空间分析
+
+## 基础环境配置
+
+### 安装必要的R包
+
+```r
+# 安装空间分析相关包
+install.packages(c("sf", "sp", "rgdal", "raster", "tmap", "leaflet", "ggplot2"))
+
+# 载入包
+library(sf)
+library(sp) 
+library(rgdal)
+library(raster)
+library(tmap)
+library(leaflet)
+library(ggplot2)
+```
+
+## 空间数据读取与处理
+
+### 读取Shapefile文件
+
+```r
+# 读取shapefile
+cities <- st_read("data/cities.shp")
+
+# 查看数据结构
+str(cities)
+head(cities)
+
+# 查看坐标参考系统
+st_crs(cities)
+```
+
+### 坐标系转换
+
+```r
+# 转换到WGS84地理坐标系
+cities_wgs84 <- st_transform(cities, crs = 4326)
+
+# 转换到投影坐标系(以UTM Zone 50N为例)
+cities_utm <- st_transform(cities, crs = 32650)
+
+# 检查转换结果
+st_crs(cities_utm)
+```
+
+## 空间分析操作
+
+### 缓冲区分析
+
+```r
+# 创建500米缓冲区
+buffer_500m <- st_buffer(cities_utm, dist = 500)
+
+# 创建多级缓冲区
+buffer_multi <- st_buffer(cities_utm, 
+                         dist = c(500, 1000, 2000))
+
+# 可视化缓冲区
+plot(st_geometry(buffer_500m), 
+     col = "lightblue", 
+     main = "500米缓冲区分析")
+plot(st_geometry(cities_utm), 
+     col = "red", 
+     pch = 16, 
+     add = TRUE)
+```
+
+### 空间叠加分析
+
+```r
+# 点在面内查询
+result <- st_within(points, polygons)
+
+# 空间相交
+intersect_result <- st_intersection(layer1, layer2)
+
+# 空间联合
+union_result <- st_union(polygons)
+
+# 计算面积(需要投影坐标系)
+polygons$area_km2 <- as.numeric(st_area(polygons)) / 1000000
+```
+
+### 距离计算
+
+```r
+# 计算点之间的距离矩阵
+dist_matrix <- st_distance(cities_utm)
+
+# 计算到最近邻的距离
+nearest_dist <- apply(dist_matrix, 1, function(x) min(x[x > 0]))
+
+# 添加到数据框
+cities_utm$nearest_dist <- as.numeric(nearest_dist)
+```
+
+## 空间可视化
+
+### 使用ggplot2绘图
+
+```r
+# 基础空间图
+ggplot(cities_wgs84) +
+  geom_sf(aes(color = population, size = population)) +
+  scale_color_viridis_c() +
+  theme_minimal() +
+  labs(title = "城市人口分布图",
+       color = "人口数量",
+       size = "人口数量")
+```
+
+### 使用tmap制作专题地图
+
+```r
+# 设置tmap模式
+tmap_mode("plot")  # 静态地图
+# tmap_mode("view") # 交互式地图
+
+# 创建专题地图
+tm_shape(provinces) +
+  tm_polygons("GDP", 
+              style = "quantile",
+              palette = "Blues",
+              title = "GDP (万元)") +
+  tm_shape(cities) +
+  tm_dots("population", 
+          size = 0.8,
+          col = "red",
+          title.size = "人口") +
+  tm_layout(title = "省市经济与人口分布图",
+            title.position = c("center", "top"))
+```
+
+### 交互式地图
+
+```r
+# 使用leaflet创建交互式地图
+leaflet(cities_wgs84) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    radius = ~sqrt(population)/100,
+    color = "red",
+    fillOpacity = 0.7,
+    popup = ~paste("城市:", name, "<br>",
+                   "人口:", population)
+  ) %>%
+  addLegend(position = "bottomright",
+            title = "城市人口",
+            colors = "red",
+            labels = "城市位置")
+```
+
+## 空间统计分析
+
+### 空间自相关分析
+
+```r
+# 安装和载入spdep包
+library(spdep)
+
+# 构建空间权重矩阵
+coords <- st_coordinates(st_centroid(polygons))
+nb <- knn2nb(knearneigh(coords, k = 6))
+w <- nb2listw(nb, style = "W")
+
+# 计算Moran's I
+moran_result <- moran.test(polygons$gdp, w)
+print(moran_result)
+
+# 局部空间自相关(LISA)
+lisa <- localmoran(polygons$gdp, w)
+polygons$lisa_pvalue <- lisa[,5]
+polygons$lisa_cluster <- ifelse(lisa[,5] < 0.05, "显著", "不显著")
+```
+
+### 热点分析
+
+```r
+# Getis-Ord Gi*统计
+gi_star <- localG(polygons$gdp, w)
+polygons$gi_star <- as.numeric(gi_star)
+
+# 分类热点和冷点
+polygons$hotspot <- ifelse(polygons$gi_star > 1.96, "热点",
+                  ifelse(polygons$gi_star < -1.96, "冷点", "无显著性"))
+
+# 可视化热点分析结果
+ggplot(polygons) +
+  geom_sf(aes(fill = hotspot)) +
+  scale_fill_manual(values = c("热点" = "red", 
+                              "冷点" = "blue", 
+                              "无显著性" = "grey")) +
+  theme_void() +
+  labs(title = "GDP热点分析", fill = "类型")
+```
+
+## 栅格数据处理
+
+### 栅格数据读取
+
+```r
+# 读取栅格数据
+dem <- raster("data/elevation.tif")
+
+# 查看栅格信息
+print(dem)
+plot(dem, main = "数字高程模型")
+```
+
+### 栅格计算
+
+```r
+# 计算坡度
+slope <- terrain(dem, opt = "slope", unit = "degrees")
+
+# 计算坡向
+aspect <- terrain(dem, opt = "aspect", unit = "degrees")
+
+# 栅格重分类
+slope_class <- cut(slope, 
+                   breaks = c(0, 5, 15, 25, 90),
+                   labels = c("平缓", "缓坡", "陡坡", "急坡"))
+
+# 栅格叠加分析
+stack_layers <- stack(dem, slope, aspect)
+names(stack_layers) <- c("elevation", "slope", "aspect")
+```
+
+## 实际应用案例
+
+### 商业选址分析
+
+```r
+# 1. 数据准备
+shops <- st_read("data/existing_shops.shp")
+population <- st_read("data/population_districts.shp") 
+roads <- st_read("data/main_roads.shp")
+
+# 2. 缓冲区分析 - 竞争对手分析
+competitor_buffer <- st_buffer(shops, dist = 1000)
+
+# 3. 可达性分析 - 距主要道路距离
+candidate_points$road_dist <- as.numeric(
+  st_distance(candidate_points, roads)
+)
+
+# 4. 综合评分
+candidate_points$score <- 
+  (population_density * 0.4) +         # 人口密度权重40%
+  (1/road_accessibility * 0.3) +       # 交通便利性30%
+  (1/competitor_density * 0.3)         # 竞争密度30%
+
+# 5. 选址推荐
+best_locations <- candidate_points[
+  candidate_points$score > quantile(candidate_points$score, 0.8), 
+]
+```
+
+## 性能优化技巧
+
+### 大数据处理
+
+```r
+# 使用data.table提高处理速度
+library(data.table)
+
+# 空间索引加速查询
+library(lwgeom)
+st_make_valid()  # 修复无效几何体
+
+# 简化几何体减少计算量
+simplified <- st_simplify(complex_polygons, dTolerance = 100)
+
+# 并行处理
+library(parallel)
+cl <- makeCluster(detectCores() - 1)
+results <- parLapply(cl, data_list, analysis_function)
+stopCluster(cl)
+```
+
+### 内存管理
+
+```r
+# 分块处理大型栅格
+raster_blocks <- blockSize(large_raster)
+for(i in 1:raster_blocks$n) {
+  # 逐块处理
+  block_data <- getValues(large_raster, 
+                         row = raster_blocks$row[i],
+                         nrows = raster_blocks$nrows[i])
+  # 处理数据...
+}
+
+# 及时清理内存
+rm(large_objects)
+gc()
+```
+</script>
+        </article>
+    </main>
+
+    <!-- Load highlight.js with defer to improve page load performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
+    
+    <script>
+        // Optimized markdown rendering
+        document.addEventListener('DOMContentLoaded', function() {
+            // Process markdown asynchronously for better performance
+            setTimeout(function() {
+                const src = document.getElementById('note-markdown');
+                if (!src) return;
+                
+                // Extract markdown content
+                const md = src.textContent || src.innerText || '';
+                
+                // Process markdown in chunks for better responsiveness
+                processMarkdown(md, function(html) {
+                    const container = document.getElementById('note-content');
+                    if (!container) return;
+                    
+                    // Insert the HTML
+                    container.innerHTML = html;
+                    
+                    // Build table of contents
+                    if (window.buildNoteTOC) {
+                        requestAnimationFrame(function() {
+                            window.buildNoteTOC();
+                            
+                            // Set up TOC toggle functionality
+                            setupTocToggle();
+                        });
+                    }
+                    
+                    // Apply syntax highlighting
+                    if (window.hljs) {
+                        // Use requestIdleCallback for non-critical task if available
+                        (window.requestIdleCallback || setTimeout)(function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        }, { timeout: 500 });
+                    } else {
+                        // Wait for highlight.js to load
+                        window.onhljsready = function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        };
+                    }
+                });
+            }, 0);
+        });
+        
+        // Process markdown in chunks for better UI responsiveness
+        function processMarkdown(md, callback) {
+            // Use requestAnimationFrame to avoid blocking the main thread
+            requestAnimationFrame(function() {
+                let html;
+                try {
+                    // Use available markdown parser
+                    if (window.marked) {
+                        html = window.marked.parse(md);
+                    } else if (window.markdownit) {
+                        html = window.markdownit().render(md);
+                    } else {
+                        html = md; // Fallback
+                    }
+                    callback(html);
+                } catch (e) {
+                    console.error('Error parsing markdown:', e);
+                    callback('<p>Error parsing markdown content.</p>');
+                }
+            });
+        }
+        
+        // Set up TOC toggle functionality
+        function setupTocToggle() {
+            const tocToggle = document.getElementById('toc-toggle');
+            const tocAside = document.querySelector('.note-toc');
+            
+            if (tocToggle && tocAside) {
+                tocToggle.addEventListener('click', function() {
+                    tocAside.classList.toggle('note-toc--collapsed');
+                    const collapsed = tocAside.classList.contains('note-toc--collapsed');
+                    tocToggle.setAttribute('aria-expanded', String(!collapsed));
+                    
+                    // 缓存状态到localStorage
+                    try { 
+                        localStorage.setItem('note-toc-collapsed', collapsed ? '1' : '0'); 
+                    } catch (err) {}
+                    
+                    // 立即更新视觉状态
+                    if (window.innerWidth >= 769) {
+                        if (collapsed) {
+                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
+                            tocAside.style.right = '12px';
+                        } else {
+                            tocAside.style.transform = 'translateY(-50%) translateZ(0)';
+                            tocAside.style.right = '28px';
+                        }
+                    }
+                });
+                
+                // 恢复保存的状态
+                try {
+                    const saved = localStorage.getItem('note-toc-collapsed');
+                    if (saved === '1') {
+                        tocAside.classList.add('note-toc--collapsed');
+                        if (window.innerWidth >= 769) {
+                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
+                            tocAside.style.right = '12px';
+                        }
+                        tocToggle.setAttribute('aria-expanded', 'false');
+                    }
+                } catch (err) {}
+            }
+        }
+        
+        // Set up highlight.js load callback
+        if (typeof hljs === 'undefined') {
+            window.addEventListener('load', function() {
+                if (typeof hljs !== 'undefined' && typeof window.onhljsready === 'function') {
+                    window.onhljsready();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

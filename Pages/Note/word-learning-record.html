@@ -3,12 +3,43 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOC滚动测试 - NEGIAO</title>
+    <title>英语单词学习记录 - NEGIAO</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script defer src="../notes-toc.js"></script>
+    <style>
+        /* TOC toggle button style */
+        #toc-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            #toc-toggle {
+                display: none;
+            }
+        }
+        
+        .note-toc--collapsed {
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -31,203 +62,115 @@
 
         <article class="note-content card" id="note-content">
             <script type="text/markdown" id="note-markdown">
-# TOC滚动测试文档
+# 📚 英语单词学习记录
 
-这是一个用于测试长目录滚动行为的文档，包含多个标题和子标题。
+个人英语单词学习笔记，记录日常学习中遇到的生词、短语和表达。按学习时间和主题分类整理。
 
-## 1. 第一章标题
+## 📅 2025年9月学习记录
 
-这是第一章内容，可以在这里编写正文。
+### 2025-09-10 新增单词
 
-### 1.1 子章节示例
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Sanction** | n./v. | 制裁；批准 | The government imposed economic sanctions on the country. |
+| **Forge** | v. | 伪造；锻造 | He was arrested for forging documents. |
+| **Evade** | v. | 逃避；规避 | It's illegal to evade responsibility. |
+| **Spectacle** | n. | 景象；奇观 | The fireworks created a spectacular spectacle. |
+| **Sprawl** | v./n. | 蔓延；四肢伸开的姿势 | Urban sprawl is a major environmental concern. |
+| **Culmination** | n. | 高潮；顶点 | This achievement is the culmination of years of hard work. |
+| **Conspire** | v. | 共谋；阴谋 | They conspired to overthrow the government. |
+| **Mitigate** | v. | 缓解；减轻 | We need to mitigate the effects of climate change. |
+| **Wired** | adj. | 兴奋的；紧张的 | I'm too wired to sleep after all that caffeine. |
 
-子章节内容。
+## 📝 词汇分类学习
 
-### 1.2 另一个子章节
+### 🏛️ 政治法律类
 
-子章节内容。
+| 单词 | 释义 | 搭配/短语 |
+|------|------|-----------|
+| **Sanction** | 制裁；批准 | impose sanctions, economic sanctions |
+| **Evade** | 逃避；规避 | evade responsibility, evade taxes |
+| **Conspire** | 共谋；阴谋 | conspire against, conspiracy theory |
 
-## 2. 第二章标题
+### 🎭 描述性形容词
 
-将本模板复制后，替换内容即可创建新笔记。
+| 单词 | 释义 | 用法说明 |
+|------|------|----------|
+| **Wired** | 兴奋的；紧张的 | 通常指因咖啡因或兴奋而难以平静 |
 
-### 2.1 第二章子节
+### 🌟 动作动词
 
-- 这是第二章的子节点
-- 包含一些列表内容
+| 单词 | 释义 | 常用搭配 |
+|------|------|----------|
+| **Forge** | 伪造；锻造 | forge ahead (勇往直前), forge documents |
+| **Sprawl** | 蔓延；伸展 | urban sprawl, sprawl out |
+| **Mitigate** | 缓解；减轻 | mitigate risks, mitigate damage |
 
-### 2.2 第二章另一个子节
+### 🎯 名词概念
 
-更多内容...
+| 单词 | 释义 | 相关词汇 |
+|------|------|----------|
+| **Spectacle** | 景象；奇观 | spectacular (adj.), spectator (n.) |
+| **Culmination** | 高潮；顶点 | culminate (v.), peak, climax |
 
-## 3. 第三章标题
+## 💡 记忆技巧
 
-一些测试内容。
+### Sanction 记忆法
+- **词根**: sanct- (神圣的) + -ion
+- **联想**: 神圣的决定 → 正式批准或制裁
 
-### 3.1 子节内容
+### Forge 记忆法
+- **形象记忆**: 铁匠锻造 → 伪造文件
+- **短语**: forge ahead (像铁匠一样坚定前进)
 
-代码示例：
+### Evade 记忆法
+- **词根**: e- (出去) + vad- (走) → 走出去避开
 
-```javascript
-// JavaScript代码示例
-function exampleFunction() {
-    console.log("Hello, World!");
-}
-```
+### Mitigate 记忆法
+- **词根**: mit- (送出) + -ig- + -ate → 送出坏的影响，减轻
 
-### 3.2 更多子节
+## 📖 例句练习
 
-更多内容...
+### 政治新闻类
+1. The international community decided to **sanction** the country for its human rights violations.
+2. The politician tried to **evade** questions about the scandal.
+3. Several officials were found to **conspire** against the democratic process.
 
-## 4. 第四章标题
+### 日常生活类
+1. I'm feeling **wired** after drinking three cups of coffee.
+2. The criminal attempted to **forge** his passport to cross the border.
+3. The graduation ceremony was the **culmination** of four years of study.
 
-内容...
+### 描述场景类
+1. The sunset over the mountains was a breathtaking **spectacle**.
+2. The city's **sprawl** has reached the nearby countryside.
+3. We need to **mitigate** the environmental impact of our activities.
 
-### 4.1 子节点
+## 🎯 学习目标
 
-内容...
+- [x] 掌握基础政治法律词汇
+- [x] 学会描述性形容词的使用
+- [ ] 扩充商务英语词汇
+- [ ] 学习学术写作常用词汇
+- [ ] 掌握托福/雅思高频词汇
 
-### 4.2 另一个子节点
+## 📊 学习统计
 
-更多内容...
-
-## 5. 第五章标题
-
-内容...
-
-### 5.1 子节点
-
-内容...
-
-### 5.2 另一个子节点
-
-更多内容...
-
-## 6. 第六章标题
-
-内容...
-
-### 6.1 子节点
-
-内容...
-
-### 6.2 另一个子节点
-
-更多内容...
-
-## 7. 第七章标题
-
-内容...
-
-### 7.1 子节点
-
-内容...
-
-### 7.2 另一个子节点
-
-更多内容...
-
-## 8. 第八章标题
-
-内容...
-
-### 8.1 子节点
-
-内容...
-
-### 8.2 另一个子节点
-
-更多内容...
-
-## 9. 第九章标题
-
-内容...
-
-### 9.1 子节点
-
-内容...
-
-### 9.2 另一个子节点
-
-更多内容...
-
-## 10. 第十章标题
-
-内容...
-
-### 10.1 子节点
-
-内容...
-
-### 10.2 另一个子节点
-
-更多内容...
-
-## 11. 第十一章标题
-
-内容...
-
-### 11.1 子节点
-
-内容...
-
-### 11.2 另一个子节点
-
-更多内容...
-
-## 12. 第十二章标题
-
-内容...
-
-### 12.1 子节点
-
-内容...
-
-### 12.2 另一个子节点
-
-更多内容...
-
-## 13. 第十三章标题
-
-内容...
-
-### 13.1 子节点
-
-内容...
-
-### 13.2 另一个子节点
-
-更多内容...
-
-## 14. 第十四章标题
-
-内容...
-
-### 14.1 子节点
-
-内容...
-
-### 14.2 另一个子节点
-
-更多内容...
-
-## 15. 第十五章标题
-
-内容...
-
-### 15.1 子节点
-
-内容...
-
-### 15.2 另一个子节点
-
-更多内容...
+- **本月新学单词**: 9个
+- **累计掌握**: 9个
+- **复习频率**: 每周2次
+- **目标**: 每月学习50个新单词
 
 ---
 
-*测试文档结束*
+*📝 持续更新中... 最后更新: 2025-09-10*
+
+> 💡 **学习提示**: 
+> - 每个单词至少造3个不同场景的句子
+> - 定期复习，间隔重复记忆
+> - 结合阅读和听力材料加深理解
             </script>
-        </article>
+    </article>
     </main>
 
     <!-- Load highlight.js with defer to improve page load performance -->

@@ -1062,9 +1062,13 @@ ap是天赋 aptitude (天赋)
                 this.currentWord = this.words[Math.floor(Math.random() * this.words.length)];
                 this.testWord.textContent = this.currentWord.word.toLowerCase();
                 
+                // 获取选项并随机排序
+                let shuffledOptions = [...this.currentWord.options];
+                this.shuffleArray(shuffledOptions); // 随机打乱选项顺序
+                
                 // 生成选项按钮
                 this.testOptions.innerHTML = '';
-                this.currentWord.options.forEach((option, index) => {
+                shuffledOptions.forEach((option, index) => {
                     const btn = document.createElement('button');
                     btn.className = 'option-btn';
                     btn.textContent = option;
@@ -1120,6 +1124,15 @@ ap是天赋 aptitude (天赋)
                 const total = this.correctCount + this.wrongCount;
                 const accuracy = total > 0 ? Math.round((this.correctCount / total) * 100) : 0;
                 this.accuracyEl.textContent = accuracy + '%';
+            }
+            
+            // Fisher-Yates 洗牌算法实现数组随机排序
+            shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
             }
         }
         

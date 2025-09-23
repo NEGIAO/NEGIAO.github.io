@@ -121,6 +121,174 @@
             transform: translateX(120%);
             transition: transform 0.3s ease;
         }
+
+        /* 单词测试样式 */
+        .word-test-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto 30px;
+            max-width: 800px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: white;
+        }
+
+        .word-test-container h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .test-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            color: #333;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .test-question h3 {
+            font-size: 28px;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .question-text {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .test-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-btn:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .option-btn.correct {
+            border-color: #28a745;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .option-btn.wrong {
+            border-color: #dc3545;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .option-btn.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .test-controls {
+            text-align: center;
+        }
+
+        .test-result {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .test-result.correct {
+            color: #28a745;
+        }
+
+        .test-result.wrong {
+            color: #dc3545;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        @media (max-width: 768px) {
+            .test-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .test-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .word-test-container {
+                padding: 15px;
+            }
+            
+            .test-card {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -141,6 +309,36 @@
         <button id="toc-toggle" aria-expanded="true" title="切换章节索引显示/隐藏">
             <i class="fas fa-list"></i>
         </button>
+
+        <!-- 单词测试区域 -->
+        <div id="word-test-section" class="word-test-container">
+            <h2>🎯 每日单词测试</h2>
+            <div class="test-stats">
+                <span class="stat-item">正确: <span id="correct-count">0</span></span>
+                <span class="stat-item">错误: <span id="wrong-count">0</span></span>
+                <span class="stat-item">准确率: <span id="accuracy">0%</span></span>
+            </div>
+            
+            <div id="test-card" class="test-card">
+                <div class="test-question">
+                    <h3 id="test-word">Loading...</h3>
+                    <p class="question-text">请选择正确的中文含义 (答对自动跳转下一题)</p>
+                </div>
+                
+                <div class="test-options" id="test-options">
+                    <!-- 选项将由JavaScript动态生成 -->
+                </div>
+                
+                <div class="test-controls">
+                    <button id="next-word-btn" class="btn btn-primary" style="display: none;">下一题</button>
+                    <button id="start-test-btn" class="btn btn-secondary">开始测试</button>
+                </div>
+                
+                <div id="test-result" class="test-result" style="display: none;">
+                    <!-- 结果反馈 -->
+                </div>
+            </div>
+        </div>
 
         <article class="note-content card" id="note-content">
             <script type="text/markdown" id="note-markdown">
@@ -651,6 +849,13 @@ ap是天赋 aptitude (天赋)
                         });
                     }
                     
+                    // 初始化单词测试
+                    try {
+                        new WordTest();
+                    } catch (e) {
+                        console.log('Word test initialization:', e);
+                    }
+                    
                     // Apply syntax highlighting
                     if (window.hljs) {
                         // Use requestIdleCallback for non-critical task if available
@@ -744,6 +949,181 @@ ap是天赋 aptitude (天赋)
                 }
             });
         }
+
+        // 单词测试功能
+        class WordTest {
+            constructor() {
+                this.words = [
+                    { word: 'sanction', meaning: '制裁；批准', options: ['制裁；批准', '伪造；锻造', '逃避；规避', '景象；奇观'] },
+                    { word: 'forge', meaning: '伪造；锻造', options: ['制裁；批准', '伪造；锻造', '逃避；规避', '蔓延；伸展'] },
+                    { word: 'evade', meaning: '逃避；规避', options: ['逃避；规避', '高潮；顶点', '共谋；阴谋', '缓解；减轻'] },
+                    { word: 'spectacle', meaning: '景象；奇观', options: ['景象；奇观', '蔓延；伸展', '高潮；顶点', '共谋；阴谋'] },
+                    { word: 'sprawl', meaning: '蔓延；伸展', options: ['蔓延；伸展', '高潮；顶点', '共谋；阴谋', '缓解；减轻'] },
+                    { word: 'culmination', meaning: '高潮；顶点', options: ['高潮；顶点', '共谋；阴谋', '缓解；减轻', '兴奋的；紧张的'] },
+                    { word: 'conspire', meaning: '共谋；阴谋', options: ['共谋；阴谋', '缓解；减轻', '兴奋的；紧张的', '华丽的；极美的'] },
+                    { word: 'mitigate', meaning: '缓解；减轻', options: ['缓解；减轻', '兴奋的；紧张的', '华丽的；极美的', '紧握；掌控'] },
+                    { word: 'wired', meaning: '兴奋的；紧张的', options: ['兴奋的；紧张的', '华丽的；极美的', '紧握；掌控', '需要；涉及'] },
+                    { word: 'gorgeous', meaning: '华丽的；极美的', options: ['华丽的；极美的', '紧握；掌控', '需要；涉及', '健康的；有益的'] },
+                    { word: 'grip', meaning: '紧握；掌控', options: ['紧握；掌控', '需要；涉及', '健康的；有益的', '使恶化；加剧'] },
+                    { word: 'entail', meaning: '需要；涉及', options: ['需要；涉及', '健康的；有益的', '使恶化；加剧', '支持；认可'] },
+                    { word: 'wholesome', meaning: '健康的；有益的', options: ['健康的；有益的', '使恶化；加剧', '支持；认可', '罪犯；祸首'] },
+                    { word: 'exacerbate', meaning: '使恶化；加剧', options: ['使恶化；加剧', '支持；认可', '罪犯；祸首', '排练；预演'] },
+                    { word: 'endorse', meaning: '支持；认可', options: ['支持；认可', '罪犯；祸首', '排练；预演', '耗尽；削减'] },
+                    { word: 'culprit', meaning: '罪犯；祸首', options: ['罪犯；祸首', '排练；预演', '耗尽；削减', '有毒的；有害的'] },
+                    { word: 'rehearse', meaning: '排练；预演', options: ['排练；预演', '耗尽；削减', '有毒的；有害的', '夜间活动的'] },
+                    { word: 'deplete', meaning: '耗尽；削减', options: ['耗尽；削减', '有毒的；有害的', '夜间活动的', '白天活动的'] },
+                    { word: 'toxic', meaning: '有毒的；有害的', options: ['有毒的；有害的', '夜间活动的', '白天活动的', '偏好；嗜好'] },
+                    { word: 'nocturnal', meaning: '夜间活动的', options: ['夜间活动的', '白天活动的', '偏好；嗜好', '厌恶；憎恨'] },
+                    { word: 'diurnal', meaning: '白天活动的', options: ['白天活动的', '偏好；嗜好', '厌恶；憎恨', '态度；看法'] },
+                    { word: 'predilection', meaning: '偏好；嗜好', options: ['偏好；嗜好', '厌恶；憎恨', '态度；看法', '高度；海拔'] },
+                    { word: 'loathe', meaning: '厌恶；憎恨', options: ['厌恶；憎恨', '态度；看法', '高度；海拔', '天赋；才能'] },
+                    { word: 'attitude', meaning: '态度；看法', options: ['态度；看法', '高度；海拔', '天赋；才能', '经度'] },
+                    { word: 'altitude', meaning: '高度；海拔', options: ['高度；海拔', '天赋；才能', '经度', '纬度；自由度'] },
+                    { word: 'aptitude', meaning: '天赋；才能', options: ['天赋；才能', '经度', '纬度；自由度', '感激；感谢'] },
+                    { word: 'longitude', meaning: '经度', options: ['经度', '纬度；自由度', '感激；感谢', '孤独；独处'] },
+                    { word: 'latitude', meaning: '纬度；自由度', options: ['纬度；自由度', '感激；感谢', '孤独；独处', '贫困的；缺乏的'] },
+                    { word: 'gratitude', meaning: '感激；感谢', options: ['感激；感谢', '孤独；独处', '贫困的；缺乏的', '渲染；呈现'] },
+                    { word: 'destitute', meaning: '贫困的；缺乏的', options: ['贫困的；缺乏的', '渲染；呈现', '批次；批量处理', '纠正；校正'] },
+                    { word: 'solitude', meaning: '孤独；独处', options: ['孤独；独处', '渲染；呈现', '批次；批量处理', '纠正；校正'] },
+                    { word: 'render', meaning: '渲染；呈现', options: ['渲染；呈现', '批次；批量处理', '纠正；校正', '扭曲；失真'] },
+                    { word: 'batch', meaning: '批次；批量处理', options: ['批次；批量处理', '纠正；校正', '扭曲；失真', '保持；保留'] },
+                    { word: 'rectify', meaning: '纠正；校正', options: ['纠正；校正', '扭曲；失真', '保持；保留', '获得；得到'] },
+                    { word: 'distortion', meaning: '扭曲；失真', options: ['扭曲；失真', '保持；保留', '获得；得到', '领域；域名'] },
+                    { word: 'retain', meaning: '保持；保留', options: ['保持；保留', '获得；得到', '领域；域名', '维持；承受'] },
+                    { word: 'obtain', meaning: '获得；得到', options: ['获得；得到', '领域；域名', '维持；承受', '包含；控制'] },
+                    { word: 'domain', meaning: '领域；域名', options: ['领域；域名', '维持；承受', '包含；控制', '欺骗；诡计'] },
+                    { word: 'sustain', meaning: '维持；承受', options: ['维持；承受', '包含；控制', '欺骗；诡计', '维护；保持'] },
+                    { word: 'contain', meaning: '包含；控制', options: ['包含；控制', '欺骗；诡计', '维护；保持', '欺骗；误导'] },
+                    { word: 'deceit', meaning: '欺骗；诡计', options: ['欺骗；诡计', '维护；保持', '欺骗；误导', '分离；拆卸'] },
+                    { word: 'maintain', meaning: '维护；保持', options: ['维护；保持', '欺骗；误导', '分离；拆卸', '分数；部分'] },
+                    { word: 'deceive', meaning: '欺骗；误导', options: ['欺骗；误导', '分离；拆卸', '分数；部分', '大小；重要性'] },
+                    { word: 'detach', meaning: '分离；拆卸', options: ['分离；拆卸', '分数；部分', '大小；重要性', '吐；唾液'] },
+                    { word: 'fraction', meaning: '分数；部分', options: ['分数；部分', '大小；重要性', '吐；唾液', '学院；能力'] },
+                    { word: 'magnitude', meaning: '大小；重要性', options: ['大小；重要性', '吐；唾液', '学院；能力', '消散；挥霍'] },
+                    { word: 'spit', meaning: '吐；唾液', options: ['吐；唾液', '学院；能力', '消散；挥霍', '矿石；矿物'] },
+                    { word: 'faculty', meaning: '学院；能力', options: ['学院；能力', '消散；挥霍', '矿石；矿物', '腐蚀；侵蚀'] },
+                    { word: 'dissipate', meaning: '消散；挥霍', options: ['消散；挥霍', '矿石；矿物', '腐蚀；侵蚀', '研讨会；座谈会'] },
+                    { word: 'ore', meaning: '矿石；矿物', options: ['矿石；矿物', '腐蚀；侵蚀', '研讨会；座谈会', '搬运工；门房'] },
+                    { word: 'corrode', meaning: '腐蚀；侵蚀', options: ['腐蚀；侵蚀', '研讨会；座谈会', '搬运工；门房', '拘留；耽搁'] },
+                    { word: 'symposium', meaning: '研讨会；座谈会', options: ['研讨会；座谈会', '搬运工；门房', '拘留；耽搁', '荒凉的；使荒凉'] },
+                    { word: 'porter', meaning: '搬运工；门房', options: ['搬运工；门房', '拘留；耽搁', '荒凉的；使荒凉', '水晶；晶体'] },
+                    { word: 'detain', meaning: '拘留；耽搁', options: ['拘留；耽搁', '荒凉的；使荒凉', '水晶；晶体', '体面的；正派的'] },
+                    { word: 'desolate', meaning: '荒凉的；使荒凉', options: ['荒凉的；使荒凉', '水晶；晶体', '体面的；正派的', '地壳；外壳'] },
+                    { word: 'crystal', meaning: '水晶；晶体', options: ['水晶；晶体', '体面的；正派的', '地壳；外壳', '衰退；腐烂'] },
+                    { word: 'decent', meaning: '体面的；正派的', options: ['体面的；正派的', '地壳；外壳', '衰退；腐烂', '微不足道的'] },
+                    { word: 'crust', meaning: '地壳；外壳', options: ['地壳；外壳', '衰退；腐烂', '微不足道的', '疏忽的；失职的'] },
+                    { word: 'decay', meaning: '衰退；腐烂', options: ['衰退；腐烂', '微不足道的', '疏忽的；失职的', '看似合理的'] },
+                    { word: 'negligible', meaning: '微不足道的', options: ['微不足道的', '疏忽的；失职的', '看似合理的', '宇宙的；巨大的'] },
+                    { word: 'negligent', meaning: '疏忽的；失职的', options: ['疏忽的；失职的', '看似合理的', '宇宙的；巨大的', '有责任的；倾向于'] },
+                    { word: 'plausible', meaning: '看似合理的', options: ['看似合理的', '宇宙的；巨大的', '有责任的；倾向于', '制定；阐述'] },
+                    { word: 'cosmic', meaning: '宇宙的；巨大的', options: ['宇宙的；巨大的', '有责任的；倾向于', '制定；阐述', '旋转；忙乱'] },
+                    { word: 'liable', meaning: '有责任的；倾向于', options: ['有责任的；倾向于', '制定；阐述', '旋转；忙乱', '潜在的；隐藏的'] },
+                    { word: 'formulate', meaning: '制定；阐述', options: ['制定；阐述', '旋转；忙乱', '潜在的；隐藏的', '微不足道的'] },
+                    { word: 'whirl', meaning: '旋转；忙乱', options: ['旋转；忙乱', '潜在的；隐藏的', '微不足道的', '疏忽的；失职的'] },
+                    { word: 'latent', meaning: '潜在的；隐藏的', options: ['潜在的；隐藏的', '微不足道的', '疏忽的；失职的', '看似合理的'] }
+                ];
+                
+                this.currentWord = null;
+                this.correctCount = 0;
+                this.wrongCount = 0;
+                this.isAnswered = false;
+                
+                this.initElements();
+                this.bindEvents();
+            }
+            
+            initElements() {
+                this.testWord = document.getElementById('test-word');
+                this.testOptions = document.getElementById('test-options');
+                this.nextBtn = document.getElementById('next-word-btn');
+                this.startBtn = document.getElementById('start-test-btn');
+                this.testResult = document.getElementById('test-result');
+                this.correctCountEl = document.getElementById('correct-count');
+                this.wrongCountEl = document.getElementById('wrong-count');
+                this.accuracyEl = document.getElementById('accuracy');
+            }
+            
+            bindEvents() {
+                this.startBtn.addEventListener('click', () => this.startTest());
+                this.nextBtn.addEventListener('click', () => this.nextQuestion());
+            }
+            
+            startTest() {
+                this.startBtn.style.display = 'none';
+                this.nextQuestion();
+            }
+            
+            nextQuestion() {
+                this.isAnswered = false;
+                this.testResult.style.display = 'none';
+                this.nextBtn.style.display = 'none';
+                
+                // 随机选择单词
+                this.currentWord = this.words[Math.floor(Math.random() * this.words.length)];
+                this.testWord.textContent = this.currentWord.word.toLowerCase();
+                
+                // 生成选项按钮
+                this.testOptions.innerHTML = '';
+                this.currentWord.options.forEach((option, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.textContent = option;
+                    btn.addEventListener('click', () => this.checkAnswer(option, btn));
+                    this.testOptions.appendChild(btn);
+                });
+            }
+            
+            checkAnswer(selectedOption, btnElement) {
+                if (this.isAnswered) return;
+                
+                this.isAnswered = true;
+                const isCorrect = selectedOption === this.currentWord.meaning;
+                
+                // 禁用所有按钮并标记正确答案
+                const allBtns = this.testOptions.querySelectorAll('.option-btn');
+                allBtns.forEach(btn => {
+                    btn.classList.add('disabled');
+                    if (btn.textContent === this.currentWord.meaning) {
+                        btn.classList.add('correct');
+                    } else if (btn === btnElement && !isCorrect) {
+                        btn.classList.add('wrong');
+                    }
+                });
+                
+                // 更新统计
+                if (isCorrect) {
+                    this.correctCount++;
+                    this.testResult.textContent = '✅ 正确！正在跳转...';
+                    this.testResult.className = 'test-result correct';
+                    
+                    // 正确答案：1.5秒后自动跳转下一题
+                    setTimeout(() => {
+                        this.nextQuestion();
+                    }, 1500);
+                } else {
+                    this.wrongCount++;
+                    this.testResult.textContent = `❌ 错误！正确答案是: ${this.currentWord.meaning}`;
+                    this.testResult.className = 'test-result wrong';
+                    
+                    // 错误答案：显示下一题按钮，需要手动点击
+                    this.nextBtn.style.display = 'inline-block';
+                }
+                
+                this.updateStats();
+                this.testResult.style.display = 'block';
+            }
+            
+            updateStats() {
+                this.correctCountEl.textContent = this.correctCount;
+                this.wrongCountEl.textContent = this.wrongCount;
+                
+                const total = this.correctCount + this.wrongCount;
+                const accuracy = total > 0 ? Math.round((this.correctCount / total) * 100) : 0;
+                this.accuracyEl.textContent = accuracy + '%';
+            }
+        }
+        
+        // 初始化单词测试 - 将在现有DOMContentLoaded事件中初始化
     </script>
 </body>
 </html>

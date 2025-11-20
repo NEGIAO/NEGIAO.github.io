@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="zh-CN">
 <!--    
         本项目实现的功能：  
         1、良好的排版与布局：  
@@ -32,11 +32,41 @@
          
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <!-- 多设备自适应，禁止用户缩放以提供更好的移动端体验 -->
-         
+        
+        <meta name="description" content="WebGIS Project by NEGIAO - 基于OpenLayers的地理信息系统">
+        <meta name="keywords" content="WebGIS, OpenLayers, GIS, Map, NEGIAO">
+        <meta name="author" content="NEGIAO">
+        <meta name="theme-color" content="#0D1117">
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://negiao.github.io/WebGIS/index.html">
+        <meta property="og:title" content="My WebGIS - NEGIAO">
+        <meta property="og:description" content="WebGIS Project by NEGIAO - 基于OpenLayers的地理信息系统">
+        <meta property="og:image" content="https://negiao.github.io/Pages/avatar.jpg">
+
         <!-- 导入必要的openlayers代码，即依赖项 -->
         <link rel="stylesheet" href="ol.css" type="text/css">
         <script src="ol.js"></script>
-        <title>My WebGIS</title>
+        <title>My WebGIS - NEGIAO</title>
+        
+        <!-- Google Analytics -->
+        <script>
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            var script = document.createElement('script');
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+            script.async = true;
+            document.head.appendChild(script);
+            
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KYJ7Y4LE2N');
+          }, 3000);
+        });
+        </script>
+
       <script type="module" crossorigin src="/WebGIS/assets/index-CAyyoyHz.js"></script>
       <link rel="stylesheet" crossorigin href="/WebGIS/assets/index-jh0DpwuT.css">
     </head>

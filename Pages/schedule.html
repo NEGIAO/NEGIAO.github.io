@@ -4,9 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NEGIAO的日常课表 - 实时显示当前课程和下节课安排">
+    <meta name="keywords" content="课程表, 日程安排, 学习计划, NEGIAO">
+    <meta name="author" content="NEGIAO">
+    <meta name="theme-color" content="#0D1117">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://negiao.github.io/Pages/schedule.html">
+    <meta property="og:title" content="课程表 - NEGIAO">
+    <meta property="og:description" content="NEGIAO的日常课表 - 实时显示当前课程和下节课安排">
+    <meta property="og:image" content="https://negiao.github.io/Pages/avatar.jpg">
+
     <title>课程表 - NEGIAO</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="main-enhanced.js" defer></script>
+    
+    <!-- Google Analytics -->
+    <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+        script.async = true;
+        document.head.appendChild(script);
+        
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KYJ7Y4LE2N');
+      }, 3000);
+    });
+    </script>
     
     <style>
         /* 现代化课程表样式重设计 */
@@ -1476,6 +1505,16 @@
             window.addEventListener('blur', () => {
                 isWindowFocused = false;
             });
+
+            // 移动端优化：自动滚动到今天
+            if (window.innerWidth < 768) {
+                setTimeout(() => {
+                    const todayHeader = document.querySelector('.day-header.today');
+                    if (todayHeader) {
+                        todayHeader.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
+                }, 500);
+            }
         }
 
         // 页面加载完成后初始化

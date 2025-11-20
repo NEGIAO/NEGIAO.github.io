@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Observe elements for animation
-    const animatedElements = document.querySelectorAll('.card, .feature, .hero__title, .hero__subtitle, .tech-badge');
+    const animatedElements = document.querySelectorAll('.card:not(.note-toc), .feature, .hero__title, .hero__subtitle, .tech-badge');
     animatedElements.forEach((el, index) => {
         // Add initial styles for animation
         el.style.opacity = '0';
@@ -367,6 +367,49 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', () => {
         requestAnimationFrame(updateBackToTop);
     }, { passive: true });
+
+    // Scroll Progress Bar Feature (Added to main script for consistency)
+    function initProgressBar() {
+        // Check if already exists
+        if (document.getElementById('scroll-progress')) return;
+
+        // Create progress bar element
+        const progressBar = document.createElement('div');
+        progressBar.id = 'scroll-progress';
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            width: 0%;
+            z-index: 99999;
+            transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        `;
+        document.body.appendChild(progressBar);
+
+        // Update progress on scroll
+        let lastCall = 0;
+        const updateProgress = () => {
+            const now = Date.now();
+            if (now - lastCall >= 10) {
+                lastCall = now;
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                
+                requestAnimationFrame(() => {
+                    progressBar.style.width = `${scrollPercent}%`;
+                });
+            }
+        };
+
+        window.addEventListener('scroll', updateProgress, { passive: true });
+    }
+    
+    // Initialize progress bar
+    initProgressBar();
 
     console.log('🚀 NEGIAO.github.io enhanced features loaded successfully!');
 });

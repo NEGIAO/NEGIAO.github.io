@@ -342,5 +342,31 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.body.insertBefore(skipLink, document.body.firstChild);
 
+    // Back to Top Button
+    const backToTopButton = document.createElement('button');
+    backToTopButton.className = 'back-to-top';
+    backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    backToTopButton.setAttribute('aria-label', '返回顶部');
+    document.body.appendChild(backToTopButton);
+
+    backToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    function updateBackToTop() {
+        if (window.scrollY > 500) {
+            backToTopButton.classList.add('visible');
+        } else {
+            backToTopButton.classList.remove('visible');
+        }
+    }
+    
+    window.addEventListener('scroll', () => {
+        requestAnimationFrame(updateBackToTop);
+    }, { passive: true });
+
     console.log('🚀 NEGIAO.github.io enhanced features loaded successfully!');
 });

@@ -259,9 +259,8 @@ a:focus {
   top: 50%; /* vertically center relative to viewport */
   transform: translateY(-50%) translateZ(0); /* robust centering and preserve 3d layer */
   width: 280px;
-  max-height: 70vh; /* 增加最大高度以容纳更多内容 */
-  overflow-y: auto; /* 确保垂直滚动 */
-  overflow-x: hidden; /* 防止水平滚动 */
+  /* max-height removed from here to allow overflow: visible */
+  overflow: visible; /* 关键：允许按钮显示在容器外部 */
   padding: calc(var(--space-lg) * 0.9);
   /* Higher-contrast opaque background so TOC stands out from page content */
   background: linear-gradient(180deg, rgba(18,22,30,1), rgba(12,14,18,1));
@@ -276,28 +275,60 @@ a:focus {
   flex-direction: column; /* 垂直排列 */
 }
 
-/* Collapsed state: slide TOC to the right, out of the way (toggle button remains) */
-.note-toc.note-toc--collapsed {
-  transform: translateY(-50%) translateX(120%);
-  opacity: 0.98;
-  pointer-events: auto; /* allow any visible parts to still receive events if needed */
+/* Inner nav container handles scrolling */
+.note-toc__nav {
+  max-height: 70vh; /* 限制高度 */
+  overflow-y: auto; /* 内部滚动 */
+  overflow-x: hidden;
+  padding-right: 5px; /* 给滚动条留点空间 */
 }
 
-/* Toggle button fixed at the right edge of the viewport */
+/* Custom scrollbar for TOC */
+.note-toc__nav::-webkit-scrollbar {
+  width: 4px;
+}
+.note-toc__nav::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+.note-toc__nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+/* Collapsed state: slide TOC to the right, but keep the toggle button visible */
+.note-toc.note-toc--collapsed {
+  /* 
+     Original right: 20px. Width: 280px.
+     Button is at left: -40px.
+     We want button to be near right edge.
+     Move right by Width (280) + Right (20) - ButtonWidth (40) = 260px?
+     Let's try moving it enough so just the button sticks out.
+  */
+  transform: translateY(-50%) translateX(280px); 
+  opacity: 1; /* Keep opacity 1 so button is visible */
+  pointer-events: auto;
+}
+
+/* Toggle button attached to the TOC - Top Left Tab Style */
 #toc-toggle {
-  position: fixed;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.604);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08));
+  position: absolute;
+  left: -40px; /* Stick out to the left */
+  top: 0; /* Align with top edge */
+  width: 40px;
+  height: 40px;
+  border-radius: 8px 0 0 8px; /* Tab shape */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: none; /* Merge with container */
+  background: inherit; /* Match TOC background */
+  background-color: rgba(18,22,30,1); /* Fallback/Solid */
   color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  z-index: 1051;
+  box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
+}
   cursor: pointer;
   z-index: 100000; /* above the TOC */
   box-shadow: var(--shadow-sm);
@@ -2560,4 +2591,55 @@ select:focus-visible {
   color: white;
   transform: translateY(-5px);
   box-shadow: var(--shadow-glow);
+}
+
+/* Print Styles */
+@media print {
+  :root {
+    --background: #ffffff;
+    --text: #000000;
+    --text-secondary: #333333;
+    --surface: #ffffff;
+    --border: #cccccc;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .navbar, .mobile-menu-toggle, .back-to-top, #toc-toggle, .loading-screen {
+    display: none !important;
+  }
+
+  .container {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .card, .note-content, .schedule-container {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    background: white;
+    color: black;
+  }
+
+  a {
+    text-decoration: underline;
+    color: black;
+  }
+
+  /* Show URL after links */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Hide decorative elements */
+  .avatar-glow, .floating-shapes, .hero__actions {
+    display: none;
+  }
 }

@@ -3,12 +3,43 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>笔记模板 - NEGIAO</title>
+    <meta name="description" content="ArcPy学习笔记 - NEGIAO的技术笔记，涵盖ArcGIS Python自动化处理、地理处理工具等内容。">
+    <meta name="keywords" content="ArcPy, Python, ArcGIS, GIS自动化, 地理处理, NEGIAO">
+    <meta name="author" content="NEGIAO">
+    <meta name="theme-color" content="#0D1117">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://negiao.github.io/Pages/Note/ArcPy.html">
+    <meta property="og:title" content="ArcPy学习笔记 - NEGIAO">
+    <meta property="og:description" content="ArcPy学习笔记 - NEGIAO的技术笔记，涵盖ArcGIS Python自动化处理、地理处理工具等内容。">
+    <meta property="og:image" content="https://negiao.github.io/Pages/avatar.jpg">
+
+    <title>ArcPy学习笔记 - NEGIAO</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
     <script defer src="../notes-toc.js"></script>
+    <script defer src="../main-enhanced.js"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+        script.async = true;
+        document.head.appendChild(script);
+        
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KYJ7Y4LE2N');
+      }, 3000);
+    });
+    </script>
+
     <style>
         /* TOC toggle button style */
         #toc-toggle {
@@ -53,12 +84,12 @@
 
         <aside class="note-toc card" aria-label="文章章节目录">
             <nav class="note-toc__nav" id="note-toc"></nav>
+            
+            <!-- TOC Toggle Button -->
+            <button id="toc-toggle" aria-expanded="true" title="切换章节索引显示/隐藏">
+                <i class="fas fa-list"></i>
+            </button>
         </aside>
-        
-        <!-- TOC Toggle Button -->
-        <button id="toc-toggle" aria-expanded="true" title="切换章节索引显示/隐藏">
-            <i class="fas fa-list"></i>
-        </button>
 
         <article class="note-content card" id="note-content">
             <script type="text/markdown" id="note-markdown">

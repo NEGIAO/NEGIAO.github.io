@@ -32,6 +32,38 @@
     }
   };
 
+  // Scroll Progress Bar Feature
+  function initProgressBar() {
+    // Create progress bar element
+    const progressBar = document.createElement('div');
+    progressBar.id = 'scroll-progress';
+    progressBar.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--gradient-primary);
+      width: 0%;
+      z-index: 99999;
+      transition: width 0.1s ease-out;
+      box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+    `;
+    document.body.appendChild(progressBar);
+
+    // Update progress on scroll
+    const updateProgress = util.throttle(() => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      
+      util.batchDOM(() => {
+        progressBar.style.width = `${scrollPercent}%`;
+      });
+    }, 10);
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+  }
+
   // Highlight active ToC item when scrolling
   function updateActiveHeading() {
     const headings = Array.from(document.querySelectorAll('.note-content h2, .note-content h3, .note-content h4'));
@@ -257,13 +289,19 @@
   function init() {
     // If DOM is already loaded, build TOC immediately
     if (document.readyState !== 'loading') {
-      util.batchDOM(buildTOC);
+      util.batchDOM(() => {
+        buildTOC();
+        initProgressBar();
+      });
       return;
     }
     
     // Otherwise wait for DOM to be ready
     document.addEventListener('DOMContentLoaded', function() {
-      util.batchDOM(buildTOC);
+      util.batchDOM(() => {
+        buildTOC();
+        initProgressBar();
+      });
     });
   }
 

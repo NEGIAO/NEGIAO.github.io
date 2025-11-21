@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <!-- Use cdnjs as primary source for marked, with jsdelivr as backup if needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js" defer></script>
     <script defer src="../notes-toc.js"></script>
     <script defer src="../main-enhanced.js"></script>
     
@@ -970,6 +971,24 @@
 | **Clarify** | v. | 澄清 | Could you clarify what you mean by that? |
 | **Van** | n. | 货车 | They loaded the furniture into the van. |
 
+### 2025-11-21 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|----------|
+| **Lodge** | n./v. | 屋舍；正式提出 | They stayed at a mountain lodge. / He lodged a formal complaint. |
+| **Heroine** | n. | 女英雄 | She is the heroine of the story. |
+| **Genuine** | adj. | 真诚的；真正的 | He showed genuine concern for her health. |
+| **Coherent** | adj. | 连贯的；条理清楚的 | The witness provided a coherent account of the incident. |
+| **Convention** | n. | 习俗，惯例；大会 | It is a social convention to shake hands. / The annual convention was held in Chicago. |
+| **Obscure** | v./adj. | 掩盖，使模糊；费解的 | Clouds obscured the moon. / The meaning of the poem is obscure. |
+| **Irony** | n. | 讽刺，反话 | The irony is that the fire station burned down. |
+| **Inertia** | n. | 惯性；惰性 | Bureaucratic inertia made it difficult to implement changes. |
+| **Criteria** | n. | 标准；准则 | What are the criteria for admission? |
+| **Credential** | n. | 凭证；资格 | She has excellent credentials for the job. |
+| **Elite** | n./adj. | 精英；上层集团 | The special forces are an elite unit. |
+| **Ruling** | n./adj. | 裁决，裁定；统治的 | The court's ruling was final. / The ruling party won the election. |
+| **Ruling elite** | phrase | 掌权的精英 | The country is governed by a small ruling elite. |
+
             </script>
     </article>
     </main>
@@ -987,8 +1006,12 @@
             const container = document.getElementById('note-content');
             if (!container) return;
 
+            // Show loading state immediately
+            container.innerHTML = '<div style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> 正在加载内容...</div>';
+            container.style.opacity = '1';
+
             let retryCount = 0;
-            const maxRetries = 100; // 5 seconds timeout
+            const maxRetries = 60; // 3 seconds timeout (50ms * 60)
 
             function render() {
                 if (window.marked) {
@@ -1014,8 +1037,12 @@
                     } else {
                         // Fallback if marked fails to load
                         console.error('Marked library failed to load');
-                        container.innerHTML = '<p style="color:red">Error: Content library failed to load. Please check your internet connection.</p><pre>' + md + '</pre>';
+                        container.innerHTML = '<div style="color: #ff6b6b; padding: 20px; text-align: center;">' +
+                            '<i class="fas fa-exclamation-triangle"></i> 内容加载失败<br>' +
+                            '<small>无法加载 Markdown 解析库，请检查网络连接。</small></div>' +
+                            '<pre style="white-space: pre-wrap; font-family: monospace; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;">' + md + '</pre>';
                         container.style.opacity = '1';
+                        container.style.transform = 'translateY(0)';
                     }
                 }
             }

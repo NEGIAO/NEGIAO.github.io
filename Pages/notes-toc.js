@@ -205,13 +205,12 @@
     // Responsive position based on screen size
     function updateTocPosition() {
       if (window.innerWidth >= 769) {
-        aside.style.position = 'fixed';
-        aside.style.right = aside.classList.contains('note-toc--collapsed') ? '12px' : '28px';
-        aside.style.top = '50%';
-        aside.style.transform = aside.classList.contains('note-toc--collapsed') ? 
-          'translateY(-50%) translateX(120%)' : 
-          'translateY(-50%) translateZ(0)';
-        aside.style.zIndex = '99999';
+        // Let CSS handle positioning
+        aside.style.position = ''; 
+        aside.style.right = '';
+        aside.style.top = '';
+        aside.style.transform = '';
+        aside.style.zIndex = '';
       } else {
         aside.style.position = '';
         aside.style.right = '';
@@ -222,15 +221,28 @@
       }
     }
 
-    // Add toggle button
-    if (!document.getElementById('toc-toggle') && window.innerWidth >= 769) {
-      const toggle = document.createElement('button');
+    // Add toggle button logic
+    let toggle = document.getElementById('toc-toggle');
+    
+    // If button doesn't exist (fallback), create it
+    if (!toggle && window.innerWidth >= 769) {
+      toggle = document.createElement('button');
       toggle.id = 'toc-toggle';
-      toggle.setAttribute('aria-expanded', String(!aside.classList.contains('note-toc--collapsed')));
       toggle.title = '切换章节索引显示/隐藏';
-      toggle.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8L18 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12L18 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 16L18 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      toggle.innerHTML = '<i class="fas fa-list"></i>';
+      // If we create it dynamically, we might need to append it. 
+      // But ideally it should be in HTML. If we append to body, it won't move with TOC.
+      // So we append to aside.
+      aside.appendChild(toggle);
+    }
 
-      toggle.addEventListener('click', function () {
+    if (toggle) {
+      // Update initial state
+      toggle.setAttribute('aria-expanded', String(!aside.classList.contains('note-toc--collapsed')));
+      
+      // Remove old event listeners (by cloning) or just add new one if we are sure
+      // Since this script runs once, we can just add.
+      toggle.onclick = function () {
         aside.classList.toggle('note-toc--collapsed');
         const collapsed = aside.classList.contains('note-toc--collapsed');
         toggle.setAttribute('aria-expanded', String(!collapsed));
@@ -239,26 +251,13 @@
         try { 
           localStorage.setItem('note-toc-collapsed', collapsed ? '1' : '0'); 
         } catch (err) {}
-        
-        // Update visual state immediately
-        if (collapsed) {
-          aside.style.transform = 'translateY(-50%) translateX(120%)';
-          aside.style.right = '12px';
-        } else {
-          aside.style.transform = 'translateY(-50%) translateZ(0)';
-          aside.style.right = '28px';
-        }
-      });
-
-      document.body.appendChild(toggle);
+      };
 
       // Restore saved state
       try {
         const saved = localStorage.getItem('note-toc-collapsed');
         if (saved === '1') {
           aside.classList.add('note-toc--collapsed');
-          aside.style.transform = 'translateY(-50%) translateX(120%)';
-          aside.style.right = '12px';
           toggle.setAttribute('aria-expanded', 'false');
         }
       } catch (err) {}

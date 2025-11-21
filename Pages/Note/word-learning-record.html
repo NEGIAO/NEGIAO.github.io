@@ -980,80 +980,74 @@
     <script>
         // Optimized markdown rendering
         document.addEventListener('DOMContentLoaded', function() {
-            // Process markdown asynchronously for better performance
-            setTimeout(function() {
-                const src = document.getElementById('note-markdown');
-                if (!src) return;
-                
-                // Extract markdown content
-                const md = src.textContent || src.innerText || '';
-                
-                // Process markdown in chunks for better responsiveness
-                processMarkdown(md, function(html) {
-                    const container = document.getElementById('note-content');
-                    if (!container) return;
-                    
-                    // Insert the HTML
-                    container.innerHTML = html;
-                    
-                    // Build table of contents
-                    if (window.buildNoteTOC) {
-                        requestAnimationFrame(function() {
-                            window.buildNoteTOC();
-                            
-                            // Set up TOC toggle functionality
-                            setupTocToggle();
-                        });
-                    }
-                    
-                    // 初始化单词测试
+            const src = document.getElementById('note-markdown');
+            if (!src) return;
+            
+            const md = src.textContent || src.innerText || '';
+            const container = document.getElementById('note-content');
+            if (!container) return;
+
+            let retryCount = 0;
+            const maxRetries = 100; // 5 seconds timeout
+
+            function render() {
+                if (window.marked) {
                     try {
-                        new WordTest();
+                        container.innerHTML = window.marked.parse(md);
+                        // Manually trigger animation class in case observer missed it
+                        container.classList.add('animate-in');
+                        container.style.opacity = '1';
+                        container.style.transform = 'translateY(0)';
+                        
+                        // Use requestAnimationFrame to ensure DOM is updated before post-processing
+                        requestAnimationFrame(postRender);
                     } catch (e) {
-                        console.log('Word test initialization:', e);
+                        console.error('Markdown parsing error:', e);
+                        container.innerHTML = '<p>Error parsing content.</p>';
+                        container.style.opacity = '1';
                     }
-                    
-                    // Apply syntax highlighting
-                    if (window.hljs) {
-                        // Use requestIdleCallback for non-critical task if available
-                        (window.requestIdleCallback || setTimeout)(function() {
-                            container.querySelectorAll('pre code').forEach((block) => {
-                                hljs.highlightBlock(block);
-                            });
-                        }, { timeout: 500 });
+                } else {
+                    retryCount++;
+                    if (retryCount < maxRetries) {
+                        // Retry if marked is not yet loaded
+                        setTimeout(render, 50);
                     } else {
-                        // Wait for highlight.js to load
-                        window.onhljsready = function() {
-                            container.querySelectorAll('pre code').forEach((block) => {
-                                hljs.highlightBlock(block);
-                            });
-                        };
+                        // Fallback if marked fails to load
+                        console.error('Marked library failed to load');
+                        container.innerHTML = '<p style="color:red">Error: Content library failed to load. Please check your internet connection.</p><pre>' + md + '</pre>';
+                        container.style.opacity = '1';
                     }
-                });
-            }, 0);
-        });
-        
-        // Process markdown in chunks for better UI responsiveness
-        function processMarkdown(md, callback) {
-            // Use requestAnimationFrame to avoid blocking the main thread
-            requestAnimationFrame(function() {
-                let html;
-                try {
-                    // Use available markdown parser
-                    if (window.marked) {
-                        html = window.marked.parse(md);
-                    } else if (window.markdownit) {
-                        html = window.markdownit().render(md);
-                    } else {
-                        html = md; // Fallback
-                    }
-                    callback(html);
-                } catch (e) {
-                    console.error('Error parsing markdown:', e);
-                    callback('<p>Error parsing markdown content.</p>');
                 }
-            });
-        }
+            }
+
+            function postRender() {
+                // Build table of contents
+                if (window.buildNoteTOC) {
+                    window.buildNoteTOC();
+                    setupTocToggle();
+                }
+                
+                // Initialize Word Test
+                try {
+                    if (typeof WordTest !== 'undefined') {
+                        new WordTest();
+                    }
+                } catch (e) {
+                    console.error('Word test initialization:', e);
+                }
+                
+                // Apply syntax highlighting
+                if (window.hljs) {
+                    container.querySelectorAll('pre code').forEach((block) => {
+                        hljs.highlightBlock(block);
+                    });
+                } else if (window.onhljsready) {
+                    window.onhljsready();
+                }
+            }
+
+            render();
+        });
         
         // Set up TOC toggle functionality
         function setupTocToggle() {

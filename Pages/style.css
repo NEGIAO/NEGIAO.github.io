@@ -2636,18 +2636,8 @@ select:focus-visible {
   }
 }
 
-/* Tech Badge Styles */
-.tech-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-md);
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: all var(--transition-normal);
-}
-
-.tech-badge:hover {
+/* Tech Badge Hover Effect for User Profile */
+.user-profile .tech-badge:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }

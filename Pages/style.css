@@ -1227,12 +1227,36 @@ a:focus {
 .hero__subtitle {
   font-size: clamp(1.125rem, 2.5vw, 1.5rem);
   color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.hero__greeting {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--text-muted);
   margin-bottom: var(--space-2xl);
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
   font-weight: 400;
+  opacity: 0.9;
+  animation: fadeInUp 0.8s ease-out 0.5s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
 }
 
 .hero__actions {

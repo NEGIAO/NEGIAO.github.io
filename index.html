@@ -128,8 +128,9 @@
             </button>
             <nav aria-label="主导航">
                 <ul class="navbar__nav">
+                    <li><a href="#profile" class="navbar__link">档案</a></li>
                     <li><a href="#projects" class="navbar__link">项目</a></li>
-                    <li><a href="#about" class="navbar__link">关于我</a></li>
+                    <li><a href="#about" class="navbar__link">技能</a></li>
                     <li><a href="Pages/notes.html" class="navbar__link">笔记</a></li>
                     <li><a href="Pages/schedule.html" class="navbar__link">课程表</a></li>
                     <li><a href="#contact" class="navbar__link">联系我</a></li>
@@ -142,8 +143,9 @@
     <!-- 移动端菜单 -->
     <nav class="mobile-menu" id="mobile-menu" aria-label="移动端菜单">
         <ul class="mobile-menu__nav">
+            <li class="mobile-menu__item"><a href="#profile" class="mobile-menu__link">档案</a></li>
             <li class="mobile-menu__item"><a href="#projects" class="mobile-menu__link">项目</a></li>
-            <li class="mobile-menu__item"><a href="#about" class="mobile-menu__link">关于我</a></li>
+            <li class="mobile-menu__item"><a href="#about" class="mobile-menu__link">技能</a></li>
             <li class="mobile-menu__item"><a href="Pages/notes.html" class="mobile-menu__link">笔记</a></li>
             <li class="mobile-menu__item"><a href="Pages/schedule.html" class="mobile-menu__link">课程表</a></li>
             <li class="mobile-menu__item"><a href="#contact" class="mobile-menu__link">联系我</a></li>
@@ -225,6 +227,201 @@
                         希望精通前端技术栈（HTML5、CSS3、JavaScript、React）和后端开发，
                         注重用户体验设计、性能优化和无障碍访问。
                     </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 用户档案区域 -->
+    <section class="section user-profile" id="profile">
+        <div class="container">
+            <h2 class="text-center gradient-text" style="margin-bottom: var(--space-2xl);">个人档案</h2>
+            
+            <div class="grid grid--responsive" style="gap: var(--space-2xl);">
+                <!-- 个人简介卡片 -->
+                <div class="card glass" style="grid-column: span 2;">
+                    <div style="display: flex; align-items: flex-start; gap: var(--space-lg); flex-wrap: wrap;">
+                        <div class="avatar-container" style="flex-shrink: 0;">
+                            <img src="Pages/avatar.jpg" alt="NEGIAO's Profile" class="avatar" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--primary); box-shadow: var(--shadow-glow);">
+                        </div>
+                        <div style="flex: 1; min-width: 250px;">
+                            <h3 style="color: var(--primary); margin-bottom: var(--space-sm); font-size: 1.5rem;">NEGIAO</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: var(--space-md); line-height: 1.7;">
+                                热衷于 WebGIS 开发与地理空间数据可视化的 GIS 开发者。专注于运用现代 Web 技术构建高性能的地理信息系统应用，
+                                致力于将复杂的空间数据转化为直观、交互式的可视化体验。
+                            </p>
+                            <div style="display: flex; flex-wrap: wrap; gap: var(--space-md); color: var(--text-muted); font-size: 0.9rem;">
+                                <div style="display: flex; align-items: center; gap: var(--space-xs);">
+                                    <i class="fas fa-map-marker-alt" style="color: var(--primary);"></i>
+                                    <span>中国</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: var(--space-xs);">
+                                    <i class="fas fa-graduation-cap" style="color: var(--primary);"></i>
+                                    <span>地理信息科学专业</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: var(--space-xs);">
+                                    <i class="fas fa-briefcase" style="color: var(--primary);"></i>
+                                    <span>WebGIS 开发者</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 技能专长 -->
+            <div style="margin-top: var(--space-2xl);">
+                <h3 class="gradient-text" style="margin-bottom: var(--space-xl); text-align: center;">技术栈</h3>
+                <div class="grid grid--responsive">
+                    <!-- 前端开发 -->
+                    <div class="card">
+                        <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                            <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-code" style="color: white; font-size: 1.5rem;"></i>
+                            </div>
+                            <h4 style="color: var(--text-secondary); font-size: 1.2rem;">前端开发</h4>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+                            <span class="tech-badge" style="background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3);">HTML5</span>
+                            <span class="tech-badge" style="background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3);">CSS3</span>
+                            <span class="tech-badge" style="background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3);">JavaScript</span>
+                            <span class="tech-badge" style="background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3);">React</span>
+                            <span class="tech-badge" style="background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3);">TypeScript</span>
+                        </div>
+                    </div>
+
+                    <!-- WebGIS 技术 -->
+                    <div class="card">
+                        <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                            <div style="width: 50px; height: 50px; background: var(--gradient-accent); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-globe-americas" style="color: white; font-size: 1.5rem;"></i>
+                            </div>
+                            <h4 style="color: var(--text-secondary); font-size: 1.2rem;">WebGIS 框架</h4>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+                            <span class="tech-badge" style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3);">OpenLayers</span>
+                            <span class="tech-badge" style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3);">Leaflet</span>
+                            <span class="tech-badge" style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3);">ArcGIS API</span>
+                            <span class="tech-badge" style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3);">Mapbox</span>
+                            <span class="tech-badge" style="background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.3);">Cesium</span>
+                        </div>
+                    </div>
+
+                    <!-- 数据可视化 -->
+                    <div class="card">
+                        <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                            <div style="width: 50px; height: 50px; background: var(--gradient-success); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-chart-line" style="color: white; font-size: 1.5rem;"></i>
+                            </div>
+                            <h4 style="color: var(--text-secondary); font-size: 1.2rem;">数据可视化</h4>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+                            <span class="tech-badge" style="background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.3);">ECharts</span>
+                            <span class="tech-badge" style="background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.3);">D3.js</span>
+                            <span class="tech-badge" style="background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.3);">Three.js</span>
+                            <span class="tech-badge" style="background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.3);">Chart.js</span>
+                            <span class="tech-badge" style="background: rgba(81, 207, 102, 0.1); border: 1px solid rgba(81, 207, 102, 0.3);">Plotly</span>
+                        </div>
+                    </div>
+
+                    <!-- 后端与工具 -->
+                    <div class="card">
+                        <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                            <div style="width: 50px; height: 50px; background: var(--gradient-cool); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-tools" style="color: white; font-size: 1.5rem;"></i>
+                            </div>
+                            <h4 style="color: var(--text-secondary); font-size: 1.2rem;">开发工具</h4>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+                            <span class="tech-badge" style="background: rgba(78, 205, 196, 0.1); border: 1px solid rgba(78, 205, 196, 0.3);">Python</span>
+                            <span class="tech-badge" style="background: rgba(78, 205, 196, 0.1); border: 1px solid rgba(78, 205, 196, 0.3);">Node.js</span>
+                            <span class="tech-badge" style="background: rgba(78, 205, 196, 0.1); border: 1px solid rgba(78, 205, 196, 0.3);">Git</span>
+                            <span class="tech-badge" style="background: rgba(78, 205, 196, 0.1); border: 1px solid rgba(78, 205, 196, 0.3);">VS Code</span>
+                            <span class="tech-badge" style="background: rgba(78, 205, 196, 0.1); border: 1px solid rgba(78, 205, 196, 0.3);">Docker</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 学习历程时间线 -->
+            <div style="margin-top: var(--space-2xl);">
+                <h3 class="gradient-text" style="margin-bottom: var(--space-xl); text-align: center;">学习历程</h3>
+                <div class="timeline" style="max-width: 900px; margin: 0 auto;">
+                    <!-- 时间线项目 -->
+                    <div class="timeline-item" style="display: flex; gap: var(--space-lg); margin-bottom: var(--space-2xl); position: relative;">
+                        <div style="flex-shrink: 0; width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
+                            <i class="fas fa-rocket" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <div class="card" style="flex: 1;">
+                            <div style="color: var(--primary); font-weight: 600; margin-bottom: var(--space-sm);">2025</div>
+                            <h4 style="color: var(--text-secondary); margin-bottom: var(--space-sm);">深入 WebGIS 开发</h4>
+                            <p style="color: var(--text-muted); line-height: 1.6;">
+                                专注于高性能 WebGIS 应用开发，完善英语学习系统（370+ 考研词汇），持续优化个人网站性能和用户体验。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" style="display: flex; gap: var(--space-lg); margin-bottom: var(--space-2xl); position: relative;">
+                        <div style="flex-shrink: 0; width: 50px; height: 50px; background: var(--gradient-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
+                            <i class="fas fa-project-diagram" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <div class="card" style="flex: 1;">
+                            <div style="color: var(--accent); font-weight: 600; margin-bottom: var(--space-sm);">2024</div>
+                            <h4 style="color: var(--text-secondary); margin-bottom: var(--space-sm);">数据可视化项目</h4>
+                            <p style="color: var(--text-muted); line-height: 1.6;">
+                                开发"宝藏小城"地理空间数据可视化项目，运用 ECharts 展示多地区时空变化规律，涵盖季节、年内及年际变化分析。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item" style="display: flex; gap: var(--space-lg); margin-bottom: var(--space-2xl); position: relative;">
+                        <div style="flex-shrink: 0; width: 50px; height: 50px; background: var(--gradient-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
+                            <i class="fas fa-graduation-cap" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <div class="card" style="flex: 1;">
+                            <div style="color: var(--success); font-weight: 600; margin-bottom: var(--space-sm);">持续学习</div>
+                            <h4 style="color: var(--text-secondary); margin-bottom: var(--space-sm);">地理信息科学专业</h4>
+                            <p style="color: var(--text-muted); line-height: 1.6;">
+                                系统学习 GIS 理论与技术，掌握空间数据处理、空间分析和地图制图等核心技能，积累丰富的项目实践经验。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 兴趣爱好 -->
+            <div style="margin-top: var(--space-2xl);">
+                <h3 class="gradient-text" style="margin-bottom: var(--space-xl); text-align: center;">兴趣爱好</h3>
+                <div class="grid grid--3-fixed">
+                    <div class="card glass" style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md);">
+                            <i class="fas fa-laptop-code" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h4 style="color: var(--text-secondary); margin-bottom: var(--space-sm);">编程开发</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">
+                            热爱探索新技术，享受将想法转化为实际应用的过程
+                        </p>
+                    </div>
+
+                    <div class="card glass" style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--gradient-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md);">
+                            <i class="fas fa-map" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h4 style="color: var(--text-secondary); margin-bottom: var(--space-sm);">地理探索</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">
+                            喜欢通过地图和数据了解世界各地的地理特征
+                        </p>
+                    </div>
+
+                    <div class="card glass" style="text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--gradient-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md);">
+                            <i class="fas fa-book-reader" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                        <h4 style="color: var(--text-secondary); margin-bottom: var(--space-sm);">持续学习</h4>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">
+                            保持学习热情，不断提升英语水平和专业技能
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

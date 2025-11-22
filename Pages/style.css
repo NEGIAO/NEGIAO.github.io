@@ -2593,6 +2593,86 @@ select:focus-visible {
   box-shadow: var(--shadow-glow);
 }
 
+/* User Profile Section Styles */
+.user-profile .timeline {
+  position: relative;
+}
+
+.user-profile .timeline::before {
+  content: '';
+  position: absolute;
+  left: 25px;
+  top: 50px;
+  bottom: 50px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 50%, var(--success) 100%);
+  opacity: 0.3;
+}
+
+.user-profile .timeline-item {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.user-profile .timeline-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.user-profile .timeline-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.user-profile .timeline-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tech Badge Styles */
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+}
+
+.tech-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Responsive adjustments for user profile */
+@media (max-width: 768px) {
+  .user-profile .timeline::before {
+    left: 20px;
+  }
+  
+  .user-profile .timeline-item {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  
+  .user-profile .timeline-item > div:first-child {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .user-profile .timeline-item > div:first-child i {
+    font-size: 1rem;
+  }
+}
+
 /* Print Styles */
 @media print {
   :root {

@@ -485,9 +485,9 @@
                     <div id="visit-counter" style="font-size: 0.8rem; color: var(--primary); margin-bottom: var(--space-sm);">
                         您的访问次数：<span id="visit-count">--</span>
                     </div>
-                    <!-- MapMyVisitors Map -->
-                    <div style="margin-bottom: var(--space-sm); display: flex; justify-content: center;">
-                        <script type='text/javascript' id='mapmyvisitors' src='https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=tt&d=n-HXgq2Mge1cHPJX6y2jM_UZP-Kfb5kUxv6fYpxnLJ8&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353'></script>
+                    <!-- MapMyVisitors Map (Lazy Loaded) -->
+                    <div id="mapmyvisitors-container" style="margin-bottom: var(--space-sm); display: flex; justify-content: center; min-height: 100px;">
+                        <!-- 地图将在此处延迟加载 -->
                     </div>
                     <div style="font-size: 0.75rem; color: var(--text-disabled);">
                         <span>WebGIS</span> • <span>数据可视化</span> • <span>全栈开发</span>
@@ -529,6 +529,25 @@
             
             // 记录到控制台
             console.log('页面访问次数:', visits);
+        });
+
+        // 延迟加载 MapMyVisitors 地图 (性能优化)
+        window.addEventListener('load', function() {
+            // 页面完全加载后，再延迟 2 秒加载外部地图脚本
+            // 这样可以避免外部资源阻塞页面渲染，提高国内访问速度
+            setTimeout(function() {
+                const mapContainer = document.getElementById('mapmyvisitors-container');
+                if (mapContainer) {
+                    const script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.id = 'mapmyvisitors';
+                    // 添加 async 属性
+                    script.async = true;
+                    script.src = 'https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=tt&d=n-HXgq2Mge1cHPJX6y2jM_UZP-Kfb5kUxv6fYpxnLJ8&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353';
+                    mapContainer.appendChild(script);
+                    console.log('MapMyVisitors script loaded lazily.');
+                }
+            }, 2000);
         });
     </script>
 </body>

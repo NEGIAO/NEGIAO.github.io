@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NEGIAO的成果展示画廊 - 往期作品与可视化成果">
+    <meta name="author" content="NEGIAO">
+    <meta name="theme-color" content="#0D1117">
+    
+    <title>成果展示 - NEGIAO</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <script defer src="../notes-toc.js"></script>
+    <script defer src="../main-enhanced.js"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+        script.async = true;
+        document.head.appendChild(script);
+        
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KYJ7Y4LE2N');
+      }, 3000);
+    });
+    </script>
+
+    <style>
+        /* TOC toggle button style */
+        #toc-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            #toc-toggle {
+                display: none;
+            }
+        }
+        
+        .note-toc--collapsed {
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        /* Gallery Specific Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+        
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-color: var(--primary);
+        }
+        
+        .gallery-image-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .gallery-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        .gallery-desc {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .gallery-placeholder {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Lightbox styles (optional, for future enhancement) */
+        .gallery-item a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="../notes.html" class="btn btn--secondary">返回索引</a>
+        </div>
+    </nav>
+
+    <main class="container section note-layout">
+
+        <aside class="note-toc card" aria-label="文章章节目录">
+            <nav class="note-toc__nav" id="note-toc"></nav>
+            
+            <!-- TOC Toggle Button -->
+            <button id="toc-toggle" aria-expanded="true" title="切换章节索引显示/隐藏">
+                <i class="fas fa-list"></i>
+            </button>
+        </aside>
+
+        <article class="note-content card" id="note-content">
+            <script type="text/markdown" id="note-markdown">
+# 🎨 成果展示
+
+这里展示了我以往做过的一些可视化成果图、地图作品以及项目截图。
+
+> 图片资源存放于 `Pages/Note/resources/display/` 目录下。
+
+## 1. 地图作品
+
+<div class="gallery-grid" id="gallery-all">
+    <div class="gallery-placeholder">图片加载中，请稍候...</div>
+</div>
+
+<script type="application/json" id="gallery-data-inline">
+[
+    {
+        "title":  "00E1FCEFEE0B6CEFD70ACBC84B4CDC15",
+        "src":  "resources/display/00E1FCEFEE0B6CEFD70ACBC84B4CDC15.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "0d71f6b06361503c6776f1502a504e2",
+        "src":  "resources/display/0d71f6b06361503c6776f1502a504e2.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "1",
+        "src":  "resources/display/1.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "1114",
+        "src":  "resources/display/1114.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "116",
+        "src":  "resources/display/116.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "117",
+        "src":  "resources/display/117.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "118",
+        "src":  "resources/display/118.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "119",
+        "src":  "resources/display/119.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "1214",
+        "src":  "resources/display/1214.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "1局",
+        "src":  "resources/display/1局.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "2010",
+        "src":  "resources/display/2010.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "2023",
+        "src":  "resources/display/2023.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "——2023",
+        "src":  "resources/display/——2023.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "2局",
+        "src":  "resources/display/2局.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "3局",
+        "src":  "resources/display/3局.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "456",
+        "src":  "resources/display/456.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "4693f879a3b02321dab8ac30a3e009b",
+        "src":  "resources/display/4693f879a3b02321dab8ac30a3e009b.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "4981",
+        "src":  "resources/display/4981.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "4局",
+        "src":  "resources/display/4局.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "5150ce22278d5f486eaf7f0b3c539ed",
+        "src":  "resources/display/5150ce22278d5f486eaf7f0b3c539ed.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "55布局",
+        "src":  "resources/display/55布局.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "566Layout",
+        "src":  "resources/display/566Layout.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "64BF77571E15D32B5120F5EE44485B46",
+        "src":  "resources/display/64BF77571E15D32B5120F5EE44485B46.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "664",
+        "src":  "resources/display/664.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "6665",
+        "src":  "resources/display/6665.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "6666",
+        "src":  "resources/display/6666.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "71",
+        "src":  "resources/display/71.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "713cf2ada59d5151d42c309d15fd5ca",
+        "src":  "resources/display/713cf2ada59d5151d42c309d15fd5ca.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "77",
+        "src":  "resources/display/77.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "7e76f18eb6ebf9648e5ab99b5e5edb1",
+        "src":  "resources/display/7e76f18eb6ebf9648e5ab99b5e5edb1.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "7局2",
+        "src":  "resources/display/7局2.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "82c5754f64efa49531b9e18615c4330",
+        "src":  "resources/display/82c5754f64efa49531b9e18615c4330.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "8451",
+        "src":  "resources/display/8451.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "86",
+        "src":  "resources/display/86.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "8局2",
+        "src":  "resources/display/8局2.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "92",
+        "src":  "resources/display/92.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "97783546a6c406966fb00963dc3d6d4",
+        "src":  "resources/display/97783546a6c406966fb00963dc3d6d4.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "992",
+        "src":  "resources/display/992.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "a2000",
+        "src":  "resources/display/a2000.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "a2010",
+        "src":  "resources/display/a2010.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "a2020",
+        "src":  "resources/display/a2020.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "aaa",
+        "src":  "resources/display/aaa.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "aaaaaa",
+        "src":  "resources/display/aaaaaa.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "AAD4503EC163EC46AC6AF4939C9839C2",
+        "src":  "resources/display/AAD4503EC163EC46AC6AF4939C9839C2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "bbb",
+        "src":  "resources/display/bbb.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "c0ec758f2cd2cbbe8c572b23f65599d",
+        "src":  "resources/display/c0ec758f2cd2cbbe8c572b23f65599d.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "ccc",
+        "src":  "resources/display/ccc.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "dddd",
+        "src":  "resources/display/dddd.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "E262C6DEAD81A9B3E9B1032DB1F651B3",
+        "src":  "resources/display/E262C6DEAD81A9B3E9B1032DB1F651B3.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "e77a3515868221fd66a1a114f130c8f",
+        "src":  "resources/display/e77a3515868221fd66a1a114f130c8f.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "E93D37110F389F02ED70973893684A4B",
+        "src":  "resources/display/E93D37110F389F02ED70973893684A4B.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "eeeee",
+        "src":  "resources/display/eeeee.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "f",
+        "src":  "resources/display/f.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "f59c7c3e3cfdd6072c19d479188d46d",
+        "src":  "resources/display/f59c7c3e3cfdd6072c19d479188d46d.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "fff",
+        "src":  "resources/display/fff.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "Figure_1",
+        "src":  "resources/display/Figure_1.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "Figure_2",
+        "src":  "resources/display/Figure_2.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "Lay7o44ut",
+        "src":  "resources/display/Lay7o44ut.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "Layout",
+        "src":  "resources/display/Layout.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "Layout1",
+        "src":  "resources/display/Layout1.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "Layout2",
+        "src":  "resources/display/Layout2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "Layout71",
+        "src":  "resources/display/Layout71.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "map2",
+        "src":  "resources/display/map2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "map3",
+        "src":  "resources/display/map3.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "pm25",
+        "src":  "resources/display/pm25.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "Symbology",
+        "src":  "resources/display/Symbology.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "task2",
+        "src":  "resources/display/task2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "Toronto",
+        "src":  "resources/display/Toronto.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "vs",
+        "src":  "resources/display/vs.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "阿拉克",
+        "src":  "resources/display/阿拉克.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "澳门上升100m",
+        "src":  "resources/display/澳门上升100m.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "澳门上升10m",
+        "src":  "resources/display/澳门上升10m.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "澳门现状",
+        "src":  "resources/display/澳门现状.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "保护区",
+        "src":  "resources/display/保护区.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布5局",
+        "src":  "resources/display/布5局.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布661",
+        "src":  "resources/display/布661.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布7733",
+        "src":  "resources/display/布7733.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布89",
+        "src":  "resources/display/布89.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布aaaaaaa局",
+        "src":  "resources/display/布aaaaaaa局.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布aaaa局",
+        "src":  "resources/display/布aaaa局.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布m",
+        "src":  "resources/display/布m.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局",
+        "src":  "resources/display/布局.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局",
+        "src":  "resources/display/布局.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局2",
+        "src":  "resources/display/布局2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局22",
+        "src":  "resources/display/布局22.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局3",
+        "src":  "resources/display/布局3.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局4",
+        "src":  "resources/display/布局4.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局44",
+        "src":  "resources/display/布局44.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局5",
+        "src":  "resources/display/布局5.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局99",
+        "src":  "resources/display/布局99.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局999",
+        "src":  "resources/display/布局999.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "布局a",
+        "src":  "resources/display/布局a.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "采样点",
+        "src":  "resources/display/采样点.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "采样点2",
+        "src":  "resources/display/采样点2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "插值",
+        "src":  "resources/display/插值.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "车祸",
+        "src":  "resources/display/车祸.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "车祸2",
+        "src":  "resources/display/车祸2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "大河南",
+        "src":  "resources/display/大河南.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "地1图",
+        "src":  "resources/display/地1图.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "地图",
+        "src":  "resources/display/地图.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "地图二",
+        "src":  "resources/display/地图二.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "邓县",
+        "src":  "resources/display/邓县.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "低温",
+        "src":  "resources/display/低温.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "点位分布",
+        "src":  "resources/display/点位分布.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "儿童熵",
+        "src":  "resources/display/儿童熵.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "概况",
+        "src":  "resources/display/概况.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "干旱",
+        "src":  "resources/display/干旱.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "高程",
+        "src":  "resources/display/高程.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "高温",
+        "src":  "resources/display/高温.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "公园绿地服务范围",
+        "src":  "resources/display/公园绿地服务范围.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "贵阳",
+        "src":  "resources/display/贵阳.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "核密度",
+        "src":  "resources/display/核密度.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "降水",
+        "src":  "resources/display/降水.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "交通人口分布",
+        "src":  "resources/display/交通人口分布.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "景区",
+        "src":  "resources/display/景区.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "开封1",
+        "src":  "resources/display/开封1.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "老年熵",
+        "src":  "resources/display/老年熵.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "林芝",
+        "src":  "resources/display/林芝.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "率",
+        "src":  "resources/display/率.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "绿地",
+        "src":  "resources/display/绿地.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "绿地范围",
+        "src":  "resources/display/绿地范围.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "马铃薯",
+        "src":  "resources/display/马铃薯.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "墨脱",
+        "src":  "resources/display/墨脱.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "墨脱2",
+        "src":  "resources/display/墨脱2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "墨脱553",
+        "src":  "resources/display/墨脱553.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "墨脱6",
+        "src":  "resources/display/墨脱6.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "南阳",
+        "src":  "resources/display/南阳.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "南阳市NDVI",
+        "src":  "resources/display/南阳市NDVI.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "内",
+        "src":  "resources/display/内.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "内蒙古",
+        "src":  "resources/display/内蒙古.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "宁波fvc",
+        "src":  "resources/display/宁波fvc.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "平滑",
+        "src":  "resources/display/平滑.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "评估",
+        "src":  "resources/display/评估.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "三江",
+        "src":  "resources/display/三江.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "三江2",
+        "src":  "resources/display/三江2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "三县一市",
+        "src":  "resources/display/三县一市.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "上海容积率",
+        "src":  "resources/display/上海容积率.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "深圳_2000",
+        "src":  "resources/display/深圳_2000.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "深圳_2020",
+        "src":  "resources/display/深圳_2020.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "生物量",
+        "src":  "resources/display/生物量.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "实验",
+        "src":  "resources/display/实验.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "示例结果",
+        "src":  "resources/display/示例结果.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "试题",
+        "src":  "resources/display/试题.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "是图一",
+        "src":  "resources/display/是图一.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "受灾",
+        "src":  "resources/display/受灾.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "四川",
+        "src":  "resources/display/四川.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "四川1",
+        "src":  "resources/display/四川1.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "泰国",
+        "src":  "resources/display/泰国.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "图二",
+        "src":  "resources/display/图二.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "图片1",
+        "src":  "resources/display/图片1.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "图一",
+        "src":  "resources/display/图一.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "武汉东西湖区",
+        "src":  "resources/display/武汉东西湖区.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "西安",
+        "src":  "resources/display/西安.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "西安市_缓冲区",
+        "src":  "resources/display/西安市_缓冲区.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "西安市_土地利用",
+        "src":  "resources/display/西安市_土地利用.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "西湖",
+        "src":  "resources/display/西湖.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "咸阳_土地利用",
+        "src":  "resources/display/咸阳_土地利用.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "咸阳市_缓冲区",
+        "src":  "resources/display/咸阳市_缓冲区.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "香港",
+        "src":  "resources/display/香港.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "香港2",
+        "src":  "resources/display/香港2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "香港3",
+        "src":  "resources/display/香港3.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "新疆",
+        "src":  "resources/display/新疆.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "延安市_缓冲区",
+        "src":  "resources/display/延安市_缓冲区.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "延安市_土地利用",
+        "src":  "resources/display/延安市_土地利用.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "演唱会",
+        "src":  "resources/display/演唱会.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "演唱会2",
+        "src":  "resources/display/演唱会2.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "遗址点",
+        "src":  "resources/display/遗址点.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "遗址线路",
+        "src":  "resources/display/遗址线路.png",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "榆林市_缓冲区",
+        "src":  "resources/display/榆林市_缓冲区.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "榆林市_土地利用",
+        "src":  "resources/display/榆林市_土地利用.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "圆",
+        "src":  "resources/display/圆.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "长江",
+        "src":  "resources/display/长江.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "制图成果",
+        "src":  "resources/display/制图成果.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "中国地图_渲染",
+        "src":  "resources/display/中国地图_渲染.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "主成分分析",
+        "src":  "resources/display/主成分分析.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "驻马店",
+        "src":  "resources/display/驻马店.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "专题3",
+        "src":  "resources/display/专题3.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "专题图一",
+        "src":  "resources/display/专题图一.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "综合",
+        "src":  "resources/display/综合.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "总",
+        "src":  "resources/display/总.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    },
+    {
+        "title":  "坐标点",
+        "src":  "resources/display/坐标点.jpg",
+        "description":  "请补充该作品的简介与亮点。"
+    }
+]
+</script>
+
+## 2. 数据可视化
+
+<div class="gallery-grid" id="gallery-viz">
+    <div class="gallery-placeholder">分类整理中，稍后更新。</div>
+</div>
+
+            </script>
+    </article>
+    </main>
+
+    <!-- Load highlight.js with defer to improve page load performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
+    
+    <script>
+        // Optimized markdown rendering
+        document.addEventListener('DOMContentLoaded', function() {
+            // Process markdown asynchronously for better performance
+            setTimeout(function() {
+                const src = document.getElementById('note-markdown');
+                if (!src) return;
+                
+                // Extract markdown content
+                const md = src.textContent || src.innerText || '';
+                
+                // Process markdown in chunks for better responsiveness
+                processMarkdown(md, function(html) {
+                    const container = document.getElementById('note-content');
+                    if (!container) return;
+                    
+                    // Insert the HTML
+                    container.innerHTML = html;
+
+                    // Populate gallery content after markdown renders
+                    requestAnimationFrame(initializeGallery);
+                    
+                    // Build table of contents
+                    if (window.buildNoteTOC) {
+                        requestAnimationFrame(function() {
+                            window.buildNoteTOC();
+                            
+                            // Set up TOC toggle functionality
+                            setupTocToggle();
+                        });
+                    }
+                    
+                    // Apply syntax highlighting
+                    if (window.hljs) {
+                        // Use requestIdleCallback for non-critical task if available
+                        (window.requestIdleCallback || setTimeout)(function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        }, { timeout: 500 });
+                    } else {
+                        // Wait for highlight.js to load
+                        window.onhljsready = function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        };
+                    }
+                });
+            }, 0);
+        });
+        
+        // Process markdown in chunks for better UI responsiveness
+        function processMarkdown(md, callback) {
+            // Use requestAnimationFrame to avoid blocking the main thread
+            requestAnimationFrame(function() {
+                let html;
+                try {
+                    // Use available markdown parser
+                    if (window.marked) {
+                        html = window.marked.parse(md);
+                    } else if (window.markdownit) {
+                        html = window.markdownit().render(md);
+                    } else {
+                        html = md; // Fallback
+                    }
+                    callback(html);
+                } catch (e) {
+                    console.error('Error parsing markdown:', e);
+                    callback('<p>Error parsing markdown content.</p>');
+                }
+            });
+        }
+        
+        // Set up TOC toggle functionality
+        function setupTocToggle() {
+            const tocToggle = document.getElementById('toc-toggle');
+            const tocAside = document.querySelector('.note-toc');
+            
+            if (tocToggle && tocAside) {
+                tocToggle.addEventListener('click', function() {
+                    tocAside.classList.toggle('note-toc--collapsed');
+                    const collapsed = tocAside.classList.contains('note-toc--collapsed');
+                    tocToggle.setAttribute('aria-expanded', String(!collapsed));
+                    
+                    // 缓存状态到localStorage
+                    try { 
+                        localStorage.setItem('note-toc-collapsed', collapsed ? '1' : '0'); 
+                    } catch (err) {}
+                    
+                    // 立即更新视觉状态
+                    if (window.innerWidth >= 769) {
+                        if (collapsed) {
+                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
+                            tocAside.style.right = '12px';
+                        } else {
+                            tocAside.style.transform = 'translateY(-50%) translateZ(0)';
+                            tocAside.style.right = '28px';
+                        }
+                    }
+                });
+                
+                // 恢复保存的状态
+                try {
+                    const saved = localStorage.getItem('note-toc-collapsed');
+                    if (saved === '1') {
+                        tocAside.classList.add('note-toc--collapsed');
+                        if (window.innerWidth >= 769) {
+                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
+                            tocAside.style.right = '12px';
+                        }
+                        tocToggle.setAttribute('aria-expanded', 'false');
+                    }
+                } catch (err) {}
+            }
+        }
+
+        function initializeGallery() {
+            const galleryContainer = document.getElementById('gallery-all');
+            if (!galleryContainer) {
+                return;
+            }
+
+            function renderPlaceholder(message) {
+                galleryContainer.innerHTML = '<div class="gallery-placeholder">' + message + '</div>';
+            }
+
+            function renderGalleryItems(items) {
+                if (!Array.isArray(items) || items.length === 0) {
+                    renderPlaceholder('暂无可展示的作品。');
+                    return;
+                }
+
+                galleryContainer.innerHTML = '';
+
+                const fallbackSrc = 'https://via.placeholder.com/640x360?text=Image';
+                const fragment = document.createDocumentFragment();
+
+                items.forEach(function(item, index) {
+                    const card = document.createElement('div');
+                    card.className = 'gallery-item';
+
+                    const imageWrapper = document.createElement('div');
+                    imageWrapper.className = 'gallery-image-container';
+
+                    const img = document.createElement('img');
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
+                    img.src = item.src;
+                    img.alt = item.title || ('作品 ' + (index + 1));
+                    img.onerror = function() {
+                        if (!this.dataset.fallback) {
+                            this.dataset.fallback = '1';
+                            this.src = fallbackSrc;
+                        }
+                    };
+
+                    imageWrapper.appendChild(img);
+
+                    const caption = document.createElement('div');
+                    caption.className = 'gallery-caption';
+
+                    const titleEl = document.createElement('div');
+                    titleEl.className = 'gallery-title';
+                    titleEl.textContent = item.title || ('作品 ' + (index + 1));
+
+                    const descEl = document.createElement('div');
+                    descEl.className = 'gallery-desc';
+                    descEl.textContent = item.description || '描述待补充。';
+
+                    caption.appendChild(titleEl);
+                    caption.appendChild(descEl);
+
+                    card.appendChild(imageWrapper);
+                    card.appendChild(caption);
+
+                    fragment.appendChild(card);
+                });
+
+                galleryContainer.appendChild(fragment);
+            }
+
+            function loadFromInlineData() {
+                const inlineDataScript = document.getElementById('gallery-data-inline');
+                if (!inlineDataScript) {
+                    return false;
+                }
+
+                try {
+                    const parsed = JSON.parse(inlineDataScript.textContent || '[]');
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        renderGalleryItems(parsed);
+                        return true;
+                    }
+                } catch (err) {
+                    console.warn('Failed to parse inline gallery data:', err);
+                }
+
+                return false;
+            }
+
+            if (loadFromInlineData()) {
+                return;
+            }
+
+            renderPlaceholder('图片加载中，请稍候...');
+
+            fetch('resources/display/gallery-data.json', { cache: 'no-store' })
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(function(items) {
+                    renderGalleryItems(items);
+                })
+                .catch(function(error) {
+                    console.error('Failed to load gallery:', error);
+                    renderPlaceholder('图片加载失败，请稍后重试。');
+                });
+        }
+        
+        // Set up highlight.js load callback
+        if (typeof hljs === 'undefined') {
+            window.addEventListener('load', function() {
+                if (typeof hljs !== 'undefined' && typeof window.onhljsready === 'function') {
+                    window.onhljsready();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

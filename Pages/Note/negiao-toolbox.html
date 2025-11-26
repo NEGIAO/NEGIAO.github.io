@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NEGIAO ArcGIS Pro 工具箱介绍与下载">
+    <meta name="author" content="NEGIAO">
+    <meta name="theme-color" content="#0D1117">
+    
+    <title>NEGIAO 工具箱 - NEGIAO</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <script defer src="../notes-toc.js"></script>
+    <script defer src="../main-enhanced.js"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+        script.async = true;
+        document.head.appendChild(script);
+        
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KYJ7Y4LE2N');
+      }, 3000);
+    });
+    </script>
+
+    <style>
+        /* TOC toggle button style */
+        #toc-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            #toc-toggle {
+                display: none;
+            }
+        }
+        
+        .note-toc--collapsed {
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="../notes.html" class="btn btn--secondary">返回索引</a>
+        </div>
+    </nav>
+
+    <main class="container section note-layout">
+
+        <aside class="note-toc card" aria-label="文章章节目录">
+            <nav class="note-toc__nav" id="note-toc"></nav>
+            
+            <!-- TOC Toggle Button -->
+            <button id="toc-toggle" aria-expanded="true" title="切换章节索引显示/隐藏">
+                <i class="fas fa-list"></i>
+            </button>
+        </aside>
+
+        <article class="note-content card" id="note-content">
+            <script type="text/markdown" id="note-markdown">
+# NEGIAO ArcGIS Pro 工具箱
+
+这是一个自定义的 ArcGIS Pro 工具箱文件 (`.atbx`)，其中集成了我在日常工作中开发和整理的地理处理工具。
+
+## 1. 资源下载
+
+<div style="padding: 20px; background: rgba(0, 217, 255, 0.1); border-radius: 8px; border-left: 4px solid var(--primary); margin: 20px 0;">
+    <i class="fas fa-download" style="margin-right: 10px; color: var(--primary);"></i>
+    <a href="../../Others/NEGIAO工具.atbx" download style="font-weight: bold; font-size: 1.1em; color: var(--primary); text-decoration: none;">点击下载 NEGIAO工具.atbx</a>
+</div>
+
+## 2. 工具箱简介
+
+![NEGIAO工具箱预览](resources/工具箱截图.png)
+
+该工具箱旨在提高 WebGIS 数据处理和空间分析的效率。它包含了针对特定工作流优化的脚本工具，目前主要包含以下功能模块：
+
+### 2.1 网络分析工具集
+- **批量最短路径**: 自动化计算多个起点到终点的最短路径，适用于大规模路网分析场景。
+- **网络分析图层构建**: 快速构建用于网络分析的基础图层，简化繁琐的预处理步骤。
+
+### 2.2 数据转换与处理
+- **NC批量转栅格**: 将 NetCDF (.nc) 格式的气象或海洋数据批量转换为 GIS 可用的栅格数据 (Raster)，便于后续空间分析。
+- **火星坐标<=>WGS-84坐标转换**: 提供 GCJ-02 (火星坐标系) 与 WGS-84 坐标系之间的相互转换，解决国内地图数据偏移问题。
+- **直线段转曲线段**: 将折线或直线要素平滑转换为曲线，提升制图美观度。
+
+## 3. 使用方法
+
+### 3.1 环境要求
+- **软件**: ArcGIS Pro 3.x 或更高版本
+- **系统**: Windows 10/11
+
+### 3.2 安装步骤
+
+1. **下载文件**: 点击上方的下载链接，将 `NEGIAO工具.atbx` 文件保存到本地目录（建议保存到项目文件夹或固定的工具箱目录）。
+2. **打开 ArcGIS Pro**: 启动你的 ArcGIS Pro 项目。
+3. **打开目录窗格**: 确保 "Catalog" (目录) 窗格是可见的。如果未显示，请在顶部菜单栏点击 `View` -> `Catalog Pane`。
+4. **添加工具箱**:
+   - 在 Catalog 窗格中，找到 **Toolboxes** 节点。
+   - 右键点击 **Toolboxes**，选择 **Add Toolbox** (添加工具箱)。
+   - 在弹出的文件浏览窗口中，定位并选中刚才下载的 `NEGIAO工具.atbx`。
+   - 点击 **OK**。
+5. **运行工具**:
+   - 展开新添加的 `NEGIAO工具`，你将看到其中包含的脚本工具。
+   - 双击工具即可打开运行界面。
+
+## 4. 注意事项
+
+- 请确保你的 ArcGIS Pro 许可支持运行自定义 Python 脚本工具。
+- 如果工具运行报错，请检查输入数据的路径是否包含特殊字符。
+- 建议定期查看本页面获取工具箱的更新版本。
+
+---
+
+*最后更新时间: 2025-11-26*
+            </script>
+    </article>
+    </main>
+
+    <!-- Load highlight.js with defer to improve page load performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
+    
+    <script>
+        // Optimized markdown rendering
+        document.addEventListener('DOMContentLoaded', function() {
+            // Process markdown asynchronously for better performance
+            setTimeout(function() {
+                const src = document.getElementById('note-markdown');
+                if (!src) return;
+                
+                // Extract markdown content
+                const md = src.textContent || src.innerText || '';
+                
+                // Process markdown in chunks for better responsiveness
+                processMarkdown(md, function(html) {
+                    const container = document.getElementById('note-content');
+                    if (!container) return;
+                    
+                    // Insert the HTML
+                    container.innerHTML = html;
+                    
+                    // Build table of contents
+                    if (window.buildNoteTOC) {
+                        requestAnimationFrame(function() {
+                            window.buildNoteTOC();
+                            
+                            // Set up TOC toggle functionality
+                            setupTocToggle();
+                        });
+                    }
+                    
+                    // Apply syntax highlighting
+                    if (window.hljs) {
+                        // Use requestIdleCallback for non-critical task if available
+                        (window.requestIdleCallback || setTimeout)(function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        }, { timeout: 500 });
+                    } else {
+                        // Wait for highlight.js to load
+                        window.onhljsready = function() {
+                            container.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightBlock(block);
+                            });
+                        };
+                    }
+                });
+            }, 0);
+        });
+        
+        // Process markdown in chunks for better UI responsiveness
+        function processMarkdown(md, callback) {
+            // Use requestAnimationFrame to avoid blocking the main thread
+            requestAnimationFrame(function() {
+                let html;
+                try {
+                    // Use available markdown parser
+                    if (window.marked) {
+                        html = window.marked.parse(md);
+                    } else if (window.markdownit) {
+                        html = window.markdownit().render(md);
+                    } else {
+                        html = md; // Fallback
+                    }
+                    callback(html);
+                } catch (e) {
+                    console.error('Error parsing markdown:', e);
+                    callback('<p>Error parsing markdown content.</p>');
+                }
+            });
+        }
+        
+        // Set up TOC toggle functionality
+        function setupTocToggle() {
+            const tocToggle = document.getElementById('toc-toggle');
+            const tocAside = document.querySelector('.note-toc');
+            
+            if (tocToggle && tocAside) {
+                tocToggle.addEventListener('click', function() {
+                    tocAside.classList.toggle('note-toc--collapsed');
+                    const collapsed = tocAside.classList.contains('note-toc--collapsed');
+                    tocToggle.setAttribute('aria-expanded', String(!collapsed));
+                    
+                    // 缓存状态到localStorage
+                    try { 
+                        localStorage.setItem('note-toc-collapsed', collapsed ? '1' : '0'); 
+                    } catch (err) {}
+                    
+                    // 立即更新视觉状态
+                    if (window.innerWidth >= 769) {
+                        if (collapsed) {
+                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
+                            tocAside.style.right = '12px';
+                        } else {
+                            tocAside.style.transform = 'translateY(-50%) translateZ(0)';
+                            tocAside.style.right = '28px';
+                        }
+                    }
+                });
+                
+                // 恢复保存的状态
+                try {
+                    const saved = localStorage.getItem('note-toc-collapsed');
+                    if (saved === '1') {
+                        tocAside.classList.add('note-toc--collapsed');
+                        if (window.innerWidth >= 769) {
+                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
+                            tocAside.style.right = '12px';
+                        }
+                        tocToggle.setAttribute('aria-expanded', 'false');
+                    }
+                } catch (err) {}
+            }
+        }
+        
+        // Set up highlight.js load callback
+        if (typeof hljs === 'undefined') {
+            window.addEventListener('load', function() {
+                if (typeof hljs !== 'undefined' && typeof window.onhljsready === 'function') {
+                    window.onhljsready();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

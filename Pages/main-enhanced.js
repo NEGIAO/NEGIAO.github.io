@@ -1,4 +1,35 @@
 // Enhanced Navigation and Interactive Features for NEGIAO.github.io
+(function ensureFavicon() {
+    try {
+        const head = document.head;
+        if (!head) {
+            return;
+        }
+
+        const targetHref = '/images/icon.png';
+        function upsertLink(relValue) {
+            let linkEl = document.querySelector(`link[rel="${relValue}"]`);
+            if (!linkEl) {
+                linkEl = document.createElement('link');
+                linkEl.rel = relValue;
+                head.appendChild(linkEl);
+            }
+            linkEl.href = targetHref;
+            if (!linkEl.type) {
+                linkEl.type = 'image/png';
+            }
+            if (!linkEl.sizes || linkEl.sizes.value === '') {
+                linkEl.sizes = '32x32 192x192 512x512';
+            }
+        }
+
+        upsertLink('icon');
+        upsertLink('shortcut icon');
+    } catch (err) {
+        console.warn('Failed to apply favicon:', err);
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     // Loading screen with improved performance
     const loadingScreen = document.getElementById('loading-screen');

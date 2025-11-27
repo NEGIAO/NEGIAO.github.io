@@ -124,6 +124,30 @@
             font-size: 0.9em;
             color: var(--text-secondary);
             line-height: 1.4;
+            margin-top: auto;
+        }
+
+        .gallery-detail-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: var(--gradient-primary);
+            color: #fff;
+            font-size: 0.88em;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .gallery-detail-link:hover,
+        .gallery-detail-link:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            color: #fff;
         }
 
         .gallery-placeholder {
@@ -139,7 +163,6 @@
         /* Lightbox styles (optional, for future enhancement) */
         .gallery-item a {
             text-decoration: none;
-            color: inherit;
         }
     </style>
 </head>
@@ -1267,7 +1290,16 @@
 
                     const descEl = document.createElement('div');
                     descEl.className = 'gallery-desc';
-                    descEl.textContent = item.description || '描述待补充。';
+
+                    const detailLink = document.createElement('a');
+                    detailLink.className = 'gallery-detail-link';
+                    detailLink.textContent = item.detailText || '查看地图详细内容';
+                    detailLink.title = '查看 ' + (item.title || '作品') + ' 的详细内容';
+                    detailLink.href = item.detailUrl || item.src;
+                    detailLink.target = '_blank';
+                    detailLink.rel = 'noopener noreferrer';
+
+                    descEl.appendChild(detailLink);
 
                     caption.appendChild(titleEl);
                     caption.appendChild(descEl);

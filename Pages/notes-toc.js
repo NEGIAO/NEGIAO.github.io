@@ -189,99 +189,9 @@
       tocContainer.innerHTML = '';
       tocContainer.appendChild(fragment);
     });
-
-    // Add toggle button and responsive behavior
-    setupTOCBehavior();
     
     // Setup highlighting for active heading
     updateActiveHeading();
-  }
-
-  // Setup TOC toggle and responsive behavior
-  function setupTOCBehavior() {
-    const aside = document.querySelector('.note-toc');
-    if (!aside) return;
-
-    // Responsive position based on screen size
-    function updateTocPosition() {
-      if (window.innerWidth >= 769) {
-        // Let CSS handle positioning
-        aside.style.position = ''; 
-        aside.style.right = '';
-        aside.style.top = '';
-        aside.style.transform = '';
-        aside.style.zIndex = '';
-      } else {
-        aside.style.position = '';
-        aside.style.right = '';
-        aside.style.top = '';
-        aside.style.transform = '';
-        aside.style.zIndex = '';
-        aside.classList.remove('note-toc--collapsed');
-      }
-    }
-
-    // Add toggle button logic
-    let toggle = document.getElementById('toc-toggle');
-    
-    // If button doesn't exist (fallback), create it
-    if (!toggle && window.innerWidth >= 769) {
-      toggle = document.createElement('button');
-      toggle.id = 'toc-toggle';
-      toggle.title = '切换章节索引显示/隐藏';
-      toggle.innerHTML = '<i class="fas fa-list"></i>';
-      // If we create it dynamically, we might need to append it. 
-      // But ideally it should be in HTML. If we append to body, it won't move with TOC.
-      // So we append to aside.
-      aside.appendChild(toggle);
-    }
-
-    if (toggle) {
-      // Update initial state
-      toggle.setAttribute('aria-expanded', String(!aside.classList.contains('note-toc--collapsed')));
-      
-      // Remove old event listeners (by cloning) or just add new one if we are sure
-      // Since this script runs once, we can just add.
-      toggle.onclick = function () {
-        aside.classList.toggle('note-toc--collapsed');
-        const collapsed = aside.classList.contains('note-toc--collapsed');
-        toggle.setAttribute('aria-expanded', String(!collapsed));
-        
-        // Cache state in localStorage
-        try { 
-          localStorage.setItem('note-toc-collapsed', collapsed ? '1' : '0'); 
-        } catch (err) {}
-      };
-
-      // Restore saved state
-      try {
-        const saved = localStorage.getItem('note-toc-collapsed');
-        if (saved === '1') {
-          aside.classList.add('note-toc--collapsed');
-          toggle.setAttribute('aria-expanded', 'false');
-        }
-      } catch (err) {}
-    }
-
-    // Handle resize with throttling
-    const throttledResize = util.throttle(() => {
-      const toggle = document.getElementById('toc-toggle');
-      if (window.innerWidth < 769) {
-        if (toggle) toggle.style.display = 'none';
-        aside.classList.remove('note-toc--collapsed');
-        aside.style.position = '';
-        aside.style.transform = '';
-        aside.style.right = '';
-      } else {
-        if (toggle) toggle.style.display = 'flex';
-        updateTocPosition();
-      }
-    }, 100);
-
-    window.addEventListener('resize', throttledResize, { passive: true });
-    
-    // Initial position update
-    updateTocPosition();
   }
 
   // Handle initial load with progressive enhancement

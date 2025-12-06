@@ -120,7 +120,6 @@
 │   └── vite.config.js        # Vite 构建配置
 ├── images/                   # 站点全局图片资源（图标、背景等）
 ├── .htaccess                 # Apache 服务器配置文件（缓存策略等）
-├── b22528f0881a8f77363f449ce10d0209.txt # 搜索引擎/平台验证文件
 ├── index.html                # 网站首页（个人作品集入口）
 ├── README.md                 # 项目说明文档
 └── start_server.bat          # Windows 本地预览启动脚本

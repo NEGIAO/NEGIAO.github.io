@@ -199,27 +199,47 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.navbar__link, .mobile-menu__link');
     
-    function updateActiveNav() {
-        let current = '';
-        const scrollPosition = window.scrollY + 100;
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                current = section.getAttribute('id');
-            }
+    if ('IntersectionObserver' in window && sections.length > 0) {
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${currentId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, {
+            rootMargin: '-20% 0px -70% 0px' // Trigger when section is near top
         });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
+
+        sections.forEach(section => navObserver.observe(section));
+    } else {
+        // Fallback for older browsers or no sections
+        function updateActiveNav() {
+            let current = '';
+            const scrollPosition = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', updateActiveNav, { passive: true });
     }
-    
-    window.addEventListener('scroll', updateActiveNav, { passive: true });
 
     // Intersection Observer for animations
     const animationObserver = new IntersectionObserver((entries) => {
@@ -321,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Performance optimizations
     // Preload critical images
-    const criticalImages = ['Pages/avatar.jpg'];
+    const criticalImages = ['/Pages/avatar.jpg'];
     criticalImages.forEach(src => {
         const img = new Image();
         img.src = src;
@@ -421,22 +441,24 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(progressBar);
 
         // Update progress on scroll
-        let lastCall = 0;
+        let ticking = false;
+        
         const updateProgress = () => {
-            const now = Date.now();
-            if (now - lastCall >= 10) {
-                lastCall = now;
-                const scrollTop = window.scrollY || document.documentElement.scrollTop;
-                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercent = (scrollTop / docHeight) * 100;
-                
-                requestAnimationFrame(() => {
-                    progressBar.style.width = `${scrollPercent}%`;
-                });
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            progressBar.style.width = `${scrollPercent}%`;
+            ticking = false;
+        };
+
+        const requestTick = () => {
+            if (!ticking) {
+                requestAnimationFrame(updateProgress);
+                ticking = true;
             }
         };
 
-        window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('scroll', requestTick, { passive: true });
     }
     
     // Initialize progress bar

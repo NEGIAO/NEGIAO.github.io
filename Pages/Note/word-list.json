@@ -132,5 +132,12 @@
   {"word":"incidental","meaning":"附带的，次要的","options":["附带的，次要的","事故","附带地，偶然的","药房"],"date":"2025-12-05"},
   {"word":"incidentally","meaning":"附带地，偶然的","options":["附带地，偶然的","附带的，次要的","意外，偶然的","木材；缓慢移动；伐木"],"date":"2025-12-05"},
   {"word":"accidental","meaning":"意外，偶然的","options":["意外，偶然的","事故","附带的，次要的","悬崖，峭壁"],"date":"2025-12-05"},
-  {"word":"scissors","meaning":"剪刀","options":["剪刀","关税","抹布","罐子"],"date":"2025-12-05"}
+  {"word":"scissors","meaning":"剪刀","options":["剪刀","关税","抹布","罐子"],"date":"2025-12-05"},
+  {"word":"brevity","meaning":"简短","options":["简短","勤劳的","摆动","经纪人"],"date":"2025-12-06"},
+  {"word":"concise","meaning":"简明的","options":["简明的","匆忙的","推动，驱动","简短"],"date":"2025-12-06"},
+  {"word":"diligent","meaning":"勤劳的","options":["勤劳的","简明的","摆动","经纪人"],"date":"2025-12-06"},
+  {"word":"snap","meaning":"匆忙的","options":["匆忙的","简短","推动，驱动","摆动"],"date":"2025-12-06"},
+  {"word":"swing","meaning":"摆动","options":["摆动","经纪人","勤劳的","简明的"],"date":"2025-12-06"},
+  {"word":"propel","meaning":"推动，驱动","options":["推动，驱动","匆忙的","简短","摆动"],"date":"2025-12-06"},
+  {"word":"broker","meaning":"经纪人","options":["经纪人","推动，驱动","勤劳的","简明的"],"date":"2025-12-06"}
 ]

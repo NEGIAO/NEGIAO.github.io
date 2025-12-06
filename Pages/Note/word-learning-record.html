@@ -1611,10 +1611,10 @@
                     this.testResult.textContent = '✅ 正确！正在跳转...';
                     this.testResult.className = 'test-result correct';
                     
-                    // 正确答案：1.5秒后自动跳转下一题
+                    // 正确答案：0.5秒后自动跳转下一题
                     setTimeout(() => {
                         this.nextQuestion();
-                    }, 1500);
+                    }, 500);
                 } else {
                     this.wrongCount++;
                     this.testResult.textContent = `❌ 错误！正确答案是: ${this.currentWord.meaning}`;

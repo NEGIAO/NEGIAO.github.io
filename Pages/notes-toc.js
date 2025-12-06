@@ -1,18 +1,11 @@
-/**
- * Optimized Table of Contents Generator for Technical Notes
- * Performance improvements include:
- * - Deferred loading using Intersection Observer
- * - Throttled scroll events
- * - Optimized DOM operations
- * - Reduced layout thrashing
- */
+
 (function () {
-  // Helper utilities
+  // 辅助工具函数
   const util = {
-    // Slugify text for IDs
+    // 将文本转换为 ID 格式
     slugify: (text) => text.toLowerCase().trim().replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-').replace(/(^-|-$)/g, ''),
 
-    // Throttle function to limit execution frequency
+    // 节流函数，限制执行频率
     throttle: (func, delay) => {
       let lastCall = 0;
       return function (...args) {
@@ -24,7 +17,7 @@
       };
     },
 
-    // Optimize DOM batch operations
+    // 优化 DOM 批量操作
     batchDOM: (callback) => {
       return window.requestAnimationFrame(() => {
         callback();
@@ -32,9 +25,9 @@
     }
   };
 
-  // Scroll Progress Bar Feature
+  // 滚动进度条功能
   function initProgressBar() {
-    // Create progress bar element
+    // 创建进度条元素
     const progressBar = document.createElement('div');
     progressBar.id = 'scroll-progress';
     progressBar.style.cssText = `
@@ -50,7 +43,7 @@
     `;
     document.body.appendChild(progressBar);
 
-    // Update progress on scroll
+    // 滚动时更新进度
     const updateProgress = util.throttle(() => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -64,27 +57,27 @@
     window.addEventListener('scroll', updateProgress, { passive: true });
   }
 
-  // Highlight active ToC item when scrolling
+  // 滚动时高亮当前目录项
   function updateActiveHeading() {
     const headings = Array.from(document.querySelectorAll('.note-content h2, .note-content h3, .note-content h4'));
     const tocLinks = document.querySelectorAll('.note-toc__link');
     
     if (!headings.length || !tocLinks.length) return;
     
-    // Use IntersectionObserver instead of scroll calculations for better performance
+    // 使用 IntersectionObserver 代替滚动计算以提高性能
     if (!window._tocObserver) {
       const headingOffset = 100;
       window._tocObserver = new IntersectionObserver((entries) => {
         let activeHeading = null;
         
-        // Check which headings are in view
+        // 检查哪些标题在视图中
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             activeHeading = entry.target;
           }
         });
         
-        // Highlight the corresponding TOC link
+        // 高亮对应的目录链接
         if (activeHeading) {
           const activeId = activeHeading.id;
           tocLinks.forEach(link => {
@@ -101,45 +94,45 @@
         threshold: [0, 1]
       });
       
-      // Observe all headings
+      // 观察所有标题
       headings.forEach(heading => {
         window._tocObserver.observe(heading);
       });
     }
   }
 
-  // Build the table of contents
+  // 生成目录
   function buildTOC() {
     const content = document.querySelector('.note-content');
     const tocContainer = document.getElementById('note-toc');
     
     if (!content || !tocContainer) return;
 
-    // Use fragment for batch DOM updates
+    // 使用文档片段进行批量 DOM 更新
     const fragment = document.createDocumentFragment();
     const headings = content.querySelectorAll('h2, h3, h4');
     
-    // Early exit if no headings found
+    // 如果没有找到标题则提前退出
     if (!headings.length) {
       tocContainer.innerHTML = '<p class="text-muted">本文暂无章节标题。</p>';
       return;
     }
 
-    // Create list element once
+    // 创建列表元素
     const list = document.createElement('ul');
     list.className = 'note-toc__list';
 
-    // Build all list items
+    // 构建所有列表项
     headings.forEach(function (h) {
-      // Create or assign ID to heading
+      // 创建或分配 ID 给标题
       const id = h.id || util.slugify(h.textContent);
       if (!h.id) h.id = id;
 
-      // Create list item
+      // 创建列表项
       const li = document.createElement('li');
       li.className = 'note-toc__item note-toc-level-' + h.tagName.toLowerCase();
 
-      // Create anchor with smooth scroll
+      // 创建带有平滑滚动的锚点
       const a = document.createElement('a');
       a.href = '#' + id;
       a.textContent = h.textContent;
@@ -153,7 +146,7 @@
         const target = document.getElementById(id);
         if (!target) return;
         
-        const offset = 72; // account for fixed navbar height
+        const offset = 72; // 考虑固定导航栏的高度
         const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
         
         window.scrollTo({ 
@@ -161,16 +154,16 @@
           behavior: 'smooth' 
         });
         
-        // Update URL hash without scrolling
+        // 更新 URL 哈希而不滚动
         history.pushState(null, null, '#' + id);
       });
 
-      // Add link to list item
+      // 将链接添加到列表项
       li.appendChild(a);
       list.appendChild(li);
     });
 
-    // Build title and add everything to fragment
+    // 构建标题并将所有内容添加到片段
     const title = document.createElement('h4');
     title.className = 'note-toc__title';
     
@@ -184,19 +177,19 @@
     fragment.appendChild(title);
     fragment.appendChild(list);
 
-    // Add to DOM in one batch update
+    // 批量更新到 DOM
     util.batchDOM(() => {
       tocContainer.innerHTML = '';
       tocContainer.appendChild(fragment);
     });
     
-    // Setup highlighting for active heading
+    // 设置当前标题高亮
     updateActiveHeading();
   }
 
-  // Handle initial load with progressive enhancement
+  // 使用渐进增强处理初始加载
   function init() {
-    // If DOM is already loaded, build TOC immediately
+    // 如果 DOM 已加载，立即生成目录
     if (document.readyState !== 'loading') {
       util.batchDOM(() => {
         buildTOC();
@@ -205,7 +198,7 @@
       return;
     }
     
-    // Otherwise wait for DOM to be ready
+    // 否则等待 DOM 准备就绪
     document.addEventListener('DOMContentLoaded', function() {
       util.batchDOM(() => {
         buildTOC();
@@ -214,12 +207,12 @@
     });
   }
 
-  // Add scroll event handler for active heading highlighting
+  // 添加滚动事件处理程序以高亮当前标题
   window.addEventListener('scroll', util.throttle(updateActiveHeading, 100), { passive: true });
   
-  // Initialize
+  // 初始化
   init();
   
-  // Expose public API
+  // 暴露公共 API
   window.buildNoteTOC = buildTOC;
 })();

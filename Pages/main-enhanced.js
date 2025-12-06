@@ -1,4 +1,4 @@
-// Enhanced Navigation and Interactive Features for NEGIAO.github.io
+// NEGIAO.github.io 的增强导航和交互功能
 (function ensureFavicon() {
     try {
         const head = document.head;
@@ -31,14 +31,14 @@
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Loading screen with improved performance
+    // 性能优化的加载屏幕
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadingScreen.style.opacity = '0';
                 loadingScreen.style.visibility = 'hidden';
-                // Remove from DOM after animation
+                // 动画结束后从 DOM 中移除
                 setTimeout(() => {
                     if (loadingScreen.parentNode) {
                         loadingScreen.parentNode.removeChild(loadingScreen);
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Enhanced Navbar with scroll effects
+    // 带有滚动效果的增强导航栏
     const navbar = document.querySelector('.navbar');
     let lastScrollY = window.scrollY;
     let ticking = false;
@@ -56,14 +56,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateNavbar() {
         const currentScrollY = window.scrollY;
         
-        // Add scrolled class for styling
+        // 添加滚动类以应用样式
         if (currentScrollY > 50) {
             navbar.classList.add('navbar--scrolled');
         } else {
             navbar.classList.remove('navbar--scrolled');
         }
         
-        // Hide/show navbar based on scroll direction
+        // 根据滚动方向隐藏/显示导航栏
         if (Math.abs(currentScrollY - lastScrollY) > 5) {
             if (currentScrollY > lastScrollY && currentScrollY > 200) {
                 navbar.style.transform = 'translateY(-100%)';
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.addEventListener('scroll', requestTick, { passive: true });
 
-    // Enhanced Mobile Menu
+    // 增强移动端菜单
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     let isMenuOpen = false;
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenuToggle.setAttribute('aria-expanded', isMenuOpen);
         mobileMenuToggle.classList.toggle('active', isMenuOpen);
         
-        // Update icon with animation
+        // 带动画更新图标
         const icon = mobileMenuToggle.querySelector('i');
         if (icon) {
             icon.style.transform = 'rotate(180deg)';
@@ -106,10 +106,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 75);
         }
         
-        // Prevent body scroll when menu is open
+        // 菜单打开时防止页面滚动
         document.body.style.overflow = isMenuOpen ? 'hidden' : '';
         
-        // Focus management
+        // 焦点管理
         if (isMenuOpen) {
             const firstLink = mobileMenu.querySelector('.mobile-menu__link');
             if (firstLink) {
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mobileMenuToggle && mobileMenu) {
         mobileMenuToggle.addEventListener('click', toggleMobileMenu);
         
-        // Close menu when clicking on links
+        // 点击链接时关闭菜单
         const mobileMenuLinks = mobileMenu.querySelectorAll('.mobile-menu__link');
         mobileMenuLinks.forEach(link => {
             link.addEventListener('click', () => {
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Close menu when pressing Escape
+        // 按下 Escape 键时关闭菜单
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && isMenuOpen) {
                 toggleMobileMenu();
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Close menu when clicking outside
+        // 点击外部时关闭菜单
         document.addEventListener('click', (e) => {
             if (isMenuOpen && !mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
                 toggleMobileMenu();
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Enhanced smooth scrolling
+    // 增强平滑滚动
     function smoothScrollTo(target, offset = 80) {
         const targetPosition = target.offsetTop - offset;
         const startPosition = window.pageYOffset;
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(animation);
     }
 
-    // Handle anchor links
+    // 处理锚点链接
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
     anchorLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (target) {
                 smoothScrollTo(target);
                 
-                // Update focus for accessibility
+                // 更新焦点以支持无障碍访问
                 target.setAttribute('tabindex', '-1');
                 setTimeout(() => {
                     target.focus({ preventScroll: true });
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Active navigation highlighting
+    // 激活导航高亮
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.navbar__link, .mobile-menu__link');
     
@@ -213,12 +213,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }, {
-            rootMargin: '-20% 0px -70% 0px' // Trigger when section is near top
+            rootMargin: '-20% 0px -70% 0px' // 当部分接近顶部时触发
         });
 
         sections.forEach(section => navObserver.observe(section));
     } else {
-        // Fallback for older browsers or no sections
+        // 旧浏览器或无部分的后备方案
         function updateActiveNav() {
             let current = '';
             const scrollPosition = window.scrollY + 100;
@@ -241,12 +241,12 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('scroll', updateActiveNav, { passive: true });
     }
 
-    // Intersection Observer for animations
+    // 用于动画的 Intersection Observer
     const animationObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
-                // Unobserve after animation to improve performance
+                // 动画结束后取消观察以提高性能
                 animationObserver.unobserve(entry.target);
             }
         });
@@ -255,20 +255,23 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -50px 0px'
     });
 
-    // Observe elements for animation
+    // 观察元素以进行动画
     const animatedElements = document.querySelectorAll('.card:not(.note-toc), .feature, .hero__title, .hero__subtitle, .tech-badge');
     animatedElements.forEach((el, index) => {
-        // Add initial styles for animation
+        // 添加动画初始样式
         el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = `opacity 0.3s ease ${index * 0.05}s, transform 0.3s ease ${index * 0.05}s`;
+        el.style.transform = 'translateY(20px)';
+        // 使用取模防止下方元素延迟过长
+        // 最大延迟将是 0.1s * 5 = 0.5s
+        const delay = (index % 5) * 0.1;
+        el.style.transition = `opacity 0.4s ease-out ${delay}s, transform 0.4s ease-out ${delay}s`;
         animationObserver.observe(el);
     });
 
-    // Enhanced card interactions
+    // 增强卡片交互
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
-        // Add ripple effect on click
+        // 点击时添加波纹效果
         card.addEventListener('click', function(e) {
             const rect = this.getBoundingClientRect();
             const ripple = document.createElement('span');
@@ -302,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add ripple animation keyframes
+    // 添加波纹动画关键帧
     if (!document.querySelector('#ripple-styles')) {
         const style = document.createElement('style');
         style.id = 'ripple-styles';
@@ -321,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.head.appendChild(style);
     }
 
-    // Parallax effect for floating shapes
+    // 浮动形状的视差效果
     const floatingShapes = document.querySelectorAll('.floating-shapes .shape');
     if (floatingShapes.length > 0) {
         window.addEventListener('scroll', () => {
@@ -333,21 +336,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }, { passive: true });
     }
 
-    // Dynamic year update
+    // 动态年份更新
     const currentYearElement = document.getElementById('current-year');
     if (currentYearElement) {
         currentYearElement.textContent = new Date().getFullYear();
     }
 
-    // Performance optimizations
-    // Preload critical images
+    // 性能优化
+    // 预加载关键图片
     const criticalImages = ['/Pages/avatar.jpg'];
     criticalImages.forEach(src => {
         const img = new Image();
         img.src = src;
     });
 
-    // Lazy load non-critical images
+    // 懒加载非关键图片
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -364,8 +367,8 @@ document.addEventListener('DOMContentLoaded', function() {
         lazyImages.forEach(img => imageObserver.observe(img));
     }
 
-    // Enhanced accessibility
-    // Skip link
+    // 增强无障碍访问
+    // 跳转链接
     const skipLink = document.createElement('a');
     skipLink.href = '#main';
     skipLink.textContent = '跳转到主要内容';
@@ -393,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.body.insertBefore(skipLink, document.body.firstChild);
 
-    // Back to Top Button
+    // 返回顶部按钮
     const backToTopButton = document.createElement('button');
     backToTopButton.className = 'back-to-top';
     backToTopButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
@@ -419,12 +422,12 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(updateBackToTop);
     }, { passive: true });
 
-    // Scroll Progress Bar Feature (Added to main script for consistency)
+    // 滚动进度条功能（添加到主脚本以保持一致性）
     function initProgressBar() {
-        // Check if already exists
+        // 检查是否已存在
         if (document.getElementById('scroll-progress')) return;
 
-        // Create progress bar element
+        // 创建进度条元素
         const progressBar = document.createElement('div');
         progressBar.id = 'scroll-progress';
         progressBar.style.cssText = `
@@ -440,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         document.body.appendChild(progressBar);
 
-        // Update progress on scroll
+        // 滚动时更新进度
         let ticking = false;
         
         const updateProgress = () => {
@@ -461,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('scroll', requestTick, { passive: true });
     }
     
-    // Initialize progress bar
+    // 初始化进度条
     initProgressBar();
 
     console.log('🚀 NEGIAO.github.io enhanced features loaded successfully!');

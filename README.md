@@ -75,60 +75,55 @@
 ## Directory Map
 ```
 .
-├── .github/
-│   └── workflows/
-├── .htaccess
-├── README.md
-├── start_server.bat          # 本地预览启动脚本
-├── Geoscene_宝藏小城/
-│   ├── awesome.html
-│   ├── wordcloud.html
-│   ├── 词云图_利川.html 等词云页面
-│   ├── 季节变化/
-│   ├── 年内变化/
-│   └── 年际变化/
-├── Others/
-│   ├── NEGIAO工具.atbx
-│   └── 使用说明.txt
-├── Pages/
-│   ├── main-enhanced.js
-│   ├── markdown_editor.html
-│   ├── notes.html
-│   ├── notes-toc.js
-│   ├── notes-toc.min.js
-│   ├── schedule.html
-│   ├── style.css
-│   ├── avatar.jpg
-│   └── Note/
-│       ├── arcgis-engine.html
-│       ├── ArcPy.html
-│       ├── gallery.html
-│       ├── negiao-toolbox.html
-│       ├── note-template.html
-│       ├── spatial-analysis-R.html
-│       ├── word-learning-record.html
-│       ├── word-list.json    # 核心词汇数据源
-│       └── resources/
-├── Scripts_based_on_cloud/
-│   └── Python_based_on_cloud.py
-├── WebGIS/                   # 传统 WebGIS 项目
-│   ├── index.html
-│   ├── ol.css
-│   ├── ol.js
-│   ├── assets/
-│   └── images/
-├── WebGIS_henu_trials_5_28_vue3/  # Vue3 WebGIS 项目
-│   ├── src/
-│   ├── public/
-│   ├── vite.config.js
-│   └── package.json
-├── images/
-│   ├── icon.png
-│   └── ...
-├── index.html
-├── b22528f0881a8f77363f449ce10d0209.txt
-├── 大河南.jpg
-└── .vscode/
+├── .github/                  # GitHub Actions 工作流配置
+├── .vscode/                  # VS Code 编辑器配置
+├── Geoscene_宝藏小城/         # Pyecharts 数据可视化专题项目
+│   ├── 季节变化/             # 各城市气温/降水季节变化图表
+│   ├── 年内变化/             # 各城市气象数据年内变化分析
+│   ├── 年际变化/             # 各城市气象数据年际趋势分析
+│   ├── awesome.html          # 可视化图表总览页面
+│   ├── wordcloud.html        # 城市印象词云集合页
+│   └── 词云图_*.html         # 各城市单独的词云展示页面
+├── Others/                   # 其他工具与文档资源
+│   ├── NEGIAO工具.atbx       # ArcGIS Pro 自定义工具箱文件
+│   └── 使用说明.txt          # 工具箱使用说明文档
+├── Pages/                    # 站点主要子页面与公共资源
+│   ├── Note/                 # 技术笔记与学习记录归档
+│   │   ├── resources/        # 笔记引用的图片与附件资源
+│   │   ├── arcgis-engine.html # ArcGIS Engine 开发笔记
+│   │   ├── ArcPy.html        # ArcPy 自动化脚本笔记
+│   │   ├── gallery.html      # 技术成果展示画廊
+│   │   ├── negiao-toolbox.html # 工具箱详细介绍页
+│   │   ├── note-template.html # 笔记页面标准模板
+│   │   ├── spatial-analysis-R.html # R 语言空间分析笔记
+│   │   ├── word-learning-record.html # 英语词汇学习与测试系统
+│   │   └── word-list.json    # 英语学习系统核心词库数据
+│   ├── main-enhanced.js      # 全站核心交互脚本（导航、动画、i18n）
+│   ├── markdown_editor.html  # 在线 Markdown 编辑器工具
+│   ├── notes-toc.js          # 笔记目录自动生成脚本
+│   ├── notes.html            # 技术笔记索引主页
+│   ├── schedule.html         # 智能课程表页面
+│   └── style.css             # 全站通用样式表
+├── Scripts_based_on_cloud/   # 云端自动化脚本存放区
+│   └── Python_based_on_cloud.py # 自动化处理与数据同步脚本
+├── WebGIS/                   # 基于原生 JS/OpenLayers 的 WebGIS 项目
+│   ├── assets/               # WebGIS 项目静态资源
+│   ├── images/               # WebGIS 项目图片资源
+│   ├── index.html            # WebGIS 项目入口
+│   ├── ol.css                # OpenLayers 样式库
+│   └── ol.js                 # OpenLayers 核心库
+├── WebGIS_henu_trials_5_28_vue3/ # 基于 Vue3 + Vite 的现代 WebGIS 项目
+│   ├── public/               # 静态资源目录（含瓦片数据）
+│   ├── src/                  # Vue3 项目源代码
+│   ├── index.html            # Vue3 项目入口 HTML
+│   ├── package.json          # 项目依赖配置
+│   └── vite.config.js        # Vite 构建配置
+├── images/                   # 站点全局图片资源（图标、背景等）
+├── .htaccess                 # Apache 服务器配置文件（缓存策略等）
+├── b22528f0881a8f77363f449ce10d0209.txt # 搜索引擎/平台验证文件
+├── index.html                # 网站首页（个人作品集入口）
+├── README.md                 # 项目说明文档
+└── start_server.bat          # Windows 本地预览启动脚本
 ```
 
 ## Key Assets

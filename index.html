@@ -77,6 +77,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://cdn.bootcdn.net">
+    
+    <link rel="canonical" href="https://negiao.github.io/">
     
     <!-- Font Awesome 精简版 - 只加载使用的图标 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
@@ -142,7 +145,7 @@
     </header>
     
     <!-- 移动端菜单 -->
-    <nav class="mobile-menu" id="mobile-menu" aria-label="移动端菜单">
+    <nav class="mobile-menu" id="mobile-menu" aria-label="移动端菜单" aria-hidden="true">
         <ul class="mobile-menu__nav">
             <li class="mobile-menu__item"><a href="#projects" class="mobile-menu__link">项目</a></li>
             <li class="mobile-menu__item"><a href="#about" class="mobile-menu__link">关于我</a></li>
@@ -163,16 +166,20 @@
                     <img src="Pages/avatar.jpg" alt="NEGIAO's Avatar" class="avatar" fetchpriority="high">
                 </div>
                 <h1 class="hero__title">NEGIAO</h1>
-                <p class="hero__subtitle">WebGIS Coder | 数据可视化 | GISer</p>
+                <div class="hero__subtitle">
+                    <a href="https://git.io/typing-svg">
+                        <img src="https://readme-typing-svg.demolab.com?font=Montserrat&weight=700&size=29&duration=3500&pause=500&color=4FF797&background=FFFFFF00&center=true&vCenter=true&random=true&width=435&lines=WebGIS+Coder;Data+Visualization;GISer;The+science+of+where!" alt="Typing SVG" />
+                    </a>
+                </div>
                 <div class="hero-tech-badges">
-                    <span class="tech-badge tech-badge--primary">
-                        <i class="fas fa-map-marked-alt"></i> WebGIS
+                    <span class="tech-badge tech-badge--primary" title="WebGIS Development">
+                        <i class="fas fa-globe-asia" aria-hidden="true"></i> WebGIS
                     </span>
-                    <span class="tech-badge tech-badge--accent">
-                        <i class="fas fa-chart-bar"></i> 数据可视化
+                    <span class="tech-badge tech-badge--accent" title="Data Visualization">
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> 数据可视化
                     </span>
-                    <span class="tech-badge tech-badge--success">
-                        <i class="fas fa-code"></i> 全栈开发
+                    <span class="tech-badge tech-badge--success" title="Full Stack Development">
+                        <i class="fas fa-laptop-code" aria-hidden="true"></i> 全栈开发
                     </span>
                 </div>
                 <div class="hero__actions">
@@ -241,7 +248,7 @@
                 <!-- 宝藏小城项目 -->
                 <div class="card card--featured">
                     <div class="project-badge" style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-primary); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 600;">
-                        🏆 特色项目
+                        <i class="fas fa-trophy"></i> 比赛项目
                     </div>
                     <div class="project-image-container" style="background: var(--gradient-primary);">
                         <i class="fas fa-chart-area" style="color: white; opacity: 0.9;"></i>
@@ -263,6 +270,9 @@
                 
                 <!-- WebGIS项目 -->
                 <div class="card">
+                    <div class="project-badge" style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-success); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 600;">
+                        <i class="fab fa-vuejs"></i> Vue架构
+                    </div>
                     <div class="project-image-container" style="background: var(--gradient-accent);">
                         <i class="fas fa-globe" style="color: white; opacity: 0.9;"></i>
                     </div>
@@ -288,6 +298,9 @@
                 
                 <!-- 词云图项目 -->
                 <div class="card">
+                    <div class="project-badge" style="position: absolute; top: var(--space-md); right: var(--space-md); background: var(--gradient-primary); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 600;">
+                        <i class="fas fa-award"></i> 比赛项目
+                    </div>
                     <div class="project-image-container" style="background: var(--gradient-cool);">
                         <i class="fas fa-cloud" style="color: white; opacity: 0.9;"></i>
                     </div>
@@ -539,23 +552,43 @@
         });
 
         // 延迟加载 MapMyVisitors 地图 (性能优化)
-        window.addEventListener('load', function() {
-            // 页面完全加载后，再延迟 2 秒加载外部地图脚本
-            // 这样可以避免外部资源阻塞页面渲染，提高国内访问速度
-            setTimeout(function() {
-                const mapContainer = document.getElementById('mapmyvisitors-container');
-                if (mapContainer) {
-                    const script = document.createElement('script');
-                    script.type = 'text/javascript';
-                    script.id = 'mapmyvisitors';
-                    // 添加 async 属性
-                    script.async = true;
-                    script.src = 'https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=tt&d=n-HXgq2Mge1cHPJX6y2jM_UZP-Kfb5kUxv6fYpxnLJ8&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353';
-                    mapContainer.appendChild(script);
-                    console.log('MapMyVisitors script loaded lazily.');
-                }
-            }, 2000);
-        });
+        // 使用 IntersectionObserver 实现懒加载，只有当用户滚动到页脚附近时才加载地图
+        if ('IntersectionObserver' in window) {
+            const mapObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        loadMapMyVisitors();
+                        mapObserver.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '200px' }); // 提前 200px 加载
+
+            const footer = document.querySelector('footer');
+            if (footer) {
+                mapObserver.observe(footer);
+            } else {
+                // Fallback if footer not found
+                setTimeout(loadMapMyVisitors, 3000);
+            }
+        } else {
+            // Fallback for older browsers
+            window.addEventListener('load', function() {
+                setTimeout(loadMapMyVisitors, 3000);
+            });
+        }
+
+        function loadMapMyVisitors() {
+            const mapContainer = document.getElementById('mapmyvisitors-container');
+            if (mapContainer && !document.getElementById('mapmyvisitors')) {
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.id = 'mapmyvisitors';
+                script.async = true;
+                script.src = 'https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=tt&d=n-HXgq2Mge1cHPJX6y2jM_UZP-Kfb5kUxv6fYpxnLJ8&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353';
+                mapContainer.appendChild(script);
+                console.log('MapMyVisitors script loaded lazily.');
+            }
+        }
     </script>
 </body>
 </html>

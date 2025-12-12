@@ -97,7 +97,8 @@
 │   │   ├── note-template.html # 笔记页面标准模板
 │   │   ├── spatial-analysis-R.html # R 语言空间分析笔记
 │   │   ├── word-learning-record.html # 英语词汇学习与测试系统
-│   │   └── word-list.json    # 英语学习系统核心词库数据
+│   │   ├── word-list.json    # 英语学习系统核心词库数据
+│   │   └── ZhouDi_learning/  # 周迪个人学习记录子目录
 │   ├── main-enhanced.js      # 全站核心交互脚本（导航、动画、i18n）
 │   ├── markdown_editor.html  # 在线 Markdown 编辑器工具
 │   ├── notes-toc.js          # 笔记目录自动生成脚本
@@ -158,10 +159,16 @@ python -m http.server 8080
 - **Vue 3 / Vite**：现代 WebGIS 项目构建。
 - **ECharts & Pyecharts**：宝藏小城数据可视化。
 - **OpenLayers / Cesium**：WebGIS 地图渲染与交互（2D/3D）。
-- **Highlight.js / Marked**：笔记语法高亮与 Markdown 渲染。
+- **Highlight.js / Marked**：笔记语法高亮与 Markdown 渲染（已优化 CDN 源）。
 - **Python**：云端脚本、词汇数据处理、本地服务器。
 
 ## Changelog
+
+### 2025-12-12 · v1.5.1
+- **性能与稳定性优化**：
+    - **CDN 源切换**：将全站笔记页面的 `highlight.js` 和 `marked.js` 依赖源从 `bootcdn` 切换至 `cdnjs.loli.net`，显著提升国内访问速度与稳定性。
+    - **资源本地化**：将首页 Hero 区域的动态打字效果 SVG (`typing.svg`) 本地化存储至 `images/` 目录，彻底解决外部服务不稳定导致的加载缓慢问题。
+    - **WebGIS 样式微调**：优化 Vue3 WebGIS 项目 (`WebGIS_henu_trials_5_28_vue3`) 的 Cesium 容器样式与布局。
 
 ### 2025-12-06 · v1.5.0
 - **英语学习系统重大更新**：

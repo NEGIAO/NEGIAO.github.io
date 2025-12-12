@@ -26,6 +26,12 @@
         var script = document.createElement('script');
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
         script.async = true;
+        
+        // 添加加载失败的处理
+        script.onerror = function() {
+            console.log('国内无法访问该功能: Google Analytics');
+        };
+        
         document.head.appendChild(script);
         
         window.dataLayer = window.dataLayer || [];
@@ -224,7 +230,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script>
         const editor = document.getElementById('markdown-editor');
         const preview = document.getElementById('content');

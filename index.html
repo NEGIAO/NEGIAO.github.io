@@ -87,24 +87,6 @@
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Google Analytics 跟踪代码 - 优化延迟加载 -->
-    <script>
-    // 延迟加载Google Analytics
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var script = document.createElement('script');
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
-        script.async = true;
-        document.head.appendChild(script);
-        
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-KYJ7Y4LE2N');
-      }, 3000); // 页面加载3秒后再加载分析
-    });
-    </script>
-    
     <!-- 设置缓存控制 - 一个月缓存时间 -->
     <meta http-equiv="Cache-Control" content="max-age=2592000, public">
     
@@ -551,44 +533,41 @@
             console.log('页面访问次数:', visits);
         });
 
-        // 延迟加载 MapMyVisitors 地图 (性能优化)
-        // 使用 IntersectionObserver 实现懒加载，只有当用户滚动到页脚附近时才加载地图
-        if ('IntersectionObserver' in window) {
-            const mapObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        loadMapMyVisitors();
-                        mapObserver.unobserve(entry.target);
-                    }
-                });
-            }, { rootMargin: '200px' }); // 提前 200px 加载
+        // 延迟加载被墙内容，确保国内用户快速加载页面(性能优化)
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                // 1. 加载 MapMyVisitors
+                const mapContainer = document.getElementById('mapmyvisitors-container');
+                if (mapContainer && !document.getElementById('mapmyvisitors')) {
+                    const script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.id = 'mapmyvisitors';
+                    script.async = true;
+                    script.src = 'https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=tt&d=n-HXgq2Mge1cHPJX6y2jM_UZP-Kfb5kUxv6fYpxnLJ8&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353';
+                    script.onerror = function() {
+                        console.log('国内无法访问该功能: MapMyVisitors');
+                    };
+                    mapContainer.appendChild(script);
+                    console.log('MapMyVisitors script loaded lazily.');
+                }
 
-            const footer = document.querySelector('footer');
-            if (footer) {
-                mapObserver.observe(footer);
-            } else {
-                // Fallback if footer not found
-                setTimeout(loadMapMyVisitors, 3000);
-            }
-        } else {
-            // Fallback for older browsers
-            window.addEventListener('load', function() {
-                setTimeout(loadMapMyVisitors, 3000);
-            });
-        }
+                // 2. 加载 Google Analytics
+                const gaScript = document.createElement('script');
+                gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+                gaScript.async = true;
+                gaScript.onerror = function() {
+                    console.log('国内无法访问该功能: Google Analytics');
+                };
+                document.head.appendChild(gaScript);
+                
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-KYJ7Y4LE2N');
+                console.log('Google Analytics loaded lazily.');
 
-        function loadMapMyVisitors() {
-            const mapContainer = document.getElementById('mapmyvisitors-container');
-            if (mapContainer && !document.getElementById('mapmyvisitors')) {
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.id = 'mapmyvisitors';
-                script.async = true;
-                script.src = 'https://mapmyvisitors.com/map.js?cl=ffffff&w=300&t=tt&d=n-HXgq2Mge1cHPJX6y2jM_UZP-Kfb5kUxv6fYpxnLJ8&co=2d78ad&ct=ffffff&cmo=3acc3a&cmn=ff5353';
-                mapContainer.appendChild(script);
-                console.log('MapMyVisitors script loaded lazily.');
-            }
-        }
+            }, 3000); // 页面加载3秒后再加载第三方脚本
+        });
     </script>
 </body>
 </html>

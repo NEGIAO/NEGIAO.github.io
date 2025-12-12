@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script defer src="../notes-toc.js"></script>
     <script defer src="../main-enhanced.js"></script>
     
@@ -32,6 +32,12 @@
         var script = document.createElement('script');
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
         script.async = true;
+        
+        // 添加加载失败的处理
+        script.onerror = function() {
+            console.log('国内无法访问该功能: Google Analytics');
+        };
+        
         document.head.appendChild(script);
         
         window.dataLayer = window.dataLayer || [];

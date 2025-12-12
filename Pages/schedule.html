@@ -29,6 +29,12 @@
         var script = document.createElement('script');
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
         script.async = true;
+        
+        // 添加加载失败的处理
+        script.onerror = function() {
+            console.log('国内无法访问该功能: Google Analytics');
+        };
+        
         document.head.appendChild(script);
         
         window.dataLayer = window.dataLayer || [];

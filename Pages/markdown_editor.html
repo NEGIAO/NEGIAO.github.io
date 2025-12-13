@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,7 @@
     <meta name="keywords" content="Markdown, 编辑器, 在线工具, 实时预览, NEGIAO">
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://negiao.github.io/Pages/markdown_editor.html">
@@ -18,28 +19,28 @@
     <title>Markdown 编辑器 - NEGIAO</title>
     <link rel="icon" type="image/png" href="/images/icon.png">
     <link rel="shortcut icon" type="image/png" href="/images/icon.png">
-    
+
     <!-- Google Analytics -->
     <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var script = document.createElement('script');
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
-        script.async = true;
-        
-        // 添加加载失败的处理
-        script.onerror = function() {
-            console.log('国内无法访问该功能: Google Analytics');
-        };
-        
-        document.head.appendChild(script);
-        
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-KYJ7Y4LE2N');
-      }, 3000);
-    });
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+                script.async = true;
+
+                // 添加加载失败的处理
+                script.onerror = function () {
+                    console.log('国内无法访问该功能: Google Analytics');
+                };
+
+                document.head.appendChild(script);
+
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-KYJ7Y4LE2N');
+            }, 3000);
+        });
     </script>
 
     <style>
@@ -54,6 +55,7 @@
             --font-sans: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
+
         body {
             font-family: var(--font-sans);
             line-height: 1.7;
@@ -62,10 +64,12 @@
             margin: 0;
             padding: 2rem;
         }
+
         .container {
             max-width: 90%;
             margin: 0 auto;
         }
+
         .editor-container {
             display: flex;
             height: calc(100vh - 12rem);
@@ -73,15 +77,19 @@
             border-radius: 0 0 6px 6px;
             overflow: hidden;
         }
-        .editor-pane, .preview-pane {
+
+        .editor-pane,
+        .preview-pane {
             width: 50%;
             height: 100%;
             padding: 1rem;
             overflow-y: auto;
         }
+
         .editor-pane {
             border-right: 1px solid var(--border);
         }
+
         #markdown-editor {
             width: 100%;
             height: 100%;
@@ -94,23 +102,30 @@
             resize: none;
             outline: none;
         }
+
         #content {
             background: var(--surface);
             border-radius: 6px;
         }
-        h1, h2, h3 {
+
+        h1,
+        h2,
+        h3 {
             color: var(--primary);
             border-bottom: 1px solid var(--border);
             padding-bottom: 0.5rem;
             margin-top: 1.5rem;
         }
+
         a {
             color: var(--primary);
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
+
         code {
             background: var(--background);
             padding: 0.2em 0.4em;
@@ -119,6 +134,7 @@
             border-radius: 3px;
             font-family: var(--font-mono);
         }
+
         pre {
             background: var(--background);
             border: 1px solid var(--border);
@@ -126,33 +142,41 @@
             border-radius: 6px;
             overflow-x: auto;
         }
+
         pre code {
             padding: 0;
             background: none;
         }
+
         blockquote {
             border-left: 4px solid var(--primary);
             padding-left: 1rem;
             color: var(--text-light);
             margin-left: 0;
         }
+
         .back-link {
             display: inline-block;
             margin-bottom: 2rem;
             font-weight: 500;
         }
+
         table {
             border-collapse: collapse;
             width: 100%;
             margin-bottom: 1rem;
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid var(--border);
             padding: 0.5rem;
         }
+
         th {
             background-color: var(--surface-alt);
         }
+
         .toolbar {
             display: flex;
             gap: 0.5rem;
@@ -162,6 +186,7 @@
             border: 1px solid var(--border);
             border-radius: 6px 6px 0 0;
         }
+
         .toolbar-btn {
             background: var(--surface-alt);
             border: 1px solid var(--border);
@@ -175,14 +200,17 @@
             align-items: center;
             gap: 0.3rem;
         }
+
         .toolbar-btn:hover {
             background: var(--primary);
             color: var(--background);
             transform: translateY(-1px);
         }
+
         .toolbar-btn:active {
             transform: translateY(0);
         }
+
         .toolbar-btn[disabled] {
             opacity: 0.5;
             cursor: not-allowed;
@@ -190,11 +218,12 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <a href="../index.html" class="back-link">&larr; 返回主页</a>
         <h1 style="text-align: center; margin-bottom: 2rem;">实时 Markdown 编辑器</h1>
-        
+
         <div class="toolbar">
             <button class="toolbar-btn" id="clear-btn" title="清空编辑器内容">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -219,7 +248,7 @@
                 Paste
             </button>
         </div>
-        
+
         <div class="editor-container">
             <div class="editor-pane">
                 <textarea id="markdown-editor" spellcheck="false"></textarea>
@@ -433,16 +462,16 @@ ___
 
         // Add event listener for real-time updates
         editor.addEventListener('input', renderMarkdown);
-        
+
         // 增加访问计数功能
         function updateVisitCounter() {
             // 尝试获取当前访问计数
             let visits = localStorage.getItem('markdown_editor_visits') || 0;
             visits = parseInt(visits) + 1;
-            
+
             // 保存更新后的计数
             localStorage.setItem('markdown_editor_visits', visits);
-            
+
             // 显示访问计数
             const counterElement = document.createElement('div');
             counterElement.className = 'visit-counter';
@@ -457,10 +486,10 @@ ___
             counterElement.style.fontSize = '12px';
             counterElement.style.color = 'var(--text-light)';
             counterElement.style.zIndex = '999';
-            
+
             document.body.appendChild(counterElement);
         }
-        
+
         // 页面加载时调用
         updateVisitCounter();
 
@@ -470,7 +499,7 @@ ___
         const pasteBtn = document.getElementById('paste-btn');
 
         // Clear button
-        clearBtn.addEventListener('click', function() {
+        clearBtn.addEventListener('click', function () {
             if (confirm('确定要清空编辑器内容吗？此操作无法撤销。')) {
                 editor.value = '';
                 renderMarkdown();
@@ -479,10 +508,10 @@ ___
         });
 
         // Copy button
-        copyBtn.addEventListener('click', async function() {
+        copyBtn.addEventListener('click', async function () {
             try {
                 await navigator.clipboard.writeText(editor.value);
-                
+
                 // Visual feedback
                 const originalText = copyBtn.innerHTML;
                 copyBtn.innerHTML = `
@@ -492,7 +521,7 @@ ___
                     Copied!
                 `;
                 copyBtn.style.background = '#28a745';
-                
+
                 setTimeout(() => {
                     copyBtn.innerHTML = originalText;
                     copyBtn.style.background = '';
@@ -503,18 +532,18 @@ ___
         });
 
         // Paste button
-        pasteBtn.addEventListener('click', async function() {
+        pasteBtn.addEventListener('click', async function () {
             try {
                 const clipboardText = await navigator.clipboard.readText();
                 const cursorPosition = editor.selectionStart;
                 const textBefore = editor.value.substring(0, cursorPosition);
                 const textAfter = editor.value.substring(editor.selectionEnd);
-                
+
                 editor.value = textBefore + clipboardText + textAfter;
                 editor.setSelectionRange(cursorPosition + clipboardText.length, cursorPosition + clipboardText.length);
                 renderMarkdown();
                 editor.focus();
-                
+
                 // Visual feedback
                 const originalText = pasteBtn.innerHTML;
                 pasteBtn.innerHTML = `
@@ -524,7 +553,7 @@ ___
                     Pasted!
                 `;
                 pasteBtn.style.background = '#28a745';
-                
+
                 setTimeout(() => {
                     pasteBtn.innerHTML = originalText;
                     pasteBtn.style.background = '';
@@ -535,13 +564,13 @@ ___
         });
 
         // Keyboard shortcuts
-        editor.addEventListener('keydown', function(e) {
+        editor.addEventListener('keydown', function (e) {
             // Ctrl+K for clear (with confirmation)
             if (e.ctrlKey && e.key === 'k') {
                 e.preventDefault();
                 clearBtn.click();
             }
-            
+
             // Tab support for indentation
             if (e.key === 'Tab') {
                 e.preventDefault();
@@ -560,4 +589,5 @@ ___
         }
     </script>
 </body>
+
 </html>

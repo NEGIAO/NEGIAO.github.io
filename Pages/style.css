@@ -21,19 +21,19 @@
   --border: #2D3748;
   --border-light: #4A5568;
   --border-focus: var(--primary);
-  
+
   /* Enhanced Gradients */
   --gradient-primary: linear-gradient(135deg, #00D9FF 0%, #0EA5E9 50%, #3B82F6 100%);
   --gradient-accent: linear-gradient(135deg, #ff6b6b 0%, #FF8E8E 50%, #FFA8A8 100%);
   --gradient-success: linear-gradient(135deg, #4784b6 0%, #1d72cd 100%);
   --gradient-warm: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%);
   --gradient-cool: linear-gradient(135deg, #00D9FF 0%, #4ECDC4 100%);
-  --gradient-hero: linear-gradient(135deg, 
-    rgba(0, 217, 255, 0.1) 0%, 
-    rgba(78, 205, 196, 0.05) 35%, 
-    rgba(255, 107, 107, 0.05) 65%, 
-    rgba(255, 217, 61, 0.1) 100%);
-  
+  --gradient-hero: linear-gradient(135deg,
+      rgba(0, 217, 255, 0.1) 0%,
+      rgba(78, 205, 196, 0.05) 35%,
+      rgba(255, 107, 107, 0.05) 65%,
+      rgba(255, 217, 61, 0.1) 100%);
+
   /* Glass Morphism */
   --glass-bg: rgba(26, 31, 46, 0.8);
   --glass-border: rgba(255, 255, 255, 0.1);
@@ -45,14 +45,22 @@
   --font-display: 'Inter', 'SF Pro Display', sans-serif;
 
   /* Spacing - Improved Scale */
-  --space-xs: 0.25rem;   /* 4px */
-  --space-sm: 0.5rem;    /* 8px */
-  --space-md: 1rem;      /* 16px */
-  --space-lg: 1.5rem;    /* 24px */
-  --space-xl: 2rem;      /* 32px */
-  --space-2xl: 3rem;     /* 48px */
-  --space-3xl: 4rem;     /* 64px */
-  --space-4xl: 6rem;     /* 96px */
+  --space-xs: 0.25rem;
+  /* 4px */
+  --space-sm: 0.5rem;
+  /* 8px */
+  --space-md: 1rem;
+  /* 16px */
+  --space-lg: 1.5rem;
+  /* 24px */
+  --space-xl: 2rem;
+  /* 32px */
+  --space-2xl: 3rem;
+  /* 48px */
+  --space-3xl: 4rem;
+  /* 64px */
+  --space-4xl: 6rem;
+  /* 96px */
 
   /* Border Radius - Modern Scale */
   --radius-xs: 2px;
@@ -123,7 +131,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(ellipse at 15% 15%, rgba(0, 217, 255, 0.08) 0%, transparent 60%),
     radial-gradient(ellipse at 85% 85%, rgba(255, 107, 107, 0.06) 0%, transparent 60%),
     radial-gradient(ellipse at 50% 50%, rgba(78, 205, 196, 0.04) 0%, transparent 70%);
@@ -132,7 +140,12 @@ body::before {
 }
 
 /* Enhanced Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.2;
@@ -141,24 +154,29 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.025em;
 }
 
-h1 { 
+h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
   margin-bottom: var(--space-lg);
 }
-h2 { 
+
+h2 {
   font-size: clamp(2rem, 4vw, 3rem);
   margin-bottom: var(--space-lg);
 }
-h3 { 
+
+h3 {
   font-size: clamp(1.5rem, 3vw, 2.25rem);
 }
-h4 { 
+
+h4 {
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
 }
-h5 { 
+
+h5 {
   font-size: clamp(1.125rem, 2vw, 1.5rem);
 }
-h6 { 
+
+h6 {
   font-size: clamp(1rem, 1.5vw, 1.25rem);
 }
 
@@ -232,7 +250,7 @@ a:focus {
   margin: 0;
   min-height: 100vh;
   box-sizing: border-box;
-  
+
   /* Override .card styles to fix alignment issues */
   text-align: left;
   display: block;
@@ -241,9 +259,9 @@ a:focus {
 }
 
 /* Enhanced Markdown Typography for Note Content */
-.note-content h1, 
-.note-content h2, 
-.note-content h3, 
+.note-content h1,
+.note-content h2,
+.note-content h3,
 .note-content h4 {
   margin-top: 1.5em;
   margin-bottom: 0.75em;
@@ -252,14 +270,28 @@ a:focus {
   text-align: left;
 }
 
-.note-content h1 { font-size: 2.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
-.note-content h2 { font-size: 1.75rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.3em; }
-.note-content h3 { 
-  font-size: 1.5rem; 
-  text-align: center; /* Center align dates/subtitles */
+.note-content h1 {
+  font-size: 2.25rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3em;
+}
+
+.note-content h2 {
+  font-size: 1.75rem;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 0.3em;
+}
+
+.note-content h3 {
+  font-size: 1.5rem;
+  text-align: center;
+  /* Center align dates/subtitles */
   margin-top: 2em;
 }
-.note-content h4 { font-size: 1.25rem; }
+
+.note-content h4 {
+  font-size: 1.25rem;
+}
 
 .note-content p {
   margin-bottom: 1.2em;
@@ -268,7 +300,7 @@ a:focus {
   text-align: left;
 }
 
-.note-content ul, 
+.note-content ul,
 .note-content ol {
   padding-left: 2em;
   margin-bottom: 1.2em;
@@ -299,12 +331,13 @@ a:focus {
   width: fit-content;
   max-width: 100%;
   border-collapse: collapse;
-  margin: 1.5em auto; /* Center the table */
+  margin: 1.5em auto;
+  /* Center the table */
   overflow-x: auto;
   display: block;
 }
 
-.note-content th, 
+.note-content th,
 .note-content td {
   border: 1px solid var(--border);
   padding: 0.75em;
@@ -365,40 +398,51 @@ a:focus {
   /* Fixed TOC on the right, vertically centered, floating above content */
   position: fixed;
   right: 20px;
-  top: 50%; /* vertically center relative to viewport */
-  transform: translateY(-50%) translateZ(0); /* robust centering and preserve 3d layer */
+  top: 50%;
+  /* vertically center relative to viewport */
+  transform: translateY(-50%) translateZ(0);
+  /* robust centering and preserve 3d layer */
   width: 280px;
   /* max-height removed from here to allow overflow: visible */
-  overflow: visible; /* 关键：允许按钮显示在容器外部 */
+  overflow: visible;
+  /* 关键：允许按钮显示在容器外部 */
   padding: calc(var(--space-lg) * 0.9);
   /* Higher-contrast opaque background so TOC stands out from page content */
-  background: linear-gradient(180deg, rgba(18,22,30,1), rgba(12,14,18,1));
-  border: 1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(180deg, rgba(18, 22, 30, 1), rgba(12, 14, 18, 1));
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: calc(var(--radius-xl) - 4px);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  box-shadow: 0 10px 36px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.4);
-  z-index: 1050; /* Higher than navbar but not excessive */
-  transition: transform 0.28s cubic-bezier(.2,.9,.2,1), right 0.25s ease, opacity 0.2s ease, box-shadow 0.2s ease;
-  display: flex; /* 使用弹性布局 */
-  flex-direction: column; /* 垂直排列 */
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.4);
+  z-index: 1050;
+  /* Higher than navbar but not excessive */
+  transition: transform 0.28s cubic-bezier(.2, .9, .2, 1), right 0.25s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  /* 使用弹性布局 */
+  flex-direction: column;
+  /* 垂直排列 */
 }
 
 /* Inner nav container handles scrolling */
 .note-toc__nav {
-  max-height: 70vh; /* 限制高度 */
-  overflow-y: auto; /* 内部滚动 */
+  max-height: 70vh;
+  /* 限制高度 */
+  overflow-y: auto;
+  /* 内部滚动 */
   overflow-x: hidden;
-  padding-right: 5px; /* 给滚动条留点空间 */
+  padding-right: 5px;
+  /* 给滚动条留点空间 */
 }
 
 /* Custom scrollbar for TOC */
 .note-toc__nav::-webkit-scrollbar {
   width: 4px;
 }
+
 .note-toc__nav::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.05);
 }
+
 .note-toc__nav::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 2px;
@@ -413,43 +457,57 @@ a:focus {
      Move right by Width (280) + Right (20) - ButtonWidth (40) = 260px?
      Let's try moving it enough so just the button sticks out.
   */
-  transform: translateY(-50%) translateX(280px); 
-  opacity: 1; /* Keep opacity 1 so button is visible */
+  transform: translateY(-50%) translateX(280px);
+  opacity: 1;
+  /* Keep opacity 1 so button is visible */
   pointer-events: auto;
 }
 
 /* Toggle button attached to the TOC - Top Left Tab Style */
 #toc-toggle {
   position: absolute;
-  left: -40px; /* Stick out to the left */
-  top: 0; /* Align with top edge */
+  left: -40px;
+  /* Stick out to the left */
+  top: 0;
+  /* Align with top edge */
   width: 40px;
   height: 40px;
-  border-radius: 8px 0 0 8px; /* Tab shape */
+  border-radius: 8px 0 0 8px;
+  /* Tab shape */
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-right: none; /* Merge with container */
-  background: inherit; /* Match TOC background */
-  background-color: rgba(18,22,30,1); /* Fallback/Solid */
+  border-right: none;
+  /* Merge with container */
+  background: inherit;
+  /* Match TOC background */
+  background-color: rgba(18, 22, 30, 1);
+  /* Fallback/Solid */
   color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 1051;
-  box-shadow: -2px 2px 6px rgba(0,0,0,0.2);
-}
-  cursor: pointer;
-  z-index: 100000; /* above the TOC */
+  z-index: 100000;
+  /* above the TOC */
   box-shadow: var(--shadow-sm);
   transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
-#toc-toggle:hover { transform: translateY(-50%) scale(1.05); }
+#toc-toggle:hover {
+  transform: translateY(-50%) scale(1.05);
+}
 
 /* Hide the toggle on small screens (mobile) */
 @media (max-width: 768px) {
-  #toc-toggle { display: none; }
-  .note-toc { position: static; transform: none; right: auto; top: auto; }
+  #toc-toggle {
+    display: none;
+  }
+
+  .note-toc {
+    position: static;
+    transform: none;
+    right: auto;
+    top: auto;
+  }
 }
 
 /* Responsive adjustments */
@@ -460,6 +518,7 @@ a:focus {
     padding: var(--space-lg) var(--space-3xl);
     width: 100%;
   }
+
   .note-toc {
     width: 300px;
     right: 30px;
@@ -472,6 +531,7 @@ a:focus {
     padding: var(--space-lg) var(--space-lg);
     width: 100%;
   }
+
   .note-toc {
     width: 260px;
     right: 20px;
@@ -479,27 +539,29 @@ a:focus {
 }
 
 @media (max-width: 768px) {
+
   /* On tablets and smaller, make TOC an inline block above the article
      by using column flex + ordering so the existing DOM (aside after article)
      will render visually before the article. */
   .note-layout {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  /* push content further below the fixed navbar on mobile; increase spacing for better visual breathing room */
-  padding-top: calc(4.5rem + var(--space-2xl));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    /* push content further below the fixed navbar on mobile; increase spacing for better visual breathing room */
+    padding-top: calc(4.5rem + var(--space-2xl));
   }
 
   .note-toc {
     order: -1;
     position: static;
     width: 100%;
-    max-height: 50vh; /* Limit height on mobile */
+    max-height: 50vh;
+    /* Limit height on mobile */
     top: auto;
     right: auto;
     transform: none;
-  /* ensure clear spacing from the fixed navbar on mobile */
-  margin: var(--space-2xl) 0 var(--space-lg) 0;
+    /* ensure clear spacing from the fixed navbar on mobile */
+    margin: var(--space-2xl) 0 var(--space-lg) 0;
     box-shadow: var(--shadow-lg);
   }
 
@@ -513,7 +575,8 @@ a:focus {
 
 .note-toc__title {
   margin: 0 0 var(--space-sm) 0;
-  flex-shrink: 0; /* 防止标题被压缩 */
+  flex-shrink: 0;
+  /* 防止标题被压缩 */
   text-align: left;
   font-size: 1rem;
   color: var(--text);
@@ -527,7 +590,7 @@ a:focus {
   height: 8px;
   border-radius: 2px;
   background: var(--primary);
-  box-shadow: 0 0 8px rgba(0,217,255,0.12);
+  box-shadow: 0 0 8px rgba(0, 217, 255, 0.12);
 }
 
 /* 添加导航区域的样式 */
@@ -535,20 +598,24 @@ a:focus {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow-y: auto; /* 允许导航内容溢出时滚动 */
-  max-height: calc(70vh - 60px); /* 减去标题的高度 */
+  overflow-y: auto;
+  /* 允许导航内容溢出时滚动 */
+  max-height: calc(70vh - 60px);
+  /* 减去标题的高度 */
 }
 
 .note-toc__list {
   list-style: none;
   padding: 0;
   margin: 0;
-  margin-right: 5px; /* 为滚动条留出空间 */
-  flex-grow: 1; /* 允许列表区域占据剩余空间 */
+  margin-right: 5px;
+  /* 为滚动条留出空间 */
+  flex-grow: 1;
+  /* 允许列表区域占据剩余空间 */
 }
 
-.note-toc__item { 
-  margin: var(--space-sm) 0; 
+.note-toc__item {
+  margin: var(--space-sm) 0;
 }
 
 .note-toc__link {
@@ -589,43 +656,60 @@ a:focus {
   color: var(--text-muted);
 }
 
-.note-toc__link:hover { 
+.note-toc__link:hover {
   color: var(--primary);
-  background: linear-gradient(90deg, rgba(0,217,255,0.06), rgba(78,205,196,0.02));
+  background: linear-gradient(90deg, rgba(0, 217, 255, 0.06), rgba(78, 205, 196, 0.02));
   transform: translateX(6px) scale(1.01);
 }
 
 .note-toc__link.is-active {
   color: var(--primary);
   font-weight: 700;
-  background: linear-gradient(90deg, rgba(0,217,255,0.12), rgba(0,217,255,0.06));
-  box-shadow: inset 0 0 0 1px rgba(0,217,255,0.02);
+  background: linear-gradient(90deg, rgba(0, 217, 255, 0.12), rgba(0, 217, 255, 0.06));
+  box-shadow: inset 0 0 0 1px rgba(0, 217, 255, 0.02);
 }
 
 /* Indentation by heading level */
-.note-toc-level-h2 { margin-left: 0; }
-.note-toc-level-h3 { margin-left: var(--space-md); }
-.note-toc-level-h4 { margin-left: calc(var(--space-md) * 2); }
-.note-toc-level-h5 { margin-left: calc(var(--space-md) * 3); }
-.note-toc-level-h6 { margin-left: calc(var(--space-md) * 4); }
+.note-toc-level-h2 {
+  margin-left: 0;
+}
+
+.note-toc-level-h3 {
+  margin-left: var(--space-md);
+}
+
+.note-toc-level-h4 {
+  margin-left: calc(var(--space-md) * 2);
+}
+
+.note-toc-level-h5 {
+  margin-left: calc(var(--space-md) * 3);
+}
+
+.note-toc-level-h6 {
+  margin-left: calc(var(--space-md) * 4);
+}
 
 /* custom scrollbar for TOC */
 .note-toc::-webkit-scrollbar,
-.note-toc__nav::-webkit-scrollbar { 
-  width: 6px; 
+.note-toc__nav::-webkit-scrollbar {
+  width: 6px;
 }
+
 .note-toc::-webkit-scrollbar-track,
-.note-toc__nav::-webkit-scrollbar-track { 
-  background: transparent; 
+.note-toc__nav::-webkit-scrollbar-track {
+  background: transparent;
 }
+
 .note-toc::-webkit-scrollbar-thumb,
-.note-toc__nav::-webkit-scrollbar-thumb { 
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); 
-  border-radius: 6px; 
+.note-toc__nav::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+  border-radius: 6px;
 }
+
 .note-toc::-webkit-scrollbar-thumb:hover,
-.note-toc__nav::-webkit-scrollbar-thumb:hover { 
-  background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04)); 
+.note-toc__nav::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
 }
 
 /* Collapsed state should be fully opaque (no transparency) and visible as a solid block */
@@ -633,9 +717,9 @@ a:focus {
   transform: translateY(-50%) translateX(120%) !important;
   right: 12px !important;
   opacity: 1 !important;
-  background: linear-gradient(180deg, rgba(14,16,18,1), rgba(10,12,14,1)) !important;
-  border: 1px solid rgba(255,255,255,0.14) !important;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.65) !important;
+  background: linear-gradient(180deg, rgba(14, 16, 18, 1), rgba(10, 12, 14, 1)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65) !important;
 }
 
 /* Responsive: stack TOC under content on small screens */
@@ -647,37 +731,58 @@ a:focus {
   .note-toc {
     /* Further adjustments for small phones if needed */
     padding: var(--space-md);
-    max-height: 50vh; /* 在移动设备上限制最大高度 */
+    max-height: 50vh;
+    /* 在移动设备上限制最大高度 */
   }
+
   .note-toc__nav {
-    max-height: calc(50vh - 20px); /* 在移动设备上调整导航区域最大高度 */
+    max-height: calc(50vh - 20px);
+    /* 在移动设备上调整导航区域最大高度 */
   }
+
   .note-content {
     padding: var(--space-md);
   }
-  
+
   /* 目录在移动设备上的样式优化 */
   .note-toc__link.toc-level-1 {
     font-size: 1.05rem;
   }
+
   .note-toc__link.toc-level-2 {
     font-size: 0.95rem;
   }
+
   .note-toc__link.toc-level-3 {
     font-size: 0.85rem;
   }
+
   .note-toc__link.toc-level-4,
   .note-toc__link.toc-level-5,
   .note-toc__link.toc-level-6 {
     font-size: 0.8rem;
   }
-  
+
   /* 减小移动设备上的缩进距离 */
-  .note-toc-level-h2 { margin-left: 0; }
-  .note-toc-level-h3 { margin-left: var(--space-sm); }
-  .note-toc-level-h4 { margin-left: calc(var(--space-sm) * 2); }
-  .note-toc-level-h5 { margin-left: calc(var(--space-sm) * 3); }
-  .note-toc-level-h6 { margin-left: calc(var(--space-sm) * 4); }
+  .note-toc-level-h2 {
+    margin-left: 0;
+  }
+
+  .note-toc-level-h3 {
+    margin-left: var(--space-sm);
+  }
+
+  .note-toc-level-h4 {
+    margin-left: calc(var(--space-sm) * 2);
+  }
+
+  .note-toc-level-h5 {
+    margin-left: calc(var(--space-sm) * 3);
+  }
+
+  .note-toc-level-h6 {
+    margin-left: calc(var(--space-sm) * 4);
+  }
 }
 
 .section {
@@ -713,7 +818,7 @@ a:focus {
   width: min(40vw, 600px);
   height: min(40vw, 600px);
   border-radius: 50%;
-  background: 
+  background:
     radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%),
     linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(78, 205, 196, 0.05) 100%);
   border: 2px solid rgba(0, 217, 255, 0.15);
@@ -739,13 +844,16 @@ a:focus {
     display: flex !important;
     flex-direction: column !important;
   }
+
   .note-toc__nav {
     display: flex !important;
     flex-direction: column !important;
     flex-grow: 1 !important;
     overflow-y: auto !important;
-    max-height: calc(70vh - 60px) !important; /* 确保在桌面环境下有足够空间 */
+    max-height: calc(70vh - 60px) !important;
+    /* 确保在桌面环境下有足够空间 */
   }
+
   /* Ensure collapsed class can override the important defaults above */
   .note-toc.note-toc--collapsed {
     transform: translateY(-50%) translateX(120%) !important;
@@ -760,19 +868,23 @@ a:focus {
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  z-index: 110000 !important; /* higher than .note-toc 99999 */
+  z-index: 110000 !important;
+  /* higher than .note-toc 99999 */
 }
 
 @keyframes heroFloat {
   0% {
     transform: translate(0, 0) rotate(0deg) scale(1);
   }
+
   33% {
     transform: translate(-3%, 2%) rotate(2deg) scale(1.05);
   }
+
   66% {
     transform: translate(2%, -3%) rotate(-1deg) scale(0.95);
   }
+
   100% {
     transform: translate(-1%, 1%) rotate(1deg) scale(1.02);
   }
@@ -789,11 +901,11 @@ a:focus {
   grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
 }
 
-.grid--2 { 
+.grid--2 {
   grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
 }
 
-.grid--3 { 
+.grid--3 {
   grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
 }
 
@@ -842,7 +954,7 @@ a:focus {
 .card:hover {
   border-color: rgba(0, 217, 255, 0.4);
   transform: translateY(-8px) translateZ(0);
-  box-shadow: 
+  box-shadow:
     var(--shadow-xl),
     0 0 30px rgba(0, 217, 255, 0.15);
 }
@@ -852,10 +964,10 @@ a:focus {
 }
 
 .card--featured {
-  background: linear-gradient(145deg, 
-    rgba(0, 217, 255, 0.1) 0%, 
-    rgba(26, 31, 46, 0.9) 50%, 
-    rgba(255, 107, 107, 0.1) 100%);
+  background: linear-gradient(145deg,
+      rgba(0, 217, 255, 0.1) 0%,
+      rgba(26, 31, 46, 0.9) 50%,
+      rgba(255, 107, 107, 0.1) 100%);
   border: 1px solid rgba(0, 217, 255, 0.3);
   position: relative;
 }
@@ -910,7 +1022,8 @@ a:focus {
   transform: translateZ(0);
   position: relative;
   overflow: hidden;
-  min-height: 44px; /* Accessibility: minimum touch target */
+  min-height: 44px;
+  /* Accessibility: minimum touch target */
 }
 
 .btn::before {
@@ -1189,7 +1302,8 @@ a:focus {
 @media (max-width: 768px) {
   .mobile-menu.active .mobile-menu__item {
     width: 100%;
-    margin: var(--space-sm) 0; /* small vertical gap between items */
+    margin: var(--space-sm) 0;
+    /* small vertical gap between items */
     box-sizing: border-box;
     display: block;
   }
@@ -1197,7 +1311,8 @@ a:focus {
   .mobile-menu.active .mobile-menu__link {
     display: flex;
     align-items: center;
-    justify-content: center; /* center icon + label horizontally */
+    justify-content: center;
+    /* center icon + label horizontally */
     width: 100%;
     padding: var(--space-md);
     box-sizing: border-box;
@@ -1258,10 +1373,13 @@ a:focus {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 0.5rem 0.9rem !important; /* slightly smaller touch target */
+    padding: 0.5rem 0.9rem !important;
+    /* slightly smaller touch target */
     font-size: 0.95rem !important;
-    min-width: 56px !important; /* accessible touch size */
-    max-width: 160px !important; /* prevent overly wide buttons */
+    min-width: 56px !important;
+    /* accessible touch size */
+    max-width: 160px !important;
+    /* prevent overly wide buttons */
     width: auto !important;
   }
 
@@ -1366,12 +1484,12 @@ a:focus {
   height: 180px;
   border-radius: 50%;
   border: 3px solid transparent;
-  background: 
+  background:
     linear-gradient(var(--surface-elevated), var(--surface-elevated)) padding-box,
     var(--gradient-primary) border-box;
   display: block;
   transition: all var(--transition-slow);
-  box-shadow: 
+  box-shadow:
     var(--shadow-xl),
     0 0 40px rgba(0, 217, 255, 0.2);
   position: absolute;
@@ -1385,7 +1503,7 @@ a:focus {
 
 .avatar:hover {
   transform: translate(-50%, -50%) scale(1.08) rotate(2deg);
-  box-shadow: 
+  box-shadow:
     var(--shadow-2xl),
     0 0 60px rgba(0, 217, 255, 0.4);
   border-color: var(--primary-light);
@@ -1424,19 +1542,25 @@ a:focus {
 }
 
 @keyframes avatarPulse {
-  0% { 
-    transform: scale(1); 
-    opacity: 0.2; 
+  0% {
+    transform: scale(1);
+    opacity: 0.2;
   }
-  100% { 
-    transform: scale(1.3); 
-    opacity: 0.35; 
+
+  100% {
+    transform: scale(1.3);
+    opacity: 0.35;
   }
 }
 
 @keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Enhanced Tech Badges */
@@ -1562,18 +1686,33 @@ a:focus {
 }
 
 @keyframes float-1 {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(50px, 50px) rotate(15deg); }
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(50px, 50px) rotate(15deg);
+  }
 }
 
 @keyframes float-2 {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(-30px, -30px) rotate(-15deg); }
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-30px, -30px) rotate(-15deg);
+  }
 }
 
 @keyframes float-3 {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(20px, -20px) scale(1.2); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(20px, -20px) scale(1.2);
+  }
 }
 
 /* Features Grid */
@@ -1671,7 +1810,7 @@ a:focus {
     flex-direction: column;
     gap: var(--space-md) !important;
   }
-  
+
   .footer__navigation ul li a {
     display: block;
     padding: var(--space-sm) var(--space-md) !important;
@@ -1679,7 +1818,7 @@ a:focus {
     border-radius: var(--radius-md);
     border: 1px solid rgba(0, 217, 255, 0.1);
   }
-  
+
   .footer__navigation ul li a:hover {
     background: rgba(0, 217, 255, 0.1);
     border-color: rgba(0, 217, 255, 0.3);
@@ -1704,7 +1843,8 @@ a:focus {
   position: relative;
   width: 100%;
   height: 0;
-  padding-bottom: 56.25%; /* 16:9 宽高比 */
+  padding-bottom: 56.25%;
+  /* 16:9 宽高比 */
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -1744,9 +1884,10 @@ a:focus {
 /* 移动端优化 */
 @media (max-width: 768px) {
   .project-image-container {
-    padding-bottom: 50%; /* 2:1 宽高比，适合移动端 */
+    padding-bottom: 50%;
+    /* 2:1 宽高比，适合移动端 */
   }
-  
+
   .project-image-container i {
     font-size: 3rem;
     width: 4rem;
@@ -1756,9 +1897,10 @@ a:focus {
 
 @media (max-width: 576px) {
   .project-image-container {
-    padding-bottom: 60%; /* 更接近正方形 */
+    padding-bottom: 60%;
+    /* 更接近正方形 */
   }
-  
+
   .project-image-container i {
     font-size: 2.5rem;
     width: 3.5rem;
@@ -1837,26 +1979,26 @@ a:focus {
   .container {
     padding: 0 var(--space-lg);
   }
-  
+
   .section {
     padding: var(--space-3xl) 0;
   }
-  
+
   .hero__title {
     font-size: clamp(2.8rem, 5vw, 4rem);
   }
-  
+
   .navbar__container {
-   padding: 0 var(--space-lg);
-   /* Keep navbar items in a single row on smaller screens so the mobile toggle
+    padding: 0 var(--space-lg);
+    /* Keep navbar items in a single row on smaller screens so the mobile toggle
      can sit to the right of the brand. Use space-between to separate brand and toggle. */
-   flex-direction: row;
-   justify-content: space-between;
-   align-items: center;
-   gap: var(--space-md);
-   position: relative;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    position: relative;
   }
-  
+
   .grid--3-fixed {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-lg);
@@ -1868,21 +2010,21 @@ a:focus {
   .container {
     padding: 0 var(--space-md);
   }
-  
+
   .section {
     padding: var(--space-2xl) 0;
   }
-  
+
   .section--hero {
     min-height: 90vh;
     padding: var(--space-xl) 0;
   }
-  
+
   .hero__title {
     font-size: clamp(2.2rem, 6vw, 3.5rem);
     margin-bottom: var(--space-md);
   }
-  
+
   .hero__subtitle {
     font-size: clamp(1rem, 3vw, 1.25rem);
     padding: 0 var(--space-sm);
@@ -1890,7 +2032,7 @@ a:focus {
     margin-bottom: var(--space-xl);
     line-height: 1.5;
   }
-  
+
   .hero__actions {
     flex-direction: column;
     align-items: center;
@@ -1898,28 +2040,30 @@ a:focus {
     max-width: 280px;
     margin: 0 auto;
   }
-  
+
   .btn {
     width: 100%;
     justify-content: center;
   }
-  
+
   .navbar__nav {
     display: none;
   }
-  
+
   .mobile-menu-toggle {
     display: block;
   }
-  
+
   .mobile-menu {
     display: flex;
   }
 
   /* Center the brand and pin the mobile toggle to the right on small screens */
   .navbar__container {
-    justify-content: center; /* center items horizontally */
-    position: relative; /* establish containing block for absolute children */
+    justify-content: center;
+    /* center items horizontally */
+    position: relative;
+    /* establish containing block for absolute children */
   }
 
   .navbar__brand {
@@ -1936,19 +2080,19 @@ a:focus {
     transform: translateY(-50%);
     z-index: 1060;
   }
-  
+
   .avatar-container {
     width: 160px;
     height: 160px;
-  /* keep avatar under the navbar on tablet/smaller screens */
-  margin: calc(4.5rem + var(--space-md)) auto var(--space-xl);
+    /* keep avatar under the navbar on tablet/smaller screens */
+    margin: calc(4.5rem + var(--space-md)) auto var(--space-xl);
   }
-  
+
   .avatar {
     width: 140px;
     height: 140px;
   }
-  
+
   .hero-tech-badges {
     flex-direction: column;
     align-items: center;
@@ -1956,14 +2100,14 @@ a:focus {
     margin-bottom: var(--space-xl);
     max-width: 300px;
   }
-  
+
   .tech-badge {
     width: 100%;
     max-width: 200px;
     justify-content: center;
     padding: var(--space-sm) var(--space-md);
   }
-  
+
   .grid--2,
   .grid--3,
   .grid--3-fixed,
@@ -1971,23 +2115,31 @@ a:focus {
     grid-template-columns: 1fr;
     gap: var(--space-lg);
   }
-  
+
   .card {
     padding: var(--space-xl);
     align-items: center;
     justify-content: center;
     text-align: center;
   }
-  
+
   .footer__content {
     flex-direction: column;
     text-align: center;
     gap: var(--space-lg);
   }
-  
-  h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
-  h2 { font-size: clamp(1.5rem, 4vw, 2rem); }
-  h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
+
+  h1 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+  }
 }
 
 /* Mobile Phones */
@@ -1995,82 +2147,83 @@ a:focus {
   .container {
     padding: 0 var(--space-sm);
   }
-  
+
   .section {
     padding: var(--space-xl) 0;
   }
-  
+
   .section--hero {
     min-height: 85vh;
   }
-  
+
   .hero__title {
     font-size: clamp(2rem, 8vw, 3rem);
     line-height: 1;
     margin-bottom: var(--space-sm);
   }
-  
+
   .hero__subtitle {
     font-size: clamp(0.95rem, 4vw, 1.125rem);
     margin-bottom: var(--space-lg);
     padding: 0;
   }
-  
+
   .avatar-container {
     width: 140px;
     height: 140px;
-  /* on phones the navbar is slightly shorter (4rem) */
-  margin: calc(4rem + var(--space-sm)) auto var(--space-lg);
+    /* on phones the navbar is slightly shorter (4rem) */
+    margin: calc(4rem + var(--space-sm)) auto var(--space-lg);
   }
-  
+
   .avatar {
     width: 120px;
     height: 120px;
   }
-  
+
   .hero-tech-badges {
     margin-bottom: var(--space-lg);
   }
-  
+
   .tech-badge {
     font-size: 0.8rem;
     padding: var(--space-xs) var(--space-sm);
   }
-  
+
   .btn {
     padding: var(--space-sm) var(--space-lg);
     font-size: 0.85rem;
   }
-  
+
   .btn--small {
     padding: var(--space-xs) var(--space-md);
     font-size: 0.75rem;
   }
-  
+
   .card {
     padding: var(--space-lg);
     border-radius: var(--radius-md);
   }
-  
+
   .navbar__container {
-  height: 4rem;
-  padding: 0 var(--space-sm);
-  /* Keep horizontal layout on phones: brand at left, toggle at right */
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-sm);
-  position: relative;
+    height: 4rem;
+    padding: 0 var(--space-sm);
+    /* Keep horizontal layout on phones: brand at left, toggle at right */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+    position: relative;
   }
-  
+
   .navbar__brand {
     font-size: 1.25rem;
   }
-  
+
   .floating-shapes {
-    display: none; /* Hide decorative shapes on mobile for performance */
+    display: none;
+    /* Hide decorative shapes on mobile for performance */
   }
-  
+
   /* Touch-friendly interactions */
   .btn,
   .navbar__link,
@@ -2085,35 +2238,36 @@ a:focus {
   .hero__title {
     font-size: clamp(1.75rem, 10vw, 2.5rem);
   }
-  
+
   .hero__subtitle {
     font-size: 0.9rem;
   }
-  
+
   .avatar-container {
     width: 120px;
     height: 120px;
-  /* extra-small phones use same top offset as phones */
-  margin: calc(4rem + var(--space-sm)) auto var(--space-md);
+    /* extra-small phones use same top offset as phones */
+    margin: calc(4rem + var(--space-sm)) auto var(--space-md);
   }
-  
+
   .avatar {
     width: 100px;
     height: 100px;
   }
-  
+
   .tech-badge {
     font-size: 0.75rem;
     max-width: 160px;
   }
-  
+
   .btn {
     font-size: 0.8rem;
   }
 }
 
 /* High DPI Displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
   .avatar {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
@@ -2122,6 +2276,7 @@ a:focus {
 
 /* Reduce Motion for Accessibility */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -2130,7 +2285,7 @@ a:focus {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   .floating-shapes,
   .avatar-glow,
   .avatar-ring {
@@ -2378,34 +2533,62 @@ a:focus {
     grid-template-columns: 1fr;
     gap: var(--space-lg);
   }
-  
+
   .info-grid {
     grid-template-columns: 1fr;
     gap: var(--space-lg);
   }
-  
+
   .notes-stats {
     gap: var(--space-xl);
   }
-  
+
   .stats-item h3 {
     font-size: 2rem;
   }
 }
 
 /* Utility Classes */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
 
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.flex-wrap { flex-wrap: wrap; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
+.text-left {
+  text-align: left;
+}
 
-.hidden { display: none; }
+.text-right {
+  text-align: right;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.hidden {
+  display: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -2450,8 +2633,13 @@ a:focus {
 }
 
 @keyframes loading {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
 }
 
 /* Focus States for Better Accessibility */
@@ -2461,7 +2649,7 @@ a:focus {
 
 .focus-ring:focus {
   outline: none;
-  box-shadow: 
+  box-shadow:
     0 0 0 2px var(--background),
     0 0 0 4px var(--primary);
 }
@@ -2505,6 +2693,7 @@ select:focus-visible {
 
 /* Print Styles */
 @media print {
+
   .navbar,
   .mobile-menu,
   .floating-shapes,
@@ -2512,12 +2701,12 @@ select:focus-visible {
   .hero::after {
     display: none !important;
   }
-  
+
   body {
     background: white !important;
     color: black !important;
   }
-  
+
   .card {
     border: 1px solid #ccc !important;
     background: white !important;
@@ -2539,7 +2728,8 @@ select:focus-visible {
 }
 
 .notes-header .back-link {
-  margin-bottom: 0; /* Override default margin */
+  margin-bottom: 0;
+  /* Override default margin */
 }
 
 /* Contact section styles */
@@ -2618,7 +2808,7 @@ select:focus-visible {
     text-align: center;
     padding: var(--space-lg) var(--space-md);
   }
-  
+
   .contact-icon-container {
     margin-right: 0;
     margin-bottom: var(--space-md);
@@ -2662,7 +2852,9 @@ select:focus-visible {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Back to Top Button */
@@ -2717,7 +2909,11 @@ select:focus-visible {
     color: black;
   }
 
-  .navbar, .mobile-menu-toggle, .back-to-top, #toc-toggle, .loading-screen {
+  .navbar,
+  .mobile-menu-toggle,
+  .back-to-top,
+  #toc-toggle,
+  .loading-screen {
     display: none !important;
   }
 
@@ -2728,7 +2924,9 @@ select:focus-visible {
     margin: 0;
   }
 
-  .card, .note-content, .schedule-container {
+  .card,
+  .note-content,
+  .schedule-container {
     box-shadow: none;
     border: 1px solid #ddd;
     background: white;
@@ -2748,7 +2946,9 @@ select:focus-visible {
   }
 
   /* Hide decorative elements */
-  .avatar-glow, .floating-shapes, .hero__actions {
+  .avatar-glow,
+  .floating-shapes,
+  .hero__actions {
     display: none;
   }
 }

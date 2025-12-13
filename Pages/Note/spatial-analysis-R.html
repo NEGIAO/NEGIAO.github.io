@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,7 @@
     <meta name="keywords" content="R语言, 空间分析, GIS, 数据可视化, sf, raster, NEGIAO">
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://negiao.github.io/Pages/Note/spatial-analysis-R.html">
@@ -24,28 +25,28 @@
     <script src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script defer src="../notes-toc.js"></script>
     <script defer src="../main-enhanced.js"></script>
-    
+
     <!-- Google Analytics -->
     <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var script = document.createElement('script');
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
-        script.async = true;
-        
-        // 添加加载失败的处理
-        script.onerror = function() {
-            console.log('国内无法访问该功能: Google Analytics');
-        };
-        
-        document.head.appendChild(script);
-        
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-KYJ7Y4LE2N');
-      }, 3000);
-    });
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+                script.async = true;
+
+                // 添加加载失败的处理
+                script.onerror = function () {
+                    console.log('国内无法访问该功能: Google Analytics');
+                };
+
+                document.head.appendChild(script);
+
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-KYJ7Y4LE2N');
+            }, 3000);
+        });
     </script>
     <style>
         /* New TOC Toggle Button */
@@ -81,7 +82,7 @@
             opacity: 0;
             pointer-events: none;
         }
-        
+
         /* Ensure transition matches */
         .note-toc {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
@@ -92,7 +93,7 @@
                 bottom: 80px;
                 right: 20px;
             }
-            
+
             /* Force fixed positioning on mobile to support toggle behavior */
             .note-toc {
                 position: fixed !important;
@@ -103,7 +104,7 @@
                 transform: translateY(-50%) !important;
                 z-index: 1050 !important;
                 order: unset !important;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
             }
 
             /* Hidden state for mobile */
@@ -115,6 +116,7 @@
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="navbar__container">
@@ -442,44 +444,44 @@ gc()
 
     <!-- Load highlight.js with defer to improve page load performance -->
     <script src="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
-    
+
     <script>
         // Optimized markdown rendering
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Process markdown asynchronously for better performance
-            setTimeout(function() {
+            setTimeout(function () {
                 const src = document.getElementById('note-markdown');
                 if (!src) return;
-                
+
                 // Extract markdown content
                 const md = src.textContent || src.innerText || '';
-                
+
                 // Process markdown in chunks for better responsiveness
-                processMarkdown(md, function(html) {
+                processMarkdown(md, function (html) {
                     const container = document.getElementById('note-content');
                     if (!container) return;
-                    
+
                     // Insert the HTML
                     container.innerHTML = html;
-                    
+
                     // Build table of contents
                     if (window.buildNoteTOC) {
-                        requestAnimationFrame(function() {
+                        requestAnimationFrame(function () {
                             window.buildNoteTOC();
                         });
                     }
-                    
+
                     // Apply syntax highlighting
                     if (window.hljs) {
                         // Use requestIdleCallback for non-critical task if available
-                        (window.requestIdleCallback || setTimeout)(function() {
+                        (window.requestIdleCallback || setTimeout)(function () {
                             container.querySelectorAll('pre code').forEach((block) => {
                                 hljs.highlightBlock(block);
                             });
                         }, { timeout: 500 });
                     } else {
                         // Wait for highlight.js to load
-                        window.onhljsready = function() {
+                        window.onhljsready = function () {
                             container.querySelectorAll('pre code').forEach((block) => {
                                 hljs.highlightBlock(block);
                             });
@@ -488,11 +490,11 @@ gc()
                 });
             }, 0);
         });
-        
+
         // Process markdown in chunks for better UI responsiveness
         function processMarkdown(md, callback) {
             // Use requestAnimationFrame to avoid blocking the main thread
-            requestAnimationFrame(function() {
+            requestAnimationFrame(function () {
                 let html;
                 try {
                     // Use available markdown parser
@@ -510,15 +512,15 @@ gc()
                 }
             });
         }
-        
+
         function initTocToggle() {
             const toc = document.querySelector('.note-toc');
             const toggleBtn = document.getElementById('toc-toggle-btn');
             const icon = toggleBtn.querySelector('i');
-            
+
             // Check localStorage for saved state
             const isHidden = localStorage.getItem('toc-hidden') === 'true';
-            
+
             // Initial state
             if (isHidden) {
                 toc.classList.add('note-toc--hidden');
@@ -531,7 +533,7 @@ gc()
 
             toggleBtn.addEventListener('click', () => {
                 toc.classList.toggle('note-toc--hidden');
-                
+
                 // Update icon
                 if (toc.classList.contains('note-toc--hidden')) {
                     icon.classList.remove('fa-times');
@@ -544,13 +546,13 @@ gc()
                 }
             });
         }
-        
+
         // Call initialization
         document.addEventListener('DOMContentLoaded', initTocToggle);
-        
+
         // Set up highlight.js load callback
         if (typeof hljs === 'undefined') {
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 if (typeof hljs !== 'undefined' && typeof window.onhljsready === 'function') {
                     window.onhljsready();
                 }
@@ -558,4 +560,5 @@ gc()
         }
     </script>
 </body>
+
 </html>

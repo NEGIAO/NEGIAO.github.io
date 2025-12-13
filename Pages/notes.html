@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,7 @@
     <meta name="keywords" content="WebGIS, GIS, 学习笔记, 前端开发, ArcGIS, Python, 数据可视化">
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://negiao.github.io/Pages/notes.html">
@@ -21,30 +22,31 @@
     <link rel="stylesheet" href="style.css">
     <!-- 替换为国内 CDN (cdnjs.loli.net) 以解决访问速度和 Tracking Prevention 问题 -->
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <!-- Google Analytics -->
     <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var script = document.createElement('script');
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
-        script.async = true;
-        
-        // 添加加载失败的处理
-        script.onerror = function() {
-            console.log('国内无法访问该功能: Google Analytics');
-        };
-        
-        document.head.appendChild(script);
-        
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-KYJ7Y4LE2N');
-      }, 3000);
-    });
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+                script.async = true;
+
+                // 添加加载失败的处理
+                script.onerror = function () {
+                    console.log('国内无法访问该功能: Google Analytics');
+                };
+
+                document.head.appendChild(script);
+
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-KYJ7Y4LE2N');
+            }, 3000);
+        });
     </script>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="navbar__container">
@@ -294,8 +296,9 @@
             <p>&copy; 2025 NEGIAO. 持续学习，记录成长。</p>
         </div>
     </footer>
-    
+
     <!-- 引入增强脚本以支持返回顶部和阅读进度条 -->
     <script src="main-enhanced.js" defer></script>
 </body>
+
 </html>

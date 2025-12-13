@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NEGIAO的成果展示画廊 - 往期作品与可视化成果">
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
-    
+
     <title>成果展示 - NEGIAO</title>
     <link rel="icon" type="image/png" href="/images/icon.png">
     <link rel="shortcut icon" type="image/png" href="/images/icon.png">
@@ -16,28 +17,28 @@
     <script src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script defer src="../notes-toc.js"></script>
     <script defer src="../main-enhanced.js"></script>
-    
+
     <!-- Google Analytics -->
     <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var script = document.createElement('script');
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
-        script.async = true;
-        
-        // 添加加载失败的处理
-        script.onerror = function() {
-            console.log('国内无法访问该功能: Google Analytics');
-        };
-        
-        document.head.appendChild(script);
-        
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-KYJ7Y4LE2N');
-      }, 3000);
-    });
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+                script.async = true;
+
+                // 添加加载失败的处理
+                script.onerror = function () {
+                    console.log('国内无法访问该功能: Google Analytics');
+                };
+
+                document.head.appendChild(script);
+
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-KYJ7Y4LE2N');
+            }, 3000);
+        });
     </script>
 
     <style>
@@ -74,7 +75,7 @@
             opacity: 0;
             pointer-events: none;
         }
-        
+
         /* Ensure transition matches */
         .note-toc {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
@@ -85,7 +86,7 @@
                 bottom: 80px;
                 right: 20px;
             }
-            
+
             /* Force fixed positioning on mobile to support toggle behavior */
             .note-toc {
                 position: fixed !important;
@@ -96,7 +97,7 @@
                 transform: translateY(-50%) !important;
                 z-index: 1050 !important;
                 order: unset !important;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
             }
 
             /* Hidden state for mobile */
@@ -114,7 +115,7 @@
             gap: 25px;
             padding: 20px 0;
         }
-        
+
         .gallery-item {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -124,13 +125,13 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         .gallery-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             border-color: var(--primary);
         }
-        
+
         .gallery-image-container {
             width: 100%;
             height: 200px;
@@ -138,32 +139,32 @@
             position: relative;
             background: #000;
         }
-        
+
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        
+
         .gallery-item:hover img {
             transform: scale(1.05);
         }
-        
+
         .gallery-caption {
             padding: 15px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
-        
+
         .gallery-title {
             font-weight: bold;
             font-size: 1.1em;
             margin-bottom: 8px;
             color: var(--text-primary);
         }
-        
+
         .gallery-desc {
             font-size: 0.9em;
             color: var(--text-secondary);
@@ -210,6 +211,7 @@
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="navbar__container">
@@ -1153,59 +1155,59 @@
 ]
 </script>
 
-## 2. 数据可视化
+            ## 2. 数据可视化
 
-<div class="gallery-grid" id="gallery-viz">
-    <div class="gallery-placeholder">分类整理中，稍后更新。</div>
-</div>
+            <div class="gallery-grid" id="gallery-viz">
+                <div class="gallery-placeholder">分类整理中，稍后更新。</div>
+            </div>
 
             </script>
-    </article>
+        </article>
     </main>
 
     <!-- Load highlight.js with defer to improve page load performance -->
     <script src="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
-    
+
     <script>
         // Optimized markdown rendering
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Process markdown asynchronously for better performance
-            setTimeout(function() {
+            setTimeout(function () {
                 const src = document.getElementById('note-markdown');
                 if (!src) return;
-                
+
                 // Extract markdown content
                 const md = src.textContent || src.innerText || '';
-                
+
                 // Process markdown in chunks for better responsiveness
-                processMarkdown(md, function(html) {
+                processMarkdown(md, function (html) {
                     const container = document.getElementById('note-content');
                     if (!container) return;
-                    
+
                     // Insert the HTML
                     container.innerHTML = html;
 
                     // Populate gallery content after markdown renders
                     requestAnimationFrame(initializeGallery);
-                    
+
                     // Build table of contents
                     if (window.buildNoteTOC) {
-                        requestAnimationFrame(function() {
+                        requestAnimationFrame(function () {
                             window.buildNoteTOC();
                         });
                     }
-                    
+
                     // Apply syntax highlighting
                     if (window.hljs) {
                         // Use requestIdleCallback for non-critical task if available
-                        (window.requestIdleCallback || setTimeout)(function() {
+                        (window.requestIdleCallback || setTimeout)(function () {
                             container.querySelectorAll('pre code').forEach((block) => {
                                 hljs.highlightBlock(block);
                             });
                         }, { timeout: 500 });
                     } else {
                         // Wait for highlight.js to load
-                        window.onhljsready = function() {
+                        window.onhljsready = function () {
                             container.querySelectorAll('pre code').forEach((block) => {
                                 hljs.highlightBlock(block);
                             });
@@ -1214,11 +1216,11 @@
                 });
             }, 0);
         });
-        
+
         // Process markdown in chunks for better UI responsiveness
         function processMarkdown(md, callback) {
             // Use requestAnimationFrame to avoid blocking the main thread
-            requestAnimationFrame(function() {
+            requestAnimationFrame(function () {
                 let html;
                 try {
                     // Use available markdown parser
@@ -1236,16 +1238,16 @@
                 }
             });
         }
-        
+
         // Initialize TOC Toggle Button
         function initTocToggle() {
             const toc = document.querySelector('.note-toc');
             const toggleBtn = document.getElementById('toc-toggle-btn');
             const icon = toggleBtn.querySelector('i');
-            
+
             // Check localStorage for saved state
             const isHidden = localStorage.getItem('toc-hidden') === 'true';
-            
+
             // Initial state
             if (isHidden) {
                 toc.classList.add('note-toc--hidden');
@@ -1258,7 +1260,7 @@
 
             toggleBtn.addEventListener('click', () => {
                 toc.classList.toggle('note-toc--hidden');
-                
+
                 // Update icon
                 if (toc.classList.contains('note-toc--hidden')) {
                     icon.classList.remove('fa-times');
@@ -1271,7 +1273,7 @@
                 }
             });
         }
-        
+
         // Call initialization
         document.addEventListener('DOMContentLoaded', initTocToggle);
 
@@ -1296,7 +1298,7 @@
                 const fallbackSrc = 'https://via.placeholder.com/640x360?text=Image';
                 const fragment = document.createDocumentFragment();
 
-                items.forEach(function(item, index) {
+                items.forEach(function (item, index) {
                     const card = document.createElement('div');
                     card.className = 'gallery-item';
 
@@ -1308,7 +1310,7 @@
                     img.decoding = 'async';
                     img.src = item.src;
                     img.alt = item.title || ('作品 ' + (index + 1));
-                    img.onerror = function() {
+                    img.onerror = function () {
                         if (!this.dataset.fallback) {
                             this.dataset.fallback = '1';
                             this.src = fallbackSrc;
@@ -1375,24 +1377,24 @@
             renderPlaceholder('图片加载中，请稍候...');
 
             fetch('resources/display/gallery-data.json', { cache: 'no-store' })
-                .then(function(response) {
+                .then(function (response) {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
                     return response.json();
                 })
-                .then(function(items) {
+                .then(function (items) {
                     renderGalleryItems(items);
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.error('Failed to load gallery:', error);
                     renderPlaceholder('图片加载失败，请稍后重试。');
                 });
         }
-        
+
         // Set up highlight.js load callback
         if (typeof hljs === 'undefined') {
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 if (typeof hljs !== 'undefined' && typeof window.onhljsready === 'function') {
                     window.onhljsready();
                 }
@@ -1400,4 +1402,5 @@
         }
     </script>
 </body>
+
 </html>

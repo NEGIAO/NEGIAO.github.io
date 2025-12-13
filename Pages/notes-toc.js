@@ -48,7 +48,7 @@
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrollPercent = (scrollTop / docHeight) * 100;
-      
+
       util.batchDOM(() => {
         progressBar.style.width = `${scrollPercent}%`;
       });
@@ -61,22 +61,22 @@
   function updateActiveHeading() {
     const headings = Array.from(document.querySelectorAll('.note-content h2, .note-content h3, .note-content h4'));
     const tocLinks = document.querySelectorAll('.note-toc__link');
-    
+
     if (!headings.length || !tocLinks.length) return;
-    
+
     // 使用 IntersectionObserver 代替滚动计算以提高性能
     if (!window._tocObserver) {
       const headingOffset = 100;
       window._tocObserver = new IntersectionObserver((entries) => {
         let activeHeading = null;
-        
+
         // 检查哪些标题在视图中
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             activeHeading = entry.target;
           }
         });
-        
+
         // 高亮对应的目录链接
         if (activeHeading) {
           const activeId = activeHeading.id;
@@ -93,7 +93,7 @@
         rootMargin: `-${headingOffset}px 0px -${window.innerHeight - headingOffset - 50}px 0px`,
         threshold: [0, 1]
       });
-      
+
       // 观察所有标题
       headings.forEach(heading => {
         window._tocObserver.observe(heading);
@@ -105,13 +105,13 @@
   function buildTOC() {
     const content = document.querySelector('.note-content');
     const tocContainer = document.getElementById('note-toc');
-    
+
     if (!content || !tocContainer) return;
 
     // 使用文档片段进行批量 DOM 更新
     const fragment = document.createDocumentFragment();
     const headings = content.querySelectorAll('h2, h3, h4');
-    
+
     // 如果没有找到标题则提前退出
     if (!headings.length) {
       tocContainer.innerHTML = '<p class="text-muted">本文暂无章节标题。</p>';
@@ -136,24 +136,24 @@
       const a = document.createElement('a');
       a.href = '#' + id;
       a.textContent = h.textContent;
-      
+
       // 获取标题级别并添加对应的类名
       const level = parseInt(h.tagName.charAt(1));
       a.className = 'note-toc__link toc-level-' + level;
       a.addEventListener('click', function (e) {
         e.preventDefault();
-        
+
         const target = document.getElementById(id);
         if (!target) return;
-        
+
         const offset = 72; // 考虑固定导航栏的高度
         const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-        
-        window.scrollTo({ 
-          top: top, 
-          behavior: 'smooth' 
+
+        window.scrollTo({
+          top: top,
+          behavior: 'smooth'
         });
-        
+
         // 更新 URL 哈希而不滚动
         history.pushState(null, null, '#' + id);
       });
@@ -166,14 +166,14 @@
     // 构建标题并将所有内容添加到片段
     const title = document.createElement('h4');
     title.className = 'note-toc__title';
-    
+
     const accent = document.createElement('span');
     accent.className = 'toc-accent';
     title.appendChild(accent);
-    
+
     const titleText = document.createTextNode('文章目录');
     title.appendChild(titleText);
-    
+
     fragment.appendChild(title);
     fragment.appendChild(list);
 
@@ -182,7 +182,7 @@
       tocContainer.innerHTML = '';
       tocContainer.appendChild(fragment);
     });
-    
+
     // 设置当前标题高亮
     updateActiveHeading();
   }
@@ -197,9 +197,9 @@
       });
       return;
     }
-    
+
     // 否则等待 DOM 准备就绪
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       util.batchDOM(() => {
         buildTOC();
         initProgressBar();
@@ -209,10 +209,10 @@
 
   // 添加滚动事件处理程序以高亮当前标题
   window.addEventListener('scroll', util.throttle(updateActiveHeading, 100), { passive: true });
-  
+
   // 初始化
   init();
-  
+
   // 暴露公共 API
   window.buildNoteTOC = buildTOC;
 })();

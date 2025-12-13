@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,7 @@
     <meta name="keywords" content="课程表, 日程安排, 学习计划, NEGIAO">
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://negiao.github.io/Pages/schedule.html">
@@ -21,41 +22,41 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="main-enhanced.js" defer></script>
-    
+
     <!-- Google Analytics -->
     <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var script = document.createElement('script');
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
-        script.async = true;
-        
-        // 添加加载失败的处理
-        script.onerror = function() {
-            console.log('国内无法访问该功能: Google Analytics');
-        };
-        
-        document.head.appendChild(script);
-        
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-KYJ7Y4LE2N');
-      }, 3000);
-    });
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+                script.async = true;
+
+                // 添加加载失败的处理
+                script.onerror = function () {
+                    console.log('国内无法访问该功能: Google Analytics');
+                };
+
+                document.head.appendChild(script);
+
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-KYJ7Y4LE2N');
+            }, 3000);
+        });
     </script>
-    
+
     <style>
         /* 现代化课程表样式重设计 */
         .schedule-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: var(--space-2xl) var(--space-md);
-            background: linear-gradient(135deg, 
-                rgba(0, 217, 255, 0.03) 0%, 
-                rgba(78, 205, 196, 0.02) 35%, 
-                rgba(255, 107, 107, 0.02) 65%, 
-                rgba(255, 217, 61, 0.03) 100%);
+            background: linear-gradient(135deg,
+                    rgba(0, 217, 255, 0.03) 0%,
+                    rgba(78, 205, 196, 0.02) 35%,
+                    rgba(255, 107, 107, 0.02) 65%,
+                    rgba(255, 217, 61, 0.03) 100%);
             border-radius: var(--radius-2xl);
         }
 
@@ -113,7 +114,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: var(--space-lg);
             text-align: center;
             border: none;
@@ -208,23 +210,27 @@
         }
 
         /* 现代化周几颜色区分 - 整列背景 */
-        .col-monday { 
+        .col-monday {
             background: linear-gradient(180deg, rgba(244, 67, 54, 0.06) 0%, rgba(244, 67, 54, 0.02) 100%);
             border-radius: var(--radius-md);
         }
-        .col-tuesday { 
+
+        .col-tuesday {
             background: linear-gradient(180deg, rgba(33, 150, 243, 0.06) 0%, rgba(33, 150, 243, 0.02) 100%);
             border-radius: var(--radius-md);
         }
-        .col-wednesday { 
+
+        .col-wednesday {
             background: linear-gradient(180deg, rgba(76, 175, 80, 0.06) 0%, rgba(76, 175, 80, 0.02) 100%);
             border-radius: var(--radius-md);
         }
-        .col-thursday { 
+
+        .col-thursday {
             background: linear-gradient(180deg, rgba(255, 152, 0, 0.06) 0%, rgba(255, 152, 0, 0.02) 100%);
             border-radius: var(--radius-md);
         }
-        .col-friday { 
+
+        .col-friday {
             background: linear-gradient(180deg, rgba(156, 39, 176, 0.06) 0%, rgba(156, 39, 176, 0.02) 100%);
             border-radius: var(--radius-md);
         }
@@ -237,23 +243,27 @@
         }
 
         /* 表头的现代化周几颜色 */
-        .day-header.day-monday { 
+        .day-header.day-monday {
             background: linear-gradient(135deg, rgba(244, 67, 54, 0.9) 0%, rgba(229, 57, 53, 0.9) 100%);
             box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
         }
-        .day-header.day-tuesday { 
+
+        .day-header.day-tuesday {
             background: linear-gradient(135deg, rgba(33, 150, 243, 0.9) 0%, rgba(30, 136, 229, 0.9) 100%);
             box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
         }
-        .day-header.day-wednesday { 
+
+        .day-header.day-wednesday {
             background: linear-gradient(135deg, rgba(76, 175, 80, 0.9) 0%, rgba(67, 160, 71, 0.9) 100%);
             box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
-        .day-header.day-thursday { 
+
+        .day-header.day-thursday {
             background: linear-gradient(135deg, rgba(255, 152, 0, 0.9) 0%, rgba(251, 140, 0, 0.9) 100%);
             box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
         }
-        .day-header.day-friday { 
+
+        .day-header.day-friday {
             background: linear-gradient(135deg, rgba(156, 39, 176, 0.9) 0%, rgba(142, 36, 170, 0.9) 100%);
             box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
         }
@@ -272,10 +282,10 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(45deg, 
-                rgba(255, 255, 255, 0.3) 0%, 
-                rgba(255, 255, 255, 0.1) 50%, 
-                rgba(255, 255, 255, 0.3) 100%);
+            background: linear-gradient(45deg,
+                    rgba(255, 255, 255, 0.3) 0%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    rgba(255, 255, 255, 0.3) 100%);
             border-radius: inherit;
             animation: breathingGlow 3s ease-in-out infinite;
             z-index: -1;
@@ -292,15 +302,18 @@
         }
 
         @keyframes breathingGlow {
-            0%, 100% {
-                box-shadow: 
+
+            0%,
+            100% {
+                box-shadow:
                     0 4px 15px rgba(255, 255, 255, 0.2),
                     0 0 20px rgba(255, 255, 255, 0.1),
                     inset 0 1px 0 rgba(255, 255, 255, 0.3);
                 transform: scale(1);
             }
+
             50% {
-                box-shadow: 
+                box-shadow:
                     0 6px 25px rgba(255, 255, 255, 0.4),
                     0 0 40px rgba(255, 255, 255, 0.3),
                     inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -309,10 +322,13 @@
         }
 
         @keyframes todayPulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 0.7;
                 transform: translateY(-50%) scale(1);
             }
+
             50% {
                 opacity: 1;
                 transform: translateY(-50%) scale(1.1);
@@ -330,39 +346,47 @@
             filter: brightness(1.1);
         }
 
-        .course-spatial-db { 
+        .course-spatial-db {
             background: linear-gradient(135deg, rgba(63, 81, 181, 0.9) 0%, rgba(48, 63, 159, 0.7) 100%);
             box-shadow: 0 6px 20px rgba(63, 81, 181, 0.3);
         }
-        .course-gee { 
+
+        .course-gee {
             background: linear-gradient(135deg, rgba(76, 175, 80, 0.9) 0%, rgba(56, 142, 60, 0.7) 100%);
             box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
         }
-        .course-spatial-analysis { 
+
+        .course-spatial-analysis {
             background: linear-gradient(135deg, rgba(156, 39, 176, 0.9) 0%, rgba(123, 31, 162, 0.7) 100%);
             box-shadow: 0 6px 20px rgba(156, 39, 176, 0.3);
         }
-        .course-gis-dev { 
+
+        .course-gis-dev {
             background: linear-gradient(135deg, rgba(244, 67, 54, 0.9) 0%, rgba(211, 47, 47, 0.7) 100%);
             box-shadow: 0 6px 20px rgba(244, 67, 54, 0.3);
         }
-        .course-navigation { 
+
+        .course-navigation {
             background: linear-gradient(135deg, rgba(33, 150, 243, 0.9) 0%, rgba(25, 118, 210, 0.7) 100%);
             box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
         }
-        .course-lidar { 
+
+        .course-lidar {
             background: linear-gradient(135deg, rgba(103, 58, 183, 0.9) 0%, rgba(81, 45, 168, 0.7) 100%);
             box-shadow: 0 6px 20px rgba(103, 58, 183, 0.3);
         }
-        .course-ml { 
+
+        .course-ml {
             background: linear-gradient(135deg, rgba(233, 30, 99, 0.9) 0%, rgba(194, 24, 91, 0.7) 100%);
             box-shadow: 0 6px 20px rgba(233, 30, 99, 0.3);
         }
-        .course-uav { 
+
+        .course-uav {
             background: linear-gradient(135deg, rgba(0, 150, 136, 0.9) 0%, rgba(0, 121, 107, 0.7) 100%);
             box-shadow: 0 6px 20px rgba(0, 150, 136, 0.3);
         }
-        .course-photogrammetry { 
+
+        .course-photogrammetry {
             background: linear-gradient(135deg, rgba(121, 85, 72, 0.9) 0%, rgba(93, 64, 55, 0.7) 100%);
             box-shadow: 0 6px 20px rgba(121, 85, 72, 0.3);
         }
@@ -570,12 +594,12 @@
 
         /* 当前课程高亮 - 呼吸灯效果 */
         .current-period {
-            background: linear-gradient(135deg, 
-                rgba(76, 175, 80, 0.18) 0%, 
-                rgba(129, 199, 132, 0.13) 50%,
-                rgba(165, 214, 167, 0.09) 100%) !important;
+            background: linear-gradient(135deg,
+                    rgba(76, 175, 80, 0.18) 0%,
+                    rgba(129, 199, 132, 0.13) 50%,
+                    rgba(165, 214, 167, 0.09) 100%) !important;
             animation: breathingGlow 2.8s ease-in-out infinite;
-            box-shadow: 0 0 0 0 rgba(76,175,80,0.18), 0 2px 8px rgba(76,175,80,0.10);
+            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.18), 0 2px 8px rgba(76, 175, 80, 0.10);
         }
 
 
@@ -584,27 +608,32 @@
             color: var(--text) !important;
             font-weight: 600;
         }
+
         .current-period .course-location {
             color: var(--text-muted) !important;
         }
+
         /* 呼吸灯动画 */
         @keyframes breathingGlow {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(76,175,80,0.18), 0 2px 8px rgba(76,175,80,0.10);
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.18), 0 2px 8px rgba(76, 175, 80, 0.10);
                 transform: scale(1);
             }
+
             50% {
-                box-shadow: 0 0 16px 8px rgba(76,175,80,0.22), 0 4px 16px rgba(76,175,80,0.13);
+                box-shadow: 0 0 16px 8px rgba(76, 175, 80, 0.22), 0 4px 16px rgba(76, 175, 80, 0.13);
                 transform: scale(1.025);
             }
         }
 
         /* 现代化下节课程高亮 - 简化版本 */
         .next-period {
-            background: linear-gradient(135deg, 
-                rgba(255, 152, 0, 0.2) 0%, 
-                rgba(255, 183, 77, 0.15) 50%,
-                rgba(255, 204, 128, 0.1) 100%) !important;
+            background: linear-gradient(135deg,
+                    rgba(255, 152, 0, 0.2) 0%,
+                    rgba(255, 183, 77, 0.15) 50%,
+                    rgba(255, 204, 128, 0.1) 100%) !important;
         }
 
         .next-period .course-name {
@@ -618,10 +647,10 @@
 
         /* 现代化通勤提醒高亮 - 简化版本 */
         .commute-period {
-            background: linear-gradient(135deg, 
-                rgba(33, 150, 243, 0.2) 0%, 
-                rgba(100, 181, 246, 0.15) 50%,
-                rgba(144, 202, 249, 0.1) 100%) !important;
+            background: linear-gradient(135deg,
+                    rgba(33, 150, 243, 0.2) 0%,
+                    rgba(100, 181, 246, 0.15) 50%,
+                    rgba(144, 202, 249, 0.1) 100%) !important;
         }
 
         .commute-period .course-name {
@@ -635,11 +664,14 @@
 
         /* 现代化动画效果 */
         @keyframes currentPulse {
-            0%, 100% { 
+
+            0%,
+            100% {
                 opacity: 0.7;
                 transform: scale(1);
             }
-            50% { 
+
+            50% {
                 opacity: 1;
                 transform: scale(1.1);
             }
@@ -727,10 +759,13 @@
         }
 
         @keyframes dotPulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
                 opacity: 1;
             }
+
             50% {
                 transform: scale(1.2);
                 opacity: 0.8;
@@ -780,7 +815,8 @@
                 overflow: hidden;
             }
 
-            th, td {
+            th,
+            td {
                 padding: var(--space-xs);
                 min-height: 45px;
             }
@@ -832,7 +868,9 @@
             }
 
             /* 移动端动画优化 */
-            .current-period, .next-period, .commute-period {
+            .current-period,
+            .next-period,
+            .commute-period {
                 animation-duration: 4s;
             }
 
@@ -928,7 +966,8 @@
                 font-size: 0.7rem;
             }
 
-            th, td {
+            th,
+            td {
                 padding: 2px;
                 min-height: 40px;
             }
@@ -1031,6 +1070,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- 导航栏 -->
     <header class="navbar">
@@ -1064,7 +1104,9 @@
                     <span>下节课</span>
                 </div>
                 <div class="status-indicator">
-                    <div class="indicator-dot" style="background: var(--accent-secondary); box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);"></div>
+                    <div class="indicator-dot"
+                        style="background: var(--accent-secondary); box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);">
+                    </div>
                     <span>通勤提醒 (40分钟内)</span>
                 </div>
             </div>
@@ -1166,9 +1208,9 @@
         const isAdjacentPeriod = (period1, period2) => {
             const slot1 = timeSlots.find(s => s.period === period1);
             const slot2 = timeSlots.find(s => s.period === period2);
-            
+
             if (!slot1 || !slot2) return false;
-            
+
             return (timeToMinutes(slot2.start) - timeToMinutes(slot1.end)) <= 20;
         };
 
@@ -1178,7 +1220,7 @@
             scheduleBody: null,
             dayHeaders: null
         };
-        
+
         const timeCache = new Map(); // 缓存时间转换结果
         let lastUpdateTime = 0;
         let lastStatusCheck = 0;
@@ -1210,7 +1252,7 @@
                 second: '2-digit',
                 weekday: 'long'
             });
-            
+
             // 使用缓存的DOM元素
             if (!domCache.timeDisplay) {
                 domCache.timeDisplay = document.getElementById('timeDisplay');
@@ -1222,12 +1264,12 @@
         function getCurrentPeriodStatus() {
             const now = new Date();
             const currentTime = now.getTime();
-            
+
             // 缓存1分钟内的结果
             if (cachedStatus && (currentTime - lastStatusCheck) < 60000) {
                 return cachedStatus;
             }
-            
+
             const currentDay = now.getDay();
             const currentTimeMinutes = now.getHours() * 60 + now.getMinutes();
 
@@ -1250,8 +1292,8 @@
 
             // 找出当前正在进行的课程
             for (const range of timeRanges) {
-                if (schedule[currentDay]?.[range.period] && 
-                    currentTimeMinutes >= range.start && 
+                if (schedule[currentDay]?.[range.period] &&
+                    currentTimeMinutes >= range.start &&
                     currentTimeMinutes <= range.end) {
                     currentCourseBlock = findCourseBlock(currentDay, range.period);
                     break;
@@ -1288,20 +1330,20 @@
             if (!course) return null;
 
             const { name: courseName, location: courseLocation } = course;
-            
+
             // 向前查找块的真正开始
             let blockStart = startPeriod;
-            while (blockStart > 1 && 
-                   schedule[day]?.[blockStart - 1]?.name === courseName && 
-                   isAdjacentPeriod(blockStart - 1, blockStart)) {
+            while (blockStart > 1 &&
+                schedule[day]?.[blockStart - 1]?.name === courseName &&
+                isAdjacentPeriod(blockStart - 1, blockStart)) {
                 blockStart--;
             }
 
             // 向后查找块的结束
             let blockEnd = startPeriod;
-            while (blockEnd < 13 && 
-                   schedule[day]?.[blockEnd + 1]?.name === courseName && 
-                   isAdjacentPeriod(blockEnd, blockEnd + 1)) {
+            while (blockEnd < 13 &&
+                schedule[day]?.[blockEnd + 1]?.name === courseName &&
+                isAdjacentPeriod(blockEnd, blockEnd + 1)) {
                 blockEnd++;
             }
 
@@ -1325,10 +1367,10 @@
             if (!domCache.scheduleBody) {
                 domCache.scheduleBody = document.getElementById('scheduleBody');
             }
-            
+
             const tbody = domCache.scheduleBody;
             const status = getCurrentPeriodStatus();
-            
+
             tbody.innerHTML = '';
 
             // 预计算常用数据
@@ -1339,10 +1381,10 @@
 
             timeSlots.forEach(slot => {
                 const row = document.createElement('tr');
-                
+
                 // 确定时段类型（优化为数组索引）
                 const timeIndex = slot.period <= 5 ? 0 : slot.period <= 10 ? 1 : 2;
-                
+
                 // 创建时间列
                 const timeCell = document.createElement('td');
                 timeCell.className = `time-column ${timeClasses[timeIndex]}`;
@@ -1352,21 +1394,21 @@
                 // 处理周一到周五的课程
                 for (let day = 1; day <= 5; day++) {
                     const cellKey = `${day}-${slot.period}`;
-                    
+
                     if (processedCells.has(cellKey)) continue;
 
                     const cell = document.createElement('td');
                     cell.className = `period-cell ${periodClasses[timeIndex]} ${dayClasses[day]}`;
-                    
+
                     const course = schedule[day]?.[slot.period];
                     if (course) {
                         // 计算连续课程数量
                         let continuousCount = 1;
                         let currentPeriod = slot.period + 1;
-                        
-                        while (currentPeriod <= 13 && 
-                               schedule[day]?.[currentPeriod]?.name === course.name &&
-                               isAdjacentPeriod(currentPeriod - 1, currentPeriod)) {
+
+                        while (currentPeriod <= 13 &&
+                            schedule[day]?.[currentPeriod]?.name === course.name &&
+                            isAdjacentPeriod(currentPeriod - 1, currentPeriod)) {
                             continuousCount++;
                             processedCells.add(`${day}-${currentPeriod}`);
                             currentPeriod++;
@@ -1394,20 +1436,20 @@
                         `;
 
                         // 检查课程状态并添加相应类
-                        if (status.current?.day === day && 
-                            slot.period >= status.current.startPeriod && 
+                        if (status.current?.day === day &&
+                            slot.period >= status.current.startPeriod &&
                             slot.period <= status.current.endPeriod &&
                             course.name === status.current.courseName) {
                             cell.classList.add('current-period');
-                        } else if (status.next?.day === day && 
-                                   slot.period >= status.next.startPeriod && 
-                                   slot.period <= status.next.endPeriod &&
-                                   course.name === status.next.courseName) {
+                        } else if (status.next?.day === day &&
+                            slot.period >= status.next.startPeriod &&
+                            slot.period <= status.next.endPeriod &&
+                            course.name === status.next.courseName) {
                             // 检查是否在通勤时间内
                             const now = new Date();
                             const currentTime = now.getHours() * 60 + now.getMinutes();
-                            
-                            if (currentTime < status.next.startTime && 
+
+                            if (currentTime < status.next.startTime &&
                                 (status.next.startTime - currentTime) <= 40) {
                                 cell.classList.add('commute-period');
                             } else {
@@ -1418,11 +1460,11 @@
                         cell.classList.add('empty-period');
                         cell.innerHTML = '';
                     }
-                    
+
                     row.appendChild(cell);
                     processedCells.add(cellKey);
                 }
-                
+
                 tbody.appendChild(row);
             });
         }
@@ -1430,35 +1472,35 @@
         // 优化的今日表头呼吸灯效果设置
         const setTodayHeaderGlow = (() => {
             let lastDay = -1; // 缓存上次设置的日期
-            
-            return function() {
+
+            return function () {
                 const now = new Date();
                 const currentDay = now.getDay();
-                
+
                 // 如果日期没有变化，不重复设置
                 if (currentDay === lastDay) return;
-                
+
                 // 缓存表头元素
                 if (!domCache.dayHeaders) {
                     domCache.dayHeaders = document.querySelectorAll('.day-header');
                 }
-                
+
                 // 清除所有today类
                 domCache.dayHeaders.forEach(header => {
                     header.classList.remove('today');
                 });
-                
+
                 // 只在周一到周五添加today类
                 if (currentDay >= 1 && currentDay <= 5) {
                     const dayClasses = ['', 'day-monday', 'day-tuesday', 'day-wednesday', 'day-thursday', 'day-friday'];
                     const todayClass = dayClasses[currentDay];
                     const todayHeader = document.querySelector(`.day-header.${todayClass}`);
-                    
+
                     if (todayHeader) {
                         todayHeader.classList.add('today');
                     }
                 }
-                
+
                 lastDay = currentDay;
             };
         })();
@@ -1469,16 +1511,16 @@
             domCache.timeDisplay = document.getElementById('timeDisplay');
             domCache.scheduleBody = document.getElementById('scheduleBody');
             domCache.dayHeaders = document.querySelectorAll('.day-header');
-            
+
             // 初始加载
             updateCurrentTime();
             generateScheduleTable();
             setTodayHeaderGlow();
-            
+
             // 性能优化的定时器设置
             // 时间显示每秒更新（轻量级操作）
             setInterval(updateCurrentTime, 1000);
-            
+
             // 课程状态每分钟更新一次（减少DOM操作）
             setInterval(() => {
                 const now = Date.now();
@@ -1487,10 +1529,10 @@
                     lastUpdateTime = now;
                 }
             }, 60000);
-            
+
             // 每小时更新一次今日表头（处理跨日情况）
             setInterval(setTodayHeaderGlow, 3600000);
-            
+
             // 页面可见性API优化 - 页面重新激活时强制更新
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden) {
@@ -1500,7 +1542,7 @@
                     lastUpdateTime = Date.now();
                 }
             });
-            
+
             // 窗口焦点优化 - 减少不必要的更新
             let isWindowFocused = true;
             window.addEventListener('focus', () => {
@@ -1509,7 +1551,7 @@
                 generateScheduleTable();
                 setTodayHeaderGlow();
             });
-            
+
             window.addEventListener('blur', () => {
                 isWindowFocused = false;
             });
@@ -1529,4 +1571,5 @@
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
+
 </html>

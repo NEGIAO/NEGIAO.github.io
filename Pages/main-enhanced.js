@@ -30,7 +30,7 @@
     }
 })();
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 性能优化的加载屏幕
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
@@ -52,17 +52,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.querySelector('.navbar');
     let lastScrollY = window.scrollY;
     let ticking = false;
-    
+
     function updateNavbar() {
         const currentScrollY = window.scrollY;
-        
+
         // 添加滚动类以应用样式
         if (currentScrollY > 50) {
             navbar.classList.add('navbar--scrolled');
         } else {
             navbar.classList.remove('navbar--scrolled');
         }
-        
+
         // 根据滚动方向隐藏/显示导航栏
         if (Math.abs(currentScrollY - lastScrollY) > 5) {
             if (currentScrollY > lastScrollY && currentScrollY > 200) {
@@ -72,17 +72,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             lastScrollY = currentScrollY;
         }
-        
+
         ticking = false;
     }
-    
+
     function requestTick() {
         if (!ticking) {
             requestAnimationFrame(updateNavbar);
             ticking = true;
         }
     }
-    
+
     window.addEventListener('scroll', requestTick, { passive: true });
 
     // 增强移动端菜单
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.toggle('active', isMenuOpen);
         mobileMenuToggle.setAttribute('aria-expanded', isMenuOpen);
         mobileMenuToggle.classList.toggle('active', isMenuOpen);
-        
+
         // 带动画更新图标
         const icon = mobileMenuToggle.querySelector('i');
         if (icon) {
@@ -105,10 +105,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 icon.style.transform = 'rotate(0deg)';
             }, 75);
         }
-        
+
         // 菜单打开时防止页面滚动
         document.body.style.overflow = isMenuOpen ? 'hidden' : '';
-        
+
         // 焦点管理
         if (isMenuOpen) {
             const firstLink = mobileMenu.querySelector('.mobile-menu__link');
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (mobileMenuToggle && mobileMenu) {
         mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-        
+
         // 点击链接时关闭菜单
         const mobileMenuLinks = mobileMenu.querySelectorAll('.mobile-menu__link');
         mobileMenuLinks.forEach(link => {
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-        
+
         // 按下 Escape 键时关闭菜单
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && isMenuOpen) {
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobileMenuToggle.focus();
             }
         });
-        
+
         // 点击外部时关闭菜单
         document.addEventListener('click', (e) => {
             if (isMenuOpen && !mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
@@ -176,13 +176,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // 处理锚点链接
     const anchorLinks = document.querySelectorAll('a[href^="#"]');
     anchorLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             const target = document.querySelector(targetId);
             if (target) {
                 smoothScrollTo(target);
-                
+
                 // 更新焦点以支持无障碍访问
                 target.setAttribute('tabindex', '-1');
                 setTimeout(() => {
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 激活导航高亮
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.navbar__link, .mobile-menu__link');
-    
+
     if ('IntersectionObserver' in window && sections.length > 0) {
         const navObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function updateActiveNav() {
             let current = '';
             const scrollPosition = window.scrollY + 100;
-            
+
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.offsetHeight;
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     current = section.getAttribute('id');
                 }
             });
-            
+
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === `#${current}`) {
@@ -272,13 +272,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         // 点击时添加波纹效果
-        card.addEventListener('click', function(e) {
+        card.addEventListener('click', function (e) {
             const rect = this.getBoundingClientRect();
             const ripple = document.createElement('span');
             const size = Math.max(rect.width, rect.height);
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
-            
+
             ripple.style.cssText = `
                 position: absolute;
                 width: ${size}px;
@@ -292,11 +292,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 pointer-events: none;
                 z-index: 1;
             `;
-            
+
             this.style.position = 'relative';
             this.style.overflow = 'hidden';
             this.appendChild(ripple);
-            
+
             setTimeout(() => {
                 if (ripple.parentNode) {
                     ripple.parentNode.removeChild(ripple);
@@ -385,15 +385,15 @@ document.addEventListener('DOMContentLoaded', function() {
         z-index: 10000;
         transition: top 0.3s ease;
     `;
-    
+
     skipLink.addEventListener('focus', () => {
         skipLink.style.top = '6px';
     });
-    
+
     skipLink.addEventListener('blur', () => {
         skipLink.style.top = '-40px';
     });
-    
+
     document.body.insertBefore(skipLink, document.body.firstChild);
 
     // 返回顶部按钮
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function() {
             backToTopButton.classList.remove('visible');
         }
     }
-    
+
     window.addEventListener('scroll', () => {
         requestAnimationFrame(updateBackToTop);
     }, { passive: true });
@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 滚动时更新进度
         let ticking = false;
-        
+
         const updateProgress = () => {
             const scrollTop = window.scrollY || document.documentElement.scrollTop;
             const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -463,7 +463,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         window.addEventListener('scroll', requestTick, { passive: true });
     }
-    
+
     // 初始化进度条
     initProgressBar();
 

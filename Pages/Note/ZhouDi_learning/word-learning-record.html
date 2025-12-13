@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,28 +26,28 @@
     <script src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js" defer></script>
     <script defer src="../../notes-toc.js"></script>
     <script defer src="../../main-enhanced.js"></script>
-    
+
     <!-- Google Analytics -->
     <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        var script = document.createElement('script');
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
-        script.async = true;
-        
-        // 添加加载失败的处理
-        script.onerror = function() {
-            console.log('国内无法访问该功能: Google Analytics');
-        };
-        
-        document.head.appendChild(script);
-        
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-KYJ7Y4LE2N');
-      }, 3000);
-    });
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+                script.async = true;
+
+                // 添加加载失败的处理
+                script.onerror = function () {
+                    console.log('国内无法访问该功能: Google Analytics');
+                };
+
+                document.head.appendChild(script);
+
+                window.dataLayer = window.dataLayer || [];
+                function gtag() { dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-KYJ7Y4LE2N');
+            }, 3000);
+        });
     </script>
 
     <style>
@@ -83,7 +84,7 @@
             opacity: 0;
             pointer-events: none;
         }
-        
+
         /* Ensure transition matches */
         .note-toc {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
@@ -94,7 +95,7 @@
                 bottom: 80px;
                 right: 20px;
             }
-            
+
             /* Force fixed positioning on mobile to support toggle behavior */
             .note-toc {
                 position: fixed !important;
@@ -105,7 +106,7 @@
                 transform: translateY(-50%) !important;
                 z-index: 1050 !important;
                 order: unset !important;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
             }
 
             /* Hidden state for mobile */
@@ -141,7 +142,7 @@
         }
 
         .stat-item {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
@@ -153,7 +154,7 @@
             border-radius: 8px;
             padding: 25px;
             color: #333;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .test-question h3 {
@@ -267,22 +268,23 @@
             .test-options {
                 grid-template-columns: 1fr;
             }
-            
+
             .test-stats {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .word-test-container {
                 padding: 15px;
             }
-            
+
             .test-card {
                 padding: 20px;
             }
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="navbar__container">
@@ -300,7 +302,7 @@
 
         <aside class="note-toc card" aria-label="文章章节目录">
             <nav class="note-toc__nav" id="note-toc"></nav>
-            
+
 
         </aside>
 
@@ -312,22 +314,22 @@
                 <span class="stat-item">错误: <span id="wrong-count">0</span></span>
                 <span class="stat-item">准确率: <span id="accuracy">0%</span></span>
             </div>
-            
+
             <div id="test-card" class="test-card">
                 <div class="test-question">
                     <h3 id="test-word">Loading...</h3>
                     <p class="question-text">请选择正确的中文含义 (答对自动跳转下一题)</p>
                 </div>
-                
+
                 <div class="test-options" id="test-options">
                     <!-- 选项将由JavaScript动态生成 -->
                 </div>
-                
+
                 <div class="test-controls">
                     <button id="next-word-btn" class="btn btn-primary" style="display: none;">下一题</button>
                     <button id="start-test-btn" class="btn btn-secondary">开始测试</button>
                 </div>
-                
+
                 <div id="test-result" class="test-result" style="display: none;">
                     <!-- 结果反馈 -->
                 </div>
@@ -357,18 +359,18 @@
 | **Wired** | adj. | 兴奋的；紧张的 | I'm too wired to sleep after all that caffeine. |
 
         </script>
-    </article>
+        </article>
     </main>
 
     <!-- Load highlight.js with defer to improve page load performance -->
     <script src="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
-    
+
     <script>
         // Optimized markdown rendering
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const src = document.getElementById('note-markdown');
             if (!src) return;
-            
+
             const md = src.textContent || src.innerText || '';
             const container = document.getElementById('note-content');
             if (!container) return;
@@ -388,7 +390,7 @@
                         container.classList.add('animate-in');
                         container.style.opacity = '1';
                         container.style.transform = 'translateY(0)';
-                        
+
                         // Use requestAnimationFrame to ensure DOM is updated before post-processing
                         requestAnimationFrame(postRender);
                     } catch (e) {
@@ -420,7 +422,7 @@
                     window.buildNoteTOC();
                     setupTocToggle();
                 }
-                
+
                 // Initialize Word Test
                 try {
                     if (typeof WordTest !== 'undefined') {
@@ -429,7 +431,7 @@
                 } catch (e) {
                     console.error('Word test initialization:', e);
                 }
-                
+
                 // Apply syntax highlighting
                 if (window.hljs) {
                     container.querySelectorAll('pre code').forEach((block) => {
@@ -442,23 +444,23 @@
 
             render();
         });
-        
+
         // Set up TOC toggle functionality
         function setupTocToggle() {
             const tocToggle = document.getElementById('toc-toggle');
             const tocAside = document.querySelector('.note-toc');
-            
+
             if (tocToggle && tocAside) {
-                tocToggle.addEventListener('click', function() {
+                tocToggle.addEventListener('click', function () {
                     tocAside.classList.toggle('note-toc--collapsed');
                     const collapsed = tocAside.classList.contains('note-toc--collapsed');
                     tocToggle.setAttribute('aria-expanded', String(!collapsed));
-                    
+
                     // 缓存状态到localStorage
-                    try { 
-                        localStorage.setItem('note-toc-collapsed', collapsed ? '1' : '0'); 
-                    } catch (err) {}
-                    
+                    try {
+                        localStorage.setItem('note-toc-collapsed', collapsed ? '1' : '0');
+                    } catch (err) { }
+
                     // 立即更新视觉状态
                     if (window.innerWidth >= 769) {
                         if (collapsed) {
@@ -470,7 +472,7 @@
                         }
                     }
                 });
-                
+
                 // 恢复保存的状态
                 try {
                     const saved = localStorage.getItem('note-toc-collapsed');
@@ -482,13 +484,13 @@
                         }
                         tocToggle.setAttribute('aria-expanded', 'false');
                     }
-                } catch (err) {}
+                } catch (err) { }
             }
         }
-        
+
         // Set up highlight.js load callback
         if (typeof hljs === 'undefined') {
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 if (typeof hljs !== 'undefined' && typeof window.onhljsready === 'function') {
                     window.onhljsready();
                 }
@@ -511,25 +513,25 @@
                     { word: 'discrepancy', meaning: '差异；不一致', options: ['差异；不一致', '剥夺；脱去', '艰难察觉；识别', '停顿；拖延'] },
                     { word: 'momentum', meaning: '动能；势头', options: ['动能；势头', '剥夺；脱去', '差异；不一致', '艰难察觉；识别'] }
                 ];
-                
+
                 this.currentWord = null;
                 this.correctCount = 0;
                 this.wrongCount = 0;
                 this.isAnswered = false;
-                
+
                 this.initElements();
                 this.bindEvents();
-                
+
                 // 初始化加载状态
                 if (this.startBtn) {
                     this.startBtn.disabled = true;
                     this.startBtn.textContent = '加载词库中…';
                 }
-                
+
                 // 异步加载词库
                 this.loadWords();
             }
-            
+
             initElements() {
                 this.testWord = document.getElementById('test-word');
                 this.testOptions = document.getElementById('test-options');
@@ -540,12 +542,12 @@
                 this.wrongCountEl = document.getElementById('wrong-count');
                 this.accuracyEl = document.getElementById('accuracy');
             }
-            
+
             bindEvents() {
                 this.startBtn.addEventListener('click', () => this.startTest());
                 this.nextBtn.addEventListener('click', () => this.nextQuestion());
             }
-            
+
             async loadWords() {
                 try {
                     // 首先尝试加载JSON文件
@@ -583,7 +585,7 @@
                     }
                 }
             }
-            
+
             startTest() {
                 if (!this.words || this.words.length === 0) {
                     this.testWord.textContent = '词库未加载，无法开始测试';
@@ -593,12 +595,12 @@
                 this.startBtn.style.display = 'none';
                 this.nextQuestion();
             }
-            
+
             nextQuestion() {
                 this.isAnswered = false;
                 this.testResult.style.display = 'none';
                 this.nextBtn.style.display = 'none';
-                
+
                 // 随机选择单词（当词库为空时安全返回）
                 if (!this.words || this.words.length === 0) {
                     this.testWord.textContent = '暂无词库数据';
@@ -623,13 +625,13 @@
                     this.testOptions.appendChild(btn);
                 });
             }
-            
+
             checkAnswer(selectedOption, btnElement) {
                 if (this.isAnswered) return;
-                
+
                 this.isAnswered = true;
                 const isCorrect = selectedOption === this.currentWord.meaning;
-                
+
                 // 禁用所有按钮并标记正确答案
                 const allBtns = this.testOptions.querySelectorAll('.option-btn');
                 allBtns.forEach(btn => {
@@ -640,13 +642,13 @@
                         btn.classList.add('wrong');
                     }
                 });
-                
+
                 // 更新统计
                 if (isCorrect) {
                     this.correctCount++;
                     this.testResult.textContent = '✅ 正确！正在跳转...';
                     this.testResult.className = 'test-result correct';
-                    
+
                     // 正确答案：0.5秒后自动跳转下一题
                     setTimeout(() => {
                         this.nextQuestion();
@@ -655,24 +657,24 @@
                     this.wrongCount++;
                     this.testResult.textContent = `❌ 错误！正确答案是: ${this.currentWord.meaning}`;
                     this.testResult.className = 'test-result wrong';
-                    
+
                     // 错误答案：显示下一题按钮，需要手动点击
                     this.nextBtn.style.display = 'inline-block';
                 }
-                
+
                 this.updateStats();
                 this.testResult.style.display = 'block';
             }
-            
+
             updateStats() {
                 this.correctCountEl.textContent = this.correctCount;
                 this.wrongCountEl.textContent = this.wrongCount;
-                
+
                 const total = this.correctCount + this.wrongCount;
                 const accuracy = total > 0 ? Math.round((this.correctCount / total) * 100) : 0;
                 this.accuracyEl.textContent = accuracy + '%';
             }
-            
+
             // Fisher-Yates 洗牌算法实现数组随机排序
             shuffleArray(array) {
                 for (let i = array.length - 1; i > 0; i--) {
@@ -682,7 +684,7 @@
                 return array;
             }
         }
-        
+
         // 初始化单词测试 - 将在现有DOMContentLoaded事件中初始化
     </script>
     <script>
@@ -690,10 +692,10 @@
             const toc = document.querySelector('.note-toc');
             const toggleBtn = document.getElementById('toc-toggle-btn');
             const icon = toggleBtn.querySelector('i');
-            
+
             // Check localStorage for saved state
             const isHidden = localStorage.getItem('toc-hidden') === 'true';
-            
+
             // Initial state
             if (isHidden) {
                 toc.classList.add('note-toc--hidden');
@@ -706,7 +708,7 @@
 
             toggleBtn.addEventListener('click', () => {
                 toc.classList.toggle('note-toc--hidden');
-                
+
                 // Update icon
                 if (toc.classList.contains('note-toc--hidden')) {
                     icon.classList.remove('fa-times');
@@ -724,4 +726,5 @@
         document.addEventListener('DOMContentLoaded', initTocToggle);
     </script>
 </body>
+
 </html>

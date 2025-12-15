@@ -454,11 +454,13 @@ ___
 
         // Function to render markdown
         function renderMarkdown() {
-            preview.innerHTML = marked.parse(editor.value);
+            if (window.marked) {
+                preview.innerHTML = window.marked.parse(editor.value);
+            }
         }
 
         // Initial render
-        renderMarkdown();
+        document.addEventListener('DOMContentLoaded', renderMarkdown);
 
         // Add event listener for real-time updates
         editor.addEventListener('input', renderMarkdown);

@@ -4,19 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="R语言空间分析 - NEGIAO的技术笔记，涵盖R语言在GIS数据处理、空间统计和可视化方面的应用。">
-    <meta name="keywords" content="R语言, 空间分析, GIS, 数据可视化, sf, raster, NEGIAO">
+    <meta name="description" content="NEGIAO的技术笔记模板">
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://negiao.github.io/Pages/Note/spatial-analysis-R.html">
-    <meta property="og:title" content="R语言空间分析 - NEGIAO">
-    <meta property="og:description" content="R语言空间分析 - NEGIAO的技术笔记，涵盖R语言在GIS数据处理、空间统计和可视化方面的应用。">
-    <meta property="og:image" content="https://negiao.github.io/Pages/avatar.jpg">
-
-    <title>R语言空间分析 - NEGIAO</title>
+    <title>空间分析 - NEGIAO</title>
     <link rel="icon" type="image/png" href="/images/icon.png">
     <link rel="shortcut icon" type="image/png" href="/images/icon.png">
     <link rel="stylesheet" href="../style.css">
@@ -48,6 +40,9 @@
             }, 3000);
         });
     </script>
+
+
+
     <style>
         /* New TOC Toggle Button */
         .toc-toggle-btn {
@@ -120,12 +115,13 @@
 <body>
     <nav class="navbar">
         <div class="navbar__container">
-            <a href="../../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="../index.html" class="navbar__brand">NEGIAO</a>
             <a href="../notes.html" class="btn btn--secondary">返回索引</a>
         </div>
     </nav>
 
     <main class="container section note-layout">
+
         <aside class="note-toc card" aria-label="文章章节目录">
             <nav class="note-toc__nav" id="note-toc"></nav>
         </aside>
@@ -137,308 +133,199 @@
 
         <article class="note-content card" id="note-content">
             <script type="text/markdown" id="note-markdown">
-# R语言空间分析
+# R语言空间分析指南
 
-## 基础环境配置
+## 1. 简介与环境配置
 
-### 安装必要的R包
+R语言在空间统计和地理数据可视化方面拥有强大的生态系统。现代R空间分析主要依赖以下核心包：
+
+- **sf**: Simple Features，用于处理矢量数据，语法现代且与tidyverse兼容。
+- **terra**: 用于处理栅格数据，是`raster`包的高性能继任者。
+- **tmap / ggplot2**: 用于静态和交互式地图制作。
+- **spdep**: 用于空间依赖性和空间计量分析。
+
+### 安装核心包
 
 ```r
-# 安装空间分析相关包
-install.packages(c("sf", "sp", "rgdal", "raster", "tmap", "leaflet", "ggplot2"))
+# 安装核心空间分析包
+install.packages(c("sf", "terra", "tmap", "tidyverse", "spdep", "leaflet"))
 
-# 载入包
+# 加载包
+library(tidyverse)
 library(sf)
-library(sp) 
-library(rgdal)
-library(raster)
+library(terra)
 library(tmap)
-library(leaflet)
-library(ggplot2)
 ```
 
-## 空间数据读取与处理
+## 2. 矢量数据处理 (sf)
 
-### 读取Shapefile文件
+### 读取与写入
 
 ```r
-# 读取shapefile
-cities <- st_read("data/cities.shp")
+# 读取Shapefile或GeoJSON
+# st_read会自动识别驱动
+gdf <- st_read("data/boundary.shp")
 
-# 查看数据结构
-str(cities)
-head(cities)
+# 查看数据概况
+print(gdf)
+plot(st_geometry(gdf))
 
-# 查看坐标参考系统
-st_crs(cities)
+# 写出数据
+st_write(gdf, "output/processed_boundary.gpkg", delete_layer = TRUE)
 ```
 
-### 坐标系转换
+### 坐标系操作 (CRS)
 
 ```r
-# 转换到WGS84地理坐标系
-cities_wgs84 <- st_transform(cities, crs = 4326)
+# 查看当前CRS
+st_crs(gdf)
 
-# 转换到投影坐标系(以UTM Zone 50N为例)
-cities_utm <- st_transform(cities, crs = 32650)
+# 坐标系转换 (例如转换到 WGS84)
+gdf_wgs84 <- st_transform(gdf, 4326)
 
-# 检查转换结果
-st_crs(cities_utm)
+# 转换到投影坐标系 (例如 UTM Zone 50N)
+gdf_utm <- st_transform(gdf, 32650)
 ```
 
-## 空间分析操作
-
-### 缓冲区分析
+### 几何操作
 
 ```r
-# 创建500米缓冲区
-buffer_500m <- st_buffer(cities_utm, dist = 500)
+# 缓冲区分析 (需要投影坐标系，单位为米)
+gdf_buffer <- st_buffer(gdf_utm, dist = 500)
 
-# 创建多级缓冲区
-buffer_multi <- st_buffer(cities_utm, 
-                         dist = c(500, 1000, 2000))
+# 空间叠加 (Intersection)
+intersection <- st_intersection(gdf_buffer, another_layer)
 
-# 可视化缓冲区
-plot(st_geometry(buffer_500m), 
-     col = "lightblue", 
-     main = "500米缓冲区分析")
-plot(st_geometry(cities_utm), 
-     col = "red", 
-     pch = 16, 
-     add = TRUE)
+# 空间聚合 (Union)
+# 按照某个字段融合
+dissolved <- gdf %>% 
+  group_by(region_type) %>% 
+  summarise(geometry = st_union(geometry))
 ```
 
-### 空间叠加分析
+## 3. 栅格数据处理 (terra)
+
+`terra` 包比旧的 `raster` 包更快且功能更强。
+
+### 基础操作
 
 ```r
-# 点在面内查询
-result <- st_within(points, polygons)
+# 读取栅格
+r <- rast("data/dem.tif")
 
-# 空间相交
-intersect_result <- st_intersection(layer1, layer2)
+# 查看信息
+print(r)
+plot(r, main = "数字高程模型 (DEM)")
 
-# 空间联合
-union_result <- st_union(polygons)
-
-# 计算面积(需要投影坐标系)
-polygons$area_km2 <- as.numeric(st_area(polygons)) / 1000000
+# 裁剪 (Crop) 与 掩膜 (Mask)
+# 假设有一个矢量边界 vector_boundary
+r_cropped <- crop(r, vector_boundary)
+r_masked <- mask(r_cropped, vector_boundary)
 ```
 
-### 距离计算
+### 地形计算
 
 ```r
-# 计算点之间的距离矩阵
-dist_matrix <- st_distance(cities_utm)
+# 计算坡度和坡向
+slope <- terrain(r, v = "slope", unit = "degrees")
+aspect <- terrain(r, v = "aspect", unit = "degrees")
 
-# 计算到最近邻的距离
-nearest_dist <- apply(dist_matrix, 1, function(x) min(x[x > 0]))
-
-# 添加到数据框
-cities_utm$nearest_dist <- as.numeric(nearest_dist)
+# 栅格计算器
+# 例如：提取海拔大于1000米的区域
+high_elevation <- r > 1000
 ```
 
-## 空间可视化
+## 4. 空间可视化
 
-### 使用ggplot2绘图
+### 使用 ggplot2
+
+`geom_sf()` 使得在ggplot2中绘制地图变得非常简单。
 
 ```r
-# 基础空间图
-ggplot(cities_wgs84) +
-  geom_sf(aes(color = population, size = population)) +
-  scale_color_viridis_c() +
+ggplot(data = gdf) +
+  geom_sf(aes(fill = population_density)) +
+  scale_fill_viridis_c(option = "plasma", name = "人口密度") +
   theme_minimal() +
-  labs(title = "城市人口分布图",
-       color = "人口数量",
-       size = "人口数量")
+  labs(title = "区域人口密度分布", subtitle = "基于2023年数据")
 ```
 
-### 使用tmap制作专题地图
+### 使用 tmap (专题地图)
+
+`tmap` 专为地图设计，语法类似ggplot2。
 
 ```r
-# 设置tmap模式
-tmap_mode("plot")  # 静态地图
-# tmap_mode("view") # 交互式地图
+# 设置模式：plot(静态) 或 view(交互)
+tmap_mode("view")
 
-# 创建专题地图
-tm_shape(provinces) +
-  tm_polygons("GDP", 
-              style = "quantile",
-              palette = "Blues",
-              title = "GDP (万元)") +
-  tm_shape(cities) +
-  tm_dots("population", 
-          size = 0.8,
-          col = "red",
-          title.size = "人口") +
-  tm_layout(title = "省市经济与人口分布图",
-            title.position = c("center", "top"))
+tm_shape(gdf) +
+  tm_polygons("gdp_per_capita", 
+              title = "人均GDP", 
+              palette = "Blues", 
+              alpha = 0.7) +
+  tm_layout(title = "经济分布图")
 ```
 
-### 交互式地图
+## 5. 空间统计分析
+
+### 空间自相关 (Moran's I)
 
 ```r
-# 使用leaflet创建交互式地图
-leaflet(cities_wgs84) %>%
-  addTiles() %>%
-  addCircleMarkers(
-    radius = ~sqrt(population)/100,
-    color = "red",
-    fillOpacity = 0.7,
-    popup = ~paste("城市:", name, "<br>",
-                   "人口:", population)
-  ) %>%
-  addLegend(position = "bottomright",
-            title = "城市人口",
-            colors = "red",
-            labels = "城市位置")
-```
-
-## 空间统计分析
-
-### 空间自相关分析
-
-```r
-# 安装和载入spdep包
 library(spdep)
 
-# 构建空间权重矩阵
-coords <- st_coordinates(st_centroid(polygons))
-nb <- knn2nb(knearneigh(coords, k = 6))
-w <- nb2listw(nb, style = "W")
+# 1. 定义邻接关系 (Queen邻接)
+nb <- poly2nb(gdf)
 
-# 计算Moran's I
-moran_result <- moran.test(polygons$gdp, w)
-print(moran_result)
+# 2. 生成空间权重矩阵
+lw <- nb2listw(nb, style = "W", zero.policy = TRUE)
 
-# 局部空间自相关(LISA)
-lisa <- localmoran(polygons$gdp, w)
-polygons$lisa_pvalue <- lisa[,5]
-polygons$lisa_cluster <- ifelse(lisa[,5] < 0.05, "显著", "不显著")
+# 3. 全局 Moran's I 检验
+moran.test(gdf$value_column, lw)
+
+# 4. 局部 Moran's I (LISA)
+local_m <- localmoran(gdf$value_column, lw)
+
+# 将结果绑定回原数据以便绘图
+gdf$lisa_cluster <- attr(local_m, "quadr")$mean
 ```
 
-### 热点分析
+### 空间插值 (IDW)
 
 ```r
-# Getis-Ord Gi*统计
-gi_star <- localG(polygons$gdp, w)
-polygons$gi_star <- as.numeric(gi_star)
+library(gstat)
 
-# 分类热点和冷点
-polygons$hotspot <- ifelse(polygons$gi_star > 1.96, "热点",
-                  ifelse(polygons$gi_star < -1.96, "冷点", "无显著性"))
+# 创建插值网格
+grid <- st_make_grid(gdf, n = c(100, 100))
 
-# 可视化热点分析结果
-ggplot(polygons) +
-  geom_sf(aes(fill = hotspot)) +
-  scale_fill_manual(values = c("热点" = "red", 
-                              "冷点" = "blue", 
-                              "无显著性" = "grey")) +
-  theme_void() +
-  labs(title = "GDP热点分析", fill = "类型")
+# 反距离权重插值 (IDW)
+idw_model <- gstat(formula = value ~ 1, locations = points_sf)
+idw_result <- predict(idw_model, grid)
+
+plot(idw_result)
 ```
 
-## 栅格数据处理
+## 6. 进阶：空间数据科学工作流
 
-### 栅格数据读取
+结合 `tidyverse` 和 `sf` 可以构建高效的分析管道。
 
 ```r
-# 读取栅格数据
-dem <- raster("data/elevation.tif")
+# 案例：寻找适合开店的区域
+# 条件：距离地铁站500米以内，且所在社区人口密度大于某阈值
 
-# 查看栅格信息
-print(dem)
-plot(dem, main = "数字高程模型")
+result <- districts %>%
+  # 1. 筛选高密度社区
+  filter(pop_density > 10000) %>%
+  # 2. 转换坐标系以便计算距离
+  st_transform(32650) %>%
+  # 3. 空间连接：计算包含的地铁站数量
+  st_join(subway_stations) %>%
+  group_by(district_id) %>%
+  summarise(station_count = n()) %>%
+  # 4. 可视化
+  ggplot() +
+  geom_sf(aes(fill = station_count)) +
+  theme_void()
 ```
-
-### 栅格计算
-
-```r
-# 计算坡度
-slope <- terrain(dem, opt = "slope", unit = "degrees")
-
-# 计算坡向
-aspect <- terrain(dem, opt = "aspect", unit = "degrees")
-
-# 栅格重分类
-slope_class <- cut(slope, 
-                   breaks = c(0, 5, 15, 25, 90),
-                   labels = c("平缓", "缓坡", "陡坡", "急坡"))
-
-# 栅格叠加分析
-stack_layers <- stack(dem, slope, aspect)
-names(stack_layers) <- c("elevation", "slope", "aspect")
-```
-
-## 实际应用案例
-
-### 商业选址分析
-
-```r
-# 1. 数据准备
-shops <- st_read("data/existing_shops.shp")
-population <- st_read("data/population_districts.shp") 
-roads <- st_read("data/main_roads.shp")
-
-# 2. 缓冲区分析 - 竞争对手分析
-competitor_buffer <- st_buffer(shops, dist = 1000)
-
-# 3. 可达性分析 - 距主要道路距离
-candidate_points$road_dist <- as.numeric(
-  st_distance(candidate_points, roads)
-)
-
-# 4. 综合评分
-candidate_points$score <- 
-  (population_density * 0.4) +         # 人口密度权重40%
-  (1/road_accessibility * 0.3) +       # 交通便利性30%
-  (1/competitor_density * 0.3)         # 竞争密度30%
-
-# 5. 选址推荐
-best_locations <- candidate_points[
-  candidate_points$score > quantile(candidate_points$score, 0.8), 
-]
-```
-
-## 性能优化技巧
-
-### 大数据处理
-
-```r
-# 使用data.table提高处理速度
-library(data.table)
-
-# 空间索引加速查询
-library(lwgeom)
-st_make_valid()  # 修复无效几何体
-
-# 简化几何体减少计算量
-simplified <- st_simplify(complex_polygons, dTolerance = 100)
-
-# 并行处理
-library(parallel)
-cl <- makeCluster(detectCores() - 1)
-results <- parLapply(cl, data_list, analysis_function)
-stopCluster(cl)
-```
-
-### 内存管理
-
-```r
-# 分块处理大型栅格
-raster_blocks <- blockSize(large_raster)
-for(i in 1:raster_blocks$n) {
-  # 逐块处理
-  block_data <- getValues(large_raster, 
-                         row = raster_blocks$row[i],
-                         nrows = raster_blocks$nrows[i])
-  # 处理数据...
-}
-
-# 及时清理内存
-rm(large_objects)
-gc()
-```
-</script>
+            </script>
         </article>
     </main>
 
@@ -512,6 +399,10 @@ gc()
                 }
             });
         }
+
+
+
+
 
         function initTocToggle() {
             const toc = document.querySelector('.note-toc');

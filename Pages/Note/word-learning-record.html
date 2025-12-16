@@ -1530,6 +1530,23 @@
 | **Verge** | n. | 临界点，边缘，接近 | They were on the verge of tears. |
 | **Testify** | v. | 证明，作证 | He agreed to testify against his former boss. |
 
+### 2025-12-16 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|----------|
+| **Sheer** | adj. | 完全的 | It was sheer luck that we met. |
+| **Snap** | v./n. | 撕裂，匆忙的 | He snapped the stick in two. / It was a snap decision. |
+| **Curve** | n./v. | 曲线 | The road curves to the left. |
+| **Buzz** | n./v. | 嗡嗡声 | The bees were buzzing around the flowers. |
+| **Lapse** | n./v. | 过失 | A lapse of concentration caused the accident. |
+| **Spear** | n. | 矛 | The hunter carried a spear. |
+| **Scout** | n./v. | 侦查，童子军 | The scouts went ahead to check the path. |
+| **Witch** | n. | 女巫 | The witch cast a spell. |
+| **Plot** | n./v. | 情节，绘制，密谋 | The plot of the movie was complicated. / They plotted to overthrow the king. |
+| **Parachute** | n. | 降落伞 | He jumped from the plane with a parachute. |
+| **Symmetry** | n. | 对称，相似 | The building has perfect symmetry. |
+| **Orthodox** | adj. | 传统的 | He holds orthodox views on education. |
+
             </script>
         </article>
     </main>
@@ -1676,14 +1693,18 @@
                 this.words = [];
                 // 备用词库
                 this.fallbackWords = [
-                    { word: 'sanction', meaning: '制裁；批准', options: ['制裁；批准', '伪造；锻造', '逃避；规避', '景象；奇观'] },
-                    { word: 'forge', meaning: '伪造；锻造', options: ['制裁；批准', '伪造；锻造', '逃避；规避', '蔓延；伸展'] },
-                    { word: 'evade', meaning: '逃避；规避', options: ['逃避；规避', '高潮；顶点', '共谋；阴谋', '缓解；减轻'] },
-                    { word: 'spectacle', meaning: '景象；奇观', options: ['景象；奇观', '蔓延；伸展', '高潮；顶点', '共谋；阴谋'] },
-                    { word: 'sprawl', meaning: '蔓延；伸展', options: ['蔓延；伸展', '高潮；顶点', '共谋；阴谋', '缓解；减轻'] },
-                    { word: 'strip', meaning: '剥夺；脱去', options: ['剥夺；脱去', '差异；不一致', '缺乏；不足', '动能；势头'] },
-                    { word: 'discrepancy', meaning: '差异；不一致', options: ['差异；不一致', '剥夺；脱去', '艰难察觉；识别', '停顿；拖延'] },
-                    { word: 'momentum', meaning: '动能；势头', options: ['动能；势头', '剥夺；脱去', '差异；不一致', '艰难察觉；识别'] }
+                    { word: 'sheer', meaning: '完全的', options: ['完全的', '撕裂，匆忙的', '曲线', '咒骂'] },
+                    { word: 'snap', meaning: '撕裂，匆忙的', options: ['撕裂，匆忙的', '完全的', '过失', '嗡嗡声'] },
+                    { word: 'curve', meaning: '曲线', options: ['曲线', '矛', '侦查，童子军', '女巫'] },
+                    { word: 'buzz', meaning: '嗡嗡声', options: ['嗡嗡声', '情节，绘制，密谋', '降落伞', '对称，相似'] },
+                    { word: 'lapse', meaning: '过失', options: ['过失', '传统的', '完全的', '撕裂，匆忙的'] },
+                    { word: 'spear', meaning: '矛', options: ['矛', '曲线', '咒骂', '嗡嗡声'] },
+                    { word: 'scout', meaning: '侦查，童子军', options: ['侦查，童子军', '过失', '情节，绘制，密谋', '降落伞'] },
+                    { word: 'witch', meaning: '女巫', options: ['女巫', '对称，相似', '传统的', '完全的'] },
+                    { word: 'plot', meaning: '情节，绘制，密谋', options: ['情节，绘制，密谋', '撕裂，匆忙的', '曲线', '咒骂'] },
+                    { word: 'parachute', meaning: '降落伞', options: ['降落伞', '嗡嗡声', '过失', '矛'] },
+                    { word: 'symmetry', meaning: '对称，相似', options: ['对称，相似', '侦查，童子军', '女巫', '情节，绘制，密谋'] },
+                    { word: 'orthodox', meaning: '传统的', options: ['传统的', '降落伞', '对称，相似', '完全的'] }
                 ];
 
                 this.currentWord = null;

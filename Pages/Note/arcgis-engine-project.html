@@ -4,19 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ArcPy学习笔记 - NEGIAO的技术笔记，涵盖ArcGIS Python自动化处理、地理处理工具等内容。">
-    <meta name="keywords" content="ArcPy, Python, ArcGIS, GIS自动化, 地理处理, NEGIAO">
+    <meta name="description" content="基于 ArcGIS Engine 10.2.2 的桌面 GIS 系统开发项目">
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://negiao.github.io/Pages/Note/ArcPy.html">
-    <meta property="og:title" content="ArcPy学习笔记 - NEGIAO">
-    <meta property="og:description" content="ArcPy学习笔记 - NEGIAO的技术笔记，涵盖ArcGIS Python自动化处理、地理处理工具等内容。">
-    <meta property="og:image" content="https://negiao.github.io/Pages/avatar.jpg">
-
-    <title>ArcPy学习笔记 - NEGIAO</title>
+    <title>ArcGIS Engine GIS System - NEGIAO</title>
     <link rel="icon" type="image/png" href="/images/icon.png">
     <link rel="shortcut icon" type="image/png" href="/images/icon.png">
     <link rel="stylesheet" href="../style.css">
@@ -50,13 +42,14 @@
     </script>
 
     <style>
-                /* Fix for code block alignment - 
+        /* Fix for code block alignment - 
         代码块要默认左对齐
         ensure left alignment for ASCII trees */
         .note-content pre, 
         .note-content code {
             text-align: left !important;
         }
+
         /* New TOC Toggle Button */
         .toc-toggle-btn {
             position: fixed;
@@ -146,101 +139,158 @@
 
         <article class="note-content card" id="note-content">
             <script type="text/markdown" id="note-markdown">
-# ArcPy 学习笔记
+# 🗺️ ArcGIS Engine 桌面 GIS 开发实战
 
-这是关于 ArcPy 和空间分析的学习笔记集合。
+> 基于 **C#** 和 **ArcGIS Engine 10.2.2** 的桌面地理信息系统开发项目。
+> 实现了从基础地图操作到高级空间分析的完整功能闭环。
 
-## 1. ArcPy 基础
+---
 
-ArcPy是用于地理处理自动化的Python包，是ArcGIS的核心组件。
+## 📚 项目概述
 
-### 1.1 基本概念
+本项目是 GIS 开发课程的结课作业，旨在构建一个功能完善的桌面 GIS 系统。
+源码已开源：[<i class="fab fa-github"></i> 前往 GitHub 仓库](https://github.com/NEGIAO/GIS-Engine-CSharp)
 
-- 地理处理工具
-- 要素类和栅格
-- 空间参考系统.
+---
 
-## 2. 代码示例
+## 🌟 核心功能模块
 
-### 2.1 创建要素类并添加要素的完整示例
+### 1. 🗺️ 基础地图交互
+- **地图浏览**：支持无级缩放、平移漫游、全图显示。
+- **鹰眼导航**：提供鸟瞰图导航功能，快速定位主视图范围。
+- **图层管理**：TOC（Table of Contents）控件实现图层的可见性控制与顺序调整。
 
-```python
-import arcpy
-import os
+### 2. 🔍 空间数据查询
+- **属性查询**：查看矢量数据的属性表信息。
+- **空间选择**：支持按矩形、多边形等几何形状选择地图要素。
 
-# --- 准备工作 ---
-gdb_path = r"E:\arc_pro_project\C# Code 调试用\最短路径.gdb"
-output_fc_name = "MyNewRoads"
-output_fc_path = os.path.join(gdb_path, output_fc_name)
-sr = arcpy.SpatialReference(4549) # 假设使用 CGCS2000 3度带坐标系
+### 3. 📏 空间量算工具
+- **距离测量**：计算折线长度。
+- **面积测量**：计算多边形覆盖面积。
 
-# 如果存在则删除
-if arcpy.Exists(output_fc_path):
-    arcpy.management.Delete(output_fc_path)
+### 4. 🎨 专题地图制作
+支持多种专业的符号化渲染方式：
+- **简单渲染** (Simple Renderer)
+- **唯一值渲染** (Unique Value Renderer)
+- **分级色彩渲染** (Class Breaks Renderer)
+- **点密度渲染** (Dot Density Renderer)
+- **比例符号渲染** (Proportional Symbol Renderer)
+- **统计图表渲染** (Chart Renderer)
 
-# 创建一个新的线要素类，包含一个文本字段
-arcpy.CreateFeatureclass_management(gdb_path, output_fc_name, "POLYLINE", spatial_reference=sr)
-arcpy.AddField_management(output_fc_path, "Name", "TEXT")
+### 5. ✏️ 数据编辑
+- 支持点、线、面要素的创建与几何编辑。
+- 属性数据的录入与更新。
 
-print("要素类创建完毕。")
+### 6. 🖨️ 制图与输出
+- **地图整饰**：添加指北针、比例尺、图例等整饰要素。
+- **地图导出**：将当前地图视图导出为高分辨率图片。
 
-# --- 核心：创建并写入一个新要素 ---
+---
 
-# 1. 在内存中创建几何对象 (Polyline)
-#    一条线由一个或多个点数组(Array)构成
-point_array = arcpy.Array([
-    arcpy.Point(1000, 2000),
-    arcpy.Point(1500, 2500),
-    arcpy.Point(2000, 2000)
-])
-#    用点数组创建线对象
-polyline_geom = arcpy.Polyline(point_array, sr)
+## 🛠️ 技术栈与开发环境
 
-# 2. 准备其他属性值
-road_name = "新创建的道路"
+| 组件 | 版本/要求 | 说明 |
+|------|-----------|------|
+| **开发语言** | C# | 基于 .NET Framework |
+| **IDE** | Visual Studio 2012 | 兼容旧版 ArcEngine SDK |
+| **GIS 内核** | ArcGIS Engine 10.2.2 | 核心 GIS 组件库 |
 
-# 3. 使用 InsertCursor "组合" 并写入
-#    注意字段顺序: ["Name", "SHAPE@"]
-with arcpy.da.InsertCursor(output_fc_path, ["Name", "SHAPE@"]) as cursor:
-    # 准备一行数据，其顺序必须与上面的字段顺序完全对应
-    # 第一个元素是 'Name' 字段的值 (一个字符串)
-    # 第二个元素是 'SHAPE@' 字段的值 (一个Polyline几何对象)
-    row_to_insert = (road_name, polyline_geom)
-    
-    # 插入这一行，arcpy会自动将几何对象写入.shp部分，属性写入.dbf部分
-    cursor.insertRow(row_to_insert)
+### 💻 环境配置指南
 
-print(f"要素 '{road_name}' 已成功创建。")
+> ⚠️ **注意**：由于 ArcGIS Engine 10.2.2 属于较旧版本，建议使用 **虚拟机** 隔离环境进行开发。
+
+#### 1. 虚拟机环境准备
+推荐使用 **VMware Workstation** 运行 **Windows 10** 系统。
+
+- **VMware Workstation Pro 25H2**: [百度网盘下载](https://pan.baidu.com/s/15G0UjTjupaLpNkf0o6uEvQ) (提取码: GIS0)
+- **Windows 10 ISO**: [百度网盘下载](https://pan.baidu.com/s/1mWKw_rjU0Kga_dT4qDvXdg) (提取码: GIS0)
+
+#### 2. 开发工具安装
+在虚拟机中依次安装 Visual Studio 2012 和 ArcGIS Engine 10.2.2。
+
+- **Visual Studio 2012**: [百度网盘下载](https://pan.baidu.com/s/16_spKRn97O-H9OwWkYIvXg) (提取码: GIS0)
+- **ArcGIS Engine 10.2.2**: [百度网盘下载](https://pan.baidu.com/s/1VjS9ih8xEt4h5UyVsINLSQ) (提取码: GIS0)
+
+> 💡 **安装提示**：Engine 10.2.2 的安装流程可参考网盘中的 `安装流程.jpg` 或访问 [详细安装教程](https://malagis.com/arcgis-10-2-2-download.html)。
+
+> ⚖️ **免责声明**：
+> 上述链接提供的软件均为网络学习版本，**仅限个人学习研究使用，严禁用于商业用途**。
+
+---
+
+## 📂 项目结构解析
+
+```text
+Project_Root
+├── 📁 Data (数据目录)
+│   ├── CAD数据 (.dwg)
+│   ├── Mxd文件 (Qingdao.mxd)
+│   ├── SHP数据 (矢量数据)
+│   ├── GDB数据 (.mdb/.gdb)
+│   └── 栅格数据 (影像)
+│
+├── 📁 Engine_Dev (核心源码目录)
+│   ├── 📄 GIS_2310130172_ (主程序)
+│   │   ├── FrmMain.cs (主窗体逻辑)
+│   │   ├── MapManager.cs (地图管理)
+│   │   └── CreateFeatureToolClass.cs (要素编辑)
+│   │
+│   ├── 📄 自定义DLL_SymbologyMenu (符号化类库)
+│   │   └── (封装各类渲染器)
+│   │
+│   └── 📄 自定义窗体控件 (功能模块)
+│       ├── FormAttribute (属性表)
+│       ├── 地图导出窗口
+│       ├── 地图量测窗口
+│       └── 统计选择集
+│
+└── 📁 课堂文件 (笔记与文档)
 ```
 
-### 2.2 代码关键点解析
+### 1. 📁 Data (数据目录)
+> 存放项目运行所需的各类测试数据。
 
-**准备工作阶段：**
-- 设置地理数据库路径和输出要素类名称
-- 定义空间参考系统（CGCS2000 3度带坐标系）
-- 检查并删除已存在的要素类
-- 创建新的线要素类并添加文本字段
+- **CAD数据**: `.dwg` 格式的 CAD 图纸。
+- **Mxd文件**: 预配置好的地图文档 (`Qingdao.mxd`)。
+- **SHP数据**: 包含点、线、面等多种矢量数据。
+- **GDB数据**: 个人地理数据库 (`.mdb`) 和文件地理数据库 (`.gdb`)。
+- **栅格数据**: 遥感影像等栅格文件。
 
-**核心创建要素阶段：**
-- 使用 `arcpy.Array` 和 `arcpy.Point` 创建点序列
-- 用点数组构建 `arcpy.Polyline` 几何对象
-- 使用 `InsertCursor` 将几何对象和属性数据写入要素类
+### 2. 📁 Engine_Dev (核心源码目录)
+> 项目的核心开发目录，包含完整的 Visual Studio 解决方案。
 
-### 2.3 基础操作示例
+- **📄 GIS_2310130172_ (主程序)**
+  - `FrmMain.cs`: 主窗体逻辑，集成了地图控件、TOC控件和鹰眼控件。
+  - `MapManager.cs`: 地图管理类，处理图层加载与渲染。
+  - `CreateFeatureToolClass.cs`: 负责要素创建与编辑的核心工具类。
 
-```python
-import arcpy
+- **📄 自定义DLL_SymbologyMenu (符号化类库)**
+  - 封装了所有专题图渲染逻辑，独立编译为 DLL。
+  - 包含 `UniqueValueRender` (唯一值)、`ClassBreakRender` (分级色彩) 等渲染器。
 
-# 设置工作空间
-arcpy.env.workspace = r"C:\GIS\data.gdb"
+- **📄 自定义窗体控件 (功能模块)**
+  - `FormAttribute`: 属性表查看与查询窗口。
+  - `地图导出窗口`: 地图整饰与导出设置。
+  - `地图量测窗口`: 距离与面积量测工具。
+  - `统计选择集`: 空间统计分析窗口。
 
-# 列出所有要素类
-featureClasses = arcpy.ListFeatureClasses()
-for fc in featureClasses:
-    print(fc)
-```
-#怎么说呢
-*笔记持续更新中...*
+### 3. 📁 课堂文件
+- 包含课程相关的笔记与说明文档。
+
+---
+
+## 🚀 快速开始
+
+1. **环境准备**：确保安装 VS2012 和 ArcEngine 10.2.2 SDK。
+2. **获取代码**：
+   ```bash
+   git clone https://github.com/NEGIAO/GIS-Engine-CSharp.git
+   ```
+3. **修复引用**：打开 `Engine_Dev.sln`，检查 `ESRI.ArcGIS.*` 引用是否丢失，必要时重新添加。
+4. **运行测试**：使用 `Data` 目录下的 `Qingdao.mxd` 或 `community.mdb` 进行功能测试。
+
+---
+*注：本项目主要用于学习交流，代码中包含详细注释，适合 GIS 开发初学者参考。*
             </script>
         </article>
     </main>
@@ -316,7 +366,6 @@ for fc in featureClasses:
             });
         }
 
-        // Initialize TOC Toggle Button
         function initTocToggle() {
             const toc = document.querySelector('.note-toc');
             const toggleBtn = document.getElementById('toc-toggle-btn');

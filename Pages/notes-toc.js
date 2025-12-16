@@ -57,46 +57,67 @@
     window.addEventListener('scroll', updateProgress, { passive: true });
   }
 
-  // 滚动时高亮当前目录项
+  // 滚动时高亮当前目录项并同步滚动目录
   function updateActiveHeading() {
     const headings = Array.from(document.querySelectorAll('.note-content h2, .note-content h3, .note-content h4'));
     const tocLinks = document.querySelectorAll('.note-toc__link');
+    const tocNav = document.querySelector('.note-toc__nav'); // 实际滚动的容器
 
     if (!headings.length || !tocLinks.length) return;
 
-    // 使用 IntersectionObserver 代替滚动计算以提高性能
-    if (!window._tocObserver) {
-      const headingOffset = 100;
-      window._tocObserver = new IntersectionObserver((entries) => {
-        let activeHeading = null;
+    // 找到当前视口中最接近顶部的标题
+    const headerOffset = 150;
+    let activeId = null;
 
-        // 检查哪些标题在视图中
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            activeHeading = entry.target;
-          }
-        });
+    for (let i = 0; i < headings.length; i++) {
+      const heading = headings[i];
+      const rect = heading.getBoundingClientRect();
+      
+      if (rect.top <= headerOffset) {
+        activeId = heading.id;
+      } else {
+        break;
+      }
+    }
 
-        // 高亮对应的目录链接
-        if (activeHeading) {
-          const activeId = activeHeading.id;
-          tocLinks.forEach(link => {
-            const href = link.getAttribute('href').substring(1);
-            if (href === activeId) {
-              link.classList.add('active');
-            } else {
-              link.classList.remove('active');
-            }
-          });
+    // 如果页面滚动到底部，强制激活最后一个
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+      activeId = headings[headings.length - 1].id;
+    }
+    
+    // 如果没有找到，默认激活第一个
+    if (!activeId && headings.length > 0) {
+      activeId = headings[0].id;
+    }
+
+    // 更新目录链接状态并同步滚动
+    let activeLinkElement = null;
+    tocLinks.forEach(link => {
+      const href = link.getAttribute('href').substring(1);
+      if (href === activeId) {
+        if (!link.classList.contains('is-active')) {
+          link.classList.add('is-active');
+          activeLinkElement = link;
         }
-      }, {
-        rootMargin: `-${headingOffset}px 0px -${window.innerHeight - headingOffset - 50}px 0px`,
-        threshold: [0, 1]
-      });
+      } else {
+        link.classList.remove('is-active');
+      }
+    });
 
-      // 观察所有标题
-      headings.forEach(heading => {
-        window._tocObserver.observe(heading);
+    // 自动滚动目录容器，使当前激活项可见并居中
+    if (activeLinkElement && tocNav) {
+      const linkRect = activeLinkElement.getBoundingClientRect();
+      const navRect = tocNav.getBoundingClientRect();
+      
+      // 计算链接相对于目录容器的位置
+      const relativeTop = linkRect.top - navRect.top + tocNav.scrollTop;
+      
+      // 计算目标滚动位置（使链接居中）
+      const targetScroll = relativeTop - (tocNav.clientHeight / 2) + (linkRect.height / 2);
+      
+      tocNav.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth'
       });
     }
   }

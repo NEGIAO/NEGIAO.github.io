@@ -16,6 +16,10 @@
     <meta property="og:description" content="NEGIAO的英语单词学习记录，每日更新，包含单词释义、例句和用法。">
     <meta property="og:image" content="https://negiao.github.io/Pages/avatar.jpg">
 
+    <!-- DNS Prefetch & Preconnect -->
+    <link rel="preconnect" href="https://cdnjs.loli.net" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
     <title>英语单词学习记录 - NEGIAO</title>
     <link rel="icon" type="image/png" href="/images/icon.png">
     <link rel="shortcut icon" type="image/png" href="/images/icon.png">
@@ -51,14 +55,13 @@
     </script>
 
     <style>
-         /* Fix for code block alignment - 
-        代码块要默认左对齐
-        ensure left alignment for ASCII trees */
+        /* Fix for code block alignment - ensure left alignment for ASCII trees */
         .note-content pre, 
         .note-content code {
             text-align: left !important;
         }
-        /* New TOC Toggle Button */
+
+        /* TOC Toggle Button */
         .toc-toggle-btn {
             position: fixed;
             bottom: 90px;

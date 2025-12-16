@@ -9,6 +9,10 @@
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
 
+    <!-- DNS Prefetch 和 Preconnect 优化 CDN 加载速度 -->
+    <link rel="preconnect" href="https://cdnjs.loli.net" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://negiao.github.io/Pages/notes.html">
@@ -48,11 +52,11 @@
 </head>
 
 <body>
-    <nav class="navbar">
+    <nav class="navbar" aria-label="主导航">
         <div class="navbar__container">
             <a href="../index.html" class="navbar__brand">NEGIAO</a>
-            <a href="../index.html" class="btn btn--secondary">
-                <i class="fas fa-home"></i> 返回首页
+            <a href="../index.html" class="btn btn--secondary" aria-label="返回首页">
+                <i class="fas fa-home" aria-hidden="true"></i> 返回首页
             </a>
         </div>
     </nav>

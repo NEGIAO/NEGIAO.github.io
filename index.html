@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0D1117">
     <meta name="description"
         content="NEGIAO's Personal GitHub Page - WebGIS, Data Visualization and Geospatial Technologies">
     <meta name="keywords"
@@ -26,7 +27,6 @@
         content="Personal portfolio focusing on WebGIS, Data Visualization and Geospatial Technologies.">
     <meta property="twitter:image" content="https://negiao.github.io/Pages/avatar.jpg">
 
-    <meta name="theme-color" content="#0D1117">
     <title>NEGIAO - GitHub Page</title>
     <link rel="icon" type="image/png" sizes="32x32 192x192 512x512" href="/images/icon.png">
     <link rel="shortcut icon" type="image/png" href="/images/icon.png">
@@ -40,13 +40,17 @@
             --text: #F7FAFC;
             --text-secondary: #E2E8F0;
             --gradient-primary: linear-gradient(135deg, #00D9FF 0%, #0EA5E9 50%, #3B82F6 100%);
+            --gradient-accent: linear-gradient(135deg, #FF6B6B 0%, #F06595 50%, #CC5DE8 100%);
+            --gradient-success: linear-gradient(135deg, #51CF66 0%, #37B24D 50%, #2F9E44 100%);
             --transition-fast: 0.1s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --space-xs: 0.25rem;
             --space-sm: 0.5rem;
             --space-md: 1rem;
             --space-lg: 1.5rem;
             --space-xl: 2rem;
             --space-2xl: 3rem;
+            --radius-sm: 4px;
             --radius-md: 8px;
             --radius-lg: 12px;
             --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -146,10 +150,8 @@
         }
     </style>
 
-    <!-- 关键首屏样式已内联以优化首次渲染；避免对完整 CSS 的 preload（会产生重复请求成本） -->
-    <!-- 如果需要优先加载头像，可保留 img 的 fetchpriority 属性，但不必单独 preload -->
-
-    <!-- 预连接第三方资源（仅保留必要项） -->
+    <!-- 性能优化：关键首屏样式已内联，完整样式表延迟加载 -->
+    <!-- 预连接第三方资源，减少 DNS 查询时间 -->
     <link rel="preconnect" href="https://fonts.loli.net">
     <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -166,10 +168,10 @@
     <!-- 设置缓存控制 - 一个月缓存时间 -->
     <meta http-equiv="Cache-Control" content="max-age=2592000, public">
 
-    <!-- 为关键资源设置更长的缓存时间并添加版本号以便于更新时强制刷新 -->
-    <link rel="stylesheet" href="Pages/style.css?v=202509" media="all">
+    <!-- 资源缓存策略：添加版本号便于更新时强制刷新 -->
+    <link rel="stylesheet" href="Pages/style.css?v=202512" media="all">
     <link rel="preload" href="Pages/avatar.jpg" as="image" fetchpriority="high">
-    <script src="Pages/main-enhanced.js?v=202509" defer></script>
+    <script src="Pages/main-enhanced.js?v=202512" defer></script>
 </head>
 
 <body>
@@ -606,7 +608,7 @@
                     </p>
                     <p style="color: var(--text-disabled); font-size: 0.8rem; margin-bottom: var(--space-sm);">
                         用 ❤️ 和现代技术构建 <span
-                            style="margin-left: 8px; opacity: 0.8; border: 1px solid var(--text-disabled); padding: 0 4px; border-radius: 4px;">v1.5.1</span>
+                            style="margin-left: 8px; opacity: 0.8; border: 1px solid var(--text-disabled); padding: 0 4px; border-radius: 4px;">v1.5.2</span>
                     </p>
                     <div id="visit-counter"
                         style="font-size: 0.8rem; color: var(--primary); margin-bottom: var(--space-sm);">
@@ -659,10 +661,10 @@
             console.log('页面访问次数:', visits);
         });
 
-        // 延迟加载被墙内容，确保国内用户快速加载页面(性能优化)
+        // 性能优化：延迟加载第三方统计服务，避免阻塞首屏渲染
         window.addEventListener('load', function () {
             setTimeout(function () {
-                // 1. 加载 MapMyVisitors
+                // 1. 延迟加载 MapMyVisitors 地图
                 const mapContainer = document.getElementById('mapmyvisitors-container');
                 if (mapContainer && !document.getElementById('mapmyvisitors')) {
                     const script = document.createElement('script');

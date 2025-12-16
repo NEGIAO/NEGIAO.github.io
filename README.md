@@ -76,20 +76,58 @@
 ```
 .
 ├── .github/                  # GitHub Actions 工作流配置
+├── .idea/                    # JetBrains IDE 配置文件
 ├── .vscode/                  # VS Code 编辑器配置
 ├── Geoscene_宝藏小城/         # Pyecharts 数据可视化专题项目
 │   ├── 季节变化/             # 各城市气温/降水季节变化图表
+│   │   ├── 利川市_季节变化.html
+│   │   ├── 淮安市_季节变化.html
+│   │   ├── 荣成市_季节变化.html
+│   │   ├── 象山县_季节变化.html
+│   │   ├── 铜仁市_季节变化.html
+│   │   └── 隰县_季节变化.html
 │   ├── 年内变化/             # 各城市气象数据年内变化分析
+│   │   ├── 利川市_年内变化.html
+│   │   ├── 淮安市_年内变化.html
+│   │   ├── 荣成市_年内变化.html
+│   │   ├── 象山县_年内变化.html
+│   │   ├── 铜仁市_年内变化.html
+│   │   └── 隰县_年内变化.html
 │   ├── 年际变化/             # 各城市气象数据年际趋势分析
+│   │   ├── 利川市_年际变化.html
+│   │   ├── 淮安市_年际变化.html
+│   │   ├── 荣成市_年际变化.html
+│   │   ├── 象山县_年际变化.html
+│   │   ├── 铜仁市_年际变化.html
+│   │   └── 隰县_年际变化.html
 │   ├── awesome.html          # 可视化图表总览页面
 │   ├── wordcloud.html        # 城市印象词云集合页
-│   └── 词云图_*.html         # 各城市单独的词云展示页面
+│   ├── 词云图_利川.html
+│   ├── 词云图_淮安.html
+│   ├── 词云图_荣成.html
+│   ├── 词云图_象山.html
+│   ├── 词云图_铜仁.html
+│   └── 词云图_隰县.html
+├── images/                   # 站点全局图片资源（图标、背景等）
+│   ├── icon.png              # 网站 favicon 主图标
+│   ├── icon1.png             # 备用图标
+│   ├── typing.svg            # 首页动态打字效果 SVG（本地化）
+│   ├── 周迪.png
+│   ├── 地球日活动.jpg
+│   ├── 学部大会.png
+│   ├── 年级大会.jpg
+│   └── 院徽.png
 ├── Others/                   # 其他工具与文档资源
 │   ├── NEGIAO工具.atbx       # ArcGIS Pro 自定义工具箱文件
 │   └── 使用说明.txt          # 工具箱使用说明文档
 ├── Pages/                    # 站点主要子页面与公共资源
 │   ├── Note/                 # 技术笔记与学习记录归档
 │   │   ├── resources/        # 笔记引用的图片与附件资源
+│   │   │   └── display/      # 图片展示资源目录
+│   │   ├── ZhouDi_learning/  # 周迪个人学习记录子目录
+│   │   │   ├── word-learning-record.html
+│   │   │   └── word-list.json
+│   │   ├── arcgis-engine-project.html # ArcGIS Engine 项目笔记（新增）
 │   │   ├── arcgis-engine.html # ArcGIS Engine 开发笔记
 │   │   ├── ArcPy.html        # ArcPy 自动化脚本笔记
 │   │   ├── gallery.html      # 技术成果展示画廊
@@ -97,42 +135,42 @@
 │   │   ├── note-template.html # 笔记页面标准模板
 │   │   ├── spatial-analysis-R.html # R 语言空间分析笔记
 │   │   ├── word-learning-record.html # 英语词汇学习与测试系统
-│   │   ├── word-list.json    # 英语学习系统核心词库数据
-│   │   └── ZhouDi_learning/  # 周迪个人学习记录子目录
-│   ├── main-enhanced.js      # 全站核心交互脚本（导航、动画、i18n）
+│   │   └── word-list.json    # 英语学习系统核心词库数据
+│   ├── avatar.jpg            # 个人头像图片
+│   ├── main-enhanced.js      # 全站核心交互脚本（导航、动画、favicon）
 │   ├── markdown_editor.html  # 在线 Markdown 编辑器工具
-│   ├── notes-toc.js          # 笔记目录自动生成脚本
+│   ├── notes-toc.js          # 笔记目录自动生成与滚动同步脚本
 │   ├── notes.html            # 技术笔记索引主页
 │   ├── schedule.html         # 智能课程表页面
 │   └── style.css             # 全站通用样式表
 ├── Scripts_based_on_cloud/   # 云端自动化脚本存放区
 │   └── Python_based_on_cloud.py # 自动化处理与数据同步脚本
 ├── WebGIS/                   # 基于原生 JS/OpenLayers 的 WebGIS 项目
-│   ├── assets/               # WebGIS 项目静态资源
+│   ├── assets/               # WebGIS 项目静态资源（Vite 构建产物）
+│   │   ├── index-CAyyoyHz.js
+│   │   └── index-jh0DpwuT.css
 │   ├── images/               # WebGIS 项目图片资源
 │   ├── index.html            # WebGIS 项目入口
 │   ├── ol.css                # OpenLayers 样式库
 │   └── ol.js                 # OpenLayers 核心库
-├── WebGIS_henu_trials_5_28_vue3/ # 基于 Vue3 + Vite 的现代 WebGIS 项目
-│   ├── public/               # 静态资源目录（含瓦片数据）
-│   ├── src/                  # Vue3 项目源代码
-│   ├── index.html            # Vue3 项目入口 HTML
-│   ├── package.json          # 项目依赖配置
-│   └── vite.config.js        # Vite 构建配置
-├── images/                   # 站点全局图片资源（图标、背景等）
 ├── .htaccess                 # Apache 服务器配置文件（缓存策略等）
 ├── index.html                # 网站首页（个人作品集入口）
-├── README.md                 # 项目说明文档
-└── start_server.bat          # Windows 本地预览启动脚本
+├── README.md                 # 项目说明文档（本文件）
+├── start_server.bat          # Windows 本地预览启动脚本
+└── 大河南.jpg                # 河南地图图片资源
 ```
+
+**注**：`WebGIS_henu_trials_5_28_vue3/` 项目位于工作区根目录，但作为独立的 Vue3 项目维护，具有完整的前端工程结构。
 
 ## Key Assets
 | 类型            | 路径                        | 用途                                     |
 | --------------- | --------------------------- | ---------------------------------------- |
 | Favicon         | `images/icon.png`           | 全站浏览器图标，JS fallback 亦引用该文件 |
+| 头像图片        | `Pages/avatar.jpg`          | 首页与各页面展示的个人头像               |
+| 动态效果        | `images/typing.svg`         | 首页打字动画效果（本地化优化）           |
 | 主样式          | `Pages/style.css`           | 全站主题与组件样式                       |
 | 导航/交互脚本   | `Pages/main-enhanced.js`    | 导航栏、移动菜单、平滑滚动、favicon 注入 |
-| 目录脚本        | `Pages/notes-toc.js`        | 笔记页面自动目录生成与标题层级样式       |
+| 目录脚本        | `Pages/notes-toc.js`        | 笔记页面自动目录生成与滚动同步           |
 | 词汇数据        | `Pages/Note/word-list.json` | 英语学习系统题库与统计数据源             |
 | 工具箱          | `Others/NEGIAO工具.atbx`    | ArcGIS Pro 定制工具集合                  |
 | WebGIS 构建产物 | `WebGIS/assets/*`           | Vite 打包后的 JS/CSS                     |
@@ -163,6 +201,14 @@ python -m http.server 8080
 - **Python**：云端脚本、词汇数据处理、本地服务器。
 
 ## Changelog
+
+### 2025-12-17 · v1.5.2
+- **首页性能与代码质量优化**：
+    - **CSS 变量规范化**：补充完整的 CSS 变量定义（添加 `--gradient-accent`、`--gradient-success`、`--space-xs`、`--radius-sm` 等），提升样式系统一致性。
+    - **Meta 标签优化**：调整 meta 标签顺序，将 `theme-color` 前置，移除重复定义，提升页面加载性能。
+    - **资源版本管理**：更新 CSS/JS 资源缓存版本号至 `202512`，确保用户获取最新优化版本。
+    - **代码注释改进**：优化关键代码注释说明，提高代码可维护性。
+    - **笔记 TOC 功能增强**：改进技术笔记页面的目录（TOC）滚动同步功能，提升阅读体验。
 
 ### 2025-12-12 · v1.5.1
 - **性能与稳定性优化**：

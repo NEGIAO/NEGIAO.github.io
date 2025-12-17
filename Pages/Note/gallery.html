@@ -212,9 +212,267 @@
             background: rgba(255, 255, 255, 0.02);
         }
 
-        /* Lightbox styles (optional, for future enhancement) */
-        .gallery-item a {
+        /* Lightbox Modal Styles */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: lightboxZoomIn 0.3s ease;
+        }
+
+        @keyframes lightboxZoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: calc(90vh - 100px);
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-info {
+            margin-top: 20px;
+            text-align: center;
+            color: var(--text);
+            background: rgba(26, 31, 46, 0.9);
+            padding: 15px 25px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(26, 31, 46, 0.9);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+        }
+
+        .lightbox-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg) scale(1.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+        }
+
+        .lightbox-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background: rgba(26, 31, 46, 0.9);
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            color: var(--text);
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+        }
+
+        .lightbox-back:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateX(-5px);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+        }
+
+        .lightbox-back i {
+            font-size: 16px;
+        }
+
+        /* Navigation buttons for prev/next image */
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(26, 31, 46, 0.9);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+        }
+
+        .lightbox-nav:hover:not(:disabled) {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+        }
+
+        .lightbox-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .lightbox-nav.prev {
+            left: 20px;
+        }
+
+        .lightbox-nav.next {
+            right: 20px;
+        }
+
+        .lightbox-nav.prev:hover:not(:disabled) {
+            transform: translateY(-50%) translateX(-5px);
+        }
+
+        .lightbox-nav.next:hover:not(:disabled) {
+            transform: translateY(-50%) translateX(5px);
+        }
+
+        /* Image counter */
+        .lightbox-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 31, 46, 0.9);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            z-index: 10001;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-content {
+                max-width: 95%;
+                max-height: 95%;
+            }
+
+            .lightbox-image {
+                max-height: calc(90vh - 80px);
+            }
+
+            .lightbox-close,
+            .lightbox-back {
+                top: 10px;
+            }
+
+            .lightbox-close {
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .lightbox-back {
+                left: 10px;
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+
+            .lightbox-nav {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .lightbox-nav.prev {
+                left: 10px;
+            }
+
+            .lightbox-nav.next {
+                right: 10px;
+            }
+
+            .lightbox-counter {
+                bottom: 10px;
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .lightbox-info {
+                padding: 10px 15px;
+                margin-top: 15px;
+            }
+
+            .lightbox-title {
+                font-size: 1rem;
+            }
+        }
+
+        /* Make gallery items clickable */
+        .gallery-item {
+            cursor: pointer;
+        }
+
+        .gallery-item:hover .gallery-image-container img {
+            transform: scale(1.05);
+        }
+
+        .gallery-detail-link {
             text-decoration: none;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -1407,6 +1665,155 @@
                 }
             });
         }
+    </script>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="lightbox-modal">
+        <button class="lightbox-back" id="lightbox-back" aria-label="返回画廊">
+            <i class="fas fa-arrow-left"></i>
+            <span>返回</span>
+        </button>
+        <button class="lightbox-close" id="lightbox-close" aria-label="关闭">
+            <i class="fas fa-times"></i>
+        </button>
+        <button class="lightbox-nav prev" id="lightbox-prev" aria-label="上一张">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="lightbox-nav next" id="lightbox-next" aria-label="下一张">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="lightbox-counter" id="lightbox-counter">1 / 1</div>
+        <div class="lightbox-content">
+            <img id="lightbox-image" class="lightbox-image" src="" alt="">
+            <div class="lightbox-info">
+                <div class="lightbox-title" id="lightbox-title"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lightbox functionality
+        (function() {
+            const modal = document.getElementById('lightbox-modal');
+            const modalImage = document.getElementById('lightbox-image');
+            const modalTitle = document.getElementById('lightbox-title');
+            const closeBtn = document.getElementById('lightbox-close');
+            const backBtn = document.getElementById('lightbox-back');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+            const counter = document.getElementById('lightbox-counter');
+
+            let currentIndex = 0;
+            let galleryItems = [];
+
+            // 收集所有画廊项目
+            function collectGalleryItems() {
+                const items = document.querySelectorAll('.gallery-item');
+                galleryItems = Array.from(items).map(item => {
+                    const img = item.querySelector('img');
+                    const title = item.querySelector('.gallery-title');
+                    return {
+                        src: img ? img.src : '',
+                        title: title ? title.textContent : '作品详情'
+                    };
+                });
+            }
+
+            function updateCounter() {
+                counter.textContent = `${currentIndex + 1} / ${galleryItems.length}`;
+            }
+
+            function updateNavButtons() {
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === galleryItems.length - 1;
+            }
+
+            function showImage(index) {
+                if (index < 0 || index >= galleryItems.length) return;
+                currentIndex = index;
+                const item = galleryItems[currentIndex];
+                modalImage.src = item.src;
+                modalTitle.textContent = item.title;
+                updateCounter();
+                updateNavButtons();
+            }
+
+            function openLightbox(imageSrc, title) {
+                collectGalleryItems();
+                // 找到当前图片的索引
+                currentIndex = galleryItems.findIndex(item => item.src === imageSrc);
+                if (currentIndex === -1) currentIndex = 0;
+                
+                showImage(currentIndex);
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                // 延迟清空图片，避免闪烁
+                setTimeout(() => {
+                    modalImage.src = '';
+                }, 300);
+            }
+
+            function showPrev() {
+                if (currentIndex > 0) {
+                    showImage(currentIndex - 1);
+                }
+            }
+
+            function showNext() {
+                if (currentIndex < galleryItems.length - 1) {
+                    showImage(currentIndex + 1);
+                }
+            }
+
+            // 关闭按钮
+            closeBtn.addEventListener('click', closeLightbox);
+            backBtn.addEventListener('click', closeLightbox);
+
+            // 导航按钮
+            prevBtn.addEventListener('click', showPrev);
+            nextBtn.addEventListener('click', showNext);
+
+            // 点击背景关闭
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeLightbox();
+                }
+            });
+
+            // 键盘控制
+            document.addEventListener('keydown', function(e) {
+                if (!modal.classList.contains('active')) return;
+                
+                switch(e.key) {
+                    case 'Escape':
+                        closeLightbox();
+                        break;
+                    case 'ArrowLeft':
+                        showPrev();
+                        break;
+                    case 'ArrowRight':
+                        showNext();
+                        break;
+                }
+            });
+
+            // 给画廊项添加点击事件（使用事件委托）
+            document.addEventListener('click', function(e) {
+                const galleryItem = e.target.closest('.gallery-item');
+                if (galleryItem) {
+                    const img = galleryItem.querySelector('img');
+                    const title = galleryItem.querySelector('.gallery-title');
+                    if (img && title) {
+                        openLightbox(img.src, title.textContent);
+                    }
+                }
+            });
+        })();
     </script>
 </body>
 

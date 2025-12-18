@@ -104,6 +104,8 @@
             .toc-toggle-btn {
                 bottom: 80px;
                 right: 20px;
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
             }
 
             /* Force fixed positioning on mobile to support toggle behavior */
@@ -117,10 +119,16 @@
                 z-index: 1050 !important;
                 order: unset !important;
                 box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+                /* 添加硬件加速 */
+                -webkit-transform: translateY(-50%) translateZ(0) !important;
+                transform: translateY(-50%) translateZ(0) !important;
+                will-change: transform, opacity;
+                -webkit-overflow-scrolling: touch;
             }
 
             /* Hidden state for mobile */
             .note-toc.note-toc--hidden {
+                -webkit-transform: translateY(-50%) translateX(150%) !important;
                 transform: translateY(-50%) translateX(150%) !important;
                 opacity: 0 !important;
                 pointer-events: none;
@@ -1681,49 +1689,6 @@
             render();
         });
 
-        // Set up TOC toggle functionality
-        function setupTocToggle() {
-            const tocToggle = document.getElementById('toc-toggle');
-            const tocAside = document.querySelector('.note-toc');
-
-            if (tocToggle && tocAside) {
-                tocToggle.addEventListener('click', function () {
-                    tocAside.classList.toggle('note-toc--collapsed');
-                    const collapsed = tocAside.classList.contains('note-toc--collapsed');
-                    tocToggle.setAttribute('aria-expanded', String(!collapsed));
-
-                    // 缓存状态到localStorage
-                    try {
-                        localStorage.setItem('note-toc-collapsed', collapsed ? '1' : '0');
-                    } catch (err) { }
-
-                    // 立即更新视觉状态
-                    if (window.innerWidth >= 769) {
-                        if (collapsed) {
-                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
-                            tocAside.style.right = '12px';
-                        } else {
-                            tocAside.style.transform = 'translateY(-50%) translateZ(0)';
-                            tocAside.style.right = '28px';
-                        }
-                    }
-                });
-
-                // 恢复保存的状态
-                try {
-                    const saved = localStorage.getItem('note-toc-collapsed');
-                    if (saved === '1') {
-                        tocAside.classList.add('note-toc--collapsed');
-                        if (window.innerWidth >= 769) {
-                            tocAside.style.transform = 'translateY(-50%) translateX(120%)';
-                            tocAside.style.right = '12px';
-                        }
-                        tocToggle.setAttribute('aria-expanded', 'false');
-                    }
-                } catch (err) { }
-            }
-        }
-
         // Set up highlight.js load callback
         if (typeof hljs === 'undefined') {
             window.addEventListener('load', function () {
@@ -1946,7 +1911,15 @@
                 icon.classList.add('fa-times');
             }
 
-            toggleBtn.addEventListener('click', () => {
+            // 移动端优化：使用touchstart事件提高响应速度
+            const isMobile = window.innerWidth <= 768;
+            const eventType = isMobile ? 'touchstart' : 'click';
+            
+            toggleBtn.addEventListener(eventType, (e) => {
+                if (isMobile && e.type === 'touchstart') {
+                    e.preventDefault(); // 防止双击缩放
+                }
+                
                 toc.classList.toggle('note-toc--hidden');
 
                 // Update icon
@@ -1959,7 +1932,14 @@
                     icon.classList.add('fa-times');
                     localStorage.setItem('toc-hidden', 'false');
                 }
-            });
+            }, { passive: isMobile ? false : true });
+            
+            // 移动端添加click事件作为后备
+            if (isMobile) {
+                toggleBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                });
+            }
         }
 
         // Initialize when DOM is ready

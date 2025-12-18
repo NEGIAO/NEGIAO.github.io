@@ -106,18 +106,24 @@
 
     // 自动滚动目录容器，使当前激活项可见并居中
     if (activeLinkElement && tocNav) {
-      const linkRect = activeLinkElement.getBoundingClientRect();
-      const navRect = tocNav.getBoundingClientRect();
-      
-      // 计算链接相对于目录容器的位置
-      const relativeTop = linkRect.top - navRect.top + tocNav.scrollTop;
-      
-      // 计算目标滚动位置（使链接居中）
-      const targetScroll = relativeTop - (tocNav.clientHeight / 2) + (linkRect.height / 2);
-      
-      tocNav.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth'
+      // 移动端使用requestAnimationFrame优化性能
+      util.batchDOM(() => {
+        const linkRect = activeLinkElement.getBoundingClientRect();
+        const navRect = tocNav.getBoundingClientRect();
+        
+        // 计算链接相对于目录容器的位置
+        const relativeTop = linkRect.top - navRect.top + tocNav.scrollTop;
+        
+        // 计算目标滚动位置（使链接居中）
+        const targetScroll = relativeTop - (tocNav.clientHeight / 2) + (linkRect.height / 2);
+        
+        // 检测是否为移动设备
+        const isMobile = window.innerWidth <= 768;
+        
+        tocNav.scrollTo({
+          top: targetScroll,
+          behavior: isMobile ? 'auto' : 'smooth' // 移动端使用instant滚动
+        });
       });
     }
   }
@@ -163,20 +169,44 @@
       a.className = 'note-toc__link toc-level-' + level;
       a.addEventListener('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();
 
         const target = document.getElementById(id);
         if (!target) return;
 
         const offset = 72; // 考虑固定导航栏的高度
-        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-
-        window.scrollTo({
-          top: top,
-          behavior: 'smooth'
-        });
-
-        // 更新 URL 哈希而不滚动
-        history.pushState(null, null, '#' + id);
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        
+        // 检测是否为移动设备
+        const isMobile = window.innerWidth <= 768;
+        
+        // 移动端使用更简单的滚动方式避免刷新问题
+        if (isMobile) {
+          // 直接设置scrollTop，避免smooth导致的问题
+          const scrollOptions = {
+            top: targetPosition,
+            behavior: 'auto' // 移动端使用instant滚动
+          };
+          window.scrollTo(scrollOptions);
+          
+          // 延迟更新hash避免触发额外的滚动
+          setTimeout(() => {
+            if (history.replaceState) {
+              history.replaceState(null, null, '#' + id);
+            }
+          }, 50);
+        } else {
+          // 桌面端使用平滑滚动
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+          
+          // 更新 URL 哈希而不滚动
+          if (history.pushState) {
+            history.pushState(null, null, '#' + id);
+          }
+        }
       });
 
       // 将链接添加到列表项
@@ -229,7 +259,10 @@
   }
 
   // 添加滚动事件处理程序以高亮当前标题
-  window.addEventListener('scroll', util.throttle(updateActiveHeading, 100), { passive: true });
+  // 移动端使用更大的节流时间以提升性能
+  const isMobile = window.innerWidth <= 768;
+  const scrollThrottle = isMobile ? 200 : 100;
+  window.addEventListener('scroll', util.throttle(updateActiveHeading, scrollThrottle), { passive: true });
 
   // 初始化
   init();

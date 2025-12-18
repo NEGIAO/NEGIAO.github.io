@@ -2363,6 +2363,26 @@ a:focus {
   margin-bottom: var(--space-3xl);
 }
 
+/* Categorized Notes Styles */
+.notes-category {
+  margin-bottom: var(--space-3xl);
+}
+
+.notes-section-title {
+  font-size: 1.75rem;
+  color: var(--text);
+  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border);
+}
+
+.notes-section-title i {
+  color: var(--primary);
+}
+
 .note-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);

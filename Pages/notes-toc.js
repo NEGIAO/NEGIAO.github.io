@@ -1,33 +1,77 @@
 
 (function () {
+  'use strict';
+  
+  // 缓存常用的DOM查询
+  let cachedHeadings = null;
+  let cachedTocLinks = null;
+  let cachedTocNav = null;
+  let lastActiveId = null;
+  
+  // 设备检测 - 只检测一次
+  const isMobile = window.innerWidth <= 768;
+  
   // 辅助工具函数
   const util = {
     // 将文本转换为 ID 格式
     slugify: (text) => text.toLowerCase().trim().replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-').replace(/(^-|-$)/g, ''),
 
-    // 节流函数，限制执行频率
+    // 防抖函数 - 用于resize等低频事件
+    debounce: (func, delay) => {
+      let timeoutId = null;
+      return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+      };
+    },
+
+    // 节流函数 - 用于scroll等高频事件
     throttle: (func, delay) => {
       let lastCall = 0;
+      let timeoutId = null;
       return function (...args) {
         const now = Date.now();
-        if (now - lastCall >= delay) {
+        const timeSinceLastCall = now - lastCall;
+        
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+        
+        if (timeSinceLastCall >= delay) {
           lastCall = now;
           func.apply(this, args);
+        } else {
+          timeoutId = setTimeout(() => {
+            lastCall = Date.now();
+            func.apply(this, args);
+            timeoutId = null;
+          }, delay - timeSinceLastCall);
         }
       };
     },
 
     // 优化 DOM 批量操作
     batchDOM: (callback) => {
-      return window.requestAnimationFrame(() => {
-        callback();
-      });
+      return window.requestAnimationFrame(callback);
+    },
+    
+    // 安全的滚动到指定位置
+    safeScrollTo: (position, smooth = true) => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const safePosition = Math.max(0, Math.min(position, maxScroll));
+      
+      if (isMobile || !smooth) {
+        document.documentElement.scrollTop = safePosition;
+        document.body.scrollTop = safePosition;
+      } else {
+        window.scrollTo({ top: safePosition, behavior: 'smooth' });
+      }
     }
   };
 
   // 滚动进度条功能
   function initProgressBar() {
-    // 创建进度条元素
     const progressBar = document.createElement('div');
     progressBar.id = 'scroll-progress';
     progressBar.style.cssText = `
@@ -43,87 +87,87 @@
     `;
     document.body.appendChild(progressBar);
 
-    // 滚动时更新进度
     const updateProgress = util.throttle(() => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollPercent = (scrollTop / docHeight) * 100;
+      const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
 
       util.batchDOM(() => {
         progressBar.style.width = `${scrollPercent}%`;
       });
-    }, 10);
+    }, isMobile ? 50 : 10);
 
     window.addEventListener('scroll', updateProgress, { passive: true });
   }
 
-  // 滚动时高亮当前目录项并同步滚动目录
+  // 滚动时高亮当前目录项
   function updateActiveHeading() {
-    const headings = Array.from(document.querySelectorAll('.note-content h2, .note-content h3, .note-content h4'));
-    const tocLinks = document.querySelectorAll('.note-toc__link');
-    const tocNav = document.querySelector('.note-toc__nav'); // 实际滚动的容器
+    if (!cachedHeadings || !cachedTocLinks) {
+      cachedHeadings = document.querySelectorAll('.note-content h2, .note-content h3, .note-content h4');
+      cachedTocLinks = document.querySelectorAll('.note-toc__link');
+      cachedTocNav = document.querySelector('.note-toc__nav');
+    }
 
-    if (!headings.length || !tocLinks.length) return;
+    if (!cachedHeadings.length || !cachedTocLinks.length) return;
 
-    // 找到当前视口中最接近顶部的标题
     const headerOffset = 150;
+    const scrollY = window.scrollY;
+    const viewportBottom = window.innerHeight + scrollY;
+    const docHeight = document.body.offsetHeight;
     let activeId = null;
 
-    for (let i = 0; i < headings.length; i++) {
-      const heading = headings[i];
+    // 优化：使用二分查找或倒序遍历
+    for (let i = cachedHeadings.length - 1; i >= 0; i--) {
+      const heading = cachedHeadings[i];
       const rect = heading.getBoundingClientRect();
       
       if (rect.top <= headerOffset) {
         activeId = heading.id;
-      } else {
         break;
       }
     }
 
-    // 如果页面滚动到底部，强制激活最后一个
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
-      activeId = headings[headings.length - 1].id;
+    // 滚动到底部时激活最后一个
+    if (viewportBottom >= docHeight - 50 && cachedHeadings.length > 0) {
+      activeId = cachedHeadings[cachedHeadings.length - 1].id;
     }
     
-    // 如果没有找到，默认激活第一个
-    if (!activeId && headings.length > 0) {
-      activeId = headings[0].id;
+    // 默认激活第一个
+    if (!activeId && cachedHeadings.length > 0) {
+      activeId = cachedHeadings[0].id;
     }
 
-    // 更新目录链接状态并同步滚动
+    // 如果激活项没有变化，跳过更新
+    if (activeId === lastActiveId) return;
+    lastActiveId = activeId;
+
+    // 更新目录链接状态
     let activeLinkElement = null;
-    tocLinks.forEach(link => {
+    cachedTocLinks.forEach(link => {
       const href = link.getAttribute('href').substring(1);
-      if (href === activeId) {
-        if (!link.classList.contains('is-active')) {
-          link.classList.add('is-active');
-          activeLinkElement = link;
-        }
-      } else {
+      const isActive = href === activeId;
+      
+      if (isActive && !link.classList.contains('is-active')) {
+        link.classList.add('is-active');
+        activeLinkElement = link;
+      } else if (!isActive && link.classList.contains('is-active')) {
         link.classList.remove('is-active');
       }
     });
 
-    // 自动滚动目录容器，使当前激活项可见并居中
-    if (activeLinkElement && tocNav) {
-      // 移动端使用requestAnimationFrame优化性能
+    // 桌面端才自动滚动目录容器
+    if (!isMobile && activeLinkElement && cachedTocNav) {
       util.batchDOM(() => {
-        const linkRect = activeLinkElement.getBoundingClientRect();
-        const navRect = tocNav.getBoundingClientRect();
-        
-        // 计算链接相对于目录容器的位置
-        const relativeTop = linkRect.top - navRect.top + tocNav.scrollTop;
-        
-        // 计算目标滚动位置（使链接居中）
-        const targetScroll = relativeTop - (tocNav.clientHeight / 2) + (linkRect.height / 2);
-        
-        // 检测是否为移动设备
-        const isMobile = window.innerWidth <= 768;
-        
-        tocNav.scrollTo({
-          top: targetScroll,
-          behavior: isMobile ? 'auto' : 'smooth' // 移动端使用instant滚动
-        });
+        try {
+          const linkRect = activeLinkElement.getBoundingClientRect();
+          const navRect = cachedTocNav.getBoundingClientRect();
+          const relativeTop = linkRect.top - navRect.top + cachedTocNav.scrollTop;
+          const targetScroll = relativeTop - (cachedTocNav.clientHeight / 2) + (linkRect.height / 2);
+          
+          cachedTocNav.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        } catch (e) {
+          // 忽略滚动错误
+        }
       });
     }
   }
@@ -135,38 +179,29 @@
 
     if (!content || !tocContainer) return;
 
-    // 使用文档片段进行批量 DOM 更新
-    const fragment = document.createDocumentFragment();
     const headings = content.querySelectorAll('h2, h3, h4');
 
-    // 如果没有找到标题则提前退出
     if (!headings.length) {
       tocContainer.innerHTML = '<p class="text-muted">本文暂无章节标题。</p>';
       return;
     }
 
-    // 创建列表元素
+    const fragment = document.createDocumentFragment();
     const list = document.createElement('ul');
     list.className = 'note-toc__list';
 
-    // 构建所有列表项
-    headings.forEach(function (h) {
-      // 创建或分配 ID 给标题
+    headings.forEach(h => {
       const id = h.id || util.slugify(h.textContent);
       if (!h.id) h.id = id;
 
-      // 创建列表项
       const li = document.createElement('li');
-      li.className = 'note-toc__item note-toc-level-' + h.tagName.toLowerCase();
+      li.className = `note-toc__item note-toc-level-${h.tagName.toLowerCase()}`;
 
-      // 创建带有平滑滚动的锚点
       const a = document.createElement('a');
-      a.href = '#' + id;
+      a.href = `#${id}`;
       a.textContent = h.textContent;
-
-      // 获取标题级别并添加对应的类名
-      const level = parseInt(h.tagName.charAt(1));
-      a.className = 'note-toc__link toc-level-' + level;
+      a.className = `note-toc__link toc-level-${h.tagName.charAt(1)}`;
+      
       a.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -174,97 +209,68 @@
         const target = document.getElementById(id);
         if (!target) return;
 
-        const offset = 72; // 考虑固定导航栏的高度
+        const offset = 72;
         const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
         
-        // 检测是否为移动设备
-        const isMobile = window.innerWidth <= 768;
+        util.safeScrollTo(targetPosition, !isMobile);
         
-        // 移动端使用更简单的滚动方式避免刷新问题
-        if (isMobile) {
-          // 直接设置scrollTop，避免smooth导致的问题
-          const scrollOptions = {
-            top: targetPosition,
-            behavior: 'auto' // 移动端使用instant滚动
-          };
-          window.scrollTo(scrollOptions);
-          
-          // 延迟更新hash避免触发额外的滚动
-          setTimeout(() => {
-            if (history.replaceState) {
-              history.replaceState(null, null, '#' + id);
-            }
-          }, 50);
-        } else {
-          // 桌面端使用平滑滚动
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-          
-          // 更新 URL 哈希而不滚动
-          if (history.pushState) {
-            history.pushState(null, null, '#' + id);
+        // 更新hash
+        setTimeout(() => {
+          if (history.replaceState) {
+            history.replaceState(null, null, `#${id}`);
           }
-        }
+        }, isMobile ? 100 : 10);
       });
 
-      // 将链接添加到列表项
       li.appendChild(a);
       list.appendChild(li);
     });
 
-    // 构建标题并将所有内容添加到片段
     const title = document.createElement('h4');
     title.className = 'note-toc__title';
-
-    const accent = document.createElement('span');
-    accent.className = 'toc-accent';
-    title.appendChild(accent);
-
-    const titleText = document.createTextNode('文章目录');
-    title.appendChild(titleText);
+    title.innerHTML = '<span class="toc-accent"></span>文章目录';
 
     fragment.appendChild(title);
     fragment.appendChild(list);
 
-    // 批量更新到 DOM
     util.batchDOM(() => {
       tocContainer.innerHTML = '';
       tocContainer.appendChild(fragment);
-    });
-
-    // 设置当前标题高亮
-    updateActiveHeading();
-  }
-
-  // 使用渐进增强处理初始加载
-  function init() {
-    // 如果 DOM 已加载，立即生成目录
-    if (document.readyState !== 'loading') {
-      util.batchDOM(() => {
-        buildTOC();
-        initProgressBar();
-      });
-      return;
-    }
-
-    // 否则等待 DOM 准备就绪
-    document.addEventListener('DOMContentLoaded', function () {
-      util.batchDOM(() => {
-        buildTOC();
-        initProgressBar();
-      });
+      // 初始化缓存
+      cachedHeadings = null;
+      cachedTocLinks = null;
+      cachedTocNav = null;
+      updateActiveHeading();
     });
   }
-
-  // 添加滚动事件处理程序以高亮当前标题
-  // 移动端使用更大的节流时间以提升性能
-  const isMobile = window.innerWidth <= 768;
-  const scrollThrottle = isMobile ? 200 : 100;
-  window.addEventListener('scroll', util.throttle(updateActiveHeading, scrollThrottle), { passive: true });
 
   // 初始化
+  function init() {
+    const execute = () => {
+      util.batchDOM(() => {
+        buildTOC();
+        initProgressBar();
+      });
+    };
+
+    if (document.readyState !== 'loading') {
+      execute();
+    } else {
+      document.addEventListener('DOMContentLoaded', execute);
+    }
+  }
+
+  // 滚动事件监听
+  const scrollThrottle = isMobile ? 300 : 100;
+  window.addEventListener('scroll', util.throttle(updateActiveHeading, scrollThrottle), { passive: true });
+
+  // 窗口大小改变时重新缓存
+  window.addEventListener('resize', util.debounce(() => {
+    cachedHeadings = null;
+    cachedTocLinks = null;
+    cachedTocNav = null;
+  }, 300), { passive: true });
+
   init();
 
   // 暴露公共 API

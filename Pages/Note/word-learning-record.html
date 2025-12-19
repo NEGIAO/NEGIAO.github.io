@@ -101,6 +101,20 @@
         }
 
         @media (max-width: 768px) {
+            /* 防止移动端滚动时的白屏问题 */
+            html {
+                -webkit-overflow-scrolling: touch;
+                overflow-y: scroll;
+                position: relative;
+            }
+            
+            body {
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                position: relative;
+                min-height: 100vh;
+            }
+            
             .toc-toggle-btn {
                 bottom: 80px;
                 right: 20px;
@@ -124,6 +138,9 @@
                 transform: translateY(-50%) translateZ(0) !important;
                 will-change: transform, opacity;
                 -webkit-overflow-scrolling: touch;
+                /* 防止TOC滚动影响主页面 */
+                overscroll-behavior: contain;
+                isolation: isolate;
             }
 
             /* Hidden state for mobile */
@@ -132,6 +149,14 @@
                 transform: translateY(-50%) translateX(150%) !important;
                 opacity: 0 !important;
                 pointer-events: none;
+            }
+            
+            /* 优化长页面的渲染性能 */
+            .note-content {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
             }
         }
 
@@ -1661,29 +1686,32 @@
             }
 
             function postRender() {
-                // Build table of contents
+                // Build table of contents - 使用异步减少阻塞
                 if (window.buildNoteTOC) {
-                    window.buildNoteTOC();
-                    setupTocToggle();
+                    setTimeout(() => window.buildNoteTOC(), 0);
                 }
 
-                // Initialize Word Test
-                try {
-                    if (typeof WordTest !== 'undefined') {
-                        new WordTest();
+                // Initialize Word Test - 异步加载
+                setTimeout(() => {
+                    try {
+                        if (typeof WordTest !== 'undefined') {
+                            new WordTest();
+                        }
+                    } catch (e) {
+                        console.error('Word test initialization:', e);
                     }
-                } catch (e) {
-                    console.error('Word test initialization:', e);
-                }
+                }, 0);
 
-                // Apply syntax highlighting
-                if (window.hljs) {
-                    container.querySelectorAll('pre code').forEach((block) => {
-                        hljs.highlightBlock(block);
-                    });
-                } else if (window.onhljsready) {
-                    window.onhljsready();
-                }
+                // Apply syntax highlighting - 异步加载
+                setTimeout(() => {
+                    if (window.hljs) {
+                        container.querySelectorAll('pre code').forEach((block) => {
+                            hljs.highlightBlock(block);
+                        });
+                    } else if (window.onhljsready) {
+                        window.onhljsready();
+                    }
+                }, 0);
             }
 
             render();
@@ -1891,6 +1919,63 @@
         }
 
         // 初始化单词测试 - 将在现有DOMContentLoaded事件中初始化
+    </script>
+    <script>
+        // 移动端滚动优化 - 防止白屏和意外跳转
+        (function() {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                // 保存滚动位置
+                let scrollPosition = 0;
+                let ticking = false;
+                
+                // 防止过度滚动导致的问题
+                document.addEventListener('scroll', function(e) {
+                    scrollPosition = window.scrollY;
+                    
+                    if (!ticking) {
+                        window.requestAnimationFrame(function() {
+                            // 检查是否滚动超出边界
+                            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                            if (scrollPosition > maxScroll) {
+                                window.scrollTo(0, maxScroll);
+                            } else if (scrollPosition < 0) {
+                                window.scrollTo(0, 0);
+                            }
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                }, { passive: true });
+                
+                // 防止URL hash导致的意外滚动
+                if (window.location.hash) {
+                    // 延迟处理hash滚动
+                    setTimeout(function() {
+                        const hash = window.location.hash;
+                        if (hash) {
+                            try {
+                                // 移除#号并解码URL编码的字符
+                                const targetId = decodeURIComponent(hash.substring(1));
+                                const target = document.getElementById(targetId);
+                                if (target) {
+                                    const offset = 72;
+                                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                                    const safePosition = Math.min(targetPosition, maxScroll);
+                                    
+                                    document.documentElement.scrollTop = safePosition;
+                                    document.body.scrollTop = safePosition;
+                                }
+                            } catch (e) {
+                                // 忽略无效的hash选择器
+                                console.warn('Invalid hash, skipping scroll:', e.message);
+                            }
+                        }
+                    }, 300);
+                }
+            }
+        })();
     </script>
     <script>
         function initTocToggle() {

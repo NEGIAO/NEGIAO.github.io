@@ -1627,6 +1627,13 @@
 | **Appal** | v. | 使惊愕，使恐惧 | We were appalled by the news. / The conditions in the prison appalled the visitors. |
 | **Clasp** | v./n. | 握紧，抱紧；扣子，钩子 | She clasped his hand tightly. / The clasp on her necklace broke. |
 
+### 2025-12-19 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|----------|
+| **Consecutive** | adj. | 连续的，连贯的 | It rained for three consecutive days. |
+| **Maiden** | n./adj. | 处女；首次的 | The ship's maiden voyage. / A maiden speech. |
+
             </script>
         </article>
     </main>
@@ -1654,14 +1661,188 @@
             function render() {
                 if (window.marked) {
                     try {
-                        container.innerHTML = window.marked.parse(md);
-                        // Manually trigger animation class in case observer missed it
+                        container.innerHTML = ''; // 清除加载状态
                         container.classList.add('animate-in');
                         container.style.opacity = '1';
                         container.style.transform = 'translateY(0)';
+                        
+                        // 1. 解析 Markdown 结构
+                        // 按月分割 (## )
+                        const rawChunks = md.split(/\n(?=##\s)/);
+                        
+                        if (rawChunks.length < 1) {
+                            container.innerHTML = window.marked.parse(md);
+                            postRender(true);
+                            return;
+                        }
 
-                        // Use requestAnimationFrame to ensure DOM is updated before post-processing
-                        requestAnimationFrame(postRender);
+                        const headerChunk = rawChunks[0]; // 页面标题和简介
+                        const monthChunks = rawChunks.slice(1); // 各个月份的数据块
+
+                        // 2. 提取所有"天"的记录
+                        let allDays = [];
+                        monthChunks.forEach(monthChunk => {
+                            // 在每个月内按天分割 (### )
+                            const dayParts = monthChunk.split(/\n(?=###\s)/);
+                            // dayParts[0] 是月份标题（如 ## 2025年10月...），跳过它，只收集具体的日期记录
+                            // 注意：如果月份标题后紧接着就是日期，dayParts[1]开始才是日期
+                            if (dayParts.length > 1) {
+                                allDays.push(...dayParts.slice(1));
+                            }
+                        });
+
+                        // 3. 按日期倒序排序
+                        const getDate = (chunk) => {
+                            const match = chunk.match(/###\s+(\d{4}-\d{2}-\d{2})/);
+                            return match ? new Date(match[1]) : new Date(0);
+                        };
+                        
+                        allDays.sort((a, b) => getDate(b) - getDate(a));
+
+                        // 4. 筛选"近30天"和"历史记录"
+                        const now = new Date();
+                        // 设置为30天前的0点
+                        const thirtyDaysAgo = new Date(now);
+                        thirtyDaysAgo.setDate(now.getDate() - 30);
+                        thirtyDaysAgo.setHours(0, 0, 0, 0);
+
+                        const recentDays = [];
+                        const historyDays = [];
+
+                        allDays.forEach(day => {
+                            const date = getDate(day);
+                            if (date >= thirtyDaysAgo) {
+                                recentDays.push(day);
+                            } else {
+                                historyDays.push(day);
+                            }
+                        });
+
+                        // 如果近30天没有数据，但有历史数据，为了避免空白，可以显示最近的7条
+                        if (recentDays.length === 0 && historyDays.length > 0) {
+                             // 这种情况下，recentDays 为空，页面会显示"近30天无记录"提示，或者我们可以策略性地移动一些过来
+                             // 这里保持严格的"近30天"逻辑，但在UI上可以给提示
+                        }
+
+                        // 5. 渲染头部
+                        const headerDiv = document.createElement('div');
+                        headerDiv.className = 'note-chunk header-chunk';
+                        headerDiv.innerHTML = window.marked.parse(headerChunk);
+                        container.appendChild(headerDiv);
+
+                        // 6. 渲染近30天内容
+                        if (recentDays.length > 0) {
+                            const recentContainer = document.createElement('div');
+                            recentContainer.className = 'note-chunk recent-days';
+                            recentContainer.style.contentVisibility = 'auto';
+                            
+                            // 添加一个标题提示
+                            const recentTitle = document.createElement('h2');
+                            recentTitle.innerHTML = '📅 近30天学习记录';
+                            recentTitle.style.marginTop = '0';
+                            recentTitle.style.borderBottom = '2px solid var(--primary)';
+                            recentTitle.style.paddingBottom = '10px';
+                            recentContainer.appendChild(recentTitle);
+
+                            const recentContentDiv = document.createElement('div');
+                            recentContentDiv.innerHTML = window.marked.parse(recentDays.join('\n'));
+                            recentContainer.appendChild(recentContentDiv);
+                            
+                            container.appendChild(recentContainer);
+
+                            if (window.hljs) {
+                                recentContainer.querySelectorAll('pre code').forEach((block) => {
+                                    hljs.highlightBlock(block);
+                                });
+                            }
+                        } else {
+                            const noRecentDiv = document.createElement('div');
+                            noRecentDiv.className = 'note-chunk';
+                            noRecentDiv.innerHTML = '<h3>📅 近30天无学习记录</h3><p>加油，坚持学习！</p>';
+                            container.appendChild(noRecentDiv);
+                        }
+
+                        // 7. 处理历史记录
+                        if (historyDays.length > 0) {
+                            const historyContainer = document.createElement('div');
+                            historyContainer.id = 'history-container';
+                            
+                            // 创建"查看历史记录"按钮
+                            const loadMoreBtn = document.createElement('button');
+                            loadMoreBtn.innerHTML = `<i class="fas fa-history"></i> 查看更早的记录 (${historyDays.length}天)`;
+                            loadMoreBtn.className = 'history-btn';
+                            loadMoreBtn.style.cssText = `
+                                display: block;
+                                width: 100%;
+                                padding: 15px;
+                                margin: 30px 0;
+                                background: var(--surface-elevated);
+                                border: 1px solid var(--border);
+                                border-radius: 12px;
+                                color: var(--text);
+                                cursor: pointer;
+                                font-size: 1.1em;
+                                font-weight: 600;
+                                transition: all 0.3s ease;
+                                box-shadow: var(--shadow-sm);
+                            `;
+                            
+                            loadMoreBtn.onmouseover = () => {
+                                loadMoreBtn.style.background = 'var(--primary)';
+                                loadMoreBtn.style.color = 'white';
+                            };
+                            loadMoreBtn.onmouseout = () => {
+                                loadMoreBtn.style.background = 'var(--surface-elevated)';
+                                loadMoreBtn.style.color = 'var(--text)';
+                            };
+
+                            loadMoreBtn.onclick = () => {
+                                loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 加载中...';
+                                loadMoreBtn.style.pointerEvents = 'none';
+                                
+                                // 为了性能，将历史记录分块渲染（每块10天）
+                                const historyChunks = [];
+                                const chunkSize = 10;
+                                for (let i = 0; i < historyDays.length; i += chunkSize) {
+                                    historyChunks.push(historyDays.slice(i, i + chunkSize).join('\n'));
+                                }
+
+                                let historyIndex = 0;
+                                function renderNextHistoryChunk() {
+                                    if (historyIndex >= historyChunks.length) {
+                                        loadMoreBtn.style.display = 'none';
+                                        if (window.buildNoteTOC) window.buildNoteTOC();
+                                        return;
+                                    }
+
+                                    const chunk = historyChunks[historyIndex];
+                                    const div = document.createElement('div');
+                                    div.className = 'note-chunk history-chunk';
+                                    div.style.contentVisibility = 'auto';
+                                    div.style.containIntrinsicSize = '1000px';
+                                    div.innerHTML = window.marked.parse(chunk);
+                                    historyContainer.appendChild(div);
+
+                                    if (window.hljs) {
+                                        div.querySelectorAll('pre code').forEach((block) => hljs.highlightBlock(block));
+                                    }
+
+                                    historyIndex++;
+                                    if (window.requestIdleCallback) {
+                                        requestIdleCallback(renderNextHistoryChunk, { timeout: 50 });
+                                    } else {
+                                        setTimeout(renderNextHistoryChunk, 20);
+                                    }
+                                }
+                                renderNextHistoryChunk();
+                            };
+
+                            container.appendChild(loadMoreBtn);
+                            container.appendChild(historyContainer);
+                        }
+                        
+                        postRender(true);
+                        
                     } catch (e) {
                         console.error('Markdown parsing error:', e);
                         container.innerHTML = '<p>Error parsing content.</p>';
@@ -1670,10 +1851,8 @@
                 } else {
                     retryCount++;
                     if (retryCount < maxRetries) {
-                        // Retry if marked is not yet loaded
                         setTimeout(render, 50);
                     } else {
-                        // Fallback if marked fails to load
                         console.error('Marked library failed to load');
                         container.innerHTML = '<div style="color: #ff6b6b; padding: 20px; text-align: center;">' +
                             '<i class="fas fa-exclamation-triangle"></i> 内容加载失败<br>' +
@@ -1685,33 +1864,24 @@
                 }
             }
 
-            function postRender() {
+            function postRender(isFinal) {
                 // Build table of contents - 使用异步减少阻塞
                 if (window.buildNoteTOC) {
                     setTimeout(() => window.buildNoteTOC(), 0);
                 }
 
-                // Initialize Word Test - 异步加载
-                setTimeout(() => {
-                    try {
-                        if (typeof WordTest !== 'undefined') {
-                            new WordTest();
+                // Initialize Word Test - 只在最后一次初始化
+                if (isFinal) {
+                    setTimeout(() => {
+                        try {
+                            if (typeof WordTest !== 'undefined') {
+                                new WordTest();
+                            }
+                        } catch (e) {
+                            console.error('Word test initialization:', e);
                         }
-                    } catch (e) {
-                        console.error('Word test initialization:', e);
-                    }
-                }, 0);
-
-                // Apply syntax highlighting - 异步加载
-                setTimeout(() => {
-                    if (window.hljs) {
-                        container.querySelectorAll('pre code').forEach((block) => {
-                            hljs.highlightBlock(block);
-                        });
-                    } else if (window.onhljsready) {
-                        window.onhljsready();
-                    }
-                }, 0);
+                    }, 0);
+                }
             }
 
             render();

@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.9">
   <diagram id="prtHgNgQTEPvFCAcTncT" name="Page-1">
-    <mxGraphModel dx="1042" dy="562" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+    <mxGraphModel dx="868" dy="468" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -26,7 +26,7 @@
           <mxGeometry height="140" width="563.3333333333333" x="46.66333333333333" y="59.99666666666666" as="geometry" />
         </mxCell>
         <mxCell id="1PEwxEt4POZ2rWueNpiV-4" parent="DadDl4La_qnIKqPNAtcY-3" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;strokeWidth=3;gradientColor=#b3b3b3;" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot; face=&quot;Times New Roman&quot;&gt;&lt;b&gt;定义去云函数&lt;/b&gt;&lt;/font&gt;" vertex="1">
-          <mxGeometry height="50" width="100" x="50" y="130" as="geometry" />
+          <mxGeometry height="50" width="100" x="55" y="132.5" as="geometry" />
         </mxCell>
         <mxCell id="DadDl4La_qnIKqPNAtcY-11" edge="1" parent="DadDl4La_qnIKqPNAtcY-3" source="1PEwxEt4POZ2rWueNpiV-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DDA15E;fontColor=#FEFAE0;fillColor=#BC6C25;" target="DadDl4La_qnIKqPNAtcY-10">
           <mxGeometry relative="1" as="geometry">
@@ -37,25 +37,25 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="1PEwxEt4POZ2rWueNpiV-1" parent="DadDl4La_qnIKqPNAtcY-3" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;strokeWidth=3;gradientColor=#b3b3b3;" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));&quot; face=&quot;Times New Roman&quot;&gt;&lt;b&gt;定义ROI、时间&lt;/b&gt;&lt;/font&gt;" vertex="1">
-          <mxGeometry height="51.49" width="100" x="50" y="70" as="geometry" />
+          <mxGeometry height="51.49" width="100" x="55" y="72.5" as="geometry" />
         </mxCell>
         <mxCell id="DadDl4La_qnIKqPNAtcY-10" parent="DadDl4La_qnIKqPNAtcY-3" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#DDA15E;fontColor=#FEFAE0;fillColor=none;strokeWidth=2;" value="&lt;font face=&quot;Times New Roman&quot;&gt;&lt;b&gt;筛选影像、裁剪到ROI、筛选时间、应用去云函数、缩放因子&lt;/b&gt;&lt;/font&gt;" vertex="1">
-          <mxGeometry height="60" width="130" x="190" y="100" as="geometry" />
+          <mxGeometry height="60" width="130" x="195" y="102.5" as="geometry" />
         </mxCell>
         <mxCell id="DadDl4La_qnIKqPNAtcY-26" edge="1" parent="DadDl4La_qnIKqPNAtcY-3" source="DadDl4La_qnIKqPNAtcY-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DDA15E;fontColor=#FEFAE0;fillColor=#BC6C25;" target="DadDl4La_qnIKqPNAtcY-24">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="DadDl4La_qnIKqPNAtcY-13" parent="DadDl4La_qnIKqPNAtcY-3" style="whiteSpace=wrap;html=1;fillColor=none;strokeColor=#DDA15E;fontColor=#FEFAE0;rounded=0;strokeWidth=2;" value="&lt;font face=&quot;Times New Roman&quot; style=&quot;&quot;&gt;&lt;b style=&quot;&quot;&gt;中值合成去噪&lt;/b&gt;&lt;/font&gt;" vertex="1">
-          <mxGeometry height="60" width="86" x="344" y="100" as="geometry" />
+          <mxGeometry height="60" width="86" x="349" y="102.5" as="geometry" />
         </mxCell>
         <mxCell id="DadDl4La_qnIKqPNAtcY-14" edge="1" parent="DadDl4La_qnIKqPNAtcY-3" source="DadDl4La_qnIKqPNAtcY-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#DDA15E;fontColor=#FEFAE0;fillColor=#BC6C25;" target="DadDl4La_qnIKqPNAtcY-13" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="DadDl4La_qnIKqPNAtcY-23" parent="DadDl4La_qnIKqPNAtcY-3" style="ellipse;whiteSpace=wrap;html=1;strokeColor=#DDA15E;fontColor=#FEFAE0;fillColor=light-dark(#FFFFFF,#FF99CC);strokeWidth=2;fillStyle=auto;" value="B8、B4、B3：假彩色" vertex="1">
-          <mxGeometry height="50" width="130" x="460" y="75" as="geometry" />
+          <mxGeometry height="50" width="130" x="465" y="77.5" as="geometry" />
         </mxCell>
         <mxCell id="DadDl4La_qnIKqPNAtcY-24" parent="DadDl4La_qnIKqPNAtcY-3" style="ellipse;whiteSpace=wrap;html=1;strokeColor=#DDA15E;fontColor=#FEFAE0;fillColor=light-dark(#FFFFFF,#FFFF00);strokeWidth=2;" value="B4、B3、B2:真彩色" vertex="1">
-          <mxGeometry height="50" width="130" x="460" y="135" as="geometry" />
+          <mxGeometry height="50" width="130" x="465" y="137.5" as="geometry" />
         </mxCell>
         <mxCell id="DadDl4La_qnIKqPNAtcY-25" edge="1" parent="DadDl4La_qnIKqPNAtcY-3" source="DadDl4La_qnIKqPNAtcY-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.031;entryY=0.608;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=#DDA15E;fontColor=#FEFAE0;fillColor=#BC6C25;strokeWidth=1;" target="DadDl4La_qnIKqPNAtcY-23">
           <mxGeometry relative="1" as="geometry" />

@@ -120,18 +120,25 @@
 │   └── 院徽.png
 ├── Others/                   # 其他工具与文档资源
 │   ├── NEGIAO工具.atbx       # ArcGIS Pro 自定义工具箱文件
-│   └── 使用说明.txt          # 工具箱使用说明文档
+│   ├── NEGIAO工具_V1_0_1.zip # 工具箱压缩包
+│   ├── 使用说明.txt          # 工具箱使用说明文档
+│   └── 流程图/               # 项目相关流程图
+│       └── GEE流程图.drawio
 ├── Pages/                    # 站点主要子页面与公共资源
 │   ├── Note/                 # 技术笔记与学习记录归档
 │   │   ├── resources/        # 笔记引用的图片与附件资源
-│   │   │   └── display/      # 图片展示资源目录
+│   │   │   ├── display/      # 图片展示资源目录
+│   │   │   ├── nanyang_feature_importance.png # GEE作业图片
+│   │   │   └── ...
 │   │   ├── ZhouDi_learning/  # 周迪个人学习记录子目录
 │   │   │   ├── word-learning-record.html
 │   │   │   └── word-list.json
-│   │   ├── arcgis-engine-project.html # ArcGIS Engine 项目笔记（新增）
+│   │   ├── arcgis-engine-project.html # ArcGIS Engine 项目笔记
 │   │   ├── arcgis-engine.html # ArcGIS Engine 开发笔记
 │   │   ├── ArcPy.html        # ArcPy 自动化脚本笔记
 │   │   ├── gallery.html      # 技术成果展示画廊
+│   │   ├── gee-coursework.html # GEE结课作业 (新增)
+│   │   ├── ml-dl-learning.html # 机器学习与深度学习笔记
 │   │   ├── negiao-toolbox.html # 工具箱详细介绍页
 │   │   ├── note-template.html # 笔记页面标准模板
 │   │   ├── spatial-analysis-R.html # R 语言空间分析笔记

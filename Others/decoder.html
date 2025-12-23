@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>信息展示</title>
+    <title>NEGIAO工具 - 二维码解码</title>
     <style>
         * {
             margin: 0;
@@ -40,6 +40,31 @@
         .header p {
             font-size: 1.125rem;
             opacity: 0.95;
+        }
+
+        .header h1 a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border-bottom: 2px solid transparent;
+        }
+
+        .header h1 a:hover {
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            border-bottom: 2px solid #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .header p a {
+            color: white;
+            text-decoration: underline;
+            transition: opacity 0.3s;
+        }
+
+        .header p a:hover {
+            opacity: 0.8;
         }
 
         .card {
@@ -134,8 +159,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📋 信息展示</h1>
-            <p>扫描二维码查看内容</p>
+            <h1><a href="https://negiao-pages.share.connect.posit.cloud/" target="_blank">NEGIAO工具</a></h1>
         </div>
 
         <div id="content"></div>

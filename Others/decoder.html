@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二维码配置解码器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #8b5cf6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.125rem;
+            opacity: 0.95;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .card-icon {
+            font-size: 1.75rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-group {
+            background: var(--bg-color);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.125rem;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .color-preview {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .color-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .color-code {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+
+        .content-box {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px dashed var(--border-color);
+            margin-top: 1rem;
+        }
+
+        .content-text {
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.75;
+            font-size: 1rem;
+        }
+
+        .vcard-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .vcard-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .vcard-icon {
+            font-size: 1.25rem;
+            margin-top: 0.125rem;
+        }
+
+        .vcard-content {
+            flex: 1;
+        }
+
+        .vcard-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .vcard-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        .url-display {
+            background: var(--bg-color);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            word-break: break-all;
+            margin-top: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 二维码配置解码器</h1>
+            <p>解析URL编码参数，查看二维码生成配置详情</p>
+        </div>
+
+        <div id="content"></div>
+    </div>
+
+    <script>
+        // 解析URL参数
+        function parseUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const config = {};
+            
+            for (let [key, value] of params.entries()) {
+                config[key] = decodeURIComponent(value);
+            }
+            
+            return config;
+        }
+
+        // 格式化容错级别
+        function formatErrorLevel(level) {
+            const map = {
+                '低': '低 (L - 7%)',
+                '中': '中 (M - 15%)',
+                '高': '高 (Q - 25%)',
+                '极高': '极高 (H - 30%)'
+            };
+            return map[level] || level;
+        }
+
+        // 解析VCard数据
+        function parseVCard(vcardStr) {
+            try {
+                return JSON.parse(vcardStr);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // 渲染VCard
+        function renderVCard(vcard) {
+            const iconMap = {
+                'name': '👤',
+                'title': '💼',
+                'company': '🏢',
+                'tel': '📱',
+                'email': '📧',
+                'wechat': '💬',
+                'qq': '🐧',
+                'alipay': '💳',
+                'website': '🌐',
+                'address': '📍',
+                'note': '📝'
+            };
+
+            const labelMap = {
+                'name': '姓名',
+                'title': '职位',
+                'company': '公司',
+                'tel': '电话',
+                'email': '邮箱',
+                'wechat': '微信',
+                'qq': 'QQ',
+                'alipay': '支付宝',
+                'website': '网站',
+                'address': '地址',
+                'note': '备注'
+            };
+
+            let html = '<div class="vcard-grid">';
+            for (let [key, value] of Object.entries(vcard)) {
+                if (value) {
+                    html += `
+                        <div class="vcard-item">
+                            <span class="vcard-icon">${iconMap[key] || '📋'}</span>
+                            <div class="vcard-content">
+                                <div class="vcard-label">${labelMap[key] || key}</div>
+                                <div class="vcard-value">${value}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            html += '</div>';
+            return html;
+        }
+
+        // 渲染页面
+        function renderPage() {
+            const config = parseUrlParams();
+            const contentDiv = document.getElementById('content');
+
+            if (Object.keys(config).length === 0) {
+                contentDiv.innerHTML = `
+                    <div class="card">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🔗</div>
+                            <h2>未检测到URL参数</h2>
+                            <p>请通过二维码生成器创建的URL访问此页面<br>
+                            URL格式示例：<br>
+                            <code>decoder.html?content=...&type=...&style=...</code></p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // 统计卡片
+            let statsHtml = '<div class="stats-grid">';
+            if (config.type) {
+                statsHtml += `
+                    <div class="stat-card">
+                        <div class="stat-value">📄</div>
+                        <div class="stat-label">${config.type}</div>
+                    </div>
+                `;
+            }
+            if (config.style) {
+                statsHtml += `
+                    <div class="stat-card">
+                        <div class="stat-value">🎨</div>
+                        <div class="stat-label">${config.style}</div>
+                    </div>
+                `;
+            }
+            if (config.dpi) {
+                statsHtml += `
+                    <div class="stat-card">
+                        <div class="stat-value">${config.dpi}</div>
+                        <div class="stat-label">DPI 分辨率</div>
+                    </div>
+                `;
+            }
+            if (config.error) {
+                statsHtml += `
+                    <div class="stat-card">
+                        <div class="stat-value">🛡️</div>
+                        <div class="stat-label">${config.error}容错</div>
+                    </div>
+                `;
+            }
+            statsHtml += '</div>';
+
+            // 内容卡片
+            let contentHtml = `
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">📋</span>
+                        <h2 class="card-title">二维码内容</h2>
+                    </div>
+            `;
+
+            if (config.vcard) {
+                const vcard = parseVCard(config.vcard);
+                if (vcard) {
+                    contentHtml += `
+                        <div class="info-group">
+                            <div class="info-label">联系方式/名片</div>
+                            ${renderVCard(vcard)}
+                        </div>
+                    `;
+                }
+            } else if (config.content) {
+                contentHtml += `
+                    <div class="content-box">
+                        <div class="content-text">${config.content}</div>
+                    </div>
+                `;
+            }
+
+            contentHtml += '</div>';
+
+            // 样式配置卡片
+            let styleHtml = `
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🎨</span>
+                        <h2 class="card-title">样式配置</h2>
+                    </div>
+                    <div class="grid">
+            `;
+
+            if (config.style) {
+                styleHtml += `
+                    <div class="info-group">
+                        <div class="info-label">预设样式</div>
+                        <div class="info-value">
+                            <span class="badge badge-primary">${config.style}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (config.fill) {
+                styleHtml += `
+                    <div class="info-group">
+                        <div class="info-label">前景色</div>
+                        <div class="info-value">
+                            <div class="color-preview">
+                                <div class="color-box" style="background-color: #${config.fill}"></div>
+                                <span class="color-code">#${config.fill.toUpperCase()}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (config.back) {
+                styleHtml += `
+                    <div class="info-group">
+                        <div class="info-label">背景色</div>
+                        <div class="info-value">
+                            <div class="color-preview">
+                                <div class="color-box" style="background-color: #${config.back}"></div>
+                                <span class="color-code">#${config.back.toUpperCase()}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            styleHtml += '</div></div>';
+
+            // 技术参数卡片
+            let techHtml = `
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">⚙️</span>
+                        <h2 class="card-title">技术参数</h2>
+                    </div>
+                    <div class="grid">
+            `;
+
+            if (config.box) {
+                techHtml += `
+                    <div class="info-group">
+                        <div class="info-label">像素块大小</div>
+                        <div class="info-value">${config.box} px</div>
+                    </div>
+                `;
+            }
+
+            if (config.border) {
+                techHtml += `
+                    <div class="info-group">
+                        <div class="info-label">边框宽度</div>
+                        <div class="info-value">${config.border} 单位</div>
+                    </div>
+                `;
+            }
+
+            if (config.dpi) {
+                techHtml += `
+                    <div class="info-group">
+                        <div class="info-label">输出分辨率</div>
+                        <div class="info-value">
+                            <span class="badge badge-success">${config.dpi} DPI</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (config.error) {
+                techHtml += `
+                    <div class="info-group">
+                        <div class="info-label">容错级别</div>
+                        <div class="info-value">
+                            <span class="badge badge-warning">${formatErrorLevel(config.error)}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (config.logo_opt) {
+                techHtml += `
+                    <div class="info-group">
+                        <div class="info-label">图标选项</div>
+                        <div class="info-value">${config.logo_opt}</div>
+                    </div>
+                `;
+            }
+
+            if (config.logo_size) {
+                techHtml += `
+                    <div class="info-group">
+                        <div class="info-label">图标大小</div>
+                        <div class="info-value">${config.logo_size}%</div>
+                    </div>
+                `;
+            }
+
+            techHtml += '</div></div>';
+
+            // URL信息卡片
+            let urlHtml = `
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🔗</span>
+                        <h2 class="card-title">完整URL</h2>
+                    </div>
+                    <div class="url-display">${window.location.href}</div>
+                </div>
+            `;
+
+            // 组合所有内容
+            contentDiv.innerHTML = statsHtml + contentHtml + styleHtml + techHtml + urlHtml;
+        }
+
+        // 页面加载时执行
+        window.addEventListener('DOMContentLoaded', renderPage);
+    </script>
+</body>
+</html>

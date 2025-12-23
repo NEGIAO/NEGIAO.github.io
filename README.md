@@ -25,7 +25,7 @@
 | 🏠 网站首页        | `index.html`                           | 个人介绍、项目概览、导航入口                            |
 | 📅 智能课程表      | `Pages/schedule.html`                  | 实时课务状态、呼吸灯效果、移动端适配                    |
 | 📝 技术笔记索引    | `Pages/notes.html`                     | Markdown 渲染、自动目录、语法高亮                       |
-| ✏️ Markdown 编辑器 | `Pages/markdown_editor.html`           | 实时预览、侧栏布局、辅助按钮                            |
+| ✏️ Markdown 编辑器 | `Pages/Note/markdown_editor.html`      | 实时预览、侧栏布局、辅助按钮                            |
 | 📚 英语学习系统    | `Pages/Note/word-learning-record.html` | 600+ 词汇库、随机测试、统计面板                         |
 | 🧰 NEGIAO 工具箱   | `Pages/Note/negiao-toolbox.html`       | ArcGIS Pro 工具箱说明与下载                             |
 | 🖼️ 技术成果画廊    | `Pages/Note/gallery.html`              | 多图展示、图集元数据 (`resources/display`)              |
@@ -128,6 +128,14 @@
 │   ├── Note/                 # 技术笔记与学习记录归档
 │   │   ├── resources/        # 笔记引用的图片与附件资源
 │   │   │   ├── display/      # 图片展示资源目录
+│   │   │   ├── Lecture8_GeoAI/ # GeoAI课程样例数据（遥感影像、坐标等）
+│   │   │   │   ├── HenanXY.txt
+│   │   │   │   ├── sampdataCNN2.csv
+│   │   │   │   ├── usajmq.tif
+│   │   │   │   ├── usajmqCNN2.rds
+│   │   │   │   ├── Lecture8 GeoAI.txt
+│   │   │   │   └── 省会城市经纬度.xlsx
+│   │   │   ├── Lecture8_GeoAI.zip # GeoAI样例数据压缩包
 │   │   │   ├── nanyang_feature_importance.png # GEE作业图片
 │   │   │   └── ...
 │   │   ├── ZhouDi_learning/  # 周迪个人学习记录子目录
@@ -137,16 +145,16 @@
 │   │   ├── arcgis-engine.html # ArcGIS Engine 开发笔记
 │   │   ├── ArcPy.html        # ArcPy 自动化脚本笔记
 │   │   ├── gallery.html      # 技术成果展示画廊
-│   │   ├── gee-coursework.html # GEE结课作业 (新增)
+│   │   ├── gee-coursework.html # GEE结课作业
+│   │   ├── markdown_editor.html # 在线 Markdown 编辑器工具
 │   │   ├── ml-dl-learning.html # 机器学习与深度学习笔记
 │   │   ├── negiao-toolbox.html # 工具箱详细介绍页
 │   │   ├── note-template.html # 笔记页面标准模板
-│   │   ├── spatial-analysis-R.html # R 语言空间分析笔记
+│   │   ├── spatial-analysis-R.html # 机器学习与智能算法（R）- ANN/SVM/CNN/GA等
 │   │   ├── word-learning-record.html # 英语词汇学习与测试系统
 │   │   └── word-list.json    # 英语学习系统核心词库数据
 │   ├── avatar.jpg            # 个人头像图片
 │   ├── main-enhanced.js      # 全站核心交互脚本（导航、动画、favicon）
-│   ├── markdown_editor.html  # 在线 Markdown 编辑器工具
 │   ├── notes-toc.js          # 笔记目录自动生成与滚动同步脚本
 │   ├── notes.html            # 技术笔记索引主页
 │   ├── schedule.html         # 智能课程表页面
@@ -209,6 +217,22 @@ python -m http.server 8080
 - **Python**：云端脚本、词汇数据处理、本地服务器。
 
 ## Changelog
+
+### 2025-12-23 · v1.6.0
+- **机器学习与智能算法（R）笔记重构**：
+    - 将 `spatial-analysis-R.html` 从空间分析笔记升级为机器学习/AI算法R语言实践合集。
+    - 新增9大主题完整代码示例：
+        - 神经网络（ANN）回归 - Boston房价预测
+        - 梯度下降优化可视化
+        - 支持向量机（SVM）分类 - Iris数据集与遥感影像分类
+        - 决策树/随机森林 - 回归树可视化、RFSI空间插值、遥感分类
+        - 深度学习（CNN）- Keras3遥感影像分类
+        - 遗传算法（GA）- 旅行商问题（TSP）
+        - 元胞自动机 - 生命游戏（Game of Life）
+        - 智能体模型（ABM）- Boids鸟群模拟
+    - **交互体验升级**：所有代码块右上角添加一键复制按钮，采用渐变主题样式（毛玻璃效果、悬停发光）。
+    - **资源配套完善**：新增Lecture8_GeoAI样例数据包（遥感影像、训练数据、坐标文件等），支持在线下载与本地运行。
+    - **笔记索引同步**：更新 `notes.html` 卡片标题、图标（🤖）、描述与日期，保持全站一致性。
 
 ### 2025-12-17 · v1.5.2
 - **首页性能与代码质量优化**：

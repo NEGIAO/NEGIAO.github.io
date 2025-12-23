@@ -467,5 +467,111 @@ document.addEventListener('DOMContentLoaded', function () {
     // 初始化进度条
     initProgressBar();
 
+    // Code block copy functionality for note pages
+    function initCodeCopyButtons() {
+        // Function to get code text from pre element
+        function getCodeText(pre) {
+            const code = pre.querySelector('code');
+            return code ? code.innerText : pre.innerText;
+        }
+
+        // Function to copy text to clipboard
+        async function copyToClipboard(text, button) {
+            try {
+                // Modern async clipboard API (works on HTTPS)
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    // Fallback for non-secure contexts
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    textarea.style.position = 'fixed';
+                    textarea.style.left = '-9999px';
+                    textarea.style.top = '-9999px';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                }
+
+                // Visual feedback
+                const originalText = button.textContent;
+                button.textContent = '已复制!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                console.error('复制失败:', err);
+                button.textContent = '复制失败';
+                setTimeout(() => {
+                    button.textContent = '复制';
+                }, 2000);
+            }
+        }
+
+        // Add copy buttons to all code blocks
+        function addCopyButtons() {
+            const noteContent = document.querySelector('.note-content');
+            if (!noteContent) return;
+
+            const codeBlocks = noteContent.querySelectorAll('pre');
+            let addedCount = 0;
+            codeBlocks.forEach(pre => {
+                // Skip if button already exists
+                if (pre.querySelector('.code-copy-btn')) return;
+                
+                // Only add to blocks with code element
+                if (!pre.querySelector('code')) return;
+
+                const button = document.createElement('button');
+                button.className = 'code-copy-btn';
+                button.type = 'button';
+                button.textContent = '复制';
+                button.setAttribute('aria-label', '复制代码');
+                button.setAttribute('title', '复制代码到剪贴板');
+                
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const codeText = getCodeText(pre);
+                    copyToClipboard(codeText, button);
+                });
+
+                pre.appendChild(button);
+                addedCount++;
+            });
+        }
+
+        // Initial pass
+        addCopyButtons();
+
+        // Watch for dynamically added content (markdown rendering)
+        const observer = new MutationObserver(() => {
+            addCopyButtons();
+        });
+
+        const noteContent = document.querySelector('.note-content');
+        if (noteContent) {
+            observer.observe(noteContent, {
+                childList: true,
+                subtree: true
+            });
+        }
+    }
+
+    // Initialize copy buttons - multiple attempts to catch async rendering
+    initCodeCopyButtons();
+    setTimeout(initCodeCopyButtons, 100);
+    setTimeout(initCodeCopyButtons, 500);
+    setTimeout(initCodeCopyButtons, 1000);
+    
+    // Also listen for load event
+    window.addEventListener('load', () => {
+        setTimeout(initCodeCopyButtons, 100);
+    });
+
     console.log('🚀 NEGIAO.github.io enhanced features loaded successfully!');
 });

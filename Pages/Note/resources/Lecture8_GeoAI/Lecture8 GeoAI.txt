@@ -1,0 +1,1040 @@
+
+################################# ##############################
+############################# 神经网络 ###########################
+# https://datascienceplus.com/fitting-neural-network-in-r/     
+#目的：ANN构造线性模型，预测房价中值（medv）与所有其他变量之间的关系，
+# 并与一般线性回归模型的结果进行比较
+library(MASS) 
+library(neuralnet)   # library(nnet) 
+
+data <- Boston 
+head(data)
+apply(data, 2, function(x) sum(is.na(x))) #首先检查有无缺值
+
+set.seed(500)
+index <- sample(1:nrow(data), round(0.70*nrow(data))) 
+train <- data[index,]  #训练数据集，70%
+test <- data[-index,]  #验证数据集
+
+# 对训练数据集拟合一个线性回归模型
+# medv~.表示medv与数据集中所有其他变量之间的线性关系
+lm.fit <- glm(medv~., data=train)  
+summary(lm.fit) 
+str(lm.fit) 
+
+pr.lm <- predict(lm.fit, test)  # 线性模型的预测值（基于验证数据集）
+MSE.lm <- sum((pr.lm - test$medv)^2)/nrow(test)
+
+#数据标准化：max-min标准化
+maxs <- apply(data, 2, max)   #每一个变量的最大值
+mins <- apply(data, 2, min)    #每一个变量的最小值
+scaled <- as.data.frame(scale(data, center = mins, scale = maxs - mins))   
+train_ <- scaled[index,] 
+test_ <- scaled[-index,]
+
+#拟合具有一个输入层（13个神经元）、两个隐含层（5、3个神经元）、一个输出层（1个神经元）的神经网络
+n <- names(train_) 
+f <- as.formula(paste("medv ~", paste(n[!n %in% "medv"], collapse = " + "))) 
+nn <- neuralnet(f, data=train_, hidden=c(5,3), linear.output=T)
+
+w <- as.vector(unlist(nn$weights[[1]]))
+plot(nn)   # ?plot.nn
+
+pr.nn_ <- compute(nn,test_[,1:13])   # 验证模型
+str(pr.nn_)
+# 逆标准化转换
+pr.nn <- pr.nn_$net.result*(max(data$medv)-min(data$medv))+min(data$medv) 
+test.r <-   (test_$medv)*(max(data$medv)-min(data$medv))+min(data$medv) 
+MSE.nn <- sum((test.r - pr.nn)^2)/nrow(test_)
+print(paste(MSE.lm, MSE.nn)) #比较glm和ANN的误差
+
+par(mfrow=c(1,3))  #做图比较
+plot(test$medv,pr.nn,col='red',main='Real vs predicted NN',pch=18,cex=0.7) 
+abline(0,1,lwd=2) 
+legend('bottomright',legend='NN',pch=18,col='red', bty='n') 
+plot(test$medv,pr.lm,col='blue',main='Real vs predicted lm',pch=18, cex=0.7) 
+abline(0,1,lwd=2) 
+legend('bottomright',legend='LM',pch=18,col='blue', bty='n', cex=.95)
+plot(test$medv,pr.nn,col='red',main='predicted lm vs predicted NN', ylab="", pch=18,cex=0.7) 
+points(test$medv,pr.lm,col='blue',pch=18,cex=0.7) 
+abline(0,1,lwd=2) 
+legend('bottomright',legend=c('NN','LM'),pch=18,col=c('red','blue'))
+par(mfrow=c(1,1))  
+
+### 交叉验证
+library(boot)  
+
+# 线性模型
+set.seed(200) 
+lm.fit <- glm(medv~., data=data) 
+cv.glm(data, lm.fit, K=10)$delta[1]
+
+# ANN模型
+library(plyr) 
+set.seed(450) 
+cv.error <- NULL 
+k <- 10 
+pbar <- create_progress_bar('text') 
+pbar$init(k) 
+for(i in 1:k){ 
+  index <- sample(1:nrow(data),round(0.9*nrow(data))) 
+  train.cv <- scaled[index,] 
+  test.cv <- scaled[-index,] 
+  nn <- neuralnet(f,data=train.cv,hidden=c(5,2),linear.output=T) 
+  pr.nn <- compute(nn,test.cv[,1:13]) 
+  pr.nn <- pr.nn$net.result*(max(data$medv)-min(data$medv))+min(data$medv) 
+  test.cv.r <- (test.cv$medv)*(max(data$medv)-min(data$medv))+min(data$medv) 
+  cv.error[i] <- sum((test.cv.r - pr.nn)^2)/nrow(test.cv) 
+  pbar$step() 
+}
+mean(cv.error) 
+cv.error
+boxplot(cv.error,xlab='MSE CV',col='cyan', border='blue',names='CV error (MSE)',
+        main='CV error (MSE) for NN',horizontal=TRUE)
+
+
+##############################################################
+################# 神经网络的优化过程 ###########################
+# https://brianjmpark.github.io/post/2022-02-22-visualizing-the-gradient-descent-in-r-index/
+library(tidyverse)
+
+theta_0 <- 5
+theta_1 <- 2
+
+set.seed(1000)
+x <- rnorm(500)
+y <- theta_1*x + theta_0 + rnorm(500, 0, 2)
+rm(theta_0, theta_1)
+data <- tibble(x = x, y = y)
+
+ggplot(data, aes(x = x, y = y)) + geom_point(size = 2) + 
+	theme_bw() + 
+	labs(title = '模拟数据')
+
+OLS <- lm(y ~ x, data)
+summary(OLS)
+OLS$coefficients
+
+# 损失函数
+cost_function <- function(theta_0, theta_1, x, y){
+  pred <- theta_1*x + theta_0
+  res_ss <- sum((y - pred)^2)
+  return(mean(res_ss))
+}
+# 验证
+cost_function(theta_0 = OLS$coefficients[1],  theta_1 = OLS$coefficients[2],  x = data$x, y = data$y)
+sum(resid(OLS)^2)
+
+# 梯度下降
+gradient_desc <- function(theta_0, theta_1, x, y){
+  N = length(x)
+  pred <- theta_1*x + theta_0
+  res <- y - pred
+  delta_theta_0 <- (2/N)*sum(res)
+  delta_theta_1 <- (2/N)*sum(res*x)
+  return(c(delta_theta_0, delta_theta_1))
+}
+
+alpha <- 0.1  #学习率
+
+# 最小化函数
+minimize_function <- function(theta_0, theta_1, x, y, alpha){
+  gd <- gradient_desc(theta_0, theta_1, x, y)
+  d_theta_0 <- gd[1] * alpha
+  d_theta_1 <- gd[2] * alpha
+  new_theta_0 <- theta_0 + d_theta_0
+  new_theta_1 <- theta_1 + d_theta_1
+  return(c(new_theta_0, new_theta_1))
+}
+
+res <- list()
+res[[1]] <- c(0, 0)
+iter <- 20
+for (i in 2:iter){
+  res[[i]] <- minimize_function( res[[i-1]][1], res[[i-1]][2], data$x, data$y, alpha )
+}
+
+res <- lapply(res, function(x) as.data.frame(t(x))) %>% bind_rows()
+colnames(res) <- c('theta0', 'theta1')
+loss <- res %>% as_tibble() %>% rowwise() %>%  summarise(mse = cost_function(theta0, theta1, data$x, data$y))
+res <- res %>% bind_cols(loss) %>%  mutate(iteration = seq(1, iter)) %>% as_tibble()
+glimpse(res)
+
+# MSE下降曲线
+ggplot(res, aes(x = iteration, y = mse)) + 
+	geom_point(size = 2) + 
+	geom_line()+
+	theme_classic()
+	
+# 回归线优化过程
+ggplot(data, aes(x = x, y = y)) + 
+	geom_point(size = 2) + 
+	geom_abline(aes(intercept = theta0, slope = theta1),  data = res, size = 0.5, color = 'red') + 
+	theme_classic() + 
+	geom_abline(aes(intercept = theta0, slope = theta1),  data = res %>% slice_head(), linewidth = 0.5, color = 'blue') + 
+	geom_abline(aes(intercept = theta0, slope = theta1),  data = res %>% slice_tail(), linewidth = 1, color = 'green')
+
+
+
+
+##################################################################
+############################# 支持向量机 ###########################
+library(e1071)
+library(ggplot2)
+
+###--------------------------------------------------------------------
+data(iris)
+ 
+# 创建训练集和测试集
+set.seed(123)
+train_index <- sample(1:nrow(iris), 0.7 * nrow(iris))
+train_data <- iris[train_index, ]
+test_data <- iris[-train_index, ]
+ 
+# 使用svm函数建立模型
+svm_model <- svm(Species ~ ., data = train_data, kernel = "radial", probability = T)
+summary(svm_model)   # 使用径向基核函数
+svm_model$index   # 共45个支持向量
+ 
+# 预测类别：只有在建模时使用了probability=T，才能在predict()时使用此参数
+test_data$predicted <- predict(svm_model, test_data, probability = T)
+test_data
+
+# 查看预测概率
+# 当训练时设置probability=T，那么预测时可以返回每个样本属于各个类别的概率
+# 注意：这里的概率是通过交叉验证和 Platt scaling 估计得到的，并不是严格的概率，而是一种概率估计
+head(attr(test_data$predicted, "probabilities"))
+
+# 混淆矩阵
+# 其中No Information Rate（NIR）: 0.4为"无信息"基准模型的准确率
+# 模型（97.78%）远高于此，且p值极小；统计结论：模型显著优于随机猜测
+caret::confusionMatrix(test_data$predicted, test_data$Species) 
+
+# 可视化结果
+ggplot(test_data, aes(x = Petal.Length, y = Petal.Width, color = predicted, shape = Species)) +
+  geom_point(size = 3) +
+  scale_color_manual(values = c("#FF0000", "#00FF00", "#0000FF")) +
+  scale_shape_manual(values = c(16, 17, 18)) +
+  labs(title = "SVM Result Visualization on Iris Dataset", color = "Predicted Species", shape = "True Species")
+
+# 可视化决策边界
+# 如果预测变量超过1个就要使用formula，因为只能在二维平面上画图
+# slice=list(Sepal.Width=3,Sepal.Length=4)表示要把Sepal.Width固定为常数3，把Sepal.Length固定位常数4
+# 相当于在 4D 空间的切一个 2D 平面
+plot(svm_model, data = iris, formula = Petal.Width ~ Petal.Length,
+     slice = list(Sepal.Width = 3, Sepal.Length = 4),   svSymbol = "X"   # 支持向量的形状
+     )
+
+#  超参数调优
+# 用常见的径向基核为例，同时调整2个超参数：gamma和cost
+set.seed(123)
+tune_model <- tune.svm(Species ~ ., data = iris,  cost = 10^(-1:3),  gamma = 10^(-3:1),     
+                       tunecontrol=tune.control(sampling = "bootstrap",  nboot = 100))   # 自助法   
+tune_model
+
+# 错误率最低是0.03924088，此时gamma=0.01，cost=100
+# 使用这个超参数重新拟合模型：
+model_final <- svm(Species ~ ., data = iris, cost=100, gamma=0.01)
+print(model_final)
+
+# 预测新数据
+pred <- predict(model_final, newdata = test_data)
+caret::confusionMatrix(pred, test_df$Species)
+
+# 可视化决策边界
+plot(model_final, data = iris, formula = Petal.Width ~ Petal.Length,
+     slice = list(Sepal.Width = 3, Sepal.Length = 4))
+
+#  使用建议
+# SVM对超参数值很敏感，建议多试几次；
+# 对于分类任务，首选C-classification和RBF(default)，表现好且超参数比较少，只有cost和gamma。
+# libsvm的作者建议先对cost用一个很大的范围，比如1~1000，然后用交叉验证选择比较好的，最后用这几个选中的cost值再尝试不同的gamma；
+# 可以使用网格搜索实现超参数调优，tune.svm()；
+# 对数据进行标准化会提高模型表现，强烈建议。svm()默认对数据进行标准化。
+
+
+### 支持向量机应用示例：遥感影像分类   -----------------------------------------
+library(sf)
+library(terra)
+library(e1071)
+library(caret)
+
+### 读取图像
+img <- rast("usajmq.tif")
+names(img) <-c("R","G","B")   # 重命名红、绿、蓝波段为R、G、B
+plot(img)
+
+### 在图上画多边形
+library(spatstat.geom)
+#n = 10  # 多边形数量
+# 注意：画多边形时要从上往下画，才能保持多边形与后续采样点的对应
+#pn = clickpoly(add=T, np=n, border=2, lwd=2) 
+#saveRDS(pn, "usajmqCNN2.rds")
+
+### 读取采样多边形
+samp <- readRDS("usajmqCNN2.rds") 
+plot(samp, add=T, lwd=2, border="white")
+
+# 多边形赋值
+dfCNN2 <- data.frame(class =c(1, 2, 3, 1, 5, 6, 1, 4, 7, 2, 6, 2, 2, 5, 5, 5, 1, 7, 2, 1) ,   
+               lucc = c('植被', '民居', '车库', '植被', '道路', '泳池','植被',  '球场','水体', '民居',  '泳池','民居',  '民居',  '道路',  '道路',  '道路', '植被', '水体', '民居',  '植被' ),
+               cols = c("darkgreen", "orange", "white", "darkgreen", "gray", "blue", "darkgreen",  "lightblue", "black", "orange", "blue", "orange",  "orange", "gray","gray", "gray", "darkgreen", "black",  "orange", "darkgreen"))
+
+sampsfc = st_as_sf(samp) %>%
+	 st_set_crs(st_crs(img)) %>%
+                 st_cast("POLYGON")  %>%
+                 dplyr::bind_cols(dfCNN2)
+
+sampv = vect(sampsfc)
+set.seed(1)  
+# 在多边形内随机采样
+ptsamp <- spatSample(sampv, 1000, method="random")
+
+# 提取训练区域的反射率值 
+dfsamp <- terra::extract(img, ptsamp, xy=T, exact=T, bind=T)   
+head(dfsamp, n=10)
+
+# 采样多边形及采样点图
+plot(samp, lwd=2, main="")
+plot(dfsamp,  add=T,  col=dfsamp$cols, cex=0.7)
+
+class_colors  <-  c("darkgreen", "orange", "white",  "lightblue", "gray",  "blue", "black")
+class_labels <- c('植被', '民居', '车库', '球场', '道路', '泳池','水体' )
+legend("topright", legend = class_labels,  col =class_colors, pch = 16, cex=2, xpd=T)
+
+# 采样点数据
+# sampdata <- data.frame(dfsamp)   # 现场采样
+sampdata  <- read.csv("sampdataCNN2.csv")  # 已经采好的样本
+plot(img)
+points(sampdata[,7:8], col=sampdata[,1])
+
+# 训练数据和测试数据
+set.seed(123)                                                       
+train_indices <- caret::createDataPartition(sampdata$class, p = 0.8, list = FALSE)   # p = 0.8：80%训练数据（20%测试数据）
+train_data <- sampdata[train_indices, ]
+test_data <- sampdata[-train_indices, ]
+
+### 支持向量机分类
+SVM.RS <-svm(as.factor(class)~R+G+B,data=train_data, type="C-classification",kernel="radial")
+
+tilem <-  as.matrix(values(img))  # 提取所有影像值
+dim(tilem)   
+pred <- predict(SVM.RS , tilem)   # 预测
+
+# 结果可视化
+predm = matrix(pred, nrow(img), ncol(img), byrow=T)
+result <- rast(predm, crs = crs(img))
+levels(result) <- data.frame(ID = 1:7, Class =class_labels)
+plot(result, axes=F, col = class_colors,  mar=c(0, 0, 0, 8.1), plg = list(cex = 2))
+
+# 精度评价 混淆矩阵
+test_pred <- predict(SVM.RS, newdata = test_data)
+conf_matrix <- caret::confusionMatrix(test_pred, as.factor(test_data$class))
+conf_matrix
+
+# 可视化混淆矩阵（热力图）
+conf_matrix_df <- as.data.frame(as.table(conf_matrix$table))
+names(conf_matrix_df) <- c("预测", "真实", "频数")
+
+ggplot(conf_matrix_df, aes(x = 真实, y = 预测, fill = 频数)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = 频数), color = "black", size = 4) +
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  labs(title = "混淆矩阵", x = "真实类别", y = "预测类别") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+##################################################################
+############################## 随机森林 ############################
+library(tidyverse)
+library(rpart) 
+library(rpart.plot) 
+
+windowsFonts(roman = windowsFont("TT TIMES")) # 设置字体Times New Roman
+par(mar = c(0, 0, 0, 0), family = "roman")  
+
+#####  回归树：模拟数据   =======================
+set.seed(1177)  
+df <- tibble::tibble(
+  x = seq(-5, 5, length = 100), 
+  truth = tanh(x),   # (exp(x)-exp(-x)) / (exp(x)+exp(-x)) 
+  y = truth + rnorm(length(x), sd = 0.2)
+)
+
+### 决策树桩（decision stump）------------------------
+ctrl <- list(cp = 0, minbucket = 5, maxdepth = 1)
+fit <- rpart(y ~ x, data = df, method  = "anova", control = ctrl)
+split = round(fit$splits[4],1)
+nodes = round(fit$frame$yval, 3)
+
+# 决策树图
+rpart.plot(fit, nn.cex=2, nn.font=1, yes.text="是", no.text="否")
+
+# 决策边界图
+df %>%
+  mutate(pred = predict(fit, df)) %>%
+  ggplot(aes(x, y)) +
+  geom_point( pch=16, size = 3) +
+  geom_line(aes(x, y = truth), size = .75) +   # 真实值曲线
+  geom_line(aes(y = pred),  size = .75, col="red") +  # 预测线
+  geom_segment(x = split, xend = split, y = -Inf, yend = -0.9, arrow = arrow(length = unit(0.25,"cm")), size = .75, lty=2) +
+  annotate("text", x = nodes[1], y = -Inf, label = paste("分割点: ", round(nodes[1],3)),  family = "serif", hjust = 1.2, vjust = -1, size = 8) +
+  geom_segment(x = -5, xend = -4.5, y = 1.5, yend = 1.5, size = .75) +
+  geom_point( x= -4.75, y=1.28, pch=16, size = 3) +
+  geom_segment(x = -5, xend = -4.5, y = 1, yend = 1, size = .75, col="red") + # 预测图例
+  annotate("text", x = -0.5, y = 1.5, label = "双曲正切函数", hjust = 1, size = 10) +
+  annotate("text", x = -0.5, y = 1.28, label = "生成的数据点", hjust = 1, size = 10) + 
+  annotate("text", x = -1.7, y = 1, label = "决策边界", hjust = 1, size = 10) + 
+  theme_classic() +
+  theme(axis.text = element_text(family = "serif", size = 20),
+              axis.title = element_text(family = "serif", size = 24)   
+   )
+
+### 三层决策树 ------------------------
+ctrl <- list(cp = 0, minbucket = 5, maxdepth = 3)
+fit <- rpart(y ~ x, data = df, method  = "anova", control = ctrl)
+rpart.plot(fit)
+
+splits = round(fit$splits[,"index"],3)  # 分裂点值
+nodes = fit$frame$yval  # 节点值
+
+# 三层决策树边界
+# 再运行“决策边界图”
+
+
+##### 分类树：鸢尾花数据 =======================  
+# 决策树
+names(iris) <- c("花萼长度", "花萼宽度", "花瓣长度", "花瓣宽度", "Species")
+iris$Species <- gsub("setosa", "山鸢尾", iris$Species)
+iris$Species <- gsub("versicolor", "变色鸢尾", iris$Species)
+iris$Species <- gsub("virginica", "弗吉尼亚鸢尾", iris$Species)
+
+iris_fit <- rpart(Species ~ 花萼长度 + 花萼宽度, data = iris)
+rpart.plot(iris_fit)
+rpart.plot(iris_fit, 
+           type = 4,           # 显示所有节点信息
+           extra = 104,        # 显示预测类别和概率
+           nn = TRUE,          # 显示节点编号
+           fallen.leaves = TRUE,
+           box.palette = list("#FFCC80", "#90CAF9", "#A5D6A7"), # 自定义颜色
+           shadow.col = "gray",
+           main = "鸢尾花分类决策树",
+           tweak = 1.2)
+
+# 决策边界图
+size = 10
+ggplot(iris, aes(花萼长度, 花萼宽度, color = Species, shape = Species)) +
+  geom_point(size=5, show.legend = FALSE) +
+  annotate("rect", xmin = -Inf, xmax = 5.44, ymin = 2.8, ymax = Inf, alpha = .75, fill = "orange") +
+  annotate("text", x = 4.0, y = 4.4, label = "山鸢尾", hjust = 0, size =size) +
+  annotate("rect", xmin = -Inf, xmax = 5.44, ymin = 2.79, ymax = -Inf, alpha = .75, fill = "grey") +
+  annotate("text", x = 4.0, y = 2, label = "变色鸢尾", hjust = 0, size =size) +
+  annotate("rect", xmin = 5.45, xmax = 6.15, ymin = 3.1, ymax = Inf, alpha = .75, fill = "orange") +
+  annotate("text", x = 6, y = 4.4, label = "山鸢尾", hjust = 1, vjust = 0, size = size) +
+  annotate("rect", xmin = 5.45, xmax = 6.15, ymin = 3.09, ymax = -Inf, alpha = .75, fill = "grey") +
+  annotate("text", x = 6.15, y = 2, label = "变色鸢尾", hjust = 1, vjust = 0, fill = "grey", size = size) +
+  annotate("rect", xmin = 6.16, xmax = Inf, ymin = -Inf, ymax = Inf, alpha = .75, fill = "green") +
+  annotate("text", x = 8, y = 2, label = "弗吉尼亚鸢尾", hjust = 1, vjust = 0, fill = "green", size = size) + 
+  theme(axis.text.x = element_text(family = "serif", size = 20),
+              axis.title.x = element_text(family = "serif", size = 24),
+              axis.text.y = element_text(family = "serif", size = 20),
+              axis.title.y = element_text(family = "serif", size = 24)
+   )
+
+
+#####  随机森林空间插值（回归树）=======================  
+# https://github.com/AleksandarSekulic/RFSI
+# Sekuli?, A., Kilibarda, M., Heuvelink, G. B., Nikoli?, M. & Bajat, B. Random Forest Spatial Interpolation. 
+# Remote. Sens. 12, 1687, https://doi.org/10.3390/rs12101687 (2020).
+# 另参见：https://opengeohub.github.io/spatial-prediction-eml/spatial-interpolation-using-ensemble-ml.html
+# 另外：https://geospatial.101workbook.org/SpatialModeling/GRWG_SpatialInterpolation_R.html
+library(ranger)
+library(sp)
+library(sf)
+library(terra)
+library(meteo)
+
+demo(meuse, echo=FALSE)
+
+meuse <- meuse[complete.cases(meuse@data),]
+data = st_as_sf(meuse, coords = c("x", "y"), crs = 28992, agr = "constant")
+x = st_coordinates(data)[,1]
+y = st_coordinates(data)[,2]
+
+###
+rfsi_model <- rfsi(formula = zinc ~ dist + soil + ffreq,
+                   data = data, 
+                   zero.tol = 0,
+                   n.obs = 5,  
+	           cpus = detectCores()-1,
+                   progress = TRUE,
+                   importance = "impurity",
+                   seed = 42,
+                   num.trees = 250,
+                   mtry = 5,
+                   splitrule = "variance",
+                   min.node.size = 5,
+                   sample.fraction = 0.95)
+
+rfsi_model
+str(rfsi_model)
+# Note that OOB error statistics are biased and should not be considered as accuracy metrics (they do not show spatial accuracy)!
+# The proper way to assess accuaracy of the RFSI model is by using the nested k-fold cross-validation (cv.rfsi function)
+
+### pred.rfsi
+newdata <- terra::rast(meuse.grid)
+rfsi_prediction <- pred.rfsi(model = rfsi_model,
+                             data = data,
+                             obs.col = "zinc",                     
+                             newdata = newdata, # meuse.grid.df (use newdata.staid.x.y.z)                         
+                             output.format = "SpatRaster", # "sf", # "SpatVector", 
+                             zero.tol = 0,                         
+                             cpus = 1, 
+                             progress = TRUE,
+                             soil3d=FALSE                       
+)
+
+plot(rfsi_prediction)
+
+
+#  随机森林遥感影像分类（分类树）=======================  
+library(terra)       
+library(randomForest) # 随机森林算法
+library(caret)       # 分类模型评估
+library(ggplot2)    
+library(RColorBrewer)
+
+#  训练和测试数据集
+#  同前
+
+# 分类
+cartmodel <- rpart(as.factor(class)~R + G + B, data = train_data, method = 'class', minsplit = 5)
+rpart.plot(cartmodel,  cex = 1)
+
+# 对整个遥感影像进行分类
+classified <- predict(img, cartmodel, type='class', na.rm = TRUE)
+
+levels(classified) <- data.frame(id = 1:7, class=class_labels)
+plot(classified, "class", col=class_colors, axes = FALSE)
+
+# 精度评价：混淆矩阵
+test_pred <- predict(cartmodel, newdata = test_data, type = "class")
+conf_matrix <- confusionMatrix(test_pred, as.factor(test_data$class))
+conf_matrix 
+
+# 可视化混淆矩阵
+conf_matrix_df <- as.data.frame(conf_matrix$table)
+names(conf_matrix_df) <- c("预测", "真实", "频数")
+conf_matrix_df$百分比 <- conf_matrix_df$频数 / sum(conf_matrix_df$频数) * 100
+ggplot(conf_matrix_df, aes(x = 真实, y = 预测, fill = 频数)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = paste0(频数, "\n(", round(百分比, 1), "%)")),  color = "black", size = 3.5) +
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  labs(title = "CART决策树混淆矩阵",  subtitle = paste0("总体精度: ", round(conf_matrix$overall["Accuracy"] * 100, 2), "%"),
+       x = "真实类别", y = "预测类别") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+
+### 分类不确定性分析--------------------
+# 获取每个像素的分类概率
+prob_matrix <- predict(cartmodel, newdata = img, type = "prob", na.rm = TRUE)
+
+# 计算不确定性（1 - 最大概率）
+uncertainty <- 1 - apply(prob_matrix, 1, max)
+
+uncertainty_raster <- rast(matrix(uncertainty, nrow(img), ncol(img), byrow = TRUE), crs = crs(img))
+
+par(mfrow = c(1, 2))
+plot(classified, "class", col = class_colors,  main = "CART分类结果", axes = FALSE)
+plot(uncertainty_raster, main = "分类不确定性", col = rev(heat.colors(100)), axes = FALSE)
+par(mfrow = c(1, 1))
+
+
+
+#############################################################################
+######################  深度学习：CNN应用示例 #################################
+# devtools::install_github("rstudio/keras3")
+# keras3::install_keras(backend = "tensorflow", python_version = "3.12", tensorflow = "2.16.1",  restart_session = FALSE) 
+#library(tensorflow)
+#install_tensorflow() 
+
+library(keras3)
+library(terra)
+library(abind)
+
+# 读取遥感影像----------------------------------------------------------------
+ img <- rast("usajmq.tif") 
+ img_array <-  as.array(img)   
+
+# 采样点数据
+samples <- sampdata 
+cell_numbers <- cellFromXY(img, samples[, c("x", "y")])
+row_col <- rowColFromCell(img, cell_numbers) # 转换为行列号
+
+# 替换 x、y值
+samples$x <- row_col[,1]
+samples$y <- row_col[,2]
+samples <- samples[!duplicated(samples[, c("x", "y")]), ]  #移除x、y重复的行（行列号相同的行）
+table(samples$class)
+
+# 数据预处理 --------------------------------------------------------------
+patch_size = 3  # 该参数对结果影响较大
+pad_width <- half_size <- floor(patch_size/2)
+
+# 通用化镜像填充函数
+mirror_pad <- function(x, pad){
+    abind(x[pad:1,,], x, x[dim(x)[1]:(dim(x)[1]-pad+1),,], along=1) %>% 
+    abind(.[,pad:1,], ., .[,dim(.)[2]:(dim(.)[2]-pad+1),], along=2)
+}
+img_padded <- mirror_pad (img_array, pad_width)
+
+# 图像块（patch）提取函数
+extract_patch <- function(r_orig, c_orig) { 
+  r_padded <- r_orig + pad_width # 转换到填充坐标系
+  c_padded <- c_orig + pad_width   
+  row_range <- seq(r_padded - half_size, r_padded + half_size, length.out = patch_size)  # 强制生成16个索引（关键修正）
+  col_range <- seq(c_padded - half_size, c_padded + half_size, length.out = patch_size)    
+  row_idx <- pmin(pmax(1, row_range), dim(img_padded)[1])    # 应用镜像索引
+  col_idx  <- pmin(pmax(1, col_range),  dim(img_padded)[2])  
+  patch <- array(img_padded[row_idx, col_idx, ], dim = c(1, patch_size, patch_size, 3))    # 显式保持四维结构（添加第1维）
+  return(patch)
+}
+
+# 生成训练数据
+patches0 <- array(dim = c(nrow(samples), patch_size, patch_size, 3))
+for(i in 1:nrow(samples)) {                                                 
+  patches0[i,,,] <- extract_patch (samples$x[i], samples$y[i]) 
+}                                                                                        
+patches <- patches0 / 255  # 标准化
+
+# 转换为分类格式：one-hot编码
+num_classes <- length(unique(samples$class))
+y_train <- to_categorical(samples$class-1, num_classes)
+
+# 显示样本的图像块：图像块的问题较大！
+par(mfrow=c(14,14), mar=c(0,0,2,0))
+for(i in 1:nrow(patches)) {
+  #if(samples$class[i] == 1) {
+    # 每个patch的颜色
+    plot(as.raster(patches[i, , , ]))    
+    title(paste("NO.", i, "Class:", samples$class[i]))
+    # 每个采样点的颜色
+    rgb_rast <- rast(nrows = 1, ncols = 1,  xmin = 0, xmax = 1,  ymin = 0, ymax = 1, nlyrs = 3)
+    values(rgb_rast) <- cbind(samples[i,]$R, samples[i,]$G, samples[i,]$B)
+    plotRGB(rgb_rast) 
+}
+par(mfrow=c(1,1))
+
+#  构建模型 ----------------------------------------------------------------
+library(tensorflow)
+set_random_seed(1234)  # Keras种子
+tf$random$set_seed(4567)  # TensorFlow后端种子
+
+model <- keras_model_sequential() %>%
+   layer_conv_2d(64, c(3,3), activation="relu", padding="same", input_shape=c(patch_size,patch_size,3)) %>%
+   layer_batch_normalization() %>%
+   layer_conv_2d(128, c(3,3), activation="relu", padding="same") %>%
+   layer_max_pooling_2d(c(2,2)) %>%
+   layer_dropout(0.2, seed=121) %>%   # 对结果影响较大
+
+   layer_conv_2d(256, c(3,3), activation="relu", padding="same") %>%
+   layer_global_average_pooling_2d() %>%
+  
+   layer_dense(256, activation="relu") %>%    
+   layer_dense(num_classes, activation="softmax")
+
+model
+
+model %>% compile( optimizer = optimizer_adam(learning_rate = 0.001),  # 设置学习率
+   loss = 'categorical_crossentropy',
+   metrics = c('accuracy'))
+
+# 模型训练 ----------------------------------------------------------------
+set.seed(1234)
+indices <- sample(1:nrow(patches), size=0.8*nrow(patches), replace=FALSE) 
+history <-  model %>% fit(patches[indices,,,], y_train[indices,], epochs = 200, batch_size =16, shuffle=FALSE,  verbose = 0)  
+plot(history)
+
+# 样本的预测概率、真值
+ps = apply(predict(model, patches[,,,,drop=F]), 1, which.max)
+pss <- ps == samples$class  # 比较对应位置的值是否相等
+sum(pss) / length(pss)  # 样本预测准确率
+for(i in 1:7){    
+ classi = sum(samples$class ==i)
+ predi = sum(samples$class ==i & ps ==i)
+ ai =predi / classi 
+ print(paste("第", i, "类共有", classi,"个样本", "预测正确", predi, "个","预测正确的比例为：",round(ai,3)))
+}
+
+# 全图预测 ----------------------------------------------------------------
+pred_full <- matrix(nrow = 512, ncol = 512)
+for (i in seq(1, 512, 100)) {
+  i_end <- min(i + 99, 512)
+  batch_rows <- i:i_end
+  batch_size <- length(batch_rows) * 512  
+  # 初始化四维数组
+  patches_batch <- array(dim = c(batch_size, patch_size, patch_size, 3), dimnames = list(NULL, NULL, NULL, c("R","G","B"))) 
+  cnt <- 1
+  for(r_orig in batch_rows) {
+    for(c_orig in 1:512) {   
+      patches_batch[cnt,,,] <- extract_patch(r_orig, c_orig) # 保持四维结构
+      cnt <- cnt + 1
+    }
+  }  
+  stopifnot(dim(patches_batch) == c(batch_size, patch_size, patch_size, 3) )   # 维度验证  
+  pred <- predict(model, patches_batch/255, batch_size = 512)   # 预测时保持四维输入
+  pred_classes <- apply(pred, 1, which.max)    
+  pred_full[i:i_end, ] <- matrix(pred_classes, nrow = length(batch_rows), ncol = 512,  byrow = TRUE)  # 重组结果
+}
+
+# 做图----------------------------------------------------------------
+CNN_results = rast(pred_full)
+unique(values(CNN_results))
+
+levels(CNN_results) <- data.frame(ID = 1:7, Class =class_labels)
+plot(CNN_results, axes=F, col =  class_colors, mar=c(0, 0, 0, 8.1), plg = list(cex = 1.5))
+
+
+
+################################################################################
+############################# 遥感影像分类：ANN预测 ################################
+library(neuralnet)
+library(terra)
+
+sample_pts = read.csv("sampdataCNN2.csv")
+sample_pts$R = sample_pts$R/255
+sample_pts$G = sample_pts$G/255
+sample_pts$B = sample_pts$B/255
+
+# 通过交叉验证选择最优模型结构
+#library(caret)
+#train_control <- trainControl(method="cv", number=5)
+#model <- caret::train(class ~ R + G + B,  data = sample_pts, method = "neuralnet",
+ #             tuneGrid = expand.grid( layer1 = c(2,3),  layer2 = c(3,4),  layer3 = 0),  # 无第三层              
+ #             trControl = train_control)
+
+# 设置全局随机种子（影响所有随机操作）
+set.seed(123)
+nn <- neuralnet(class~R+G+B, sample_pts, hidden=c(3,3),  stepmax = 1e6, threshold = 0.01)
+plot(nn)
+# 保存、加载模型
+#saveRDS(nn, "trained_nn_model.rds")
+#nn <- readRDS("trained_nn_model.rds")
+
+img <- rast("usajmq.tif")  # 3波段RGB图像
+names(img) <- c("R", "G", "B")
+# 提取 RGB 通道值
+rgb_values <- data.frame(
+  R = as.vector(img[, , 1])/255,  # 红色通道
+  G = as.vector(img[, , 2])/255,  # 绿色通道
+  B = as.vector(img[, , 3])/255   # 蓝色通道
+)
+
+pr.nn = round(predict(nn, rgb_values))
+ANN_results = rast(matrix(pr.nn,512,512, byrow=T))
+unique(values(ANN_results))
+
+levels(ANN_results) <- data.frame(ID = 1:7, Class =class_labels)
+plot(ANN_results, axes=F, col = class_colors, mar=c(0, 0, 0, 8.1), plg = list(cex = 1.5))
+
+
+
+
+#################################################################
+################ 遗传算法：旅行商问题（TSP） ######################
+library(readr)
+library(sp)
+library(GA)
+library(doParallel) 
+
+### 数据：河南省地级市
+HenanXY=read_table("HenanXY.txt")
+df <- data.frame( ID=1:18, name=HenanXY$城市, lon = HenanXY$经度, lat = HenanXY$纬度)
+coordinates(df) <- c("lon", "lat")
+proj4string(df) <- CRS("+proj=longlat +datum=WGS84")
+Mercator <- CRS("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
+HNM <- spTransform(df, Mercator)
+x <- coordinates(HNM)[,1]
+y <- coordinates(HNM)[,2]
+plot(HNM, pch=20, cex=4, xlab = "", ylab = "", cex.axis=1.5, axes=T)
+plot(HNM, pch=20, cex=2.6, xlab = "", ylab = "", axes=T, col="white", add=T)
+text(x -4e4, y,  HNM$name, cex=1.5)
+
+HNdist <- round(spDists(HNM)/1000)  # 转换为km并取整
+D <- as.matrix(HNdist)
+n_cities <- nrow(D)
+
+tourLength <- function(tour, distMatrix) {
+   tour <- c(tour, tour[1])
+   route <- embed(tour, 2)[,2:1]
+   sum(distMatrix[route])
+}
+tspFitness <- function(tour) 1/tourLength(tour, D)
+
+set.seed(1177)
+# 遗传算法优化：10秒级求解
+GA <- ga(type = "permutation",  fitness = tspFitness,  lower = 1,  upper = n_cities,  
+    popSize = 100,  maxiter = 500000,   run = 100,  pmutation = 0.2,   monitor = FALSE)   
+
+# 算法返回访问这些城市的顺序（按城市编号索引）
+summary(GA)
+plot(GA)
+
+### 最优路径图
+ord <- GA@solution[1, ]
+tour <- c(ord, ord[1])
+tour #最优路径顺序
+n <- length(tour)
+dist <- 0
+for(i in 1:n-1){ 
+	dist[i] = D[tour[i], tour[i+1]]	
+}
+sum(dist)  # 最优路径长度：1982km
+
+plot(HNM, pch=20, cex=4, xlab = "", ylab = "", cex.axis=1.5, axes=T)
+plot(HNM, pch=20, cex=2.6, xlab = "", ylab = "", axes=T, col="white", add=T)
+text(x-4e4, y,  HNM$name, cex=1.5)
+segments(x[tour[-n]], y[tour[-n]], x[tour[-1]], y[tour[-1]], lwd = 2)
+
+
+
+################################# ##############################
+############################# 元胞自动机 #########################
+# 生命游戏: Conway's game of life
+
+###方法1-----------------------------------------------------------------
+library(terra)
+
+w <- matrix(c(1,1,1,1,0,1,1,1,1), nr=3,nc=3)
+gameOfLife <- function(x) {
+  f <- focal(x, w=w, pad=TRUE, padValue=0)
+  x[f<2 | f>3] <- 0     # 死亡规则：小于2或大于3，中心单元格消失（1-0）  
+  x[f==3] <- 1           # 诞生规则：等于3个邻居，中心单元格存活（0-1、1-1）  
+  x
+}
+
+# 模拟函数
+sim <- function(x, fun, n=100, pause=0.25) {
+for (i in 1:n) {
+   x <- fun(x)
+   plot(x, legend=FALSE, asp=NA, main=i)
+   dev.flush()
+   Sys.sleep(pause)
+}
+invisible(x)
+}
+
+# Gosper滑翔炮
+m <- matrix(0, nc=48, nr=34)
+m[c(40, 41, 74, 75, 380, 381, 382, 413, 417, 446, 452, 480,
+         486, 517, 549, 553, 584, 585, 586, 619, 718, 719, 720, 752,
+         753, 754, 785, 789, 852, 853, 857, 858, 1194, 1195, 1228, 1229)] <- 1
+init <- rast(m)
+
+# 运行模型
+sim(init, gameOfLife, n=150, pause=0.01)
+
+
+### 方法2（不考虑边界）-------------------------
+get_game <- function() {
+    game <- sample(c(1, 0), board_row * board_col, replace = TRUE)
+    matrix_game <- matrix(data = game, nrow = board_row, ncol = board_col)
+    return(matrix_game)
+}
+
+evaluate_rules <- function(cell, neighbors) {
+    if (cell == 1 & (neighbors %in% c(2, 3))) {
+        return(1)
+    } else if (cell == 0 & neighbors == 3) {
+       return(1)
+    } else {
+        return(0)
+    }
+}
+
+update_game <- function(board) {
+    row_number <- nrow(board)
+    col_number <- ncol(board)
+    new_board <- matrix(0, nrow = row_number, ncol = col_number)
+
+    # Center - 只处理内部单元格
+    for (i in 2:(row_number - 1)) {
+        for (j in 2:(col_number - 1)) {
+            live_neighbors <- sum(
+                board[i - 1, j - 1],
+                board[i - 1, j],
+                board[i - 1, j + 1],
+                board[i, j - 1],
+                board[i, j + 1],
+                board[i + 1, j - 1],
+                board[i + 1, j],
+                board[i + 1, j + 1]
+            )
+            new_board[i, j] <- evaluate_rules(board[i, j], live_neighbors)
+        }
+    }
+    
+    # 添加返回值
+    return(new_board)
+}
+
+simulation <- function() {
+    game <- get_game()
+    my_colors <- c(1, 5)    
+    windows()  # 创建图形窗口    
+    t <- 0  # 时间步
+    
+    # 主循环
+    while (TRUE) {
+        game <- update_game(game)
+        t <- t + 1
+        
+        # 清除并重绘
+        dev.hold()  # 暂停设备更新
+        plot.new()
+        par(mar = c(0, 0, 2, 0))  # 上边距为2，为标题留出空间
+        image(game, col = my_colors)
+        grid(nx = board_row, ny = board_col, col = grey(0.3), lty = 1)
+        title(main = paste("Game of Life - 时间步:", t),  cex.main = 1.5, col.main = "red", font.main = 3)
+        dev.flush()  # 恢复设备更新     
+
+        Sys.sleep(0.01)  # 添加短暂暂停，使时间步变化可见
+    }
+}
+
+board_row <- 100
+board_col <- 100
+
+simulation()
+
+
+
+##############################################################  
+####################  智能体模型：ABM模拟鸟群 ##################
+library(ggplot2)
+library(gganimate)
+library(dplyr)
+
+# 参数设置
+num_boids <- 100   # 鸟数量
+width <- 100       
+height <- 100     
+max_speed <- 2    
+neighbor_dist <- 15  # 邻居检测距离
+n_frames <- 200       # 动画帧数
+dt <- 0.4                   # 时间步长
+
+# 初始化鸟群
+boids <- data.frame(
+  id = 1:num_boids,
+  x = runif(num_boids, 0, width),
+  y = runif(num_boids, 0, height),
+  dx = runif(num_boids, -1, 1),
+  dy = runif(num_boids, -1, 1),
+  color = rainbow(num_boids)
+)
+
+# 标准化速度向量
+normalize <- function(v) {
+  length <- sqrt(v[1]^2 + v[2]^2)
+  if (length > 0) c(v[1]/length, v[2]/length) else c(0, 0)
+}
+
+# 边界处理
+handle_boundaries <- function(boid) {
+  margin <- 20
+  turn_factor <- 0.5
+  
+  if (boid$x < margin) boid$dx <- boid$dx + turn_factor
+  if (boid$x > width - margin) boid$dx <- boid$dx - turn_factor
+  if (boid$y < margin) boid$dy <- boid$dy + turn_factor
+  if (boid$y > height - margin) boid$dy <- boid$dy - turn_factor
+  
+  return(boid)
+}
+
+# 鸟群行为规则
+update_boids <- function(boids) {
+  new_boids <- boids
+  
+  for (i in 1:nrow(boids)) {
+    current <- boids[i, ]
+    
+    # 寻找邻居
+    neighbors <- boids %>%
+      filter(
+        sqrt((x - current$x)^2 + (y - current$y)^2) < neighbor_dist,
+        id != current$id
+      )
+    
+    # 初始化调整向量
+    separation <- c(0, 0)
+    alignment <- c(0, 0)
+    cohesion <- c(0, 0)
+    
+    if (nrow(neighbors) > 0) {
+      # 分离规则：避免碰撞
+      avg_pos <- c(mean(neighbors$x), mean(neighbors$y))
+      separation <- normalize(c(current$x - avg_pos[1], current$y - avg_pos[2])) * 0.05
+      
+      # 对齐规则：匹配速度
+      alignment <- normalize(c(mean(neighbors$dx), mean(neighbors$dy))) * 0.05
+      
+      # 聚合规则：向群体中心移动
+      cohesion <- normalize(c(avg_pos[1] - current$x, avg_pos[2] - current$y)) * 0.03
+    }
+    
+    # 应用规则
+    current$dx <- current$dx + separation[1] + alignment[1] + cohesion[1]
+    current$dy <- current$dy + separation[2] + alignment[2] + cohesion[2]
+    
+    # 速度限制
+    speed <- sqrt(current$dx^2 + current$dy^2)
+    if (speed > max_speed) {
+      current$dx <- (current$dx / speed) * max_speed
+      current$dy <- (current$dy / speed) * max_speed
+    }
+    
+    # 边界处理
+    current <- handle_boundaries(current)
+    
+    # 更新位置
+    new_boids[i, "x"] <- current$x + current$dx * dt
+    new_boids[i, "y"] <- current$y + current$dy * dt
+    new_boids[i, "dx"] <- current$dx
+    new_boids[i, "dy"] <- current$dy
+  }
+  
+  return(new_boids)
+}
+
+# 运行模拟
+sim_data <- list()
+for (frame in 1:n_frames) {
+  sim_data[[frame]] <- boids %>% mutate(frame = frame)
+  boids <- update_boids(boids)
+}
+
+# 转换为动画数据
+animation_data <- bind_rows(sim_data)
+
+# 创建动画
+anim <- ggplot(animation_data, aes(x, y)) +
+  geom_point( pch= 16, cex=2,  type="l", show.legend = FALSE)  +
+  coord_fixed(xlim = c(0, width), ylim = c(0, height)) +
+  labs(title = 'Frame: {frame_time}') +
+  transition_time(frame) +
+  ease_aes('linear')
+
+animate(anim, nframes = n_frames, fps = 20, width = 1000, height =1000)
+
+
+
+
+
+

@@ -194,8 +194,12 @@
             };
 
             let html = '<div class="vcard-grid">';
+            let hasContent = false;
+            
             for (let [key, value] of Object.entries(vcard)) {
-                if (value) {
+                // 只显示有值的字段
+                if (value && value.trim && value.trim() !== '') {
+                    hasContent = true;
                     html += `
                         <div class="vcard-item">
                             <span class="vcard-icon">${iconMap[key] || '📋'}</span>
@@ -208,7 +212,9 @@
                 }
             }
             html += '</div>';
-            return html;
+            
+            // 如果没有任何有效内容，返回空字符串
+            return hasContent ? html : '';
         }
 
         // 渲染页面
@@ -216,7 +222,8 @@
             const config = parseUrlParams();
             const contentDiv = document.getElementById('content');
 
-            if (Object.keys(config).length === 0) {
+            // 检查是否有有效数据
+            if (!config.content && !config.vcard) {
                 contentDiv.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📭</div>
@@ -229,11 +236,14 @@
 
             let contentHtml = '<div class="card">';
 
-            // 显示VCard数据
+            // 优先显示VCard数据（联系方式）
             if (config.vcard) {
                 const vcard = parseVCard(config.vcard);
-                if (vcard) {
+                if (vcard && Object.keys(vcard).length > 0) {
                     contentHtml += renderVCard(vcard);
+                } else if (config.content) {
+                    // 如果vcard解析失败，尝试显示content
+                    contentHtml += `<div class="content-text">${config.content}</div>`;
                 }
             } 
             // 显示普通文本内容

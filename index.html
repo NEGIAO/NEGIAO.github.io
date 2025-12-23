@@ -610,9 +610,9 @@
                         用 ❤️ 和现代技术构建 <span
                             style="margin-left: 8px; opacity: 0.8; border: 1px solid var(--text-disabled); padding: 0 4px; border-radius: 4px;">v1.6.0</span>
                     </p>
-                    <div id="visit-counter"
-                        style="font-size: 0.8rem; color: var(--primary); margin-bottom: var(--space-sm);">
-                        您的访问次数：<span id="visit-count">--</span>
+                    <div id="stats-widget" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: var(--space-sm);">
+                        全站总览: <span id="total-pv-val" style="color: var(--primary); font-weight: bold;">-</span> | 
+                        您今日已访问: <span id="today-personal-val" style="color: var(--primary); font-weight: bold;">-</span> 次
                     </div>
                     <!-- MapMyVisitors Map (Lazy Loaded) -->
                     <div id="mapmyvisitors-container"
@@ -629,42 +629,64 @@
 
     <!-- 访问统计脚本 -->
     <script>
-        // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', function () {
-            // 获取当前访问计数
-            let visits = localStorage.getItem('page_visits') || 0;
-            visits = parseInt(visits) + 1;
-
-            // 保存更新后的计数
-            localStorage.setItem('page_visits', visits);
-
-            // 在页脚显示访问计数
-            const visitCountElement = document.getElementById('visit-count');
-            if (visitCountElement) {
-                visitCountElement.textContent = visits;
-            } else {
-                // 如果元素不存在，创建一个
-                const counterElement = document.createElement('div');
-                counterElement.className = 'visit-counter';
-                counterElement.style.fontSize = '0.8rem';
-                counterElement.style.color = 'var(--primary)';
-                counterElement.style.marginBottom = 'var(--space-sm)';
-                counterElement.innerHTML = `页面访问次数：<span>${visits}</span>`;
-
-                const footerMeta = document.querySelector('.footer__meta');
-                if (footerMeta) {
-                    footerMeta.insertBefore(counterElement, footerMeta.children[1]);
-                }
-            }
-
-            // 记录到控制台
-            console.log('页面访问次数:', visits);
-        });
-
         // 性能优化：延迟加载第三方统计服务，避免阻塞首屏渲染
         window.addEventListener('load', function () {
             setTimeout(function () {
-                // 1. 延迟加载 MapMyVisitors 地图
+                // 1. 加载 Supabase 统计脚本
+                const supabaseScript = document.createElement('script');
+                supabaseScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                supabaseScript.onload = function() {
+                    const SB_URL = 'https://zifovhnylhlwnviiilbo.supabase.co';
+                    const SB_KEY = 'sb_publishable_oMMXVnMuHW0JCYASt4hpcQ_X8d65i0l'; 
+                    const _client = supabase.createClient(SB_URL, SB_KEY);
+
+                    async function startTracking() {
+                        try {
+                            // 1. 获取当前访客公网 IP
+                            const ipRes = await fetch('https://api.ipify.org?format=json');
+                            const { ip: userIP } = await ipRes.json();
+
+                            // 2. 插入本次访问记录（每次访问都存，不覆盖）
+                            const path = window.location.pathname;
+                            await _client.from('page_views').insert([{ 
+                                page_url: path, 
+                                visitor_ip: userIP 
+                            }]);
+
+                            // 3. 计算“今天”的起始时间 (北京时间零点)
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
+                            const todayISO = today.toISOString(); 
+
+                            // 4. 并行查询：全站总数 & 该 IP 今天的访问次数
+                            const [totalCount, todayCount] = await Promise.all([
+                                // 查询 A: 全站总 PV
+                                _client.from('page_views').select('*', { count: 'exact', head: true }).eq('page_url', path),
+                                
+                                // 查询 B: 统计 [该IP] 在 [今天零点之后] 的记录数
+                                _client.from('page_views')
+                                    .select('*', { count: 'exact', head: true })
+                                    .eq('page_url', path)
+                                    .eq('visitor_ip', userIP)
+                                    .gte('created_at', todayISO) // 假设你的时间字段是 created_at 或 viewed_at
+                            ]);
+
+                            // 5. 更新界面
+                            const totalEl = document.getElementById('total-pv-val');
+                            const todayEl = document.getElementById('today-personal-val');
+                            if (totalEl) totalEl.innerText = totalCount.count || 0;
+                            if (todayEl) todayEl.innerText = todayCount.count || 0;
+
+                        } catch (err) {
+                            console.error('Tracking Error:', err);
+                        }
+                    }
+
+                    startTracking();
+                };
+                document.head.appendChild(supabaseScript);
+
+                // 2. 延迟加载 MapMyVisitors 地图
                 const mapContainer = document.getElementById('mapmyvisitors-container');
                 if (mapContainer && !document.getElementById('mapmyvisitors')) {
                     const script = document.createElement('script');
@@ -679,7 +701,7 @@
                     console.log('MapMyVisitors script loaded lazily.');
                 }
 
-                // 2. 加载 Google Analytics
+                // 3. 加载 Google Analytics
                 const gaScript = document.createElement('script');
                 gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
                 gaScript.async = true;

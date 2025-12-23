@@ -394,6 +394,67 @@ a:focus {
   word-break: break-word;
 }
 
+/* Code block copy button */
+.note-content pre {
+  position: relative;
+}
+
+.note-content .code-copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 184, 230, 0.1) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--primary);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: all var(--transition-normal);
+  user-select: none;
+  box-shadow: 0 2px 8px rgba(0, 217, 255, 0.1);
+}
+
+.note-content pre:hover .code-copy-btn {
+  opacity: 1;
+}
+
+.note-content .code-copy-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.2) 0%, rgba(0, 184, 230, 0.2) 100%);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.25), 0 0 15px rgba(0, 217, 255, 0.15);
+}
+
+.note-content .code-copy-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(0, 217, 255, 0.2);
+}
+
+.note-content .code-copy-btn:focus {
+  opacity: 1;
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.note-content .code-copy-btn.copied {
+  background: linear-gradient(135deg, var(--success) 0%, #2b88e6 100%);
+  border-color: var(--success);
+  color: white;
+  box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3), 0 0 15px rgba(0, 173, 248, 0.2);
+}
+
 .note-toc {
   /* Fixed TOC on the right, vertically centered, floating above content */
   position: fixed;

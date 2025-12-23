@@ -76,104 +76,104 @@
 ## Directory Map
 ```
 .
-├── .github/                  # GitHub Actions 工作流配置
-├── .idea/                    # JetBrains IDE 配置文件
-├── .vscode/                  # VS Code 编辑器配置
-├── Geoscene_宝藏小城/         # Pyecharts 数据可视化专题项目
-│   ├── 季节变化/             # 各城市气温/降水季节变化图表
+├── .github/                                          # GitHub Actions 工作流配置
+├── .idea/                                            # JetBrains IDE 配置文件
+├── .vscode/                                          # VS Code 编辑器配置
+├── Geoscene_宝藏小城/                                # Pyecharts 数据可视化专题项目
+│   ├── 季节变化/                                     # 各城市气温/降水季节变化图表
 │   │   ├── 利川市_季节变化.html
 │   │   ├── 淮安市_季节变化.html
 │   │   ├── 荣成市_季节变化.html
 │   │   ├── 象山县_季节变化.html
 │   │   ├── 铜仁市_季节变化.html
 │   │   └── 隰县_季节变化.html
-│   ├── 年内变化/             # 各城市气象数据年内变化分析
+│   ├── 年内变化/                                     # 各城市气象数据年内变化分析
 │   │   ├── 利川市_年内变化.html
 │   │   ├── 淮安市_年内变化.html
 │   │   ├── 荣成市_年内变化.html
 │   │   ├── 象山县_年内变化.html
 │   │   ├── 铜仁市_年内变化.html
 │   │   └── 隰县_年内变化.html
-│   ├── 年际变化/             # 各城市气象数据年际趋势分析
+│   ├── 年际变化/                                     # 各城市气象数据年际趋势分析
 │   │   ├── 利川市_年际变化.html
 │   │   ├── 淮安市_年际变化.html
 │   │   ├── 荣成市_年际变化.html
 │   │   ├── 象山县_年际变化.html
 │   │   ├── 铜仁市_年际变化.html
 │   │   └── 隰县_年际变化.html
-│   ├── awesome.html          # 可视化图表总览页面
-│   ├── wordcloud.html        # 城市印象词云集合页
+│   ├── awesome.html                                  # 可视化图表总览页面
+│   ├── wordcloud.html                                # 城市印象词云集合页
 │   ├── 词云图_利川.html
 │   ├── 词云图_淮安.html
 │   ├── 词云图_荣成.html
 │   ├── 词云图_象山.html
 │   ├── 词云图_铜仁.html
 │   └── 词云图_隰县.html
-├── images/                   # 站点全局图片资源（图标、背景等）
-│   ├── icon.png              # 网站 favicon 主图标
-│   ├── icon1.png             # 备用图标
-│   ├── typing.svg            # 首页动态打字效果 SVG（本地化）
+├── images/                                           # 站点全局图片资源（图标、背景等）
+│   ├── icon.png                                      # 网站 favicon 主图标
+│   ├── icon1.png                                     # 备用图标
+│   ├── typing.svg                                    # 首页动态打字效果 SVG（本地化）
 │   ├── 周迪.png
 │   ├── 地球日活动.jpg
 │   ├── 学部大会.png
 │   ├── 年级大会.jpg
 │   └── 院徽.png
-├── Others/                   # 其他工具与文档资源
-│   ├── NEGIAO工具.atbx       # ArcGIS Pro 自定义工具箱文件
-│   ├── NEGIAO工具_V1_0_1.zip # 工具箱压缩包
-│   ├── 使用说明.txt          # 工具箱使用说明文档
-│   └── 流程图/               # 项目相关流程图
+├── Others/                                           # 其他工具与文档资源
+│   ├── NEGIAO工具.atbx                               # ArcGIS Pro 自定义工具箱文件
+│   ├── NEGIAO工具_V1_0_1.zip                         # 工具箱压缩包
+│   ├── 使用说明.txt                                  # 工具箱使用说明文档
+│   └── 流程图/                                       # 项目相关流程图
 │       └── GEE流程图.drawio
-├── Pages/                    # 站点主要子页面与公共资源
-│   ├── Note/                 # 技术笔记与学习记录归档
-│   │   ├── resources/        # 笔记引用的图片与附件资源
-│   │   │   ├── display/      # 图片展示资源目录
-│   │   │   ├── Lecture8_GeoAI/ # GeoAI课程样例数据（遥感影像、坐标等）
+├── Pages/                                            # 站点主要子页面与公共资源
+│   ├── Note/                                         # 技术笔记与学习记录归档
+│   │   ├── resources/                                # 笔记引用的图片与附件资源
+│   │   │   ├── display/                              # 图片展示资源目录
+│   │   │   ├── Lecture8_GeoAI/                       # GeoAI课程样例数据（遥感影像、坐标等）
 │   │   │   │   ├── HenanXY.txt
 │   │   │   │   ├── sampdataCNN2.csv
 │   │   │   │   ├── usajmq.tif
 │   │   │   │   ├── usajmqCNN2.rds
 │   │   │   │   ├── Lecture8 GeoAI.txt
 │   │   │   │   └── 省会城市经纬度.xlsx
-│   │   │   ├── Lecture8_GeoAI.zip # GeoAI样例数据压缩包
-│   │   │   ├── nanyang_feature_importance.png # GEE作业图片
+│   │   │   ├── Lecture8_GeoAI.zip                    # GeoAI样例数据压缩包
+│   │   │   ├── nanyang_feature_importance.png        # GEE作业图片
 │   │   │   └── ...
-│   │   ├── ZhouDi_learning/  # 周迪个人学习记录子目录
+│   │   ├── ZhouDi_learning/                          # 周迪个人学习记录子目录
 │   │   │   ├── word-learning-record.html
 │   │   │   └── word-list.json
-│   │   ├── arcgis-engine-project.html # ArcGIS Engine 项目笔记
-│   │   ├── arcgis-engine.html # ArcGIS Engine 开发笔记
-│   │   ├── ArcPy.html        # ArcPy 自动化脚本笔记
-│   │   ├── gallery.html      # 技术成果展示画廊
-│   │   ├── gee-coursework.html # GEE结课作业
-│   │   ├── markdown_editor.html # 在线 Markdown 编辑器工具
-│   │   ├── ml-dl-learning.html # 机器学习与深度学习笔记
-│   │   ├── negiao-toolbox.html # 工具箱详细介绍页
-│   │   ├── note-template.html # 笔记页面标准模板
-│   │   ├── spatial-analysis-R.html # 机器学习与智能算法（R）- ANN/SVM/CNN/GA等
-│   │   ├── word-learning-record.html # 英语词汇学习与测试系统
-│   │   └── word-list.json    # 英语学习系统核心词库数据
-│   ├── avatar.jpg            # 个人头像图片
-│   ├── main-enhanced.js      # 全站核心交互脚本（导航、动画、favicon）
-│   ├── notes-toc.js          # 笔记目录自动生成与滚动同步脚本
-│   ├── notes.html            # 技术笔记索引主页
-│   ├── schedule.html         # 智能课程表页面
-│   └── style.css             # 全站通用样式表
-├── Scripts_based_on_cloud/   # 云端自动化脚本存放区
-│   └── Python_based_on_cloud.py # 自动化处理与数据同步脚本
-├── WebGIS/                   # 基于原生 JS/OpenLayers 的 WebGIS 项目
-│   ├── assets/               # WebGIS 项目静态资源（Vite 构建产物）
+│   │   ├── arcgis-engine-project.html                # ArcGIS Engine 项目笔记
+│   │   ├── arcgis-engine.html                        # ArcGIS Engine 开发笔记
+│   │   ├── ArcPy.html                                # ArcPy 自动化脚本笔记
+│   │   ├── gallery.html                              # 技术成果展示画廊
+│   │   ├── gee-coursework.html                       # GEE结课作业
+│   │   ├── markdown_editor.html                      # 在线 Markdown 编辑器工具
+│   │   ├── ml-dl-learning.html                       # 机器学习与深度学习笔记
+│   │   ├── negiao-toolbox.html                       # 工具箱详细介绍页
+│   │   ├── note-template.html                        # 笔记页面标准模板
+│   │   ├── spatial-analysis-R.html                   # 机器学习与智能算法（R）- ANN/SVM/CNN/GA等
+│   │   ├── word-learning-record.html                 # 英语词汇学习与测试系统
+│   │   └── word-list.json                            # 英语学习系统核心词库数据
+│   ├── avatar.jpg                                    # 个人头像图片
+│   ├── main-enhanced.js                              # 全站核心交互脚本（导航、动画、favicon）
+│   ├── notes-toc.js                                  # 笔记目录自动生成与滚动同步脚本
+│   ├── notes.html                                    # 技术笔记索引主页
+│   ├── schedule.html                                 # 智能课程表页面
+│   └── style.css                                     # 全站通用样式表
+├── Scripts_based_on_cloud/                           # 云端自动化脚本存放区
+│   └── Python_based_on_cloud.py                      # 自动化处理与数据同步脚本
+├── WebGIS/                                           # 基于原生 JS/OpenLayers 的 WebGIS 项目
+│   ├── assets/                                       # WebGIS 项目静态资源（Vite 构建产物）
 │   │   ├── index-CAyyoyHz.js
 │   │   └── index-jh0DpwuT.css
-│   ├── images/               # WebGIS 项目图片资源
-│   ├── index.html            # WebGIS 项目入口
-│   ├── ol.css                # OpenLayers 样式库
-│   └── ol.js                 # OpenLayers 核心库
-├── .htaccess                 # Apache 服务器配置文件（缓存策略等）
-├── index.html                # 网站首页（个人作品集入口）
-├── README.md                 # 项目说明文档（本文件）
-├── start_server.bat          # Windows 本地预览启动脚本
-└── 大河南.jpg                # 河南地图图片资源
+│   ├── images/                                       # WebGIS 项目图片资源
+│   ├── index.html                                    # WebGIS 项目入口
+│   ├── ol.css                                        # OpenLayers 样式库
+│   └── ol.js                                         # OpenLayers 核心库
+├── .htaccess                                         # Apache 服务器配置文件（缓存策略等）
+├── index.html                                        # 网站首页（个人作品集入口）
+├── README.md                                         # 项目说明文档（本文件）
+├── start_server.bat                                  # Windows 本地预览启动脚本
+└── 大河南.jpg                                        # 河南地图图片资源
 ```
 
 **注**：`WebGIS_henu_trials_5_28_vue3/` 项目位于工作区根目录，但作为独立的 Vue3 项目维护，具有完整的前端工程结构。

@@ -215,9 +215,17 @@ plt.savefig('nanyang_feature_importance.png', dpi=450)
 plt.show()
 ```
 
-## 2. 运行结果
+## 2. 在线演示
 
-### 2.1 输出日志
+该模型已在线部署，可以直接在下方进行动态交互式，查看不同参数对分类效果的影响：
+
+<iframe src="https://negiao-dynamic.share.connect.posit.cloud/" width="100%" height="1200px" style="border: 1px solid var(--border); border-radius: 8px; background: white; margin-top: 15px;"></iframe>
+
+> **提示**：如果上方窗口无法加载，[👉 请点击这里跳转到独立页面查看](https://negiao-dynamic.share.connect.posit.cloud/)
+
+## 3. 运行结果
+
+### 3.1 输出日志
 
 ```text
 Fitting 5 folds for each of 144 candidates, totalling 720 fits
@@ -240,15 +248,9 @@ Fitting 5 folds for each of 144 candidates, totalling 720 fits
 weighted avg       0.89      0.88      0.88       120
 ```
 
-### 2.2 特征重要性分析
+### 3.2 特征重要性分析
 
 ![特征重要性排序图](resources/nanyang_feature_importance.png)
-
-## 3. 在线演示
-
-该模型已部署到 Posit Connect Cloud，您可以点击下方链接进行交互式体验：
-
-[👉 点击查看在线演示 (Streamlit App)](https://negiao-dynamic.share.connect.posit.cloud/)
 
 ---
 

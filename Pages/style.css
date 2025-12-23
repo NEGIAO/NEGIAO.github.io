@@ -378,10 +378,15 @@ a:focus {
 
 /* Make media and code inside notes responsive and not overflow the viewport */
 .note-content img,
-.note-content iframe,
 .note-content video {
   max-width: 100%;
   height: auto;
+  display: block;
+  margin: var(--space-md) 0;
+}
+
+.note-content iframe {
+  max-width: 100%;
   display: block;
   margin: var(--space-md) 0;
 }

@@ -593,5 +593,110 @@
         // 页面加载时执行
         window.addEventListener('DOMContentLoaded', renderPage);
     </script>
+
+    <!-- 访问统计脚本（延迟加载，仅控制台输出，不修改 DOM） -->
+    <script>
+        // 延迟执行：仅做统计并在控制台打印结果或错误，绝不修改页面内容
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                const supabaseScript = document.createElement('script');
+                supabaseScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+
+                supabaseScript.onload = async function() {
+                    try {
+                        const SB_URL = 'https://zifovhnylhlwnviiilbo.supabase.co';
+                        const SB_KEY = 'sb_publishable_oMMXVnMuHW0JCYASt4hpcQ_X8d65i0l';
+                        const client = supabase.createClient(SB_URL, SB_KEY);
+
+                        const path = window.location.pathname;
+
+                        // 获取公网 IP（可失败，但不阻塞主流程）
+                        let userIP = null;
+                        try {
+                            const ipRes = await fetch('https://api.ipify.org?format=json', { cache: 'no-store' });
+                            const ipJson = await ipRes.json();
+                            userIP = ipJson.ip;
+                        } catch (e) {
+                            console.warn('无法获取公网IP，统计中将缺少 IP 信息：', e);
+                        }
+
+                        // 记录一次访问（不会覆盖现有数据）
+                        try {
+                            await client.from('page_views').insert([{ page_url: path, visitor_ip: userIP }]);
+                            console.log('Supabase: 已成功插入访问记录。');
+                        } catch (err) {
+                            console.error('Supabase 插入记录失败：', err);
+                        }
+
+                        // 统计：总 PV
+                        let totalCount = null;
+                        try {
+                            const res = await client.from('page_views').select('*', { count: 'exact', head: true }).eq('page_url', path);
+                            totalCount = res && res.count != null ? res.count : null;
+                            console.log('Supabase: 查询总 PV 完成。');
+                        } catch (err) {
+                            console.error('Supabase 查询总 PV 失败：', err);
+                        }
+
+                        // 统计：当前 IP 今天的访问次数（若有 IP）
+                        let todayCount = null;
+                        if (userIP) {
+                            try {
+                                const today = new Date(); today.setHours(0,0,0,0);
+                                const todayISO = today.toISOString();
+                                const res = await client.from('page_views').select('*', { count: 'exact', head: true })
+                                    .eq('page_url', path).eq('visitor_ip', userIP).gte('created_at', todayISO);
+                                todayCount = res && res.count != null ? res.count : null;
+                                console.log('Supabase: 查询 IP 当日访问次数完成。');
+                            } catch (err) {
+                                console.error('Supabase 查询 IP 当日访问次数失败：', err);
+                            }
+                        }
+
+                        console.log('【页面访问统计】', {
+                            path,
+                            total_pv: totalCount !== null ? totalCount : 'unknown',
+                            today_ip_visits: userIP ? (todayCount !== null ? todayCount : 'unknown') : 'ip-unavailable'
+                        });
+
+                    } catch (err) {
+                        console.error('统计脚本执行错误：', err);
+                    }
+                };
+
+                supabaseScript.onerror = function(e) {
+                    console.error('Supabase 脚本加载失败或被阻止：', e);
+                };
+
+                // 将 Supabase 客户端脚本延迟加载到页面头部
+                document.head.appendChild(supabaseScript);
+
+                // 另外：动态加载 Google Analytics（仅尝试，成功或失败都记录到控制台）
+                try {
+                    const gaScript = document.createElement('script');
+                    gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
+                    gaScript.async = true;
+                    gaScript.onload = function() {
+                        try {
+                            window.dataLayer = window.dataLayer || [];
+                            function gtag(){ dataLayer.push(arguments); }
+                            gtag('js', new Date());
+                            gtag('config', 'G-KYJ7Y4LE2N');
+                            console.log('Google Analytics 加载成功。');
+                        } catch (e) {
+                            console.error('Google Analytics 初始化失败：', e);
+                        }
+                    };
+                    gaScript.onerror = function(e) {
+                        console.error('Google Analytics 加载失败或被阻止：', e);
+                    };
+                    document.head.appendChild(gaScript);
+                } catch (e) {
+                    console.error('尝试加载 Google Analytics 失败：', e);
+                }
+
+            }, 3000);
+        });
+    </script>
 </body>
 </html>

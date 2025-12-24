@@ -137,7 +137,8 @@
 │   │   │   │   └── 省会城市经纬度.xlsx
 │   │   │   ├── Lecture8_GeoAI.zip                    # GeoAI样例数据压缩包
 │   │   │   ├── nanyang_feature_importance.png        # GEE作业图片
-│   │   │   └── ...
+│   │   │   ├── nanyang_feature_importance.png        # GEE作业图片
+│   │   │   └── 正则提取注入json.py                    #每日单词记录更新至json中
 │   │   ├── ZhouDi_learning/                          # 周迪个人学习记录子目录
 │   │   │   ├── word-learning-record.html
 │   │   │   └── word-list.json

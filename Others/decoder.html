@@ -39,11 +39,40 @@
             line-height: 1.6;
         }
 
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color); 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-sub); 
+        }
+
+        /* 选中文本颜色 */
+        ::selection {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .container {
             width: 100%;
             max-width: 680px;
             margin: 0 auto;
             position: relative;
+            animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .header {
@@ -141,31 +170,128 @@
             align-items: center;
             gap: 1.2rem;
             padding: 1.2rem;
-            background: #fff;
-            border-bottom: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
         }
         
         .vcard-item:last-child {
-            border-bottom: none;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .vcard-item:hover {
-            background: #fcfcfc;
+            background: rgba(255, 255, 255, 0.08);
             transform: translateX(5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
-        .vcard-icon {
-            font-size: 1.6rem;
-            color: var(--text-sub);
-            width: 40px;
-            height: 40px;
+        .vcard-item:active {
+            transform: scale(0.98);
+        }
+
+        /* 复制按钮 */
+        .copy-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--accent-color);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f1f5f9;
-            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .vcard-item:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* 提示框 Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent-color);
+            color: var(--bg-color);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* 底部操作栏 */
+        .action-bar {
+            margin-top: 2.5rem;
+            text-align: center;
+            animation: fadeIn 1s ease 0.3s backwards;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #fff;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .vcard-icon {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
             flex-shrink: 0;
+            border: 1px solid var(--border-color);
         }
 
         .vcard-content {
@@ -196,15 +322,17 @@
         }
 
         .empty-state-icon {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 1.5rem;
-            opacity: 0.3;
-            filter: grayscale(100%);
+            opacity: 0.5;
+            color: var(--accent-color);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
         
         .empty-state h2 {
             font-weight: 400;
-            color: var(--primary-color);
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
         }
 
         @media (max-width: 768px) {
@@ -231,11 +359,14 @@
             
             .card.plain-text-mode {
                 min-height: 40vh;
+                /* 移动端适配：调整线条间距(2.2rem)和位置，匹配文字行高 */
+                background-size: 100% 2.2rem;
+                background-position: 0 0.8rem;
             }
             
             .card.plain-text-mode .content-text {
                 font-size: 1.1rem;
-                line-height: 1.8;
+                line-height: 2.2rem;
             }
             
             .vcard-item {
@@ -267,9 +398,46 @@
         </div>
 
         <div id="content"></div>
+        <div id="toast" class="toast">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            已复制到剪贴板
+        </div>
     </div>
 
     <script>
+        // 复制功能
+        function copyToClipboard(text) {
+            if (!text) return;
+            
+            // 移除HTML标签（如果是链接）
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = text;
+            const cleanText = tempDiv.textContent || tempDiv.innerText || text;
+
+            navigator.clipboard.writeText(cleanText).then(() => {
+                showToast();
+            }).catch(err => {
+                // 降级处理
+                const textArea = document.createElement("textarea");
+                textArea.value = cleanText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("Copy");
+                textArea.remove();
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // vCard (.vcf) 导出已移除（按用户要求）
+
         // 解析URL参数
         function parseUrlParams() {
             const params = new URLSearchParams(window.location.search);
@@ -295,7 +463,7 @@
         function linkify(text) {
             const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
             return text.replace(urlRegex, function(url) {
-                return `<a href="${url}" target="_blank" style="color: #b45309; text-decoration: none; border-bottom: 1px solid #b45309; transition: opacity 0.2s;">${url}</a>`;
+                return `<a href="${url}" target="_blank" style="color: var(--accent-color); text-decoration: none; border-bottom: 1px solid var(--accent-color); transition: opacity 0.2s; opacity: 0.9;">${url}</a>`;
             });
         }
 
@@ -340,16 +508,22 @@
                     let displayValue = value;
                     // 如果是网站字段，或者内容看起来像URL，则转换为链接
                     if (key === 'website' || (typeof value === 'string' && value.match(/^https?:\/\//))) {
-                        displayValue = `<a href="${value}" target="_blank" style="color: #b45309; text-decoration: none; border-bottom: 1px solid #b45309;">${value}</a>`;
+                        displayValue = `<a href="${value}" target="_blank" style="color: var(--accent-color); text-decoration: none; border-bottom: 1px solid var(--accent-color);">${value}</a>`;
                     }
                     
+                    // 转义单引号以防止JS错误
+                    const safeValue = value.replace(/'/g, "\\'");
+                    
                     html += `
-                        <div class="vcard-item">
+                        <div class="vcard-item" onclick="copyToClipboard('${safeValue}')">
                             <span class="vcard-icon">${iconMap[key] || '📋'}</span>
                             <div class="vcard-content">
                                 <div class="vcard-label">${labelMap[key] || key}</div>
                                 <div class="vcard-value">${displayValue}</div>
                             </div>
+                            <button class="copy-btn" title="复制">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
                         </div>
                     `;
                 }
@@ -385,15 +559,30 @@
                 const vcard = parseVCard(config.vcard);
                 if (vcard && Object.keys(vcard).length > 0) {
                     contentHtml = renderVCard(vcard);
+                    // 已移除 “保存联系人（.vcf）” 按钮（按产品需求）
                 } else if (config.content) {
                     // 如果vcard解析失败，尝试显示content
-                    contentHtml = `<div class="content-text">${linkify(config.content)}</div>`;
+                    const safeContent = config.content.replace(/'/g, "\\'");
+                    contentHtml = `
+                        <div style="position: relative;">
+                            <div class="content-text">${linkify(config.content)}</div>
+                            <button class="copy-btn" onclick="copyToClipboard('${safeContent}')" title="复制" style="opacity: 1; top: 0; right: 0; background: rgba(0,0,0,0.05);">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>`;
                     isPlainText = true;
                 }
             } 
             // 显示普通文本内容
             else if (config.content) {
-                contentHtml = `<div class="content-text">${linkify(config.content)}</div>`;
+                const safeContent = config.content.replace(/'/g, "\\'");
+                contentHtml = `
+                    <div style="position: relative;">
+                        <div class="content-text">${linkify(config.content)}</div>
+                        <button class="copy-btn" onclick="copyToClipboard('${safeContent}')" title="复制" style="opacity: 1; top: 0; right: 0; background: rgba(0,0,0,0.05);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>`;
                 isPlainText = true;
             }
 

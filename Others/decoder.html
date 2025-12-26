@@ -698,6 +698,24 @@
             }, 3000);
         });
     </script>
-    <script type="text/javascript" src="//js.users.51.la/22001749.js"></script>
+    <script>
+        try {
+            (function() {
+                var s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.src = '//js.users.51.la/22001749.js';
+                s.async = true;
+                s.onload = function() {
+                    console.log('51.la 统计脚本已加载。');
+                };
+                s.onerror = function(e) {
+                    console.error('51.la 脚本加载失败：', e);
+                };
+                document.body.appendChild(s);
+            })();
+        } catch (err) {
+            console.error('载入 51.la 统计脚本时发生错误：', err);
+        }
+    </script>
 </body>
 </html>

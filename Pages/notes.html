@@ -26,29 +26,8 @@
     <link rel="stylesheet" href="style.css">
     <!-- 替换为国内 CDN (cdnjs.loli.net) 以解决访问速度和 Tracking Prevention 问题 -->
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script defer src="../main-enhanced.js"></script>
 
-    <!-- Google Analytics -->
-    <script>
-        window.addEventListener('load', function () {
-            setTimeout(function () {
-                var script = document.createElement('script');
-                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
-                script.async = true;
-
-                // 添加加载失败的处理
-                script.onerror = function () {
-                    console.log('国内无法访问该功能: Google Analytics');
-                };
-
-                document.head.appendChild(script);
-
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'G-KYJ7Y4LE2N');
-            }, 3000);
-        });
-    </script>
 </head>
 
 <body>

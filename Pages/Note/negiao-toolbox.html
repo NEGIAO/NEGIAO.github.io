@@ -17,30 +17,7 @@
     <script defer src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script defer src="../notes-toc.js"></script>
     <script defer src="../main-enhanced.js"></script>
-
-    <!-- Google Analytics -->
-    <script>
-        window.addEventListener('load', function () {
-            setTimeout(function () {
-                var script = document.createElement('script');
-                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KYJ7Y4LE2N';
-                script.async = true;
-
-                // 添加加载失败的处理
-                script.onerror = function () {
-                    console.log('国内无法访问该功能: Google Analytics');
-                };
-
-                document.head.appendChild(script);
-
-                window.dataLayer = window.dataLayer || [];
-                function gtag() { dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'G-KYJ7Y4LE2N');
-            }, 3000);
-        });
-    </script>
-
+    
     <style>
                 /* Fix for code block alignment - 
         代码块要默认左对齐

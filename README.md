@@ -163,12 +163,14 @@
 │   └── style.css                                     # 全站通用样式表
 ├── Scripts_based_on_cloud/                           # 云端自动化脚本存放区
 │   └── Python_based_on_cloud.py                      # 自动化处理与数据同步脚本
-├── WebGIS/                                           # 基于原生 JS/OpenLayers 的 WebGIS 项目
+├── WebGIS/                                           # Vue架构由GitHub Action自动build 后的静态文件，满足部署的需求
 │   ├── assets/                                       # WebGIS 项目静态资源（Vite 构建产物）
-│   │   ├── index-CAyyoyHz.js
-│   │   └── index-jh0DpwuT.css
+│   ├── cesium/                                       # Cesium 三维地球引擎静态资源库
 │   ├── images/                                       # WebGIS 项目图片资源
-│   ├── index.html                                    # WebGIS 项目入口
+│   ├── tiles/                                        # 本地离线 GIS 地图瓦片数据
+│   ├── .nojekyll                                     # 禁用 Jekyll（防止 _开头文件被忽略）
+│   ├── favicon.ico                                   # 网站浏览器图标
+│   ├── index.html                                    # WebGIS 项目入口文件
 │   ├── ol.css                                        # OpenLayers 样式库
 │   └── ol.js                                         # OpenLayers 核心库
 ├── .htaccess                                         # Apache 服务器配置文件（缓存策略等）

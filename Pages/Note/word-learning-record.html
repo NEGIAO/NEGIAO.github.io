@@ -33,7 +33,7 @@
 
     <style>
         /* Fix for code block alignment - ensure left alignment for ASCII trees */
-        .note-content pre, 
+        .note-content pre,
         .note-content code {
             text-align: left !important;
         }
@@ -78,20 +78,21 @@
         }
 
         @media (max-width: 768px) {
+
             /* 防止移动端滚动时的白屏问题 */
             html {
                 -webkit-overflow-scrolling: touch;
                 overflow-y: scroll;
                 position: relative;
             }
-            
+
             body {
                 overflow-x: hidden;
                 -webkit-overflow-scrolling: touch;
                 position: relative;
                 min-height: 100vh;
             }
-            
+
             .toc-toggle-btn {
                 bottom: 80px;
                 right: 20px;
@@ -127,7 +128,7 @@
                 opacity: 0 !important;
                 pointer-events: none;
             }
-            
+
             /* 优化长页面的渲染性能 */
             .note-content {
                 -webkit-transform: translateZ(0);
@@ -1796,11 +1797,11 @@
                         container.classList.add('animate-in');
                         container.style.opacity = '1';
                         container.style.transform = 'translateY(0)';
-                        
+
                         // 1. 解析 Markdown 结构
                         // 按月分割 (## )
                         const rawChunks = md.split(/\n(?=##\s)/);
-                        
+
                         if (rawChunks.length < 1) {
                             container.innerHTML = window.marked.parse(md);
                             postRender(true);
@@ -1827,7 +1828,7 @@
                             const match = chunk.match(/###\s+(\d{4}-\d{2}-\d{2})/);
                             return match ? new Date(match[1]) : new Date(0);
                         };
-                        
+
                         allDays.sort((a, b) => getDate(b) - getDate(a));
 
                         // 4. 筛选"近30天"和"历史记录"
@@ -1851,8 +1852,8 @@
 
                         // 如果近30天没有数据，但有历史数据，为了避免空白，可以显示最近的7条
                         if (recentDays.length === 0 && historyDays.length > 0) {
-                             // 这种情况下，recentDays 为空，页面会显示"近30天无记录"提示，或者我们可以策略性地移动一些过来
-                             // 这里保持严格的"近30天"逻辑，但在UI上可以给提示
+                            // 这种情况下，recentDays 为空，页面会显示"近30天无记录"提示，或者我们可以策略性地移动一些过来
+                            // 这里保持严格的"近30天"逻辑，但在UI上可以给提示
                         }
 
                         // 5. 渲染头部
@@ -1866,7 +1867,7 @@
                             const recentContainer = document.createElement('div');
                             recentContainer.className = 'note-chunk recent-days';
                             recentContainer.style.contentVisibility = 'auto';
-                            
+
                             // 添加一个标题提示
                             const recentTitle = document.createElement('h2');
                             recentTitle.innerHTML = '📅 近30天学习记录';
@@ -1878,7 +1879,7 @@
                             const recentContentDiv = document.createElement('div');
                             recentContentDiv.innerHTML = window.marked.parse(recentDays.join('\n'));
                             recentContainer.appendChild(recentContentDiv);
-                            
+
                             container.appendChild(recentContainer);
 
                             if (window.hljs) {
@@ -1897,7 +1898,7 @@
                         if (historyDays.length > 0) {
                             const historyContainer = document.createElement('div');
                             historyContainer.id = 'history-container';
-                            
+
                             // 创建"查看历史记录"按钮
                             const loadMoreBtn = document.createElement('button');
                             loadMoreBtn.innerHTML = `<i class="fas fa-history"></i> 查看更早的记录 (${historyDays.length}天)`;
@@ -1917,7 +1918,7 @@
                                 transition: all 0.3s ease;
                                 box-shadow: var(--shadow-sm);
                             `;
-                            
+
                             loadMoreBtn.onmouseover = () => {
                                 loadMoreBtn.style.background = 'var(--primary)';
                                 loadMoreBtn.style.color = 'white';
@@ -1930,7 +1931,7 @@
                             loadMoreBtn.onclick = () => {
                                 loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 加载中...';
                                 loadMoreBtn.style.pointerEvents = 'none';
-                                
+
                                 // 为了性能，将历史记录分块渲染（每块10天）
                                 const historyChunks = [];
                                 const chunkSize = 10;
@@ -1971,9 +1972,9 @@
                             container.appendChild(loadMoreBtn);
                             container.appendChild(historyContainer);
                         }
-                        
+
                         postRender(true);
-                        
+
                     } catch (e) {
                         console.error('Markdown parsing error:', e);
                         container.innerHTML = '<p>Error parsing content.</p>';
@@ -2223,19 +2224,19 @@
     </script>
     <script>
         // 移动端滚动优化 - 防止白屏和意外跳转
-        (function() {
+        (function () {
             const isMobile = window.innerWidth <= 768;
             if (isMobile) {
                 // 保存滚动位置
                 let scrollPosition = 0;
                 let ticking = false;
-                
+
                 // 防止过度滚动导致的问题
-                document.addEventListener('scroll', function(e) {
+                document.addEventListener('scroll', function (e) {
                     scrollPosition = window.scrollY;
-                    
+
                     if (!ticking) {
-                        window.requestAnimationFrame(function() {
+                        window.requestAnimationFrame(function () {
                             // 检查是否滚动超出边界
                             const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
                             if (scrollPosition > maxScroll) {
@@ -2248,11 +2249,11 @@
                         ticking = true;
                     }
                 }, { passive: true });
-                
+
                 // 防止URL hash导致的意外滚动
                 if (window.location.hash) {
                     // 延迟处理hash滚动
-                    setTimeout(function() {
+                    setTimeout(function () {
                         const hash = window.location.hash;
                         if (hash) {
                             try {
@@ -2264,7 +2265,7 @@
                                     const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
                                     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
                                     const safePosition = Math.min(targetPosition, maxScroll);
-                                    
+
                                     document.documentElement.scrollTop = safePosition;
                                     document.body.scrollTop = safePosition;
                                 }
@@ -2300,12 +2301,12 @@
             // 移动端优化：使用touchstart事件提高响应速度
             const isMobile = window.innerWidth <= 768;
             const eventType = isMobile ? 'touchstart' : 'click';
-            
+
             toggleBtn.addEventListener(eventType, (e) => {
                 if (isMobile && e.type === 'touchstart') {
                     e.preventDefault(); // 防止双击缩放
                 }
-                
+
                 toc.classList.toggle('note-toc--hidden');
 
                 // Update icon
@@ -2319,7 +2320,7 @@
                     localStorage.setItem('toc-hidden', 'false');
                 }
             }, { passive: isMobile ? false : true });
-            
+
             // 移动端添加click事件作为后备
             if (isMobile) {
                 toggleBtn.addEventListener('click', (e) => {

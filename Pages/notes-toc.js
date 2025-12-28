@@ -1,16 +1,16 @@
 
 (function () {
   'use strict';
-  
+
   // 缓存常用的DOM查询
   let cachedHeadings = null;
   let cachedTocLinks = null;
   let cachedTocNav = null;
   let lastActiveId = null;
-  
+
   // 设备检测 - 只检测一次
   const isMobile = window.innerWidth <= 768;
-  
+
   // 辅助工具函数
   const util = {
     // 将文本转换为 ID 格式
@@ -32,12 +32,12 @@
       return function (...args) {
         const now = Date.now();
         const timeSinceLastCall = now - lastCall;
-        
+
         if (timeoutId) {
           clearTimeout(timeoutId);
           timeoutId = null;
         }
-        
+
         if (timeSinceLastCall >= delay) {
           lastCall = now;
           func.apply(this, args);
@@ -55,12 +55,12 @@
     batchDOM: (callback) => {
       return window.requestAnimationFrame(callback);
     },
-    
+
     // 安全的滚动到指定位置
     safeScrollTo: (position, smooth = true) => {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const safePosition = Math.max(0, Math.min(position, maxScroll));
-      
+
       if (isMobile || !smooth) {
         document.documentElement.scrollTop = safePosition;
         document.body.scrollTop = safePosition;
@@ -120,7 +120,7 @@
     for (let i = cachedHeadings.length - 1; i >= 0; i--) {
       const heading = cachedHeadings[i];
       const rect = heading.getBoundingClientRect();
-      
+
       if (rect.top <= headerOffset) {
         activeId = heading.id;
         break;
@@ -131,7 +131,7 @@
     if (viewportBottom >= docHeight - 50 && cachedHeadings.length > 0) {
       activeId = cachedHeadings[cachedHeadings.length - 1].id;
     }
-    
+
     // 默认激活第一个
     if (!activeId && cachedHeadings.length > 0) {
       activeId = cachedHeadings[0].id;
@@ -146,7 +146,7 @@
     cachedTocLinks.forEach(link => {
       const href = link.getAttribute('href').substring(1);
       const isActive = href === activeId;
-      
+
       if (isActive && !link.classList.contains('is-active')) {
         link.classList.add('is-active');
         activeLinkElement = link;
@@ -163,7 +163,7 @@
           const navRect = cachedTocNav.getBoundingClientRect();
           const relativeTop = linkRect.top - navRect.top + cachedTocNav.scrollTop;
           const targetScroll = relativeTop - (cachedTocNav.clientHeight / 2) + (linkRect.height / 2);
-          
+
           cachedTocNav.scrollTo({ top: targetScroll, behavior: 'smooth' });
         } catch (e) {
           // 忽略滚动错误
@@ -201,7 +201,7 @@
       a.href = `#${id}`;
       a.textContent = h.textContent;
       a.className = `note-toc__link toc-level-${h.tagName.charAt(1)}`;
-      
+
       a.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -211,9 +211,9 @@
 
         const offset = 72;
         const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
-        
+
         util.safeScrollTo(targetPosition, !isMobile);
-        
+
         // 更新hash
         setTimeout(() => {
           if (history.replaceState) {

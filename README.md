@@ -3,7 +3,7 @@
 > 🌟 个人主页与技术作品集，聚焦 WebGIS、地理空间数据可视化与学习工具的静态网站。  
 > 🌐 **在线访问**：[https://negiao.github.io/](https://negiao.github.io/)
 
-## Table of Contents
+## 目录/Table of Contents
 - [Overview](#overview)
 - [Quick Links](#quick-links)
 - [Feature Highlights](#feature-highlights)
@@ -14,12 +14,12 @@
 - [Changelog](#changelog)
 - [Roadmap](#roadmap)
 
-## Overview
+## 概况/Overview
 - 自适应深色主题站点，整合课程表、笔记、工具箱、词汇学习与可视化展示。
 - 所有页面使用统一 favicon (`images/icon.png`)，并由 `Pages/main-enhanced.js` 在运行时保障回退。
 - 宝藏小城、WebGIS、技术笔记等子项目独立维护，便于扩展与部署。
 
-## Quick Links
+## 速览/Quick Links
 | 模块              | 路径                                   | 功能亮点                                                |
 | ----------------- | -------------------------------------- | ------------------------------------------------------- |
 | 🏠 网站首页        | `index.html`                           | 个人介绍、项目概览、导航入口                            |
@@ -33,20 +33,20 @@
 | 🏆 宝藏小城专题    | `Geoscene_宝藏小城/awesome.html`       | ECharts/Pyecharts 可视化合集                            |
 | 🚀 WebGIS Vue3     | `WebGIS_henu_trials_5_28_vue3/`        | 基于 Vue3 + Vite + Cesium/OpenLayers 的现代 WebGIS 项目 |
 
-## Feature Highlights
+## 特色/Feature Highlights
 
-### Interface & UX
+### UI/Interface & UX
 - 响应式布局覆盖桌面、平板与移动端。
 - 渐变标题、毛玻璃卡片与动画过渡带来统一视觉体验。
 - 导航栏支持滚动隐藏、移动端抽屉菜单、平滑滚动定位。
 
-### Learning & Study Tools
+### 工具/Learning & Study Tools
 - 课程表支持秒级时间同步与课程状态自动识别，含呼吸灯提示。
 - 英语学习系统提供分主题高阶词库、例句、记忆技巧与互动测试。
 - **数据同步**：通过 Python 脚本自动将 HTML 中的 Markdown 表格同步至 JSON 题库，实现数据源统一。
 - Markdown 编辑器配套实时预览、复制/清空等基础写作能力。
 
-### Data Visualization (Geoscene)
+### 数据可视化/Data Visualization (Geoscene)
 - 各城市词云、季节/年内/年际变化图表直接由 Pyecharts 导出。
 - `Geoscene_宝藏小城/wordcloud.html` 汇总城市词云，便于快速浏览。
 - 每个子页面均嵌入 favicon 链接，确保独立访问时的一致性。
@@ -57,23 +57,23 @@
 - 静态资源拆分为 `assets/`、`images/` 与核心库 (`ol.js`, `ol.css`)。
 - 支持多底图切换、热点提示、学院新闻联动展示。
 
-### Automation & Tooling
+### 自动化/Automation & Tooling
 - `Others/NEGIAO工具.atbx` 提供 ArcGIS Pro 自定义工具箱及示例。
 - `Scripts_based_on_cloud/Python_based_on_cloud.py` 记录云端自动化脚本范例。
 - `Pages/Note/negiao-toolbox.html` 详细说明工具箱功能、安装方法与截图。
 - **本地预览工具**: `start_server.bat` 一键启动本地 Python HTTP 服务器，解决 CORS 跨域问题。
 
-### Performance & Infrastructure
+### 性能优化/Performance & Infrastructure
 - `.htaccess` 配置 CSS/JS/图片缓存期限，兼顾更新与性能。
 - `Pages/main-enhanced.js` 精简事件监听，使用 requestAnimationFrame 优化滚动。
 - 首屏关键 CSS 内联加载，其余资源按需加载或延迟执行。
 
-### Global Enhancements
+### 增强/Global Enhancements
 - 全站 favicon 在构建期与运行时双重注入（HTML `<link>` + JS fallback）。
 - `notes-toc.js`/`notes-toc.min.js` 自动生成目录并区分标题层级。
 - CDN 资源仅用于字体与图表库，站点主体资源自托管。
 
-## Directory Map
+## 文件树/Directory Map
 ```
 .
 ├── .github/                                          # GitHub Actions 工作流配置
@@ -122,6 +122,7 @@
 │   ├── NEGIAO工具.atbx                               # ArcGIS Pro 自定义工具箱文件
 │   ├── NEGIAO工具_V1_0_1.zip                         # 工具箱压缩包
 │   ├── 使用说明.txt                                  # 工具箱使用说明文档
+│   ├── decoder.html                                 # 二维码解析、部署
 │   └── 流程图/                                       # 项目相关流程图
 │       └── GEE流程图.drawio
 ├── Pages/                                            # 站点主要子页面与公共资源
@@ -179,7 +180,7 @@
 
 **注**：`WebGIS_henu_trials_5_28_vue3/` 项目位于工作区根目录，但作为独立的 Vue3 项目维护，具有完整的前端工程结构。
 
-## Key Assets
+## 关键资源/Key Assets
 | 类型            | 路径                        | 用途                                     |
 | --------------- | --------------------------- | ---------------------------------------- |
 | Favicon         | `images/icon.png`           | 全站浏览器图标，JS fallback 亦引用该文件 |
@@ -199,7 +200,7 @@
 - Pyecharts 导出的可视化位于 `Geoscene_宝藏小城`，如需更新请在 Python 中重新生成。
 - WebGIS 子项目可通过原始工程重新构建，再覆盖 `WebGIS/` 下产物。
 
-### Local Preview
+### 本地运行/Local Preview
 **推荐方式**：直接双击根目录下的 `start_server.bat` 脚本。
 
 或者手动运行：
@@ -209,7 +210,7 @@ python -m http.server 8080
 ```
 - GitHub Pages 会自动从 `main` 分支根目录部署站点。
 
-## Technical Stack
+## 技术栈/Technical Stack
 - **HTML5 / CSS3 / JavaScript (ES6+)**：核心页面与交互逻辑。
 - **Vue 3 / Vite**：现代 WebGIS 项目构建。
 - **ECharts & Pyecharts**：宝藏小城数据可视化。
@@ -217,7 +218,7 @@ python -m http.server 8080
 - **Highlight.js / Marked**：笔记语法高亮与 Markdown 渲染（已优化 CDN 源）。
 - **Python**：云端脚本、词汇数据处理、本地服务器。
 
-## Changelog
+## 变更/Changelog
 
 ### 2025-12-23 · v1.6.0
 - **机器学习与智能算法（R）笔记重构**：
@@ -284,7 +285,7 @@ python -m http.server 8080
 
 </details>
 
-## Roadmap
+## 未来计划/Roadmap
 - ✅ 完成考研英语词汇核心功能、互动测试与词库扩容（370/500）。
 - ✅ 智能课程表性能与体验迭代。
 - 🔄 扩展词汇至 500+，新增发音模块、错题本与进度可视化。

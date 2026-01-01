@@ -2,6 +2,8 @@ import json
 import re
 import os
 import random
+import sys
+import io
 
 # ================= 1. 参数配置区域 =================
 # 建议：如果路径包含反斜杠，请保持 r"..." 格式
@@ -137,6 +139,17 @@ def generate_options(correct_meaning, all_meanings, count=3):
 
 
 def main():
+    # 确保在 Windows 控制台下 stdout 使用 UTF-8 编码，避免中文输出出现乱码
+    try:
+        enc = (sys.stdout.encoding or '').lower()
+        if enc != 'utf-8':
+            try:
+                sys.stdout.reconfigure(encoding='utf-8')
+            except AttributeError:
+                sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    except Exception:
+        pass
+
     print("=" * 30)
     print("      开始同步单词本      ")
     print("=" * 30)

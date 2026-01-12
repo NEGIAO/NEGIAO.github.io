@@ -48,6 +48,8 @@
 -->
 
 <head>
+  <link rel="stylesheet" href="cesium/Widgets/widgets.css">
+
     <meta charset="UTF-8">
     <link rel="icon" href="images/icon.png" type="image/x-icon">
     <!-- 自定义网页的logo -->
@@ -59,7 +61,31 @@
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <title>My WebGIS</title>
-  <script type="module" crossorigin src="./assets/index-KI2a4BzW.js"></script>
+    
+    <!-- Cesium 资源延迟加载：仅在需要时加载 -->
+    <script>
+      window.__CESIUM_LOAD_PROMISE__ = null;
+      window.loadCesiumResources = function() {
+        if (window.__CESIUM_LOAD_PROMISE__) return window.__CESIUM_LOAD_PROMISE__;
+        
+        window.__CESIUM_LOAD_PROMISE__ = new Promise((resolve, reject) => {
+          const cssLink = document.createElement('link');
+          cssLink.rel = 'stylesheet';
+          cssLink.href = './cesium/Widgets/widgets.css';
+          document.head.appendChild(cssLink);
+          
+          const script = document.createElement('script');
+          script.src = './cesium/Cesium.js';
+          script.onload = () => resolve(window.Cesium);
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+        
+        return window.__CESIUM_LOAD_PROMISE__;
+      };
+    </script>
+  <script type="module" crossorigin src="./assets/index-B7eWaVWw.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/cesium-vendor-MWq2KeC0.js">
   <link rel="stylesheet" crossorigin href="./assets/index-biU5aEzU.css">
 </head>
 

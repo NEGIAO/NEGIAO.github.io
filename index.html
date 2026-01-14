@@ -172,6 +172,185 @@
     <link rel="stylesheet" href="Pages/style.css?v=202512" media="all">
     <link rel="preload" href="Pages/avatar.jpg" as="image" fetchpriority="high">
     <script src="Pages/main-enhanced.js?v=202512" defer></script>
+
+    <style>
+        /* ========================
+           Layout Restructuring (Sidebar + Main)
+           ======================== */
+        
+        /* Desktop: Sidebar + Main Content */
+        @media (min-width: 769px) {
+            /* Hide the original top navbar on desktop */
+            .navbar {
+                display: none !important;
+            }
+
+            /* Fixed Sidebar */
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 100px;
+                background: rgba(26, 31, 46, 0.95);
+                backdrop-filter: blur(20px);
+                border-right: 1px solid rgba(255, 255, 255, 0.08);
+                z-index: 1040;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Main Content Wrapper */
+            .main-content-wrapper {
+                margin-left: 80px;
+                width: calc(100% - 80px);
+                min-height: 100vh;
+                position: relative;
+                padding-bottom: 2rem;
+            }
+            
+            /* Adjust container to fit comfortably */
+            .container {
+                max-width: 1600px !important; /* Allow wider content since we have lateral space */
+                padding: 0 3rem !important;
+            }
+
+            /* Adjust hero section layout: move content up */
+            .section--hero {
+                min-height: auto !important;
+                padding-top: 0rem !important; /* Minimal space from top */
+                padding-bottom: 4rem !important;
+                align-items: flex-start !important; /* Align to top instead of center */
+            }
+
+            .hero {
+                padding-top: 0 !important; 
+            }
+        }
+
+        /* Mobile: Default stacked layout */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content-wrapper {
+                margin-left: 0;
+                width: 100%;
+                padding-top: 4.5rem; /* Space for the fixed mobile navbar */
+            }
+        }
+
+        /* Sidebar Elements */
+        .sidebar__logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 2rem;
+            
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Distinct font */
+            font-weight: 900;
+            font-size: 1.25rem; /* Keep scale appropriate for sidebar */
+            text-decoration: none;
+            letter-spacing: 1px;
+            
+            /* Gradient Text Style (Like hero__title) */
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            transition: transform 0.2s;
+        }
+
+        .sidebar__logo:hover {
+            transform: scale(1.05);
+        }
+
+        .sidebar__nav {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            align-items: center;
+            width: 100%;
+            /* Fill available height */
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .sidebar__link {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            color: var(--text-secondary); /* Icon color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            text-decoration: none;
+            background: transparent;
+        }
+
+        .sidebar__link:hover {
+            background: rgba(255, 255, 255, 0.08); /* Subtle hover bg */
+            color: var(--primary);
+            transform: translateX(3px);
+            box-shadow: -2px 0 0 var(--primary) inset; /* Border left effect inside */
+        }
+        
+        .sidebar__link:hover i {
+            transform: scale(1.1);
+        }
+
+        .sidebar__link.active {
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--primary);
+            box-shadow: -3px 0 0 var(--primary) inset;
+        }
+
+        /* Sidebar Tooltip */
+        .sidebar__link::before {
+            content: attr(data-title);
+            position: absolute;
+            left: 70px; /* Offset to right of sidebar */
+            background: #252a3a;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-10px);
+            transition: all 0.2s ease;
+            pointer-events: none;
+            z-index: 1050;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar__link:hover::before {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        .sidebar__footer {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -186,6 +365,43 @@
             }
         </style>
     </noscript>
+
+    <!-- 侧边导航栏 (Desktop Sidebar) -->
+    <aside class="sidebar">
+        <!-- Logo / Home -->
+        <a href="#main" class="sidebar__logo" aria-label="回到首页">
+            NEGIAO
+        </a>
+        
+        <!-- Navigation Links -->
+        <nav class="sidebar__nav">
+            <a href="#projects" class="sidebar__link" data-title="项目展示">
+                <i class="fas fa-rocket"></i>
+            </a>
+            <a href="#about" class="sidebar__link" data-title="专业技能">
+                <i class="fas fa-user-cog"></i>
+            </a>
+            <a href="Pages/notes.html" class="sidebar__link" data-title="技术笔记">
+                <i class="fas fa-book-open"></i>
+            </a>
+            <a href="Pages/schedule.html" class="sidebar__link" data-title="课程表">
+                <i class="fas fa-calendar-alt"></i>
+            </a>
+            <a href="#contact" class="sidebar__link" data-title="联系我">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </nav>
+        
+        <!-- Footer / Social -->
+        <div class="sidebar__footer">
+            <a href="https://github.com/NEGIAO" target="_blank" class="sidebar__link" data-title="GitHub 项目">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </aside>
+
+    <!-- 主内容区域 (Main Content Wrapper) -->
+    <div class="main-content-wrapper">
 
     <!-- 导航栏 -->
     <header class="navbar">
@@ -628,6 +844,7 @@
             </div>
         </div>
     </footer>
+    </div> <!-- /End of .main-content-wrapper -->
 </body>
 
 </html>

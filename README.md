@@ -1,4 +1,46 @@
-# NEGIAO.github.io
+# NEGIAO.github.io (Vue Refactoring Branch)
+
+> 🚧 **Current Status**: Active Refactoring
+> 本分支致力于将现有静态网站重构为现代 Vue 3 应用。
+
+## 📅 Refactoring Roadmap / 重构任务清单
+
+### Phase 1: Infrastructure / 基础设施
+- [ ] **项目初始化 (Project Initialization)**: 在根目录（或指定子目录）初始化 Vue 3 + Vite 项目结构。
+- [ ] **环境配置 (Configuration)**: 配置 `vite.config.js`，安装并配置 ESLint 和 Prettier 代码规范工具。
+- [ ] **路由配置 (Routing)**: 引入 `vue-router` 管理页面导航与路由跳转。
+- [ ] **状态管理 (State Management)**: 搭建 Pinia 仓库（用于管理全局主题、认证状态等）。
+
+### Phase 2: Core UI & Layout / 核心界面
+- [ ] **全局布局 (Global Layout)**: 迁移响应式导航栏、页脚以及深色模式切换功能。
+- [ ] **首页重构 (Home Page)**: 将原 `index.html` 拆分重构为 Vue 组件 (`Home.vue`)。
+- [ ] **样式迁移 (Styling)**: 将全局 CSS/Themes 迁移为 Scoped CSS 或引入 Tailwind/UnoCSS 原子化样式库。
+
+### Phase 3: Feature Migration / 功能迁移
+- [ ] **课程表系统 (Schedule System)**: 将 `Pages/schedule.html` 重写为响应式 Vue 组件。
+- [ ] **笔记引擎 (Notes Engine)**: 将 `Pages/notes.html` 改造为动态 Markdown 渲染器 (基于 `marked` 或 unified 生态)。
+- [ ] **单词学习系统 (Word Learning)**: 将 `word-learning-record.html` 重构为状态驱动的单页应用 (SPA)。
+- [ ] **地图画廊 (Map Gallery)**: 将 `gallery.html` 迁移为 Grid 或 瀑布流 (Masonry) 组件。
+
+### Phase 4: GIS & Visualization / GIS 与 可视化
+- [ ] **WebGIS 集成 (WebGIS Integration)**:
+    - 将 `WebGIS_henu_trials_5_28_vue3` 项目组件合并入主应用。
+    - 标准化封装 OpenLayers 与 Cesium 地图容器组件。
+- [ ] **数据可视化 (Data Viz - Geoscene)**:
+    - 决策点：保留生成的 HTML 文件在 `public/` 目录，还是使用 `vue-echarts` 重写？
+    - 方案：暂时通过 `<iframe>` 嵌入旧版可视化页面或作为外链跳转。
+
+### Phase 5: Deployment / 部署
+- [ ] **自动化部署 (CI/CD)**: 配置 GitHub Actions 自动构建 Vue 应用并部署至 `gh-pages` 分支。
+
+<br>
+<hr>
+<br>
+
+# 📦 [Legacy] NEGIAO.github.io
+
+> ⚠️ **Note**: The documentation below applies to the legacy static site.
+> 以下文档仅适用于旧版静态网站。
 
 > 🌟 个人主页与技术作品集，聚焦 WebGIS、地理空间数据可视化与学习工具的静态网站。  
 > 🌐 **在线访问**：[https://negiao.github.io/](https://negiao.github.io/)

@@ -1849,7 +1849,7 @@ a:focus {
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 4px 10px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(61, 109, 177, 0.495);
   border-radius: 4px;
 }
 
@@ -1879,11 +1879,25 @@ a:focus {
 
 .tag {
   font-size: 0.75rem;
-  color: var(--text-muted);
+  font-weight: 500;
+  color: var(--text-secondary);
   padding: 4px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.156);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: all var(--transition-normal);
+  display: inline-flex;
+  align-items: center;
+}
+
+.tag:hover {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: rgba(0, 217, 255, 0.3);
+  color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.1);
 }
 
 /* Project Link */

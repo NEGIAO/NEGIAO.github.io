@@ -173,8 +173,10 @@
 │   ├── index.html                                    # WebGIS 项目入口文件
 │   ├── ol.css                                        # OpenLayers 样式库
 │   └── ol.js                                         # OpenLayers 核心库
+├── .gitignore                                        # Git 版本控制忽略规则配置
 ├── .htaccess                                         # Apache 服务器配置文件（缓存策略等）
 ├── index.html                                        # 网站首页（个人作品集入口）
+├── LICENSE                                           # 项目开源许可证
 ├── README.md                                         # 项目说明文档（本文件）
 ├── start_server.bat                                  # Windows 本地预览启动脚本
 └── 大河南.jpg                                        # 河南地图图片资源

@@ -1,0 +1,319 @@
+/* ========================================
+   笔记页面样式 - 匹配原始网站
+   ======================================== */
+
+/* 笔记详情布局 */
+.note-layout {
+  display: flex;
+  gap: var(--space-xl);
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 笔记目录 */
+.note-toc {
+  position: sticky;
+  top: calc(var(--space-xl) + 80px);
+  width: 260px;
+  max-height: calc(100vh - var(--space-xl) * 2 - 80px);
+  overflow-y: auto;
+  flex-shrink: 0;
+  padding: var(--space-lg);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(10px);
+  order: -1;
+}
+
+.note-toc__title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.note-toc__list {
+  list-style: none;
+}
+
+.note-toc__item {
+  margin-bottom: 0.25rem;
+}
+
+.note-toc__link {
+  display: block;
+  padding: 0.3rem 0;
+  padding-left: calc(var(--toc-level, 0) * 0.75rem);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  border-left: 2px solid transparent;
+  transition: all var(--transition-fast);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-toc__link:hover {
+  color: var(--primary-light);
+}
+
+.note-toc__link.is-active {
+  color: var(--primary);
+  border-left-color: var(--primary);
+  padding-left: calc(var(--toc-level, 0) * 0.75rem + 0.5rem);
+}
+
+/* 目录切换按钮 */
+.toc-toggle {
+  position: fixed;
+  left: var(--space-md);
+  bottom: var(--space-xl);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  cursor: pointer;
+  z-index: 80;
+  transition: all 0.3s ease;
+  display: none;
+}
+
+.toc-toggle:hover {
+  background: var(--surface-elevated);
+  color: var(--text);
+}
+
+/* 笔记正文 */
+.note-content {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-xl);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
+
+/* Markdown 渲染样式 */
+.note-content h1,
+.note-content h2,
+.note-content h3,
+.note-content h4,
+.note-content h5,
+.note-content h6 {
+  color: var(--text);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.4;
+  scroll-margin-top: calc(var(--space-lg) + 80px);
+}
+
+.note-content h1 { font-size: 2rem; }
+.note-content h2 { font-size: 1.5rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem; }
+.note-content h3 { font-size: 1.25rem; }
+.note-content h4 { font-size: 1.1rem; }
+.note-content h5 { font-size: 1rem; }
+.note-content h6 { font-size: 0.9rem; color: var(--text-muted); }
+
+.note-content h1:first-child {
+  margin-top: 0;
+}
+
+.note-content p {
+  margin-bottom: 1em;
+  color: var(--text-secondary);
+}
+
+.note-content a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 217, 255, 0.3);
+  text-underline-offset: 2px;
+}
+
+.note-content a:hover {
+  text-decoration-color: var(--primary);
+}
+
+.note-content ul,
+.note-content ol {
+  margin-bottom: 1em;
+  padding-left: 1.5em;
+}
+
+.note-content ul {
+  list-style: disc;
+}
+
+.note-content ol {
+  list-style: decimal;
+}
+
+.note-content li {
+  margin-bottom: 0.25em;
+  color: var(--text-secondary);
+}
+
+.note-content li > ul,
+.note-content li > ol {
+  margin-bottom: 0;
+}
+
+/* 行内代码 */
+.note-content code:not(pre code) {
+  background: var(--surface-elevated);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--text);
+}
+
+/* 代码块 */
+.note-content pre {
+  position: relative;
+  margin: 1em 0;
+  padding: 1rem;
+  background: #1e1e1e;
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+}
+
+.note-content pre code {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  background: none;
+  padding: 0;
+}
+
+/* 代码复制按钮 */
+.note-content pre .copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: all var(--transition-fast);
+}
+
+.note-content pre:hover .copy-btn {
+  opacity: 1;
+}
+
+.note-content pre .copy-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* 引用块 */
+.note-content blockquote {
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  border-left: 4px solid var(--primary);
+  background: rgba(0, 217, 255, 0.1);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-secondary);
+}
+
+.note-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 表格 */
+.note-content table {
+  width: 100%;
+  margin: 1em 0;
+  border-collapse: collapse;
+}
+
+.note-content th,
+.note-content td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--glass-border);
+  text-align: left;
+}
+
+.note-content th {
+  background: var(--surface-elevated);
+  font-weight: 600;
+}
+
+.note-content tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* 图片 */
+.note-content img {
+  max-width: 100%;
+  border-radius: var(--radius-lg);
+  margin: 1em 0;
+}
+
+/* 水平线 */
+.note-content hr {
+  margin: 2em 0;
+  border: none;
+  border-top: 1px solid var(--glass-border);
+}
+
+/* 加载和错误状态 */
+.note-loading,
+.note-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.note-error {
+  color: var(--danger);
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* 响应式 */
+@media (max-width: 1200px) {
+  .note-toc {
+    display: none;
+  }
+
+  .toc-toggle {
+    display: flex;
+  }
+
+  .note-toc.is-visible {
+    display: block;
+    position: fixed;
+    left: var(--space-md);
+    bottom: calc(var(--space-xl) + 60px);
+    width: 260px;
+    z-index: 90;
+    box-shadow: var(--shadow-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .note-content {
+    padding: var(--space-md);
+  }
+
+  .note-content h1 { font-size: 1.5rem; }
+  .note-content h2 { font-size: 1.25rem; }
+  .note-content h3 { font-size: 1.1rem; }
+}

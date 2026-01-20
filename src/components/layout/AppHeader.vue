@@ -94,6 +94,63 @@ const pageTitle = computed(() => {
 </template>
 
 <style scoped>
+.header {
+  padding: 0 var(--space-lg);
+}
+
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--primary);
+}
+
+.header__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.header__breadcrumb a {
+  color: var(--text-secondary);
+  transition: color 0.3s;
+}
+
+.header__breadcrumb a:hover {
+  color: var(--primary);
+}
+
+.header__breadcrumb .current {
+  color: var(--text);
+  font-weight: 500;
+}
+
 .header__action {
   display: flex;
   align-items: center;

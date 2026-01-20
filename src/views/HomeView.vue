@@ -1,39 +1,57 @@
 <script setup lang="ts">
 import HeroSection from '@/components/sections/HeroSection.vue'
 
+// 项目链接类型
+type ProjectLinkType = 'route' | 'external' | 'disabled'
+
+interface Project {
+  number: string
+  label: string
+  title: string
+  desc: string
+  tags: string[]
+  link: string
+  linkType: ProjectLinkType
+}
+
 // 项目数据
-const projects = [
+const projects: Project[] = [
   {
     number: '01',
-    label: '比赛项目',
-    title: '智慧城市出行辅助系统',
-    desc: '基于WebGIS技术的城市交通可视化与路径规划系统，整合实时交通数据、公共交通信息及兴趣点数据，为用户提供智能化出行建议。',
+    label: 'Vue',
+    title: 'WebGIS',
+    desc: '基于Vue3和OpenLayers的WebGIS应用，集成多种空间分析工具，实现地图浏览、图层管理和空间数据可视化功能。',
     tags: ['GeoServer', 'OpenLayers', 'Vue.js', 'Turf.js', 'PostgreSQL'],
-    link: '/WebGIS/index.html'
+    link: '/WebGIS/index.html',
+    linkType: 'external' // 外部链接，新标签打开
   },
   {
     number: '02',
-    label: '课程项目',
-    title: '林业有害生物应急管理系统',
-    desc: '基于SSM框架的林业有害生物预警与应急响应平台，实现了疫情监测、预警发布、应急处置等功能模块的一体化管理。',
-    tags: ['Spring', 'MyBatis', 'GeoServer', 'PostgreSQL'],
-    link: '#'
+    label: '笔记',
+    title: '笔记管理',
+    desc: '基于Vue3的Markdown笔记管理系统，支持笔记分类、标签管理、全文搜索等功能，记录学习历程与技术积累。',
+    tags: ['Vue 3', 'TypeScript', 'Markdown', 'Vite'],
+    link: '/notes',
+    linkType: 'route' // Vue 路由跳转
   },
   {
     number: '03',
-    label: '个人项目',
-    title: '地铁站点空间分析',
-    desc: '利用百度地图API获取全国地铁站点数据，结合城市人口、经济等社会经济指标，进行空间统计分析与可视化呈现。',
-    tags: ['Python', 'Pandas', 'GeoPandas', 'Matplotlib', 'QGIS'],
-    link: '#'
+    label: '展示项目',
+    title: 'GeoScene-宝藏小城',
+    desc: 'Story Map项目，利用多源地理空间数据展示中国六大城市的时空变化特征与规律。',
+    tags: ['数据可视化', '时空分析', '地图制图', '交互设计'],
+    link: '/geoscene',
+    linkType: 'route' // Vue 路由跳转到中间页面
   },
   {
     number: '04',
-    label: '学习项目',
-    title: '技术笔记系统',
-    desc: '基于Vue3的Markdown笔记管理系统，支持笔记分类、标签管理、全文搜索等功能，记录学习历程与技术积累。',
-    tags: ['Vue 3', 'TypeScript', 'Markdown', 'Vite'],
-    link: '/notes'
+    label: '实用应用',
+    title: 'Posit Connect Cloud ',
+    desc: '基于Posit Connect Cloud 托管动态交互内容',
+    tags: ['R Shiny', '数据可视化', '交互式应用'],
+    link: 'https://github.com/NEGIAO/posit_Connect',
+    linkType: 'external' // 外部链接，新标签打开
+    // linkType: 'disabled' // 禁用状态
   }
 ]
 </script>
@@ -71,14 +89,27 @@ const projects = [
                 {{ tag }}
               </span>
             </div>
-            <a 
-              v-if="project.link !== '#'"
-              :href="project.link" 
+            <RouterLink
+              v-if="project.linkType === 'route'"
+              :to="project.link"
               class="project-link"
             >
               探索项目 <i class="fas fa-arrow-right"></i>
+            </RouterLink>
+            <a
+              v-else-if="project.linkType === 'external'"
+              :href="project.link"
+              class="project-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              探索项目 <i class="fas fa-external-link-alt"></i>
             </a>
-            <span v-else class="project-link" style="opacity: 0.5; cursor: default;">
+            <span 
+              v-else 
+              class="project-link" 
+              style="opacity: 0.5; cursor: default;"
+            >
               暂未开放 <i class="fas fa-lock"></i>
             </span>
           </article>
@@ -109,14 +140,54 @@ const projects = [
 </template>
 
 <style scoped>
-.home-view {
-  /* 首页不需要额外的 padding-top，因为 Hero 是全屏的 */
-}
-
 /* 响应式调整 */
 @media (max-width: 1024px) {
+  /* 项目卡片两列 */
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 768px) {
   .home-view {
-    /* 移动端需要考虑 navbar 高度 */
+    padding-bottom: var(--space-xl);
+  }
+  
+  /* 项目卡片单列 */
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  /* 调整标题大小 */
+  .section h2 {
+    font-size: 2rem !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  /* 联系区块按钮 */
+  #contact > div > div {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  #contact .btn {
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .section h2 {
+    font-size: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  #contact p {
+    font-size: 0.9rem;
   }
 }
 </style>

@@ -22,7 +22,16 @@ export default defineConfig({
     // 允许访问 public 目录
     fs: {
       strict: false
-    }
+    },
+    // SPA 回退配置，解决刷新 404 问题
+    proxy: {},
+    // 强制预优化依赖
+    force: false
+  },
+  // 预览服务器配置（npm run preview）
+  preview: {
+    port: 4173,
+    open: true
   },
   // 构建配置
   build: {

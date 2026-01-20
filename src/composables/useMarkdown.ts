@@ -8,20 +8,99 @@ import { marked } from 'marked'
 import hljs from 'highlight.js'
 import type { NoteFrontmatter } from '@/types/note'
 
-// 自定义 renderer 添加代码高亮
+// 自定义 renderer 添加增强功能
 const renderer = new marked.Renderer()
 
+// 代码块渲染 - 添加语言标签
 renderer.code = ({ text, lang }: { text: string; lang?: string }) => {
   const language = lang && hljs.getLanguage(lang) ? lang : 'plaintext'
   const highlighted = hljs.highlight(text, { language }).value
-  return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`
+  const languageLabel = lang || 'text'
+  return `<pre><div class="code-header"><span class="code-lang">${languageLabel}</span></div><code class="hljs language-${language}">${highlighted}</code></pre>`
 }
 
-// 配置 marked 选项
+// 表格渲染 - 添加响应式包装
+renderer.table = (token: any) => {
+  const header = token.header
+  const body = token.body
+  return `<div class="table-wrapper"><table><thead>${header}</thead><tbody>${body}</tbody></table></div>`
+}
+
+// 链接渲染 - 外部链接添加图标和新标签打开
+renderer.link = (token: any) => {
+  const href = token.href
+  const title = token.title
+  const text = token.text
+  const isExternal = href.startsWith('http://') || href.startsWith('https://')
+  const titleAttr = title ? ` title="${title}"` : ''
+  const target = isExternal ? ' target="_blank" rel="noopener noreferrer"' : ''
+  const icon = isExternal ? ' <i class="fas fa-external-link-alt"></i>' : ''
+  return `<a href="${href}"${titleAttr}${target}>${text}${icon}</a>`
+}
+
+// 图片渲染 - 添加懒加载和点击预览
+renderer.image = (token: any) => {
+  const href = token.href
+  const title = token.title
+  const text = token.text
+  const titleAttr = title ? ` title="${title}"` : ''
+  const alt = text || ''
+  return `<img src="${href}" alt="${alt}"${titleAttr} loading="lazy" class="zoomable">`
+}
+
+// 任务列表渲染
+renderer.listitem = (token: any) => {
+  const text = token.text
+  const task = token.task
+  const checked = token.checked
+  if (task) {
+    const checkbox = checked 
+      ? '<input type="checkbox" disabled checked class="task-checkbox">'
+      : '<input type="checkbox" disabled class="task-checkbox">'
+    return `<li class="task-list-item">${checkbox}${text}</li>`
+  }
+  return `<li>${text}</li>`
+}
+
+// 配置 marked 选项 - 启用所有扩展
 marked.setOptions({
   renderer,
   breaks: true,
-  gfm: true
+  gfm: true, // GitHub Flavored Markdown
+  pedantic: false
+})
+
+// 使用 marked 扩展支持更多功能
+marked.use({
+  extensions: [
+    {
+      name: 'alert',
+      level: 'block',
+      start(src: string) { return src.match(/^:::/)?.index },
+      tokenizer(src: string) {
+        const rule = /^:::(tip|warning|danger|info)\n([\s\S]*?)\n:::/
+        const match = rule.exec(src)
+        if (match) {
+          return {
+            type: 'alert',
+            raw: match[0],
+            alertType: match[1],
+            text: match[2].trim()
+          }
+        }
+      },
+      renderer(token: any) {
+        const icons: Record<string, string> = {
+          tip: 'fa-lightbulb',
+          warning: 'fa-exclamation-triangle',
+          danger: 'fa-times-circle',
+          info: 'fa-info-circle'
+        }
+        const icon = icons[token.alertType] || 'fa-info-circle'
+        return `<div class="alert alert-${token.alertType}"><i class="fas ${icon}"></i><div class="alert-content">${marked.parse(token.text)}</div></div>`
+      }
+    }
+  ]
 })
 
 /**
@@ -86,25 +165,50 @@ function parseFrontmatter(content: string): {
  */
 async function addCopyButtons() {
   await nextTick()
-  document.querySelectorAll('pre code').forEach(block => {
-    const pre = block.parentElement
-    if (!pre || pre.querySelector('.copy-btn')) return
+  // 等待 DOM 更新完成
+  setTimeout(() => {
+    const container = document.querySelector('.note-body') || document
+    container.querySelectorAll('pre').forEach(pre => {
+      // 跳过已有按钮的
+      if (pre.querySelector('.copy-btn')) return
+      
+      const code = pre.querySelector('code')
+      if (!code) return
 
-    const btn = document.createElement('button')
-    btn.className = 'copy-btn'
-    btn.textContent = '复制'
-    btn.onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(block.textContent || '')
-        btn.textContent = '已复制!'
-        setTimeout(() => (btn.textContent = '复制'), 2000)
-      } catch {
-        btn.textContent = '失败'
-        setTimeout(() => (btn.textContent = '复制'), 2000)
+      const btn = document.createElement('button')
+      btn.className = 'copy-btn'
+      btn.type = 'button'
+      btn.innerHTML = '<i class="far fa-copy"></i> <span>复制</span>'
+      
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        try {
+          await navigator.clipboard.writeText(code.textContent || '')
+          btn.innerHTML = '<i class="fas fa-check"></i> <span>已复制!</span>'
+          btn.classList.add('copied')
+          setTimeout(() => {
+            btn.innerHTML = '<i class="far fa-copy"></i> <span>复制</span>'
+            btn.classList.remove('copied')
+          }, 2000)
+        } catch {
+          btn.innerHTML = '<i class="fas fa-times"></i> <span>失败</span>'
+          setTimeout(() => {
+            btn.innerHTML = '<i class="far fa-copy"></i> <span>复制</span>'
+          }, 2000)
+        }
+      })
+      
+      // 将按钮插入到 code-header 中
+      const header = pre.querySelector('.code-header')
+      if (header) {
+        header.appendChild(btn)
+      } else {
+        pre.style.position = 'relative'
+        pre.appendChild(btn)
       }
-    }
-    pre.appendChild(btn)
-  })
+    })
+  }, 100)
 }
 
 /**

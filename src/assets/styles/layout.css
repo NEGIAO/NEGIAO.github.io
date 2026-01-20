@@ -45,7 +45,7 @@
   background-clip: text;
   transition: transform 0.2s;
 }
-.sidebar__logo:hover { transform: scale(1.2); }
+.sidebar__logo:hover { transform: translateX(-50%) scale(1.2); }
 
 .sidebar__nav {
   position: absolute;
@@ -250,6 +250,10 @@
 }
 
 @media (max-width: 768px) {
+  .navbar__container {
+    padding: 0 var(--space-md);
+  }
+
   .navbar__nav {
     display: none;
     position: fixed;
@@ -279,5 +283,24 @@
 
   .mobile-menu-toggle {
     display: flex;
+  }
+  
+  .main-content {
+    padding-bottom: var(--space-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar__container {
+    padding: 0 var(--space-sm);
+  }
+  
+  .navbar__brand {
+    font-size: 1.1rem;
+  }
+  
+  .mobile-menu-toggle {
+    width: 40px;
+    height: 40px;
   }
 }

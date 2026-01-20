@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory('/'),
   routes: [
     {
       path: '/',
@@ -14,6 +14,12 @@ const router = createRouter({
       name: 'notes',
       component: () => import('@/views/NotesListView.vue'),
       meta: { title: '技术笔记' }
+    },
+    {
+      path: '/geoscene',
+      name: 'geoscene',
+      component: () => import('@/views/GeosceneView.vue'),
+      meta: { title: 'GeoScene - 宝藏小城' }
     },
     {
       path: '/notes/:id',

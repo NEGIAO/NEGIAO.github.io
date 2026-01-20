@@ -6,8 +6,8 @@ const navItems = [
   { path: '/', icon: 'fas fa-home', title: '首页' },
   { path: '#projects', icon: 'fas fa-rocket', title: '项目展示', isAnchor: true },
   { path: '/notes', icon: 'fas fa-book-open', title: '技术笔记' },
-  { path: '/schedule', icon: 'fas fa-calendar-alt', title: '课程表' },
-  { path: '/#contact', icon: 'fas fa-envelope', title: '联系我', isAnchor: true },
+  { path: '/schedule', icon: 'fas fa-calendar-alt', title: '课程表', isAnchor: true },
+  { path: '#contact', icon: 'fas fa-envelope', title: '联系我', isAnchor: true },
 ]
 
 // 外部链接

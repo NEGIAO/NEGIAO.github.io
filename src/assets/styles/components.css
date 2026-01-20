@@ -104,38 +104,24 @@
 
 .avatar-ring {
   position: absolute;
-  inset: 0;
-  border-radius: 45%;
-  border: 1px solid transparent;
-  background: conic-gradient(from 0deg, var(--primary), var(--accent-secondary), var(--accent), var(--primary));
+  inset: -10px;
+  border-radius: 47%;
+  border: 2px solid transparent;
+  background: linear-gradient(45deg, var(--primary), var(--accent)) border-box;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
   z-index: 2;
-  animation: rotate 15s linear infinite;
-  opacity: 0.6;
-}
-
-.avatar-ring::before {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  border-radius: 50%;
-  background: var(--surface-elevated);
-}
-
-@keyframes avatarPulse {
-  0% {
-    transform: scale(1.5);
-    opacity: 0.2;
-  }
-
-  100% {
-    transform: scale(2);
-    opacity: 0.35;
-  }
+  animation: rotate 8s linear infinite;
 }
 
 @keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes avatarPulse {
+  0% { transform: scale(1); opacity: 0.2; }
+  100% { transform: scale(1.2); opacity: 0.35; }
 }
 
 /* Enhanced Tech Badges (位置居中，视觉效果增强) */
@@ -578,11 +564,220 @@
   border-radius: 50%;
   box-shadow: var(--shadow-lg);
   cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(20px);
   transition: all 0.3s ease;
   z-index: 100;
+}
+
+.back-to-top:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-2xl);
+}
+
+/* ======================================== 
+   响应式布局优化 - 移动端适配
+   ======================================== */
+
+/* 平板端 (≤1024px) */
+@media (max-width: 1024px) {
+  .section {
+    padding: var(--space-3xl) 0;
+  }
+  
+  .container {
+    max-width: 100%;
+    padding: 0 var(--space-xl);
+  }
+  
+  .hero__title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .notes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+/* 移动端 (≤768px) */
+@media (max-width: 768px) {
+  .section {
+    padding: var(--space-2xl) 0;
+  }
+  
+  .section--hero {
+    height: auto;
+    min-height: 100vh;
+    padding: var(--space-3xl) 0;
+  }
+  
+  .container {
+    padding: 0 var(--space-lg);
+  }
+  
+  .hero__title {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+  }
+  
+  .hero__subtitle {
+    font-size: 1rem;
+  }
+  
+  .hero__typing {
+    height: 40px;
+  }
+  
+  .avatar-container {
+    width: 180px;
+    height: 180px;
+    margin-bottom: var(--space-md);
+  }
+  
+  .avatar {
+    width: 130px;
+    height: 130px;
+  }
+  
+  .hero-tech-badges {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tech-badge {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .hero__actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .hero__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* 项目卡片单列显示 */
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  .project-item {
+    padding: var(--space-lg);
+  }
+  
+  .project-title {
+    font-size: 1.5rem;
+  }
+  
+  /* 按钮自适应 */
+  .btn {
+    padding: var(--space-sm) var(--space-lg);
+    font-size: 0.9rem;
+  }
+  
+  .btn--large {
+    padding: var(--space-md) var(--space-xl);
+  }
+  
+  /* 笔记列表 */
+  .notes-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  /* 返回顶部按钮位置调整 */
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+  }
+  
+  /* 浮动形状隐藏或缩小 */
+  .floating-shapes .shape {
+    opacity: 0.3;
+  }
+  
+  .shape-1 {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+/* 小屏手机 (≤480px) */
+@media (max-width: 480px) {
+  .section {
+    padding: var(--space-xl) 0;
+  }
+  
+  .container {
+    padding: 0 var(--space-md);
+  }
+  
+  .hero__title {
+    font-size: clamp(1.5rem, 10vw, 2rem);
+  }
+  
+  .avatar-container {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .tech-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .project-item {
+    padding: var(--space-md);
+  }
+  
+  .project-number {
+    font-size: 2rem;
+  }
+  
+  .project-title {
+    font-size: 1.25rem;
+  }
+  
+  .project-desc {
+    font-size: 0.85rem;
+  }
+  
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+  }
+  
+  .back-to-top {
+    bottom: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+  
+  /* 完全隐藏浮动形状以提升性能 */
+  .floating-shapes {
+    display: none;
+  }
 }
 
 .back-to-top.is-visible {

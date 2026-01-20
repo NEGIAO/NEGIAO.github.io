@@ -66,15 +66,16 @@ const goBack = () => {
 
     <!-- 笔记内容 -->
     <template v-else>
-      <main class="note-layout">
+      <main class="note-layout" :class="{ 'toc-hidden': !isTocVisible }">
         <!-- 目录 -->
         <NoteToc 
+          v-show="isTocVisible"
           :items="tocItems" 
           :active-id="activeId"
           :visible="isTocVisible"
         />
 
-        <!-- 目录切换按钮 -->
+        <!-- 目录切换按钮 - 始终显示 -->
         <TocToggle 
           :visible="isTocVisible" 
           @toggle="toggleToc" 
@@ -120,8 +121,8 @@ const goBack = () => {
 
 <style scoped>
 .note-detail-view {
-  max-width: calc(var(--content-max-width) + var(--toc-width) + var(--spacing-xl));
-  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: var(--space-2xl);
 }
 
 .note-loading {
@@ -130,8 +131,21 @@ const goBack = () => {
   align-items: center;
   justify-content: center;
   min-height: 400px;
-  gap: var(--spacing-md);
+  gap: var(--space-lg);
   color: var(--text-muted);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--glass-border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .note-error {
@@ -140,78 +154,146 @@ const goBack = () => {
   align-items: center;
   justify-content: center;
   min-height: 400px;
-  gap: var(--spacing-md);
+  gap: var(--space-lg);
   text-align: center;
+  padding: var(--space-xl);
 }
 
 .note-error i {
-  font-size: 3rem;
+  font-size: 4rem;
   color: var(--danger);
+  opacity: 0.8;
 }
 
 .note-error p {
   font-size: 1.1rem;
   color: var(--text-secondary);
+  max-width: 400px;
 }
 
 /* 笔记头部 */
 .note-header {
-  margin-bottom: var(--spacing-xl);
-  padding-bottom: var(--spacing-lg);
-  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--glass-border);
+  position: relative;
+}
+
+.note-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
 }
 
 .note-header__back {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  padding: 0.4rem 0.8rem;
-  background: var(--bg-tertiary);
-  border-radius: var(--border-radius-sm);
+  gap: var(--space-sm);
+  padding: 0.5rem 1rem;
+  background: var(--surface-elevated);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
   color: var(--text-secondary);
-  font-size: 0.85rem;
-  margin-bottom: var(--spacing-md);
-  transition: all var(--transition-fast);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: var(--space-lg);
+  transition: all 0.3s ease;
 }
 
 .note-header__back:hover {
   background: var(--primary);
+  border-color: var(--primary);
   color: white;
+  transform: translateX(-4px);
 }
 
 .note-header__title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-md);
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: var(--space-md);
   line-height: 1.3;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .note-header__meta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: var(--space-md);
 }
 
 .note-header__date {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--space-sm);
   color: var(--text-muted);
   font-size: 0.9rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--surface-elevated);
+  border-radius: var(--radius-full);
+}
+
+.note-header__date i {
+  color: var(--primary);
 }
 
 .note-header__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-xs);
+  gap: var(--space-xs);
 }
 
 /* 响应式 */
+@media (max-width: 1024px) {
+  .note-detail-view {
+    padding-bottom: var(--space-xl);
+  }
+}
+
 @media (max-width: 768px) {
+  .note-header__back {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+    margin-bottom: var(--space-md);
+  }
+  
   .note-header__title {
     font-size: 1.5rem;
+  }
+  
+  .note-header__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  
+  .note-header__date {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .note-header__title {
+    font-size: 1.25rem;
+  }
+  
+  .note-header__date {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .note-loading,
+  .note-error {
+    padding: var(--space-lg);
   }
 }
 </style>

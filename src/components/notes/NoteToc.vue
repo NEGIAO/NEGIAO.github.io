@@ -41,7 +41,8 @@ const handleClick = (id: string) => {
   >
     <h3 class="note-toc__title">
       <i class="fas fa-list-ul"></i>
-      目录
+      <span>目录</span>
+      <span class="note-toc__count">{{ items.length }}</span>
     </h3>
     <ul class="note-toc__list">
       <li 

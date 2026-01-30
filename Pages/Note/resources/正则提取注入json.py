@@ -7,34 +7,24 @@ import io
 
 # ================= 1. 参数配置区域 =================
 # 建议：如果路径包含反斜杠，请保持 r"..." 格式
-# 如果文件和脚本在同一目录，可以使用相对路径，例如 "word-learning-record.html"
-HTML_PATH = r"D:\Dev\GitHub\NEGIAO.github.io\Pages\Note\word-learning-record.html"
+# 现在直接从 md 文件读取，不再需要从 HTML 提取
+MD_PATH = r"D:\Dev\GitHub\NEGIAO.github.io\Pages\Note\md\word-learning-record.md"
 JSON_PATH = r"D:\Dev\GitHub\NEGIAO.github.io\Pages\Note\word-list.json"
 
 
 # ================= 2. 功能函数区域 =================
 
-def extract_markdown_from_html(html_path):
-    """从 HTML 文件中提取 Markdown 脚本块的内容"""
-    if not os.path.exists(html_path):
-        print(f"[错误] 找不到文件: {html_path}")
+def read_markdown_file(md_path):
+    """直接读取 Markdown 文件内容"""
+    if not os.path.exists(md_path):
+        print(f"[错误] 找不到文件: {md_path}")
         return ""
 
     try:
-        with open(html_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-
-        # 匹配 <script type="text/markdown" id="note-markdown">...</script>
-        # 使用 re.DOTALL 让 . 也能匹配换行符
-        pattern = r'<script type="text/markdown" id="note-markdown">\s*(.*?)\s*</script>'
-        match = re.search(pattern, content, re.DOTALL)
-        if match:
-            return match.group(1)
-        else:
-            print("[警告] 在 HTML 中未找到 id 为 'note-markdown' 的 script 标签。")
-            return ""
+        with open(md_path, 'r', encoding='utf-8') as f:
+            return f.read()
     except Exception as e:
-        print(f"[错误] 读取 HTML 文件时发生异常: {e}")
+        print(f"[错误] 读取 Markdown 文件时发生异常: {e}")
         return ""
 
 
@@ -154,15 +144,15 @@ def main():
     print("      开始同步单词本      ")
     print("=" * 30)
 
-    # 1. 获取 Markdown 内容
-    markdown_content = extract_markdown_from_html(HTML_PATH)
+    # 1. 直接读取 Markdown 文件
+    markdown_content = read_markdown_file(MD_PATH)
     if not markdown_content:
         print("[终止] 无法获取 Markdown 内容。")
         return
 
-    # 2. 解析 HTML 中的单词
+    # 2. 解析 Markdown 中的单词
     extracted_words = parse_markdown_words(markdown_content)
-    print(f"-> 从 HTML 中解析出 {len(extracted_words)} 条记录")
+    print(f"-> 从 Markdown 中解析出 {len(extracted_words)} 条记录")
 
     # 3. 读取现有 JSON
     existing_words_list = load_json_words(JSON_PATH)

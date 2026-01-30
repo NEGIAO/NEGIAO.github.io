@@ -24,10 +24,11 @@
 | ----------------- | -------------------------------------- | ------------------------------------------------------- |
 | 🏠 网站首页        | `index.html`                           | 个人介绍、项目概览、导航入口                            |
 | 📅 智能课程表      | `Pages/schedule.html`                  | 实时课务状态、呼吸灯效果、移动端适配                    |
-| 📝 技术笔记索引    | `Pages/notes.html`                     | Markdown 渲染、自动目录、语法高亮                       |
+| 📝 技术笔记索引    | `Pages/notes.html`                     | 统一笔记渲染器、自动目录、语法高亮                      |
 | ✏️ Markdown 编辑器 | `Pages/Note/markdown_editor.html`      | 实时预览、侧栏布局、辅助按钮                            |
-| 📚 英语学习系统    | `Pages/Note/word-learning-record.html` | 600+ 词汇库、随机测试、统计面板                         |
-| 🧰 NEGIAO 工具箱   | `Pages/Note/negiao-toolbox.html`       | ArcGIS Pro 工具箱说明与下载                             |
+| 📚 英语词库笔记    | `note-viewer.html?note=word-learning-record` | 600+ 词汇库、按日期分类、例句用法              |
+| 🎯 单词测试        | `Pages/Note/word-quiz.html`            | 随机抽题、答对自动跳转、正确率统计                      |
+| 🧰 NEGIAO 工具箱   | `note-viewer.html?note=negiao-toolbox` | ArcGIS Pro 工具箱说明与下载                             |
 | 🖼️ 技术成果画廊    | `Pages/Note/gallery.html`              | 多图展示、图集元数据 (`resources/display`)              |
 | 🗺️ WebGIS 演示     | `WebGIS/index.html`                    | OpenLayers 地图、交互式信息栏                           |
 | 🏆 宝藏小城专题    | `Geoscene_宝藏小城/awesome.html`       | ECharts/Pyecharts 可视化合集                            |
@@ -67,6 +68,12 @@
 - `.htaccess` 配置 CSS/JS/图片缓存期限，兼顾更新与性能。
 - `Pages/main-enhanced.js` 精简事件监听，使用 requestAnimationFrame 优化滚动。
 - 首屏关键 CSS 内联加载，其余资源按需加载或延迟执行。
+
+### 笔记系统/Note System Architecture
+- **统一渲染器架构**：采用 `note-viewer.html` 作为通用 Markdown 渲染入口，通过 URL 参数动态加载笔记内容。
+- **内容与样式分离**：所有笔记内容以独立 `.md` 文件存储于 `Pages/Note/md/` 目录，便于编辑、版本控制与维护。
+- **自动目录生成**：基于 `notes-toc.js` 实时解析 Markdown 标题层级，生成可折叠的侧边导航栏。
+- **代码高亮**：集成 Highlight.js，支持 100+ 编程语言的语法高亮显示。
 
 ### 增强/Global Enhancements
 - 全站 favicon 在构建期与运行时双重注入（HTML `<link>` + JS fallback）。
@@ -127,33 +134,30 @@
 │       └── GEE流程图.drawio
 ├── Pages/                                            # 站点主要子页面与公共资源
 │   ├── Note/                                         # 技术笔记与学习记录归档
+│   │   ├── md/                                       # Markdown 笔记内容目录
+│   │   │   ├── ArcPy.md                              # ArcPy 自动化脚本笔记
+│   │   │   ├── arcgis-engine.md                      # ArcGIS Engine 开发笔记
+│   │   │   ├── arcgis-engine-project.md              # ArcGIS Engine 项目笔记
+│   │   │   ├── gee-coursework.md                     # GEE结课作业
+│   │   │   ├── ml-dl-learning.md                     # 机器学习与深度学习笔记
+│   │   │   ├── negiao-toolbox.md                     # 工具箱详细介绍
+│   │   │   ├── note-template.md                      # 笔记模板
+│   │   │   ├── qrcode-generator.md                   # 二维码生成器说明
+│   │   │   ├── spatial-analysis-R.md                 # 机器学习与智能算法（R）
+│   │   │   ├── word-learning-record.md               # 英语词汇学习记录
+│   │   │   ├── README.md                             # md目录说明文档
+│   │   │   ├── note-template.html                    # 旧版模板md内嵌在html中
+│   │   │   └── ZhouDi_learning/                      # 周迪学习记录子目录
+│   │   │       └── word-learning-record.md
 │   │   ├── resources/                                # 笔记引用的图片与附件资源
 │   │   │   ├── display/                              # 图片展示资源目录
-│   │   │   ├── Lecture8_GeoAI/                       # GeoAI课程样例数据（遥感影像、坐标等）
-│   │   │   │   ├── HenanXY.txt
-│   │   │   │   ├── sampdataCNN2.csv
-│   │   │   │   ├── usajmq.tif
-│   │   │   │   ├── usajmqCNN2.rds
-│   │   │   │   ├── Lecture8 GeoAI.txt
-│   │   │   │   └── 省会城市经纬度.xlsx
+│   │   │   ├── Lecture8_GeoAI/                       # GeoAI课程样例数据
 │   │   │   ├── Lecture8_GeoAI.zip                    # GeoAI样例数据压缩包
-│   │   │   ├── nanyang_feature_importance.png        # GEE作业图片
-│   │   │   ├── nanyang_feature_importance.png        # GEE作业图片
-│   │   │   └── 正则提取注入json.py                    #每日单词记录更新至json中
-│   │   ├── ZhouDi_learning/                          # 周迪个人学习记录子目录
-│   │   │   ├── word-learning-record.html
-│   │   │   └── word-list.json
-│   │   ├── arcgis-engine-project.html                # ArcGIS Engine 项目笔记
-│   │   ├── arcgis-engine.html                        # ArcGIS Engine 开发笔记
-│   │   ├── ArcPy.html                                # ArcPy 自动化脚本笔记
+│   │   │   └── 正则提取注入json.py                    # 词库同步脚本（从md读取）
 │   │   ├── gallery.html                              # 技术成果展示画廊
-│   │   ├── gee-coursework.html                       # GEE结课作业
 │   │   ├── markdown_editor.html                      # 在线 Markdown 编辑器工具
-│   │   ├── ml-dl-learning.html                       # 机器学习与深度学习笔记
-│   │   ├── negiao-toolbox.html                       # 工具箱详细介绍页
-│   │   ├── note-template.html                        # 笔记页面标准模板
-│   │   ├── spatial-analysis-R.html                   # 机器学习与智能算法（R）- ANN/SVM/CNN/GA等
-│   │   ├── word-learning-record.html                 # 英语词汇学习与测试系统
+│   │   ├── note-viewer.html                          # 统一笔记渲染器（URL参数加载md）
+│   │   ├── word-quiz.html                            # 独立单词测试页面
 │   │   └── word-list.json                            # 英语学习系统核心词库数据
 │   ├── avatar.jpg                                    # 个人头像图片
 │   ├── main-enhanced.js                              # 全站核心交互脚本（导航、动画、favicon）
@@ -193,6 +197,8 @@
 | 主样式          | `Pages/style.css`           | 全站主题与组件样式                       |
 | 导航/交互脚本   | `Pages/main-enhanced.js`    | 导航栏、移动菜单、平滑滚动、favicon 注入 |
 | 目录脚本        | `Pages/notes-toc.js`        | 笔记页面自动目录生成与滚动同步           |
+| 笔记渲染器      | `Pages/Note/note-viewer.html` | 统一 Markdown 渲染入口，URL 参数加载   |
+| 笔记内容        | `Pages/Note/md/*.md`        | 独立 Markdown 笔记文件（10篇）           |
 | 词汇数据        | `Pages/Note/word-list.json` | 英语学习系统题库与统计数据源             |
 | 工具箱          | `Others/NEGIAO工具.atbx`    | ArcGIS Pro 定制工具集合                  |
 | WebGIS 构建产物 | `WebGIS/assets/*`           | Vite 打包后的 JS/CSS                     |
@@ -223,6 +229,20 @@ python -m http.server 8080
 - **Python**：云端脚本、词汇数据处理、本地服务器。
 
 ## 变更/Changelog
+
+### 2026-01-30 · v1.8.0
+- **笔记系统架构重构**：
+    - **统一渲染器**：新增 `note-viewer.html` 通用笔记渲染入口，通过 `?note=xxx` URL 参数动态加载 Markdown 内容。
+    - **内容分离**：将 11 篇技术笔记从 HTML 内嵌 Markdown 迁移至独立 `.md` 文件，存储于 `Pages/Note/md/` 目录。
+    - **维护效率提升**：笔记内容与渲染逻辑解耦，支持直接编辑 Markdown 文件，无需触碰 HTML 结构。
+    - **子目录支持**：支持 `ZhouDi_learning/` 等子目录结构，URL 路由自动适配。
+    - **路由统一**：更新 `notes.html` 所有笔记链接为新的 URL 参数格式。
+- **单词测试模块分离**：
+    - **独立测试页面**：新增 `word-quiz.html` 作为专用单词测试入口，与笔记内容解耦。
+    - **测试功能增强**：随机抽题、答对自动跳转、正确率统计、进度显示、一键重置。
+    - **多入口访问**：笔记索引页双按钮（阅读笔记 / 开始测试），md 笔记顶部快捷入口。
+    - **脚本更新**：`正则提取注入json.py` 改为直接从 `.md` 文件读取，无需 HTML 解析。
+- **文件清理**：删除 11 个已迁移的原始 HTML 笔记文件，项目结构更清晰。
 
 ### 2026-01-14 · v1.7.0
 - **首页 UI 重大改版**：

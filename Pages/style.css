@@ -139,6 +139,34 @@ body::before {
   z-index: -2;
 }
 
+/* =====================================================
+   移动端滚动优化 - 防止长页面滚动时刷新/弹跳问题
+   ===================================================== */
+@media (max-width: 768px) {
+  html {
+    /* 禁用过度滚动导致的下拉刷新 */
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body {
+    /* 关键：防止移动端过度滚动触发浏览器刷新 */
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+    /* 移除 position: relative 避免与 fixed 伪元素冲突 */
+    position: static;
+  }
+
+  /* 将 fixed 背景改为 absolute 以提升移动端滚动性能 */
+  body::before {
+    position: absolute;
+    height: 200vh;
+    /* GPU 加速 */
+    will-change: auto;
+    transform: translateZ(0);
+  }
+}
+
 /* Enhanced Typography */
 h1,
 h2,

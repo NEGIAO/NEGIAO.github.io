@@ -105,18 +105,26 @@
         }
 
         @media (max-width: 768px) {
-            /* 防止移动端滚动时的白屏问题 */
+            /* 防止移动端滚动时的刷新/弹跳问题 */
             html {
+                overflow-y: auto;
+                overscroll-behavior-y: none; /* 禁用下拉刷新 */
                 -webkit-overflow-scrolling: touch;
-                overflow-y: scroll;
-                position: relative;
             }
 
             body {
                 overflow-x: hidden;
+                overflow-y: auto;
+                overscroll-behavior-y: none; /* 关键：防止过度滚动导致刷新 */
                 -webkit-overflow-scrolling: touch;
-                position: relative;
                 min-height: 100vh;
+                /* 禁用 position: relative 避免与 fixed 伪元素冲突 */
+            }
+
+            /* 禁用 body::before 的 fixed 背景在移动端，提升性能 */
+            body::before {
+                position: absolute !important;
+                height: 200vh !important;
             }
 
             .toc-toggle-btn {
@@ -159,6 +167,15 @@
                 transform: translateZ(0);
                 backface-visibility: hidden;
                 -webkit-backface-visibility: hidden;
+                /* 防止内容区域触发浏览器默认手势 */
+                touch-action: pan-y;
+                overscroll-behavior: contain;
+            }
+
+            /* 确保主容器正确处理滚动 */
+            .container.section.note-layout {
+                overscroll-behavior: contain;
+                touch-action: pan-y;
             }
         }
     </style>

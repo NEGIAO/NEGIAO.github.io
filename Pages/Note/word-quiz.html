@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NEGIAO英语单词测试系统 - 随机测验，巩固记忆">
+    <meta name="author" content="NEGIAO">
+    <meta name="theme-color" content="#0D1117">
+
+    <title>单词测试 - NEGIAO</title>
+    <link rel="icon" type="image/png" href="/images/icon.png">
+    <link rel="shortcut icon" type="image/png" href="/images/icon.png">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .quiz-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .quiz-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header p {
+            color: var(--text-muted);
+        }
+
+        /* Word test container styles */
+        .word-test-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .word-test-container h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+
+        .test-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .test-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            color: #333;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-question h3 {
+            font-size: 32px;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .question-text {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .test-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            padding: 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-btn:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .option-btn.correct {
+            border-color: #28a745;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .option-btn.wrong {
+            border-color: #dc3545;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .option-btn.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .test-controls {
+            text-align: center;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .test-result {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .test-result.correct {
+            color: #155724;
+            background: #d4edda;
+        }
+
+        .test-result.wrong {
+            color: #721c24;
+            background: #f8d7da;
+        }
+
+        .btn-quiz {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .quiz-footer {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .quiz-footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .quiz-footer a:hover {
+            color: var(--primary);
+        }
+
+        /* Loading state */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Progress bar */
+        .progress-container {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: white;
+            font-size: 13px;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .test-options {
+                grid-template-columns: 1fr;
+            }
+
+            .test-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .word-test-container {
+                padding: 16px;
+            }
+
+            .test-card {
+                padding: 20px;
+            }
+
+            .test-question h3 {
+                font-size: 26px;
+            }
+
+            .quiz-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="../../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="note-viewer.html?note=word-learning-record" class="btn btn--secondary">
+                <i class="fas fa-book"></i> 查看词库
+            </a>
+        </div>
+    </nav>
+
+    <main class="quiz-container">
+        <div class="quiz-header">
+            <h1>🎯 单词测试</h1>
+            <p>随机抽取词库中的单词进行测验，巩固记忆</p>
+        </div>
+
+        <div id="word-test-section" class="word-test-container">
+            <h2>📚 每日单词测试</h2>
+
+            <div class="progress-container" id="progress-container" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progress-text">已答 0 题</div>
+            </div>
+
+            <div class="test-stats">
+                <span class="stat-item">✅ 正确: <span id="correct-count">0</span></span>
+                <span class="stat-item">❌ 错误: <span id="wrong-count">0</span></span>
+                <span class="stat-item">📊 准确率: <span id="accuracy">0%</span></span>
+            </div>
+
+            <div id="test-card" class="test-card">
+                <div class="test-question">
+                    <h3 id="test-word">准备开始</h3>
+                    <p class="question-text" id="question-text">点击"开始测试"按钮开始</p>
+                </div>
+
+                <div class="test-options" id="test-options">
+                    <!-- 选项将由JavaScript动态生成 -->
+                </div>
+
+                <div class="test-controls">
+                    <button id="start-test-btn" class="btn-quiz btn-primary">
+                        <i class="fas fa-play"></i> 开始测试
+                    </button>
+                    <button id="next-word-btn" class="btn-quiz btn-primary" style="display: none;">
+                        <i class="fas fa-arrow-right"></i> 下一题
+                    </button>
+                    <button id="reset-btn" class="btn-quiz btn-outline" style="display: none;">
+                        <i class="fas fa-redo"></i> 重新开始
+                    </button>
+                </div>
+
+                <div id="test-result" class="test-result" style="display: none;">
+                    <!-- 结果反馈 -->
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-footer">
+            <a href="../notes.html"><i class="fas fa-arrow-left"></i> 返回笔记索引</a>
+        </div>
+    </main>
+
+    <script>
+        /**
+         * 单词测试系统
+         * 从 word-list.json 加载词库进行随机测试
+         */
+        class WordQuiz {
+            constructor() {
+                this.words = [];
+                this.currentWord = null;
+                this.correctCount = 0;
+                this.wrongCount = 0;
+                this.totalAnswered = 0;
+                this.isAnswered = false;
+
+                // 备用词库（当JSON加载失败时使用）
+                this.fallbackWords = [
+                    { word: 'sanction', meaning: '制裁；批准', options: ['制裁；批准', '伪造', '逃避', '景象'] },
+                    { word: 'forge', meaning: '伪造；锻造', options: ['伪造；锻造', '蔓延', '高潮', '共谋'] },
+                    { word: 'mitigate', meaning: '缓解；减轻', options: ['缓解；减轻', '华丽的', '紧握', '需要'] },
+                    { word: 'exacerbate', meaning: '使恶化；加剧', options: ['使恶化；加剧', '健康的', '支持', '罪犯'] },
+                    { word: 'deplete', meaning: '耗尽；削减', options: ['耗尽；削减', '有毒的', '夜间活动的', '偏好'] },
+                    { word: 'negligible', meaning: '微不足道的', options: ['微不足道的', '疏忽的', '看似合理的', '宇宙的'] },
+                    { word: 'formulate', meaning: '制定；阐述', options: ['制定；阐述', '旋转', '潜在的', '领域'] },
+                    { word: 'realm', meaning: '领域', options: ['领域', '源于', '保护', '诱惑'] }
+                ];
+
+                this.initElements();
+                this.bindEvents();
+                this.loadWords();
+            }
+
+            initElements() {
+                this.testWord = document.getElementById('test-word');
+                this.questionText = document.getElementById('question-text');
+                this.testOptions = document.getElementById('test-options');
+                this.nextBtn = document.getElementById('next-word-btn');
+                this.startBtn = document.getElementById('start-test-btn');
+                this.resetBtn = document.getElementById('reset-btn');
+                this.testResult = document.getElementById('test-result');
+                this.correctCountEl = document.getElementById('correct-count');
+                this.wrongCountEl = document.getElementById('wrong-count');
+                this.accuracyEl = document.getElementById('accuracy');
+                this.progressContainer = document.getElementById('progress-container');
+                this.progressFill = document.getElementById('progress-fill');
+                this.progressText = document.getElementById('progress-text');
+            }
+
+            bindEvents() {
+                this.startBtn.addEventListener('click', () => this.startTest());
+                this.nextBtn.addEventListener('click', () => this.nextQuestion());
+                this.resetBtn.addEventListener('click', () => this.resetTest());
+            }
+
+            async loadWords() {
+                this.startBtn.disabled = true;
+                this.startBtn.innerHTML = '<span class="loading-spinner"></span>加载词库中...';
+
+                try {
+                    const resp = await fetch('./word-list.json', { cache: 'no-store' });
+                    if (!resp.ok) throw new Error('Failed to load');
+                    
+                    const data = await resp.json();
+                    this.words = (Array.isArray(data) ? data : []).map(item => ({
+                        word: String(item.word || '').trim(),
+                        meaning: String(item.meaning || '').trim(),
+                        options: Array.isArray(item.options) && item.options.length 
+                            ? item.options.slice() 
+                            : [String(item.meaning || '').trim()]
+                    })).filter(w => w.word && w.meaning);
+
+                    console.log('词库加载成功，共', this.words.length, '个单词');
+
+                    if (this.words.length === 0) {
+                        throw new Error('词库为空');
+                    }
+                } catch (err) {
+                    console.warn('JSON加载失败，使用备用词库:', err);
+                    this.words = this.fallbackWords;
+                }
+
+                this.startBtn.disabled = false;
+                this.startBtn.innerHTML = '<i class="fas fa-play"></i> 开始测试 (' + this.words.length + '词)';
+            }
+
+            startTest() {
+                if (this.words.length === 0) {
+                    this.testWord.textContent = '词库加载失败';
+                    return;
+                }
+
+                this.startBtn.style.display = 'none';
+                this.resetBtn.style.display = 'inline-flex';
+                this.progressContainer.style.display = 'block';
+                this.nextQuestion();
+            }
+
+            nextQuestion() {
+                this.isAnswered = false;
+                this.testResult.style.display = 'none';
+                this.nextBtn.style.display = 'none';
+
+                // 随机选择单词
+                this.currentWord = this.words[Math.floor(Math.random() * this.words.length)];
+                this.testWord.textContent = this.currentWord.word.toLowerCase();
+                this.questionText.textContent = '请选择正确的中文含义 (答对自动跳转)';
+
+                // 确保选项包含正确答案并随机排序
+                const optionSet = new Set(this.currentWord.options || []);
+                optionSet.add(this.currentWord.meaning);
+                
+                // 如果选项不足4个，从其他单词中补充
+                if (optionSet.size < 4 && this.words.length > 4) {
+                    const otherMeanings = this.words
+                        .filter(w => w.word !== this.currentWord.word)
+                        .map(w => w.meaning);
+                    this.shuffleArray(otherMeanings);
+                    for (const m of otherMeanings) {
+                        if (optionSet.size >= 4) break;
+                        optionSet.add(m);
+                    }
+                }
+
+                const shuffledOptions = this.shuffleArray(Array.from(optionSet));
+
+                // 生成选项按钮
+                this.testOptions.innerHTML = '';
+                shuffledOptions.forEach((option) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.textContent = option;
+                    btn.addEventListener('click', () => this.checkAnswer(option, btn));
+                    this.testOptions.appendChild(btn);
+                });
+            }
+
+            checkAnswer(selectedOption, btnElement) {
+                if (this.isAnswered) return;
+
+                this.isAnswered = true;
+                this.totalAnswered++;
+                const isCorrect = selectedOption === this.currentWord.meaning;
+
+                // 禁用所有按钮并标记正确答案
+                const allBtns = this.testOptions.querySelectorAll('.option-btn');
+                allBtns.forEach(btn => {
+                    btn.classList.add('disabled');
+                    if (btn.textContent === this.currentWord.meaning) {
+                        btn.classList.add('correct');
+                    } else if (btn === btnElement && !isCorrect) {
+                        btn.classList.add('wrong');
+                    }
+                });
+
+                // 更新统计
+                if (isCorrect) {
+                    this.correctCount++;
+                    this.testResult.textContent = '✅ 正确！正在跳转下一题...';
+                    this.testResult.className = 'test-result correct';
+
+                    // 正确答案：0.6秒后自动跳转
+                    setTimeout(() => this.nextQuestion(), 600);
+                } else {
+                    this.wrongCount++;
+                    this.testResult.textContent = `❌ 错误！正确答案是: ${this.currentWord.meaning}`;
+                    this.testResult.className = 'test-result wrong';
+                    this.nextBtn.style.display = 'inline-flex';
+                }
+
+                this.updateStats();
+                this.testResult.style.display = 'block';
+            }
+
+            updateStats() {
+                this.correctCountEl.textContent = this.correctCount;
+                this.wrongCountEl.textContent = this.wrongCount;
+
+                const total = this.correctCount + this.wrongCount;
+                const accuracy = total > 0 ? Math.round((this.correctCount / total) * 100) : 0;
+                this.accuracyEl.textContent = accuracy + '%';
+
+                // 更新进度
+                this.progressText.textContent = `已答 ${this.totalAnswered} 题`;
+                // 进度条循环（每20题一轮）
+                const progressPercent = (this.totalAnswered % 20) * 5;
+                this.progressFill.style.width = progressPercent + '%';
+            }
+
+            resetTest() {
+                this.correctCount = 0;
+                this.wrongCount = 0;
+                this.totalAnswered = 0;
+                this.isAnswered = false;
+
+                this.correctCountEl.textContent = '0';
+                this.wrongCountEl.textContent = '0';
+                this.accuracyEl.textContent = '0%';
+                this.progressFill.style.width = '0%';
+                this.progressText.textContent = '已答 0 题';
+
+                this.testWord.textContent = '准备开始';
+                this.questionText.textContent = '点击"开始测试"按钮开始';
+                this.testOptions.innerHTML = '';
+                this.testResult.style.display = 'none';
+                this.nextBtn.style.display = 'none';
+                this.resetBtn.style.display = 'none';
+                this.progressContainer.style.display = 'none';
+                this.startBtn.style.display = 'inline-flex';
+            }
+
+            shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            new WordQuiz();
+        });
+    </script>
+</body>
+
+</html>

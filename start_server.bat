@@ -12,7 +12,7 @@ echo   访问地址: http://localhost:8080
 echo ========================================================
 
 :: 自动在默认浏览器打开网页
-start http://localhost:8080/Pages/Note/word-learning-record.html
+start http://localhost:8080/Pages/notes.html
 
 :: 启动 Python 服务器
 python -m http.server 8080

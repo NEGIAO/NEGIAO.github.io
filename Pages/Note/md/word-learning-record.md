@@ -1907,3 +1907,15 @@
 | **Dwarf** | n./v. | 矮小的，侏儒；使相形见绌 | Snow White met the seven dwarfs. / The new skyscraper dwarfs all the other buildings. |
 | **Intimidate** | v. | 威胁，恐吓 | Don't let their threats intimidate you. |
 | **Temperament** | n. | 性情，气质 | She has a calm and artistic temperament. |
+
+### 2026-01-31 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Marginal** | adj. | 边缘的 | The marginal cost of production is increasing. |
+| **Verdict** | n. | 裁决，裁判 | The jury reached a guilty verdict. |
+| **Hedge** | n./v. | 防备；树篱；规避 | Investors often hedge against market risks. |
+| **Denounce** | v. | 谴责，告发 | The organization denounced the act of violence. |
+| **Resultant** | adj. | 由此产生的 | The resultant damage was extensive. |
+| **Ascertain** | v. | 查清，弄明白 | We need to ascertain the facts before making a decision. |
+| **Courtesy** | n. | 礼貌 | He opened the door as a courtesy to the elderly woman. |

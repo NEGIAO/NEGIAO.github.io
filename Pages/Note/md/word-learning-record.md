@@ -1919,3 +1919,9 @@
 | **Resultant** | adj. | 由此产生的 | The resultant damage was extensive. |
 | **Ascertain** | v. | 查清，弄明白 | We need to ascertain the facts before making a decision. |
 | **Courtesy** | n. | 礼貌 | He opened the door as a courtesy to the elderly woman. |
+
+### 2026-02-01 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+今日单词

@@ -320,7 +320,7 @@
             }
 
             // 渲染Markdown
-            function renderMarkdown(md, container) {
+            function renderMarkdown(md, container, noteName) {
                 return new Promise((resolve, reject) => {
                     let retryCount = 0;
                     const maxRetries = 60;
@@ -328,8 +328,57 @@
                     function tryRender() {
                         if (window.marked) {
                             try {
-                                container.innerHTML = window.marked.parse(md);
-                                container.classList.add('animate-in');
+                                // 检查是否是单词学习记录，需要倒序显示
+                                if (noteName && noteName.includes('word-learning-record')) {
+                                    container.innerHTML = '';
+                                    container.classList.add('animate-in');
+                                    
+                                    // 按月份分割 (## )
+                                    const rawChunks = md.split(/\n(?=##\s)/);
+                                    
+                                    if (rawChunks.length < 1) {
+                                        container.innerHTML = window.marked.parse(md);
+                                        resolve();
+                                        return;
+                                    }
+                                    
+                                    const headerChunk = rawChunks[0]; // 页面标题和简介
+                                    const monthChunks = rawChunks.slice(1); // 各个月份的数据块
+                                    
+                                    // 提取所有"天"的记录
+                                    let allDays = [];
+                                    monthChunks.forEach(monthChunk => {
+                                        const dayParts = monthChunk.split(/\n(?=###\s)/);
+                                        if (dayParts.length > 1) {
+                                            allDays.push(...dayParts.slice(1));
+                                        }
+                                    });
+                                    
+                                    // 按日期倒序排序
+                                    const getDate = (chunk) => {
+                                        const match = chunk.match(/###\s+(\d{4}-\d{2}-\d{2})/);
+                                        return match ? new Date(match[1]) : new Date(0);
+                                    };
+                                    
+                                    allDays.sort((a, b) => getDate(b) - getDate(a));
+                                    
+                                    // 渲染头部
+                                    const headerDiv = document.createElement('div');
+                                    headerDiv.className = 'note-chunk header-chunk';
+                                    headerDiv.innerHTML = window.marked.parse(headerChunk);
+                                    container.appendChild(headerDiv);
+                                    
+                                    // 渲染所有日期记录（已倒序）
+                                    const contentDiv = document.createElement('div');
+                                    contentDiv.className = 'note-chunk days-content';
+                                    contentDiv.innerHTML = window.marked.parse(allDays.join('\n'));
+                                    container.appendChild(contentDiv);
+                                    
+                                } else {
+                                    // 其他笔记正常渲染
+                                    container.innerHTML = window.marked.parse(md);
+                                    container.classList.add('animate-in');
+                                }
                                 resolve();
                             } catch (e) {
                                 reject(e);
@@ -383,7 +432,7 @@
 
                     // 渲染
                     const container = document.getElementById('note-content');
-                    await renderMarkdown(md, container);
+                    await renderMarkdown(md, container, noteName);
 
                     // 构建目录
                     if (window.buildNoteTOC) {

@@ -1924,4 +1924,7 @@
 
 | 单词 | 词性 | 中文释义 | 例句/用法 |
 |------|------|----------|-----------|
-今日单词
+| **Courtesy** | n. | 礼貌 | He showed courtesy by opening the door for her. |
+| **Verdict** | n. | 裁决；判决 | The jury returned a guilty verdict after deliberation. |
+| **Distort** | v. | 曲解；扭曲 | The headline distorted the facts of the report. |
+| **Gigantic** | adj. | 巨大的；庞大的 | The skyscraper cast a gigantic shadow over the park. |

@@ -1928,3 +1928,13 @@
 | **Verdict** | n. | 裁决；判决 | The jury returned a guilty verdict after deliberation. |
 | **Distort** | v. | 曲解；扭曲 | The headline distorted the facts of the report. |
 | **Gigantic** | adj. | 巨大的；庞大的 | The skyscraper cast a gigantic shadow over the park. |
+
+### 2026-02-02 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **albeit** | conj. | 尽管；虽然 | He accepted the job, albeit with some reservations. |
+| **repertoire** | n. | 全部才能；全部剧目 | Her repertoire includes both classical and modern pieces. |
+| **clause** | n. | 条款；从句 | The contract contains a confidentiality clause. |
+| **pedal** | n./v. | 踏板；踩踏板 | He pressed the pedal to accelerate the bicycle. |
+| **aftermath** | n. | 后果；余波 | In the aftermath of the storm, many were left homeless. |

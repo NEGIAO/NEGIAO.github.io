@@ -1938,3 +1938,17 @@
 | **clause** | n. | 条款；从句 | The contract contains a confidentiality clause. |
 | **pedal** | n./v. | 踏板；踩踏板 | He pressed the pedal to accelerate the bicycle. |
 | **aftermath** | n. | 后果；余波 | In the aftermath of the storm, many were left homeless. |
+
+### 2026-02-03 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Monopoly** | n. | 垄断 | The company held a monopoly on the market. |
+| **psychiatry** | n. | 精神病学 | He studied psychiatry at the university. |
+| **clause** | n. | 条款；从句 | Read the non-compete clause carefully. |
+| **aftermath** | n. | 后果；余波 | The aftermath of the war lasted for years. |
+| **famine** | n. | 饥荒 | The region suffered a severe famine. |
+| **fraud** | n. | 欺诈；骗子 | He was accused of fraud in the financial scheme. |
+| **furious** | adj. | 易怒的；激烈的 | She was furious when she heard the news. |
+| **vulgar** | adj. | 粗俗的；下流的 | The comedian's jokes were too vulgar for the show. |
+| **tram** | n. | 有轨电车 | We took the tram across the city center. |

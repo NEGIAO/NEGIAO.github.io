@@ -1952,3 +1952,25 @@
 | **furious** | adj. | 易怒的；激烈的 | She was furious when she heard the news. |
 | **vulgar** | adj. | 粗俗的；下流的 | The comedian's jokes were too vulgar for the show. |
 | **tram** | n. | 有轨电车 | We took the tram across the city center. |
+
+### 2026-02-04 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Envisage** | v. | 想象，设想 | She envisaged a future where technology improved education. |
+| **augment** | v. | 增强，扩大 | They augmented the team's resources for the project. |
+| **carbohydrates** | n. | 碳水化合物 | Athletes often consume carbohydrates for energy. |
+| **dove** | n. | 鸽子 | A dove landed on the windowsill. |
+| **benevolent** | adj. | 乐善好施的 | The benevolent donor funded the new library. |
+| **vulgar** | adj. | 粗俗的；下流的 | His language was considered vulgar by the audience. |
+| **rejoice** | v. | 高兴，喜悦 | They rejoiced at the news of her recovery. |
+| **guild** | n. | 协会 | The artists' guild organized the exhibition. |
+| **divert** | v. | 重新分配；使转向；使分心 | The police diverted traffic around the accident. |
+| **peel** | n./v. | 果皮，剥皮 | She peeled the apple before eating it. |
+| **specimen** | n. | 样本，抽样 | The doctor took a specimen for laboratory testing. |
+| **confer** | v. | 授予，协商 | The university will confer degrees at the ceremony. |
+| **blaze** | n./v. | 火灾，燃烧 | Flames from the blaze could be seen miles away. |
+| **convene** | v. | 召开，召集 | The committee convened to discuss the policy. |
+| **predecessor** | n. | 前辈，前任 | His predecessor left a strong legacy. |
+| **slaughter** | v./n. | 屠宰，屠杀 | The animals were taken for slaughter. |
+| **limp** | v./adj. | 艰难移动，跛行 | He limped away after injuring his ankle. |

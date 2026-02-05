@@ -1974,3 +1974,24 @@
 | **predecessor** | n. | 前辈，前任 | His predecessor left a strong legacy. |
 | **slaughter** | v./n. | 屠宰，屠杀 | The animals were taken for slaughter. |
 | **limp** | v./adj. | 艰难移动，跛行 | He limped away after injuring his ankle. |
+
+### 2026-02-05 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Ascertain** | v. | 查明；弄清 | They tried to ascertain the cause of the problem. |
+| **Verdict** | n. | 裁决；判决；意见 | The jury's verdict surprised the defense. |
+| **Diffuse** | v./adj. | 传播；缓解；扩散 | The light diffused softly through the curtains. |
+| **Fabulous** | adj. | 绝妙的；巨大的 | The dinner was absolutely fabulous. |
+| **Incur** | v. | 招致；遭受；带来 | He incurred significant debt after the investment failed. |
+| **Assault** | n./v. | 袭击；冲击 | The soldier was charged with assault. |
+| **Versatile** | adj. | 多才多艺的；多用途的 | A versatile tool is useful in many situations. |
+| **Spur** | v./n. | 激励；加速；促进 | The discovery spurred further research. |
+| **Compact** | n. | 契约；协定 | The nations signed a compact on environmental protection. |
+| **Bulk** | n. | 大部分；大量；大体 | The bulk of the work has been completed. |
+| **Supersonic** | adj. | 超音速的 | The jet reached supersonic speeds. |
+| **Conviction** | n. | 定罪；深信；坚定的信念 | Her conviction in justice drove her career. |
+| **Mortgage** | n./v. | 抵押；按揭贷款 | They applied for a mortgage to buy the house. |
+| **Wit** | n. | 智力；风趣；机智 | His quick wit made everyone laugh. |
+| **Masculine** | adj. | 阳性的；具有男子气质的 | The scent was more masculine than floral. |
+| **Mingle** | v. | 使混合；相交往 | Guests mingled freely at the reception. |

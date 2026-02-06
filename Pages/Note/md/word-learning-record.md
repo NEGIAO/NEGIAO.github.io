@@ -1995,3 +1995,20 @@
 | **Wit** | n. | 智力；风趣；机智 | His quick wit made everyone laugh. |
 | **Masculine** | adj. | 阳性的；具有男子气质的 | The scent was more masculine than floral. |
 | **Mingle** | v. | 使混合；相交往 | Guests mingled freely at the reception. |
+
+### 2026-02-06 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **gigantic** | adj. | 巨大的；庞大的 | The mountain's gigantic silhouette dominated the horizon. |
+| **bulk** | n. | 大量的；主体 | The bulk of the cargo was unloaded by noon. |
+| **spur** | v./n. | 激励；加速；鞭策 | The urgent deadline spurred the team into action. |
+| **wit** | n. | 智力；风趣；机智 | Her quick wit made the conversation lively. |
+| **agony** | n. | 极度痛苦 | He was in agony after the surgery. |
+| **proposition** | n. | 主张；提议 | She outlined a proposition to improve workflow. |
+| **grim** | adj. | 严肃的；令人不快的 | The outlook was grim after the accident. |
+| **charter** | n. | 宪章；特许状 | The company received a charter to operate the new route. |
+| **poke** | v./n. | 戳；刺；捅 | He gave the soil a poke with his finger to check for moisture. |
+| **oppress** | v. | 压迫；使压抑 | The regime continued to oppress its citizens. |
+| **roundabout** | adj./n. | 拐弯抹角的；环岛 | Use the roundabout to avoid the closed road. |
+| **vanity** | n. | 虚荣心；自大 | Her vanity prevented her from accepting criticism. |

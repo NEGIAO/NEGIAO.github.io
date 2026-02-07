@@ -2012,3 +2012,20 @@
 | **oppress** | v. | 压迫；使压抑 | The regime continued to oppress its citizens. |
 | **roundabout** | adj./n. | 拐弯抹角的；环岛 | Use the roundabout to avoid the closed road. |
 | **vanity** | n. | 虚荣心；自大 | Her vanity prevented her from accepting criticism. |
+
+### 2026-02-07 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Perpetual** | adj. | 不间断的；永久的 | The machinery was in perpetual motion. |
+| **Oppress** | v. | 压迫；使压抑 | The regime continued to oppress its citizens. |
+| **Stereotypes** | n. | 刻板印象 | We need to challenge cultural stereotypes. |
+| **Fracture** | n./v. | 骨折；裂缝 | He suffered a small fracture in his wrist. |
+| **Denote** | v. | 表明 | A red flag denotes danger ahead. |
+| **Bulk** | n. | 大部分；主体；大量 | The bulk of the shipment arrived yesterday. |
+| **Scold** | v. | 责骂；数落 | She scolded the child for making a mess. |
+| **Compile** | v. | 收集；编纂 | They compiled the report from several sources. |
+| **Locality** | n. | 地区；地点 | The locality is known for its scenic views. |
+| **Superstition** | n. | 迷信 | Many superstitions are based on old beliefs. |
+| **Jurisdiction** | n. | 管辖权；管辖范围 | The court has jurisdiction over the dispute. |
+| **Indignant** | adj. | 愤慨的 | She was indignant at the unfair accusation. |

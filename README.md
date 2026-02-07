@@ -146,7 +146,6 @@
 │   │   │   ├── spatial-analysis-R.md                 # 机器学习与智能算法（R）
 │   │   │   ├── word-learning-record.md               # 英语词汇学习记录
 │   │   │   ├── README.md                             # md目录说明文档
-│   │   │   ├── note-template.html                    # 旧版模板md内嵌在html中
 │   │   │   └── ZhouDi_learning/                      # 周迪学习记录子目录
 │   │   │       └── word-learning-record.md
 │   │   ├── resources/                                # 笔记引用的图片与附件资源
@@ -155,6 +154,7 @@
 │   │   │   ├── Lecture8_GeoAI.zip                    # GeoAI样例数据压缩包
 │   │   │   └── 正则提取注入json.py                    # 词库同步脚本（从md读取）
 │   │   ├── gallery.html                              # 技术成果展示画廊
+│   │   ├── note-template.html                        # 旧版模板md内嵌在html中
 │   │   ├── markdown_editor.html                      # 在线 Markdown 编辑器工具
 │   │   ├── note-viewer.html                          # 统一笔记渲染器（URL参数加载md）
 │   │   ├── word-quiz.html                            # 独立单词测试页面

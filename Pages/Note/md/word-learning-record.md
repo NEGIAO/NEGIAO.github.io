@@ -2029,3 +2029,11 @@
 | **Superstition** | n. | 迷信 | Many superstitions are based on old beliefs. |
 | **Jurisdiction** | n. | 管辖权；管辖范围 | The court has jurisdiction over the dispute. |
 | **Indignant** | adj. | 愤慨的 | She was indignant at the unfair accusation. |
+
+### 2026-02-08 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Superstition** | n. | 迷信 | Many superstitions are based on old beliefs. |
+| **Coarse** | adj. | 粗糙的；粗鲁的 | The fabric felt coarse against his skin. |
+| **Petroleum** | n. | 石油 | The country exports petroleum to several neighboring nations. |

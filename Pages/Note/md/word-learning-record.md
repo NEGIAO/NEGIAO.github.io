@@ -2037,3 +2037,15 @@
 | **Superstition** | n. | 迷信 | Many superstitions are based on old beliefs. |
 | **Coarse** | adj. | 粗糙的；粗鲁的 | The fabric felt coarse against his skin. |
 | **Petroleum** | n. | 石油 | The country exports petroleum to several neighboring nations. |
+
+### 2026-02-09 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Irrigate** | v. | 灌溉；冲洗 | Farmers irrigate the fields during the dry season. |
+| **siege** | n./v. | 围攻；围困 | The city endured a long siege during the war. |
+| **Bible** | n. | 圣经 | She read a passage from the Bible. |
+| **eradicate** | v. | 根除；杜绝 | The campaign aims to eradicate the disease. |
+| **landlord** | n. | 房东；地主 | The landlord increased the rent last month. |
+| **turnover** | n. | 人员流动；营业额 | The company reduced staff turnover with better benefits. |
+| **embryo** | n. | 胚胎；初期 | The embryo develops rapidly in the first weeks. |

@@ -2049,3 +2049,16 @@
 | **landlord** | n. | 房东；地主 | The landlord increased the rent last month. |
 | **turnover** | n. | 人员流动；营业额 | The company reduced staff turnover with better benefits. |
 | **embryo** | n. | 胚胎；初期 | The embryo develops rapidly in the first weeks. |
+
+### 2026-02-10 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **embryo** | n. | 胚胎；初期 | Early-stage embryos require careful monitoring. |
+| **monopoly** | n. | 垄断；独占 | The firm maintained a monopoly over local utilities. |
+| **eradicate** | v. | 根除；杜绝 | International efforts aim to eradicate the disease worldwide. |
+| **endeavor** | n./v. | 努力；尝试 | She endeavored to complete the thesis before the deadline. |
+| **abdomen** | n. | 腹部 | He complained of sharp pain in his abdomen. |
+| **scandal** | n. | 丑闻 | The revelations sparked a major scandal. |
+| **grope** | v. | 猥亵；摸索 | He was accused of groping a colleague at the party. |
+| **excerpt** | n./v. | 摘录；摘录 | The article included an excerpt from the original speech. |

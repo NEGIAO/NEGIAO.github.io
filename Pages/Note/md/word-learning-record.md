@@ -2062,3 +2062,15 @@
 | **scandal** | n. | 丑闻 | The revelations sparked a major scandal. |
 | **grope** | v. | 猥亵；摸索 | He was accused of groping a colleague at the party. |
 | **excerpt** | n./v. | 摘录；摘录 | The article included an excerpt from the original speech. |
+
+### 2026-02-11 新增單詞
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **excerpt** | n./v. | 摘录；摘录 | The editor included an excerpt of the novel in the preview. |
+| **sarcastic** | adj. | 讽刺的 | His sarcastic tone made it hard to take him seriously. |
+| **albeit** | conj. | 尽管；虽然 | She agreed to help, albeit reluctantly. |
+| **silly** | adj. | 愚蠢的；可笑的 | That was a silly mistake to make. |
+| **shabby** | adj. | 破旧的；不公正的 | The shabby apartment needed serious repairs. |
+| **booth** | n. | 临时货摊；小隔间 | We set up a booth to sell our crafts at the fair. |
+| **bulletin** | n. | 公告；简报 | The bulletin reported the latest company updates. |

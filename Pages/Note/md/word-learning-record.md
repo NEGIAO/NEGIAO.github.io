@@ -2074,3 +2074,20 @@
 | **shabby** | adj. | 破旧的；不公正的 | The shabby apartment needed serious repairs. |
 | **booth** | n. | 临时货摊；小隔间 | We set up a booth to sell our crafts at the fair. |
 | **bulletin** | n. | 公告；简报 | The bulletin reported the latest company updates. |
+
+### 2026-02-12 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Jurisdiction** | n. | 管辖权；司法权 | The case fell outside the court's jurisdiction. |
+| **Verdict** | n. | 裁决；意见 | The jury returned a not-guilty verdict. |
+| **Interim** | adj. | 暂时的；过渡的 | An interim report will be published next week. |
+| **Dialect** | n. | 方言 | She speaks a regional dialect that is hard to understand. |
+| **Versatile** | adj. | 多才多艺的；多用途的 | A versatile chef can prepare many cuisines. |
+| **Surveillance** | n. | 监控；监视 | The area is under 24-hour surveillance. |
+| **Propaganda** | n. | 宣传 | The poster was dismissed as government propaganda. |
+| **Bulletin** | n. | 公告；简报 | The weekly bulletin lists upcoming events. |
+| **Obsolete** | adj. | 废弃的；过时的 | Many old technologies have become obsolete. |
+| **Jury** | n. | 陪审团；裁判委员会 | The jury deliberated for three days. |
+| **Hypocrisy** | n. | 伪善；虚伪 | His hypocrisy was exposed by the investigation. |
+| **Withhold** | v. | 拒绝；不给 | The company decided to withhold the bonus this year. |

@@ -2091,3 +2091,14 @@
 | **Jury** | n. | 陪审团；裁判委员会 | The jury deliberated for three days. |
 | **Hypocrisy** | n. | 伪善；虚伪 | His hypocrisy was exposed by the investigation. |
 | **Withhold** | v. | 拒绝；不给 | The company decided to withhold the bonus this year. |
+
+### 2026-02-13 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Slot** | n./v. | 插入；塞入 | She slotted the key into the lock. |
+| **Survey** | n./v. | 测量；勘探；概述 | They surveyed the land before construction began. |
+| **Vicious** | adj. | 恶毒的；残酷的；凶猛的 | The dog showed a vicious growl at strangers. |
+| **Superfluous** | adj. | 过剩的；多余的 | Remove any superfluous items from the list. |
+| **Comrade** | n. | 同志；战友 | He greeted his old comrade from the army. |
+| **Escort** | n./v. | 护卫者；护送 | A police escort accompanied the convoy. |

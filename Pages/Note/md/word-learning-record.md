@@ -2102,3 +2102,13 @@
 | **Superfluous** | adj. | 过剩的；多余的 | Remove any superfluous items from the list. |
 | **Comrade** | n. | 同志；战友 | He greeted his old comrade from the army. |
 | **Escort** | n./v. | 护卫者；护送 | A police escort accompanied the convoy. |
+
+### 2026-02-14 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Perish** | v. | 死亡；毁灭 | Many plants perish without water during the drought. |
+| **Stipulate** | v. | 规定；明确要求 | The contract stipulates delivery within 30 days. |
+| **Acute** | adj. | 严重的；灵敏的；急性的 | She was admitted with acute abdominal pain. |
+| **Captive** | adj./n. | 俘虏；受控制的 | The rescued captives were taken to safety. |
+| **Pirate** | n./v. | 盗窃者；盗版 | Authorities arrested suspects for pirating the software. |

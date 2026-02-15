@@ -2112,3 +2112,14 @@
 | **Acute** | adj. | 严重的；灵敏的；急性的 | She was admitted with acute abdominal pain. |
 | **Captive** | adj./n. | 俘虏；受控制的 | The rescued captives were taken to safety. |
 | **Pirate** | n./v. | 盗窃者；盗版 | Authorities arrested suspects for pirating the software. |
+
+### 2026-02-15 新增單詞
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **vulgar** | adj. | 粗俗的；下流的 | His vulgar jokes offended some members of the audience. |
+| **regime** | n. | 政权；管理体制 | The new regime announced sweeping policy changes. |
+| **sarcastic** | adj. | 讽刺的 | Her sarcastic comment made everyone laugh uncomfortably. |
+| **lump** | n./v. | 归并到一起；肿块 | They lumped the minor errors together in the report. |
+| **eminent** | adj. | 卓越的；著名的 | She is an eminent scholar in environmental science. |
+| **eccentric** | adj./n. | 古怪的；古怪的人 | His eccentric habits made him memorable to neighbors. |

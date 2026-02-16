@@ -2123,3 +2123,12 @@
 | **lump** | n./v. | 归并到一起；肿块 | They lumped the minor errors together in the report. |
 | **eminent** | adj. | 卓越的；著名的 | She is an eminent scholar in environmental science. |
 | **eccentric** | adj./n. | 古怪的；古怪的人 | His eccentric habits made him memorable to neighbors. |
+
+### 2026-02-16 新增單詞
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Contend** | v. | 主张；声称 | Experts contend that the policy will have limited effect. |
+| **Sane** | adj. | 理智的；心智健全的 | After the rest she felt sane enough to decide. |
+| **Mock** | v./adj. | 嘲笑；虚假的 | They mocked his suggestion during the meeting. |
+| **Preclude** | v. | 妨碍；阻止 | Lack of funding precludes further development. |

@@ -2132,3 +2132,12 @@
 | **Sane** | adj. | 理智的；心智健全的 | After the rest she felt sane enough to decide. |
 | **Mock** | v./adj. | 嘲笑；虚假的 | They mocked his suggestion during the meeting. |
 | **Preclude** | v. | 妨碍；阻止 | Lack of funding precludes further development. |
+
+### 2026-02-17 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Charter** | n. | 宪章；特许状 | The organization was granted a charter by the state. |
+| **Preclude** | v. | 妨碍；阻止 | His injury precludes him from competing this season. |
+| **Relish** | v./n. | 享受；调味品 | She relishes the chance to travel and tried the local relish. |
+| **Furnish** | v. | 供应；布置房间 | They furnished the new apartment before moving in. |

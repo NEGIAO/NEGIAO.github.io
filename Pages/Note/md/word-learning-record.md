@@ -2141,3 +2141,18 @@
 | **Preclude** | v. | 妨碍；阻止 | His injury precludes him from competing this season. |
 | **Relish** | v./n. | 享受；调味品 | She relishes the chance to travel and tried the local relish. |
 | **Furnish** | v. | 供应；布置房间 | They furnished the new apartment before moving in. |
+
+### 2026-02-18 新增單詞
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Midst** | n. | 中部；中央 | In the midst of the storm, the town lost power. |
+| **Intimidate** | v. | 恐吓；威胁 | They tried to intimidate witnesses into silence. |
+| **Stipulate** | v. | 规定；明确要求 | The lease stipulates that pets are not allowed. |
+| **Spiral** | adj. | 螺旋形的 | The sculpture featured a spiral design. |
+| **Commence** | v. | 开始发生；着手 | The ceremony will commence at noon. |
+| **Sober** | adj. | 严肃的；清醒的 | He gave a sober assessment of the project's risks. |
+| **Preceding** | adj. | 在前的；先前的 | See the preceding paragraph for more details. |
+| **Contrive** | v. | 策划；设法（做某事） | She contrived to cook a meal from the leftovers. |
+| **Hostage** | n. | 人质 | Negotiators worked to secure the hostages' release. |
+| **Taboo** | n. | 禁忌 | In some cultures, discussing death is taboo. |

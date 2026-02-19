@@ -2156,3 +2156,16 @@
 | **Contrive** | v. | 策划；设法（做某事） | She contrived to cook a meal from the leftovers. |
 | **Hostage** | n. | 人质 | Negotiators worked to secure the hostages' release. |
 | **Taboo** | n. | 禁忌 | In some cultures, discussing death is taboo. |
+
+### 2026-02-19 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Sober** | adj. | 严肃的；清醒的 | After the incident he spoke in a sober tone. |
+| **Contrive** | v. | 策划；设法做到 | She contrived a solution using only basic tools. |
+| **Climax** | n. | 最高点；高潮 | The story reaches its climax in the final scene. |
+| **Prudent** | adj. | 谨慎的；精明的 | It was prudent to check the weather before leaving. |
+| **Sue** | v. | 控告；起诉 | He threatened to sue the landlord for breach of contract. |
+| **Spacious** | adj. | 广阔的；宽敞的 | The apartment is bright and spacious. |
+| **Sly** | adj. | 诡秘的；狡诈的 | She gave a sly grin when she succeeded. |
+| **Intact** | adj. | 完好无损的；完整的 | The antique arrived intact despite the long journey. |

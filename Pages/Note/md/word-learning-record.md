@@ -2169,3 +2169,15 @@
 | **Spacious** | adj. | 广阔的；宽敞的 | The apartment is bright and spacious. |
 | **Sly** | adj. | 诡秘的；狡诈的 | She gave a sly grin when she succeeded. |
 | **Intact** | adj. | 完好无损的；完整的 | The antique arrived intact despite the long journey. |
+
+### 2026-02-20 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Sphere** | n. | 领域；球体；范围 | He specializes in the sphere of international trade. |
+| **Tempo** | n. | 速度；节奏 | The orchestra increased the tempo for the finale. |
+| **Agony** | n. | 极度痛苦 | She was in agony after twisting her ankle. |
+| **Halt** | v./n. | 停止 | Construction came to a halt because of the strike. |
+| **Monotonous** | adj. | 单调乏味的；无变化的 | The lecture was long and monotonous. |
+| **Cure** | n./v. | 对策；疗法；治疗 | Scientists continue the search for a cure. |
+| **Magnify** | v. | 夸大；放大；使加重 | The media magnified the minor incident into a scandal. |

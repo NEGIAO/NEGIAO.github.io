@@ -2181,3 +2181,14 @@
 | **Monotonous** | adj. | 单调乏味的；无变化的 | The lecture was long and monotonous. |
 | **Cure** | n./v. | 对策；疗法；治疗 | Scientists continue the search for a cure. |
 | **Magnify** | v. | 夸大；放大；使加重 | The media magnified the minor incident into a scandal. |
+
+### 2026-02-21 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Albeit** | conj. | 虽然；尽管 | He passed the exam, albeit with a low score. |
+| **Indignation** | n. | 愤慨；愤怒 | Public indignation grew after the announcement. |
+| **Preclude** | v. | 妨碍；阻止 | Poor planning will preclude success. |
+| **Bracket** | n./v. | 括号；等级 | Please bracket the options you prefer. |
+| **Perplex** | v. | 困惑；使迷惑 | The complex instructions perplexed the students. |
+| **Panorama** | n. | 全貌；全景；综述 | The book gives a panorama of modern art. |

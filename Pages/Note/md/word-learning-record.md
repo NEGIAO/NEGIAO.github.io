@@ -2192,3 +2192,14 @@
 | **Bracket** | n./v. | 括号；等级 | Please bracket the options you prefer. |
 | **Perplex** | v. | 困惑；使迷惑 | The complex instructions perplexed the students. |
 | **Panorama** | n. | 全貌；全景；综述 | The book gives a panorama of modern art. |
+
+### 2026-02-22 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **discern** | v. | 分辨出；察觉出 | It was hard to discern the figure in the fog. |
+| **priest** | n. | 牧师；神职人员 | The priest gave a sermon on Sunday. |
+| **lateral** | adj. | 平级的；侧面的，横向的 | The company promoted him to a lateral position. |
+| **testimony** | n. | 证词；证据；证明 | His testimony convinced the jury of his innocence. |
+| **dividend** | n. | 红利；被除数 | Shareholders received a generous dividend this quarter. |
+| **handicap** | n./v. | 妨碍；阻碍 | The injury handicapped his ability to run. |

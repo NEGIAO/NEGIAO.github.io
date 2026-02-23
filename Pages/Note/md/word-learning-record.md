@@ -2203,3 +2203,11 @@
 | **testimony** | n. | 证词；证据；证明 | His testimony convinced the jury of his innocence. |
 | **dividend** | n. | 红利；被除数 | Shareholders received a generous dividend this quarter. |
 | **handicap** | n./v. | 妨碍；阻碍 | The injury handicapped his ability to run. |
+
+### 2026-02-23 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Testimony** | n. | 证词；口供 | The witness gave her testimony in court. |
+| **Audit** | n./v. | 审计；旁听 | They will audit the company books next month. |
+| **Impetus** | n. | 动力；促进；刺激 | The new evidence provided impetus for the investigation. |

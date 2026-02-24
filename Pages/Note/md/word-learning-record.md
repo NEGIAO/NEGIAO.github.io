@@ -2211,3 +2211,13 @@
 | **Testimony** | n. | 证词；口供 | The witness gave her testimony in court. |
 | **Audit** | n./v. | 审计；旁听 | They will audit the company books next month. |
 | **Impetus** | n. | 动力；促进；刺激 | The new evidence provided impetus for the investigation. |
+
+### 2026-02-24 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Wit** | n. | 智力；风趣 | His wit entertained everyone at the dinner. |
+| **Hamper** | v. | 妨碍；阻碍 | Heavy traffic will hamper our arrival. |
+| **Eligible** | adj. | 有资格的；合格的 | She is eligible to apply for the scholarship. |
+| **Eloquent** | adj. | 有说服力的；传神的 | His speech was eloquent and moving. |
+| **Acclaim** | n./v. | 称赞 | The director's work was met with acclaim. |

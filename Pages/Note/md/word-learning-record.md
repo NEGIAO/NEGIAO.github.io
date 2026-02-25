@@ -2221,3 +2221,16 @@
 | **Eligible** | adj. | 有资格的；合格的 | She is eligible to apply for the scholarship. |
 | **Eloquent** | adj. | 有说服力的；传神的 | His speech was eloquent and moving. |
 | **Acclaim** | n./v. | 称赞 | The director's work was met with acclaim. |
+
+### 2026-02-25 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Troll** | n./v. | 引战；捕鱼 | He trolled the forum for a reaction. |
+| **Monarch** | n. | 君主；帝王 | The monarch ruled for fifty years. |
+| **Magnificent** | adj. | 宏伟的 | The palace was magnificent in its design. |
+| **Racket** | n. | 球拍；喧哗；诈骗 | The thieves ran a racket in the neighborhood. |
+| **Ribbon** | n. | 带子；最佳的 | She tied a ribbon around the gift. |
+| **Fiscal** | adj. | 财政的；国库的 | The government released its fiscal report. |
+| **Conscience** | n. | 良心；内疚 | His conscience wouldn't let him lie. |
+| **Transistor** | n. | 晶体管 | The radio uses a transistor for amplification. |

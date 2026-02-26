@@ -2234,3 +2234,12 @@
 | **Fiscal** | adj. | 财政的；国库的 | The government released its fiscal report. |
 | **Conscience** | n. | 良心；内疚 | His conscience wouldn't let him lie. |
 | **Transistor** | n. | 晶体管 | The radio uses a transistor for amplification. |
+
+### 2026-02-26 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Recite** | v. | 背诵；详述 | She can recite the poem from memory. |
+| **Torrent** | n. | 急流；湍流 | A torrent of rain flooded the streets. |
+| **Overhaul** | n./v. | 改革；检修 | The engine needs an overhaul before the trip. |
+| **Emigrate** | v. | 移民；移居 | They decided to emigrate to Australia. |

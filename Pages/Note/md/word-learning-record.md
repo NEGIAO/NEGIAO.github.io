@@ -2243,3 +2243,11 @@
 | **Torrent** | n. | 急流；湍流 | A torrent of rain flooded the streets. |
 | **Overhaul** | n./v. | 改革；检修 | The engine needs an overhaul before the trip. |
 | **Emigrate** | v. | 移民；移居 | They decided to emigrate to Australia. |
+
+### 2026-02-27 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Superstition** | n. | 迷信 | Many superstitions stem from ancient beliefs. |
+| **Pathetic** | adj. | 可怜的；差劲的 | Their attempt to fix the leak was pathetic. |
+| **Preside** | v. | 掌管；主持 | She will preside over the meeting tomorrow. |

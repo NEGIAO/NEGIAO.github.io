@@ -2251,3 +2251,14 @@
 | **Superstition** | n. | 迷信 | Many superstitions stem from ancient beliefs. |
 | **Pathetic** | adj. | 可怜的；差劲的 | Their attempt to fix the leak was pathetic. |
 | **Preside** | v. | 掌管；主持 | She will preside over the meeting tomorrow. |
+
+### 2026-02-28 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Meadow** | n. | 草地；牧场 | The cows grazed in the green meadow. |
+| **Eradicate** | v. | 根除；杜绝 | They aim to eradicate the disease entirely. |
+| **Audit** | n./v. | 审计 | The firm will audit financial records annually. |
+| **Impetus** | n. | 动力；促进 | The new policy gave impetus to reforms. |
+| **Petition** | n./v. | 请愿书；祈求 | Citizens petitioned for better healthcare. |
+| **Fluctuate** | v. | 波动；起伏不定 | Prices fluctuate daily in the market. |

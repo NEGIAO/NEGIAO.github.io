@@ -2262,3 +2262,14 @@
 | **Impetus** | n. | 动力；促进 | The new policy gave impetus to reforms. |
 | **Petition** | n./v. | 请愿书；祈求 | Citizens petitioned for better healthcare. |
 | **Fluctuate** | v. | 波动；起伏不定 | Prices fluctuate daily in the market. |
+
+### 2026-03-01 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Verdict** | n. | 裁决；意见 | The jury delivered their verdict quickly. |
+| **Contrive** | v. | 策划；设法做到 | He contrived a way to finish the work early. |
+| **Sober** | adj. | 严肃的；变得冷静的 | The mood in the room became sober after the announcement. |
+| **Hip** | n. | 臀部 | He fractured his hip in the fall. |
+| **Discreet** | adj. | 谨慎的；审慎的 | She was discreet when discussing the matter. |
+| **Scrutiny** | n. | 仔细检查；认真审查 | The proposal underwent close scrutiny by the committee. |

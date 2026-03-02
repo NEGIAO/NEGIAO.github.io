@@ -2271,5 +2271,50 @@
 | **Contrive** | v. | 策划；设法做到 | He contrived a way to finish the work early. |
 | **Sober** | adj. | 严肃的；变得冷静的 | The mood in the room became sober after the announcement. |
 | **Hip** | n. | 臀部 | He fractured his hip in the fall. |
+| **Discreet** | adj. | 谨慎的 | Please be discreet when handling this information. |
+| **Scrutiny** | n. | 仔细检查；认真审查 | The proposal underwent close scrutiny by the committee. |
+
+### 2026-03-02 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Heir** | n. | 继承人 | He was named the heir to the family estate. |
+| **Sue** | v. | 控告；起诉 | She decided to sue the company for negligence. |
+| **Intact** | adj. | 完整的 | The ancient vase remained intact after the earthquake. |
+| **Discreet** | adj. | 谨慎的 | Please be discreet when handling this information. |
+| **Bulletin** | n. | 公告；公报；简报 | The bulletin contained the latest school news. |
+| **Wardrobe** | n. | 衣橱，衣柜 | She bought a new wardrobe for her bedroom. |
+| **Torture** | v. | 使痛苦；拷打 | The detailed description felt like torture to read. |
+| **Appraisal** | n. | 估计；评价；鉴定 | The appraisal valued the house at $500,000. |
+| **Conform** | v. | 遵从；顺从 | Students must conform to the school rules. |
+| **Levy** | n./v. | 税款；征收 | The government will levy a new tax on imports. |
+| **Attorney** | n. | 律师；代理人 | He hired an attorney to handle the negotiation. |
+| **Parliament** | n. | 议会；国会 | Parliament will vote on the bill next week. |
+
+### 2026-03-01 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Verdict** | n. | 裁决；意见 | The jury delivered their verdict quickly. |
+| **Contrive** | v. | 策划；设法做到 | He contrived a way to finish the work early. |
+| **Sober** | adj. | 严肃的；变得冷静的 | The mood in the room became sober after the announcement. |
+| **Hip** | n. | 臀部 | He fractured his hip in the fall. |
 | **Discreet** | adj. | 谨慎的；审慎的 | She was discreet when discussing the matter. |
 | **Scrutiny** | n. | 仔细检查；认真审查 | The proposal underwent close scrutiny by the committee. |
+
+### 2026-03-02 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Heir** | n. | 继承人 | He was named the heir to the family estate. |
+| **Sue** | v. | 控告；起诉 | She decided to sue the company for negligence. |
+| **Intact** | adj. | 完整的 | The ancient vase remained intact after the earthquake. |
+| **Discreet** | adj. | 谨慎的 | Please be discreet when handling this information. |
+| **Bulletin** | n. | 公告；公报；简报 | The bulletin contained the latest school news. |
+| **Wardrobe** | n. | 衣橱，衣柜 | She bought a new wardrobe for her bedroom. |
+| **Torture** | v. | 使痛苦；拷打 | The detailed description felt like torture to read. |
+| **Appraisal** | n. | 估计；评价；鉴定 | The appraisal valued the house at $500,000. |
+| **Conform** | v. | 遵从；顺从 | Students must conform to the school rules. |
+| **Levy** | n./v. | 税款；征收 | The government will levy a new tax on imports. |
+| **Attorney** | n. | 律师；代理人 | He hired an attorney to handle the negotiation. |
+| **Parliament** | n. | 议会；国会 | Parliament will vote on the bill next week. |

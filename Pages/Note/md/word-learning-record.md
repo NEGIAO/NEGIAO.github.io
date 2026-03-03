@@ -2318,3 +2318,22 @@
 | **Levy** | n./v. | 税款；征收 | The government will levy a new tax on imports. |
 | **Attorney** | n. | 律师；代理人 | He hired an attorney to handle the negotiation. |
 | **Parliament** | n. | 议会；国会 | Parliament will vote on the bill next week. |
+
+### 2026-03-03 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Conform** | v. | 遵从；顺从 | Students must conform to the school rules. |
+| **Compact** | n. | 契约；协定 | The two companies signed a compact for cooperation. |
+| **Attorney** | n. | 律师；代理人 | He hired an attorney to handle the case. |
+| **Torture** | n./v. | 痛苦；拷问 | The prisoner was subjected to torture. |
+| **Parliament** | n. | 议会；国会 | The new law was approved by parliament. |
+| **Tribute** | n. | 贡品；致敬 | They paid tribute to the fallen soldiers. |
+| **Lease** | n. | 租约；租契 | We signed a three-year lease on the apartment. |
+| **Levy** | n. | 税款 | The government imposed a new levy on imports. |
+| **Reproach** | v./n. | 指责；责备 | She looked at him with reproach in her eyes. |
+| **Appraisal** | n. | 估计；评估；鉴定 | The property appraisal came back higher than expected. |
+| **Halt** | v./n. | 停止；暂停 | The train came to a sudden halt. |
+| **Indignation** | n. | 愤慨；愤怒 | His remarks were met with public indignation. |
+| **Diploma** | n. | 毕业证书 | She received her diploma at the graduation ceremony. |
+| **Enlighten** | v. | 启发；教育 | The teacher's words helped to enlighten the students. |

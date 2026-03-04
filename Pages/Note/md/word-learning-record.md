@@ -2337,3 +2337,20 @@
 | **Indignation** | n. | 愤慨；愤怒 | His remarks were met with public indignation. |
 | **Diploma** | n. | 毕业证书 | She received her diploma at the graduation ceremony. |
 | **Enlighten** | v. | 启发；教育 | The teacher's words helped to enlighten the students. |
+
+### 2026-03-04 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Stain** | n./v. | 污染；弄脏 | The coffee left a stain on the carpet. |
+| **Panorama** | n. | 全貌；综述 | The mountain top offered a stunning panorama of the valley. |
+| **Surveillance** | n. | 监控 | The building is under 24-hour surveillance. |
+| **Peninsula** | n. | 半岛 | The Korean Peninsula is located in East Asia. |
+| **Bald** | adj. | 平的；秃的 | He started going bald in his thirties. |
+| **Grin** | v./n. | 咧嘴笑 | He couldn't help but grin at the good news. |
+| **Endeavor** | n./v. | 努力；尝试 | We will endeavor to complete the project on time. |
+| **Quota** | n. | 定额；指标 | The sales team exceeded their monthly quota. |
+| **Quote** | v./n. | 引用 | She quoted Shakespeare in her speech. |
+| **Cloak** | v./n. | 隐藏；掩饰 | The spy cloaked his true identity. |
+| **Deduce** | v. | 推断；推论；演绎 | From the evidence, we can deduce what happened. |
+| **Allege** | v. | 指控；断言；声称 | The prosecutor alleged that he committed fraud. |

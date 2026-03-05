@@ -2354,3 +2354,27 @@
 | **Cloak** | v./n. | 隐藏；掩饰 | The spy cloaked his true identity. |
 | **Deduce** | v. | 推断；推论；演绎 | From the evidence, we can deduce what happened. |
 | **Allege** | v. | 指控；断言；声称 | The prosecutor alleged that he committed fraud. |
+
+### 2026-03-05 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Excursion** | n. | 远足；涉足 | We took an excursion to the nearby mountains. |
+| **Cloak** | v./n. | 隐藏；遮挡；遮盖物 | The darkness cloaked the city streets. |
+| **Excite** | v. | 激发；引起；使激动 | The news excited the entire team. |
+| **Testimony** | n. | 证词；证据；证明 | His testimony proved crucial to the case. |
+| **Shatter** | v. | 破碎；使破灭 | The glass shattered when it hit the floor. |
+| **Sanction** | v./n. | 制裁；处罚；许可 | The government imposed sanctions on the country. |
+| **Handicap** | n./v. | 阻碍；障碍；妨碍 | The injury handicapped his performance. |
+| **Dividend** | n. | 红利；股息 | Shareholders received a dividend payment. |
+| **Eligible** | adj. | 有资格的；合格的 | You are eligible for the scholarship. |
+| **Repression** | n. | 镇压；抑制；压抑 | The government's repression of protests was brutal. |
+| **Dealer** | n. | 经销商 | The car dealer offered a competitive price. |
+| **Lateral** | adj. | 平级的；侧面的；横向的 | He received a lateral promotion to a similar position. |
+| **Antique** | n./adj. | 古董；古老的 | The antique furniture was worth a fortune. |
+| **Paddle** | n./v. | 船桨；桨叶 | We used paddles to navigate the canoe. |
+| **Queer** | adj. | 奇怪的；异常的 | Something queer happened last night. |
+| **Conspiracy** | n. | 密谋；阴谋 | A conspiracy was uncovered by investigators. |
+| **Hitherto** | adv. | 到今天为止；迄今 | Hitherto, there have been no major issues. |
+| **Speciality** | n. | 专业；特产；特长 | Her speciality is Chinese cuisine. |
+| **Puppet** | n. | 傀儡；木偶 | The dictator was a puppet of the foreign power. |

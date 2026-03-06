@@ -2378,3 +2378,36 @@
 | **Hitherto** | adv. | 到今天为止；迄今 | Hitherto, there have been no major issues. |
 | **Speciality** | n. | 专业；特产；特长 | Her speciality is Chinese cuisine. |
 | **Puppet** | n. | 傀儡；木偶 | The dictator was a puppet of the foreign power. |
+
+### 2026-03-06 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Municipal** | adj. | 市政的；地方政府的 | The municipal government announced new public transportation plans. |
+| **Instantaneous** | adj. | 瞬间的；即刻的 | The effect was instantaneous when the switch was turned on. |
+| **Spontaneous** | adj. | 自发的；自然的 | A spontaneous applause erupted from the audience. |
+| **Simultaneous** | adj. | 同步的；同时发生的 | The two events occurred almost simultaneous. |
+| **Sauce** | n. | 调味汁 | The pasta was covered in a rich tomato sauce. |
+| **Lump** | n./v. | 块；肿块；归纳到一起 | A lump formed on his forehead after the fall. |
+| **Fable** | n. | 寓言；谣传 | Aesop's fable about the tortoise and hare teaches persistence. |
+| **Augment** | v. | 增强；扩大；增加 | He augmented his income by taking a second job. |
+| **Argument** | n. | 争吵；争论；论点 | Their argument lasted for hours without resolution. |
+| **Curb** | v./n. | 抑制；约束；街道的边缘 | We need to curb spending to reduce the deficit. |
+| **Commonwealth** | n. | 英联邦；共和体 | The Commonwealth countries maintain close diplomatic ties. |
+| **Commonplace** | adj. | 平凡的；常见的 | Smartphones are now commonplace in modern society. |
+| **Coarse** | adj. | 粗糙的；大颗粒的；粗鲁的 | The coarse fabric felt rough against the skin. |
+| **Ore** | n. | 矿石；矿 | Iron ore is mined in many parts of the world. |
+| **Seam** | n. | 矿层；接缝；缝合处 | The seam in the fabric started to split. |
+| **Shrewd** | adj. | 机灵的；敏锐的 | His shrewd business decisions led to success. |
+| **Screw** | n./v. | 螺丝；旋转 | Tighten the screw to secure the bracket. |
+| **Pierce** | v. | 刺破；穿透；突破 | The needle pierced through the fabric easily. |
+| **Fierce** | adj. | 强烈的；凶猛的 | A fierce storm swept across the region. |
+| **Slap** | v./n. | 拍打；掌掴 | He gave the table a slap in frustration. |
+| **Intercourse** | n. | 交往；交流；交际 | Regular intercourse among team members improves communication. |
+| **Presume** | v. | 推测；假设；擅自 | I presume you have read the instructions. |
+| **Resume** | v./n. | 恢复；回到；简历 | Classes will resume after the holiday break. |
+| **Assume** | v. | 假定；假设；认为 | Don't assume anything without proper evidence. |
+| **Deplore** | v. | 强烈反对；谴责 | The organization deplored the violent actions. |
+| **Deploy** | v. | 部署；调度；使用 | The military will deploy troops to the region. |
+| **Deplete** | v. | 大量减少；耗尽；削减 | Overfishing has depleted fish stocks. |
+| **Denounce** | v. | 谴责；痛斥；告发 | The government denounced the terrorist attack. |

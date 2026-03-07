@@ -2411,3 +2411,27 @@
 | **Deploy** | v. | 部署；调度；使用 | The military will deploy troops to the region. |
 | **Deplete** | v. | 大量减少；耗尽；削减 | Overfishing has depleted fish stocks. |
 | **Denounce** | v. | 谴责；痛斥；告发 | The government denounced the terrorist attack. |
+
+### 2026-03-07 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Embryo** | n. | 胚胎；初期 | The embryo develops rapidly during the first trimester. |
+| **Intrinsic** | adj. | 内在的；固有的；本质的 | The intrinsic value of the artwork is priceless. |
+| **Equity** | n. | 公平；股票；资产净值 | The company promised to promote equity in the workplace. |
+| **Equality** | n. | 平等；均等 | All citizens deserve equality under the law. |
+| **Agitate** | v. | 激怒；煽动；搅动 | The speech agitated the crowd into action. |
+| **Violently** | adv. | 激烈地；剧烈地 | He reacted violently to the criticism. |
+| **Mob** | n. | 黑帮；暴民；乌合之众 | An angry mob gathered outside the courthouse. |
+| **Retort** | v./n. | 反驳；尖刻的回答 | She gave a quick retort to his insult. |
+| **Resort** | n./v. | 旅游胜地；采取；求助 | They stayed at a beach resort for vacation. |
+| **Retreat** | v./n. | 撤退；逃避；隐居地 | The soldiers began to retreat from the battlefield. |
+| **Sentiment** | n. | 情绪；观点；伤感 | The sentiment of the nation was growing more optimistic. |
+| **Confine** | v. | 限制；监禁；局限 | Prisoners were confined to their cells. |
+| **Herald** | v./n. | 预兆；宣布；前兆；信使 | The flowers herald the arrival of spring. |
+| **Prophet** | n. | 预言者；提倡者；先知 | The prophet warned of impending danger. |
+| **Magistrate** | n. | 地方执法官；法官 | The magistrate presided over the small claims court. |
+| **Stab** | v./n. | 刺；戳；突然的痛 | A sharp stab of pain shot through his arm. |
+| **Patron** | n. | 赞助人；常客；保护者 | A wealthy patron funded the artist's exhibition. |
+| **Patrol** | v./n. | 巡逻；巡查 | Police officers patrol the neighborhood daily. |
+| **Petrol** | n. | 汽油 | The car runs on petrol, not diesel. |

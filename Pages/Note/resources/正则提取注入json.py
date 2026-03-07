@@ -7,7 +7,6 @@ import io
 
 # ================= 1. 参数配置区域 =================
 # 建议：如果路径包含反斜杠，请保持 r"..." 格式
-# 现在直接从 md 文件读取，不再需要从 HTML 提取
 MD_PATH = r"D:\Dev\GitHub\NEGIAO.github.io\Pages\Note\md\word-learning-record.md"
 JSON_PATH = r"D:\Dev\GitHub\NEGIAO.github.io\Pages\Note\word-list.json"
 

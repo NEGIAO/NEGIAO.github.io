@@ -2435,3 +2435,46 @@
 | **Patron** | n. | 赞助人；常客；保护者 | A wealthy patron funded the artist's exhibition. |
 | **Patrol** | v./n. | 巡逻；巡查 | Police officers patrol the neighborhood daily. |
 | **Petrol** | n. | 汽油 | The car runs on petrol, not diesel. |
+
+### 2026-03-08 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Pending** | adj. | 待决定的；待处理的 | The final decision is pending approval from the board. |
+| **Stab** | v./n. | 刺；戳；突然的痛 | He made a stab at solving the difficult problem. |
+| **Cohesive** | adj. | 团结的；有凝聚力的 | A cohesive team works better together. |
+| **Rally** | v./n. | 召集；集合；恢复；群众集会 | The team rallied together to win the championship. |
+| **Purse** | n./v. | 钱包；资金；追求 | She kept her money in a leather purse. |
+| **Excerpt** | n./v. | 摘录；摘录 | The book excerpt was published in the magazine. |
+| **Integral** | adj. | 必需的；完整的；不可或缺的 | Trust is integral to any good relationship. |
+| **Cradle** | n./v. | 摇篮；发源地；轻轻抱着 | The baby rested peacefully in the cradle. |
+| **Agitate** | v. | 激怒；使不安；煽动；搅动 | The news agitated the already nervous crowd. |
+| **Ribbon** | n. | 带子；带状物；最佳的 | She tied a blue ribbon in her hair. |
+| **Bail** | n./v. | 保释；保释金；舀水 | He posted bail to be released from jail. |
+| **Retort** | v./n. | 反驳；尖刻的回答 | "That's not what you said yesterday!" she retorted. |
+| **Hemisphere** | n. | 半球 | The Northern Hemisphere experiences winter now. |
+| **Eject** | v. | 逐出；喷出；弹出 | The security guard was ordered to eject the rowdy patron. |
+| **Lobby** | n./v. | 游说；大厅；前厅 | Environmental groups lobby for stricter pollution laws. |
+| **Rim** | n. | 边沿；轮圈；边缘 | The rim of the cup was chipped. |
+| **Cease** | v. | 停止；结束 | The fighting ceased at midnight. |
+| **Tentative** | adj. | 暂定的；犹豫不决的；试验性的 | They made a tentative plan to meet next week. |
+| **Dean** | n. | 院长；系主任；资深成员 | The dean of the law school addressed the graduates. |
+| **Aggravate** | v. | 加剧；恶化；激怒；使恼怒 | Stress aggravates his health problems. |
+
+### 2026-03-08 新增单词（续）
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **Precaution** | n. | 预防措施；防备 | Take precautions when handling chemicals. |
+| **Dubious** | adj. | 怀疑的；不确定的；值得怀疑的 | He cast a dubious look at the proposal. |
+| **Vulgar** | adj. | 粗俗的；下流的；普通的 | The comedian's vulgar jokes offended the audience. |
+| **Sneak** | v./n. | 偷偷做；潜行；偷偷摸摸的人 | He tried to sneak out without being noticed. |
+| **Hedge** | n./v. | 树篱；防备；规避；躲闪 | Plant a hedge around the garden for privacy. |
+| **Preach** | v. | 布道；宣传；讲道 | The minister preached about forgiveness on Sunday. |
+| **Timber** | n. | 木材；木料 | The house was built from solid timber. |
+| **Statute** | n. | 法令；章程；法规 | The statute prohibited the sale of alcohol. |
+| **Reckless** | adj. | 鲁莽的；不计后果的 | His reckless driving nearly caused an accident. |
+| **Conspicuous** | adj. | 惹人注目的；鲜艳的；显著的 | She wore a conspicuous red dress to the party. |
+| **Evade** | v. | 逃避；逃脱；规避 | He tried to evade the tax authorities. |
+| **Invade** | v. | 侵略；侵入；涌入 | The army invaded the neighboring country. |
+| **Swamp** | n./v. | 沼泽；淹没；使陷入 | The heavy rain swamped the low-lying areas. |

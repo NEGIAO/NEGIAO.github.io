@@ -1,6 +1,7 @@
 # 📚 英语单词学习记录
 
 个人英语单词学习笔记，记录日常学习中遇到的生词、短语和表达。按学习时间和主题分类整理。
+  ![visitors](https://visitor-badge.laobi.icu/badge?page_id=negiao.word-learning)
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 

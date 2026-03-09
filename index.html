@@ -272,6 +272,12 @@
             .main-content-wrapper {
                 padding-top: 3.5rem; /* Match reduced navbar height on phones */
             }
+
+            /* Hero must still fill the full visual viewport on phones */
+            .section--hero {
+                min-height: calc(100svh - 3.5rem);
+                min-height: calc(100vh - 3.5rem); /* fallback */
+            }
         }
 
         /* Sidebar Elements */

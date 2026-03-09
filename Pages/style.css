@@ -2081,8 +2081,12 @@ a:focus {
   }
 
   .section--hero {
-    min-height: auto;
-    padding: var(--space-lg) 0 var(--space-2xl);
+    min-height: 100svh;
+    min-height: 100vh; /* fallback */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2xl) 0;
   }
 
   .hero__title {
@@ -2296,8 +2300,12 @@ a:focus {
   }
 
   .section--hero {
-    min-height: auto;
-    padding: var(--space-md) 0 var(--space-xl);
+    min-height: 100svh;
+    min-height: 100vh; /* fallback */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl) 0;
   }
 
   .hero__title {

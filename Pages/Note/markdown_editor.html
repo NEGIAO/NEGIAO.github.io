@@ -573,6 +573,31 @@ ___
             pasteBtn.disabled = true;
             pasteBtn.title = '此浏览器不支持剪贴板 API';
         }
+
+        // Synchronized scrolling between editor and preview
+        let isSyncing = false;
+
+        editor.addEventListener('scroll', function () {
+            if (isSyncing) return;
+            isSyncing = true;
+            const scrollable = editor.scrollHeight - editor.clientHeight;
+            if (scrollable > 0) {
+                const ratio = editor.scrollTop / scrollable;
+                preview.scrollTop = ratio * (preview.scrollHeight - preview.clientHeight);
+            }
+            isSyncing = false;
+        });
+
+        preview.addEventListener('scroll', function () {
+            if (isSyncing) return;
+            isSyncing = true;
+            const scrollable = preview.scrollHeight - preview.clientHeight;
+            if (scrollable > 0) {
+                const ratio = preview.scrollTop / scrollable;
+                editor.scrollTop = ratio * (editor.scrollHeight - editor.clientHeight);
+            }
+            isSyncing = false;
+        });
     </script>
 </body>
 

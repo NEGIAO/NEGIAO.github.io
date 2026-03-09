@@ -2460,11 +2460,6 @@
 | **Tentative** | adj. | 暂定的；犹豫不决的；试验性的 | They made a tentative plan to meet next week. |
 | **Dean** | n. | 院长；系主任；资深成员 | The dean of the law school addressed the graduates. |
 | **Aggravate** | v. | 加剧；恶化；激怒；使恼怒 | Stress aggravates his health problems. |
-
-### 2026-03-08 新增单词（续）
-
-| 单词 | 词性 | 中文释义 | 例句/用法 |
-|------|------|----------|-----------|
 | **Precaution** | n. | 预防措施；防备 | Take precautions when handling chemicals. |
 | **Dubious** | adj. | 怀疑的；不确定的；值得怀疑的 | He cast a dubious look at the proposal. |
 | **Vulgar** | adj. | 粗俗的；下流的；普通的 | The comedian's vulgar jokes offended the audience. |
@@ -2478,3 +2473,43 @@
 | **Evade** | v. | 逃避；逃脱；规避 | He tried to evade the tax authorities. |
 | **Invade** | v. | 侵略；侵入；涌入 | The army invaded the neighboring country. |
 | **Swamp** | n./v. | 沼泽；淹没；使陷入 | The heavy rain swamped the low-lying areas. |
+
+# 考研红宝书 
+
+### 2026-03-09 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| **Obscure** | v./adj. | 遮盖；使不清楚；模糊；费劲 |
+| **Obsolete** | adj. | 废弃的；过时的；老旧的 |
+| **Jurisdiction** | n. | 司法权；管辖权；领地 |
+| **Ideology** | n. | 意识形态；思想体系；思想 |
+| **Radiant** | adj. | 辐射的；灿烂的；容光焕发的 |
+| **Savage** | n./adj./v. | 野蛮人；野蛮的；猛烈抨击 |
+| **Jury** | n. | 陪审团；裁判委员会 |
+| **Radiate** | v. | 辐射；发出；散发 |
+| **Impartial** | adj. | 公正的；不偏不倚的；客观的 |
+| **Objective** | n./adj. | 目的；目标；客观的；不带主观色彩的 |
+| **Objection** | n. | 反对；异议；反感 |
+| **Oblige** | v. | 强迫；迫使；帮忙；使感激 |
+| **Observe** | v. | 观察；注意到；评论；遵从 |
+| **Observation** | n. | 观察；观察力；言论；报告 |
+| **Identical** | adj. | 同一的；相同的；完全一样的 |
+| **Identify** | v. | 认出；确认；识别；看作相同 |
+| **Identity** | n. | 身份；身份证明；同一；相同性 |
+| **Judge** | n./v. | 法官；评判人；判定；断定 |
+| **Judgement** | n. | 判决；判断力；看法；判断 |
+| **Judicial** | adj. | 公正的；审判的；司法的 |
+| **Largely** | adv. | 大量地；主要地；基本上；大部分 |
+| **Lateral** | adj. | 侧面的；旁边的；平级的；横向的 |
+| **Latter** | adj./n. | 后者；后来的；较晚的 |
+| **Magnitude** | n. | 大小；重要性；震级；数量 |
+| **Magnify** | v. | 放大；夸大；增强；使显得重要 |
+| **Magnificent** | adj. | 壮观的；宏伟的；杰出的；华丽的 |
+| **Maintain** | v. | 维持；维修；保持；赡养；主张 |
+| **Maintenance** | n. | 维持；保养；维修；赡养费 |
+| **Major** | adj./n. | 主要的；重要的；少校；主修科目 |
+| **Qualitative** | adj. | 质量的；性质上的；质的 |
+| **Pace** | n./v. | 步伐；速度；节奏；踱步 |
+| **Panel** | n. | 面板；仪表盘；镶板；专门小组 |
+| **Panorama** | n. | 全景；全貌；概括；综述 |

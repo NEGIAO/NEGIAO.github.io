@@ -1,4 +1,4 @@
-# NEGIAO ArcGIS Pro 工具箱
+# NEGIAO ArcGIS Pro 工具箱 
 
 这是一个自定义的 ArcGIS Pro 工具箱文件 (`.atbx`)，其中集成了我在日常工作中开发和整理的地理处理工具。
 
@@ -55,5 +55,6 @@
 - 建议定期查看本页面获取工具箱的更新版本。
 
 ---
-
+  ![visitors](https://visitor-badge.laobi.icu/badge?page_id=negiao.toolbox)
+  
 *最后更新时间: 2025-11-28*

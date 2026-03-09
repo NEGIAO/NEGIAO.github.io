@@ -230,6 +230,13 @@ python -m http.server 8080
 
 ## 变更/Changelog
 
+### 2026-03-9 · v1.8.1
+- **🏷️ 品牌标识**：
+    - 将页面 `<title>` 从通用的 `My WebGIS` 更新为 `NEGIAO's WebGIS`，强化项目归属与个人品牌。
+- **📊 访问统计**：
+    - 在侧边栏底部新增访客数角标（via [visitor-badge.laobi.icu](https://visitor-badge.laobi.icu)），实时显示页面访问量。
+    - 增加百度统计
+
 ### 2026-01-30 · v1.8.0
 - **笔记系统架构重构**：
     - **统一渲染器**：新增 `note-viewer.html` 通用笔记渲染入口，通过 `?note=xxx` URL 参数动态加载 Markdown 内容。

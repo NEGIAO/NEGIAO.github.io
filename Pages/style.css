@@ -1462,18 +1462,14 @@ a:focus {
 
   /* Buttons in navbar should be compact on mobile and not full-width */
   .navbar__container .btn,
-  .mobile-navbar .btn,
-  .btn {
+  .mobile-navbar .btn {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     padding: 0.5rem 0.9rem !important;
-    /* slightly smaller touch target */
     font-size: 0.95rem !important;
     min-width: 56px !important;
-    /* accessible touch size */
     max-width: 160px !important;
-    /* prevent overly wide buttons */
     width: auto !important;
   }
 
@@ -2085,34 +2081,46 @@ a:focus {
   }
 
   .section--hero {
-    min-height: 90vh;
-    padding: var(--space-xl) 0;
+    min-height: auto;
+    padding: var(--space-lg) 0 var(--space-2xl);
   }
 
   .hero__title {
     font-size: clamp(2.2rem, 6vw, 3.5rem);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
   }
 
   .hero__subtitle {
     font-size: clamp(1rem, 3vw, 1.25rem);
     padding: 0 var(--space-sm);
     text-align: center;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
     line-height: 1.5;
   }
 
-  .hero__actions {
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    max-width: 280px;
-    margin: 0 auto;
+  /* Ensure typing SVG image doesn't overflow on mobile */
+  .hero__subtitle img {
+    max-width: 100%;
+    height: auto;
   }
 
-  .btn {
-    width: 100%;
+  .hero__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
+    gap: var(--space-sm);
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--space-sm);
+  }
+
+  .hero__actions .btn {
+    width: auto;
+    flex: 0 1 auto;
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.85rem;
+    min-height: 42px;
   }
 
   .navbar__nav {
@@ -2120,7 +2128,7 @@ a:focus {
   }
 
   .mobile-menu-toggle {
-    display: block;
+    display: flex;
   }
 
   .mobile-menu {
@@ -2130,9 +2138,7 @@ a:focus {
   /* Center the brand and pin the mobile toggle to the right on small screens */
   .navbar__container {
     justify-content: center;
-    /* center items horizontally */
     position: relative;
-    /* establish containing block for absolute children */
   }
 
   .navbar__brand {
@@ -2151,30 +2157,32 @@ a:focus {
   }
 
   .avatar-container {
-    width: 160px;
-    height: 160px;
-    /* keep avatar under the navbar on tablet/smaller screens */
-    margin: calc(4.5rem + var(--space-md)) auto var(--space-xl);
+    width: 140px;
+    height: 140px;
+    margin: var(--space-lg) auto var(--space-lg);
   }
 
   .avatar {
-    width: 140px;
-    height: 140px;
+    width: 120px;
+    height: 120px;
   }
 
   .hero-tech-badges {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: var(--space-sm);
-    margin-bottom: var(--space-xl);
-    max-width: 300px;
+    margin-bottom: var(--space-lg);
+    max-width: 100%;
   }
 
   .tech-badge {
-    width: 100%;
-    max-width: 200px;
+    width: auto;
+    max-width: none;
     justify-content: center;
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.8rem;
   }
 
   .grid--2,
@@ -2186,7 +2194,7 @@ a:focus {
   }
 
   .card {
-    padding: var(--space-xl);
+    padding: var(--space-lg);
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -2196,6 +2204,72 @@ a:focus {
     flex-direction: column;
     text-align: center;
     gap: var(--space-lg);
+  }
+
+  /* Footer mobile overrides for inline styles */
+  .footer__navigation {
+    margin-bottom: var(--space-lg) !important;
+  }
+
+  .footer__navigation nav ul {
+    flex-direction: column !important;
+    gap: var(--space-sm) !important;
+  }
+
+  .footer__brand {
+    margin-bottom: var(--space-lg) !important;
+  }
+
+  .footer__brand > p {
+    font-size: 0.9rem !important;
+    padding: 0 var(--space-sm);
+  }
+
+  .footer .contact-details {
+    padding: var(--space-md) !important;
+  }
+
+  .footer .contact-details > div {
+    max-width: 100% !important;
+  }
+
+  .footer__meta {
+    padding-top: var(--space-md) !important;
+  }
+
+  /* Contact section cards on mobile */
+  .card .contact-icon-container {
+    width: 50px !important;
+    height: 50px !important;
+    margin-bottom: var(--space-md) !important;
+  }
+
+  .card .contact-icon-container i {
+    font-size: 1.25rem !important;
+  }
+
+  /* Research (grid--3-fixed) cards on mobile */
+  .grid--3-fixed .card {
+    padding: var(--space-lg);
+  }
+
+  .grid--3-fixed .card h4 {
+    font-size: 1.1rem;
+    margin-bottom: var(--space-xs);
+  }
+
+  .grid--3-fixed .card p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  /* Back to top button mobile positioning */
+  .back-to-top {
+    bottom: 20px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
 
   h1 {
@@ -2222,43 +2296,57 @@ a:focus {
   }
 
   .section--hero {
-    min-height: 85vh;
+    min-height: auto;
+    padding: var(--space-md) 0 var(--space-xl);
   }
 
   .hero__title {
     font-size: clamp(2rem, 8vw, 3rem);
     line-height: 1;
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
   }
 
   .hero__subtitle {
     font-size: clamp(0.95rem, 4vw, 1.125rem);
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
     padding: 0;
   }
 
+  .hero__subtitle img {
+    max-width: 90%;
+    height: auto;
+  }
+
   .avatar-container {
-    width: 140px;
-    height: 140px;
-    /* on phones the navbar is slightly shorter (4rem) */
-    margin: calc(4rem + var(--space-sm)) auto var(--space-lg);
+    width: 120px;
+    height: 120px;
+    margin: var(--space-md) auto var(--space-md);
   }
 
   .avatar {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
   }
 
   .hero-tech-badges {
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-md);
+    gap: var(--space-xs);
   }
 
   .tech-badge {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     padding: var(--space-xs) var(--space-sm);
   }
 
-  .btn {
+  .hero__actions {
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: 0 var(--space-md);
+    max-width: 100%;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
     padding: var(--space-sm) var(--space-lg);
     font-size: 0.85rem;
   }
@@ -2274,9 +2362,8 @@ a:focus {
   }
 
   .navbar__container {
-    height: 4rem;
+    height: 3.5rem;
     padding: 0 var(--space-sm);
-    /* Keep horizontal layout on phones: brand at left, toggle at right */
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -2285,12 +2372,34 @@ a:focus {
   }
 
   .navbar__brand {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 
   .floating-shapes {
     display: none;
-    /* Hide decorative shapes on mobile for performance */
+  }
+
+  /* Project cards tighter spacing on phones */
+  .project-item {
+    padding: var(--space-lg);
+  }
+
+  .project-title {
+    font-size: 1.15rem;
+  }
+
+  .project-desc {
+    font-size: 0.875rem;
+  }
+
+  /* Footer tighter on phones */
+  .footer {
+    padding: var(--space-xl) 0;
+  }
+
+  .social-links {
+    gap: var(--space-md);
+    justify-content: center !important;
   }
 
   /* Touch-friendly interactions */
@@ -2312,25 +2421,42 @@ a:focus {
     font-size: 0.9rem;
   }
 
+  .hero__subtitle img {
+    max-width: 85%;
+  }
+
   .avatar-container {
-    width: 120px;
-    height: 120px;
-    /* extra-small phones use same top offset as phones */
-    margin: calc(4rem + var(--space-sm)) auto var(--space-md);
+    width: 100px;
+    height: 100px;
+    margin: var(--space-sm) auto var(--space-sm);
   }
 
   .avatar {
-    width: 100px;
-    height: 100px;
+    width: 85px;
+    height: 85px;
   }
 
   .tech-badge {
-    font-size: 0.75rem;
-    max-width: 160px;
+    font-size: 0.7rem;
+    padding: 3px var(--space-sm);
   }
 
-  .btn {
+  .hero__actions .btn {
     font-size: 0.8rem;
+    padding: var(--space-xs) var(--space-md);
+    min-height: 40px;
+  }
+
+  .project-item {
+    padding: var(--space-md);
+  }
+
+  .project-number {
+    font-size: 1.25rem;
+  }
+
+  .project-title {
+    font-size: 1.05rem;
   }
 }
 

@@ -31,6 +31,40 @@
     <link rel="icon" type="image/png" sizes="32x32 192x192 512x512" href="/images/icon.png">
     <link rel="shortcut icon" type="image/png" href="/images/icon.png">
 
+    <!-- 性能优化：关键首屏样式已内联，完整样式表延迟加载 -->
+    <!-- 预连接第三方资源，减少 DNS 查询时间 -->
+    <link rel="preconnect" href="https://fonts.loli.net">
+    <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://cdnjs.loli.net">
+
+    <link rel="canonical" href="https://negiao.github.io/">
+
+    <!-- Font Awesome 精简版 - 只加载使用的图标 -->
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
+    <link href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- 设置缓存控制 - 一个月缓存时间 -->
+    <meta http-equiv="Cache-Control" content="max-age=2592000, public">
+
+    <!-- 资源缓存策略：添加版本号便于更新时强制刷新 -->
+    <link rel="stylesheet" href="Pages/style.css?v=202512" media="all">
+    <link rel="preload" href="Pages/avatar.jpg" as="image" fetchpriority="high">
+    <script src="Pages/main-enhanced.js?v=202512" defer></script>
+    
+    <!-- 百度统计代码 -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?181b1781c7a473143256df46c8108bff";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
     <!-- 性能优化：内联关键CSS -->
     <style>
         :root {
@@ -148,30 +182,21 @@
                 padding: 0 var(--space-sm)
             }
         }
-    </style>
 
-    <!-- 性能优化：关键首屏样式已内联，完整样式表延迟加载 -->
-    <!-- 预连接第三方资源，减少 DNS 查询时间 -->
-    <link rel="preconnect" href="https://fonts.loli.net">
-    <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
-    <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://cdnjs.loli.net">
+        @media (max-width:576px) {
+            .navbar {
+                height: 3.5rem;
+            }
 
-    <link rel="canonical" href="https://negiao.github.io/">
+            .navbar__container {
+                height: 3.5rem;
+            }
 
-    <!-- Font Awesome 精简版 - 只加载使用的图标 -->
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
-    <link href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- 设置缓存控制 - 一个月缓存时间 -->
-    <meta http-equiv="Cache-Control" content="max-age=2592000, public">
-
-    <!-- 资源缓存策略：添加版本号便于更新时强制刷新 -->
-    <link rel="stylesheet" href="Pages/style.css?v=202512" media="all">
-    <link rel="preload" href="Pages/avatar.jpg" as="image" fetchpriority="high">
-    <script src="Pages/main-enhanced.js?v=202512" defer></script>
+            .mobile-menu {
+                top: 3.5rem;
+            }
+        }
+    </style>    
 
     <style>
         /* ========================
@@ -240,6 +265,12 @@
                 margin-left: 0;
                 width: 100%;
                 padding-top: 4.5rem; /* Space for the fixed mobile navbar */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content-wrapper {
+                padding-top: 3.5rem; /* Match reduced navbar height on phones */
             }
         }
 
@@ -449,7 +480,7 @@
                         <a href="https://git.io/typing-svg">
                             <!-- 改为使用本地 SVG 图片以提升加载性能，旧的代码保留 -->
                             <!-- <img src="https://readme-typing-svg.demolab.com?font=Montserrat&weight=700&size=29&duration=3500&pause=500&color=4FF797&background=FFFFFF00&center=true&vCenter=true&random=true&width=435&lines=WebGIS+Coder;Data+Visualization;GISer;The+science+of+where!" alt="Typing SVG" /> -->
-                            <img src="images/typing.svg" alt="Typing SVG" />
+                            <img src="images/typing.svg" alt="Typing SVG" style="max-width: 100%; height: auto;" />
                         </a>
                     </div>
                     <div class="hero-tech-badges">
@@ -751,12 +782,13 @@
 
                 <!-- 脚注 -->
                 <div class="footer__meta" style="border-top: 1px solid var(--border); padding-top: var(--space-lg);">
+                    <img src="https://visitor-badge.laobi.icu/badge?page_id=negiao.pages" alt="visitor badge"/>
                     <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: var(--space-sm);">
                         &copy; <span id="current-year">2026</span> NEGIAO. All rights reserved.
                     </p>
                     <p style="color: var(--text-disabled); font-size: 0.8rem; margin-bottom: var(--space-sm);">
                         用 ❤️ 和现代技术构建 
-                        <span style="margin-left: 8px; opacity: 0.8; border: 1px solid var(--text-disabled); padding: 0 4px; border-radius: 4px;">Version : V1.8.0</span>
+                        <span style="margin-left: 8px; opacity: 0.8; border: 1px solid var(--text-disabled); padding: 0 4px; border-radius: 4px;">Version : V1.8.1</span>
                     </p>
                     <div id="stats-widget"
                         style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: var(--space-sm);">

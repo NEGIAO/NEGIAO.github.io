@@ -284,6 +284,7 @@ a:focus {
   display: block;
   align-items: normal;
   justify-content: normal;
+  overflow: visible;
 }
 
 /* Enhanced Markdown Typography for Note Content */
@@ -660,10 +661,11 @@ a:focus {
   }
 
   .note-content {
-    /* Content takes full width */
+    /* Content takes full width; override .card overflow:hidden so long articles scroll normally */
     padding: var(--space-lg);
     max-width: 100%;
     min-height: auto;
+    overflow: visible;
   }
 }
 
@@ -885,12 +887,14 @@ a:focus {
 }
 
 .section--hero {
-  min-height: 100vh;
+  min-height: 100vh; /* no-JS fallback */
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
-  padding: var(--space-2xl) 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .section--hero::before {
@@ -1480,44 +1484,7 @@ a:focus {
   }
 }
 
-/* Floating Elements */
-.floating-shapes {
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
 
-.mobile-menu.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.mobile-menu__nav {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-}
-
-.mobile-menu__item {
-  margin: var(--space-lg) 0;
-}
-
-.mobile-menu__link {
-  color: var(--text);
-  font-size: 1.25rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  padding: var(--space-sm) var(--space-lg);
-  border-radius: var(--radius-md);
-}
-
-.mobile-menu__link:hover {
-  color: var(--primary);
-  background: rgba(88, 166, 255, 0.1);
-}
 
 /* Enhanced Hero Section */
 .hero {
@@ -1560,18 +1527,17 @@ a:focus {
   margin-top: var(--space-xl);
 }
 
-/* Enhanced Avatar with Modern Design */
+/* Enhanced Avatar with Modern Design — sizes driven by JS via CSS custom properties */
 .avatar-container {
   position: relative;
-  width: 200px;
-  height: 200px;
-  /* place avatar below the fixed navbar (navbar height 4.5rem) with a smaller gap on desktop */
-  margin: calc(4.5rem + calc(var(--space-md) * 0.5)) auto var(--space-2xl);
+  width: var(--dynamic-avatar-container, 200px);
+  height: var(--dynamic-avatar-container, 200px);
+  margin: var(--space-lg) auto var(--space-2xl);
 }
 
 .avatar {
-  width: 180px;
-  height: 180px;
+  width: var(--dynamic-avatar, 180px);
+  height: var(--dynamic-avatar, 180px);
   border-radius: 50%;
   border: 3px solid transparent;
   background:
@@ -2080,15 +2046,6 @@ a:focus {
     padding: var(--space-2xl) 0;
   }
 
-  .section--hero {
-    min-height: 100svh;
-    min-height: 100vh; /* fallback */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-2xl) 0;
-  }
-
   .hero__title {
     font-size: clamp(2.2rem, 6vw, 3.5rem);
     margin-bottom: var(--space-sm);
@@ -2127,6 +2084,11 @@ a:focus {
     min-height: 42px;
   }
 
+  /* Avatar margin adjustment for mobile (size is JS-driven) */
+  .avatar-container {
+    margin: var(--space-md) auto var(--space-lg);
+  }
+
   .navbar__nav {
     display: none;
   }
@@ -2158,17 +2120,6 @@ a:focus {
     top: 50%;
     transform: translateY(-50%);
     z-index: 1060;
-  }
-
-  .avatar-container {
-    width: 140px;
-    height: 140px;
-    margin: var(--space-lg) auto var(--space-lg);
-  }
-
-  .avatar {
-    width: 120px;
-    height: 120px;
   }
 
   .hero-tech-badges {
@@ -2299,15 +2250,6 @@ a:focus {
     padding: var(--space-xl) 0;
   }
 
-  .section--hero {
-    min-height: 100svh;
-    min-height: 100vh; /* fallback */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-xl) 0;
-  }
-
   .hero__title {
     font-size: clamp(2rem, 8vw, 3rem);
     line-height: 1;
@@ -2325,15 +2267,9 @@ a:focus {
     height: auto;
   }
 
+  /* Avatar margin for phones (size is JS-driven) */
   .avatar-container {
-    width: 120px;
-    height: 120px;
-    margin: var(--space-md) auto var(--space-md);
-  }
-
-  .avatar {
-    width: 100px;
-    height: 100px;
+    margin: var(--space-sm) auto var(--space-md);
   }
 
   .hero-tech-badges {
@@ -2433,15 +2369,9 @@ a:focus {
     max-width: 85%;
   }
 
+  /* Extra small phones: tighter margin (size is JS-driven) */
   .avatar-container {
-    width: 100px;
-    height: 100px;
-    margin: var(--space-sm) auto var(--space-sm);
-  }
-
-  .avatar {
-    width: 85px;
-    height: 85px;
+    margin: var(--space-xs) auto var(--space-sm);
   }
 
   .tech-badge {

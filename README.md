@@ -230,6 +230,20 @@ python -m http.server 8080
 
 ## 变更/Changelog
 
+### 2026-03-10 · v1.8.2
+- **🎨 动态尺寸适配系统**：
+    - 新增 `initDynamicSizing()` JS 模块，根据实际视口大小动态计算并注入 CSS 自定义属性（`--dynamic-avatar`、`--dynamic-avatar-container`），实现 Hero 高度与 Avatar 尺寸的多设备无断点平滑适配。
+    - Hero 区域始终精确填满视口高度（`window.innerHeight`），自动响应窗口缩放和移动端横竖屏切换。
+    - Avatar 尺寸基于 `vmin * 0.36` 平滑缩放（桌面端 ~200px、平板 ~160px、手机 ~130-140px、小屏 ~100px），取代原有 4 个断点的固定像素值。
+- **🐛 UI 修复**：
+    - 修复桌面端侧边栏宽度（100px）与主内容区 `margin-left`（80px）不匹配导致的 20px 内容重叠问题。
+    - 移除 Avatar 的导航栏偏移 margin-top（桌面端使用侧边栏，不存在顶部导航栏）。
+    - 清除 768px 媒体查询中的重复 Avatar 声明（180/160px 被 140/120px 覆盖的死代码）。
+- **🧹 代码精简**：
+    - 移除 CSS 中 Hero 和 Avatar 的 5 组硬编码断点尺寸，统一由 JS CSS 变量驱动。
+    - 精简 `index.html` 内联样式中冗余的 `!important` Hero 覆盖规则。
+    - CSS 媒体查询中 Avatar 仅保留 margin 调整，尺寸完全委托 JS 计算。
+
 ### 2026-03-9 · v1.8.1
 - **🏷️ 品牌标识**：
     - 将页面 `<title>` 从通用的 `My WebGIS` 更新为 `NEGIAO's WebGIS`，强化项目归属与个人品牌。

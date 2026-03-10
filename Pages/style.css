@@ -1375,6 +1375,8 @@ a:focus {
 }
 
 .mobile-menu__link {
+  top: 20px;
+  left: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1388,6 +1390,7 @@ a:focus {
   text-align: center;
   width: 100%;
   box-sizing: border-box;
+  min-height: 44px;
 }
 
 .mobile-menu__link:hover {

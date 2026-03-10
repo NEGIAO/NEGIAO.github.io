@@ -108,10 +108,10 @@
             left: 0;
             right: 0;
             z-index: 1030;
-            background: rgba(26, 31, 46, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(26, 31, 46, 0.45);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
             height: 4.5rem;
             transition: all var(--transition-normal);
         }
@@ -125,8 +125,14 @@
         .navbar__container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            height: 4.5rem
+            justify-content: center;
+            height: 4.5rem;
+            position: relative;
+        }
+
+        .mobile-menu-toggle {
+            position: absolute;
+            right: var(--space-md);
         }
 
         .loading-screen {
@@ -175,7 +181,9 @@
             }
 
             .mobile-menu-toggle {
-                display: flex
+                display: flex;
+                position: absolute;
+                right: var(--space-sm);
             }
 
             .container {
@@ -190,10 +198,6 @@
 
             .navbar__container {
                 height: 3.5rem;
-            }
-
-            .mobile-menu {
-                top: 3.5rem;
             }
         }
     </style>    
@@ -444,14 +448,33 @@
     <!-- 移动端菜单 -->
     <nav class="mobile-menu" id="mobile-menu" aria-label="移动端菜单" aria-hidden="true">
         <ul class="mobile-menu__nav">
-            <li class="mobile-menu__item"><a href="#projects" class="mobile-menu__link">项目</a></li>
-
-            <li class="mobile-menu__item"><a href="Pages/notes.html" class="mobile-menu__link">笔记</a></li>
-            <li class="mobile-menu__item"><a href="Pages/schedule.html" class="mobile-menu__link">课程表</a></li>
-            <li class="mobile-menu__item"><a href="#contact" class="mobile-menu__link">联系我</a></li>
-            <li class="mobile-menu__item"><a href="https://github.com/NEGIAO" target="_blank"
-                    class="mobile-menu__link"><i class="fab fa-github"></i> GitHub</a></li>
+            <li class="mobile-menu__item">
+                <a href="#projects" class="mobile-menu__link">
+                    <i class="fas fa-rocket"></i><span>项目</span>
+                </a>
+            </li>
+            <li class="mobile-menu__item">
+                <a href="Pages/notes.html" class="mobile-menu__link">
+                    <i class="fas fa-book-open"></i><span>笔记</span>
+                </a>
+            </li>
+            <li class="mobile-menu__item">
+                <a href="Pages/schedule.html" class="mobile-menu__link">
+                    <i class="fas fa-calendar-alt"></i><span>课程表</span>
+                </a>
+            </li>
+            <li class="mobile-menu__item">
+                <a href="#contact" class="mobile-menu__link">
+                    <i class="fas fa-envelope"></i><span>联系我</span>
+                </a>
+            </li>
         </ul>
+        <div class="mobile-menu__divider"></div>
+        <div class="mobile-menu__footer">
+            <a href="https://github.com/NEGIAO" target="_blank" class="mobile-menu__social" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
     </nav>
 
     <main id="main">

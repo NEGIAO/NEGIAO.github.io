@@ -1229,9 +1229,9 @@ a:focus {
 }
 
 .navbar--scrolled {
-  background: rgba(10, 14, 19, 0.95);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
+  background: rgba(10, 14, 19, 0.75);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -1312,178 +1312,201 @@ a:focus {
   width: 80%;
 }
 
-/* Mobile Navigation Enhanced */
+/* ==============================
+   Mobile Navigation — Premium
+   ============================== */
+
+/* Toggle button */
 .mobile-menu-toggle {
   display: none;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-md);
-  padding: var(--space-sm);
   color: var(--text);
   cursor: pointer;
-  transition: all var(--transition-fast);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 
-.mobile-menu-toggle:hover {
-  background: var(--surface-elevated);
+.mobile-menu-toggle:hover,
+.mobile-menu-toggle.active {
   border-color: var(--primary);
   color: var(--primary);
-  transform: scale(1.05);
+  background: rgba(0, 217, 255, 0.07);
 }
 
+.mobile-menu-toggle i {
+  font-size: 1.05rem;
+  transition: transform 0.18s ease;
+}
+
+/* Full-screen immersive overlay
+   — visibility+opacity instead of display:none so transitions actually fire */
 .mobile-menu {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
   position: fixed;
-  top: 4.5rem;
-  left: 0;
-  right: 0;
-  background: var(--glass-bg);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border-bottom: 1px solid var(--glass-border);
-  z-index: var(--z-dropdown);
-  transform: translateY(-100%);
-  transition: all var(--transition-normal);
-  box-shadow: var(--shadow-lg);
-}
-
-.mobile-menu.active {
-  transform: translateY(0);
-}
-
-.mobile-menu__nav {
-  list-style: none;
-  padding: var(--space-lg) 0;
-  margin: 0;
+  inset: 0;
+  background: rgba(8, 12, 18, 0.97);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  /* Sit just below the fixed navbar (z-index 1030) */
+  z-index: 1029;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  padding: 5rem 1.5rem 2rem;
+  transition:
+    opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.mobile-menu__item {
+.mobile-menu.active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Nav list */
+.mobile-menu__nav {
+  list-style: none;
   padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
   width: 100%;
-  box-sizing: border-box;
+  max-width: 280px;
 }
 
+/* Per-item stagger-in */
+.mobile-menu__item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.mobile-menu.active .mobile-menu__item { opacity: 1; transform: translateY(0); }
+.mobile-menu.active .mobile-menu__item:nth-child(1) { transition-delay: 0.06s; }
+.mobile-menu.active .mobile-menu__item:nth-child(2) { transition-delay: 0.11s; }
+.mobile-menu.active .mobile-menu__item:nth-child(3) { transition-delay: 0.16s; }
+.mobile-menu.active .mobile-menu__item:nth-child(4) { transition-delay: 0.21s; }
+.mobile-menu.active .mobile-menu__item:nth-child(5) { transition-delay: 0.26s; }
+
+/* Link row — icon + label */
 .mobile-menu__link {
-  top: 20px;
-  left: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  color: var(--text-secondary);
-  padding: var(--space-md) 0;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all var(--transition-fast);
-  border-bottom: 1px solid transparent;
-  text-align: center;
+  gap: 0.875rem;
   width: 100%;
-  box-sizing: border-box;
-  min-height: 44px;
+  padding: 0.875rem 1.125rem;
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
 
-.mobile-menu__link:hover {
+.mobile-menu__link i {
+  width: 1.1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  opacity: 0.65;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.mobile-menu__link:hover,
+.mobile-menu__link:focus-visible {
   color: var(--primary);
-  border-bottom-color: var(--primary);
-  transform: translateY(-2px);
+  border-color: rgba(0, 217, 255, 0.2);
+  background: rgba(0, 217, 255, 0.06);
+  outline: none;
 }
 
-/* When mobile menu is open, make items and nested lists fill full width and center content */
-@media (max-width: 768px) {
-  .mobile-menu.active .mobile-menu__item {
-    width: 100%;
-    margin: var(--space-sm) 0;
-    /* small vertical gap between items */
-    box-sizing: border-box;
-    display: block;
-  }
-
-  .mobile-menu.active .mobile-menu__link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* center icon + label horizontally */
-    width: 100%;
-    padding: var(--space-md);
-    box-sizing: border-box;
-    text-align: center;
-    border-radius: var(--radius-md);
-    color: var(--text);
-    background: transparent;
-  }
-
-  .mobile-menu.active .mobile-menu__link i {
-    margin-right: var(--space-sm);
-    min-width: 1.6rem;
-    text-align: center;
-  }
-
-  /* Ensure nested lists inside the mobile menu also fill width and center text */
-  .mobile-menu.active .mobile-menu__nav,
-  .mobile-menu.active .mobile-menu__nav ul {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .mobile-menu.active .mobile-menu__nav li {
-    width: 100%;
-  }
-
-  .mobile-menu.active .mobile-menu__nav li a {
-    width: 100%;
-    display: block;
-    text-align: center;
-    padding: var(--space-md);
-  }
+.mobile-menu__link:hover i,
+.mobile-menu__link:focus-visible i {
+  opacity: 1;
+  transform: scale(1.15);
 }
 
-/* Mobile: make top navbar brand and action button inline and sized appropriately */
+/* Hairline divider before the footer */
+.mobile-menu__divider {
+  width: 100%;
+  max-width: 280px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 1.25rem 0 0;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.28s;
+}
+
+.mobile-menu.active .mobile-menu__divider {
+  opacity: 1;
+}
+
+/* Social icon row */
+.mobile-menu__footer {
+  display: flex;
+  gap: 0.875rem;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1.25rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease 0.32s, transform 0.3s ease 0.32s;
+}
+
+.mobile-menu.active .mobile-menu__footer {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-menu__social {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.mobile-menu__social:hover {
+  color: var(--primary);
+  border-color: rgba(0, 217, 255, 0.4);
+  background: rgba(0, 217, 255, 0.08);
+}
+
+/* Mobile: navbar layout */
 @media (max-width: 768px) {
   .navbar__container {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: var(--space-sm) !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
   }
 
   .navbar__brand {
-    font-size: 1.125rem !important;
-    font-weight: 700 !important;
-    display: inline-block !important;
-    margin-right: var(--space-sm) !important;
-    white-space: nowrap !important;
-  }
-
-  /* Buttons in navbar should be compact on mobile and not full-width */
-  .navbar__container .btn,
-  .mobile-navbar .btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0.5rem 0.9rem !important;
-    font-size: 0.95rem !important;
-    min-width: 56px !important;
-    max-width: 160px !important;
-    width: auto !important;
-  }
-
-  /* Secondary buttons get a subtle outline and compact look on mobile */
-  .btn--secondary {
-    padding: 0.4rem 0.85rem !important;
-    border-radius: calc(var(--radius-md));
+    font-size: 1.125rem;
+    font-weight: 700;
+    white-space: nowrap;
   }
 }
 

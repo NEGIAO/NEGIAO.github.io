@@ -59,6 +59,40 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /* --------------------------
+       1.5) 动态尺寸适配
+       根据实际视口大小动态计算 Hero 高度、Avatar 尺寸等，
+       通过 CSS 自定义属性注入，实现多设备无断点平滑适配。
+    -------------------------- */
+    function initDynamicSizing() {
+        const hero = document.querySelector('.section--hero');
+        const root = document.documentElement;
+
+        function update() {
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const vmin = Math.min(vw, vh);
+
+            // Hero：精确视口高度（解决移动端地址栏导致 100vh 不准的问题）
+            if (hero) {
+                hero.style.height = vh + 'px';
+            }
+
+            // Avatar：基于 vmin 平滑缩放，桌面端 ~180-200px，平板 ~160px，手机 ~130-140px
+            var avatarSize = Math.round(Math.max(100, Math.min(200, vmin * 0.36)));
+            var containerSize = Math.round(avatarSize * 1.12);
+
+            root.style.setProperty('--dynamic-avatar', avatarSize + 'px');
+            root.style.setProperty('--dynamic-avatar-container', containerSize + 'px');
+        }
+
+        update();
+        window.addEventListener('resize', update);
+        window.addEventListener('orientationchange', function () {
+            setTimeout(update, 100);
+        });
+    }
+
+    /* --------------------------
        2) 导航栏：滚动后样式 & 隐藏/显示
     -------------------------- */
     function initNavbar() {
@@ -334,6 +368,7 @@ document.addEventListener('DOMContentLoaded', function () {
        执行模块化初始化
     -------------------------- */
     initLoadingScreen();
+    initDynamicSizing();
     initNavbar();
     initMobileMenu();
     initSmoothAnchors();

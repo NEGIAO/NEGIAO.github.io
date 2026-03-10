@@ -230,8 +230,8 @@
 
             /* Main Content Wrapper */
             .main-content-wrapper {
-                margin-left: 80px;
-                width: calc(100% - 80px);
+                margin-left: 100px;
+                width: calc(100% - 100px);
                 min-height: 100vh;
                 position: relative;
                 padding-bottom: 2rem;
@@ -239,20 +239,8 @@
             
             /* Adjust container to fit comfortably */
             .container {
-                max-width: 1600px !important; /* Allow wider content since we have lateral space */
+                max-width: 1600px !important;
                 padding: 0 3rem !important;
-            }
-
-            /* Adjust hero section layout: move content up */
-            .section--hero {
-                min-height: auto !important;
-                padding-top: 0rem !important; /* Minimal space from top */
-                padding-bottom: 4rem !important;
-                align-items: flex-start !important; /* Align to top instead of center */
-            }
-
-            .hero {
-                padding-top: 0 !important; 
             }
         }
 
@@ -271,12 +259,6 @@
         @media (max-width: 576px) {
             .main-content-wrapper {
                 padding-top: 3.5rem; /* Match reduced navbar height on phones */
-            }
-
-            /* Hero must still fill the full visual viewport on phones */
-            .section--hero {
-                min-height: calc(100svh - 3.5rem);
-                min-height: calc(100vh - 3.5rem); /* fallback */
             }
         }
 
@@ -794,7 +776,7 @@
                     </p>
                     <p style="color: var(--text-disabled); font-size: 0.8rem; margin-bottom: var(--space-sm);">
                         用 ❤️ 和现代技术构建 
-                        <span style="margin-left: 8px; opacity: 0.8; border: 1px solid var(--text-disabled); padding: 0 4px; border-radius: 4px;">Version : V1.8.1</span>
+                        <span style="margin-left: 8px; opacity: 0.8; border: 1px solid var(--text-disabled); padding: 0 4px; border-radius: 4px;">Version : V1.8.2</span>
                     </p>
                     <div id="stats-widget"
                         style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: var(--space-sm);">

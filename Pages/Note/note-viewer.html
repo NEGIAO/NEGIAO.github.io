@@ -28,7 +28,11 @@
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
                 displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true,
-                packages: { '[+]': ['ams'] }
+                packages: { '[+]': ['ams'] },
+                macros: {
+                    dd: '\\,\\mathrm{d}',
+                    e: '\\mathrm{e}'
+                }
             },
             options: {
                 skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']

@@ -44,6 +44,8 @@
 ### 工具/Learning & Study Tools
 - 课程表支持秒级时间同步与课程状态自动识别，含呼吸灯提示。
 - 英语学习系统提供分主题高阶词库、例句、记忆技巧与互动测试。
+- 词汇笔记支持中文释义遮挡模式：默认遮挡、点击单元格显示、开关一键控制（状态本地持久化）。
+- `note-viewer.html` 新增 Markdown 表格移动端自适应增强：超宽表格可横向滑动，避免列内容被裁切。
 - **数据同步**：通过 Python 脚本自动将 HTML 中的 Markdown 表格同步至 JSON 题库，实现数据源统一。
 - Markdown 编辑器配套实时预览、复制/清空等基础写作能力。
 
@@ -156,6 +158,7 @@
 │   │   ├── gallery.html                              # 技术成果展示画廊
 │   │   ├── note-template.html                        # 旧版模板md内嵌在html中
 │   │   ├── markdown_editor.html                      # 在线 Markdown 编辑器工具
+│   │   ├── chinese-meaning-mask.js                   # 中文释义遮挡模块（按需启用）
 │   │   ├── note-viewer.html                          # 统一笔记渲染器（URL参数加载md）
 │   │   ├── word-quiz.html                            # 独立单词测试页面
 │   │   └── word-list.json                            # 英语学习系统核心词库数据
@@ -197,6 +200,7 @@
 | 主样式          | `Pages/style.css`           | 全站主题与组件样式                       |
 | 导航/交互脚本   | `Pages/main-enhanced.js`    | 导航栏、移动菜单、平滑滚动、favicon 注入 |
 | 目录脚本        | `Pages/notes-toc.js`        | 笔记页面自动目录生成与滚动同步           |
+| 释义遮挡模块    | `Pages/Note/chinese-meaning-mask.js` | 词汇笔记中文释义遮挡、点击显示、开关控制 |
 | 笔记渲染器      | `Pages/Note/note-viewer.html` | 统一 Markdown 渲染入口，URL 参数加载   |
 | 笔记内容        | `Pages/Note/md/*.md`        | 独立 Markdown 笔记文件（10篇）           |
 | 词汇数据        | `Pages/Note/word-list.json` | 英语学习系统题库与统计数据源             |
@@ -229,6 +233,12 @@ python -m http.server 8080
 - **Python**：云端脚本、词汇数据处理、本地服务器。
 
 ## 变更/Changelog
+
+### 2026-03-12 · v1.8.3
+- **🧠 词汇学习交互增强**：
+    - 新增 `Pages/Note/chinese-meaning-mask.js` 模块。
+    - 支持中文释义默认遮挡、点击显示/隐藏、全局开关与本地状态持久化。
+    - 仅在 `word-learning-record` 类笔记中按需启用，不影响其他通用 Markdown 笔记。
 
 ### 2026-03-10 · v1.8.2
 - **🎨 动态尺寸适配系统**：

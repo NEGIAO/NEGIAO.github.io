@@ -11,20 +11,20 @@
 
 ## 1. 极限与连续
 
-### 1.1 常用等价无穷小（x -> 0）
-- sin x ~ x
-- tan x ~ x
-- 1 - cos x ~ x^2 / 2
-- ln(1 + x) ~ x
-- e^x - 1 ~ x
-- (1 + x)^a - 1 ~ a x
+### 1.1 常用等价无穷小（$x \to 0$）
+- $\sin x \sim x$
+- $\tan x \sim x$
+- $1 - \cos x \sim \frac{x^2}{2}$
+- $\ln(1 + x) \sim x$
+- $\e^x - 1 \sim x$
+- $(1 + x)^a - 1 \sim ax$
 
 ### 1.2 重要极限
-- lim(x->0) sin x / x = 1
-- lim(x->0) (1 - cos x) / x^2 = 1/2
-- lim(x->infinity) (1 + 1/x)^x = e
-- lim(x->0) ln(1 + x) / x = 1
-- lim(x->0) (e^x - 1) / x = 1
+- $\lim_{x\to 0} \frac{\sin x}{x} = 1$
+- $\lim_{x\to 0} \frac{1 - \cos x}{x^2} = \frac{1}{2}$
+- $\lim_{x\to \infty} \left(1 + \frac{1}{x}\right)^x = \e$
+- $\lim_{x\to 0} \frac{\ln(1 + x)}{x} = 1$
+- $\lim_{x\to 0} \frac{\e^x - 1}{x} = 1$
 
 ### 1.3 连续性结论
 - 初等函数在其定义域内连续。
@@ -36,20 +36,20 @@
 ## 2. 导数与微分
 
 ### 2.1 常见导数公式
-- (c)' = 0
-- (x^n)' = n x^(n-1)
-- (e^x)' = e^x
-- (a^x)' = a^x ln a
-- (ln x)' = 1/x
-- (sin x)' = cos x
-- (cos x)' = -sin x
-- (tan x)' = sec^2 x
+- $(c)' = 0$
+- $(x^n)' = nx^{n-1}$
+- $(\e^x)' = \e^x$
+- $(a^x)' = a^x \ln a$
+- $(\ln x)' = \frac{1}{x}$
+- $(\sin x)' = \cos x$
+- $(\cos x)' = -\sin x$
+- $(\tan x)' = \sec^2 x$
 
 ### 2.2 求导法则
-- (u +/- v)' = u' +/- v'
-- (uv)' = u'v + uv'
-- (u/v)' = (u'v - uv') / v^2
-- 复合函数求导：y = f(g(x)) => y' = f'(g(x)) g'(x)
+- $(u \pm v)' = u' \pm v'$
+- $(uv)' = u'v + uv'$
+- $\left(\frac{u}{v}\right)' = \frac{u'v - uv'}{v^2}$
+- 复合函数求导：$y = f(g(x)) \Rightarrow y' = f'(g(x))g'(x)$
 
 ### 2.3 中值定理使用条件
 - 罗尔定理：连续、开区间可导、端点函数值相等。
@@ -61,13 +61,13 @@
 ## 3. 单调性、极值、最值
 
 ### 3.1 一阶导数判别
-- f'(x) > 0 => 递增
-- f'(x) < 0 => 递减
+- $f'(x) > 0$ ⟹ 递增
+- $f'(x) < 0$ ⟹ 递减
 - 驻点和不可导点都要纳入区间划分
 
 ### 3.2 极值判别
 - 一阶导号变法：+ 到 - 为极大，- 到 + 为极小。
-- 二阶导数法：f'(x0)=0 且 f''(x0)>0 为极小，f''(x0)<0 为极大。
+- 二阶导数法：$f'(x_0)=0$ 且 $f''(x_0)>0$ 为极小，$f''(x_0)<0$ 为极大。
 
 ### 3.3 最值问题常规步骤
 1. 确定定义域。
@@ -79,25 +79,25 @@
 ## 4. 不定积分与定积分
 
 ### 4.1 常见不定积分
-- ∫ x^n dx = x^(n+1)/(n+1) + C (n != -1)
-- ∫ 1/x dx = ln|x| + C
-- ∫ e^x dx = e^x + C
-- ∫ sin x dx = -cos x + C
-- ∫ cos x dx = sin x + C
-- ∫ sec^2 x dx = tan x + C
+- $\int x^n \dd x = \frac{x^{n+1}}{n+1} + C$ （$n \neq -1$）
+- $\int \frac{1}{x} \dd x = \ln|x| + C$
+- $\int \e^x \dd x = \e^x + C$
+- $\int \sin x \dd x = -\cos x + C$
+- $\int \cos x \dd x = \sin x + C$
+- $\int \sec^2 x \dd x = \tan x + C$
 
 ### 4.2 积分方法
 - 换元法：优先识别复合结构。
-- 分部积分：∫u dv = uv - ∫v du。
+- 分部积分：$\int u \dd v = uv - \int v \dd u$。
 - 有理函数积分：必要时部分分式分解。
 
 ### 4.3 定积分性质
-- 线性性质：∫(af + bg) = a∫f + b∫g
-- 区间可加性：∫[a,b] + ∫[b,c] = ∫[a,c]
-- 交换上下限变号：∫[a,b] f = -∫[b,a] f
+- 线性性质：$\int(af + bg) = a\int f + b\int g$
+- 区间可加性：$\int_a^b + \int_b^c = \int_a^c$
+- 交换上下限变号：$\int_a^b f = -\int_b^a f$
 
 ### 4.4 牛顿-莱布尼茨公式
-- 若 F'(x)=f(x)，则 ∫[a,b] f(x)dx = F(b)-F(a)
+- 若 $F'(x)=f(x)$，则 $\int_a^b f(x)\dd x = F(b)-F(a)$
 
 ---
 
@@ -106,7 +106,7 @@
 ### 5.1 反常积分判敛常见模板
 - 比较判别法
 - 极限比较判别法
-- p-积分：∫[1,+infinity] 1/x^p dx 在 p>1 时收敛
+- p-积分：$\int_1^{+\infty} \frac{1}{x^p} \dd x$ 在 $p>1$ 时收敛
 
 ### 5.2 级数判敛常见方法
 - 正项级数：比较法、比值法、根值法、积分判别法
@@ -118,9 +118,9 @@
 ## 6. 常见易错点与提醒
 
 - 等价无穷小只能在乘除结构里直接替换，不能在加减中乱替换。
-- 洛必达法则使用前先确认是 0/0 或 infinity/infinity 型。
+- 洛必达法则使用前先确认是 $0/0$ 或 $\infty/\infty$ 型。
 - 定积分换元要同步更改积分上下限。
-- 不定积分最后不要漏 +C。
+- 不定积分最后不要漏 $+C$。
 - 讨论单调区间时要把不可导点一起划分区间。
 
 ---
@@ -153,17 +153,3 @@
 
 ### 9.3 个人错题索引
 - 
-行内：$\\int_a^b f(x)\\,dx$
-
-块级：
-$$
-\\lim_{n\\to\\infty}\\left(1+\\frac{1}{n}\\right)^n=e
-$$
-
-对齐：
-$$
-\\begin{aligned}
-f'(x) &= \\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h} \\\\
-\\int x^n\\,dx &= \\frac{x^{n+1}}{n+1}+C
-\\end{aligned}
-$$

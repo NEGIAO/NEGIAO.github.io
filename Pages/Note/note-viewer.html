@@ -22,6 +22,20 @@
     <script defer src="../notes-toc.js"></script>
     <script defer src="../main-enhanced.js"></script>
     <script defer src="./chinese-meaning-mask.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                packages: { '[+]': ['ams'] }
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+    <script defer id="MathJax-script" src="https://cdnjs.loli.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
 
     <style>
         /* Fix for code block alignment - ensure left alignment for ASCII trees */
@@ -269,6 +283,10 @@
                 'note-template': {
                     title: '笔记模板',
                     description: '用于创建新笔记的标准模板，包含Markdown渲染和章节索引功能。'
+                },
+                'calculus-key-points': {
+                    title: '微积分重要结论与知识点',
+                    description: '用于日常更新和复习的微积分速查笔记，支持复杂数学公式渲染。'
                 }
             };
 
@@ -414,6 +432,36 @@
                 }
             }
 
+            // 渲染数学公式（支持复杂LaTeX）
+            function renderMath(container) {
+                return new Promise((resolve) => {
+                    let retryCount = 0;
+                    const maxRetries = 80;
+
+                    function tryTypeset() {
+                        if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+                            window.MathJax.typesetPromise([container])
+                                .then(function () {
+                                    resolve();
+                                })
+                                .catch(function () {
+                                    resolve();
+                                });
+                            return;
+                        }
+
+                        if (retryCount < maxRetries) {
+                            retryCount++;
+                            setTimeout(tryTypeset, 50);
+                        } else {
+                            resolve();
+                        }
+                    }
+
+                    tryTypeset();
+                });
+            }
+
             // 主函数
             async function init() {
                 const noteName = getUrlParam('note');
@@ -444,6 +492,9 @@
 
                     // 代码高亮
                     applyHighlight(container);
+
+                    // 数学公式渲染
+                    await renderMath(container);
 
                     // 单词学习类笔记：中文释义遮挡功能
                     if (window.initChineseMeaningMasking && noteName.includes('word-learning-record')) {

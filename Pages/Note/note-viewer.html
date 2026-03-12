@@ -21,6 +21,7 @@
     <script defer src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script defer src="../notes-toc.js"></script>
     <script defer src="../main-enhanced.js"></script>
+    <script defer src="./chinese-meaning-mask.js"></script>
 
     <style>
         /* Fix for code block alignment - ensure left alignment for ASCII trees */
@@ -443,6 +444,13 @@
 
                     // 代码高亮
                     applyHighlight(container);
+
+                    // 单词学习类笔记：中文释义遮挡功能
+                    if (window.initChineseMeaningMasking && noteName.includes('word-learning-record')) {
+                        window.initChineseMeaningMasking({
+                            container: container
+                        });
+                    }
 
                 } catch (error) {
                     showError(error.message);

@@ -245,6 +245,27 @@
 
     <script defer src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                tags: 'ams',
+                packages: { '[+]': ['ams'] },
+                macros: {
+                    RR: '{\\mathbb{R}}',
+                    dd: '{\\,\\mathrm{d}}',
+                    e: '{\\mathrm{e}}'
+                }
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            }
+        };
+    </script>
+    <script defer id="MathJax-script" src="https://cdnjs.loli.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <script>
         const editor = document.getElementById('markdown-editor');
         const preview = document.getElementById('content');
 
@@ -430,6 +451,109 @@ ___
 - [ ] 开始撰写新的笔记
 - [ ] 部署更新到GitHub Pages
 
+---
+
+## 11. 数学公式 (LaTeX)
+
+现在这个编辑器支持 LaTeX 实时预览。学习方式建议保持“概念 + 写法 + 效果”三步。
+
+### 11.1 行内公式
+
+在一句话里插入公式时，用 \`$...$\`。
+
+\`\`\`markdown
+函数 $f(x)=x^2+1$ 在 $x=0$ 处取值为 $1$。
+\`\`\`
+
+**效果：** 函数 $f(x)=x^2+1$ 在 $x=0$ 处取值为 $1$。
+
+### 11.2 块级公式
+
+当公式需要独立成行时，用 \`$$...$$\`。
+
+\`\`\`markdown
+$$
+\\lim_{x\\to 0}\\frac{\\sin x}{x}=1
+$$
+\`\`\`
+
+**效果：**
+
+$$
+\\lim_{x\\to 0}\\frac{\\sin x}{x}=1
+$$
+
+### 11.3 多行推导（对齐）
+
+复杂推导推荐使用 \`aligned\`，把 \`&\` 放在等号前对齐。
+
+\`\`\`markdown
+$$
+\\begin{aligned}
+\\int_0^1 x^2\\dd x &= \\frac{1}{3} \\\\
+\\frac{d}{dx}(x^3) &= 3x^2
+\\end{aligned}
+$$
+\`\`\`
+
+**效果：**
+
+$$
+\\begin{aligned}
+\\int_0^1 x^2\\dd x &= \\frac{1}{3} \\\\
+\\frac{d}{dx}(x^3) &= 3x^2
+\\end{aligned}
+$$
+
+### 11.4 常见结构模板
+
+分段函数：
+
+\`\`\`markdown
+$$
+f(x)=\\begin{cases}
+x^2, & x\\ge 0 \\\\
+-x, & x<0
+\\end{cases}
+$$
+\`\`\`
+
+矩阵：
+
+\`\`\`markdown
+$$
+A=\\begin{bmatrix}
+1 & 2 \\\\
+3 & 4
+\\end{bmatrix}
+$$
+\`\`\`
+
+### 11.5 AMS 自动编号（增强支持）
+
+同一篇内容内，块级公式会自动编号，可用于引用：
+
+\`\`\`markdown
+$$
+\\int_a^b f(x)\\dd x = F(b)-F(a)
+$$
+\`\`\`
+
+### 11.6 编辑器内置快捷宏（增强支持）
+
+当前支持这些快捷宏：
+- \`$\\RR$\` 表示实数域
+- \`$\\dd$\` 表示微分符号
+- \`$\\e^x$\` 表示自然指数
+
+示例：
+
+\`\`\`markdown
+$$
+f: \\RR \\to \\RR,\\quad \\int_0^1 \\e^x\\dd x = \\e-1
+$$
+\`\`\`
+
 这只是Markdown的基础功能，但已经足够满足大部分日常的文档编写需求。
         `;
 
@@ -440,7 +564,42 @@ ___
         function renderMarkdown() {
             if (window.marked) {
                 preview.innerHTML = window.marked.parse(editor.value);
+                renderMathInPreview();
             }
+        }
+
+        let mathRenderTimer = null;
+
+        // Render MathJax formulas in preview pane (debounced for smoother typing)
+        function renderMathInPreview() {
+            if (mathRenderTimer) {
+                clearTimeout(mathRenderTimer);
+            }
+
+            mathRenderTimer = setTimeout(() => {
+                let retryCount = 0;
+                const maxRetries = 80;
+
+                function tryTypeset() {
+                    if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+                        if (typeof window.MathJax.typesetClear === 'function') {
+                            window.MathJax.typesetClear([preview]);
+                        }
+
+                        window.MathJax.typesetPromise([preview]).catch(() => {
+                            // Ignore formula render errors and keep editor responsive.
+                        });
+                        return;
+                    }
+
+                    if (retryCount < maxRetries) {
+                        retryCount++;
+                        setTimeout(tryTypeset, 50);
+                    }
+                }
+
+                tryTypeset();
+            }, 120);
         }
 
         // Initial render

@@ -46,6 +46,8 @@
 - 英语学习系统提供分主题高阶词库、例句、记忆技巧与互动测试。
 - 词汇笔记支持中文释义遮挡模式：默认遮挡、点击单元格显示、开关一键控制（状态本地持久化）。
 - `note-viewer.html` 新增 Markdown 表格移动端自适应增强：超宽表格可横向滑动，避免列内容被裁切。
+- `note-viewer.html` 与 `markdown_editor.html` 均已支持 MathJax，可渲染复杂 LaTeX 公式。
+- LaTeX 学习内容已并入 `markdown_editor.html` 示例区域，可边写边看即时效果。
 - **数据同步**：通过 Python 脚本自动将 HTML 中的 Markdown 表格同步至 JSON 题库，实现数据源统一。
 - Markdown 编辑器配套实时预览、复制/清空等基础写作能力。
 
@@ -145,6 +147,7 @@
 │   │   │   ├── negiao-toolbox.md                     # 工具箱详细介绍
 │   │   │   ├── note-template.md                      # 笔记模板
 │   │   │   ├── qrcode-generator.md                   # 二维码生成器说明
+│   │   │   ├── calculus-key-points.md                # 微积分重要结论与复习笔记
 │   │   │   ├── spatial-analysis-R.md                 # 机器学习与智能算法（R）
 │   │   │   ├── word-learning-record.md               # 英语词汇学习记录
 │   │   │   ├── README.md                             # md目录说明文档
@@ -202,7 +205,7 @@
 | 目录脚本        | `Pages/notes-toc.js`        | 笔记页面自动目录生成与滚动同步           |
 | 释义遮挡模块    | `Pages/Note/chinese-meaning-mask.js` | 词汇笔记中文释义遮挡、点击显示、开关控制 |
 | 笔记渲染器      | `Pages/Note/note-viewer.html` | 统一 Markdown 渲染入口，URL 参数加载   |
-| 笔记内容        | `Pages/Note/md/*.md`        | 独立 Markdown 笔记文件（10篇）           |
+| 笔记内容        | `Pages/Note/md/*.md`        | 独立 Markdown 笔记文件（13篇）           |
 | 词汇数据        | `Pages/Note/word-list.json` | 英语学习系统题库与统计数据源             |
 | 工具箱          | `Others/NEGIAO工具.atbx`    | ArcGIS Pro 定制工具集合                  |
 | WebGIS 构建产物 | `WebGIS/assets/*`           | Vite 打包后的 JS/CSS                     |
@@ -233,6 +236,16 @@ python -m http.server 8080
 - **Python**：云端脚本、词汇数据处理、本地服务器。
 
 ## 变更/Changelog
+
+### 2026-03-12 · v1.8.4
+- **∑ LaTeX 学习体系补全**：
+    - 将 LaTeX 学习内容并入 `Pages/Note/markdown_editor.html`，减少入口分散。
+- **🧮 编辑器能力升级**：
+    - `Pages/Note/markdown_editor.html` 接入 MathJax，支持复杂数学公式实时预览。
+    - 示例内容新增 LaTeX 章节，开箱即用。
+- **📚 渲染器与文档同步**：
+    - 清理独立 LaTeX 学习笔记入口与相关配置。
+    - README 更新功能说明、目录结构与关键资源条目。
 
 ### 2026-03-12 · v1.8.3
 - **🧠 词汇学习交互增强**：

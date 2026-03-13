@@ -6,7 +6,7 @@
 
 <div style="padding: 20px; background: rgba(0, 217, 255, 0.1); border-radius: 8px; border-left: 4px solid var(--primary); margin: 20px 0;">
     <i class="fas fa-download" style="margin-right: 10px; color: var(--primary);"></i>
-    <a href="../../Others/NEGIAO工具.atbx" download style="font-weight: bold; font-size: 1.1em; color: var(--primary); text-decoration: none;">点击下载 NEGIAO工具.atbx</a>
+    <a href="../../Others/NEGIAO工具_V1_0_1.zip" download style="font-weight: bold; font-size: 1.1em; color: var(--primary); text-decoration: none;">点击下载 NEGIAO工具.atbx</a>
 </div>
 
 ## 2. 工具箱简介

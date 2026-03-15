@@ -37,7 +37,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 10px 20px;
+            padding-bottom: 3rem;
             line-height: 1.6;
         }
 
@@ -73,13 +74,15 @@
             width: 100%;
             max-width: 680px;
             margin: 0 auto;
+            margin-top: 0;
             position: relative;
             animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
+            margin-top: 1rem;
             position: relative;
         }
 
@@ -118,10 +121,14 @@
             background: var(--card-bg);
             border-radius: 16px;
             padding: 3.5rem;
+            padding-bottom: 20px;
+            padding-top: 3.5rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0,0,0,0.04);
             position: relative;
             overflow: hidden;
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
         
         .card::before {
@@ -138,13 +145,22 @@
         .card.plain-text-mode {
             min-height: 50vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
             /* 信纸线条：调整为3rem高度以匹配文字行高，颜色使用深色线条 #334155 */
             background-image: linear-gradient(transparent 96%, #efeedc 96%);
             background-size: 100% 3rem;
             background-position: 0 0.6rem;
+        }
+
+        .plain-text-body {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 0;
         }
         
         .card.plain-text-mode .content-text {
@@ -337,13 +353,52 @@
             margin-bottom: 0.5rem;
         }
 
+        .visitor-badge-block {
+            margin-top: auto;
+            padding-top: 0.5rem;
+        }
+
+        .visitor-badge-label {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-sub);
+            opacity: 0.55;
+            margin-bottom: 0;
+            letter-spacing: 0.5px;
+            font-family: "Microsoft YaHei", sans-serif;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        .visitor-badge-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0;
+        }
+
+        .visitor-badge-wrap img {
+            height: 20px;
+            width: auto;
+            opacity: 0.92;
+        }
+
+        @media (min-width: 800px) {
+            .container {
+                max-width: 1000px;
+            }
+        }
+
+        /* 
+            @media 是css中用于媒体查询的规则，根据设备特性，应用不同样式
+            通过指定应用的最小或者最大宽度，适配不同屏幕尺寸，实现响应式设计
+        */
         @media (max-width: 768px) {
             body {
-                padding: 15px 10px;
+                padding: 15px 20px;
             }
             
             .card {
-                padding: 1.5rem;
+                padding: 2.8rem;
                 border-radius: 12px;
             }
             
@@ -369,6 +424,10 @@
             .card.plain-text-mode .content-text {
                 font-size: 1.1rem;
                 line-height: 2.2rem;
+            }
+
+            .plain-text-body {
+                padding-top: 0.2rem;
             }
             
             .vcard-item {
@@ -439,6 +498,52 @@
         }
 
         // vCard (.vcf) 导出已移除（按用户要求）
+
+        // 生成参数摘要（同一组参数 => 同一个 visitor badge id）
+        function buildCanonicalParamString() {
+            const params = new URLSearchParams(window.location.search);
+            const pairs = Array.from(params.entries())
+                .map(([key, value]) => [key, value])
+                .sort((a, b) => {
+                    if (a[0] !== b[0]) {
+                        return a[0] < b[0] ? -1 : 1;
+                    }
+                    return a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0;
+                });
+
+            if (!pairs.length) {
+                return 'empty';
+            }
+
+            return pairs
+                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+                .join('&');
+        }
+
+        // FNV-1a 32-bit hash（快速、稳定、无依赖）
+        function hashFNV1a(str) {
+            let hash = 0x811c9dc5;
+            for (let i = 0; i < str.length; i++) {
+                hash ^= str.charCodeAt(i);
+                hash = Math.imul(hash, 0x01000193);
+            }
+            return (hash >>> 0).toString(16).padStart(8, '0');
+        }
+
+        function initVisitorBadge() {
+            const badgeEl = document.getElementById('visitor-badge');
+            if (!badgeEl) {
+                return;
+            }
+
+            const canonicalParams = buildCanonicalParamString();
+            const hash = hashFNV1a(canonicalParams);
+            const pageId = `negiao.decoder.${hash}`;
+
+            badgeEl.src = `https://visitor-badge.laobi.icu/badge?page_id=${encodeURIComponent(pageId)}`;
+            badgeEl.alt = 'visitor badge';
+            badgeEl.title = `badge id: ${pageId}`;
+        }
 
         // 解析URL参数
         function parseUrlParams() {
@@ -540,14 +645,25 @@
         function renderPage() {
             const config = parseUrlParams();
             const contentDiv = document.getElementById('content');
+            const badgeInnerHtml = `
+                <div class="visitor-badge-block">
+                    <div class="visitor-badge-label">本链接访问次数</div>
+                    <div class="visitor-badge-wrap">
+                        <img id="visitor-badge" src="" alt="visitor badge" />
+                    </div>
+                </div>
+            `;
 
             // 检查是否有有效数据
             if (!config.content && !config.vcard) {
                 contentDiv.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📭</div>
-                        <h2>暂无信息</h2>
-                        <p>未检测到有效的数据参数</p>
+                    <div class="card">
+                        ${badgeInnerHtml}
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <h2>暂无信息</h2>
+                            <p>未检测到有效的数据参数</p>
+                        </div>
                     </div>
                 `;
                 return;
@@ -589,11 +705,17 @@
             }
 
             const cardClass = isPlainText ? 'card plain-text-mode' : 'card';
-            contentDiv.innerHTML = `<div class="${cardClass}">${contentHtml}</div>`;
+            const finalContentHtml = isPlainText
+                ? `<div class="plain-text-body">${contentHtml}</div>`
+                : contentHtml;
+            contentDiv.innerHTML = `<div class="${cardClass}">${finalContentHtml}${badgeInnerHtml}</div>`;
         }
 
         // 页面加载时执行
-        window.addEventListener('DOMContentLoaded', renderPage);
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPage();
+            initVisitorBadge();
+        });
     </script>
 
     <!-- 访问统计脚本（延迟加载，仅控制台输出，不修改 DOM） -->

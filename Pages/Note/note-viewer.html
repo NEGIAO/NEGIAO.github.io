@@ -51,12 +51,12 @@
         /* TOC Toggle Button */
         .toc-toggle-btn {
             position: fixed;
-            bottom: 90px;
-            right: 30px;
+            bottom: 30px;
+            right: 100px;
             width: 45px;
             height: 45px;
             background: var(--surface-elevated);
-            border: 1px solid var(--border);
+            border: 2.5px solid var(--border);
             border-radius: 50%;
             color: var(--text);
             display: flex;
@@ -123,6 +123,21 @@
             color: var(--text-muted);
         }
 
+        /* Compact style for top-right back button */
+        .note-back-btn {
+            padding: 0.3rem 0.65rem;
+            font-size: 0.82rem;
+            line-height: 1.15;
+            border-radius: 8px;
+        }
+
+        @media (max-height: 400px) {
+            .note-back-btn {
+                padding: 0.26rem 0.58rem;
+                font-size: 0.78rem;
+            }
+        }
+
         @media (max-width: 768px) {
             /* 防止移动端滚动时的刷新/弹跳问题 */
             html {
@@ -147,8 +162,8 @@
             }
 
             .toc-toggle-btn {
-                bottom: 80px;
-                right: 20px;
+                bottom: 100px;
+                right: 30px;
                 -webkit-tap-highlight-color: transparent;
                 touch-action: manipulation;
             }
@@ -204,7 +219,7 @@
     <nav class="navbar">
         <div class="navbar__container">
             <a href="../../index.html" class="navbar__brand">NEGIAO</a>
-            <a href="../notes.html" class="btn btn--secondary">返回索引</a>
+            <a href="../notes.html" class="btn btn--secondary note-back-btn">返回索引</a>
         </div>
     </nav>
 

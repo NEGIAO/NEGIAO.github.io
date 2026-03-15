@@ -44,7 +44,7 @@
 ### 工具/Learning & Study Tools
 - 课程表支持秒级时间同步与课程状态自动识别，含呼吸灯提示。
 - 英语学习系统提供分主题高阶词库、例句、记忆技巧与互动测试。
-- 词汇笔记支持中文释义遮挡模式：默认遮挡、点击单元格显示、开关一键控制（状态本地持久化）。
+- 词汇笔记支持释义/例句折叠模式：默认折叠、支持单行展开，并提供顶部“一键展开/遮挡”全局切换。
 - `note-viewer.html` 新增 Markdown 表格移动端自适应增强：超宽表格可横向滑动，避免列内容被裁切。
 - `note-viewer.html` 与 `markdown_editor.html` 均已支持 MathJax，可渲染复杂 LaTeX 公式。
 - LaTeX 学习内容已并入 `markdown_editor.html` 示例区域，可边写边看即时效果。
@@ -161,7 +161,7 @@
 │   │   ├── gallery.html                              # 技术成果展示画廊
 │   │   ├── note-template.html                        # 旧版模板md内嵌在html中
 │   │   ├── markdown_editor.html                      # 在线 Markdown 编辑器工具
-│   │   ├── chinese-meaning-mask.js                   # 中文释义遮挡模块（按需启用）
+│   │   ├── chinese-meaning-mask.js                   # 词汇表折叠控制模块（释义/例句）
 │   │   ├── note-viewer.html                          # 统一笔记渲染器（URL参数加载md）
 │   │   ├── word-quiz.html                            # 独立单词测试页面
 │   │   └── word-list.json                            # 英语学习系统核心词库数据
@@ -203,7 +203,7 @@
 | 主样式          | `Pages/style.css`           | 全站主题与组件样式                       |
 | 导航/交互脚本   | `Pages/main-enhanced.js`    | 导航栏、移动菜单、平滑滚动、favicon 注入 |
 | 目录脚本        | `Pages/notes-toc.js`        | 笔记页面自动目录生成与滚动同步           |
-| 释义遮挡模块    | `Pages/Note/chinese-meaning-mask.js` | 词汇笔记中文释义遮挡、点击显示、开关控制 |
+| 折叠控制模块    | `Pages/Note/chinese-meaning-mask.js` | 词汇笔记释义/例句折叠、移动端词性隐藏、全局一键展开/遮挡 |
 | 笔记渲染器      | `Pages/Note/note-viewer.html` | 统一 Markdown 渲染入口，URL 参数加载   |
 | 笔记内容        | `Pages/Note/md/*.md`        | 独立 Markdown 笔记文件（13篇）           |
 | 词汇数据        | `Pages/Note/word-list.json` | 英语学习系统题库与统计数据源             |
@@ -237,6 +237,14 @@ python -m http.server 8080
 
 ## 变更/Changelog
 
+### 2026-03-15 · v1.8.5
+- **📚 词汇笔记折叠交互升级**：
+    - `Pages/Note/chinese-meaning-mask.js` 新增顶部全局按钮，支持“一键展开/遮挡”。
+    - 释义列与例句列统一为“默认折叠”，桌面端与移动端均可按行展开/收起。
+    - 移动端继续默认隐藏“词性”列，降低一屏信息密度。
+- **🧹 交互逻辑精简**：
+    - 移除旧的模糊遮挡方案，改为纯折叠交互，视觉更直观。
+
 ### 2026-03-12 · v1.8.4
 - **∑ LaTeX 学习体系补全**：
     - 将 LaTeX 学习内容并入 `Pages/Note/markdown_editor.html`，减少入口分散。
@@ -250,7 +258,7 @@ python -m http.server 8080
 ### 2026-03-12 · v1.8.3
 - **🧠 词汇学习交互增强**：
     - 新增 `Pages/Note/chinese-meaning-mask.js` 模块。
-    - 支持中文释义默认遮挡、点击显示/隐藏、全局开关与本地状态持久化。
+    - 初始版本支持中文释义默认遮挡、点击显示/隐藏与全局开关。
     - 仅在 `word-learning-record` 类笔记中按需启用，不影响其他通用 Markdown 笔记。
 
 ### 2026-03-10 · v1.8.2

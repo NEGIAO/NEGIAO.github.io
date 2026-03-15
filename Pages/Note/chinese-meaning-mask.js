@@ -15,28 +15,37 @@
         style.id = 'cn-meaning-mask-style';
         style.textContent = `
             .cn-collapse-toolbar {
+                position: fixed;
+                left: 100px;
+                bottom: 24px;
                 display: flex;
-                justify-content: flex-end;
                 align-items: center;
-                margin-bottom: 1rem;
+                z-index: 1100;
+                pointer-events: none;
             }
 
             .cn-collapse-toggle {
-                border: 1px solid var(--border);
-                background: var(--surface-elevated);
+                border: 2.5px solid var(--border);
+                background: color-mix(in srgb, var(--surface-elevated) 88%, transparent);
                 color: var(--text);
                 border-radius: 999px;
-                padding: 0.4rem 0.85rem;
-                font-size: 0.85rem;
+                padding: 0.5rem 0.95rem;
+                font-size: 0.84rem;
+                font-weight: 600;
                 line-height: 1;
                 cursor: pointer;
                 transition: all 0.2s ease;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                pointer-events: auto;
             }
 
             .cn-collapse-toggle:hover {
-                transform: translateY(-1px);
+                transform: translateY(-2px);
                 border-color: var(--primary);
                 color: var(--primary);
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
             }
 
             .cn-meaning-cell {
@@ -103,6 +112,23 @@
             }
 
             @media (max-width: 768px) {
+                .cn-collapse-toolbar {
+                    left: 50%;
+                    right: auto;
+                    bottom: calc(14px + env(safe-area-inset-bottom));
+                    transform: translateX(-50%);
+                }
+
+                .cn-collapse-toggle {
+                    width: 200px;
+                    justify-content: center;
+                    min-height: 40px;
+                    padding: 0.5rem 0.8rem;
+                    font-size: 0.8rem;
+                    border-width: 1px;
+                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+                }
+
                 .cn-pos-header.is-mobile-hidden,
                 .cn-pos-cell.is-mobile-hidden {
                     display: none;
@@ -268,12 +294,7 @@
 
         toolbar.appendChild(button);
 
-        const firstElement = container.firstElementChild;
-        if (firstElement) {
-            container.insertBefore(toolbar, firstElement);
-        } else {
-            container.appendChild(toolbar);
-        }
+        document.body.appendChild(toolbar);
 
         return {
             sync: syncButtonState

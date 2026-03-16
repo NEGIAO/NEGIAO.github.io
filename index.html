@@ -373,98 +373,6 @@
             width: 100%;
             margin-bottom: 2rem;
         }
-
-        .section-fold-nav {
-            padding-top: 0;
-            padding-bottom: var(--space-lg);
-        }
-
-        .fold-tabs {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.9rem;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            scroll-behavior: smooth;
-            padding-bottom: 0.25rem;
-        }
-
-        .fold-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .fold-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.6rem;
-            cursor: pointer;
-            user-select: none;
-            margin: 0;
-            padding: 0.35rem 0.9rem;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: var(--text-secondary);
-            white-space: nowrap;
-            transition: transform var(--transition-normal), border-color var(--transition-normal), background-color var(--transition-normal);
-        }
-
-        .fold-toggle:hover {
-            border-color: rgba(0, 217, 255, 0.55);
-            background: rgba(0, 217, 255, 0.08);
-        }
-
-        .fold-toggle .fold-icon {
-            font-size: 0.9rem;
-            color: var(--primary);
-            transition: transform var(--transition-normal);
-        }
-
-        .fold-toggle[aria-expanded="true"] .fold-icon {
-            transform: rotate(180deg);
-        }
-
-        @keyframes foldGradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            100% {
-                background-position: 100% 50%;
-            }
-        }
-
-        .fold-toggle.is-active {
-            border-color: rgba(0, 217, 255, 0.75);
-            transform: scale(1.06);
-            background: linear-gradient(120deg, #00d9ff, #66e9ff, #0ea5e9);
-            background-size: 200% 200%;
-            animation: foldGradientShift 2.5s linear infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .fold-embedded-title {
-            display: none;
-        }
-
-        .fold-content[hidden] {
-            display: none !important;
-        }
-
-        @media (max-width: 768px) {
-            .fold-tabs {
-                justify-content: flex-start;
-                padding: 0 0.25rem 0.25rem;
-            }
-
-            .fold-toggle {
-                font-size: 1.05rem;
-            }
-        }
     </style>
 </head>
 
@@ -537,7 +445,7 @@
         </div>
     </header>
 
-    <!-- 移动端导航 -->
+    <!-- 移动端菜单 -->
     <nav class="mobile-menu" id="mobile-menu" aria-label="移动端菜单" aria-hidden="true">
         <ul class="mobile-menu__nav">
             <li class="mobile-menu__item">
@@ -570,7 +478,6 @@
     </nav>
 
     <main id="main">
-        <!-- 首页 -->
         <section class="section section--hero">
             <div class="container">
                 <div class="hero">
@@ -579,9 +486,7 @@
                         <div class="avatar-glow"></div>
                         <img src="Pages/avatar.jpg" alt="NEGIAO's Avatar" class="avatar" fetchpriority="high">
                     </div>
-                    
                     <h1 class="hero__title">NEGIAO</h1>
-                    
                     <div class="hero__subtitle">
                         <a href="https://git.io/typing-svg">
                             <!-- 改为使用本地 SVG 图片以提升加载性能，旧的代码保留 -->
@@ -589,7 +494,6 @@
                             <img src="images/typing.svg" alt="Typing SVG" style="max-width: 100%; height: auto;" />
                         </a>
                     </div>
-                    
                     <div class="hero-tech-badges">
                         <span class="tech-badge tech-badge--primary" title="WebGIS Development">
                             <i class="fas fa-globe-asia" aria-hidden="true"></i> WebGIS
@@ -601,7 +505,6 @@
                             <i class="fas fa-laptop-code" aria-hidden="true"></i> 全栈开发
                         </span>
                     </div>
-                    
                     <div class="hero__actions">
                         <a href="WebGIS/index.html" class="btn btn--outline">
                             <i class="fas fa-book-open"></i> WebGIS
@@ -613,29 +516,8 @@
                             <i class="fas fa-book-open"></i> 技术笔记
                         </a>
                     </div>
-                    
-                    <!-- 三大分区导航 -->
-                    <section class="section section-fold-nav" aria-label="内容折叠导航">
-                        <div class="container">
-                            <div class="fold-tabs" role="tablist" aria-label="内容分区">
-                                <h2 class="fold-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="projects-content" data-fold-target="projects-content" data-fold-section="projects">
-                                    <span>Project</span>
-                                    <i class="fas fa-chevron-down fold-icon" aria-hidden="true"></i>
-                                </h2>
-                                <h2 class="fold-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="researches-content" data-fold-target="researches-content" data-fold-section="researches">
-                                    <span>Researches</span>
-                                    <i class="fas fa-chevron-down fold-icon" aria-hidden="true"></i>
-                                </h2>
-                                <h2 class="fold-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="contact-content" data-fold-target="contact-content" data-fold-section="contact">
-                                    <span>Contact me</span>
-                                    <i class="fas fa-chevron-down fold-icon" aria-hidden="true"></i>
-                                </h2>
-                            </div>
-                        </div>
-                    </section>
                 </div>
             </div>
-            
             <!-- 视觉装饰元素 -->
             <div class="floating-shapes">
                 <div class="shape shape-1"></div>
@@ -644,15 +526,12 @@
             </div>
         </section>
 
-        <!-- project -->
+        <!-- 项目区域 -->
         <section class="section projects" id="projects">
             <div class="container">
-                <h2 class="text-center gradient-text fold-embedded-title" style="margin-bottom: var(--space-2xl);">
-                    <span>Project</span>
-                    <i class="fas fa-chevron-down fold-icon" aria-hidden="true"></i>
-                </h2>
+                <h2 class="text-center gradient-text" style="margin-bottom: var(--space-2xl);">Project</h2>
 
-                <div class="projects-grid fold-content" id="projects-content" hidden>
+                <div class="projects-grid">
                     <!-- 宝藏小城项目 -->
                     <article class="project-item">
                         <div class="project-header">
@@ -742,15 +621,11 @@
             </div>
         </section>
 
-        <!-- Researchs -->
-        <section class="section" id="researches">
+        <!-- 季节变化专题 -->
+        <section class="section">
             <div class="container">
-                <h2 class="text-center gradient-text fold-embedded-title" style="margin-bottom: var(--space-2xl);">
-                    <span>Researches</span>
-                    <i class="fas fa-chevron-down fold-icon" aria-hidden="true"></i>
-                </h2>
-                
-                <div class="grid grid--3-fixed fold-content" id="researches-content" hidden>
+                <h2 class="text-center gradient-text" style="margin-bottom: var(--space-2xl);">Researches</h2>
+                <div class="grid grid--3-fixed">
                     <a href="Geoscene_宝藏小城/季节变化/利川市_季节变化.html" class="card" style="text-decoration: none;">
                         <h4 style="color: var(--primary);">利川市</h4>
                         <p style="color: var(--text-light); margin-bottom: 0;">探索利川市的季节性变化数据和趋势分析</p>
@@ -779,15 +654,11 @@
             </div>
         </section>
 
-        <!-- Contact me -->
+        <!-- 联系区域 -->
         <section class="section" id="contact">
             <div class="container">
-                <h2 class="text-center gradient-text fold-embedded-title" style="margin-bottom: var(--space-2xl);">
-                    <span>Contact me</span>
-                    <i class="fas fa-chevron-down fold-icon" aria-hidden="true"></i>
-                </h2>
-                
-                <div class="grid grid--responsive fold-content" id="contact-content" hidden>
+                <h2 class="text-center gradient-text" style="margin-bottom: var(--space-2xl);">Contact me</h2>
+                <div class="grid grid--responsive">
                     <div class="card glass">
                         <div class="contact-icon-container"
                             style="width: 60px; height: 60px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-lg);">
@@ -830,7 +701,6 @@
                 </div>
             </div>
         </section>
-    
     </main>
 
     <!-- 现代化页脚 -->
@@ -949,69 +819,7 @@
             </div>
         </div>
     </footer>
-
-    <!-- 动画和交互脚本 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggles = document.querySelectorAll('.fold-tabs .fold-toggle[data-fold-target]');
-            const setExpanded = function (toggle, targetEl, expanded) {
-                toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-                toggle.classList.toggle('is-active', expanded);
-                targetEl.hidden = !expanded;
-            };
-
-            const collapseAll = function () {
-                toggles.forEach(function (item) {
-                    const itemTargetId = item.getAttribute('data-fold-target');
-                    const itemTargetEl = itemTargetId ? document.getElementById(itemTargetId) : null;
-                    if (itemTargetEl) {
-                        setExpanded(item, itemTargetEl, false);
-                    }
-                });
-            };
-
-            toggles.forEach(function (toggle) {
-                const targetId = toggle.getAttribute('data-fold-target');
-                const targetEl = targetId ? document.getElementById(targetId) : null;
-                if (!targetEl) {
-                    return;
-                }
-
-                const activate = function () {
-                    const expanded = toggle.getAttribute('aria-expanded') === 'true';
-                    if (expanded) {
-                        setExpanded(toggle, targetEl, false);
-                        return;
-                    }
-
-                    collapseAll();
-                    setExpanded(toggle, targetEl, true);
-
-                    toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-
-                    const sectionId = toggle.getAttribute('data-fold-section');
-                    const sectionEl = sectionId ? document.getElementById(sectionId) : null;
-                    if (sectionEl) {
-                        sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                };
-
-                setExpanded(toggle, targetEl, false);
-
-                toggle.addEventListener('click', function () {
-                    activate();
-                });
-
-                toggle.addEventListener('keydown', function (event) {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        activate();
-                    }
-                });
-            });
-        });
-    </script>
-    </div>
+    </div> <!-- /End of .main-content-wrapper -->
 </body>
 
 </html>

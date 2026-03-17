@@ -50,9 +50,9 @@
     <meta http-equiv="Cache-Control" content="max-age=2592000, public">
 
     <!-- 资源缓存策略：添加版本号便于更新时强制刷新 -->
-    <link rel="stylesheet" href="Pages/style.css?v=202512" media="all">
+    <link rel="stylesheet" href="Pages/style.css?v=202603" media="all">
     <link rel="preload" href="Pages/avatar.jpg" as="image" fetchpriority="high">
-    <script src="Pages/main-enhanced.js?v=202512" defer></script>
+    <script src="Pages/main-enhanced.js?v=202603" defer></script>
     
     <!-- 百度统计代码 -->
     <script>
@@ -794,19 +794,18 @@
                 <!-- 脚注 -->
                 <div class="footer__meta" style="border-top: 1px solid var(--border); padding-top: var(--space-lg);">
                     <img src="https://visitor-badge.laobi.icu/badge?page_id=negiao.pages" alt="visitor badge"/>
-                    <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: var(--space-sm);">
-                        &copy; <span id="current-year">2026</span> NEGIAO. All rights reserved.
-                    </p>
                     <p style="color: var(--text-disabled); font-size: 0.8rem; margin-bottom: var(--space-sm);">
                         用 ❤️ 和现代技术构建 
                         <span style="margin-left: 8px; opacity: 0.8; border: 1px solid var(--text-disabled); padding: 0 4px; border-radius: 4px;">Version : V1.8.5</span>
                     </p>
-                    <div id="stats-widget"
+                    
+                    <!-- <div id="stats-widget"
                         style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: var(--space-sm);">
                         全站总览: <span id="total-pv-val" style="color: var(--primary); font-weight: bold;">-</span> |
                         您今日已访问: <span id="today-personal-val" style="color: var(--primary); font-weight: bold;">-</span>
                         次
-                    </div>
+                    </div> -->
+
                     <!-- MapMyVisitors Map (Lazy Loaded) -->
                     <div id="mapmyvisitors-container"
                         style="margin-bottom: var(--space-sm); display: flex; justify-content: center; min-height: 100px;">
@@ -815,11 +814,14 @@
                     <div style="font-size: 0.75rem; color: var(--text-disabled);">
                         <span>WebGIS</span> • <span>数据可视化</span> • <span>全栈开发</span>
                     </div>
+                    <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: var(--space-sm);">
+                        &copy; <span id="current-year">2026</span> NEGIAO. All rights reserved.
+                    </p>
                 </div>
             </div>
         </div>
     </footer>
-    </div> <!-- /End of .main-content-wrapper -->
+    </div>
 </body>
 
 </html>

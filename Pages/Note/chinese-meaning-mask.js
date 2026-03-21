@@ -15,124 +15,124 @@
         style.id = 'cn-meaning-mask-style';
         style.textContent = `
             .cn-collapse-toolbar {
-                position: fixed;
-                left: 100px;
-                bottom: 24px;
-                display: flex;
-                align-items: center;
-                z-index: 1100;
-                pointer-events: none;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 24px;
+            display: flex;
+            align-items: center;
+            z-index: 1100;
+            pointer-events: none;
             }
 
             .cn-collapse-toggle {
-                border: 2.5px solid var(--border);
-                background: color-mix(in srgb, var(--surface-elevated) 88%, transparent);
-                color: var(--text);
-                border-radius: 999px;
-                padding: 0.5rem 0.95rem;
-                font-size: 0.84rem;
-                font-weight: 600;
-                line-height: 1;
-                cursor: pointer;
-                transition: all 0.2s ease;
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-                pointer-events: auto;
+            width: 300px;
+            border: 2.5px solid var(--border);
+            background: color-mix(in srgb, var(--surface-elevated) 88%, transparent);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 0.5rem 0.95rem;
+            font-size: 0.84rem;
+            font-weight: 600;
+            line-height: 1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            pointer-events: auto;
             }
 
             .cn-collapse-toggle:hover {
-                transform: translateY(-2px);
-                border-color: var(--primary);
-                color: var(--primary);
-                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
             }
 
             .cn-meaning-cell {
-                cursor: default;
-                position: relative;
-                vertical-align: top;
+            cursor: default;
+            position: relative;
+            vertical-align: top;
             }
 
             .cn-meaning-cell .cn-meaning__content {
-                display: block;
-                transition: filter 0.2s ease, opacity 0.2s ease;
+            display: block;
+            transition: filter 0.2s ease, opacity 0.2s ease;
             }
 
             .cn-meaning-toggle {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border: 1px solid var(--border);
-                background: transparent;
-                color: var(--text-muted);
-                border-radius: 999px;
-                font-size: 0.75rem;
-                line-height: 1;
-                padding: 0.22rem 0.55rem;
-                margin: 0 0 0.35rem;
-                cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            line-height: 1;
+            padding: 0.22rem 0.55rem;
+            margin: 0 0 0.35rem;
+            cursor: pointer;
             }
 
             .cn-meaning-toggle:hover {
-                border-color: var(--primary);
-                color: var(--primary);
+            border-color: var(--primary);
+            color: var(--primary);
             }
 
             .cn-meaning-cell.is-collapsed .cn-meaning__content {
-                display: none;
+            display: none;
             }
 
             .cn-example-cell {
-                vertical-align: top;
+            vertical-align: top;
             }
 
             .cn-example-toggle {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                border: 1px solid var(--border);
-                background: transparent;
-                color: var(--text-muted);
-                border-radius: 999px;
-                font-size: 0.75rem;
-                line-height: 1;
-                padding: 0.22rem 0.55rem;
-                margin: 0 0 0.35rem;
-                cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            line-height: 1;
+            padding: 0.22rem 0.55rem;
+            margin: 0 0 0.35rem;
+            cursor: pointer;
             }
 
             .cn-example-toggle:hover {
-                border-color: var(--primary);
-                color: var(--primary);
+            border-color: var(--primary);
+            color: var(--primary);
             }
 
             .cn-example-cell.is-collapsed .cn-example__content {
-                display: none;
+            display: none;
             }
 
             @media (max-width: 768px) {
-                .cn-collapse-toolbar {
-                    left: 50%;
-                    right: auto;
-                    bottom: calc(14px + env(safe-area-inset-bottom));
-                    transform: translateX(-50%);
-                }
+            .cn-collapse-toolbar {
+                bottom: calc(14px + env(safe-area-inset-bottom));
+                margin-bottom: 30px;
+            }
 
-                .cn-collapse-toggle {
-                    width: 200px;
-                    justify-content: center;
-                    min-height: 40px;
-                    padding: 0.5rem 0.8rem;
-                    font-size: 0.8rem;
-                    border-width: 1px;
-                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
-                }
+            .cn-collapse-toggle {
+                width: 200px;
+                justify-content: center;
+                min-height: 40px;
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+                border-width: 1px;
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+            }
 
-                .cn-pos-header.is-mobile-hidden,
-                .cn-pos-cell.is-mobile-hidden {
-                    display: none;
-                }
+            .cn-pos-header.is-mobile-hidden,
+            .cn-pos-cell.is-mobile-hidden {
+                display: none;
+            }
             }
         `;
 
@@ -282,7 +282,7 @@
 
         function syncButtonState(collapsed) {
             button.setAttribute('aria-pressed', String(collapsed));
-            button.textContent = collapsed ? '一键展开' : '一键遮挡';
+            button.textContent = collapsed ? '一 键 展 开' : '一键遮挡';
         }
 
         syncButtonState(initialCollapsed);

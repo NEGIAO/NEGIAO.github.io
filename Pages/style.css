@@ -1352,7 +1352,7 @@ a:focus {
   pointer-events: none;
   position: fixed;
   inset: 0;
-  background: rgba(8, 12, 18, 0.97);
+  background: rgba(8, 41, 60, 0.15);
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
   /* Sit just below the fixed navbar (z-index 1030) */
@@ -2507,7 +2507,7 @@ a:focus {
 /* Notes Index Page Styles */
 .notes-index-header {
   text-align: center;
-  margin-bottom: var(--space-3xl);
+  margin-top: var(--space-3xl);
 }
 
 .notes-subtitle {

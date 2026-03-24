@@ -157,11 +157,21 @@ def main():
     existing_words_list = load_json_words(JSON_PATH)
     print(f"-> 现有 JSON 中包含 {len(existing_words_list)} 条记录")
 
-    # 创建查找表 (key: 小写单词 + 释义 + 日期)，用于避免同一天完全重复记录
+    # 创建查找表 (key: 小写单词 + 日期)，用于避免同一天单词重复
     existing_words_map = {
-        (w.get('word', '').lower(), w.get('meaning', '').strip(), w.get('date', '').strip()): True
+        (w.get('word', '').lower(), w.get('date', '').strip()): True
         for w in existing_words_list
     }
+
+    # 先对现有 JSON 做一次同日去重，保留首次出现的记录
+    deduped_existing_words = []
+    seen_existing_keys = set()
+    for word_item in existing_words_list:
+        existing_key = (word_item.get('word', '').lower(), word_item.get('date', '').strip())
+        if existing_key in seen_existing_keys:
+            continue
+        seen_existing_keys.add(existing_key)
+        deduped_existing_words.append(word_item)
 
     # 4. 准备干扰项池
     # 收集所有出现的释义（现有的 + 新提取的），用于生成更好的干扰项
@@ -170,13 +180,13 @@ def main():
     all_meanings = list(set(all_meanings))
 
     new_words_count = 0
-    final_list = list(existing_words_list)
+    final_list = list(deduped_existing_words)
 
     # 5. 合并数据
     for item in extracted_words:
-        word_key = (item['word'].lower(), item['meaning'].strip(), item['date'].strip())
+        word_key = (item['word'].lower(), item['date'].strip())
 
-        # 只有当同一单词、释义、日期组合不在 JSON 中时才添加
+        # 只有当同一单词、同一天不重复时才添加
         if word_key not in existing_words_map:
             # 生成选项
             options = generate_options(item['meaning'], all_meanings)
@@ -191,18 +201,22 @@ def main():
 
             final_list.append(new_entry)
 
-            # 标记为已存在，防止本次运行中完全重复的记录被重复添加
+            # 标记为已存在，防止本次运行中同一天同一单词被重复添加
             existing_words_map[word_key] = True
             new_words_count += 1
             print(f"   [新增] {item['word']} ({item['meaning']})")
 
     # 6. 保存结果
-    if new_words_count > 0:
+    should_save = new_words_count > 0 or len(deduped_existing_words) != len(existing_words_list)
+    if should_save:
         try:
             with open(JSON_PATH, 'w', encoding='utf-8') as f:
                 # indent=4 美化输出，ensure_ascii=False 保证中文正常显示
                 json.dump(final_list, f, ensure_ascii=False, indent=4)
-            print(f"\n[成功] 已将 {new_words_count} 个新单词写入 {os.path.basename(JSON_PATH)}")
+            if new_words_count > 0:
+                print(f"\n[成功] 已将 {new_words_count} 个新单词写入 {os.path.basename(JSON_PATH)}")
+            else:
+                print(f"\n[成功] 已清理同日重复记录并更新 {os.path.basename(JSON_PATH)}")
         except Exception as e:
             print(f"\n[错误] 写入 JSON 文件失败: {e}")
     else:

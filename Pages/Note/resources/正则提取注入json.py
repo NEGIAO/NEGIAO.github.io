@@ -157,8 +157,11 @@ def main():
     existing_words_list = load_json_words(JSON_PATH)
     print(f"-> 现有 JSON 中包含 {len(existing_words_list)} 条记录")
 
-    # 创建查找表 (key: 小写单词)，用于快速去重
-    existing_words_map = {w['word'].lower(): True for w in existing_words_list}
+    # 创建查找表 (key: 小写单词 + 释义 + 日期)，用于避免同一天完全重复记录
+    existing_words_map = {
+        (w.get('word', '').lower(), w.get('meaning', '').strip(), w.get('date', '').strip()): True
+        for w in existing_words_list
+    }
 
     # 4. 准备干扰项池
     # 收集所有出现的释义（现有的 + 新提取的），用于生成更好的干扰项
@@ -171,9 +174,9 @@ def main():
 
     # 5. 合并数据
     for item in extracted_words:
-        word_key = item['word'].lower()
+        word_key = (item['word'].lower(), item['meaning'].strip(), item['date'].strip())
 
-        # 只有当单词不在 JSON 中时才添加
+        # 只有当同一单词、释义、日期组合不在 JSON 中时才添加
         if word_key not in existing_words_map:
             # 生成选项
             options = generate_options(item['meaning'], all_meanings)
@@ -188,7 +191,7 @@ def main():
 
             final_list.append(new_entry)
 
-            # 标记为已存在，防止本次运行中 Markdown 里有重复单词导致重复添加
+            # 标记为已存在，防止本次运行中完全重复的记录被重复添加
             existing_words_map[word_key] = True
             new_words_count += 1
             print(f"   [新增] {item['word']} ({item['meaning']})")

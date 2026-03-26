@@ -11,7 +11,7 @@
 
 ## 2. 工具箱简介
 
-![NEGIAO工具箱预览](resources/工具箱截图.png)
+![NEGIAO工具箱预览](resources/工具箱截图.webp)
 
 该工具箱旨在提高 WebGIS 数据处理和空间分析的效率。最新版将脚本按功能拆分为三个分组：`Demo`、`NC数据` 与 `网络分析`，便于在 Catalog 中快速定位。
 

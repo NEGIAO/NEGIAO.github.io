@@ -2874,3 +2874,25 @@
 | **substantial** | adj. | 实质的；坚固的；大量的 |
 | **subtle** | adj. | 微妙的；细微的 |
 | **amend** | v. | 修改；修订；改进；改善 |
+### 2026-03-26 新增单词
+
+| 单词 | 词性 | 中文释义 | 
+|------|------|----------|
+| **stir** | v./n. | 搅拌；搅动；机器；引起 |
+| **stipulate** | v. | 规定；明确要求 |
+| **apt** | adj. | 恰当的；有倾向；聪明的 | 
+| **inferior** | adj. | 下等的；差的；次的 | 
+| **conform** | v. | 相似；符合；遵从 | 
+| **confront** | v. | 面对；面临 | 
+| **congress** | n. | 国会；议会 | 
+| **conscious** | adj. | 有意识的 | 
+| **disperse** | v. | 分散；驱散 |
+| **distort** | v. | 扭曲 | 
+| **mock** | v./n. | 嘲笑；模仿 | 
+| **predecessor** | n. | 前辈；前任 |
+| **preface** | n. | 序言；前言 | 
+| **premium** | n./adj. | 保险费；奖金；额外费用 | 
+| **preliminary** | adj. | 初步的；预备的 |
+| **premise** | n. | 前提；假定 | 
+| **promise** | v./n. | 承诺 | 
+| **rejoice** | v. | 喜悦 | 

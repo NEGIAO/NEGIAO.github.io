@@ -70,7 +70,7 @@
 - **Visual Studio 2012**: [百度网盘下载](https://pan.baidu.com/s/16_spKRn97O-H9OwWkYIvXg) (提取码: GIS0)
 - **ArcGIS Engine 10.2.2**: [百度网盘下载](https://pan.baidu.com/s/1VjS9ih8xEt4h5UyVsINLSQ) (提取码: GIS0)
 
-> 💡 **安装提示**：Engine 10.2.2 的安装流程可参考网盘中的 `安装流程.jpg` 或访问 [详细安装教程](https://malagis.com/arcgis-10-2-2-download.html)。
+> 💡 **安装提示**：Engine 10.2.2 的安装流程可参考网盘中的 `安装流程.webp` 或访问 [详细安装教程](https://malagis.com/arcgis-10-2-2-download.html)。
 
 > ⚖️ **免责声明**：
 > 上述链接提供的软件均为网络学习版本，**仅限个人学习研究使用，严禁用于商业用途**。

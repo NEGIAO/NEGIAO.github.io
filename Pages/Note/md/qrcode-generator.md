@@ -70,7 +70,7 @@ streamlit run app.py
 上传到 Posit Connect：
 - `app.py`
 - `requirements.txt`
-- `icon.jpg`（可选）
+- `icon.webp`（可选）
 
 ### 2. 解码网页（decoder.html）
 部署到任何静态网站服务：

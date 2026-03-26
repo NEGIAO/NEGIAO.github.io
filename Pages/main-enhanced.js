@@ -7,7 +7,7 @@
         const head = document.head;
         if (!head) return;
 
-        const targetHref = '/images/icon.png';
+        const targetHref = '/images/icon.webp';
         function upsertLink(relValue) {
             let linkEl = document.querySelector(`link[rel="${relValue}"]`);
             if (!linkEl) {
@@ -16,7 +16,7 @@
                 head.appendChild(linkEl);
             }
             linkEl.href = targetHref;
-            linkEl.type = 'image/png';
+            linkEl.type = 'image/webp';
             linkEl.sizes = '32x32 192x192 512x512';
         }
 
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })();
 
         // 预加载关键图片
-        ['/Pages/avatar.jpg'].forEach(src => { const img = new Image(); img.src = src; });
+        ['/Pages/avatar.webp'].forEach(src => { const img = new Image(); img.src = src; });
 
         // 懒加载非关键图片（data-src）
         if ('IntersectionObserver' in window) {

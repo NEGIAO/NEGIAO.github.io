@@ -27,7 +27,7 @@
 # 添加缓存控制头
 <IfModule mod_headers.c>
   # 为静态资源设置缓存控制
-  <FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2)$">
+  <FilesMatch "\.(css|js|webp|jpeg|png|gif|ico|svg|woff|woff2)$">
     Header set Cache-Control "max-age=31536000, public"
   </FilesMatch>
   
@@ -35,7 +35,7 @@
   <FilesMatch "style\.css$">
     Header set Cache-Control "max-age=31536000, public"
   </FilesMatch>
-  <FilesMatch "avatar\.jpg$">
+  <FilesMatch "avatar\.webp$">
     Header set Cache-Control "max-age=31536000, public"
   </FilesMatch>
   <FilesMatch "main-enhanced\.js$">

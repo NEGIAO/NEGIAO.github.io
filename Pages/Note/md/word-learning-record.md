@@ -602,8 +602,7 @@
 | **Fasten** | v. | 扣紧，系牢 | Please fasten your seatbelt before takeoff. |
 | **Thread** | n./v. | 线 | She carefully threaded the needle to begin sewing. |
 | **Threat** | n. | 威胁 | Cyber attacks pose a serious threat to data security. |
- 
-            
+
 ### 2025-11-13 新增单词
 
 | 单词 | 词性 | 中文释义 | 例句/用法 |
@@ -2874,6 +2873,7 @@
 | **substantial** | adj. | 实质的；坚固的；大量的 |
 | **subtle** | adj. | 微妙的；细微的 |
 | **amend** | v. | 修改；修订；改进；改善 |
+
 ### 2026-03-26 新增单词
 
 | 单词 | 词性 | 中文释义 | 
@@ -2896,3 +2896,25 @@
 | **premise** | n. | 前提；假定 | 
 | **promise** | v./n. | 承诺 | 
 | **rejoice** | v. | 喜悦 | 
+
+### 2026-03-27 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| **starve** | v. | 饿死；渴望 |
+| **stance** | n. | 观点；立场；站立 |
+| **steer** | v. | 驾驶；指导；带领 |
+| **stem** | n./v. | 根茎；阻止，遏制；起源于 |
+| **stern** | adj. | 严肃的；严格的 |
+| **anonymous** | adj. | 匿名的 |
+| **assassinate** | v. | 刺杀；破坏 |
+| **assault** | n./v. | 袭击 |
+| **assert** | v. | 断言 |
+| **condemn** | v. | 谴责；判刑 |
+| **condense** | v. | 压缩；简洁 |
+| **conduct** | n./v. | 行为；带领；指挥；传导 |
+| **disclose** | v. | 泄露；透露 |
+| **hoist** | v. | 举起；吊起；升起 |
+| **huddle** | v./n. | 蜷缩；聚集 |
+| **nasty** | adj. | 肮脏的；严重的；下流的 |
+| **portion** | n./v. | 部分；分配 |

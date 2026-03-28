@@ -2474,7 +2474,8 @@
 | **Invade** | v. | 侵略；侵入；涌入 | The army invaded the neighboring country. |
 | **Swamp** | n./v. | 沼泽；淹没；使陷入 | The heavy rain swamped the low-lying areas. |
 
-## 考研红宝书 
+# 考研红宝书 
+## 2026年3月单词
 
 ### 2026-03-09 新增单词
 
@@ -2918,3 +2919,27 @@
 | **huddle** | v./n. | 蜷缩；聚集 |
 | **nasty** | adj. | 肮脏的；严重的；下流的 |
 | **portion** | n./v. | 部分；分配 |
+
+### 2026-03-28 新增单词
+
+| 单词 | 词性 | 中文释义 | 例句/用法 |
+|------|------|----------|-----------|
+| **scribe** | n. | 抄写员 | |
+| **describe** | v. | 描述 | |
+| **circumscribe** | v. | 约束 | |
+| **prescribe** | v. | 开处方 | |
+| **transcribe** | v. | 抄写，转录 | |
+| **ascribe** | v. | 归功于 | |
+| **subscribe** | v. | 订阅，签署 | |
+| **inscribe** | v. | 铭刻 | |
+| **console** | n./v. | 控制台；安抚；慰问 | |
+| **entertain** | v. | 招待；款待 | |
+| **monopoly** | n. | 垄断；独占；专利 | |
+| **monotonous** | adj. | 单调无味的；毫无变化的 | |
+| **stock** | n. | 原料；库存；股票；储备 | |
+| **stride** | v./n. | 大步走；进步；发展 | |
+| **stun** | v. | 打晕；晕眩；印象深刻 | |
+| **prime** | adj. | 首要的；基本的；典型的；首选的 | |
+| **principal** | adj./n. | 主要的；校长；资本；主角 | |
+| **principle** | n. | 原理；定律；法则；信条 | |
+| **anchor** | n./v. | 锚；抛锚；固定；扎根；精神支柱 | |

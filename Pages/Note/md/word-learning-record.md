@@ -2943,3 +2943,31 @@
 | **principal** | adj./n. | 主要的；校长；资本；主角 | 
 | **principle** | n. | 原理；定律；法则；信条 | 
 | **anchor** | n./v. | 锚；抛锚；固定；扎根；精神支柱 | 
+
+### 2026-03-29 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| pose | v./n. | 姿势；提出；产生；造成 |
+| dilute | v. | 削减；减低；稀释 |
+| dim | adj. | 暗淡的 |
+| diminish | v. | 减少；缩小；贬低；轻视 |
+| amateur | n. | 业余爱好者；外行 |
+| ambiguous | adj. | 模棱两可的 |
+| ambitious | adj. | 有雄心的；耗时的 |
+| build | n./v. | 身材；结构；建设 |
+| compress | v. | 压缩；精简 |
+| conceive | v. | 设想；认为；怀孕 |
+| concise | adj. | 简明的；简洁的 |
+| confer | v. | 商议；授予 |
+| conference | n. | 会议 |
+| confess | v. | 坦白；承认；忏悔 |
+| epoch | n. | 时代；时期 |
+| indifferent | adj. | 漠不关心的；一般的；中立的 |
+| indignant | adj. | 愤慨的；愤怒的 |
+| indispensable | adj. | 不可替代的；必须的 |
+| dispensable | adj. | 不必要的 |
+| militant | adj. | 好战的；激进的 |
+| redeem | v. | 补救；弥补；救赎；偿还；履行；遵守 |
+| spoil | v. | 溺爱；毁掉；损坏 |
+| spur | n./v. | 刺激；激励；促进 |

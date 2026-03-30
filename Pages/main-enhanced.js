@@ -365,6 +365,25 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (e) { console.log('注册延迟加载统计脚本时出错：', e); }
     }
 
+    //自动更新 WebGIS 链接，添加版本参数避免缓存问题
+    function updateWebGISLink() {
+        // 1. 获取当前时间
+        const now = new Date();
+        const year = now.getFullYear();
+        // 月份从 0 开始，所以要 +1。padStart(2, '0') 保证个位数补零，如 '05'
+        const month = String(now.getMonth() + 1).padStart(2, '0'); 
+        const day = String(now.getDate()).padStart(2, '0');
+        
+        // 拼装成 YYYYMMDD 格式 (例如: 20231025)
+        const todayStr = `${year}${month}${day}`;
+        
+        // 2. 获取 a 标签并重写它的 href
+        const link = document.getElementById('webgis-link');
+        if (link) {
+            link.href = `WebGIS/index.html?v=${todayStr}`;
+        }
+    }
+
     /* --------------------------
        执行模块化初始化
     -------------------------- */
@@ -374,6 +393,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initMobileMenu();
     initSmoothAnchors();
     initAnimationsAndInteractions();
+    updateWebGISLink();
     initAuxiliaryFeatures();
     initCodeCopyButtons();
     registerDelayedStatsLoader();

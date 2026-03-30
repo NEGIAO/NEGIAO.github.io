@@ -2971,3 +2971,25 @@
 | redeem | v. | 补救；弥补；救赎；偿还；履行；遵守 |
 | spoil | v. | 溺爱；毁掉；损坏 |
 | spur | n./v. | 刺激；激励；促进 |
+
+### 2026-03-30 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| twist | v./n. | 扭；搓；拧 |
+| trivial | adj. | 琐碎的；无价值的 |
+| tumble | v./n. | 摔倒；暴跌；急剧下降 |
+| turbulent | adj. | 骚乱；动乱 |
+| voluntary | adj. | 志愿的 |
+| vulgar | adj. | 庸俗的；粗俗的；普通的 |
+| auxiliary | adj./n. | 辅助的 |
+| avail | v./n. | 有助于；使用某事 |
+| culminate | v. | 高潮；顶点；告终 |
+| culprit | n. | 犯罪 |
+| dual | adj. | 双重的；对偶的 |
+| dubious | adj. | 怀疑；有问题的；不确定的 |
+| revenge | n./v. | 报仇 |
+| revenue | n. | 税收；财政收入 |
+| resultant | adj. | 必然发生的；合成的 |
+| suppress/repress | v. | 镇压；抑制；禁止 |
+| express | v. | 表达 |

@@ -2993,3 +2993,42 @@
 | resultant | adj. | 必然发生的；合成的 |
 | suppress/repress | v. | 镇压；抑制；禁止 |
 | express | v. | 表达 |
+
+### 2026-03-31 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| resent | v. | 憎恨 |
+| refute | v. | 驳斥；否认 |
+| assimilate | v. | 同化；吸收；消化 |
+| convene | v. | 召集；召开；聚集；聚合 |
+| dominant | adj. | 支配的；统治的；占优势的 |
+| dominate | v. | 支配；统治；占重要地位 |
+| probe | v. | 探测；调查 |
+| procession | n. | 队列；行列 |
+| proclaim | v. | 宣告；声明；表明；显示 |
+| expire | v. | 过期；终止；满期；死亡 |
+| currency | n. | 流通；货币；通货 |
+| extravagant | adj. | 过分的；奢侈的；浪费的 |
+| invoke | v. | 唤起；引起；援引；作为证据提及 |
+| revoke | v. | 撤销 |
+| involve | v. | 参与；包含；涉及 |
+| revise | v. | 修订；温习；复习；复核 |
+| revive | v. | 苏醒；恢复；复兴 |
+| routine | n./adj. | 常规；例行公事；例行的；常规的 |
+| surname | n. | 姓氏 |
+| surveillance | n. | 监视 |
+| suspicion | n. | 怀疑 |
+| susceptible | adj. | 易受影响的 |
+| suspend | v. | 推迟；暂停；悬挂 |
+| swarm | n. | 蜂群；昆虫群 |
+| swell | v. | 膨胀；上涨；增加 |
+| swing | v. | 摇晃 |
+| gist | n. | 主旨；要点 |
+| hazy | adj. | 模糊的；不定的；困惑的 |
+| reckon | v. | 清算；估算；认为 |
+| payout | n. | 赔偿；支付金额 |
+| appeal | v./n. | 呼吁；恳求；上诉 |
+| jury | n. | 陪审团 |
+| imperative | adj./n. | 迫切的；至关重要的 |
+| Omission | n. | 忽略；省略 |

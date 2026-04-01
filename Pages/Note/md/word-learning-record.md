@@ -3032,3 +3032,20 @@
 | jury | n. | 陪审团 |
 | imperative | adj./n. | 迫切的；至关重要的 |
 | Omission | n. | 忽略；省略 |
+
+### 2026-04-01 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| prolong | v. | 延长 |
+| resilient | adj. | 弹性的；适应力 |
+| resort | n. | 目的地 |
+| succession | n. | 连续，一系列；接替；继承 |
+| sue | v. | 起诉；控告 |
+| superfluous | adj. | 多余的；剩余的 |
+| suffice | v. | 足够；有能力 |
+| triumph | n./v. | 喜悦；胜利；非凡成就；战胜 |
+| astonish | v. | 惊讶 |
+| council | n. | 委员会；理事会 |
+| counsel | n./v. | 劝告；忠告 |
+| intellectual | n./adj. | 知识分子；知识的；智力的 |

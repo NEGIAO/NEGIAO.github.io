@@ -3049,3 +3049,56 @@
 | council | n. | 委员会；理事会 |
 | counsel | n./v. | 劝告；忠告 |
 | intellectual | n./adj. | 知识分子；知识的；智力的 |
+
+
+### 2026-04-02 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| polish | v./n. | 润色；擦光；改进 |
+| propel | v. | 推动；驱动；激励 |
+| proposal | n. | 提议；求婚；建议 |
+| propose | v. | 建议；推荐；求婚 |
+| proposition | n. | 主张；建议；命题 |
+| restrain | v. | 抑制；遏制；阻止 |
+| incite | v. | 激励；刺激 |
+| restraint | n. | 抑制；阻止 |
+| attend | v. | 参加；出席；看管 |
+| attitude | n. | 态度；看法；姿势 |
+| attribute | v./n. | 归因于；特征；本性 |
+| court | n./v. | 法庭；院子；求婚；导致；招致 |
+| courtesy | n. | 谦恭有礼；恩惠 |
+| interact | v. | 相互作用；相互影响 |
+| intercourse | n. | 交际；交往 |
+| lucrative | adj. | 有利润的；盈利的 |
+| pirate | n./v. | 盗版；掠夺；海盗 |
+| pistol | n. | 手枪 |
+| pipe | n. | 管子；笛子 |
+| pitch | v./n. | 投掷；场地；高音 |
+| plagiarism | n. | 抄袭；剽窃 |
+| plague | n. | 瘟疫；灾害 |
+| lay | v./adj. | 放置；下蛋；外行的；非专业的 |
+| layman | n. | 外行 |
+| marble | n. | 大理石 |
+| marital | adj. | 婚姻的 |
+| marvelous | adj. | 惊人的；奇妙的 |
+| naval | adj. | 海军的 |
+| navy | n. | 海军 |
+| queer | adj. | 古怪的；奇怪的 |
+| quiver | v./n. | 颤抖；抖动 |
+| quota | n. | 配额；定额；最高限额 |
+| reconcile | v. | 调停；调解；和解 |
+| recur | v. | 复发；重现；再来；回想 |
+| reed | n. | 芦苇 |
+| reel | n./v. | 卷筒；线轴；卷，绕 |
+| shrewd | adj. | 机灵的；敏锐的；精明的 |
+| shut | v. | 关闭 |
+| mutter | v. | 抱怨 |
+| shutter | n. | 百叶窗；快门 |
+| shuttle | v./n. | 穿梭往返；往返的车辆 |
+| sheer | adj. | 完全的；十足的；陡峭的；垂直的 |
+| thermometer | n. | 温度计 |
+| thesis | n. | 论文；论点；论题 |
+| thorn | n. | 刺；荆棘；使人生气的人或事情 |
+| vicinity | n. | 临近；附近 |
+| violate | v. | 违背；违反；侵犯 |

@@ -3050,7 +3050,6 @@
 | counsel | n./v. | 劝告；忠告 |
 | intellectual | n./adj. | 知识分子；知识的；智力的 |
 
-
 ### 2026-04-02 新增单词
 
 | 单词 | 词性 | 中文释义 |
@@ -3102,3 +3101,39 @@
 | thorn | n. | 刺；荆棘；使人生气的人或事情 |
 | vicinity | n. | 临近；附近 |
 | violate | v. | 违背；违反；侵犯 |
+
+### 2026-04-03 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| shabby | adj. | 破旧的；卑鄙的 |
+| shaft | n. | 轴；杆状物；欺骗 |
+| shampoo | n./v. | 洗发膏；洗头 |
+| shatter | v. | 打碎；粉碎；破坏；碎片 |
+| shave | v. | 刮；剃 |
+| shear | v. | 修剪；剥夺；削减 |
+| shed | v. | 流；发出；去除；脱落 |
+| textile | n. | 纺织品 |
+| texture | n. | 质地；外观；本质；特征 |
+| aisle | n. | 通道；走廊 |
+| align | v. | 使一致；对准；矫直 |
+| chest | n. | 胸腔；箱子 |
+| chew | v. | 咀嚼；沉思 |
+| chill | n./v. | 寒冷；寒气 |
+| chorus | n. | 合唱 |
+| chronic | adj. | 长期的；慢性的；坏的 |
+| chunk | n. | 大块；厚片；大量；大部分 |
+| pinch | v./n. | 节约；使为难；捏；拧 |
+| pint | n. | 品脱（液量单位） |
+| delight | n./v. | 高兴；乐事 |
+| elect | v. | 选举；决定；选择 |
+| eligible | adj. | 符合条件的；合格的 |
+| eloquent | adj. | 口才流利的；有说服力的 |
+| embark | v. | 上船；着手；从事；开始工作 |
+| emigrate | v. | 移居 |
+| emit | v. | 发出；散出 |
+| empire | n. | 帝国 |
+| empirical | adj. | 经验主义的 |
+| fee | n. | 学费；酬金 |
+| feeble | adj. | 虚弱的；无力的；软弱的 |
+| grind | v. | 磨碎；碾碎 |

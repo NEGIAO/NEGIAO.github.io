@@ -3137,3 +3137,33 @@
 | fee | n. | 学费；酬金 |
 | feeble | adj. | 虚弱的；无力的；软弱的 |
 | grind | v. | 磨碎；碾碎 |
+
+### 2026-04-04 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| allege | v. | 断言；宣称；辩解 |
+| being | n. | 生物；生存；身心；本性 |
+| allegiance | n. | 忠诚；效忠；拥戴 |
+| alleviate | v. | 宽慰；缓解 |
+| alliance | n. | 同盟；联盟；联姻 |
+| alloy | n. | 合金 |
+| ally | n./v. | 同盟者；支持者；使结盟 |
+| denounce | v. | 谴责；告发；指责 |
+| fence | n. | 篱笆 |
+| ferry | n./v. | 轮渡 |
+| feudal | adj. | 封建的 |
+| induce | v. | 引诱；劝导；导致 |
+| indulge | v. | 放纵；迁就；满足 |
+| omit | v. | 忽略；删除；遗漏；忘记 |
+| kin | n. | 亲戚；家属 |
+| opaque | adj. | 不透明的；晦涩的；难理解的 |
+| opt | v. | 选择 |
+| plaster | n. | 灰泥；石膏 |
+| refine | v. | 提炼；改进；完善 |
+| refrain | v. | 戒除；避免；制止 |
+| refuge | n. | 避难；庇护 |
+| circuit | n. | 环行；巡回；电路；线路 |
+| goat | n. | 山羊 |
+| grace | n. | 优雅；风度；恩典 |
+| gracious | adj. | 和蔼的；慈祥的；宽厚的；富贵安逸的 |

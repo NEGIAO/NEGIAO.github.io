@@ -20,6 +20,8 @@ Pages/Note/
 │   ├── negiao-toolbox.md
 │   ├── qrcode-generator.md
 │   ├── note-template.md
+│   ├── non-standard-xyz-and-gcj02.md
+│   ├── vue3-webgis-practice-essentials.md
 │   ├── README.md
 │   └── ZhouDi_learning/
 │       └── word-learning-record.md
@@ -45,6 +47,8 @@ note-viewer.html?note=笔记文件名（不带.md后缀）
 - `note-viewer.html?note=gee-coursework` - GEE课程作业笔记
 - `note-viewer.html?note=spatial-analysis-R` - R语言空间分析笔记
 - `note-viewer.html?note=ml-dl-learning` - 机器学习/深度学习笔记
+- `note-viewer.html?note=non-standard-xyz-and-gcj02` - 非标准XYZ与GCJ-02适配总结
+- `note-viewer.html?note=vue3-webgis-practice-essentials` - Vue 3 实战精要（WebGIS架构）
 
 ### 2. 添加新笔记
 
@@ -103,6 +107,8 @@ const noteConfig = {
 | gee-coursework | GEE结课作业 | `?note=gee-coursework` |
 | spatial-analysis-R | 机器学习与智能算法（R） | `?note=spatial-analysis-R` |
 | ml-dl-learning | 机器学习与深度学习笔记 | `?note=ml-dl-learning` |
+| non-standard-xyz-and-gcj02 | 非标准XYZ与GCJ-02适配总结 | `?note=non-standard-xyz-and-gcj02` |
+| vue3-webgis-practice-essentials | Vue 3 实战精要（WebGIS架构） | `?note=vue3-webgis-practice-essentials` |
 | negiao-toolbox | NEGIAO工具箱说明 | `?note=negiao-toolbox` |
 | qrcode-generator | 二维码生成器说明 | `?note=qrcode-generator` |
 | note-template | 笔记模板 | `?note=note-template` |
@@ -119,5 +125,4 @@ const noteConfig = {
 - [返回首页](../../index.html)
 
 ---
-1
-*最后更新：2026年1月30日*
+*最后更新：2026年4月4日*

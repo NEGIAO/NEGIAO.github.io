@@ -3167,3 +3167,40 @@
 | goat | n. | 山羊 |
 | grace | n. | 优雅；风度；恩典 |
 | gracious | adj. | 和蔼的；慈祥的；宽厚的；富贵安逸的 |
+
+### 2026-04-05 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| chamber | n. | 房间；议院 |
+| chancellor | n. | 官员；大臣；名誉校长 |
+| charter | n./v. | 租船；租车；宪章 |
+| deck | n. | 甲板 |
+| deed | n. | 行为；契约；证书 |
+| deficit | n. | 赤字；亏空 |
+| degenerate | v./adj. | 退化；堕落 |
+| eject | v. | 喷射；排出；驱逐 |
+| elastic | adj./n. | 弹性的；橡皮圈 |
+| gloomy | adj. | 阴暗的；抑郁的 |
+| glory | n. | 荣誉；光荣 |
+| menace | n./v. | 威胁；恐吓 |
+| persist | v. | 坚持；持续 |
+| mend | v. | 修理；改善 |
+| persecute | v. | 残害；迫害；骚扰 |
+| pest | n. | 害虫 |
+| petrol | n. | 汽油 |
+| petroleum | n. | 石油 |
+| pharmacy | n. | 药房；药剂学；制药业 |
+| pile | n./v. | 堆；叠；拥挤 |
+| pilgrim | n. | 朝圣；流浪 |
+| pilot | n./v. | 飞行员；驾驶；带领；领导 |
+| quarrel | v./n. | 争吵；争论 |
+| quarantine | n./v. | 隔离器；检疫；隔离 |
+| slum | n. | 贫民窟 |
+| slump | n./v. | 萧条；衰退；猛跌；锐减 |
+| smog | n. | 烟雾 |
+| sly | adj. | 狡诈的；狡猾的 |
+| smuggle | v. | 走私；偷运 |
+| realm | n. | 领域；范围；王国；国度 |
+| reap | v. | 收获；获得；得到 |
+| rear | n./adj./v. | 后面的；背部；抚养；培养；饲养 |

@@ -3204,3 +3204,35 @@
 | realm | n. | 领域；范围；王国；国度 |
 | reap | v. | 收获；获得；得到 |
 | rear | n./adj./v. | 后面的；背部；抚养；培养；饲养 |
+
+### 2026-04-06 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| bend | v. | 屈服；弯曲 |
+| amplify | v. | 放大；增强 |
+| analogy | n. | 类比 |
+| inertia | n. | 惯性；惰性的；不活动的 |
+| infant | n. | 婴儿；幼儿 |
+| inflict | v. | 造成打击；使吃苦头 |
+| infect | v. | 传染；感染 |
+| infrared | n./adj. | 红外线 |
+| knee | n. | 膝盖 |
+| kneel | v. | 跪下 |
+| knob | n. | 把手；球形突出物 |
+| leaflet | n. | 嫩叶；传单；活页 |
+| league | n. | 联盟；同盟 |
+| leak | v./n. | 泄露；裂缝 |
+| lean | adj./v. | 瘦的；脂肪少的；倾斜 |
+| nominal | adj. | 名义上的 |
+| nominate | v. | 提名；推荐；任命；指定 |
+| pledge | n./v. | 保证；誓言；抵押 |
+| pneumonia | n. | 肺炎 |
+| regime | n. | 政体；制度 |
+| rehearse | v. | 排练；演练 |
+| reign | v./n. | 当政；统治 |
+| rein | n. | 缰绳 |
+| siren | n. | 警报器 |
+| wedge | n. | 楔形物；三角木；鞋子 |
+| jungle | n. | 丛林；密林；危险地带 |
+| juvenile | n./adj. | 青年；幼稚的 |

@@ -3236,3 +3236,30 @@
 | wedge | n. | 楔形物；三角木；鞋子 |
 | jungle | n. | 丛林；密林；危险地带 |
 | juvenile | n./adj. | 青年；幼稚的 |
+
+### 2026-04-07 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| saint | n. | 圣人；圣徒 |
+| ache | v./n. | 疼痛 |
+| accord | v./n. | 符合；一致；协调 |
+| bald | adj. | 秃头的；单调的；简单的 |
+| ballot | n./v. | 投票；票数 |
+| banquet | n. | 宴会 |
+| barn | n. | 仓库；畜棚 |
+| barrel | n. | 桶；枪管 |
+| camel | n. | 骆驼 |
+| cape | n. | 海角；披肩；岬 |
+| cardinal | adj./n. | 主要的；深红色的；红衣主教 |
+| cargo | n. | 货物 |
+| carve | v. | 雕刻 |
+| carrot | n. | 胡萝卜 |
+| eccentric | adj. | 古怪的 |
+| echo | v./n. | 回响；反响；共鸣 |
+| faint | adj./v. | 不清楚的；模糊的；昏倒 |
+| germ | n. | 细菌；微生物 |
+| malignant | adj. | 恶性的；恶意的；致命的 |
+| patriotic | adj. | 爱国的 |
+| daunting | adj. | 气馁的；令人畏惧的 |
+| daunt | v. | 使气馁；使畏惧 |

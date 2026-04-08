@@ -3263,3 +3263,40 @@
 | patriotic | adj. | 爱国的 |
 | daunting | adj. | 气馁的；令人畏惧的 |
 | daunt | v. | 使气馁；使畏惧 |
+
+
+### 2026-04-08 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| skate | v./n. | 溜冰；滑冰 |
+| skull | n. | 头骨；颅骨 |
+| slam | v./n. | 抨击；撞击；冲击 |
+| slap | v./n. | 掌击；拍 |
+| slaughter | v./n. | 屠宰；残杀 |
+| sleeve | n. | 袖子 |
+| slender | adj. | 苗条的；微薄的；细长的 |
+| slight | adj. | 纤细的；瘦弱的 |
+| slim | adj. | 苗条的；微小的 |
+| climax | n./v. | 高潮；顶点 |
+| cloak | n./v. | 遮挡；掩饰 |
+| descent | n. | 降落；下降；血统；家世 |
+| endow | v. | 资助；捐助 |
+| inhale | v. | 吸入；吸气 |
+| endure | v. | 忍受；持久；持续 |
+| medal | n. | 奖章；勋章 |
+| melody | n. | 曲调；歌曲；主调 |
+| plight | n. | 苦难；困境；保证；约定 |
+| plough | n./v. | 犁；耕 |
+| plug | n./v. | 塞子；堵塞 |
+| plumber | n. | 水管工人 |
+| plunge | v./n. | 插入；陷入；猛跌 |
+| plural | adj. | 复数的 |
+| fiber | n. | 纤维 |
+| relish | v./n. | 享受；食欲 |
+| tremble | v./n. | 颤抖；摇晃 |
+| trench | n. | 战壕；壕沟 |
+| utmost | adj./n. | 极端的；极度的；最远的 |
+| bolster | v./n. | 改善；加强 |
+| bond | n./v. | 结合；链接；公债；债券；契约 |
+| bone | n. | 骨骼 |

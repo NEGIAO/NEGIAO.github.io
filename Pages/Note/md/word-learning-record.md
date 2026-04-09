@@ -3300,3 +3300,28 @@
 | bolster | v./n. | 改善；加强 |
 | bond | n./v. | 结合；链接；公债；债券；契约 |
 | bone | n. | 骨骼 |
+
+### 2026-04-09 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| sideways | adv./adj. | 侧身；旁边；一方面 |
+| siege | n./v. | 包围；围攻；说服 |
+| sigh | v./n. | 叹息；叹气 |
+| silly | adj. | 愚蠢的；糊涂的 |
+| threshold | n. | 门槛；入门；开端 |
+| violet | n./adj. | 紫罗兰；蓝紫色 |
+| virgin | adj./n. | 纯净的；原始的；处女 |
+| volatile | adj. | 易变的；易挥发的 |
+| amiable | adj. | 亲切的；和蔼可亲的 |
+| bench | n. | 工作台；长凳 |
+| clap | v./n. | 拍手；掌声 |
+| clause | n. | 条款；从句 |
+| deplete | v. | 耗尽；大量减少 |
+| deplore | v. | 公开谴责；强烈反对 |
+| enclose | v. | 围住；包围 |
+| gossip | n./v. | 闲聊；流言蜚语 |
+| hedge | n./v. | 树篱；保护手段 |
+| heir | n. | 继承人 |
+| herald | v./n. | 宣布；预示；预兆 |
+| herd | n./v. | 牧群；兽群 |

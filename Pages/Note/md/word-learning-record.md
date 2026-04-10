@@ -3325,3 +3325,53 @@
 | heir | n. | 继承人 |
 | herald | v./n. | 宣布；预示；预兆 |
 | herd | n./v. | 牧群；兽群 |
+
+### 2026-04-10 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| adhere | v. | 坚持；遵守；粘附 |
+| adjacent | adj. | 临近的 |
+| adolescent | n./adj. | 青少年；青春期 |
+| advent | n. | 到来；来到 |
+| ceiling | n. | 天花板；最高限度 |
+| cement | n./v. | 水泥；胶合剂 |
+| censorship | n. | 审查；检查 |
+| cent | n. | 分；分值的货币 |
+| centigrade | n./adj. | 摄氏度 |
+| cereal | n. | 谷类；谷类食品 |
+| decay | v./n. | 腐朽；腐蚀 |
+| deceit | n. | 欺骗；欺骗行为 |
+| decent | adj. | 体面的；像样的 |
+| farther | adv./adj. | 更远的 |
+| fate | n. | 命运 |
+| fatal | adj. | 致命的；命运的 |
+| giggle | v./n. | 傻笑；咯咯笑 |
+| glitter | v./n. | 闪光；闪耀 |
+| hatred | n. | 憎恨；怨恨 |
+| hazard | n./v. | 危险；危害物；机会 |
+| latent | adj. | 潜在的；潜伏的 |
+| laundry | n. | 洗衣房 |
+| reckless | adj. | 鲁莽的；不顾危险的 |
+| reckon | v. | 计算；认为；估算；判断 |
+| reclaim | v. | 改造；开垦；收回 |
+| sideways | adv./adj. | 侧身；旁边；一方面 |
+| siege | n./v. | 包围；围攻；说服 |
+| sigh | v./n. | 叹息；叹气 |
+| silly | adj. | 愚蠢的；糊涂的 |
+| threshold | n. | 门槛；入门；开端 |
+| violet | n./adj. | 紫罗兰；蓝紫色 |
+| virgin | adj./n. | 纯净的；原始的；处女 |
+| volatile | adj. | 易变的；易挥发的 |
+| amiable | adj. | 亲切的；和蔼可亲的 |
+| bench | n. | 工作台；长凳 |
+| clap | v./n. | 拍手；掌声 |
+| clause | n. | 条款；从句 |
+| deplete | v. | 耗尽；大量减少 |
+| deplore | v. | 公开谴责；强烈反对 |
+| enclose | v. | 围住；包围 |
+| gossip | n./v. | 闲聊；流言蜚语 |
+| hedge | n./v. | 树篱；保护手段 |
+| heir | n. | 继承人 |
+| herald | v./n. | 宣布；预示；预兆 |
+| herd | n./v. | 牧群；兽群 |

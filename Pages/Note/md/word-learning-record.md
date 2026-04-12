@@ -3386,3 +3386,48 @@
 | mortgage | n./v. | 按揭；抵押贷款 |
 | hostility | n. | 敌意；对抗；强烈反对 |
 | obliterate | v. | 摧毁；消灭 |
+
+### 2026-04-12 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| tease | v. | 取笑；挑逗 |
+| tedious | adj. | 单调乏味的；冗长的 |
+| peak | n. | 山顶；最高峰 |
+| pedal | n./v. | 踏板；踩踏板 |
+| harassment | n. | 烦扰；骚扰 |
+| harbor | n./v. | 港口；藏匿；避难所 |
+| hard | adj. | 硬的；艰苦的；强烈的 |
+| imperative | adj./n. | 紧急的；重要的；必要的事情 |
+| imperial | adj. | 帝国的；英制的 |
+| impetus | n. | 推动；促进 |
+| lane | n. | 小巷 |
+| lantern | n. | 灯笼 |
+| lap | n./v. | 大腿；舔食 |
+| lapse | n./v. | 流逝；失效；陷入 |
+| lash | v./n. | 鞭打；责骂；讽刺 |
+| obstruct | v. | 妨碍；障碍 |
+| obstruction | n. | 障碍物 |
+| manoeuvre | n./v. | 策动；策略；操纵 |
+| odd | adj. | 奇怪的；单的；临时的；剩余的 |
+| even | adj. | 偶数的 |
+| odds | n. | 差异；机会 |
+| odor/odour | n. | 气味；臭气 |
+| scold | v. | 责骂；训斥 |
+| scout | v./n. | 侦查；搜索 |
+| scramble | v./n. | 蔓延；争夺；竞争 |
+| scrap | n./v. | 碎片；碎屑；抛弃 |
+| scrape | v./n. | 刮；擦 |
+| scratch | v./n. | 刮；抓；擦 |
+| scream | v./n. | 嚎叫；尖叫 |
+| screw | n./v. | 螺丝；螺旋；拧紧 |
+| scrutiny | n. | 监视；审查；细看 |
+| sculpture | n. | 雕塑；雕像 |
+| seal | n./v. | 海豹；封条；密封 |
+| seam | n. | 接缝；缝 |
+| seamless | adj. | 无缝的；无伤痕的 |
+| segregate | v. | 隔离；分离；分开 |
+| veil | n. | 面纱；面罩 |
+| vein | n. | 血管；静脉 |
+| velvet | n. | 丝绒 |
+| versatile | adj. | 多才多艺的 |

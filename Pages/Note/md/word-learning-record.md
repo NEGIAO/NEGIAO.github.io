@@ -3431,3 +3431,39 @@
 | vein | n. | 血管；静脉 |
 | velvet | n. | 丝绒 |
 | versatile | adj. | 多才多艺的 |
+
+### 2026-04-13 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| peel | v. | 剥落；剥皮；削皮 |
+| peep | v. | 偷看；窥视 |
+| penalty | n. | 处罚；惩罚 |
+| penetrate | v. | 穿透；渗入；识破；洞察；了解 |
+| peninsula | n. | 半岛 |
+| pension | n. | 养老金；抚恤金 |
+| perfume | n. | 香水 |
+| permeate | v. | 渗透；弥漫 |
+| rack | n. | 架子；剧烈痛苦；折磨 |
+| racket | n. | 喧闹；考验；球拍 |
+| rag | n. | 破布；报纸；嘲笑；愚弄 |
+| rage | n./v. | 发怒；狂怒 |
+| raid | n./v. | 袭击；搜查 |
+| semester | n. | 学期 |
+| seminar | n. | 研讨会；研究班 |
+| sew | v. | 缝纫 |
+| shove | v. | 推挤；猛推 |
+| shiver | v. | 战栗；发抖 |
+| temple | n. | 庙宇；太阳穴 |
+| tempo | n. | 节奏；速度 |
+| tenant | n. | 承租人；房客 |
+| tender | adj./v. | 温柔的；提供 |
+| tense | adj. | 拉紧；紧张的 |
+| veto | v./n. | 否决；反对 |
+| wardrobe | n. | 衣柜；衣橱 |
+| warfare | n. | 战争；斗争 |
+| warrant | n. | 许可；授权；保证 |
+| aerial | adj. | 空中的；航空的 |
+| coalition | n. | 联合；同盟 |
+| coarse | adj. | 粗俗的；粗劣的；粗鲁的 |
+| inland | adj. | 国内的；内地的 |

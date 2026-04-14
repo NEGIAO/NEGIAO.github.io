@@ -3467,3 +3467,38 @@
 | coalition | n. | 联合；同盟 |
 | coarse | adj. | 粗俗的；粗劣的；粗鲁的 |
 | inland | adj. | 国内的；内地的 |
+
+### 2026-04-14 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| unleash | v. | 释放；解除；发泄 |
+| timid | adj. | 胆怯地；胆小的 |
+| bait | n./v. | 放诱饵；诱惑物 |
+| bachelor | n. | 单身汉；学士 |
+| baggage | n. | 行李；成见；偏见；思想包袱 |
+| bail | n./v. | 保释金；离开 |
+| abdomen | n. | 腹部 |
+| cab | n. | 出租车 |
+| cable | n. | 电缆；钢丝绳；电报 |
+| damp | adj./v. | 潮湿的；抑制；减弱 |
+| ease | v./n. | 减轻；使舒心；舒适 |
+| ebb | v./n. | 退潮；衰落；减少 |
+| fable | n. | 寓言 |
+| fabulous | adj. | 极好的；绝妙的 |
+| facilitate | v. | 促进；便利 |
+| garage | n. | 车库；修理厂 |
+| gear | n./v. | 齿轮；使适应 |
+| gauge | v./n. | 测量；判断；估算 |
+| gaze | v./n. | 凝视；注视 |
+| hail | v./n. | 欢呼；喝彩；招呼 |
+| hall | n. | 礼堂 |
+| halt | v./n. | 终止；暂停 |
+| ham | n./adj. | 火腿；业余的 |
+| hammer | n./v. | 敲打；锤击；铁锤 |
+| idle | adj./v. | 闲置的；空闲的；无理由的 |
+| ignite | v. | 点燃；燃烧；激起 |
+| jargon | n. | 行话；黑话；行业术语 |
+| jealous | adj. | 妒忌的 |
+| jewelry | n. | 珠宝 |
+| adversity | n. | 逆境 |

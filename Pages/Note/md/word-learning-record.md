@@ -3502,3 +3502,43 @@
 | jealous | adj. | 妒忌的 |
 | jewelry | n. | 珠宝 |
 | adversity | n. | 逆境 |
+
+### 2026-04-15 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| naked | adj. | 裸体的；无掩饰的 |
+| naughty | adj. | 不听话的；淘气的 |
+| keen | adj. | 锋利的；敏锐的 |
+| lace | n. | 花边；带子 |
+| lad | n. | 男孩；小伙子 |
+| lamb | n. | 小羊 |
+| lame | adj. | 跛的 |
+| magistrate | n. | 行政长官 |
+| maiden | n. | 少女；处女 |
+| oar | n. | 浆；橹 |
+| oath | n. | 誓言；宣誓 |
+| obedience | n. | 服从；顺从 |
+| obedient | adj. | 顺从的，服从的 |
+| pact | n. | 合同；契约 |
+| paddle | n. | 船桨 |
+| paint | v./n. | 油漆；颜料；描绘；描述 |
+| palm | n. | 手掌；掌状物；棕榈 |
+| pant | v. | 渴望；气喘；喘息 |
+| parachute | n. | 降落伞 |
+| parade | n./v. | 游行；检阅 |
+| paradigm | n. | 典例；范式 |
+| paradise | n. | 天堂 |
+| paradox | n. | 悖论；自相矛盾 |
+| parasite | n. | 寄生虫 |
+| pardon | v./n. | 原谅 |
+| parliament | n. | 国会；议会 |
+| saddle | n. | 鞍；马鞍 |
+| sane | adj. | 明智的；理智的 |
+| sarcastic | adj. | 讽刺的；嘲笑的 |
+| vacant | adj. | 空缺的；空虚的 |
+| vacuum | n. | 真空 |
+| valve | n. | 阀门；心脏瓣膜 |
+| wagon | n. | 马车 |
+| zeal | n. | 热心；热情 |
+| agony | n. | 苦恼 |

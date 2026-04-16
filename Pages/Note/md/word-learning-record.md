@@ -3542,3 +3542,43 @@
 | wagon | n. | 马车 |
 | zeal | n. | 热心；热情 |
 | agony | n. | 苦恼 |
+
+### 2026-04-16 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| bathe | v. | 浸湿；洗澡 |
+| batch | n. | 一批；一组 |
+| acquaint | v. | 使认识；了解 |
+| satire | n. | 讽刺；讽刺作品 |
+| saturate | v. | 饱和；浸透；充满 |
+| sauce | n. | 酱汁；无礼莽撞 |
+| saucer | n. | 茶托；碟子 |
+| sausage | n. | 香肠；腊肠 |
+| scandal | n. | 民愤；丑行；丑闻；诽谤 |
+| scarf | n. | 围巾；头巾 |
+| scarce | adj. | 缺乏的；稀少的 |
+| scenario | n. | 设想；剧本；可能发生的事情 |
+| scent | n. | 气味；香味 |
+| tablet | n. | 药片；碑；匾 |
+| tactic | n. | 策略；手段；战术 |
+| tackle | v. | 处理；解决；应对 |
+| tailor | n./v. | 裁缝；使适应 |
+| tale | n. | 故事；传说 |
+| tame | adj./v. | 平淡的；温顺的；驯化；控制 |
+| tan | n./adj. | 棕褐色 |
+| tape | n./v. | 录音；磁带 |
+| tangible | adj. | 有形的；实际的；可触碰的 |
+| tariff | n. | 关税；税率 |
+| van | n. | 货车；前驱；先锋 |
+| vanity | n. | 虚荣心 |
+| vapor | n. | 水蒸气；水汽 |
+| catastrophe | n. | 重大灾难 |
+| dean | n. | 系主任；教长 |
+| famine | n. | 饥荒；饥饿 |
+| rebel | v./n. | 反抗；起义 |
+| rebellion | n. | 叛乱；起义 |
+| recede | v. | 后退；缩小；跌落 |
+| recession | n. | 经济衰退；退后；撤回 |
+| reciprocal | adj. | 互惠的；相互的；同等的 |
+| recipient | n. | 接收者；领受人 |

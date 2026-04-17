@@ -3582,3 +3582,41 @@
 | recession | n. | 经济衰退；退后；撤回 |
 | reciprocal | adj. | 互惠的；相互的；同等的 |
 | recipient | n. | 接收者；领受人 |
+
+### 2026-04-17 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| sob | v. | 哭泣；呜咽 |
+| sober | adj. | 未醉的；清醒的；冷静的；认真的 |
+| sole | adj. | 单独的；唯一的 |
+| solemn | adj. | 庄严的；隆重的 |
+| solid | adj./n. | 固体的；实心的 |
+| solidarity | n. | 团结一致 |
+| hierarchy | n. | 等级制度；统治集团 |
+| hijack | v. | 劫持 |
+| hinge | n. | 铰链 |
+| lick | v. | 添 |
+| lid | n. | 盖子 |
+| lift | n./v. | 电梯；举起；解除 |
+| merchandise | n. | 商品；货物 |
+| mercury | n. | 水银 |
+| merit | n./v. | 长处；优点 |
+| metal | n. | 金属 |
+| metaphor | n. | 隐喻；暗含 |
+| metropolitan | adj. | 首都的；主要都市 |
+| oral | adj. | 口头的；口述的 |
+| orient | n./v. | 东方的 |
+| oriental | adj./n. | 东方人 |
+| pop | adj./n. | 流行的；通俗的；民意的 |
+| porcelain | n. | 瓷器 |
+| portfolio | n. | 工人报；职责；职务 |
+| remnant | n./adj. | 参与的；残留的 |
+| renaissance | n. | 文艺复兴 |
+| rent | n./v. | 租金 |
+| repel | v. | 击退；使厌恶 |
+| repertoire | n. | 节目；保留剧目 |
+| tiresome | adj. | 厌恶 |
+| toil | n./v. | 苦工 |
+| blade | n. | 叶片；刀片 |
+| blast | n./v. | 吹奏；一阵；一股 |

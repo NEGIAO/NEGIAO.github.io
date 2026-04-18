@@ -3620,3 +3620,33 @@
 | toil | n./v. | 苦工 |
 | blade | n. | 叶片；刀片 |
 | blast | n./v. | 吹奏；一阵；一股 |
+
+### 2026-04-18 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| hop | v. | 跳跃 |
+| hook | v./n. | 钩住 |
+| horn | n. | 喇叭；触角 |
+| insulate | v. | 隔离；绝缘 |
+| hose | n. | 水龙管；长筒袜 |
+| insult | v./n. | 侮辱；辱骂 |
+| liquor | n. | 烈性酒 |
+| litter | n./v. | 杂物；废弃物；乱扔；下崽 |
+| mischief | n. | 损害；伤害 |
+| preclude | v. | 阻止某人做某事 |
+| pregnant | adj. | 怀孕的 |
+| spray | n./v. | 浪花；水花；喷射 |
+| sprout | v./n. | 发芽；迅速成长；新芽嫩枝 |
+| stab | v./n. | 刺；戳 |
+| stack | n./v. | 堆积；堆起 |
+| stagger | v. | 摇晃；蹒跚 |
+| stagnant | adj. | 停滞的；无变化的；不发展的 |
+| stagnate | v. | 停滞；不发展；不进步 |
+| consensus | n. | 一致；一致同意 |
+| consent | n./v. | 统一；赞同；准许 |
+| conspicuous | adj. | 鲜艳的；明显的；引人注目的 |
+| conspiracy | n. | 阴谋；谋杀 |
+| wipe | v. | 擦拭；消灭 |
+| wire | n./v. | 金属线；电线；电报 |
+| witch | n. | 巫婆；女巫 |

@@ -3650,3 +3650,34 @@
 | wipe | v. | 擦拭；消灭 |
 | wire | n./v. | 金属线；电线；电报 |
 | witch | n. | 巫婆；女巫 |
+
+### 2026-04-19 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| snap | v./n. | 猛咬；抓住；谩骂 |
+| snatch | v. | 夺得；夺取 |
+| scratch | v./n. | 抓挠 |
+| sneak | v./adj. | 潜行；鬼鬼祟祟；偷偷摸摸 |
+| sniff | v. | 闻到；嗅到；用力吸气 |
+| devil | n. | 魔鬼 |
+| flap | v./n. | 拍打；拍动；慌乱；紧张 |
+| flare | v./n. | 闪烁；闪耀；突发 |
+| flash | v./n. | 闪光；闪现 |
+| flat | adj. | 平坦的；绝对的；乏味的 |
+| flavor | n./v. | 风味；味道；调味 |
+| flatter | v. | 奉承；使高兴 |
+| flight | n. | 航班，飞行；溃退 |
+| bibliography | n. | 书目；文献目录 |
+| bind | v. | 捆绑；约束；束缚 |
+| bite | v./n. | 咬叮；影响力；感染力 |
+| bizarre | adj. | 奇怪的；古怪的 |
+| coherent | adj. | 一致的；协调的 |
+| cohesive | adj. | 粘着的；有结合力的 |
+| colonel | n. | 上校 |
+| colonial | adj. | 殖民的 |
+| colony | n. | 殖民的；聚集人群 |
+| entitle | v. | 题名 |
+| whale | n. | 鲸鱼；巨大的人或物 |
+| whip | n./v. | 鞭子；抽打 |
+

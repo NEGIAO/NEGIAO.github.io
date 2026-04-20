@@ -3681,3 +3681,41 @@
 | whale | n. | 鲸鱼；巨大的人或物 |
 | whip | n./v. | 鞭子；抽打 |
 
+#### 2026-04-20 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| bloom | n./v. | 花期；开花；兴盛 |
+| blossom | n./v. | 花朵；开花 |
+| blow | v./n. | 吹响；殴打；打击 |
+| blunder | v./n. | 犯错；大错 |
+| blunt | adj./v. | 钝的；率直的；使减弱 |
+| blush | v./n. | 羞愧；脸红 |
+| pray | v. | 祈祷；祈求；恳求 |
+| reservoir | n. | 水库；蓄水池 |
+| resolute | adj. | 果断的；坚决的 |
+| specimen | n. | 样本；标本 |
+| spectacle | n. | 景观；壮观；场面 |
+| spectator | n. | 观众 |
+| spill | v./n. | 溅出；溢出；摔下 |
+| spin | v./n. | 旋转；编制；自转 |
+| spine | n. | 脊柱；书脊；刺 |
+| spiral | n./v./adj. | 螺旋；盘旋 |
+| splash | v./n. | 泼溅；溅湿 |
+| spite | n./v. | 恶意；怨恨；刁难 |
+| splendid | adj. | 华丽的；精美的 |
+| spontaneous | adj. | 自发的；自然产生的 |
+| spot | n./v. | 污点；弄脏；发现；地点 |
+| spouse | n. | 配偶；夫妇 |
+| timid | adj. | 胆怯的；懦弱的 |
+| toxic | adj. | 有毒的 |
+| wicked | adj. | 缺德；邪恶的；顽皮的 |
+| conjunction | n. | 连接；联合；连词 |
+| conquer | v. | 征服；占领 |
+| discard | v./n. | 丢弃；抛弃 |
+| discern | v. | 看出；察觉 |
+| eradicate | v. | 根除；消灭；杜绝 |
+| erect | adj./v. | 垂直的；竖立的；假设；建造 |
+| escalate | v. | 逐步增长；发展 |
+| escort | n./v. | 护卫；护送；陪伴异性的人 |
+| foam | n./v. | 泡沫 |

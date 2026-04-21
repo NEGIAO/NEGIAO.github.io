@@ -3718,4 +3718,42 @@
 | erect | adj./v. | 垂直的；竖立的；假设；建造 |
 | escalate | v. | 逐步增长；发展 |
 | escort | n./v. | 护卫；护送；陪伴异性的人 |
+
+### 2026-04-21 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| ape | n. | 类人猿 |
+| bleak | adj. | 荒凉的；暗淡的；无希望的 |
+| blend | v./n. | 混合 |
+| comedy | n. | 喜剧；幽默 |
+| comet | n. | 彗星 |
+| comic | n./adj. | 喜剧演员；滑稽的 |
+| commemorate | v. | 纪念；庆祝 |
+| commence | v. | 开始；着手 |
+| commonplace | adj./n. | 平凡的；陈腐的 |
+| commonwealth | n. | 共和国；联邦；共同体 |
+| commute | v./n. | 通勤；减刑 |
+| diagram | n. | 图表；图解 |
+| dial | v./n. | 拨号；打电话 |
+| dialect | n. | 方言 |
+| dictate | v./n. | 命令；指示；口授 |
+| dig | v. | 挖掘 |
+| envisage | v. | 正视；面对；想象 |
+| flock | n./v. | 群集；成群结队 |
+| fluctuate | v. | 波动；起伏；涨落 |
+| flush | v./n./adj. | 脸红；冲洗；得意；兴奋 |
+| fluid | adj./n. | 流动的；液体的 |
+| midst | n. | 中间；当中 |
+| migrate | v. | 迁移；迁居 |
+| nostalgic | adj. | 怀旧的；乡愁的 |
+| notorious | adj. | 臭名昭著的 |
+| ornament | n./v. | 装饰；点缀品 |
+| orthodox | adj. | 传统的；正统的 |
+| powder | n. | 粉末；火药 |
+| reproach | n./v. | 责备；指责 |
+| sore | adj. | 痛苦的；难堪的；生气的 |
+| sparkle | v./n. | 发光；闪耀；活跃 |
+| spacious | adj. | 广阔的；宽裕的 |
+| space | n. | 太空 |
 | foam | n./v. | 泡沫 |

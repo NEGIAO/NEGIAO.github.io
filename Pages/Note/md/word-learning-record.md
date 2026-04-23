@@ -3787,47 +3787,64 @@
 
 ### 2026-04-23 新增单词
 
-| 单词 | 词性 | 中文释义 |
-|------|------|----------|
-| fluctuate | v. | 波动；起伏不定 |
-| envisage | v. | 正视；设想 |
-| breast | n. | 胸腔；乳房 |
-| beast | n. | 野兽；凶残的人 |
-| blind | adj./v. | 瞎的；盲目的；使失明 |
-| tomb | n. | 坟墓 |
-| torment | n./v. | 痛苦；折磨；使痛苦 |
-| torture | n./v. | 拷打；折磨；扭曲 |
-| torrent | n. | 激流；山洪；迸发 |
-| appall | v. | 使沮丧；使惊骇 |
-| apparatus | n. | 机械；设备；机构；组织；器官 |
-| appendix | n. | 附录；附属物；阑尾 |
-| appraisal | n. | 评估；鉴定；估价 |
-| arch | n./adj./v. | 拱门；拱形结构；拱形的；使成弓形 |
-| compact | adj./n./v. | 紧密的；坚实的；合同；契约；使紧密结合 |
-| compatible | adj. | 合得来的；协调的；兼容的 |
-| composite | adj./n. | 合成的；复合的；混合的；混合物 |
-| conceal | v. | 隐瞒；隐藏 |
-| concert | n. | 音乐会；一致 |
-| concession | n. | 迁就；让步；特许权 |
-| dilemma | n. | 进退两难的困境 |
-| dimension | n. | 维度；尺寸；度量；方面 |
-| groan | v./n. | 哀嚎；呻吟；抱怨 |
-| diploma | n. | 毕业文凭；学位证书 |
-| diplomatic | adj. | 外交的；圆滑的；策略的 |
-| equity | n. | 股本；资产净值；公正；公平 |
-| homogeneous | adj. | 同质的；同类的 |
-| grope | v./n. | 摸索；探索；猥亵 |
-| limb | n. | 四肢；腿；树枝；枝干 |
-| limp | adj./v./n. | 软弱的；无生气的；跛的；跛行 |
-| liner | n. | 邮轮；班机；衬里 |
-| mingle | v. | 混合；联结；交往 |
-| persecution | n. | 迫害；残害 |
-| rhetoric | n. | 修辞；言辞；花言巧语 |
-| scam | n. | 骗局 |
-| justification | n. | 正当理由；合理解释；辩护 |
-| lofty | adj. | 高傲的；崇高的；高耸的 |
-| fleece | v./n. | 敲诈；骗钱；羊毛 |
-| desperate | adj. | 绝望的；极其需要的；危急的 |
-| debase | v. | 贬值；降低；贬低 |
-| sweep | v./n. | 打扫；清除；席卷；扫过 |
-| institute | n./v. | 研究所；学院；建立；设立；提出 |
+| 单词 | 词性 | 中文释义 | 词根/词缀 |
+|------|------|----------|-----------|
+| fluctuate | v. | 波动；起伏不定 | flu 流 |
+| envisage | v. | 正视；设想 | vis 看 |
+| breast | n. | 胸腔；乳房 | — |
+| beast | n. | 野兽；凶残的人 | — |
+| blind | adj./v. | 瞎的；盲目的；使失明 | — |
+| tomb | n. | 坟墓 | — |
+| torment | n./v. | 痛苦；折磨；使痛苦 | tor 扭，tort 扭 |
+| torture | n./v. | 拷打；折磨；扭曲 | tort 扭 |
+| torrent | n. | 激流；山洪；迸发 | tor 扭 → 汹涌 |
+| appall | v. | 使沮丧；使惊骇 | — |
+| apparatus | n. | 机械；设备；机构；组织；器官 | par 准备，arrange |
+| appendix | n. | 附录；附属物；阑尾 | pend 悬挂 |
+| appraisal | n. | 评估；鉴定；估价 | praise 估价，价值 |
+| arch | n./adj./v. | 拱门；拱形结构；拱形的；使成弓形 | — |
+| compact | adj./n./v. | 紧密的；坚实的；合同；契约；使紧密结合 | pact 压紧 |
+| compatible | adj. | 合得来的；协调的；兼容的 | pat 承受，com- 共同 |
+| composite | adj./n. | 合成的；复合的；混合的；混合物 | posit 放 |
+| conceal | v. | 隐瞒；隐藏 | ceal 隐藏 |
+| concert | n. | 音乐会；一致 | cert 确定，共同 |
+| concession | n. | 迁就；让步；特许权 | cede 走，让步 |
+| dilemma | n. | 进退两难的困境 | di- 二，lemma 争论 |
+| dimension | n. | 维度；尺寸；度量；方面 | meter 测量 |
+| groan | v./n. | 哀嚎；呻吟；抱怨 | — |
+| diploma | n. | 毕业文凭；学位证书 | plo 折叠 |
+| diplomatic | adj. | 外交的；圆滑的；策略的 | diploma 文书 → 外交 |
+| equity | n. | 股本；资产净值；公正；公平 | equ 相等，平等 |
+| homogeneous | adj. | 同质的；同类的 | homo- 相同，gene 产生 |
+| grope | v./n. | 摸索；探索；猥亵 | — |
+| limb | n. | 四肢；腿；树枝；枝干 | — |
+| limp | adj./v./n. | 软弱的；无生气的；跛的；跛行 | — |
+| liner | n. | 邮轮；班机；衬里 | line 线 |
+| mingle | v. | 混合；联结；交往 | — |
+| persecution | n. | 迫害；残害 | secu 跟随，per- 始终 |
+| rhetoric | n. | 修辞；言辞；花言巧语 | rhetor 演说家 |
+| scam | n. | 骗局 | — |
+| justification | n. | 正当理由；合理解释；辩护 | just 公正，-fic 做 |
+| lofty | adj. | 高傲的；崇高的；高耸的 | loft 高空 |
+| fleece | v./n. | 敲诈；骗钱；羊毛 | — |
+| desperate | adj. | 绝望的；极其需要的；危急的 | sper 希望，de- 去掉 |
+| debase | v. | 贬值；降低；贬低 | base 低，底部 |
+| sweep | v./n. | 打扫；清除；席卷；扫过 | — |
+| institute | n./v. | 研究所；学院；建立；设立；提出 | stitute 站立，建立 |
+| recur | v. | 再发生；重现；复发 | re- 再，cur 跑 |
+| recursive | adj. | 递归的；循环的 | re- 再，cur 跑 |
+| perceptual | adj. | 知觉的；感知的 | cept 拿，感知 |
+| hazard | n./v. | 危险；危害；冒险 | — |
+| excess | n./adj. | 超过；过量；无节制的；额外的 | ceed 走 |
+| excessive | adj. | 过多的；过量的；过分的 | ceed 走 |
+| protein | n. | 蛋白质 | proto- 第一 |
+| mitigate | v. | 减轻；缓和；缓解 | mit 送，温和 |
+| insofar as | conj. | 在……范围/程度内；就……而言 | — |
+| attest to | phr. | 证明；证实 | test 见证 |
+| arouse | v. | 唤醒；激起；引起 | rise 升起 |
+| arousal | n. | 唤醒；觉醒；激起 | rise 升起 |
+| provoke | v. | 激起；引起；挑衅；激励 | voc 喊，pro- 向前 |
+| per se | adv. | 本身；本质上 | — |
+| dread | v./n./adj. | 畏惧；害怕；令人畏惧的 | — |
+| mal | prefix | 坏的；错误的；不良的 | — |
+| dys | prefix | 坏的；困难的；不良的 | — |

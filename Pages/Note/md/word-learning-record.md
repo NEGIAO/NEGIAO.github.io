@@ -3784,3 +3784,50 @@
 | lens | n. | 透镜；镜头 |
 | lest | conj. | 免得；唯恐 |
 | pollute | v. | 污染 |
+
+### 2026-04-23 新增单词
+
+| 单词 | 词性 | 中文释义 |
+|------|------|----------|
+| fluctuate | v. | 波动；起伏不定 |
+| envisage | v. | 正视；设想 |
+| breast | n. | 胸腔；乳房 |
+| beast | n. | 野兽；凶残的人 |
+| blind | adj./v. | 瞎的；盲目的；使失明 |
+| tomb | n. | 坟墓 |
+| torment | n./v. | 痛苦；折磨；使痛苦 |
+| torture | n./v. | 拷打；折磨；扭曲 |
+| torrent | n. | 激流；山洪；迸发 |
+| appall | v. | 使沮丧；使惊骇 |
+| apparatus | n. | 机械；设备；机构；组织；器官 |
+| appendix | n. | 附录；附属物；阑尾 |
+| appraisal | n. | 评估；鉴定；估价 |
+| arch | n./adj./v. | 拱门；拱形结构；拱形的；使成弓形 |
+| compact | adj./n./v. | 紧密的；坚实的；合同；契约；使紧密结合 |
+| compatible | adj. | 合得来的；协调的；兼容的 |
+| composite | adj./n. | 合成的；复合的；混合的；混合物 |
+| conceal | v. | 隐瞒；隐藏 |
+| concert | n. | 音乐会；一致 |
+| concession | n. | 迁就；让步；特许权 |
+| dilemma | n. | 进退两难的困境 |
+| dimension | n. | 维度；尺寸；度量；方面 |
+| groan | v./n. | 哀嚎；呻吟；抱怨 |
+| diploma | n. | 毕业文凭；学位证书 |
+| diplomatic | adj. | 外交的；圆滑的；策略的 |
+| equity | n. | 股本；资产净值；公正；公平 |
+| homogeneous | adj. | 同质的；同类的 |
+| grope | v./n. | 摸索；探索；猥亵 |
+| limb | n. | 四肢；腿；树枝；枝干 |
+| limp | adj./v./n. | 软弱的；无生气的；跛的；跛行 |
+| liner | n. | 邮轮；班机；衬里 |
+| mingle | v. | 混合；联结；交往 |
+| persecution | n. | 迫害；残害 |
+| rhetoric | n. | 修辞；言辞；花言巧语 |
+| scam | n. | 骗局 |
+| justification | n. | 正当理由；合理解释；辩护 |
+| lofty | adj. | 高傲的；崇高的；高耸的 |
+| fleece | v./n. | 敲诈；骗钱；羊毛 |
+| desperate | adj. | 绝望的；极其需要的；危急的 |
+| debase | v. | 贬值；降低；贬低 |
+| sweep | v./n. | 打扫；清除；席卷；扫过 |
+| institute | n./v. | 研究所；学院；建立；设立；提出 |

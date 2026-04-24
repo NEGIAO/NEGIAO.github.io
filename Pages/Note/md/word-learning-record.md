@@ -3848,3 +3848,53 @@
 | dread | v./n./adj. | 畏惧；害怕；令人畏惧的 | — |
 | mal | prefix | 坏的；错误的；不良的 | — |
 | dys | prefix | 坏的；困难的；不良的 | — |
+
+### 2026-04-24 新增单词
+
+| 单词 | 词性 | 中文释义 | 词根/词缀 |
+|------|------|----------|-----------|
+| ash | n. | 灰烬；灰 | — |
+| ashore | adv./adj. | 在岸上；在陆地 | a-在…+shore海岸 |
+| aspire | v. | 渴望；立志；追求 | spir 呼吸→渴望 |
+| lumber | n. | 木材；木料 | — |
+| lump | n. | 块；大量；一堆 | — |
+| lung | n. | 肺部 | — |
+| lyric | n./adj. | 歌词；抒情的 | — |
+| bracket | n. | 括号；支架 | — |
+| racket | n. | 球拍；喧闹 | — |
+| brake | n./v. | 刹车；制动；闸；减速 | — |
+| brass | n. | 黄铜；铜器 | — |
+| cosmic | adj. | 宇宙的；广阔的 | cosm 宇宙 |
+| counter | n./adj./v. | 柜台；相反的；反对；反击 | counter-相反 |
+| counterpart | n. | 相对应的人或物；副本 | counter-相对+part部分 |
+| exclaim | v. | 呼喊；惊叫；大声说 | ex-向外+claim 呼喊 |
+| excursion | n. | 游览；涉足；涉猎 | ex-向外+cur 跑 |
+| excuse | v./n. | 原谅；宽恕；借口；辩解 | ex-向外+cuse指责 |
+| exempt | v./adj. | 免除；豁免；被免除的 | ex-向外+empt 拿走 |
+| hospitality | n. | 殷勤；友好款待 | hosp 客人→好客 |
+| hostage | n. | 人质 | — |
+| hostile | adj./n. | 有敌意的；反对的；敌人 | host 敌人 |
+| hound | n./v. | 猎犬；卑鄙的人；狩猎；纠缠 | — |
+| mound | n. | 土墩；土丘 | — |
+| howl | v./n. | 嚎叫；狂吼；怒吼 | — |
+| dock | n./v. | 码头；船坞；进港；对接；扣除 | — |
+| doctrine | n. | 教条；学说；教义 | doc 教导 |
+| dose | n. | 剂量；一剂；一份 | — |
+| intimidate | v. | 恐吓；威胁 | timid 胆小的 |
+| intimate | adj. | 亲密的；密切的 | intim 内心的 |
+| intricate | adj. | 错综复杂的；难理解的 | in-进入+tric 纠缠 |
+| intrigue | v./n. | 密谋策划；阴谋；诡计 | tric 诡计 |
+| intrinsic | adj. | 内在的；本质的；固有的 | intra-内部 |
+| intuition | n. | 直觉；直觉力 | intuit 直觉 |
+| intrude | v. | 闯入；侵入；打扰 | in-进入+trud 推 |
+| rip | v./n. | 撕裂；撕破；裂口 | — |
+| ritual | n./adj. | 典礼；仪式；惯例的；习惯的 | rit 仪式 |
+| rob | v. | 抢劫；盗取；非法剥夺 | — |
+| robust | adj. | 强健的；结实的；强劲的；稳步的 | robust 强壮 |
+| rod | n. | 杆；棒；棍棒 | — |
+| mount | v./n. | 登上；安装；增加；山峰 | mount 攀登 |
+| stiff | adj. | 僵硬的；艰难的；拘谨的 | — |
+| sting | v./n. | 叮咬；刺痛；刺激 | — |
+| stitch | v./n. | 缝合；针脚；缝线 | — |
+| impose | v. | 强行实施；强加于；征收 | im-进入+pos 放置 |
+| imposing | adj. | 壮观的；威风凛凛的；宏伟的 | im-加强+pos 放置 |

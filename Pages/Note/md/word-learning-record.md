@@ -3898,3 +3898,39 @@
 | stitch | v./n. | 缝合；针脚；缝线 | — |
 | impose | v. | 强行实施；强加于；征收 | im-进入+pos 放置 |
 | imposing | adj. | 壮观的；威风凛凛的；宏伟的 | im-加强+pos 放置 |
+
+### 2026-04-25 新增单词
+
+| 单词 | 词性 | 中文释义 | 词根/词缀 |
+|------|------|----------|-----------|
+| courtesy | n. | 礼貌；礼节；谦恭 | court 礼貌 + -esy 名词后缀 |
+| bounce | v./n. | 弹跳；反弹；解雇；开除；驱逐 | — |
+| bound | v./adj. | 跳跃；必然的；受约束的 | — |
+| trap | n./v. | 陷阱；圈套；使中计 | — |
+| trash | n./v. | 垃圾；废物；贬低；损毁 | — |
+| ascertain | v. | 查清；弄明白；确定 | cert- 确定 |
+| cope | v. | 对付；应对；竞争；对抗 | — |
+| ascribe | v. | 归因于；归咎于 | a-加强 + scrib 书写 |
+| cord | n. | 绳索；线缆 | cord 绳/心 |
+| cordial | adj. | 热情的；真心的；诚挚的 | cord 内心 + -ial 形容词后缀 |
+| corn | n. | 玉米；谷物 | — |
+| corrode | v. | 腐蚀；侵蚀；损害 | cor-加强 + rod 咬 |
+| divine | adj./v./n. | 神圣的；极好的；猜测；预测；牧师 | div- 神明 |
+| dizzy | adj. | 头晕目眩的；眼花缭乱的 | — |
+| evoke | v. | 引起；产生；唤起 | e-向外 + vok 呼喊 |
+| excerpt | n./v. | 摘要；节录；摘录 | ex-出 + cerp 摘取 |
+| excess | n./adj. | 超越；过量；多余的 | ex-超出 + cess 行走 |
+| gut | n./adj. | 内脏；胆量；本能的 | — |
+| interim | adj./n./adv. | 暂时的；临时的；在其间 | inter-中间 |
+| intermediate | adj./n. | 中间的；中级的；媒介物 | inter-之间 + medi 中间 |
+| intermittent | adj. | 间断的；断断续续的 | inter-间断 + mitt 发送 |
+| lubricate | v. | 润滑；加润滑油 | lubric 光滑 |
+| molecule | n. | 分子 | mole 微粒 + -cule 小 |
+| momentum | n. | 动能；动力；动量；势头 | moment 运动 |
+| monarch | n. | 君主；帝王 | mon-单一 + arch 统治者 |
+| priest | n. | 神父；牧师；教士 | — |
+| escort | v./n. | 护送；陪同；护卫 | — |
+| stake | n. | 股份；赌注；利害关系 | — |
+| plausible | adj. | 合乎情理的；看似可信的 | plaus 赞同 + -ible 可…的 |
+| at stake | 词组|利害攸关；处于危险中 |
+| there is more to A than B |句式| A 远不止 B |

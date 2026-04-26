@@ -3989,4 +3989,9 @@
 | rhythm | n. | 节奏，韵律 | — |
 | uptake | n. | 摄取；领会 | take 拿取 |
 | intrigue | v./n. | 阴谋；**勾起兴趣** | — |
-| thought of as | 词组|被看作；被认为是 |
+| probe | v./n. | 调查；打探；探究 | prob 测试、检验 |
+| probing | adj./n. | 探索的；探查；深究 | prob 测试 |
+| inculcate | v. | 谆谆教诲；反复灌输 | in-向内+culc 踩踏→反复植入 |
+| autocratic | adj. | 专制的；独裁的 | auto 独自+crat 统治 |
+| drum home | 词组 | 反复强调 |
+| thought of as | 词组 | 被看作；被认为是 |

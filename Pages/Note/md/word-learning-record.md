@@ -3934,3 +3934,59 @@
 | plausible | adj. | 合乎情理的；看似可信的 | plaus 赞同 + -ible 可…的 |
 | at stake | 词组|利害攸关；处于危险中 |
 | there is more to A than B |句式| A 远不止 B |
+
+### 2026-04-26 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|----------|--------------|
+| stoop | v./n. | 弯腰；屈服；堕落 | — |
+| strand | n./v. | 缕；部分；**滞留、搁浅** | — |
+| strange | adj. | 奇怪的；陌生的 | — |
+| strap | n./v. | 皮带；捆绑、系紧 | — |
+| straw | n. | 稻草；吸管 | — |
+| stream | n./v. | 溪流；流出、涌动 | stream 流 |
+| streamline | v./adj. | 精简提效；流线型的 | stream流+line线 |
+| tribe | n. | 部落 | — |
+| tribute | n. | 贡品；称赞、敬意 | — |
+| trifle | n./v. | 小事；轻视、浪费 | tri-三→琐碎 |
+| worm | n. | 蠕虫；卑微的人 | — |
+| wrap | n./v. | 围巾；包裹、覆盖 | — |
+| wreck | n./v. | 残骸；毁坏、破坏 | — |
+| bribe | n./v. | 贿赂；收买 | — |
+| coupon | n. | 优惠券；单据 | — |
+| coward | n. | 懦夫，胆小鬼 | — |
+| doze | v./n. | 打瞌睡，打盹 | — |
+| drag | v. | 拖延；拖累 | — |
+| drain | v./n. | 耗尽；消耗；排水沟 | — |
+| drastic | adj. | 猛烈的；严厉的 | — |
+| exile | n./v. | 流放；流亡 | ex-向外 |
+| forum | n. | 论坛；讨论会 | — |
+| fountain | n. | 喷泉；源泉 | — |
+| foul | adj./v. | 肮脏难闻；弄脏、污染 | — |
+| fracture | n./v. | 骨折；裂缝；折断 | fract 折 |
+| fraction | n. | 碎片；分数；少量 | fract 折 |
+| fragile | adj. | 易碎的；脆弱的 | frag 碎 |
+| fragment | n. | 碎片，片段 | frag 碎 |
+| fragrant | adj. | 芳香的 | — |
+| mortal | adj./n. | 致命的；凡人 | mort 死亡 |
+| mortgage | n./v. | 抵押；借款 | mort 死亡 |
+| inflame | v. | 激怒；发炎 | flame 火焰 |
+| inflammation | n. | 发炎，炎症 | flame 火焰 |
+| drill | v./n. | 钻孔；训练、操练 | — |
+| exclusive | adj. | 独有的；排斥的；独家的 | clus 关闭 |
+| molecular | adj. | 分子的 | mole 分子 |
+| mammalian | adj. | 哺乳动物的 | mamma 乳 |
+| underlie | v. | 是…基础；根源 | under在下+lie躺 |
+| underline | v. | 划线；**强调、突出** | under在下+line线 |
+| insulate | v. | 绝缘；隔离、隔热 | insul 隔离 |
+| elusive | adj. | 难懂的；难捕捉的 | elud 逃脱 |
+| excess | adj./n. | 过量的；多余 | cess 行走 |
+| vast | adj. | 巨大的，广阔的 | — |
+| reach | v./n. | 到达；**影响、联系** | — |
+| form | n./v. | 形式；**形成、出现** | — |
+| tune | n./v. | 曲调；调节、调整 | — |
+| master | n./v. | 大师；主要的；**精通、掌握** | — |
+| inhibitory | adj. | 抑制的；禁止的 | inhibit 抑制 |
+| rhythm | n. | 节奏，韵律 | — |
+| uptake | n. | 摄取；领会 | take 拿取 |
+| intrigue | v./n. | 阴谋；**勾起兴趣** | — |
+| thought of as | 词组|被看作；被认为是 |

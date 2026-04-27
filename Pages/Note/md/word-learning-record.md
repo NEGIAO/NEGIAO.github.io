@@ -3995,3 +3995,72 @@
 | autocratic | adj. | 专制的；独裁的 | auto 独自+crat 统治 |
 | drum home | 词组 | 反复强调 |
 | thought of as | 词组 | 被看作；被认为是 |
+
+### 2026-04-27 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|----------|--------------|
+| boot | n./v. | 靴子；猛踢 | — |
+| booth | n. | 货摊；电话亭 | — |
+| botany | n. | 植物学 | bot 植物 |
+| artery | n. | 动脉；**要道，交通干线** | art 连接 |
+| articulate | adj./v. | 善于表达的；清晰发音 | art 技巧 |
+| artifact | n. | 人工制品；手工艺品 | arti 人工+fact 制作 |
+| dissipate | v. | 消散；驱散；挥霍浪费 | dis-分开 |
+| distill | v. | 蒸馏；提炼；提取精华 | dis-向下+still 滴 |
+| distress | n./v. | 苦恼；不幸；使痛苦 | di-加强+stress 压力 |
+| loom | n./v. | 织布机；**隐现，逼近** | — |
+| lord | n. | 上帝；领主；君主 | — |
+| lorry | n. | 卡车；货运汽车 | — |
+| lottery | n. | 彩票；碰运气的事 | — |
+| mob | n./v. | 暴徒；乌合之众；聚众暴乱 | mob 群众 |
+| pretext | n. | 借口；托词 | pre-预先+text 说辞 |
+| prevail | v. | 流行；盛行；获胜 | pre-先+vail 力量 |
+| prevalent | adj. | 流行的；普遍的 | prevail 盛行 |
+| rhetoric | n./adj. | 修辞；**花言巧语** | rhetor 演说 |
+| ribbon | n. | 丝带；绸带 | — |
+| riddle | n. | 谜语；谜题 | — |
+| ridge | n. | 屋脊；鼻梁；山脉山脊 | — |
+| rigorous | adj. | 严厉的；严格的；严峻的 | rig 严厉 |
+| rim | n. | 边缘；边界；轮缘 | — |
+| riot | n./v. | 骚乱；暴乱；挥霍 | — |
+| steak | n. | 牛排；肉片；鱼片 | — |
+| steep | adj. | 陡峭的；险峻的 | — |
+| stereotype | n./v. | 刻板印象；**成见** | stereo 固定 |
+| steward | n. | 管家；主管；乘务员 | — |
+| intact | adj. | 原封不动的；未受损的 | in-不+tact 触碰 |
+| interface | n. | 界面；接口；连接 | inter-之间+face 面 |
+| interfere | v. | 妨碍；干扰；干涉 | inter-之间+fer 干涉 |
+| contemplate | v. | 沉思；考虑；凝视 | contempl 注视 |
+| contrive | v. | 策划；设法做到；构想 | con-加强 |
+| convict | v./n. | 宣判有罪；囚犯 | con-加强+vict 征服 |
+| titan | n. | 泰坦；巨人；巨头 | — |
+| swear | v. | 发誓；宣誓；咒骂 | — |
+| swore | v. | (swear过去式) 发誓；咒骂 | — |
+| morale | n. | 士气；精神面貌 | moral 精神 |
+| jeopardy | n. | 危险；风险；险境 | jeopard 危及 |
+| nauseate | v. | 恶心；作呕；厌恶 | naus 恶心 |
+| outlier | n. | 异常值；局外人；脱离主体 | out外+lie位于 |
+| siblings | n. | 兄弟姐妹 | sib 亲属 |
+| spouse | n. | 配偶 | — |
+| rapport | n. | 融洽；和睦；默契 | — |
+| pitch | n./v. | 投掷；**程度；强度；高音**；宣讲 | — |
+| norm | n. | 标准；常态；社会准则 | norm 规则 |
+| sidestep | v. | 回避；规避(问题) | side侧+step迈步 |
+| coin | n./v. | 硬币；**创造新词**；铸币 | — |
+| pronounce | v. | 发音；宣布；**表态，发表意见** | pro-向前+nounce 说 |
+| implication | n. | 含义；暗示；牵连；潜在影响 | im-向内+plic 折叠 |
+| quirk | n. | 怪癖；奇事；偶然怪事 | — |
+| skew | v./adj. | 扭曲；曲解；倾斜；偏见 | — |
+| guru | n. | 专家；权威；导师 | — |
+| hallmark | n. | 标志；**特征，特点** | — |
+| metronomic | adj. | 节奏稳定的；节拍的 | metro 计量 |
+| falter | v. | 踌躇；犹豫；摇晃 | — |
+| revamp | v./n. | 翻新；改造；改进 | re-重新 |
+| unflappable | adj. | 镇定的；沉着不慌的 | un-否定 |
+| flappable | adj. | 易烦躁的；易慌乱的 | flap 慌乱 |
+| flashy | adj. | 华丽浮夸的；奢华耀眼的 | flash 闪光 |
+| shake-up | 词组 | 重组；人事改革；整顿 |
+| step aside | 词组 | 让开；让位；退让 |
+| at the helm of | 词组 | 掌管；掌控控制权；领导 |
+| onto something | 词组 | 发现关键；有眼光；思路正确 |
+| take a stand | 词组 | 表明立场；表达观点 |

@@ -4064,3 +4064,56 @@
 | at the helm of | 词组 | 掌管；掌控控制权；领导 |
 | onto something | 词组 | 发现关键；有眼光；思路正确 |
 | take a stand | 词组 | 表明立场；表达观点 |
+
+### 2026-04-28 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|----------|--------------|
+| loaf | n./v. | 面包；**游荡，闲逛** | — |
+| loan | n./v. | 贷款；借出 | — |
+| lobby | n. | 门廊；门厅；游说团体 | — |
+| locomotive | n./adj. | 火车头；移动的 | loco 地方+mot 移动 |
+| lodge | n. | 门房；小屋；传达室 | — |
+| lofty | adj. | 崇高的；高尚的；**高傲傲慢的** | loft 高处 |
+| discreet | adj. | 谨慎的；小心的 | dis-分开+cret 分辨 |
+| discrete | adj. | 分离的；互不相关的 | dis-分开+cret 分开 |
+| discretion | n. | 谨慎；慎重；判断力 | discreet 谨慎 |
+| discrepancy | n. | 差异；矛盾；不符 | dis-差异 |
+| disguise | v./n. | 伪装；假装；掩饰 | dis-否定+guise 外观 |
+| disgust | n./v. | 厌恶；反感；使恶心 | gust 气味 |
+| dismay | n./v. | 惊愕；沮丧；使失望 | dis-否定 |
+| disposal | n. | 处理；处置；丢弃 | dis-分开+pos 放置 |
+| dispose | v. | 安排；处置；**倾向于** | dis-分开+pos 放置 |
+| disposition | n. | 气质；性情；意向；安排 | dispose 安排 |
+| eternal | adj. | 永恒的；不朽的 | etern 长久 |
+| evacuate | v. | 疏散；撤离；排空 | e-向外+vac 空 |
+| evade | v. | 逃避；躲开；规避 | e-向外+vade 走 |
+| evaporate | v. | 蒸发；消失；消散 | e-向外+vapor 水汽 |
+| mist | n. | 薄雾；雾气 | — |
+| mistress | n. | 女主人；情妇 | — |
+| nuisance | n. | 麻烦人；烦心事；累赘 | — |
+| nursery | n. | 托儿所；苗圃 | nurse 养育 |
+| nurture | v./n. | 养育；培养；培育 | nur 滋养 |
+| nut | n. | 坚果；螺母；**难题** | — |
+| nutrition | n. | 营养；滋养 | nutr 滋养 |
+| retail | n./v. | 零售；零卖 | re-向后+tail 切割 |
+| retain | v. | 保留；保持；留住 | re-持续+tain 持有 |
+| retention | n. | 保留；记忆力；记性 | retain 保留 |
+| retort | v./n. | 反驳；回击；反击 | re-反向+tort 扭转 |
+| retreat | v./n. | 撤退；退却；退缩 | re-向后 |
+| retrieve | v. | 找回；挽回；恢复；补偿 | re-再次 |
+| retrospect | n./v. | 回溯；追忆；回顾 | retro 向后+spect 看 |
+| revolt | v./n. | 反抗；反叛；反感 | re-反向+volt 转动 |
+| stalk | n. | 茎；杆；枝干 | — |
+| stain | v./n. | 玷污；污染；瑕疵 | — |
+| stake | n. | 赌注；**利害关系**；风险 | — |
+| stale | adj. | 不新鲜的；污浊的；**过时的** | — |
+| stall | n. | 货摊；马厩；隔间 | — |
+| staple | adj./n. | 主要的；主食；订书机 | — |
+| stamp | n./v. | 邮票；标志；踩踏 | — |
+| stare | v. | 凝视；盯着看 | — |
+| tram | n. | 有轨电车 | — |
+| bowel | n. | 肠道；内心深处；同情心 | — |
+| contagious | adj. | 传染的；**富有感染力的** | contag 接触传染 |
+| contain | v. | 包含；容纳；**抑制，克制** | con-共同+tain 容纳 |
+| contaminate | v. | 污染；玷污；毒害 | con-加强+tamin 沾染 |
+| contingent | n./adj. | 代表团；偶然的；视情况而定 | con-共同+ting 接触 |

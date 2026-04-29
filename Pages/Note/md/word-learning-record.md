@@ -4117,3 +4117,43 @@
 | contain | v. | 包含；容纳；**抑制，克制** | con-共同+tain 容纳 |
 | contaminate | v. | 污染；玷污；毒害 | con-加强+tamin 沾染 |
 | contingent | n./adj. | 代表团；偶然的；视情况而定 | con-共同+ting 接触 |
+
+### 2026-04-29 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|----------|--------------|
+| bump | v./n. | 碰撞；肿块 | — |
+| burst | v./n. | 爆炸；爆裂；突发 | — |
+| bury | v. | 安葬；埋藏；掩盖 | — |
+| cripple | n./v. | 跛子；**严重削弱** | — |
+| crisp | adj. | 脆的；易碎的；清爽的 | — |
+| criterion | n. | 标准；准则 | crit 判断 |
+| crow | n./v. | 乌鸦；啼叫；吹嘘 | — |
+| crown | n./v. | 王冠；皇冠；加冕 | — |
+| exquisite | adj. | 精致优美的；微妙的；考究的 | ex-出+quis 寻求 |
+| external | adj. | 外部的；外界的 | extern 外 |
+| fringe | n./adj. | 刘海；边缘；外围的 | — |
+| frost | n./v. | 霜冻；严寒；结霜 | — |
+| frown | v./n. | 皱眉；表示不悦 | — |
+| fume | v./n. | 冒烟；**愤怒，发火** | — |
+| funeral | n. | 葬礼；丧葬 | funer 葬礼 |
+| humid | adj. | 潮湿的；湿润的 | hum 湿 |
+| humidity | n. | 湿度；湿气 | humid 潮湿 |
+| humiliate | v. | 羞辱；使蒙耻 | hum 低下 |
+| hurl | v. | 猛掷；怒斥；大声叫嚷 | — |
+| hygiene | n. | 卫生；个人卫生；保健 | — |
+| hypocrisy | n. | 伪善；虚伪 | hypo 假 |
+| hypothesis | n. | 假说；假设；猜想 | hypo 下+thesis 论点 |
+| hysterical | adj. | 情绪激动的；歇斯底里的 | hyster 情绪失控 |
+| invent | v. | 发明；创造；虚构 | in-进入+vent 来 |
+| invert | v. | 颠倒；倒置；反向 | in-向内+vert 转 |
+| inward | adj./adv. | 内向的；在内的；向内 | in 内+ward 方向 |
+| overhaul | v./n. | 大修；检修；彻底改造 | over 彻底+haul 拉 |
+| overt | adj. | 公开的；明显的；不隐瞒的 | over 向外 |
+| prone | adj. | 易于…的；俯卧的；倾向于 | — |
+| propagate | v. | 传播；宣传；繁殖 | pro-向前+pag 扩散 |
+| propaganda | n. | 宣传；鼓吹；传播 | propag 传播 |
+| prophet | n. | 预言家；先知；提倡者 | pro-预先+phet 言说 |
+| rotten | adj. | 腐烂的；腐朽的；败坏的 | rot 腐烂 |
+| roundabout | adj./n. | 绕圈子的；不直接的；绕行路线 | round 圆 |
+| rouse | v. | 唤醒；惊起；使激动 | — |
+| summon | v. | 召集；召见；传唤 | sum 集合 |

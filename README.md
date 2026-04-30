@@ -16,7 +16,7 @@
 
 ## 概况/Overview
 - 自适应深色主题站点，整合课程表、笔记、工具箱、词汇学习与可视化展示。
-- 所有页面使用统一 favicon (`images/icon.png`)，并由 `Pages/main-enhanced.js` 在运行时保障回退。
+- 所有页面使用统一 favicon (`images/icon.png`)，并由 `Pages/main-enhanced.js` 在运行时保障回退
 - 宝藏小城、WebGIS、技术笔记等子项目独立维护，便于扩展与部署。
 
 ## 速览/Quick Links

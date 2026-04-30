@@ -4157,3 +4157,37 @@
 | roundabout | adj./n. | 绕圈子的；不直接的；绕行路线 | round 圆 |
 | rouse | v. | 唤醒；惊起；使激动 | — |
 | summon | v. | 召集；召见；传唤 | sum 集合 |
+
+### 2026-04-30 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|----------|--------------|
+| hum | n./v. | 嗡嗡声；**散发臭味** | — |
+| audit | v./n. | 审计；查账；**旁听课程** | aud 听 |
+| aural | adj. | 听觉的；听力的 | aur 耳 |
+| bruise | n./v. | 碰伤；淤青；伤害感情 | — |
+| brush | n. | 刷子；毛笔；毛刷 | — |
+| bud | n./v. | 芽；发芽；萌芽 | — |
+| cradle | n. | 摇篮；**发源地，发祥地** | — |
+| cream | n. | 奶油；乳霜；精华 | — |
+| credentials | n. | 资格；证件；资质 | cred 相信 |
+| creep | v. | 爬行；悄悄行进；蔓延 | — |
+| dread | v./n. | 畏惧；害怕；担忧 | — |
+| drip | v./n. | 滴落；漏水；点滴 | — |
+| drown | v. | 淹没；淹死；沉溺 | — |
+| expedition | n. | 远征；探险；考察 | ex-向外+ped 脚 |
+| expel | v. | 驱逐；赶走；开除 | ex-向外+pel 推 |
+| expenditure | n. | 花费；支出；消耗 | expend 花费 |
+| expense | n. | 开销；花费；消耗 | ex-向外+pens 支付 |
+| explode | v. | 爆炸；爆发；激增 | ex-向外+plod 撞击 |
+| franchise | n. | 特许权；经销权；授权 | — |
+| frank | adj./adv. | 坦率的；直率地 | — |
+| fraud | n. | 欺诈；欺骗；骗子 | — |
+| freelance | n./adj. | 自由职业；自由职业的 | free 自由+lance 从业者 |
+| freight | n. | 货运；货物；运费 | — |
+| strife | n. | 斗争；冲突；纷争 | — |
+| strip | n./v. | 带状物；剥去；脱去 | — |
+| stroll | v./n. | 漫步；闲逛；溜达 | — |
+| stubborn | adj. | 顽固的；固执的；难对付的 | — |
+| stumble | v. | 绊倒；失足；偶然发现 | — |
+| sturdy | adj. | 强健的；结实的；坚固的 | — |
+| submarine | n./adj. | 潜艇；水下的 | sub 下+marine 海洋 |

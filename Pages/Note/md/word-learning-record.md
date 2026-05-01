@@ -888,6 +888,8 @@
 | **Beam** | v./n. | 笑容满面；光线；照耀 | She beamed with happiness. / A beam of light. |
 | **Reluctant** | adj. | 不情愿，勉强的 | He was reluctant to admit his mistake. |
 
+## 📅 2026年12月单词
+
 ### 2025-12-01 新增单词
 
 | 单词 | 词性 | 中文释义 | 例句/用法 |
@@ -1919,6 +1921,8 @@
 | **Resultant** | adj. | 由此产生的 | The resultant damage was extensive. |
 | **Ascertain** | v. | 查清，弄明白 | We need to ascertain the facts before making a decision. |
 | **Courtesy** | n. | 礼貌 | He opened the door as a courtesy to the elderly woman. |
+
+## 📅 2026年2月单词
 
 ### 2026-02-01 新增单词
 
@@ -3032,6 +3036,8 @@
 | jury | n. | 陪审团 |
 | imperative | adj./n. | 迫切的；至关重要的 |
 | Omission | n. | 忽略；省略 |
+
+## 2026年4月单词
 
 ### 2026-04-01 新增单词
 
@@ -4191,3 +4197,44 @@
 | stumble | v. | 绊倒；失足；偶然发现 | — |
 | sturdy | adj. | 强健的；结实的；坚固的 | — |
 | submarine | n./adj. | 潜艇；水下的 | sub 下+marine 海洋 |
+
+## 2026年5月单词
+
+### 2026-05-01 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|----------|--------------|
+| tug | v./n. | 牵引；拖拽；猛拉 | — |
+| tune | n. | 曲调；曲子 | tun 声调 |
+| tunnel | n. | 隧洞；山洞；隧道 | — |
+| turkey | n. | 火鸡；**失败的人/事** | — |
+| turmoil | n. | 动乱；骚乱；内心焦虑 | turm 混乱 |
+| avert | v. | 防止；避免；转移目光 | a-远离+vert 转 |
+| awe | n./v. | 敬畏；畏惧；使惊叹 | — |
+| axe/ax | n./v. | 斧头；**解雇；精简裁剪** | — |
+| bulk | n. | 体积；容积；**主体，大部分** | — |
+| buzz | n./v. | 嗡嗡声；议论纷纷 | — |
+| crude | adj. | 粗糙的；粗鲁的；**未加工的** | — |
+| cruel | adj. | 残忍的；残酷的 | — |
+| cruise | v./n. | 游览；巡游；巡航 | — |
+| crush | v./n. | 挤压；压碎；暗恋 | — |
+| crystal | n./adj. | 水晶；透明的 | — |
+| dumb | adj. | 哑的；无言的；愚笨的 | — |
+| dump | v./n. | 倾倒；倾销；**摆脱丢弃** | — |
+| dwarf | n./v. | 侏儒；使矮小；阻碍发展 | — |
+| dwell | v. | 居住；停留；老是想着 | — |
+| furnish | v. | 供应；提供；配备家具 | furn 装备 |
+| fuse | n./v. | 保险丝；导火线；**融合，结合** | fus 融化 |
+| fuss | n./v. | 大惊小怪；过分操心 | — |
+| futile | adj. | 无效的；徒劳的 | fut 无用 |
+| isle | n. | 小岛；岛屿 | isl 岛 |
+| ivory | n. | 象牙；象牙色 | — |
+| mute | adj./v. | 沉默的；哑的；静音 | mut 沉默 |
+| mutter | v./n. | 嘀咕；低声抱怨 | mut 低语 |
+| protein | n. | 蛋白质 | proto 首要 |
+| provoke | v. | 挑动；激怒；**导致，引起** | pro-向前+vok 呼喊 |
+| prototype | n. | 原型；雏形 | proto 原始+type 类型 |
+| provision | n. | 供应；准备；条款；粮食 | pro-预先+vis 看 |
+| rub | v./n. | 摩擦；揉搓 | — |
+| rubber | n. | 橡胶；橡皮擦 | rub 摩擦 |
+| superstition | n. | 迷信；盲从 | super 超出+stit 站立 |
+

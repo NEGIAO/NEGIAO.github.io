@@ -449,17 +449,18 @@
             '.negiao-lang-toggle{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;min-width:4.5rem;height:2.4rem;padding:0 .9rem;border:1px solid rgba(255,255,255,.12);border-radius:9999px;background:rgba(0,217,255,.14);color:var(--text,#fff);font:700 .85rem/1 var(--font-sans,inherit);letter-spacing:.06em;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.18);transition:transform .18s ease,background .18s ease,border-color .18s ease,color .18s ease;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}',
             '.negiao-lang-toggle:hover{transform:translateY(-1px);background:rgba(0,217,255,.22);border-color:rgba(0,217,255,.45)}',
             '.negiao-lang-toggle:focus-visible{outline:2px solid var(--primary,#00d9ff);outline-offset:2px}',
-            '.negiao-lang-toggle--floating{position:fixed;right:1rem;bottom:1rem;z-index:1065}',
-            '.navbar__container .negiao-lang-toggle,.sidebar__footer .negiao-lang-toggle,.mobile-menu__footer .negiao-lang-toggle{margin-left:.5rem;}',
+            '.negiao-lang-toggle--floating{position:fixed;right:max(1rem,env(safe-area-inset-right));bottom:max(1rem,env(safe-area-inset-bottom));z-index:1065}',
+            '.navbar__container .negiao-lang-toggle--nav{position:absolute;top:50%;transform:translateY(-50%);z-index:1}',
+            '.navbar__container .negiao-lang-toggle--nav-alone{right:var(--space-md)}',
+            '.navbar__container .negiao-lang-toggle--nav-with-menu{right:3.7rem}',
             '.sidebar__footer .negiao-lang-toggle{margin-top:0.5rem}',
-            '.mobile-menu__footer .negiao-lang-toggle{margin-top:0}',
-            '@media (max-width:768px){.negiao-lang-toggle--floating{right:.75rem;bottom:.75rem}}'
+            '@media (max-width:768px){.negiao-lang-toggle{min-width:3.6rem;height:2rem;padding:0 .75rem;font-size:.75rem}.navbar__container .negiao-lang-toggle--nav-alone{right:var(--space-sm)}.navbar__container .negiao-lang-toggle--nav-with-menu{right:4rem}.negiao-lang-toggle--floating{right:max(.75rem,env(safe-area-inset-right));bottom:max(.75rem,env(safe-area-inset-bottom))}}'
         ].join('');
         document.head.appendChild(style);
     }
 
     function mountButtons() {
-        var selectors = ['.sidebar__footer', '.navbar__container', '.mobile-menu__footer'];
+        var selectors = ['.sidebar__footer', '.navbar__container'];
         var mounted = false;
 
         selectors.forEach(function (selector) {
@@ -472,6 +473,10 @@
                 return;
             }
             var button = createToggleButton(false);
+            if (selector === '.navbar__container') {
+                button.classList.add('negiao-lang-toggle--nav');
+                button.classList.add(container.querySelector('.mobile-menu-toggle') ? 'negiao-lang-toggle--nav-with-menu' : 'negiao-lang-toggle--nav-alone');
+            }
             container.appendChild(button);
             mounted = true;
         });

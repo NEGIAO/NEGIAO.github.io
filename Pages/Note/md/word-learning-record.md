@@ -4238,3 +4238,50 @@
 | rubber | n. | 橡胶；橡皮擦 | rub 摩擦 |
 | superstition | n. | 迷信；盲从 | super 超出+stit 站立 |
 
+
+
+### 2026-05-02 新增单词
+| 单词 | 词性 | 核心释义| 极简词根助记 |
+|------|------|----------------------------|--------------|
+| spiral | adj./v. | 螺旋式**上升/下降**；持续加剧 | spir 螺旋 |
+| litigation | n. | 诉讼；打官司 | litig 诉讼 |
+| proliferation | n. | 激增；扩散；繁殖 | proli 多 + fer 带来 |
+| aspiration | n. | 抱负；志向；渴望 | spir 呼吸→渴望 |
+| cylinder | n. | 圆柱体；气缸 | cylind 圆 |
+| cunning | adj./n. | 狡猾的；狡诈；精明 | — |
+| curb | v./n. | **控制，抑制，约束**；路缘 | — |
+| curl | v./n. | 卷曲；蜷缩；卷发 | — |
+| curriculum | n. | 全部课程；课程体系 | curr 跑→进程 |
+| curse | v./n. | 诅咒；咒骂；祸根 | — |
+| curve | v./n. | 弯曲；曲线；使拐弯 | curv 弯 |
+| surgeon | n. | 外科医生 | surg 手术 |
+| swallow | v./n. | 吞咽；**忍受，抑制**；燕子 | — |
+| swamp | n./v. | 沼泽；**使陷入困境，淹没** | — |
+| sweat | n./v. | 汗水；出汗；辛苦劳作 | — |
+| sweep | v./n. | 打扫；**席卷；大范围蔓延** | — |
+| swim | v. | 游泳；浸泡；充溢 | — |
+| symmetry | n. | 对称；匀称；均衡 | sym 共同 + metry 测量 |
+| symphony | n. | 交响乐；和谐 | sym 共同 + phon 声音 |
+| symposium | n. | 专题讨论会；研讨会 | sym 共同 + pos 放置 |
+| syndrome | n. | 综合征；**综合症状；通病** | syn 共同 + drom 奔跑 |
+| synthesis | n. | 综合；合成；综合体 | syn 共同 + thes 放置 |
+| murmur | v./n. | 低声抱怨；喃喃自语 | mur 低语 |
+| multitude | n. | 众多；大量；民众 | multi 多 |
+| muscular | adj. | 肌肉的；**强壮有力的** | muscul 肌肉 |
+| pump | v./n. | 泵；**灌输；大量提供** | — |
+| punch | v./n. | 冲压；穿孔；拳打 | — |
+| puppet | n. | 木偶；**傀儡，受人操控者** | — |
+| purse | n./adj. | 钱包；资金；收敛 | 修正：无“完全/纯洁”义，考研只考钱包、资金 |
+| rumour | n. | 传闻；谣言；流言 | — |
+| rural | adj. | 乡村的；农村的 | rur 乡村 |
+| ruthless | adj. | 无情的；残酷的；绝不手软的 | ruth 怜悯 + less 无 |
+| attendant | n./adj. | 服务员；**伴随的，随之而来的** | attend 陪伴 |
+| attorney | n. | 律师；代理人 | — |
+| bundle | n./v. | 捆；包；束；打包 | — |
+| burglar | n. | 入室窃贼；夜盗 | — |
+| trunk | n. | 树干；行李箱；躯干 | — |
+| tuck | v. | 卷起；塞进；藏入 | — |
+| twinkle | v./n. | 闪耀；闪亮；闪烁 | — |
+| wrench | n./v. | 扳手；**扭伤；精神痛苦** | — |
+| wrinkle | n./v. | 皱纹；起皱；**瑕疵，小问题** | — |
+| wrist | n. | 手腕；腕关节 | — |

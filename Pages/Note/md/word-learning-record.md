@@ -4319,3 +4319,25 @@
 | jury | n. | 陪审团；评审团 | — |
 | gear | n./v. | 齿轮；装备；**调整，使适配** | — |
 | strung together | 词组 | 被串联起来；连贯组织 |
+
+### 2026-05-07 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|--------------|--------------|
+| instinct | n./adj. | 本能；天性；天分；**本能的** | in-内+stinct 触发 |
+| induce | v. | 诱使；诱导；导致；引起 | in-向内+duce 引导 |
+| outlook | n. | 看法；态度；前景；展望 | out-向外+look 观看 |
+| nourish | v. | 养育；滋养；培育 | nour 滋养 |
+| utmost | adj./n. | 极度的；最大的；极限 | ut 向外+most 最 |
+| aftermath | n. | 后果；余波；创伤 | after 之后+math 收成 |
+| interpret | v. | 解释；说明；诠释；演绎 | inter-之间+pret 解读 |
+| substitute | n./v. | 替代物；代替；取代 | sub-替代+stit 站立 |
+| snippet | n. | 片段；摘录；小片 | — |
+| scrap | n./v. | 碎片；取消；废弃 | — |
+| scarce | adj. | 稀缺的；匮乏的；不足的 | — |
+| incentive | n./adj. | 激励；动机；激励性的 | in-进入+cent 心声 |
+| rationing | n. | 配给制；限额供应 | ration 定量 |
+| dissonance | n. | 不和谐；不协调；分歧 | dis-否定+son 声音 |
+| adhere | v. | 黏附；遵从；附和；坚持 | ad-加强+here 粘连 |
+| tragic | adj. | 悲惨的；悲剧的 | trag 悲剧 |
+| periodical | n./adj. | 期刊；周期性的；定期的 | period 周期 |
+| rolling out | 推出；推行；上线 |

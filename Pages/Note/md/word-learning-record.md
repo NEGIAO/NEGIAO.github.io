@@ -4369,29 +4369,35 @@
 
 ### 2026-05-10 新增单词
 | 单词 | 词性 | 核心释义 | 极简词根助记 |
-|------|------|--------------|--------------|
-| outright | adj./adv. | **彻底的**；**全面的**；直率的 | out 向外+right 径直 |
-| specter | n. | 幽灵；鬼怪；**阴影隐患** | spect 看 |
-| repeal | v./n. | **废除**；撤销；否定放弃 | re-反向+peal 呼吁 |
-| precursor | n. | **先驱**；前辈；**先兆** | pre-先+curs 跑 |
-| perpetuate | v. | **使永久**；**使持续**；长久延续 | per-永久+pet 追求 |
+|------|------|----------|--------------|
+| outright | adj./adv. | **全面的**；**彻底的**；直率的 | out+right 径直 |
+| specter | n. | **幽灵**；妖怪；阴影隐患 | spect 看 |
+| repeal | v./n. | **废除**；**放弃**；否定 | re-反向+peal 呼吁 |
+| precursor | n. | **先驱**；**先兆**；前身 | pre-先+curs 跑 |
+| perpetuate | v. | **使永久**；**持续**；长久延续 | per-永久+pet 追求 |
+| spite | n./prep. | **恶意**；**怨恨**；尽管 | — |
+| vent | v./n. | **通风**；**表达**；**发泄** | — |
+| venting | n. | **通风口**；宣泄 | vent 通风 |
+| consent | v./n. | **许可**；**同意**；赞同 | con-共同+sent 感觉 |
+| impetus | n. | **动力**；**促进**；动量 | im-进入+pet 驱使 |
+| endeavor | v./n. | **尽力**；努力；尝试 | en-使+deavor 职责 |
 | patron | n. | **赞助人**；资助人；老主顾 | patr 守护 |
 | captive | n./adj. | **俘虏**；被控制的；**被迷住的** | cap 抓住 |
 | respite | n./v. | **暂缓**；**喘息**；休息 | — |
 | prone | adj. | **易于…的**；有…倾向的；俯卧的 | — |
 | alien | adj./n. | **陌生的**；**不相容的**；外星人 | ali 另一个 |
 | disguise | v./n. | **伪装**；掩饰 | dis-否定+guise 外观 |
-| submerge | v. | **淹没**；遮盖；**沉浸于**；专心投入 | sub 下+merg 淹没 |
-| remain | v./n. | 剩余；遗留；**遗迹**；残骸 | re-向后+main 停留 |
-| across | prep./adv. | 穿过；**跨越**；从一边到另一边 | a-交叉+cross 穿过 |
-| off | adv./prep. | **移开**；**离开**；关闭；源自 | — |
-| comprise | v. | **包括**；**构成**；组成 | com-共同+pris 抓住 |
+| submerge | v. | **淹没**；遮盖；**沉浸于**；专心投入 | sub-下+merg 淹没 |
+| remain | v./n. | **剩余**；遗留；**遗迹**；残骸 | re-向后+main 停留 |
+| across | prep./adv. | **穿过**；**跨越**；从一边到另一边 | cross 横穿 |
+| off | adv./prep. | **移开**；**离开**；来自；关闭 | — |
+| comprise | v. | **包括**；**构成**；组成 | com-共同+pris 囊括 |
 | gather | v. | **聚集**；**采集**；收集 | — |
 | restore | v. | **恢复**；**修复**；归还 | re-再次+stor 存放 |
 | disturb | v. | **打扰**；**妨碍**；扰乱 | dis-分开+turb 搅动 |
 | undisturbed | adj. | **安静的**；**未被扰乱的** | un-否定+disturb 打扰 |
-| suspend | v. | **暂停**；**中止**；悬挂 | sus-下+pend 悬挂 |
-| resume | v./n. | **恢复**；**继续**；简历 | re-再次+sume 拿起 |
+| suspend | v. | **暂停**；**中止**；推迟；悬挂 | sus-下+pend 悬挂 |
+| resume | v./n. | **恢复**；**继续**；概述；简历 | re-再次+sume 拿起 |
 | robust | adj. | **稳健的**；**强壮的**；坚定的 | — |
 | margin | n. | 页边空白；**差额**；**利润** | marg 边缘 |
 | marginal | adj. | **边缘的**；非主流的；**微不足道的** | margin 边缘 |

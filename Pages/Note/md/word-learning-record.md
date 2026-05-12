@@ -4419,5 +4419,35 @@
 | pop | n./adj. | **流行乐**；**通俗的**；爸爸 | — |
 | denigrate | v. | **诋毁**；**玷污**；贬低 | de-向下+nigr 黑色 |
 | disdain | v./n. | **鄙视**；**蔑视**；不屑 | dis-不+dain 珍视 |
-| rake in | **赚取**；敛财 |
-| crack down | **严厉打击**；严加整治 |
+| rake in | 词组|**赚取**；敛财 |
+| crack down | 词组|**严厉打击**；严加整治 |
+
+### 2026-05-12 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|----------|--------------|
+| purview | n. | **范围**；**权限**；视界；条款 | pur 纯粹+view 视野 |
+| denser | adj. | **密集的**；稠密的 | dense 密集 |
+| story | n. | **故事**；**楼层** | — |
+| desirable | adj. | **令人向往的**；**值得拥有的** | desire 渴望 |
+| desire | v./n. | **渴望**；**欲望**；要求；请求 | — |
+| advocates | v./n. | **主张**；**提倡**；提倡者 | ad-加强+voc 呼喊 |
+| credit | n. | **信用**；抵免；余额 | cred 相信 |
+| influx | n. | **流入**；**涌入** | in-进入+flux 流动 |
+| narrow | adj./v. | **狭窄的**；严格的；**缩小**；变窄 | — |
+| gap | n. | **缝隙**；间隔；空白；**差距** | — |
+| disparity | n. | **明显差异**；悬殊 | dis-不+par 平等 |
+| project | n./v. | **项目**；**计划**；投影 | pro-向前+ject 投掷 |
+| stock | n. | **库存**；**股票**；原料 | — |
+| ordinance | n. | **条例**；**法令** | ordin 秩序 |
+| waive | v. | **放弃**；**免除** | — |
+| provision | n. | **规定**；**条款**；供应 | pro-提前+vis 看 |
+| stipulate | v. | **规定**；约定 | stip 约束 |
+| millennia | n. | **千年**（复数） | mill 千 |
+| analogy | n. | **类比**；类推 | ana-对应+log 说理 |
+| keep tabs on | 词组| **密切关注**；盯着 |
+| one of a half dozen | 词组| 六个当中之一 |
+| call for | 词组| **要求**；**需要** |
+| silver bullet | 词组| **灵丹妙药**；一招制胜的办法 |
+| high end | 词组| **高端** |
+| low end | 词组| **低端** |
+

@@ -4473,3 +4473,24 @@
 | curator | n. | **策划人**；**负责人**；馆长 | cur 照料/管理 |
 | faint | adj./v. | **微弱的**；**弱小的**；**晕倒**；昏厥 | — |
 | belate | v. | **拖延**；**延迟**；使迟到 | be-使+late 迟的 |
+
+### 2026-05-14 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|----------|--------------|
+| spine | n. | **脊椎**；**脊柱**；书脊 | spin 支撑 |
+| adorn | v. | **装饰**；装点 | ad-加强+orn 装饰 |
+| mandatory | adj. | **强制的**；**义务的** | mand 命令 |
+| assembly | n. | **集会**；**晨会**；组装 | assemble 集合 |
+| exquisite | adj. | **精致的**；精美的 | ex-出+quis 寻求 |
+| contest | n./v. | **争论**；**竞争**；**比赛** | con-共同+test 测试 |
+| immerse | v. | **沉浸在**；**陷入**；浸没 | im-进入+mers 浸泡 |
+| disabled | adj./n. | **残疾的**；**残疾人** | disable 使丧失能力 |
+| successive | adj. | **连续的**；**接替的**；继承的 | success 接续 |
+| success | n. | **成功**；成就 | suc-向下+cess 行走 |
+| decorate | v. | **装饰**；装潢 | decor 装饰 |
+| complete | adj./v. | **完成**；完整的 | com-加强+plet 填满 |
+| complement | n./v. | **补偿**；**补充**；补足 | com-共同+ple 填满 |
+| implement | v./n. | **实施**；执行；工具 | im-进入+ple 填满 |
+| suit | n./v. | **套装**；**诉讼**；**适合**；满足需求 | — |
+| impressive | adj. | **印象深刻的**；**令人钦佩的** | impress 使铭记 |
+| impress | v. | **使印象深刻**；**使钦佩**；施压 | im-进入+press 按压 |

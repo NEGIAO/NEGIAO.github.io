@@ -4573,3 +4573,26 @@
 | slight | adj./v. | **轻微的**；稍微；轻视 | — |
 | replicate | v. | **复制**；**模拟**；复刻 | re-重复+plic折叠 |
 | see for oneself |词组| **亲眼看到**；亲眼目睹 |
+
+### 2026-05-20 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+|------|------|----------|--------------|
+| antiquities | n. | **古代**；古物；古迹 | antiq古老 |
+| forgery | n. | **伪造品**；伪造行为 | forge锻造/伪造 |
+| sculpture | n./v. | **雕像**；雕塑；雕刻 | sculpt雕刻 |
+| sanction | n./v. | **制裁**；**惩罚**；许可；鼓励 | sanct神圣 |
+| obscene | adj. | **污秽的**；低俗的 | — |
+| rob | v. | **盗取**；**抢劫**；掠夺 | — |
+| agitate | v. | **煽动**；**抗议**；鼓动 | agit搅动 |
+| entitle | v. | **授权**；赋予**资格** | en使+title头衔 |
+| preclude | v. | **阻止**；**妨碍**；排除 | pre先+clud关闭 |
+| stage | n./v. | **上演**；**发生**；**舞台**；**阶段** | — |
+| stunning | adj. | **惊人的**；**震撼的** | stun使震惊 |
+| stun | v. | **震惊**；使昏迷；打晕 | — |
+| contrition | n. | **悔悟**；**痛悔** | contri愧疚 |
+| contrite | adj. | **后悔的**；懊悔的 | — |
+| propel | v. | **推动**；**驱动**；推进 | pro向前+pel驱使 |
+| furious | adj. | **疯狂的**；暴怒的；亢奋的 | fur狂怒 |
+| insatiable | adj. | **无法满足的**；**贪得无厌的** | in不+sati满足 |
+| portfolio | n. | **产品组合**；**业务组合**；作品集 | port携带+folio册子 |
+| precede | v. | **先于**；**领先**；**优先** | pre先+ced行走 |

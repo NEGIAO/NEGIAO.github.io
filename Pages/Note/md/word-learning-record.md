@@ -4626,3 +4626,24 @@
 | go in for | **参加**；爱好 |
 | close in on | **靠近**；逼近 |
 | stock up on | **储备**；囤积 |
+
+### 2026-05-23 新增单词
+|单词|词性|核心释义|极简词根助记|
+| ---- | ---- | ---- | ---- |
+|duck|n./v.|**鸭子**；**逃避**；**回避**|—|
+|ration|n.|**配额**；**定量**|rat计算|
+|rational|adj.|**合理的**；理性的|ratio比率|
+|rationalise|v.|**合理化**；理性分析|rational合理|
+|vest|v./n.|**授予**；**交给**；背心|—|
+|dilute|v.|**稀释**；**削弱**|di分开+lut冲洗|
+|sneak|adj.|**偷偷的**；隐秘的|—|
+|cede|v.|**让渡**；**交出**；**放弃**|ced退让|
+|precede|v.|**先于**；领先|pre先+ced行走|
+|precedent|n.|**先例**；范例|precede在先|
+|dispute|v./n.|**争论**；**质疑**；**否认**|dis反+put思考|
+|populous|adj.|**人口稠密的**|pop民众|
+|deputy|n./adj.|**代理人**；**代表**；**副的**|—|
+|cautious|adj.|**小心的**；谨慎的|caut警惕|
+|benchmark|n.|**基准**；**衡量**标准|bench长凳+mark标记|
+|decentralize|v.|**分权**；**分散**；下放权力|de离+centr中心|
+|step up| 词组|**站出**；加紧提升|

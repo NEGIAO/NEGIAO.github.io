@@ -93,6 +93,99 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /* --------------------------
+       1.8) 全局主题切换（浅色/暗色）
+       - 适用于全站 style.css
+       - 避免与 note-viewer 页面自身主题逻辑冲突
+    -------------------------- */
+    function initThemeToggle() {
+        if (document.body && document.body.classList.contains('note-viewer-page')) {
+            return;
+        }
+
+        const STORAGE_KEY = 'site-theme';
+        const THEME_COLORS = {
+            dark: '#0D1117',
+            light: '#f5f7fb'
+        };
+
+        function getPreferredTheme() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored === 'light' || stored === 'dark') {
+                return stored;
+            }
+
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                return 'light';
+            }
+
+            return 'dark';
+        }
+
+        function updateToggleUI(theme) {
+            document.querySelectorAll('.theme-toggle').forEach((btn) => {
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-moon', 'fa-sun');
+                    icon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
+                }
+
+                const nextLabel = theme === 'dark' ? '切换到浅色主题' : '切换到深色主题';
+                btn.setAttribute('aria-label', nextLabel);
+                btn.setAttribute('title', nextLabel);
+            });
+        }
+
+        function applyTheme(theme) {
+            const normalized = theme === 'light' ? 'light' : 'dark';
+            document.body.dataset.theme = normalized;
+            localStorage.setItem(STORAGE_KEY, normalized);
+
+            const metaTheme = document.querySelector('meta[name="theme-color"]');
+            if (metaTheme && THEME_COLORS[normalized]) {
+                metaTheme.setAttribute('content', THEME_COLORS[normalized]);
+            }
+
+            updateToggleUI(normalized);
+        }
+
+        function createToggleButton() {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'theme-toggle';
+            btn.innerHTML = '<i class="fas fa-moon"></i>';
+            return btn;
+        }
+
+        function mountToggle(container) {
+            if (!container) {
+                return;
+            }
+
+            let btn = container.querySelector('.theme-toggle');
+            if (!btn) {
+                btn = createToggleButton();
+                container.appendChild(btn);
+            }
+
+            if (btn.dataset.themeBound === 'true') {
+                return;
+            }
+
+            btn.dataset.themeBound = 'true';
+            btn.addEventListener('click', () => {
+                const current = document.body.dataset.theme || 'dark';
+                const next = current === 'light' ? 'dark' : 'light';
+                applyTheme(next);
+            });
+        }
+
+        mountToggle(document.querySelector('.navbar__container'));
+        mountToggle(document.querySelector('.sidebar__footer'));
+
+        applyTheme(getPreferredTheme());
+    }
+
+    /* --------------------------
        2) 导航栏：滚动后样式 & 隐藏/显示
     -------------------------- */
     function initNavbar() {
@@ -389,6 +482,7 @@ document.addEventListener('DOMContentLoaded', function () {
     -------------------------- */
     initLoadingScreen();
     initDynamicSizing();
+    initThemeToggle();
     initNavbar();
     initMobileMenu();
     initSmoothAnchors();

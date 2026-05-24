@@ -16,12 +16,14 @@
     <link rel="icon" type="image/webp" href="/images/icon.webp">
     <link rel="shortcut icon" type="image/webp" href="/images/icon.webp">
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="./note-viewer.css">
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script defer src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script defer src="../notes-toc.js"></script>
     <script defer src="../main-enhanced.js"></script>
     <script defer src="./chinese-meaning-mask.js"></script>
+    <script defer src="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script>
         window.MathJax = {
             tex: {
@@ -40,193 +42,22 @@
         };
     </script>
     <script defer id="MathJax-script" src="https://cdnjs.loli.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
-
-    <style>
-        /* Fix for code block alignment - ensure left alignment for ASCII trees */
-        .note-content pre,
-        .note-content code {
-            text-align: left !important;
-        }
-
-        /* TOC Toggle Button */
-        .toc-toggle-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 100px;
-            width: 45px;
-            height: 45px;
-            background: var(--surface-elevated);
-            border: 2.5px solid var(--border);
-            border-radius: 50%;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.3s ease;
-        }
-
-        .toc-toggle-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
-        }
-
-        /* Hidden state for TOC */
-        .note-toc.note-toc--hidden {
-            transform: translateY(-50%) translateX(150%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Ensure transition matches */
-        .note-toc {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-        }
-
-        /* Loading state */
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
-        }
-
-        .loading-container i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        /* Error state */
-        .error-container {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--accent);
-        }
-
-        .error-container i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .error-container h2 {
-            margin-bottom: 0.5rem;
-        }
-
-        .error-container p {
-            color: var(--text-muted);
-        }
-
-        /* Compact style for top-right back button */
-        .note-back-btn {
-            padding: 0.3rem 0.65rem;
-            font-size: 0.82rem;
-            line-height: 1.15;
-            border-radius: 8px;
-        }
-
-        @media (max-height: 400px) {
-            .note-back-btn {
-                padding: 0.26rem 0.58rem;
-                font-size: 0.78rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            /* 防止移动端滚动时的刷新/弹跳问题 */
-            html {
-                overflow-y: auto;
-                overscroll-behavior-y: none; /* 禁用下拉刷新 */
-                -webkit-overflow-scrolling: touch;
-            }
-
-            body {
-                overflow-x: hidden;
-                overflow-y: auto;
-                overscroll-behavior-y: none; /* 关键：防止过度滚动导致刷新 */
-                -webkit-overflow-scrolling: touch;
-                min-height: 100vh;
-                /* 禁用 position: relative 避免与 fixed 伪元素冲突 */
-            }
-
-            /* 禁用 body::before 的 fixed 背景在移动端，提升性能 */
-            body::before {
-                position: absolute !important;
-                height: 200vh !important;
-            }
-
-            .toc-toggle-btn {
-                bottom: 100px;
-                right: 30px;
-                -webkit-tap-highlight-color: transparent;
-                touch-action: manipulation;
-            }
-
-            /* Force fixed positioning on mobile to support toggle behavior */
-            .note-toc {
-                position: fixed !important;
-                top: 50% !important;
-                right: 20px !important;
-                width: 260px !important;
-                max-height: 60vh !important;
-                transform: translateY(-50%) !important;
-                z-index: 1050 !important;
-                order: unset !important;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
-                -webkit-transform: translateY(-50%) translateZ(0) !important;
-                transform: translateY(-50%) translateZ(0) !important;
-                will-change: transform, opacity;
-                -webkit-overflow-scrolling: touch;
-                overscroll-behavior: contain;
-                isolation: isolate;
-            }
-
-            /* Hidden state for mobile */
-            .note-toc.note-toc--hidden {
-                -webkit-transform: translateY(-50%) translateX(150%) !important;
-                transform: translateY(-50%) translateX(150%) !important;
-                opacity: 0 !important;
-                pointer-events: none;
-            }
-
-            /* 优化长页面的渲染性能 */
-            .note-content {
-                -webkit-transform: translateZ(0);
-                transform: translateZ(0);
-                backface-visibility: hidden;
-                -webkit-backface-visibility: hidden;
-                /* 防止内容区域触发浏览器默认手势 */
-                touch-action: pan-y;
-                overscroll-behavior: contain;
-            }
-
-            /* 确保主容器正确处理滚动 */
-            .container.section.note-layout {
-                overscroll-behavior: contain;
-                touch-action: pan-y;
-            }
-        }
-    </style>
-    <script src="/Pages/i18n-toggle.js" defer></script>
+    <script defer src="/Pages/i18n-toggle.js"></script>
+    <script defer src="./note-viewer.js"></script>
 </head>
 
-<body>
+<body class="note-viewer-page">
     <nav class="navbar">
         <div class="navbar__container">
             <a href="../../index.html" class="navbar__brand">NEGIAO</a>
             <a href="../notes.html" class="btn btn--secondary note-back-btn">返回索引</a>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切换主题" title="切换主题">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
     </nav>
 
     <main class="container section note-layout">
-
-        <!-- Independent TOC Toggle Button -->
         <button id="toc-toggle-btn" class="toc-toggle-btn" aria-label="Toggle Table of Contents">
             <i class="fas fa-list"></i>
         </button>
@@ -235,357 +66,35 @@
             <nav class="note-toc__nav" id="note-toc"></nav>
         </aside>
 
-        <article class="note-content card" id="note-content">
-            <!-- Markdown内容将由JavaScript动态加载 -->
-            <div class="loading-container">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>正在加载笔记内容...</p>
+        <article class="note-content card">
+            <div class="note-search-container">
+                <input type="text" id="note-search" class="note-search-input" placeholder="在笔记内搜索...">
+                <div class="note-search-nav">
+                    <button id="note-search-prev" class="note-search-nav-btn" title="上一个结果" disabled>
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                    <button id="note-search-next" class="note-search-nav-btn" title="下一个结果" disabled>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <span id="note-search-count" class="note-search-count"></span>
+                </div>
+            </div>
+
+            <div id="note-content">
+                <div class="loading-container">
+                    <div class="skeleton-screen">
+                        <div class="skeleton-item skeleton-title"></div>
+                        <div class="skeleton-item skeleton-subtitle"></div>
+                        <div class="skeleton-item skeleton-paragraph" style="width: 95%;"></div>
+                        <div class="skeleton-item skeleton-paragraph" style="width: 88%;"></div>
+                        <div class="skeleton-item skeleton-paragraph" style="width: 92%;"></div>
+                        <div class="skeleton-item skeleton-paragraph" style="width: 85%;"></div>
+                    </div>
+                    <p class="loading-text">正在加载笔记内容...</p>
+                </div>
             </div>
         </article>
     </main>
-
-    <!-- Load highlight.js with defer to improve page load performance -->
-    <script src="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/highlight.min.js" defer></script>
-
-    <script>
-        /**
-         * 通用笔记渲染器
-         * 使用方式：note-viewer.html?note=笔记文件名（不带.md后缀）
-         * 例如：note-viewer.html?note=word-learning-record
-         * 
-         * 笔记文件存放在 ./md/ 目录下
-         */
-        (function () {
-            'use strict';
-
-            // 笔记配置（可以在这里添加笔记的元信息）
-            const noteConfig = {
-                'word-learning-record': {
-                    title: '英语单词学习记录',
-                    description: 'NEGIAO的英语单词学习记录，每日更新，包含单词释义、例句和用法。'
-                },
-                'ZhouDi_learning/word-learning-record': {
-                    title: '周迪的学习记录',
-                    description: '周迪的英语单词学习记录，每日更新，包含单词释义、例句和用法。'
-                },
-                'ArcPy': {
-                    title: 'ArcPy学习笔记',
-                    description: 'ArcPy学习笔记 - 涵盖ArcGIS Python自动化处理、地理处理工具等内容。'
-                },
-                'gee-coursework': {
-                    title: 'GEE结课作业',
-                    description: 'Google Earth Engine课程结课作业代码。'
-                },
-                'spatial-analysis-R': {
-                    title: '机器学习与智能算法（R）',
-                    description: 'ANN、梯度下降、SVM、随机森林、CNN、遗传算法、元胞自动机、ABM等R语言实现。'
-                },
-                'ml-dl-learning': {
-                    title: '机器学习与深度学习',
-                    description: '核心概念、学习范式、经典模型深度拆解与GIS实践应用指南。'
-                },
-                'arcgis-engine': {
-                    title: 'ArcGIS Engine',
-                    description: 'ArcGIS Engine开发实践，包括地图控件、空间分析等功能的实现。'
-                },
-                'arcgis-engine-project': {
-                    title: 'ArcGIS Engine Project',
-                    description: '基于ArcGIS Engine 10.2.2的桌面GIS系统开发项目。'
-                },
-                'negiao-toolbox': {
-                    title: 'NEGIAO工具箱',
-                    description: 'ArcGIS Pro自定义工具箱(.atbx)，包含常用地理处理脚本与效率工具。'
-                },
-                'qrcode-generator': {
-                    title: '二维码生成器',
-                    description: '基于面向对象设计的二维码生成器，支持自定义样式、图标和数据URL编码。'
-                },
-                'note-template': {
-                    title: '笔记模板',
-                    description: '用于创建新笔记的标准模板，包含Markdown渲染和章节索引功能。'
-                },
-                'calculus-key-points': {
-                    title: '微积分重要结论与知识点',
-                    description: '用于日常更新和复习的微积分速查笔记，支持复杂数学公式渲染。'
-                },
-                'non-standard-xyz-and-gcj02': {
-                    title: '非标准XYZ切片与GCJ-02适配',
-                    description: '系统总结目录分级、TMS、QuadKey、百度方案、动态API与GCJ-02纠偏策略，附OpenLayers适配实践。'
-                },
-                'vue3-webgis-practice-essentials': {
-                    title: 'Vue 3 实战精要：从基础到 WebGIS 架构思考',
-                    description: '围绕响应式、生命周期、Composables、Pinia 与易错点总结，构建 Vue 3 + WebGIS 的工程化实践框架。'
-                }
-            };
-
-            // 获取URL参数
-            function getUrlParam(name) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(name);
-            }
-
-            // 更新页面元信息
-            function updatePageMeta(noteName, config) {
-                if (config) {
-                    document.getElementById('page-title').textContent = config.title + ' - NEGIAO';
-                    document.title = config.title + ' - NEGIAO';
-
-                    // 更新meta标签
-                    const metaDesc = document.querySelector('meta[name="description"]');
-                    if (metaDesc && config.description) {
-                        metaDesc.setAttribute('content', config.description);
-                    }
-                }
-            }
-
-            // 显示错误
-            function showError(message) {
-                const container = document.getElementById('note-content');
-                container.innerHTML = `
-                    <div class="error-container">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h2>加载失败</h2>
-                        <p>${message}</p>
-                        <a href="../notes.html" class="btn btn--primary" style="margin-top: 1rem;">返回笔记列表</a>
-                    </div>
-                `;
-            }
-
-            // 加载Markdown文件
-            async function loadMarkdown(noteName) {
-                const mdPath = `./md/${noteName}.md`;
-
-                try {
-                    const response = await fetch(mdPath);
-                    if (!response.ok) {
-                        throw new Error(`无法加载笔记文件: ${mdPath}`);
-                    }
-                    return await response.text();
-                } catch (error) {
-                    throw new Error(`加载失败: ${error.message}`);
-                }
-            }
-
-            // 渲染Markdown
-            function renderMarkdown(md, container, noteName) {
-                return new Promise((resolve, reject) => {
-                    let retryCount = 0;
-                    const maxRetries = 60;
-
-                    function tryRender() {
-                        if (window.marked) {
-                            try {
-                                // 检查是否是单词学习记录，需要倒序显示
-                                if (noteName && noteName.includes('word-learning-record')) {
-                                    container.innerHTML = '';
-                                    container.classList.add('animate-in');
-                                    
-                                    // 按月份分割 (## )
-                                    const rawChunks = md.split(/\n(?=##\s)/);
-                                    
-                                    if (rawChunks.length < 1) {
-                                        container.innerHTML = window.marked.parse(md);
-                                        resolve();
-                                        return;
-                                    }
-                                    
-                                    const headerChunk = rawChunks[0]; // 页面标题和简介
-                                    const monthChunks = rawChunks.slice(1); // 各个月份的数据块
-                                    
-                                    // 提取所有"天"的记录
-                                    let allDays = [];
-                                    monthChunks.forEach(monthChunk => {
-                                        const dayParts = monthChunk.split(/\n(?=###\s)/);
-                                        if (dayParts.length > 1) {
-                                            allDays.push(...dayParts.slice(1));
-                                        }
-                                    });
-                                    
-                                    // 按日期倒序排序
-                                    const getDate = (chunk) => {
-                                        const match = chunk.match(/###\s+(\d{4}-\d{2}-\d{2})/);
-                                        return match ? new Date(match[1]) : new Date(0);
-                                    };
-                                    
-                                    allDays.sort((a, b) => getDate(b) - getDate(a));
-                                    
-                                    // 渲染头部
-                                    const headerDiv = document.createElement('div');
-                                    headerDiv.className = 'note-chunk header-chunk';
-                                    headerDiv.innerHTML = window.marked.parse(headerChunk);
-                                    container.appendChild(headerDiv);
-                                    
-                                    // 渲染所有日期记录（已倒序）
-                                    const contentDiv = document.createElement('div');
-                                    contentDiv.className = 'note-chunk days-content';
-                                    contentDiv.innerHTML = window.marked.parse(allDays.join('\n'));
-                                    container.appendChild(contentDiv);
-                                    
-                                } else {
-                                    // 其他笔记正常渲染
-                                    container.innerHTML = window.marked.parse(md);
-                                    container.classList.add('animate-in');
-                                }
-                                resolve();
-                            } catch (e) {
-                                reject(e);
-                            }
-                        } else if (retryCount < maxRetries) {
-                            retryCount++;
-                            setTimeout(tryRender, 50);
-                        } else {
-                            reject(new Error('Markdown解析器加载超时'));
-                        }
-                    }
-
-                    tryRender();
-                });
-            }
-
-            // 应用代码高亮
-            function applyHighlight(container) {
-                if (window.hljs) {
-                    container.querySelectorAll('pre code').forEach((block) => {
-                        hljs.highlightBlock(block);
-                    });
-                } else {
-                    // 等待highlight.js加载
-                    window.addEventListener('load', function () {
-                        if (typeof hljs !== 'undefined') {
-                            container.querySelectorAll('pre code').forEach((block) => {
-                                hljs.highlightBlock(block);
-                            });
-                        }
-                    });
-                }
-            }
-
-            // 渲染数学公式（支持复杂LaTeX）
-            function renderMath(container) {
-                return new Promise((resolve) => {
-                    let retryCount = 0;
-                    const maxRetries = 80;
-
-                    function tryTypeset() {
-                        if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
-                            window.MathJax.typesetPromise([container])
-                                .then(function () {
-                                    resolve();
-                                })
-                                .catch(function () {
-                                    resolve();
-                                });
-                            return;
-                        }
-
-                        if (retryCount < maxRetries) {
-                            retryCount++;
-                            setTimeout(tryTypeset, 50);
-                        } else {
-                            resolve();
-                        }
-                    }
-
-                    tryTypeset();
-                });
-            }
-
-            // 主函数
-            async function init() {
-                const noteName = getUrlParam('note');
-
-                if (!noteName) {
-                    showError('未指定笔记名称。请使用 ?note=笔记名 参数访问。');
-                    return;
-                }
-
-                // 更新页面信息
-                const config = noteConfig[noteName];
-                updatePageMeta(noteName, config);
-
-                try {
-                    // 加载Markdown
-                    const md = await loadMarkdown(noteName);
-
-                    // 渲染
-                    const container = document.getElementById('note-content');
-                    await renderMarkdown(md, container, noteName);
-
-                    // 构建目录
-                    if (window.buildNoteTOC) {
-                        requestAnimationFrame(function () {
-                            window.buildNoteTOC();
-                        });
-                    }
-
-                    // 代码高亮
-                    applyHighlight(container);
-
-                    // 数学公式渲染
-                    await renderMath(container);
-
-                    // 单词学习类笔记：中文释义遮挡功能
-                    if (window.initChineseMeaningMasking && noteName.includes('word-learning-record')) {
-                        window.initChineseMeaningMasking({
-                            container: container
-                        });
-                    }
-
-                } catch (error) {
-                    showError(error.message);
-                }
-            }
-
-            // 等待DOM加载完成
-            document.addEventListener('DOMContentLoaded', init);
-        })();
-
-        // TOC切换功能
-        function initTocToggle() {
-            const toc = document.querySelector('.note-toc');
-            const toggleBtn = document.getElementById('toc-toggle-btn');
-            if (!toggleBtn) return;
-
-            const icon = toggleBtn.querySelector('i');
-
-            // 检查localStorage中保存的状态
-            const isHidden = localStorage.getItem('toc-hidden') === 'true';
-
-            // 初始状态
-            if (isHidden) {
-                toc.classList.add('note-toc--hidden');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-list');
-            } else {
-                icon.classList.remove('fa-list');
-                icon.classList.add('fa-times');
-            }
-
-            // 移动端优化
-            const isMobile = window.innerWidth <= 768;
-            const eventType = isMobile ? 'touchstart' : 'click';
-
-            toggleBtn.addEventListener(eventType, (e) => {
-                if (isMobile && e.type === 'touchstart') {
-                    e.preventDefault();
-                }
-
-                toc.classList.toggle('note-toc--hidden');
-
-                if (toc.classList.contains('note-toc--hidden')) {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-list');
-                    localStorage.setItem('toc-hidden', 'true');
-                } else {
-                    icon.classList.remove('fa-list');
-                    icon.classList.add('fa-times');
-                    localStorage.setItem('toc-hidden', 'false');
-                }
-            }, { passive: isMobile ? false : true });
-        }
-
-        document.addEventListener('DOMContentLoaded', initTocToggle);
-    </script>
 </body>
 
 </html>

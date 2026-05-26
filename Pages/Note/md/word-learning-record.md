@@ -4682,3 +4682,18 @@
 |confer|v.|**授予**；**协商**；**商谈**|con共同+fer带来|
 |slack|adj.|**松弛的**；**萧条的**；懈怠的|—|
 |stand-off|**僵持**；**对峙**|
+
+### 2026-05-26 新增单词
+|单词|词性|核心释义|极简词根助记|
+| ---- | ---- | ---- | ---- |
+| purvey | v. | **供应**；**供给** | pur+vey 运送 |
+| backfire | v./n. | **适得其反**；**事与愿违** | back 反向+fire 点火 |
+| tournament | n. | **锦标赛**；联赛 | tour 巡回 |
+| lottery | n. | **彩票**；**抽签**；博彩 | lot 抽签 |
+| whereby | conj./adv. | **凭借**；**借此** | where 哪里+by 通过 |
+| conspire | v. | **密谋**；**导致**；共谋 | con共同+spir 呼吸 |
+| inflate | v. | **膨胀**；**夸大**；充气 | in进入+flate 吹气 |
+| predator | n. | **掠夺者**；捕食者 | pred 掠夺 |
+| peculiar | adj. | **奇怪的**；**不寻常的**；**特别的** | — |
+| accrue | v. | **产生**；**积累**；**增加** | ac加强+crue 增长 |
+| renaissance | n. | **复兴**；**再生** | re再次+naiss 出生 |

@@ -1,0 +1,234 @@
+/**
+ * projects.css - 项目网格、项目卡片
+ * NEGIAO.github.io 模块化 CSS
+ */
+
+/* ========================
+   Projects Grid
+   ======================== */
+.projects {
+  padding: var(--space-4xl) 0;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2xl);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ========================
+   Project Card
+   ======================== */
+.project-item {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 0;
+  background: var(--primary);
+  transition: height 0.3s ease;
+}
+
+.project-item:hover::before {
+  height: 100%;
+}
+
+.project-item:hover {
+  background: rgba(26, 31, 46, 0.6);
+  border-color: rgba(0, 217, 255, 0.2);
+  transform: translateY(-4px);
+}
+
+/* ========================
+   Project Header
+   ======================== */
+.project-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.project-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(0, 217, 255, 0.3);
+  line-height: 1;
+}
+
+.project-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  background: rgba(61, 109, 177, 0.495);
+  border-radius: 4px;
+}
+
+/* ========================
+   Project Content
+   ======================== */
+.project-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--space-md);
+  line-height: 1.3;
+}
+
+.project-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-lg);
+}
+
+/* ========================
+   Project Tags
+   ======================== */
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--space-xl);
+}
+
+/* ========================
+   Project Link
+   ======================== */
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: gap 0.3s ease;
+}
+
+.project-link:hover {
+  gap: 12px;
+}
+
+.project-link i {
+  font-size: 0.85rem;
+  transition: transform 0.3s ease;
+}
+
+.project-link:hover i {
+  transform: translateX(4px);
+}
+
+/* ========================
+   Project Actions
+   ======================== */
+.project-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.project-link-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.project-link-secondary:hover {
+  color: var(--primary);
+  background: rgba(0, 217, 255, 0.1);
+  border-color: var(--primary);
+}
+
+/* ========================
+   Projects Responsive
+   ======================== */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .project-item {
+    padding: var(--space-xl);
+  }
+
+  .project-number {
+    font-size: 1.5rem;
+  }
+
+  .project-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* ========================
+   Light Theme Overrides
+   ======================== */
+body[data-theme='light'] .project-item {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+body[data-theme='light'] .project-item::before {
+  background: var(--primary);
+  width: 4px;
+}
+
+body[data-theme='light'] .project-item:hover {
+  background: #FFFFFF;
+  border-color: rgba(37, 99, 235, 0.3);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+body[data-theme='light'] .project-number {
+  color: rgba(37, 99, 235, 0.25);
+}
+
+body[data-theme='light'] .project-label {
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+body[data-theme='light'] .project-link {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+body[data-theme='light'] .project-link-secondary {
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body[data-theme='light'] .project-link-secondary:hover {
+  color: var(--primary);
+  background: rgba(37, 99, 235, 0.1);
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+}

@@ -16,7 +16,9 @@
 
 ## 概况/Overview
 - 自适应深色主题站点，整合课程表、笔记、工具箱、词汇学习与可视化展示。
-- 所有页面使用统一 favicon (`images/icon.png`)，并由 `Pages/main-enhanced.js` 在运行时保障回退
+- 所有页面使用统一 favicon (`images/icon.webp`)，并由 `Pages/main-enhanced.js` 在运行时保障回退。
+- 导航栏工具按钮（主题切换、语言切换、分享）统一由 `Pages/navbar-widgets/` 模块管理。
+- 笔记系统支持插件增强（`Pages/Note/plugins/`），可按 md 文件名按需加载交互功能。
 - 宝藏小城、WebGIS、技术笔记等子项目独立维护，便于扩展与部署。
 
 ## 速览/Quick Links
@@ -121,95 +123,139 @@
 │   ├── 词云图_铜仁.html
 │   └── 词云图_隰县.html
 ├── images/                                           # 站点全局图片资源（图标、背景等）
-│   ├── icon.png                                      # 网站 favicon 主图标
-│   ├── icon1.png                                     # 备用图标
+│   ├── icon.webp                                     # 网站 favicon 主图标
+│   ├── icon1.webp                                    # 备用图标
 │   ├── typing.svg                                    # 首页动态打字效果 SVG（本地化）
-│   ├── 周迪.png
-│   ├── 地球日活动.jpg
-│   ├── 学部大会.png
-│   ├── 年级大会.jpg
-│   └── 院徽.png
+│   ├── images_to_webp.py                             # 图片格式批量转换脚本
+│   ├── 周迪.webp
+│   ├── 地球日活动.webp
+│   ├── 大河南.webp
+│   ├── 学部大会.webp
+│   ├── 年级大会.webp
+│   └── 院徽.webp
 ├── Others/                                           # 其他工具与文档资源
 │   ├── NEGIAO工具.atbx                               # ArcGIS Pro 自定义工具箱文件
 │   ├── NEGIAO工具_V1_0_1.zip                         # 工具箱压缩包
+│   ├── NEGIAO工具_V1_0_1/                            # 工具箱解压目录
 │   ├── 使用说明.txt                                  # 工具箱使用说明文档
-│   ├── decoder.html                                 # 二维码解析、部署
+│   ├── decoder.html                                  # 二维码解析、部署
 │   └── 流程图/                                       # 项目相关流程图
 │       └── GEE流程图.drawio
 ├── Pages/                                            # 站点主要子页面与公共资源
+│   ├── navbar-widgets/                               # 导航栏工具按钮模块（主题/语言/分享）
+│   │   ├── index.js                                  # 统一入口，自动加载所有 widget
+│   │   ├── theme-toggle.js                           # 浅色/深色主题切换
+│   │   ├── i18n-toggle.js                            # 中英文语言切换
+│   │   └── share-btn.js                              # 分享按钮（复制当前页 URL）
 │   ├── Note/                                         # 技术笔记与学习记录归档
 │   │   ├── md/                                       # Markdown 笔记内容目录
+│   │   │   ├── AmapAPI.md                            # 高德地图 API 笔记
 │   │   │   ├── ArcPy.md                              # ArcPy 自动化脚本笔记
+│   │   │   ├── Docker.md                             # Docker 容器技术笔记
+│   │   │   ├── Google_tiles.md                       # Google 地图瓦片接口详解
+│   │   │   ├── Hexo.md                               # Hexo 博客框架笔记
+│   │   │   ├── WebKnowledge.md                       # Web 前端知识整理
+│   │   │   ├── WebService.md                         # Web 服务开发笔记
+│   │   │   ├── WebSite_Deploy.md                     # 网站部署指南
+│   │   │   ├── Wind2D_Prompt.md                      # Wind2D 提示词笔记
 │   │   │   ├── arcgis-engine.md                      # ArcGIS Engine 开发笔记
 │   │   │   ├── arcgis-engine-project.md              # ArcGIS Engine 项目笔记
-│   │   │   ├── gee-coursework.md                     # GEE结课作业
+│   │   │   ├── calculus-key-points.md                # 微积分重要结论与复习笔记
+│   │   │   ├── gee-coursework.md                     # GEE 结课作业
+│   │   │   ├── linearAlgebra.md                      # 线性代数笔记
 │   │   │   ├── ml-dl-learning.md                     # 机器学习与深度学习笔记
 │   │   │   ├── negiao-toolbox.md                     # 工具箱详细介绍
+│   │   │   ├── non-standard-xyz-and-gcj02.md         # 非标准 XYZ 瓦片与火星坐标系
 │   │   │   ├── note-template.md                      # 笔记模板
 │   │   │   ├── qrcode-generator.md                   # 二维码生成器说明
-│   │   │   ├── calculus-key-points.md                # 微积分重要结论与复习笔记
 │   │   │   ├── spatial-analysis-R.md                 # 机器学习与智能算法（R）
+│   │   │   ├── vue3-webgis-practice-essentials.md    # Vue3 WebGIS 实践要点
 │   │   │   ├── word-learning-record.md               # 英语词汇学习记录
-│   │   │   ├── README.md                             # md目录说明文档
+│   │   │   ├── xyzTilesFormat.md                     # XYZ 瓦片格式说明
+│   │   │   ├── README.md                             # md 目录说明文档
 │   │   │   └── ZhouDi_learning/                      # 周迪学习记录子目录
 │   │   │       └── word-learning-record.md
+│   │   ├── plugins/                                  # 笔记增强插件系统（按 md 名称按需加载）
+│   │   │   ├── loader.js                             # 插件注册与加载器
+│   │   │   ├── Google_tiles.js                       # Google Tiles 笔记的 OL 地图预览
+│   │   │   └── Google_tiles.css                      # 地图预览面板样式
 │   │   ├── resources/                                # 笔记引用的图片与附件资源
 │   │   │   ├── display/                              # 图片展示资源目录
-│   │   │   ├── Lecture8_GeoAI/                       # GeoAI课程样例数据
-│   │   │   ├── Lecture8_GeoAI.zip                    # GeoAI样例数据压缩包
-│   │   │   └── 正则提取注入json.py                    # 词库同步脚本（从md读取）
+│   │   │   ├── Lecture8_GeoAI/                       # GeoAI 课程样例数据
+│   │   │   ├── Lecture8_GeoAI.zip                    # GeoAI 样例数据压缩包
+│   │   │   ├── icon.webp                             # 笔记专用图标
+│   │   │   ├── 工具箱截图.webp                        # 工具箱截图资源
+│   │   │   └── 正则提取注入json.py                    # 词库同步脚本（从 md 读取）
 │   │   ├── gallery.html                              # 技术成果展示画廊
-│   │   ├── note-template.html                        # 旧版模板md内嵌在html中
+│   │   ├── note-template.html                        # 旧版模板 md 内嵌在 html 中
 │   │   ├── markdown_editor.html                      # 在线 Markdown 编辑器工具
 │   │   ├── chinese-meaning-mask.js                   # 词汇表折叠控制模块（释义/例句）
-│   │   ├── note-viewer.html                          # 统一笔记渲染器（URL参数加载md）
+│   │   ├── note-viewer.html                          # 统一笔记渲染器（URL 参数加载 md）
+│   │   ├── note-viewer.js                            # 笔记渲染器核心逻辑
+│   │   ├── note-viewer.css                           # 笔记渲染器页面样式
+│   │   ├── notes-config.json                         # 笔记元数据配置（标题、描述、分类）
 │   │   ├── word-quiz.html                            # 独立单词测试页面
 │   │   └── word-list.json                            # 英语学习系统核心词库数据
-│   ├── avatar.jpg                                    # 个人头像图片
+│   ├── avatar.webp                                   # 个人头像图片
+│   ├── css/                                          # 模块化 CSS 样式目录
+│   │   ├── base.css                                  # 变量、重置、通用样式
+│   │   ├── components.css                            # 网格、卡片、按钮、标签
+│   │   ├── layout.css                                # 导航栏、侧边栏、页脚
+│   │   ├── hero.css                                  # Hero 区域、头像、浮动装饰
+│   │   ├── notes.css                                 # 笔记内容、目录（TOC）
+│   │   ├── projects.css                              # 项目网格、项目卡片
+│   │   ├── responsive.css                            # 统一响应式断点
+│   │   └── style-new.css                             # 主入口文件（@import 各模块）
+│   ├── font-awesome/                                 # Font Awesome 图标字体本地资源
+│   │   └── webfonts/                                 # 图标字体文件
 │   ├── main-enhanced.js                              # 全站核心交互脚本（导航、动画、favicon）
 │   ├── notes-toc.js                                  # 笔记目录自动生成与滚动同步脚本
 │   ├── notes.html                                    # 技术笔记索引主页
 │   ├── schedule.html                                 # 智能课程表页面
-│   └── style.css                                     # 全站通用样式表
-├── Scripts_based_on_cloud/                           # 云端自动化脚本存放区
-│   └── Python_based_on_cloud.py                      # 自动化处理与数据同步脚本
-├── WebGIS/                                           # Vue架构由GitHub Action自动build 后的静态文件，满足部署的需求
+│   ├── phy.html                                      # 物理相关页面
+│   └── style.css                                     # 全站通用样式表（旧版，保留兼容）
+├── WebGIS/                                           # Vue 架构由 GitHub Action 自动 build 后的静态文件
 │   ├── assets/                                       # WebGIS 项目静态资源（Vite 构建产物）
-│   ├── cesium/                                       # Cesium 三维地球引擎静态资源库
-│   ├── images/                                       # WebGIS 项目图片资源
-│   ├── tiles/                                        # 本地离线 GIS 地图瓦片数据
-│   ├── .nojekyll                                     # 禁用 Jekyll（防止 _开头文件被忽略）
+│   ├── avatars/                                      # WebGIS 用户头像 SVG 资源
+│   ├── images/                                       # WebGIS 项目图片资源（webp 格式）
+│   ├── ShareData/                                    # 共享地理数据（KML/KMZ）
+│   ├── tiles/                                        # 本地离线 GIS 地图瓦片数据（0-18 级）
+│   ├── .nojekyll                                     # 禁用 Jekyll（防止 _ 开头文件被忽略）
+│   ├── adcode.json                                   # 行政区划编码数据
 │   ├── favicon.ico                                   # 网站浏览器图标
 │   ├── index.html                                    # WebGIS 项目入口文件
+│   ├── min-enhanced.js                               # WebGIS 增强脚本
 │   ├── ol.css                                        # OpenLayers 样式库
 │   └── ol.js                                         # OpenLayers 核心库
 ├── .gitignore                                        # Git 版本控制忽略规则配置
 ├── .htaccess                                         # Apache 服务器配置文件（缓存策略等）
+├── .nojekyll                                         # 根目录禁用 Jekyll
 ├── index.html                                        # 网站首页（个人作品集入口）
 ├── LICENSE                                           # 项目开源许可证
 ├── README.md                                         # 项目说明文档（本文件）
-├── start_server.bat                                  # Windows 本地预览启动脚本
-└── 大河南.jpg                                        # 河南地图图片资源
+└── start_server.bat                                  # Windows 本地预览启动脚本
 ```
 
 **注**：`WebGIS_henu_trials_5_28_vue3/` 项目位于工作区根目录，但作为独立的 Vue3 项目维护，具有完整的前端工程结构。
 
 ## 关键资源/Key Assets
-| 类型            | 路径                        | 用途                                     |
-| --------------- | --------------------------- | ---------------------------------------- |
-| Favicon         | `images/icon.png`           | 全站浏览器图标，JS fallback 亦引用该文件 |
-| 头像图片        | `Pages/avatar.jpg`          | 首页与各页面展示的个人头像               |
-| 动态效果        | `images/typing.svg`         | 首页打字动画效果（本地化优化）           |
-| 主样式          | `Pages/style.css`           | 全站主题与组件样式                       |
-| 导航/交互脚本   | `Pages/main-enhanced.js`    | 导航栏、移动菜单、平滑滚动、favicon 注入 |
-| 目录脚本        | `Pages/notes-toc.js`        | 笔记页面自动目录生成与滚动同步           |
-| 折叠控制模块    | `Pages/Note/chinese-meaning-mask.js` | 词汇笔记释义/例句折叠、移动端词性隐藏、全局一键展开/遮挡 |
-| 笔记渲染器      | `Pages/Note/note-viewer.html` | 统一 Markdown 渲染入口，URL 参数加载   |
-| 笔记内容        | `Pages/Note/md/*.md`        | 独立 Markdown 笔记文件（13篇）           |
-| 词汇数据        | `Pages/Note/word-list.json` | 英语学习系统题库与统计数据源             |
-| 工具箱          | `Others/NEGIAO工具.atbx`    | ArcGIS Pro 定制工具集合                  |
-| WebGIS 构建产物 | `WebGIS/assets/*`           | Vite 打包后的 JS/CSS                     |
-| 启动脚本        | `start_server.bat`          | Windows 下一键启动本地预览服务器         |
+| 类型            | 路径                                 | 用途                                     |
+| --------------- | ------------------------------------ | ---------------------------------------- |
+| Favicon         | `images/icon.webp`                   | 全站浏览器图标，JS fallback 亦引用该文件 |
+| 头像图片        | `Pages/avatar.webp`                  | 首页与各页面展示的个人头像               |
+| 动态效果        | `images/typing.svg`                  | 首页打字动画效果（本地化优化）           |
+| 主样式          | `Pages/style.css`                    | 全站主题与组件样式                       |
+| 导航/交互脚本   | `Pages/main-enhanced.js`             | 导航栏、移动菜单、平滑滚动、favicon 注入 |
+| 导航栏 Widget   | `Pages/navbar-widgets/index.js`      | 主题切换、语言切换、分享按钮统一入口     |
+| 目录脚本        | `Pages/notes-toc.js`                 | 笔记页面自动目录生成与滚动同步           |
+| 折叠控制模块    | `Pages/Note/chinese-meaning-mask.js` | 词汇笔记释义/例句折叠、全局一键展开/遮挡 |
+| 笔记渲染器      | `Pages/Note/note-viewer.html`        | 统一 Markdown 渲染入口，URL 参数加载     |
+| 笔记插件系统    | `Pages/Note/plugins/loader.js`       | 按 md 名称按需加载增强插件               |
+| 笔记内容        | `Pages/Note/md/*.md`                 | 独立 Markdown 笔记文件（25 篇）          |
+| 词汇数据        | `Pages/Note/word-list.json`          | 英语学习系统题库与统计数据源             |
+| 工具箱          | `Others/NEGIAO工具.atbx`             | ArcGIS Pro 定制工具集合                  |
+| WebGIS 构建产物 | `WebGIS/assets/*`                    | Vite 打包后的 JS/CSS                     |
+| 启动脚本        | `start_server.bat`                   | Windows 下一键启动本地预览服务器         |
 
 ## Development & Authoring
 - 推荐使用 VS Code，确保保存为 UTF-8 与 Windows 兼容行结尾。
@@ -236,6 +282,199 @@ python -m http.server 8080
 - **Python**：云端脚本、词汇数据处理、本地服务器。
 
 ## 变更/Changelog
+
+### 2026-05-27 · v1.9.3 · 浅色主题重设计
+
+**问题分析**：
+- 原有浅色主题只是简单反转颜色，视觉效果粗糙
+- 纯白底 (#FFFFFF) 过于刺眼，长时间阅读不适
+- 缺乏层次感和细节处理
+- 组件在浅色模式下样式不一致
+
+**设计目标**：
+- 温润质感风格，视觉舒适
+- 柔和灰底，减少视觉疲劳
+- 清晰层次，适度留白
+
+**优化内容**：
+
+#### 色彩系统
+- **背景色**：温润灰底 (#EFF1F5)，辅以更浅灰 (#E5E8ED)
+- **主色调**：专业蓝 (#2563EB)，替代原荧光蓝
+- **文字色系**：深色文字 (#111827)，确保高可读性
+- **边框**：适度灰线 (rgba(0,0,0,0.08-0.1))
+
+#### 组件适配
+- **导航栏**：灰底半透明，轻微阴影
+- **卡片**：白底，悬浮时明显阴影提升
+- **按钮**：保持活力，增加柔和阴影
+- **标签/徽章**：淡色背景，清晰边框
+- **侧边栏**：白底，清晰的激活状态指示
+- **代码块**：淡灰背景，保持可读性
+- **目录 (TOC)**：白底，清晰的层级缩进
+
+#### 阴影系统
+- 使用柔和扩散阴影替代发光效果
+- 悬浮状态：增加阴影深度，提供浮起感
+- 保持一致性：所有组件使用统一阴影规范
+
+**修改的文件路径**：
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\base.css`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\hero.css`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\components.css`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\notes.css`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\projects.css`（修改）
+
+---
+
+### 2026-05-27 · v1.9.1 · 代码组织优化
+
+**问题分析**：
+- CSS/JS 文件体量过大，维护成本高
+- 样式定义存在大量重复和不一致
+- 内联样式过多，代码可读性差
+- 第三方脚本加载策略不统一
+
+**优化内容**：
+
+#### P0: 结构修复
+- **修复 notes.html HTML 结构错误**：
+  - 修复 XYZ切片格式解析 和 Google切片 两个笔记卡片未被 `<section>` 正确包裹的问题
+  - 移除多余的 `</section>` 关闭标签
+
+#### P1: 样式优化
+- **提取 index.html 内联样式**：
+  - 新增 `.contact-card-icon`、`.contact-card-title`、`.contact-card-desc` 等 CSS 类
+  - 新增 `.footer__nav-section`、`.footer__brand-section`、`.footer__contact-panel` 等页脚样式类
+  - 联系区域和页脚区域代码行数减少约 60%
+- **移除重复 CSS 变量定义**：
+  - 删除 index.html 中内联的 `:root` CSS 变量（与 style.css 重复）
+  - 保留首屏渲染关键样式（loading-screen），优化首屏加载性能
+- **提取侧边栏样式**：
+  - 将 sidebar 相关样式从 index.html 内联样式移至 style.css
+  - 统一侧边栏样式管理
+
+#### P2: 资源加载优化
+- **统一 Font Awesome 加载方式**：
+  - notes.html 和 note-viewer.html 从 `all.min.css`（完整版）改为精简版加载
+  - 仅加载 `fontawesome.min.css` + `solid.min.css` + `brands.min.css`
+  - 减少约 30% 的 Font Awesome 文件体积
+
+#### P3: 可维护性提升
+- **笔记配置外部化**：
+  - 新增 `Pages/Note/notes-config.json` 外部配置文件
+  - 将 24 篇笔记的元数据（标题、描述、分类、图标）从 JavaScript 代码中抽离
+  - 修改 note-viewer.js 支持从 JSON 动态加载配置
+  - 添加新笔记无需修改 JavaScript 代码
+- **清理死代码**：
+  - 删除 main-enhanced.js 中注释掉的 Supabase 统计代码（约 30 行）
+  - 更新函数注释，移除对已删除功能的引用
+
+**优化成果**：
+- index.html 代码行数从 820+ 行减少至约 650 行
+- 消除了 HTML 结构错误，提升 SEO 友好度
+- 统一了资源加载策略，减少不必要的文件下载
+- 笔记系统扩展性提升，新增笔记只需编辑 JSON 配置
+
+**待优化项**：
+- ~~CSS 文件拆分（style.css 3400+ 行）~~ ✅ 已在 v1.9.2 完成
+- ~~响应式断点统一~~ ✅ 已在 v1.9.2 完成
+
+---
+
+### 2026-05-27 · v1.9.2 · CSS 模块化与响应式断点统一
+
+**问题分析**：
+- `style.css` 文件体量过大（3504 行），维护成本高
+- 响应式断点定义分散，存在多个不同断点值（375px、576px、768px、1024px、1200px、1400px）
+- 样式分类不清晰，查找困难
+
+**优化内容**：
+
+#### CSS 文件拆分
+将 `style.css` 拆分为 7 个模块化文件：
+
+| 文件 | 行数 | 职责 |
+|------|------|------|
+| `base.css` | ~317 行 | CSS 变量、重置、通用样式、工具类 |
+| `components.css` | ~280 行 | 网格、卡片、按钮、标签、加载状态 |
+| `layout.css` | ~450 行 | 导航栏、移动端菜单、侧边栏、页脚、联系区域 |
+| `hero.css` | ~250 行 | Hero 区域、头像、浮动装饰、动画 |
+| `notes.css` | ~480 行 | 笔记内容排版、目录（TOC）、笔记卡片 |
+| `projects.css` | ~180 行 | 项目网格、项目卡片 |
+| `responsive.css` | ~350 行 | 统一响应式断点、打印样式、无障碍 |
+
+新增主入口文件 `css/style-new.css`，通过 `@import` 按顺序加载各模块。
+
+#### 响应式断点统一
+统一为 5 个标准断点：
+
+| 断点 | 变量 | 值 | 目标设备 |
+|------|------|------|----------|
+| sm | `--breakpoint-sm` | 576px | 手机 |
+| md | `--breakpoint-md` | 768px | 平板 |
+| lg | `--breakpoint-lg` | 1024px | 小笔记本 |
+| xl | `--breakpoint-xl` | 1200px | 桌面 |
+| 2xl | `--breakpoint-2xl` | 1400px | 大屏 |
+
+#### HTML 文件更新
+所有 8 个 HTML 文件的 CSS 引用已更新为新的模块化入口：
+- `index.html` → `Pages/css/style-new.css`
+- `Pages/notes.html` → `css/style-new.css`
+- `Pages/schedule.html` → `css/style-new.css`
+- `Pages/Note/note-viewer.html` → `../css/style-new.css`
+- `Pages/Note/note-template.html` → `../css/style-new.css`
+- `Pages/Note/word-quiz.html` → `../css/style-new.css`
+- `Pages/Note/gallery.html` → `../css/style-new.css`
+
+**优化成果**：
+- 单一 3504 行文件拆分为 7 个职责清晰的模块
+- 响应式断点统一，消除不一致问题
+- 样式查找效率提升，按模块快速定位
+- 便于后续维护和团队协作
+
+**修改的文件路径**：
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\base.css`（新建）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\components.css`（新建）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\layout.css`（新建）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\hero.css`（新建）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\notes.css`（新建）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\projects.css`（新建）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\responsive.css`（新建）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\css\style-new.css`（新建）
+- `d:\Dev\GitHub\NEGIAO.github.io\index.html`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\notes.html`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\schedule.html`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\Note\note-viewer.html`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\Note\note-template.html`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\Note\word-quiz.html`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\Pages\Note\gallery.html`（修改）
+- `d:\Dev\GitHub\NEGIAO.github.io\README.md`（修改）
+
+---
+
+### 2026-05-27 · v1.9.0
+- **Navbar Widget 模块化重构**：
+    - 新建 `Pages/navbar-widgets/` 文件夹，将主题切换、语言切换、分享按钮三个功能整合为统一模块。
+    - `index.js` 作为统一入口，页面只需加载一个 `<script>` 即可自动初始化所有 widget。
+    - 从 `main-enhanced.js` 提取 `initThemeToggle`，从 `note-viewer.js` 提取 `initShareButton`。
+    - 统一主题 localStorage key 为 `'site-theme'`，消除 note-viewer 独立的 `'note-theme'`。
+    - 所有页面（35 个）的 `i18n-toggle.js` 引用统一更新为 `navbar-widgets/index.js`。
+    - 移动端三按钮定位使用 CSS `:has()` 区分有/无汉堡菜单的页面，避免 UI 重叠。
+- **笔记插件系统**：
+    - 新增 `Pages/Note/plugins/` 目录，支持按 md 文件名按需加载交互增强插件。
+    - `loader.js` 提供 `registerNotePlugin()` / `loadNotePlugins()` 注册与加载机制。
+    - 首个插件：`Google_tiles.js` — 为 Google 地图瓦片笔记提供 OpenLayers 地图预览面板。
+- **笔记内容扩充**：
+    - 新增 `Google_tiles.md`、`Docker.md`、`Hexo.md`、`WebKnowledge.md` 等 12 篇技术笔记。
+    - 笔记总量从 13 篇扩展至 25 篇。
+- **资源格式统一**：
+    - 全站图片从 PNG/JPG 统一转换为 WebP 格式，减小传输体积。
+    - 新增 `font-awesome/` 本地图标字体资源，减少外部 CDN 依赖。
+- **代码清理**：
+    - 移除 `initCodeCopyButtons` 函数及相关样式。
+    - 移除卡片蓝色涟漪点击动画效果。
+    - 删除旧的 `Pages/i18n-toggle.js` 文件。
 
 ### 2026-03-15 · v1.8.5
 - **📚 词汇笔记折叠交互升级**：
@@ -390,6 +629,8 @@ python -m http.server 8080
 ## 未来计划/Roadmap
 - ✅ 完成考研英语词汇核心功能、互动测试与词库扩容（370/500）。
 - ✅ 智能课程表性能与体验迭代。
+- ✅ 导航栏工具按钮模块化重构（主题/语言/分享）。
+- ✅ 笔记插件系统（按需加载交互增强）。
 - 🔄 扩展词汇至 500+，新增发音模块、错题本与进度可视化。
 - 🔄 增补 WebGIS 功能组件与更多专题可视化案例。
 - 🔄 构建全站搜索、多语言与访问统计面板。

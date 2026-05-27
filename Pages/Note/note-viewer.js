@@ -3,64 +3,23 @@
 
     const SAFE_NOTE_NAME_PATTERN = /^[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*$/;
 
-    const noteConfig = {
-        'word-learning-record': {
-            title: '英语单词学习记录',
-            description: 'NEGIAO的英语单词学习记录，每日更新，包含单词释义、例句和用法。'
-        },
-        'ZhouDi_learning/word-learning-record': {
-            title: '周迪的学习记录',
-            description: '周迪的英语单词学习记录，每日更新，包含单词释义、例句和用法。'
-        },
-        'ArcPy': {
-            title: 'ArcPy学习笔记',
-            description: 'ArcPy学习笔记 - 涵盖ArcGIS Python自动化处理、地理处理工具等内容。'
-        },
-        'gee-coursework': {
-            title: 'GEE结课作业',
-            description: 'Google Earth Engine课程结课作业代码。'
-        },
-        'spatial-analysis-R': {
-            title: '机器学习与智能算法（R）',
-            description: 'ANN、梯度下降、SVM、随机森林、CNN、遗传算法、元胞自动机、ABM等R语言实现。'
-        },
-        'ml-dl-learning': {
-            title: '机器学习与深度学习',
-            description: '核心概念、学习范式、经典模型深度拆解与GIS实践应用指南。'
-        },
-        'arcgis-engine': {
-            title: 'ArcGIS Engine',
-            description: 'ArcGIS Engine开发实践，包括地图控件、空间分析等功能的实现。'
-        },
-        'arcgis-engine-project': {
-            title: 'ArcGIS Engine Project',
-            description: '基于ArcGIS Engine 10.2.2的桌面GIS系统开发项目。'
-        },
-        'negiao-toolbox': {
-            title: 'NEGIAO工具箱',
-            description: 'ArcGIS Pro自定义工具箱(.atbx)，包含常用地理处理脚本与效率工具。'
-        },
-        'qrcode-generator': {
-            title: '二维码生成器',
-            description: '基于面向对象设计的二维码生成器，支持自定义样式、图标和数据URL编码。'
-        },
-        'note-template': {
-            title: '笔记模板',
-            description: '用于创建新笔记的标准模板，包含Markdown渲染和章节索引功能。'
-        },
-        'calculus-key-points': {
-            title: '微积分重要结论与知识点',
-            description: '用于日常更新和复习的微积分速查笔记，支持复杂数学公式渲染。'
-        },
-        'non-standard-xyz-and-gcj02': {
-            title: '非标准XYZ切片与GCJ-02适配',
-            description: '系统总结目录分级、TMS、QuadKey、百度方案、动态API与GCJ-02纠偏策略，附OpenLayers适配实践。'
-        },
-        'vue3-webgis-practice-essentials': {
-            title: 'Vue 3 实战精要：从基础到 WebGIS 架构思考',
-            description: '围绕响应式、生命周期、Composables、Pinia 与易错点总结，构建 Vue 3 + WebGIS 的工程化实践框架。'
+    // 配置将从外部 JSON 文件加载
+    let noteConfig = {};
+
+    // 加载外部配置文件
+    async function loadNoteConfig() {
+        try {
+            const response = await fetch('./notes-config.json');
+            if (response.ok) {
+                const config = await response.json();
+                noteConfig = config.notes || {};
+                return true;
+            }
+        } catch (error) {
+            console.warn('无法加载笔记配置文件，使用空配置:', error);
         }
-    };
+        return false;
+    }
 
     function getUrlParam(name) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -281,6 +240,9 @@
     }
 
     async function init() {
+        // 先加载配置文件
+        await loadNoteConfig();
+
         let noteName;
 
         try {

@@ -1,0 +1,162 @@
+{
+  "notes": {
+    "word-learning-record": {
+      "title": "英语单词学习记录",
+      "description": "NEGIAO的英语单词学习记录，每日更新，包含单词释义、例句和用法。",
+      "category": "daily",
+      "icon": "📊"
+    },
+    "ZhouDi_learning/word-learning-record": {
+      "title": "周迪的学习记录",
+      "description": "周迪的英语单词学习记录，每日更新，包含单词释义、例句和用法。",
+      "category": "daily",
+      "icon": "👩‍🎓"
+    },
+    "ArcPy": {
+      "title": "ArcPy学习笔记",
+      "description": "ArcPy学习笔记 - 涵盖ArcGIS Python自动化处理、地理处理工具等内容。",
+      "category": "tech",
+      "icon": "📊"
+    },
+    "gee-coursework": {
+      "title": "GEE结课作业",
+      "description": "Google Earth Engine课程结课作业代码。",
+      "category": "tech",
+      "icon": "🛰️"
+    },
+    "spatial-analysis-R": {
+      "title": "机器学习与智能算法（R）",
+      "description": "ANN、梯度下降、SVM、随机森林、CNN、遗传算法、元胞自动机、ABM等R语言实现。",
+      "category": "tech",
+      "icon": "🤖"
+    },
+    "ml-dl-learning": {
+      "title": "机器学习与深度学习",
+      "description": "核心概念、学习范式、经典模型深度拆解与GIS实践应用指南。",
+      "category": "tech",
+      "icon": "🤖"
+    },
+    "arcgis-engine": {
+      "title": "ArcGIS Engine",
+      "description": "ArcGIS Engine开发实践，包括地图控件、空间分析等功能的实现。",
+      "category": "tech",
+      "icon": "🌍"
+    },
+    "arcgis-engine-project": {
+      "title": "ArcGIS Engine Project",
+      "description": "基于ArcGIS Engine 10.2.2的桌面GIS系统开发项目。",
+      "category": "project",
+      "icon": "💻"
+    },
+    "negiao-toolbox": {
+      "title": "NEGIAO工具箱",
+      "description": "ArcGIS Pro自定义工具箱(.atbx)，包含常用地理处理脚本与效率工具。",
+      "category": "project",
+      "icon": "🧰"
+    },
+    "qrcode-generator": {
+      "title": "二维码生成器",
+      "description": "基于面向对象设计的二维码生成器，支持自定义样式、图标和数据URL编码。",
+      "category": "project",
+      "icon": "📱"
+    },
+    "note-template": {
+      "title": "笔记模板",
+      "description": "用于创建新笔记的标准模板，包含Markdown渲染和章节索引功能。",
+      "category": "project",
+      "icon": "📖"
+    },
+    "calculus-key-points": {
+      "title": "微积分重要结论与知识点",
+      "description": "用于日常更新和复习的微积分速查笔记，支持复杂数学公式渲染。",
+      "category": "tech",
+      "icon": "📐"
+    },
+    "linearAlgebra": {
+      "title": "线性代数重要结论",
+      "description": "用于日常更新与复习的线性代数结论速查，支持复杂数学公式渲染。",
+      "category": "tech",
+      "icon": "📐"
+    },
+    "non-standard-xyz-and-gcj02": {
+      "title": "非标准XYZ切片与GCJ-02适配",
+      "description": "系统总结目录分级、TMS、QuadKey、百度方案、动态API与GCJ-02纠偏策略，附OpenLayers适配实践。",
+      "category": "tech",
+      "icon": "🗺️"
+    },
+    "vue3-webgis-practice-essentials": {
+      "title": "Vue 3 实战精要：从基础到 WebGIS 架构思考",
+      "description": "围绕响应式、生命周期、Composables、Pinia 与易错点总结，构建 Vue 3 + WebGIS 的工程化实践框架。",
+      "category": "tech",
+      "icon": "🧭"
+    },
+    "Hexo": {
+      "title": "从0到1搭建Hexo博客",
+      "description": "详细记录使用 Hexo + GitHub Pages 双分支管理法搭建个人博客的完整流程，包括避坑经验。",
+      "category": "tech",
+      "icon": "📝"
+    },
+    "WebSite_Deploy": {
+      "title": "WebGIS 全栈免费部署方案",
+      "description": "基于 GitHub Actions 实现的零成本 WebGIS 方案：国内高速访问、前后端分离及数据持久化实战总结。",
+      "category": "tech",
+      "icon": "🌍"
+    },
+    "Wind2D_Prompt": {
+      "title": "agent提示词",
+      "description": "Cesium生成2d风场Prompt。",
+      "category": "tech",
+      "icon": "🤖"
+    },
+    "WebService": {
+      "title": "WebService",
+      "description": "WebGIS必知：主流网络地图服务协议全解析。",
+      "category": "tech",
+      "icon": "📡"
+    },
+    "AmapAPI": {
+      "title": "AmapAPI",
+      "description": "高德地图全套高阶付费API 后端无痕实战调用手册（可直接接入项目）。",
+      "category": "tech",
+      "icon": "🗺️"
+    },
+    "WebKnowledge": {
+      "title": "WebKnowledge",
+      "description": "GIS 开发必看：Referer 与 Origin 跨域请求头详解。",
+      "category": "tech",
+      "icon": "🛡️"
+    },
+    "Docker": {
+      "title": "Docker",
+      "description": "Docker 容器化技术在 GIS 开发中的应用与实践。",
+      "category": "tech",
+      "icon": "📦"
+    },
+    "XYZTilesFormat": {
+      "title": "XYZ切片格式解析",
+      "description": "XYZ切片中jpg、png和tif格式数据结构详解。",
+      "category": "tech",
+      "icon": "🖼️"
+    },
+    "Google_tiles": {
+      "title": "Google切片",
+      "description": "Google切片类型总结、apistyle查询、动态纠偏代理。",
+      "category": "tech",
+      "icon": "🗺️"
+    }
+  },
+  "categories": {
+    "daily": {
+      "title": "每日记录",
+      "icon": "fas fa-calendar-check"
+    },
+    "project": {
+      "title": "项目与工具",
+      "icon": "fas fa-tools"
+    },
+    "tech": {
+      "title": "技术笔记",
+      "icon": "fas fa-book"
+    }
+  }
+}

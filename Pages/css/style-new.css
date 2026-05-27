@@ -1,0 +1,120 @@
+/**
+ * style-new.css - 主入口文件（模块化导入）
+ * NEGIAO.github.io 模块化 CSS
+ *
+ * 加载顺序：
+ *   1. base.css       - 变量、重置、通用样式
+ *   2. components.css - 网格、卡片、按钮、标签
+ *   3. layout.css     - 导航栏、侧边栏、页脚
+ *   4. hero.css       - Hero 区域、头像、浮动装饰
+ *   5. notes.css      - 笔记内容、目录、笔记卡片
+ *   6. projects.css   - 项目网格、项目卡片
+ *   7. responsive.css - 统一响应式断点
+ */
+
+@import url('base.css');
+@import url('components.css');
+@import url('layout.css');
+@import url('hero.css');
+@import url('notes.css');
+@import url('projects.css');
+@import url('responsive.css');
+
+/* ========================
+   Section (通用)
+   ======================== */
+.section {
+  padding: var(--space-4xl) 0;
+  position: relative;
+}
+
+/* ========================
+   Footer (基础)
+   ======================== */
+.footer {
+  padding: var(--space-2xl) 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--background-secondary);
+}
+
+.footer__content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer__navigation ul li a:hover {
+  color: var(--primary);
+  background: rgba(0, 217, 255, 0.1);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* ========================
+   Social Links
+   ======================== */
+.social-links {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.social-link {
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  transition: all var(--transition-fast);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+
+.social-link:hover {
+  color: var(--primary);
+  background: rgba(0, 217, 255, 0.1);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* ========================
+   Notes Index
+   ======================== */
+.notes-index-header {
+  text-align: center;
+  margin-top: var(--space-3xl);
+}
+
+.notes-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-md);
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-xl);
+  margin-bottom: var(--space-3xl);
+}
+
+/* ========================
+   Performance
+   ======================== */
+.will-change {
+  will-change: transform;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+}
+
+/* ========================
+   Custom Scrollbar (Firefox)
+   ======================== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--background-secondary);
+}

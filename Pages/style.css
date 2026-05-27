@@ -119,6 +119,7 @@ body[data-theme='light'] {
   --border-focus: #0b6fd6;
   --glass-bg: rgba(255, 255, 255, 0.85);
   --glass-border: rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 10px 15px rgba(15, 23, 42, 0.1), 0 4px 6px rgba(15, 23, 42, 0.06);
   --shadow-glow: 0 0 20px rgba(11, 111, 214, 0.25);
   --shadow-glow-accent: 0 0 20px rgba(239, 68, 68, 0.25);
 }
@@ -460,61 +461,6 @@ a:focus {
   position: relative;
 }
 
-.note-content .code-copy-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(0, 217, 255, 0.3);
-  background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 184, 230, 0.1) 100%);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: var(--primary);
-  font-size: 11px;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  line-height: 1;
-  cursor: pointer;
-  opacity: 0.85;
-  transition: all var(--transition-normal);
-  user-select: none;
-  box-shadow: 0 2px 8px rgba(0, 217, 255, 0.1);
-}
-
-.note-content pre:hover .code-copy-btn {
-  opacity: 1;
-}
-
-.note-content .code-copy-btn:hover {
-  background: linear-gradient(135deg, rgba(0, 217, 255, 0.2) 0%, rgba(0, 184, 230, 0.2) 100%);
-  border-color: var(--primary);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.25), 0 0 15px rgba(0, 217, 255, 0.15);
-}
-
-.note-content .code-copy-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(0, 217, 255, 0.2);
-}
-
-.note-content .code-copy-btn:focus {
-  opacity: 1;
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-}
-
-.note-content .code-copy-btn.copied {
-  background: linear-gradient(135deg, var(--success) 0%, #2b88e6 100%);
-  border-color: var(--success);
-  color: white;
-  box-shadow: 0 4px 12px rgba(81, 207, 102, 0.3), 0 0 15px rgba(0, 173, 248, 0.2);
-}
 
 .note-toc {
   /* Fixed TOC on the right, vertically centered, floating above content */
@@ -2884,8 +2830,23 @@ a:focus {
 
 .navbar__container .theme-toggle {
   position: absolute;
-  /* 为右侧的语言切换按钮留出空间 (~5rem = 按钮最小宽度 4.5rem + 间距) */
+  /* 有汉堡菜单时：i18n(3.7rem) + 宽度(4.5rem) + 间距(0.5rem) */
+  /* 无汉堡菜单时：i18n(1rem) + 宽度(4.5rem) + 间距(0.5rem) */
   right: calc(var(--space-md) + 5rem);
+}
+
+/* 有汉堡菜单的页面（如 index、notes 等） */
+.navbar__container:has(.mobile-menu-toggle) .theme-toggle {
+  right: calc(3.7rem + 4.5rem + 0.5rem);
+}
+
+.navbar__container:has(.mobile-menu-toggle) .share-note-btn {
+  right: calc(3.7rem + 4.5rem + 0.5rem + 2.75rem + 0.5rem);
+}
+
+/* 无汉堡菜单的页面（如 note-viewer） */
+.navbar__container:not(:has(.mobile-menu-toggle)) .share-note-btn {
+  right: calc(var(--space-md) + 4.5rem + 0.5rem + 2.75rem + 0.5rem);
 }
 
 .sidebar__footer .theme-toggle {
@@ -2894,9 +2855,22 @@ a:focus {
 }
 
 @media (max-width: 768px) {
-  .navbar__container .theme-toggle {
-    /* 移动端语言按钮更窄 (3.6rem) + 菜单按钮空间 */
-    right: calc(var(--space-md) + 4rem + 48px);
+  /* 移动端有汉堡菜单：汉堡(2.5rem) | i18n(3.6rem) | 主题(2.75rem) | 分享(2.75rem) */
+  .navbar__container:has(.mobile-menu-toggle) .theme-toggle {
+    right: calc(var(--space-md) + 2.5rem + 0.5rem + 3.6rem + 0.5rem);
+  }
+
+  .navbar__container:has(.mobile-menu-toggle) .share-note-btn {
+    right: calc(var(--space-md) + 2.5rem + 0.5rem + 3.6rem + 0.5rem + 2.75rem + 0.5rem);
+  }
+
+  /* 移动端无汉堡菜单（note-viewer）：i18n(3.6rem) | 主题(2.75rem) | 分享(2.75rem) */
+  .navbar__container:not(:has(.mobile-menu-toggle)) .theme-toggle {
+    right: calc(var(--space-sm) + 3.6rem + 0.5rem);
+  }
+
+  .navbar__container:not(:has(.mobile-menu-toggle)) .share-note-btn {
+    right: calc(var(--space-sm) + 3.6rem + 0.5rem + 2.75rem + 0.5rem);
   }
 }
 

@@ -95,70 +95,6 @@
         }
     }
 
-    const THEME_STORAGE_KEY = 'note-theme';
-    const THEME_COLORS = {
-        dark: '#0D1117',
-        light: '#f5f7fb'
-    };
-
-    function getPreferredTheme() {
-        const stored = localStorage.getItem(THEME_STORAGE_KEY);
-        if (stored === 'light' || stored === 'dark') {
-            return stored;
-        }
-
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-            return 'light';
-        }
-
-        return 'dark';
-    }
-
-    function updateThemeToggle(theme) {
-        const toggleBtn = document.getElementById('theme-toggle');
-        if (!toggleBtn) {
-            return;
-        }
-
-        const icon = toggleBtn.querySelector('i');
-        if (icon) {
-            icon.classList.remove('fa-moon', 'fa-sun');
-            icon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
-        }
-
-        const nextLabel = theme === 'dark' ? '切换到浅色主题' : '切换到深色主题';
-        toggleBtn.setAttribute('aria-label', nextLabel);
-        toggleBtn.setAttribute('title', nextLabel);
-    }
-
-    function applyTheme(theme) {
-        const normalized = theme === 'light' ? 'light' : 'dark';
-        document.body.dataset.theme = normalized;
-        localStorage.setItem(THEME_STORAGE_KEY, normalized);
-
-        const metaTheme = document.querySelector('meta[name="theme-color"]');
-        if (metaTheme && THEME_COLORS[normalized]) {
-            metaTheme.setAttribute('content', THEME_COLORS[normalized]);
-        }
-
-        updateThemeToggle(normalized);
-    }
-
-    function initThemeToggle() {
-        const toggleBtn = document.getElementById('theme-toggle');
-        if (!toggleBtn) {
-            return;
-        }
-
-        applyTheme(getPreferredTheme());
-
-        toggleBtn.addEventListener('click', () => {
-            const current = document.body.dataset.theme || 'dark';
-            const next = current === 'light' ? 'dark' : 'light';
-            applyTheme(next);
-        });
-    }
-
     function showError(message, errorCode = null) {
         const container = document.getElementById('note-content');
         
@@ -388,6 +324,15 @@
                     window.buildNoteTOC();
                 } catch (tocError) {
                     console.warn('TOC 构建失败，继续执行:', tocError);
+                }
+            }
+
+            // 加载笔记增强插件（如有）
+            if (window.loadNotePlugins) {
+                try {
+                    await window.loadNotePlugins(noteName, container);
+                } catch (pluginError) {
+                    console.warn('插件加载失败，继续执行:', pluginError);
                 }
             }
         } catch (error) {
@@ -664,10 +609,9 @@
 
     // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
-        initThemeToggle();
         init();
         initTocToggle();
-        
+
         const missingLibs = detectMissingLibraries();
         if (missingLibs.length > 0) {
             console.warn('缺失的库:', missingLibs);

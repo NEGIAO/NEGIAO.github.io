@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
        4. 锚点与平滑滚动
        5. 视差/动画/卡片交互
        6. 进度条、返回顶部、懒加载等辅助功能
-       7. 代码复制与无障碍增强
-       8. 延迟加载第三方统计（在 window.load 后）
+       7. 延迟加载第三方统计（在 window.load 后）
+       注：主题切换已移至 navbar-widgets/theme-toggle.js
     -------------------------- */
 
     /* --------------------------
@@ -90,99 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('orientationchange', function () {
             setTimeout(update, 100);
         });
-    }
-
-    /* --------------------------
-       1.8) 全局主题切换（浅色/暗色）
-       - 适用于全站 style.css
-       - 避免与 note-viewer 页面自身主题逻辑冲突
-    -------------------------- */
-    function initThemeToggle() {
-        if (document.body && document.body.classList.contains('note-viewer-page')) {
-            return;
-        }
-
-        const STORAGE_KEY = 'site-theme';
-        const THEME_COLORS = {
-            dark: '#0D1117',
-            light: '#f5f7fb'
-        };
-
-        function getPreferredTheme() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored === 'light' || stored === 'dark') {
-                return stored;
-            }
-
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-                return 'light';
-            }
-
-            return 'dark';
-        }
-
-        function updateToggleUI(theme) {
-            document.querySelectorAll('.theme-toggle').forEach((btn) => {
-                const icon = btn.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-moon', 'fa-sun');
-                    icon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
-                }
-
-                const nextLabel = theme === 'dark' ? '切换到浅色主题' : '切换到深色主题';
-                btn.setAttribute('aria-label', nextLabel);
-                btn.setAttribute('title', nextLabel);
-            });
-        }
-
-        function applyTheme(theme) {
-            const normalized = theme === 'light' ? 'light' : 'dark';
-            document.body.dataset.theme = normalized;
-            localStorage.setItem(STORAGE_KEY, normalized);
-
-            const metaTheme = document.querySelector('meta[name="theme-color"]');
-            if (metaTheme && THEME_COLORS[normalized]) {
-                metaTheme.setAttribute('content', THEME_COLORS[normalized]);
-            }
-
-            updateToggleUI(normalized);
-        }
-
-        function createToggleButton() {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'theme-toggle';
-            btn.innerHTML = '<i class="fas fa-moon"></i>';
-            return btn;
-        }
-
-        function mountToggle(container) {
-            if (!container) {
-                return;
-            }
-
-            let btn = container.querySelector('.theme-toggle');
-            if (!btn) {
-                btn = createToggleButton();
-                container.appendChild(btn);
-            }
-
-            if (btn.dataset.themeBound === 'true') {
-                return;
-            }
-
-            btn.dataset.themeBound = 'true';
-            btn.addEventListener('click', () => {
-                const current = document.body.dataset.theme || 'dark';
-                const next = current === 'light' ? 'dark' : 'light';
-                applyTheme(next);
-            });
-        }
-
-        mountToggle(document.querySelector('.navbar__container'));
-        mountToggle(document.querySelector('.sidebar__footer'));
-
-        applyTheme(getPreferredTheme());
     }
 
     /* --------------------------
@@ -302,25 +209,11 @@ document.addEventListener('DOMContentLoaded', function () {
             animatedElements.forEach((el, index) => { el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; const delay = (index % 5) * 0.1; el.style.transition = `opacity 0.4s ease-out ${delay}s, transform 0.4s ease-out ${delay}s`; animationObserver.observe(el); });
         }
 
-        // 卡片点击波纹
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', function (e) {
-                const rect = this.getBoundingClientRect();
-                const ripple = document.createElement('span');
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                ripple.style.cssText = `position: absolute; width: ${size}px; height: ${size}px; left: ${x}px; top: ${y}px; background: rgba(0,217,255,0.3); border-radius:50%; transform:scale(0); animation:ripple 0.3s linear; pointer-events:none; z-index:1;`;
-                this.style.position = 'relative'; this.style.overflow = 'hidden'; this.appendChild(ripple);
-                setTimeout(() => { if (ripple.parentNode) ripple.parentNode.removeChild(ripple); }, 300);
-            });
-        });
-
-        // 添加波纹关键帧与 animate-in 样式（如果尚未插入）
+        // 添加 animate-in 样式（如果尚未插入）
         if (!document.querySelector('#ripple-styles')) {
             const style = document.createElement('style');
             style.id = 'ripple-styles';
-            style.textContent = `@keyframes ripple{to{transform:scale(4);opacity:0;}} .animate-in{opacity:1!important;transform:translateY(0)!important;}`;
+            style.textContent = `.animate-in{opacity:1!important;transform:translateY(0)!important;}`;
             document.head.appendChild(style);
         }
     }
@@ -363,33 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /* --------------------------
-       7) 代码块复制与无障碍增强
-    -------------------------- */
-    function initCodeCopyButtons() {
-        function getCodeText(pre) { const code = pre.querySelector('code'); return code ? code.innerText : pre.innerText; }
-        async function copyToClipboard(text, button) {
-            try {
-                if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
-                else { const textarea = document.createElement('textarea'); textarea.value = text; textarea.style.position = 'fixed'; textarea.style.left = '-9999px'; textarea.style.top = '-9999px'; document.body.appendChild(textarea); textarea.select(); document.execCommand('copy'); document.body.removeChild(textarea); }
-                const originalText = button.textContent; button.textContent = '已复制!'; button.classList.add('copied'); setTimeout(() => { button.textContent = originalText; button.classList.remove('copied'); }, 2000);
-            } catch (err) { console.log('复制失败:', err); button.textContent = '复制失败'; setTimeout(() => { button.textContent = '复制'; }, 2000); }
-        }
-
-        function addCopyButtons() {
-            const noteContent = document.querySelector('.note-content'); if (!noteContent) return;
-            noteContent.querySelectorAll('pre').forEach(pre => { if (pre.querySelector('.code-copy-btn')) return; if (!pre.querySelector('code')) return; const button = document.createElement('button'); button.className = 'code-copy-btn'; button.type = 'button'; button.textContent = '复制'; button.setAttribute('aria-label', '复制代码'); button.setAttribute('title', '复制代码到剪贴板'); button.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); const codeText = getCodeText(pre); copyToClipboard(codeText, button); }); pre.appendChild(button); });
-        }
-
-        addCopyButtons();
-        const observer = new MutationObserver(() => addCopyButtons());
-        const noteContent = document.querySelector('.note-content'); if (noteContent) observer.observe(noteContent, { childList: true, subtree: true });
-        // 若内容异步渲染，多次尝试
-        setTimeout(addCopyButtons, 100); setTimeout(addCopyButtons, 500); setTimeout(addCopyButtons, 1000);
-        window.addEventListener('load', () => { setTimeout(addCopyButtons, 100); });
-    }
-
-    /* --------------------------
-       8) 延迟加载第三方统计脚本
+       7) 延迟加载第三方统计脚本
        说明：集中延迟加载所有第三方统计/展示脚本（Supabase、MapMyVisitors、GA、51.la 国内与国际 SDK）
     -------------------------- */
     function registerDelayedStatsLoader() {
@@ -482,14 +349,12 @@ document.addEventListener('DOMContentLoaded', function () {
     -------------------------- */
     initLoadingScreen();
     initDynamicSizing();
-    initThemeToggle();
     initNavbar();
     initMobileMenu();
     initSmoothAnchors();
     initAnimationsAndInteractions();
     updateWebGISLink();
     initAuxiliaryFeatures();
-    initCodeCopyButtons();
     registerDelayedStatsLoader();
 
     // 页面增强脚本已加载

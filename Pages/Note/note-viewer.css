@@ -1,30 +1,4 @@
 /* Note viewer page styles */
-body.note-viewer-page[data-theme='light'] {
-    --background: #f5f7fb;
-    --background-secondary: #eef2f7;
-    --surface: #ffffff;
-    --surface-elevated: #f7f9fc;
-    --surface-hover: #eef2f7;
-    --primary: #0b6fd6;
-    --primary-hover: #0a62bf;
-    --primary-light: #3b8be6;
-    --accent: #ef4444;
-    --accent-secondary: #0ea5a4;
-    --success: #16a34a;
-    --warning: #f59e0b;
-    --danger: #ef4444;
-    --text: #1f2937;
-    --text-secondary: #4b5563;
-    --text-muted: #6b7280;
-    --text-disabled: #9ca3af;
-    --border: #e5e7eb;
-    --border-light: #d1d5db;
-    --border-focus: #0b6fd6;
-    --glass-bg: rgba(255, 255, 255, 0.85);
-    --glass-border: rgba(15, 23, 42, 0.08);
-    --shadow-lg: 0 10px 15px rgba(15, 23, 42, 0.1), 0 4px 6px rgba(15, 23, 42, 0.06);
-}
-
 .note-viewer-page #note-content {
     text-align: left;
 }

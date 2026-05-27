@@ -2884,7 +2884,8 @@ a:focus {
 
 .navbar__container .theme-toggle {
   position: absolute;
-  right: var(--space-md);
+  /* 为右侧的语言切换按钮留出空间 (~5rem = 按钮最小宽度 4.5rem + 间距) */
+  right: calc(var(--space-md) + 5rem);
 }
 
 .sidebar__footer .theme-toggle {
@@ -2894,7 +2895,8 @@ a:focus {
 
 @media (max-width: 768px) {
   .navbar__container .theme-toggle {
-    right: calc(var(--space-md) + 48px);
+    /* 移动端语言按钮更窄 (3.6rem) + 菜单按钮空间 */
+    right: calc(var(--space-md) + 4rem + 48px);
   }
 }
 

@@ -1,0 +1,173 @@
+/* ============================================
+   Google Tiles Map Preview Plugin Styles
+   ============================================ */
+
+.gt-preview-panel {
+    margin: 24px 0 32px;
+    border-radius: var(--radius-lg, 12px);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.03), rgba(0, 184, 230, 0.03));
+    overflow: hidden;
+}
+
+.gt-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    background: rgba(0, 217, 255, 0.06);
+    border-bottom: 1px solid rgba(0, 217, 255, 0.15);
+}
+
+.gt-preview-header i {
+    color: var(--primary, #00d9ff);
+    font-size: 16px;
+}
+
+.gt-preview-header span {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary, #e6edf3);
+}
+
+.gt-preview-controls {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.gt-url-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.gt-url-input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: var(--radius-md, 8px);
+    border: 1px solid rgba(0, 217, 255, 0.25);
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text-primary, #e6edf3);
+    font-family: var(--font-mono, 'Fira Code', monospace);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.gt-url-input:focus {
+    border-color: var(--primary, #00d9ff);
+    box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.1);
+}
+
+.gt-apply-btn {
+    padding: 8px 16px;
+    border-radius: var(--radius-md, 8px);
+    border: 1px solid var(--primary, #00d9ff);
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(0, 184, 230, 0.15));
+    color: var(--primary, #00d9ff);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.gt-apply-btn:hover {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.25), rgba(0, 184, 230, 0.25));
+    box-shadow: 0 2px 8px rgba(0, 217, 255, 0.2);
+}
+
+.gt-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.gt-preset-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    background: rgba(0, 0, 0, 0.15);
+    color: var(--text-secondary, #8b949e);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.gt-preset-btn:hover,
+.gt-preset-btn.active {
+    border-color: var(--primary, #00d9ff);
+    color: var(--primary, #00d9ff);
+    background: rgba(0, 217, 255, 0.08);
+}
+
+.gt-map-container {
+    width: 100%;
+    height: 420px;
+    position: relative;
+    border-top: 1px solid rgba(0, 217, 255, 0.1);
+    background: #ffffff;
+}
+
+.gt-map-container .ol-viewport {
+    border-radius: 0 0 var(--radius-lg, 12px) var(--radius-lg, 12px);
+}
+
+.gt-zoom-info {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 10;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(6px);
+    color: var(--primary, #00d9ff);
+    font-size: 11px;
+    font-family: var(--font-mono, 'Fira Code', monospace);
+    pointer-events: none;
+}
+
+/* ---- Light theme ---- */
+body[data-theme='light'] .gt-preview-panel {
+    border-color: rgba(0, 150, 200, 0.2);
+    background: linear-gradient(135deg, rgba(0, 150, 200, 0.04), rgba(0, 180, 220, 0.04));
+}
+
+body[data-theme='light'] .gt-preview-header {
+    background: rgba(0, 150, 200, 0.06);
+    border-bottom-color: rgba(0, 150, 200, 0.12);
+}
+
+body[data-theme='light'] .gt-url-input {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 150, 200, 0.25);
+    color: #1a1a2e;
+}
+
+body[data-theme='light'] .gt-preset-btn {
+    background: rgba(0, 150, 200, 0.05);
+    color: #555;
+}
+
+body[data-theme='light'] .gt-zoom-info {
+    background: rgba(255, 255, 255, 0.9);
+    color: #0077a0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .gt-map-container {
+        height: 300px;
+    }
+
+    .gt-url-row {
+        flex-direction: column;
+    }
+
+    .gt-apply-btn {
+        width: 100%;
+    }
+}

@@ -311,6 +311,11 @@
     z-index: 1050;
   }
 
+  .navbar__container:has(.mobile-menu-toggle) .navbar__brand {
+    left: 20px;
+    transform: none;
+  }
+
   .mobile-menu-toggle {
     position: absolute;
     right: var(--space-md);

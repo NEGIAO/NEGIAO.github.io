@@ -1,6 +1,7 @@
 /* Note viewer page styles */
 .note-viewer-page #note-content {
     text-align: left;
+    font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
 }
 
 .note-viewer-page #note-content * {
@@ -10,6 +11,7 @@
 .note-viewer-page .note-content pre,
 .note-viewer-page .note-content code {
     text-align: left;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 .note-viewer-page .toc-toggle-btn {

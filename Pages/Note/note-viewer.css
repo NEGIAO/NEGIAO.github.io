@@ -468,6 +468,20 @@ mark.search-highlight.active {
     }
 }
 
+/* Markdown headings & bold - blue color */
+.note-viewer-page #note-content h1,
+.note-viewer-page #note-content h2,
+.note-viewer-page #note-content h3,
+.note-viewer-page #note-content h4,
+.note-viewer-page #note-content h5,
+.note-viewer-page #note-content h6 {
+    color: #00D9FF;
+}
+
+.note-viewer-page #note-content strong {
+    color: #00D9FF;
+}
+
 /* Mobile responsive */
 @media (max-width: 768px) {
     .note-viewer-page .note-search-input {

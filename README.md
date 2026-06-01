@@ -16,25 +16,26 @@
 
 ## 概况/Overview
 - 自适应深色主题站点，整合课程表、笔记、工具箱、词汇学习与可视化展示。
-- 所有页面使用统一 favicon (`images/icon.webp`)，并由 `Pages/main-enhanced.js` 在运行时保障回退。
+- 所有页面使用统一 favicon (`/images/icon.webp`)，由 `Pages/public/main-enhanced.js` 在运行时保障回退。
 - 导航栏工具按钮（主题切换、语言切换、分享）统一由 `Pages/navbar-widgets/` 模块管理。
-- 笔记系统支持插件增强（`Pages/Note/plugins/`），可按 md 文件名按需加载交互功能。
+- 笔记系统采用 `note-viewer/` 核心三件套 + `plugins/` 插件架构，按 md 文件名按需加载交互功能。
+- 词汇学习系统支持 md 物理拆分 + 按月归档 + 前端按需加载，主文件仅保留最近 7 天。
 - 宝藏小城、WebGIS、技术笔记等子项目独立维护，便于扩展与部署。
 
 ## 速览/Quick Links
-| 模块              | 路径                                   | 功能亮点                                                |
-| ----------------- | -------------------------------------- | ------------------------------------------------------- |
-| 🏠 网站首页        | `index.html`                           | 个人介绍、项目概览、导航入口                            |
-| 📅 智能课程表      | `Pages/schedule.html`                  | 实时课务状态、呼吸灯效果、移动端适配                    |
-| 📝 技术笔记索引    | `Pages/notes.html`                     | 统一笔记渲染器、自动目录、语法高亮                      |
-| ✏️ Markdown 编辑器 | `Pages/Note/markdown_editor.html`      | 实时预览、侧栏布局、辅助按钮                            |
-| 📚 英语词库笔记    | `note-viewer.html?note=word-learning-record` | 600+ 词汇库、按日期分类、例句用法              |
-| 🎯 单词测试        | `Pages/Note/word-quiz.html`            | 随机抽题、答对自动跳转、正确率统计                      |
-| 🧰 NEGIAO 工具箱   | `note-viewer.html?note=negiao-toolbox` | ArcGIS Pro 工具箱说明与下载                             |
-| 🖼️ 技术成果画廊    | `Pages/Note/gallery.html`              | 多图展示、图集元数据 (`resources/display`)              |
-| 🗺️ WebGIS 演示     | `WebGIS/index.html`                    | OpenLayers 地图、交互式信息栏                           |
-| 🏆 宝藏小城专题    | `Geoscene_宝藏小城/awesome.html`       | ECharts/Pyecharts 可视化合集                            |
-| 🚀 WebGIS Vue3     | `WebGIS_henu_trials_5_28_vue3/`        | 基于 Vue3 + Vite + Cesium/OpenLayers 的现代 WebGIS 项目 |
+| 模块              | 路径                                              | 功能亮点                                                |
+| ----------------- | ------------------------------------------------- | ------------------------------------------------------- |
+| 🏠 网站首页        | `index.html`                                      | 个人介绍、项目概览、导航入口                            |
+| 📅 智能课程表      | `Pages/schedule.html`                             | 实时课务状态、呼吸灯效果、移动端适配                    |
+| 📝 技术笔记索引    | `Pages/notes.html`                                | 统一笔记渲染器、自动目录、语法高亮                      |
+| ✏️ Markdown 编辑器 | `Pages/Note/markdown_editor.html`                 | 实时预览、侧栏布局、辅助按钮                            |
+| 📚 英语词库笔记    | `Note/note-viewer/note-viewer.html?note=word-learning-record` | 3500+ 词汇库、释义遮挡、按月存档按需加载   |
+| 🎯 单词测试        | `Pages/Note/word-quiz.html`                       | 随机抽题、答对自动跳转、正确率统计                      |
+| 🧰 NEGIAO 工具箱   | `Note/note-viewer/note-viewer.html?note=negiao-toolbox` | ArcGIS Pro 工具箱说明与下载                        |
+| 🖼️ 技术成果画廊    | `Pages/Note/gallery.html`                         | 多图展示、图集元数据 (`resources/display`)              |
+| 🗺️ WebGIS 演示     | `WebGIS/index.html`                               | OpenLayers 地图、交互式信息栏                           |
+| 🏆 宝藏小城专题    | `Geoscene_宝藏小城/awesome.html`                  | ECharts/Pyecharts 可视化合集                            |
+| 🚀 WebGIS Vue3     | `WebGIS_henu_trials_5_28_vue3/`                   | 基于 Vue3 + Vite + Cesium/OpenLayers 的现代 WebGIS 项目 |
 
 ## 特色/Feature Highlights
 
@@ -76,7 +77,9 @@
 - 首屏关键 CSS 内联加载，其余资源按需加载或延迟执行。
 
 ### 笔记系统/Note System Architecture
-- **统一渲染器架构**：采用 `note-viewer.html` 作为通用 Markdown 渲染入口，通过 URL 参数动态加载笔记内容。
+- **统一渲染器架构**：采用 `note-viewer/note-viewer.html` 作为通用 Markdown 渲染入口，通过 URL 参数动态加载笔记内容。
+- **插件化增强**：`plugins/` 目录支持文件夹形式插件（`{name}/index.js` + `styles.css`），按 md 名称自动匹配，loader 自动加载 `styles.css` 并提供 `NotePluginUtils` 公共工具。
+- **词汇学习插件**：整合自定义渲染、释义遮挡（一键展开/遮挡）、月度存档按需加载于一体。
 - **内容与样式分离**：所有笔记内容以独立 `.md` 文件存储于 `Pages/Note/md/` 目录，便于编辑、版本控制与维护。
 - **自动目录生成**：基于 `notes-toc.js` 实时解析 Markdown 标题层级，生成可折叠的侧边导航栏。
 - **代码高亮**：集成 Highlight.js，支持 100+ 编程语言的语法高亮显示。
@@ -148,7 +151,26 @@
 │   │   ├── i18n-toggle.js                            # 中英文语言切换
 │   │   └── share-btn.js                              # 分享按钮（复制当前页 URL）
 │   ├── Note/                                         # 技术笔记与学习记录归档
+│   │   ├── note-viewer/                              # 统一笔记渲染器（核心三件套）
+│   │   │   ├── note-viewer.html                      # 渲染入口（URL 参数加载 md）
+│   │   │   ├── note-viewer.js                        # 渲染器核心逻辑（fetch、marked、hljs、MathJax）
+│   │   │   ├── note-viewer.css                       # 渲染器页面样式
+│   │   │   └── notes-config.json                     # 笔记元数据配置（标题、描述、分类、图标）
+│   │   ├── plugins/                                  # 笔记增强插件系统（按 md 名称按需加载）
+│   │   │   ├── loader.js                             # 插件加载器（NotePluginUtils + 生命周期 + 自动 CSS）
+│   │   │   ├── Google_tiles/                         # Google Tiles 地图预览插件
+│   │   │   │   ├── index.js                          # 插件入口（OpenLayers 地图预览面板 + 降级提示）
+│   │   │   │   └── styles.css                        # 地图预览面板样式（loader 自动加载）
+│   │   │   └── word-learning-record/                 # 英语词汇学习插件
+│   │   │       ├── index.js                          # 插件入口（渲染 + 释义遮挡 + 存档加载 + 生命周期）
+│   │   │       └── styles.css                        # 动态注入样式（loader 自动加载）
 │   │   ├── md/                                       # Markdown 笔记内容目录
+│   │   │   ├── word-learning-archive/                # 词汇学习月度存档（按需加载）
+│   │   │   │   ├── index.json                        # 存档文件索引（倒序排列）
+│   │   │   │   ├── 2025-09.md ~ 2026-05.md          # 每月一个存档文件（日期倒序）
+│   │   │   ├── word-learning-record.md               # 英语词汇学习记录（最近 7 天，自动更新）
+│   │   │   ├── ZhouDi_learning/                      # 周迪学习记录子目录
+│   │   │   │   └── word-learning-record.md
 │   │   │   ├── AmapAPI.md                            # 高德地图 API 笔记
 │   │   │   ├── ArcPy.md                              # ArcPy 自动化脚本笔记
 │   │   │   ├── Docker.md                             # Docker 容器技术笔记
@@ -170,50 +192,37 @@
 │   │   │   ├── qrcode-generator.md                   # 二维码生成器说明
 │   │   │   ├── spatial-analysis-R.md                 # 机器学习与智能算法（R）
 │   │   │   ├── vue3-webgis-practice-essentials.md    # Vue3 WebGIS 实践要点
-│   │   │   ├── word-learning-record.md               # 英语词汇学习记录
-│   │   │   ├── xyzTilesFormat.md                     # XYZ 瓦片格式说明
-│   │   │   ├── README.md                             # md 目录说明文档
-│   │   │   └── ZhouDi_learning/                      # 周迪学习记录子目录
-│   │   │       └── word-learning-record.md
-│   │   ├── plugins/                                  # 笔记增强插件系统（按 md 名称按需加载）
-│   │   │   ├── loader.js                             # 插件注册与加载器
-│   │   │   ├── Google_tiles.js                       # Google Tiles 笔记的 OL 地图预览
-│   │   │   └── Google_tiles.css                      # 地图预览面板样式
+│   │   │   └── xyzTilesFormat.md                     # XYZ 瓦片格式说明
 │   │   ├── resources/                                # 笔记引用的图片与附件资源
-│   │   │   ├── display/                              # 图片展示资源目录
+│   │   │   ├── display/                              # 画廊图片资源目录（183 张 webp）
+│   │   │   │   └── gallery-data.json                 # 画廊元数据（标题、描述、分类）
 │   │   │   ├── Lecture8_GeoAI/                       # GeoAI 课程样例数据
 │   │   │   ├── Lecture8_GeoAI.zip                    # GeoAI 样例数据压缩包
 │   │   │   ├── icon.webp                             # 笔记专用图标
+│   │   │   ├── nanyang_feature_importance.webp       # GEE 课程作业图片
 │   │   │   ├── 工具箱截图.webp                        # 工具箱截图资源
-│   │   │   └── 正则提取注入json.py                    # 词库同步脚本（从 md 读取）
+│   │   │   └── 正则提取注入json.py                    # 词库同步 + md 拆分脚本
+│   │   ├── notes-toc.js                              # 笔记目录自动生成与滚动同步脚本
 │   │   ├── gallery.html                              # 技术成果展示画廊
-│   │   ├── note-template.html                        # 旧版模板 md 内嵌在 html 中
+│   │   ├── note-template.html                        # 旧版模板（md 内嵌在 html 中）
 │   │   ├── markdown_editor.html                      # 在线 Markdown 编辑器工具
-│   │   ├── chinese-meaning-mask.js                   # 词汇表折叠控制模块（释义/例句）
-│   │   ├── note-viewer.html                          # 统一笔记渲染器（URL 参数加载 md）
-│   │   ├── note-viewer.js                            # 笔记渲染器核心逻辑
-│   │   ├── note-viewer.css                           # 笔记渲染器页面样式
-│   │   ├── notes-config.json                         # 笔记元数据配置（标题、描述、分类）
 │   │   ├── word-quiz.html                            # 独立单词测试页面
-│   │   └── word-list.json                            # 英语学习系统核心词库数据
-│   ├── avatar.webp                                   # 个人头像图片
+│   │   └── word-list.json                            # 英语学习系统核心词库数据（~1.1 MB）
 │   ├── css/                                          # 模块化 CSS 样式目录
+│   │   ├── style-new.css                             # 主入口文件（@import 各模块）
 │   │   ├── base.css                                  # 变量、重置、通用样式
 │   │   ├── components.css                            # 网格、卡片、按钮、标签
 │   │   ├── layout.css                                # 导航栏、侧边栏、页脚
 │   │   ├── hero.css                                  # Hero 区域、头像、浮动装饰
 │   │   ├── notes.css                                 # 笔记内容、目录（TOC）
 │   │   ├── projects.css                              # 项目网格、项目卡片
-│   │   ├── responsive.css                            # 统一响应式断点
-│   │   └── style-new.css                             # 主入口文件（@import 各模块）
-│   ├── font-awesome/                                 # Font Awesome 图标字体本地资源
-│   │   └── webfonts/                                 # 图标字体文件
-│   ├── main-enhanced.js                              # 全站核心交互脚本（导航、动画、favicon）
-│   ├── notes-toc.js                                  # 笔记目录自动生成与滚动同步脚本
+│   │   └── responsive.css                            # 统一响应式断点、打印、无障碍
+│   ├── public/                                       # 公共静态资源
+│   │   ├── avatar.webp                               # 个人头像图片
+│   │   └── main-enhanced.js                          # 全站核心交互脚本（导航、动画、分析）
 │   ├── notes.html                                    # 技术笔记索引主页
 │   ├── schedule.html                                 # 智能课程表页面
-│   ├── phy.html                                      # 物理相关页面
-│   └── style.css                                     # 全站通用样式表（旧版，保留兼容）
+│   └── phy.html                                      # 物理相关页面
 ├── WebGIS/                                           # Vue 架构由 GitHub Action 自动 build 后的静态文件
 │   ├── assets/                                       # WebGIS 项目静态资源（Vite 构建产物）
 │   ├── avatars/                                      # WebGIS 用户头像 SVG 资源
@@ -239,27 +248,29 @@
 **注**：`WebGIS_henu_trials_5_28_vue3/` 项目位于工作区根目录，但作为独立的 Vue3 项目维护，具有完整的前端工程结构。
 
 ## 关键资源/Key Assets
-| 类型            | 路径                                 | 用途                                     |
-| --------------- | ------------------------------------ | ---------------------------------------- |
-| Favicon         | `images/icon.webp`                   | 全站浏览器图标，JS fallback 亦引用该文件 |
-| 头像图片        | `Pages/avatar.webp`                  | 首页与各页面展示的个人头像               |
-| 动态效果        | `images/typing.svg`                  | 首页打字动画效果（本地化优化）           |
-| 主样式          | `Pages/style.css`                    | 全站主题与组件样式                       |
-| 导航/交互脚本   | `Pages/main-enhanced.js`             | 导航栏、移动菜单、平滑滚动、favicon 注入 |
-| 导航栏 Widget   | `Pages/navbar-widgets/index.js`      | 主题切换、语言切换、分享按钮统一入口     |
-| 目录脚本        | `Pages/notes-toc.js`                 | 笔记页面自动目录生成与滚动同步           |
-| 折叠控制模块    | `Pages/Note/chinese-meaning-mask.js` | 词汇笔记释义/例句折叠、全局一键展开/遮挡 |
-| 笔记渲染器      | `Pages/Note/note-viewer.html`        | 统一 Markdown 渲染入口，URL 参数加载     |
-| 笔记插件系统    | `Pages/Note/plugins/loader.js`       | 按 md 名称按需加载增强插件               |
-| 笔记内容        | `Pages/Note/md/*.md`                 | 独立 Markdown 笔记文件（25 篇）          |
-| 词汇数据        | `Pages/Note/word-list.json`          | 英语学习系统题库与统计数据源             |
-| 工具箱          | `Others/NEGIAO工具.atbx`             | ArcGIS Pro 定制工具集合                  |
-| WebGIS 构建产物 | `WebGIS/assets/*`                    | Vite 打包后的 JS/CSS                     |
-| 启动脚本        | `start_server.bat`                   | Windows 下一键启动本地预览服务器         |
+| 类型            | 路径                                          | 用途                                     |
+| --------------- | --------------------------------------------- | ---------------------------------------- |
+| Favicon         | `images/icon.webp`                            | 全站浏览器图标，JS fallback 亦引用该文件 |
+| 头像图片        | `Pages/public/avatar.webp`                    | 首页与各页面展示的个人头像               |
+| 动态效果        | `images/typing.svg`                           | 首页打字动画效果（本地化优化）           |
+| 主样式入口      | `Pages/css/style-new.css`                     | 模块化 CSS 主入口（@import 7 个子模块）  |
+| 导航/交互脚本   | `Pages/public/main-enhanced.js`               | 导航栏、移动菜单、平滑滚动、分析统计    |
+| 导航栏 Widget   | `Pages/navbar-widgets/index.js`               | 主题切换、语言切换、分享按钮统一入口     |
+| 目录脚本        | `Pages/Note/notes-toc.js`                     | 笔记页面自动目录生成与滚动同步           |
+| 笔记渲染器      | `Pages/Note/note-viewer/note-viewer.html`     | 统一 Markdown 渲染入口，URL 参数加载     |
+| 笔记插件系统    | `Pages/Note/plugins/loader.js`                | 按 md 名称按需加载增强插件               |
+| 笔记内容        | `Pages/Note/md/*.md`                          | 独立 Markdown 笔记文件（24 篇）          |
+| 词汇数据        | `Pages/Note/word-list.json`                   | 英语学习系统题库与统计数据源             |
+| 词库同步脚本    | `Pages/Note/resources/正则提取注入json.py`     | md 单词提取 → JSON + 按月自动拆分归档    |
+| 工具箱          | `Others/NEGIAO工具.atbx`                      | ArcGIS Pro 定制工具集合                  |
+| WebGIS 构建产物 | `WebGIS/assets/*`                             | Vite 打包后的 JS/CSS                     |
+| 启动脚本        | `start_server.bat`                            | Windows 下一键启动本地预览服务器         |
 
 ## Development & Authoring
 - 推荐使用 VS Code，确保保存为 UTF-8 与 Windows 兼容行结尾。
-- 静态页面新增后需在 `<head>` 内同步添加 favicon 链接（已由脚本兜底）。
+- 静态页面新增后需在 `<head>` 内同步添加 `rel="icon"` 链接（已由脚本兜底）。
+- 笔记新增：在 `Notes/note-viewer/notes-config.json` 添加条目，在 `md/` 放 `.md` 文件。
+- 词汇更新流程：编辑 `md/word-learning-record.md` → 运行 `正则提取注入json.py` → 自动同步 JSON + 拆分归档。
 - Pyecharts 导出的可视化位于 `Geoscene_宝藏小城`，如需更新请在 Python 中重新生成。
 - WebGIS 子项目可通过原始工程重新构建，再覆盖 `WebGIS/` 下产物。
 
@@ -282,6 +293,61 @@ python -m http.server 8080
 - **Python**：云端脚本、词汇数据处理、本地服务器。
 
 ## 变更/Changelog
+
+### 2026-06-01 · v2.0.0 · 架构重构与性能优化
+
+**目录结构重组**：
+- **note-viewer 独立目录**：`note-viewer.html`、`note-viewer.js`、`note-viewer.css`、`notes-config.json` 从 `Pages/Note/` 移入 `Pages/Note/note-viewer/`，核心渲染器与笔记内容解耦。
+- **插件目录化**：`Google_tiles.js/css` 移入 `plugins/Google_tiles/`（index.js + styles.css），支持文件夹形式插件。
+- **word-learning 插件整合**：`chinese-meaning-mask.js` 功能合入 `plugins/word-learning-record/index.js`，释义遮挡、自定义渲染、存档加载统一在一个入口。旧文件已删除。
+- **公共资源目录**：新增 `Pages/public/`，`main-enhanced.js` 和 `avatar.webp` 移入。
+- **notes-toc.js** 移入 `Pages/Note/`。
+- **清理遗留**：删除空的 `font-awesome/webfonts/`、旧版 `style.css`、重复的 `shortcut icon` 标签。
+
+**插件系统三阶段重构**：
+- **NotePluginUtils**：loader 提供公共工具（`loadCSS` / `loadScript` / `getPluginPath` / `safeSelector`），插件不再需要自实现。
+- **扩展 init 入参**：`{ container, noteName, basePath, utils, registerCleanup }`，插件可获取自身目录路径和清理回调。
+- **自动加载 styles.css**：loader 在调用 init 前自动尝试加载插件目录下的 `styles.css`，约定优于配置。
+- **生命周期**：支持 `destroy()` 方法 + `registerCleanup()` 回调 + `destroyNotePlugin(noteName)` API。
+- **安全修复**：`safeSelector()` 替代 `querySelector` 属性拼接，防止 Selector Injection。
+- **CSS 约一**：所有插件统一使用 `styles.css` 命名，由 loader 自动加载。
+
+**词汇学习系统性能优化**：
+- **md 物理拆分**：`word-learning-record.md`（286KB/4784行）拆分为主文件（最近 7 天，~5KB）+ 9 个月度存档。
+- **增量式拆分**：Python 脚本每日运行时自动检测 >7 天的条目，将最旧的剥离到对应月份存档。
+- **按需加载**：前端通过 `index.json` 索引按月 fetch 存档文件，点击"继续浏览"加载。
+- **日期倒序**：主文件和存档文件内部按日期倒序排列，最新内容优先显示。
+- **初始 parse 减少 98%**：从 286KB 降到 ~5KB，DOM 节点从 6000+ 降到 ~150。
+
+**Code Review 修复**：
+- 修复 `notes.html` 第 22 行多余反引号语法错误。
+- 修复 `schedule.html` `<header>` 语义错误，改为 `<nav>`。
+- 修复 `gallery.html`、`note-template.html` 中 `main-enhanced.js` 和 `notes-toc.js` 的错误引用路径。
+- 修复 `schedule.html`、`markdown_editor.html` 中 `og:image` 头像路径错误。
+- 统一所有 7 个 HTML 的 favicon 为单一 `rel="icon"`，删除冗余 `rel="shortcut icon"`。
+- 修复 `note-viewer.html` 中 `notes-toc.js` 路径错误（`../../` → `../`）。
+- 修复 loader.js 的 `loadPluginScript` 探测顺序（优先文件夹形式，消除 404 噪声）。
+- 修复 `destroyNotePlugin` 中 CSS 路径匹配逻辑（相对路径 → 目录名匹配）。
+
+**修改的文件路径**：
+- `Pages/Note/note-viewer/`（新建目录，4 个文件）
+- `Pages/Note/plugins/loader.js`（重写：NotePluginUtils + 生命周期 + 自动 CSS + 安全修复）
+- `Pages/Note/plugins/Google_tiles/`（新建目录，index.js + styles.css）
+- `Pages/Note/plugins/word-learning-record/index.js`（新建：整合渲染 + 遮挡 + 存档 + 生命周期）
+- 删除 `Pages/Note/plugins/word-learning-record/chinese-meaning-mask.js`（死代码，709 行）
+- `Pages/Note/md/word-learning-archive/`（新建目录，10 个文件）
+- `Pages/Note/resources/正则提取注入json.py`（修改：增量式拆分 + 倒序写入）
+- `Pages/public/`（新建目录，2 个文件）
+- `Pages/Note/note-viewer/note-viewer.html`（修改：修复 notes-toc.js 路径）
+- `Pages/notes.html`（修改：修复语法错误、更新链接）
+- `Pages/schedule.html`（修改：修复语义、更新链接）
+- `Pages/Note/gallery.html`（修改：修复路径）
+- `Pages/Note/note-template.html`（修改：修复路径）
+- `Pages/Note/markdown_editor.html`（修改：修复 og:image）
+- 7 个 HTML 文件 favicon 去重
+- `README.md` + `Pages/Note/md/README.md`（修改：更新文件树、插件文档、笔记列表）
+
+---
 
 ### 2026-05-27 · v1.9.3 · 浅色主题重设计
 
@@ -627,13 +693,16 @@ python -m http.server 8080
 </details>
 
 ## 未来计划/Roadmap
-- ✅ 完成考研英语词汇核心功能、互动测试与词库扩容（370/500）。
+- ✅ 完成考研英语词汇核心功能、互动测试与词库扩容（3500+）。
 - ✅ 智能课程表性能与体验迭代。
 - ✅ 导航栏工具按钮模块化重构（主题/语言/分享）。
 - ✅ 笔记插件系统（按需加载交互增强）。
-- 🔄 扩展词汇至 500+，新增发音模块、错题本与进度可视化。
+- ✅ 词汇笔记物理拆分 + 按月归档 + 增量式同步（286KB → 5KB）。
+- ✅ note-viewer 核心最小化 + 插件化架构。
+- 🔄 扩展词汇至 5000+，新增发音模块、错题本与进度可视化。
 - 🔄 增补 WebGIS 功能组件与更多专题可视化案例。
 - 🔄 构建全站搜索、多语言与访问统计面板。
+- 🔄 修复 gallery.html 嵌套 script 标签解析问题、schedule.html 内联样式外部化。
 
 ---
 

@@ -10,88 +10,21 @@
 
     <title>成果展示 - NEGIAO</title>
     <link rel="icon" type="image/webp" href="/images/icon.webp">
-    <link rel="shortcut icon" type="image/webp" href="/images/icon.webp">
     <link rel="stylesheet" href="../css/style-new.css?v=20260527">
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script defer src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
-    <script defer src="../notes-toc.js"></script>
-    <script defer src="../main-enhanced.js"></script>
+    <script defer src="notes-toc.js"></script>
+    <script defer src="../public/main-enhanced.js"></script>
 
     <style>
                 /* Fix for code block alignment - 
         代码块要默认左对齐
         ensure left alignment for ASCII trees */
-        .note-content pre, 
+        .note-content pre,
         .note-content code {
             text-align: left !important;
         }
-        /* New TOC Toggle Button */
-        .toc-toggle-btn {
-            position: fixed;
-            bottom: 90px;
-            right: 30px;
-            width: 45px;
-            height: 45px;
-            background: var(--surface-elevated);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.3s ease;
-        }
-
-        .toc-toggle-btn:hover {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
-        }
-
-        /* Hidden state for TOC */
-        .note-toc.note-toc--hidden {
-            transform: translateY(-50%) translateX(150%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Ensure transition matches */
-        .note-toc {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-        }
-
-        @media (max-width: 768px) {
-            .toc-toggle-btn {
-                bottom: 80px;
-                right: 20px;
-            }
-
-            /* Force fixed positioning on mobile to support toggle behavior */
-            .note-toc {
-                position: fixed !important;
-                top: 50% !important;
-                right: 20px !important;
-                width: 260px !important;
-                max-height: 60vh !important;
-                transform: translateY(-50%) !important;
-                z-index: 1050 !important;
-                order: unset !important;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
-            }
-
-            /* Hidden state for mobile */
-            .note-toc.note-toc--hidden {
-                transform: translateY(-50%) translateX(150%) !important;
-                opacity: 0 !important;
-                pointer-events: none;
-            }
-        }
-
         /* Gallery Specific Styles */
         .gallery-grid {
             display: grid;
@@ -547,7 +480,7 @@
     },
     {
         "title":  "2023",
-        "src":  "resources/display/2023.webp",
+        "src":  "resources/display/2023.jpg",
         "description":  "请补充该作品的简介与亮点。"
     },
     {
@@ -1460,65 +1393,8 @@
             }, 0);
         });
 
-        // Process markdown in chunks for better UI responsiveness
-        function processMarkdown(md, callback) {
-            // Use requestAnimationFrame to avoid blocking the main thread
-            requestAnimationFrame(function () {
-                let html;
-                try {
-                    // Use available markdown parser
-                    if (window.marked) {
-                        html = window.marked.parse(md);
-                    } else if (window.markdownit) {
-                        html = window.markdownit().render(md);
-                    } else {
-                        html = md; // Fallback
-                    }
-                    callback(html);
-                } catch (e) {
-                    console.error('Error parsing markdown:', e);
-                    callback('<p>Error parsing markdown content.</p>');
-                }
-            });
-        }
-
-        // Initialize TOC Toggle Button
-        function initTocToggle() {
-            const toc = document.querySelector('.note-toc');
-            const toggleBtn = document.getElementById('toc-toggle-btn');
-            const icon = toggleBtn.querySelector('i');
-
-            // Check localStorage for saved state
-            const isHidden = localStorage.getItem('toc-hidden') === 'true';
-
-            // Initial state
-            if (isHidden) {
-                toc.classList.add('note-toc--hidden');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-list');
-            } else {
-                icon.classList.remove('fa-list');
-                icon.classList.add('fa-times');
-            }
-
-            toggleBtn.addEventListener('click', () => {
-                toc.classList.toggle('note-toc--hidden');
-
-                // Update icon
-                if (toc.classList.contains('note-toc--hidden')) {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-list');
-                    localStorage.setItem('toc-hidden', 'true');
-                } else {
-                    icon.classList.remove('fa-list');
-                    icon.classList.add('fa-times');
-                    localStorage.setItem('toc-hidden', 'false');
-                }
-            });
-        }
-
-        // Call initialization
-        document.addEventListener('DOMContentLoaded', initTocToggle);
+        // Call shared TOC toggle initialization
+        document.addEventListener('DOMContentLoaded', window.initTocToggle);
 
         function initializeGallery() {
             const galleryContainer = document.getElementById('gallery-all');

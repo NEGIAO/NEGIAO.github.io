@@ -797,3 +797,72 @@ body[data-theme='light'] .note-toc__link.is-active {
   color: var(--primary);
   font-weight: 600;
 }
+
+/* TOC Toggle Button (shared) */
+.note-viewer-page .toc-toggle-btn,
+.toc-toggle-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 100px;
+    width: 45px;
+    height: 45px;
+    background: var(--surface-elevated);
+    border: 2.5px solid var(--border);
+    border-radius: 50%;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.toc-toggle-btn:hover {
+    background: var(--primary);
+    color: #ffffff;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+}
+
+.note-toc {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.note-toc.note-toc--hidden {
+    transform: translateY(-50%) translateX(150%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .toc-toggle-btn {
+        bottom: 100px;
+        right: 30px;
+    }
+
+    .note-toc {
+        position: fixed;
+        top: 50%;
+        right: 20px;
+        width: 260px;
+        max-height: 60vh;
+        transform: translateY(-50%) translateZ(0);
+        z-index: 1050;
+        order: unset;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        will-change: transform, opacity;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        isolation: isolate;
+    }
+
+    .note-toc.note-toc--hidden {
+        transform: translateY(-50%) translateX(150%);
+        opacity: 0;
+        pointer-events: none;
+    }
+}

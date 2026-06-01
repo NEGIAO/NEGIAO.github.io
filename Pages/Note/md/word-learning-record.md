@@ -4764,3 +4764,22 @@
 | wanting | adj./v. | **缺乏的**；**欠缺的**；需要；缺失 | want 缺少 |
 | generalist | n. | **通才**；**多面手** | general 全面的+ist人 |
 | wear | v./n. | **磨损**；**穿戴**；磨耗；耐磨性 | — |
+
+### 2026-06-01 新增单词
+| 单词 | 词性 | 核心释义 | 极简词根助记 |
+| ---- | ---- | ---- | ---- |
+| benign | adj. | **温和的**；**和蔼的**；**良性的**；宜人的 | bene好+gn出生 |
+| enlighten | v. | **指导**；**教导**；照亮 | en使+light光 |
+| rock | n./v. | **岩石**；**摇摆**；震惊；摇滚乐 | — |
+| symphony | n. | **交响乐**；交响曲 | sym共同+phon声音 |
+| genuine | adj. | **真正的**；**真诚的** | gen出生、本源 |
+| genius | n. | **天才**；天赋 | gen天赋 |
+| discipline | n./v. | **学科**；**纪律**；**处罚** | discipl 教导 |
+| simultaneous | adj. | **同步的**；同时发生的 | simul相同+时间 |
+| critique | n./v. | **评论**；**批判** | crit判断 |
+| critic | n. | **批评家**；持异议者 | crit判断 |
+| trap | n./v. | **陷阱**；**困境**；使陷入 | — |
+| stereotype | n./v. | **刻板印象**；**成见**；版型 | stereo固定+type类型 |
+| impair | v. | **损伤**；**削弱** | im加强+pair损坏 |
+| inhibit | v. | **禁止**；**抑制**；**约束** | in向内+hibit持有 |
+| exemplify | v. | **举例说明**；作为范例 | ex出+empl范例 |

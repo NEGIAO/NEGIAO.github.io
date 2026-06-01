@@ -8,6 +8,14 @@
     text-align: inherit;
 }
 
+/* 图片居中显示 */
+.note-viewer-page #note-content img {
+    display: block;
+    margin: 1rem auto !important;
+    max-width: 100%;
+    height: auto;
+}
+
 .note-viewer-page .note-content pre,
 .note-viewer-page .note-content code {
     text-align: left;

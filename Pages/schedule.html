@@ -14,14 +14,13 @@
     <meta property="og:url" content="https://negiao.github.io/Pages/schedule.html">
     <meta property="og:title" content="课程表 - NEGIAO">
     <meta property="og:description" content="NEGIAO的日常课表 - 实时显示当前课程和下节课安排">
-    <meta property="og:image" content="https://negiao.github.io/Pages/avatar.webp">
+    <meta property="og:image" content="https://negiao.github.io/Pages/public/avatar.webp">
 
     <title>课程表 - NEGIAO</title>
     <link rel="icon" type="image/webp" href="/images/icon.webp">
-    <link rel="shortcut icon" type="image/webp" href="/images/icon.webp">
     <link rel="stylesheet" href="css/style-new.css?v=20260527">
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="main-enhanced.js" defer></script>
+    <script src="public/main-enhanced.js" defer></script>
 
     <style>
         /* 现代化课程表样式重设计 */
@@ -247,7 +246,7 @@
 
         /* 今日表头呼吸灯效果 */
         .day-header.today {
-            animation: breathingGlow 3s ease-in-out infinite;
+            animation: breathingGlowWhite 3s ease-in-out infinite;
             position: relative;
             overflow: visible;
         }
@@ -264,7 +263,7 @@
                     rgba(255, 255, 255, 0.1) 50%,
                     rgba(255, 255, 255, 0.3) 100%);
             border-radius: inherit;
-            animation: breathingGlow 3s ease-in-out infinite;
+            animation: breathingGlowWhite 3s ease-in-out infinite;
             z-index: -1;
         }
 
@@ -278,7 +277,7 @@
             animation: todayPulse 2s ease-in-out infinite;
         }
 
-        @keyframes breathingGlow {
+        @keyframes breathingGlowWhite {
 
             0%,
             100% {
@@ -1053,7 +1052,7 @@
     <!-- 导航栏 -->
     <header class="navbar">
         <div class="navbar__container">
-            <a href="../../index.html" class="navbar__brand">NEGIAO</a>
+            <a href="../index.html" class="navbar__brand">NEGIAO</a>
             <a href="../index.html" class="btn btn--secondary">
                 <i class="fas fa-home"></i> 返回首页
             </a>

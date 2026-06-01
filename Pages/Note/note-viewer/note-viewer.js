@@ -89,7 +89,7 @@
                 <p>${message}</p>
                 ${subtext ? `<p class="error-subtext">${subtext}</p>` : ''}
                 <div class="error-container__actions">
-                    <a href="../notes.html" class="btn btn--primary error-container__back-link">
+                    <a href="../../notes.html" class="btn btn--primary error-container__back-link">
                         <i class="fas fa-arrow-left"></i> 返回笔记列表
                     </a>
                     ${showRefresh ? '<button class="btn btn--outline error-container__refresh-btn" onclick="location.reload()"><i class="fas fa-rotate-right"></i> 刷新重试</button>' : ''}
@@ -99,7 +99,7 @@
     }
 
     async function loadMarkdown(noteName) {
-        const mdPath = `./md/${noteName}.md`;
+        const mdPath = `../md/${noteName}.md`;
         
         try {
             const response = await fetch(mdPath);
@@ -126,63 +126,50 @@
         }
     }
 
-    function ensureMarkedAvailable() {
-        if (!window.marked || typeof window.marked.parse !== 'function' || typeof window.marked.lexer !== 'function') {
+    /**
+     * 将相对路径的 URL 前面加上 ../
+     * 仅处理非绝对 URL（http/https/data/协议）且非绝对路径（/开头）的相对引用
+     * 修正 note-viewer/ 相对于 md/ 目录的路径差异
+     */
+    function rewriteRelativeUrl(href) {
+        if (!href || /^(?:https?:|data:|blob:|\/\/)/.test(href) || href.startsWith('/')) {
+            return href;
+        }
+        return '../' + href;
+    }
+
+    function renderMarkdown(md, container) {
+        if (!window.marked || typeof window.marked.parse !== 'function') {
             throw new Error('Markdown 解析器未加载。');
         }
-    }
 
-    function extractWordLearningMarkdown(md) {
-        ensureMarkedAvailable();
+        // 自定义 renderer：修正相对路径，解决 note-viewer/ 与 md/ 之间的目录层级差异
+        var renderer = new window.marked.Renderer();
+        var originalImage = renderer.image;
+        var originalLink = renderer.link;
 
-        const tokens = window.marked.lexer(md);
-        const monthHeadingIndex = tokens.findIndex((token) => token.type === 'heading' && token.depth === 2);
-
-        if (monthHeadingIndex === -1) {
-            return {
-                headerMarkdown: '',
-                bodyMarkdown: md
-            };
-        }
-
-        return {
-            headerMarkdown: tokens.slice(0, monthHeadingIndex).map((token) => token.raw || '').join(''),
-            bodyMarkdown: tokens.slice(monthHeadingIndex).map((token) => token.raw || '').join('')
+        renderer.image = function (token) {
+            if (typeof token === 'object' && token !== null && 'href' in token) {
+                token.href = rewriteRelativeUrl(token.href);
+                return originalImage.call(this, token);
+            }
+            // 回退：分离参数形式 (href, title, text)
+            return originalImage.call(this, rewriteRelativeUrl(arguments[0]), arguments[1], arguments[2]);
         };
-    }
 
-    function renderNormalMarkdown(md, container) {
-        ensureMarkedAvailable();
-        container.innerHTML = window.marked.parse(md);
-        container.classList.add('animate-in');
-    }
+        renderer.link = function (token) {
+            if (typeof token === 'object' && token !== null && 'href' in token) {
+                token.href = rewriteRelativeUrl(token.href);
+                return originalLink.call(this, token);
+            }
+            return originalLink.call(this, rewriteRelativeUrl(arguments[0]), arguments[1], arguments[2]);
+        };
 
-    function renderWordLearningMarkdown(md, container) {
-        const { headerMarkdown, bodyMarkdown } = extractWordLearningMarkdown(md);
-
-        container.innerHTML = '';
+        container.innerHTML = window.marked.parse(md, { renderer: renderer });
         container.classList.add('animate-in');
 
-        if (headerMarkdown.trim()) {
-            const headerDiv = document.createElement('div');
-            headerDiv.className = 'note-chunk header-chunk';
-            headerDiv.innerHTML = window.marked.parse(headerMarkdown);
-            container.appendChild(headerDiv);
-        }
-
-        const contentDiv = document.createElement('div');
-        contentDiv.className = 'note-chunk days-content';
-        contentDiv.innerHTML = window.marked.parse(bodyMarkdown);
-        container.appendChild(contentDiv);
-    }
-
-    function renderMarkdown(md, container, noteName) {
-        if (noteName && noteName.includes('word-learning-record')) {
-            renderWordLearningMarkdown(md, container);
-            return;
-        }
-
-        renderNormalMarkdown(md, container);
+        // 保存原始 md 供插件使用（如 word-learning-record 需要重新渲染）
+        container._originalMarkdown = md;
     }
 
     function applyHighlight(container) {
@@ -259,23 +246,13 @@
             const md = await loadMarkdown(noteName);
             const container = document.getElementById('note-content');
 
-            renderMarkdown(md, container, noteName);
+            renderMarkdown(md, container);
             applyHighlight(container);
-            
+
             try {
                 await renderMath(container);
             } catch (mathError) {
                 console.warn('MathJax 渲染异常，继续执行其他操作:', mathError);
-            }
-
-            if (window.initChineseMeaningMasking && noteName.includes('word-learning-record')) {
-                try {
-                    window.initChineseMeaningMasking({
-                        container: container
-                    });
-                } catch (maskError) {
-                    console.warn('单词掩码初始化失败，继续执行:', maskError);
-                }
             }
 
             enhanceCodeBlocks(container);
@@ -520,41 +497,6 @@
         }
     }
 
-    function initTocToggle() {
-        const toc = document.querySelector('.note-toc');
-        const toggleBtn = document.getElementById('toc-toggle-btn');
-
-        if (!toc || !toggleBtn) {
-            return;
-        }
-
-        const icon = toggleBtn.querySelector('i');
-        const isHidden = localStorage.getItem('toc-hidden') === 'true';
-
-        if (isHidden) {
-            toc.classList.add('note-toc--hidden');
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-list');
-        } else {
-            icon.classList.remove('fa-list');
-            icon.classList.add('fa-times');
-        }
-
-        toggleBtn.addEventListener('click', () => {
-            toc.classList.toggle('note-toc--hidden');
-
-            if (toc.classList.contains('note-toc--hidden')) {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-list');
-                localStorage.setItem('toc-hidden', 'true');
-            } else {
-                icon.classList.remove('fa-list');
-                icon.classList.add('fa-times');
-                localStorage.setItem('toc-hidden', 'false');
-            }
-        });
-    }
-
     // Global error handler for uncaught errors
     window.addEventListener('error', (event) => {
         console.error('Global error caught:', event.error);
@@ -572,7 +514,7 @@
     // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
         init();
-        initTocToggle();
+        if (window.initTocToggle) window.initTocToggle();
 
         const missingLibs = detectMissingLibraries();
         if (missingLibs.length > 0) {

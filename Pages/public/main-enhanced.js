@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })();
 
         // 预加载关键图片
-        ['/Pages/avatar.webp'].forEach(src => { const img = new Image(); img.src = src; });
+        ['/Pages/public/avatar.webp'].forEach(src => { const img = new Image(); img.src = src; });
 
         // 懒加载非关键图片（data-src）
         if ('IntersectionObserver' in window) {

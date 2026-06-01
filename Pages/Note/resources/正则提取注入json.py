@@ -4,11 +4,17 @@ import os
 import random
 import sys
 import io
+from datetime import datetime, timedelta
 
 # ================= 1. 参数配置区域 =================
 # 建议：如果路径包含反斜杠，请保持 r"..." 格式
 MD_PATH = r"D:\Dev\GitHub\NEGIAO.github.io\Pages\Note\md\word-learning-record.md"
 JSON_PATH = r"D:\Dev\GitHub\NEGIAO.github.io\Pages\Note\word-list.json"
+
+# 拆分配置
+ARCHIVE_DIR = r"D:\Dev\GitHub\NEGIAO.github.io\Pages\Note\md\word-learning-archive"
+ARCHIVE_INDEX_PATH = os.path.join(ARCHIVE_DIR, "index.json")
+RECENT_DAYS = 7  # 主文件保留最近多少天的记录
 
 
 # ================= 2. 功能函数区域 =================
@@ -127,6 +133,186 @@ def generate_options(correct_meaning, all_meanings, count=3):
     return options
 
 
+def split_markdown_file(md_path, archive_dir, recent_days=7):
+    """
+    增量式拆分：主文件超过 recent_days 天时，将最旧的剥离到对应月份存档。
+    - 读取主文件，按 ### 切分
+    - 若日期数 > recent_days，取最旧的写入存档（追加到已有存档文件开头）
+    - 主文件只保留最近 recent_days 天（倒序：最新在前）
+    """
+    content = read_markdown_file(md_path)
+    if not content:
+        print("[跳过] 无法读取 Markdown，跳过拆分。")
+        return
+
+    # 1. 分离 header（第一个 ## 之前）
+    header_match = re.search(r'^## ', content, re.MULTILINE)
+    if not header_match:
+        print("[跳过] 未找到 ## 标题，跳过拆分。")
+        return
+
+    header = content[:header_match.start()]
+    body = content[header_match.start():]
+
+    # 2. 按 ### 切分 sections
+    date_pattern = re.compile(r'^### (\d{4}-\d{2}-\d{2})', re.MULTILINE)
+    date_positions = list(date_pattern.finditer(body))
+
+    if not date_positions:
+        print("[跳过] 未找到 ### 日期条目，跳过拆分。")
+        return
+
+    sections = []
+    for i, m in enumerate(date_positions):
+        start = m.start()
+        end = date_positions[i + 1].start() if i + 1 < len(date_positions) else len(body)
+        sections.append({
+            'date': m.group(1),
+            'raw': body[start:end].rstrip()
+        })
+
+    # 3. 按日期去重，判断是否需要拆分
+    unique_dates = sorted(set(s['date'] for s in sections), reverse=True)
+
+    if len(unique_dates) <= recent_days:
+        print(f"[完成] 当前 {len(unique_dates)} 天，未超过 {recent_days} 天，无需拆分。")
+        return
+
+    # 4. 分离：最近 N 天留主文件，其余剥离到存档
+    keep_dates = set(unique_dates[:recent_days])
+    keep_sections = [s for s in sections if s['date'] in keep_dates]
+    archive_sections = [s for s in sections if s['date'] not in keep_dates]
+
+    # 5. 找出主文件需要的 ## 月标题
+    month_pattern = re.compile(r'^## .+$', re.MULTILINE)
+    keep_months = set(s['date'][:7] for s in keep_sections)
+
+    leading_month_headers = []
+    for mm in month_pattern.finditer(body):
+        for dp in date_positions:
+            if dp.start() > mm.start():
+                if dp.group(1)[:7] in keep_months:
+                    leading_month_headers.append(mm.group(0))
+                break
+
+    # 6. 写入主文件（倒序）
+    main_body_parts = leading_month_headers[:]
+    for s in reversed(keep_sections):
+        main_body_parts.append(s['raw'])
+
+    with open(md_path, 'w', encoding='utf-8') as f:
+        f.write(header + '\n'.join(main_body_parts) + '\n')
+
+    print(f"-> 主文件保留 {len(keep_sections)} 条")
+
+    # 7. 将剥离的 section 写入对应月份存档
+    os.makedirs(archive_dir, exist_ok=True)
+
+    # 按月分组
+    archive_by_month = {}
+    for s in archive_sections:
+        ym = s['date'][:7]
+        archive_by_month.setdefault(ym, []).append(s)
+
+    # 找出 body 中所有月标题（用于新存档文件）
+    all_month_headers = {}
+    for mm in month_pattern.finditer(body):
+        all_month_headers[mm.start()] = mm.group(0)
+
+    archive_files = []
+
+    for ym, month_secs in sorted(archive_by_month.items(), reverse=True):
+        archive_path = os.path.join(archive_dir, f"{ym}.md")
+
+        if os.path.exists(archive_path):
+            # 已有存档：读取已有内容，将新 section 插入到正确位置（按日期倒序）
+            existing = read_markdown_file(archive_path)
+            # 提取已有存档中的 ### sections
+            existing_date_matches = list(date_pattern.finditer(existing))
+            existing_sections = []
+            for i, m in enumerate(existing_date_matches):
+                start = m.start()
+                end = existing_date_matches[i + 1].start() if i + 1 < len(existing_date_matches) else len(existing)
+                existing_sections.append({
+                    'date': m.group(1),
+                    'raw': existing[start:end].rstrip()
+                })
+
+            # 合并并按日期倒序排列
+            all_secs = existing_sections + month_secs
+            all_secs.sort(key=lambda x: x['date'], reverse=True)
+
+            # 重建存档内容：保留原 header + 月标题
+            archive_header_end = existing.find('\n### ')
+            if archive_header_end < 0:
+                archive_header_end = existing.find('\n## ')
+            if archive_header_end < 0:
+                archive_header_end = 0
+            archive_header = existing[:archive_header_end] if archive_header_end > 0 else ''
+
+            # 找到月标题行
+            month_header = ''
+            for mm in month_pattern.finditer(existing):
+                month_header = mm.group(0)
+                break
+
+            parts = []
+            if archive_header:
+                parts.append(archive_header.rstrip())
+            if month_header:
+                parts.append(month_header)
+            for s in all_secs:
+                parts.append(s['raw'])
+
+            with open(archive_path, 'w', encoding='utf-8') as f:
+                f.write('\n'.join(parts) + '\n')
+        else:
+            # 新存档文件
+            # 找该月的月标题
+            month_header_text = ''
+            for dp in date_positions:
+                if dp.group(1)[:7] == ym:
+                    for mpos in sorted(all_month_headers.keys()):
+                        if mpos < dp.start():
+                            month_header_text = all_month_headers[mpos]
+                        else:
+                            break
+                    break
+
+            parts = [header.split('\n')[0]]  # # 标题行
+            if month_header_text:
+                parts.append(month_header_text)
+            for s in reversed(month_secs):
+                parts.append(s['raw'])
+
+            with open(archive_path, 'w', encoding='utf-8') as f:
+                f.write('\n'.join(parts) + '\n')
+
+        print(f"   [存档] {ym}.md (+{len(month_secs)} 条)")
+        archive_files.append(f"{ym}.md")
+
+    # 8. 更新 index.json
+    index_path = os.path.join(archive_dir, "index.json")
+    existing_index = {}
+    if os.path.exists(index_path):
+        try:
+            with open(index_path, 'r', encoding='utf-8') as f:
+                existing_index = json.load(f)
+        except Exception:
+            pass
+
+    all_archives = list(set((existing_index.get('archives', []) or []) + archive_files))
+    all_archives.sort(reverse=True)
+
+    with open(index_path, 'w', encoding='utf-8') as f:
+        json.dump({
+            "mainFile": os.path.basename(md_path),
+            "archives": all_archives
+        }, f, ensure_ascii=False, indent=2)
+
+    print(f"-> 索引已更新: {len(all_archives)} 个月度存档")
+
+
 def main():
     # 确保在 Windows 控制台下 stdout 使用 UTF-8 编码，避免中文输出出现乱码
     try:
@@ -221,6 +407,13 @@ def main():
             print(f"\n[错误] 写入 JSON 文件失败: {e}")
     else:
         print("\n[完成] 没有发现需要添加的新单词。")
+
+    # 7. 拆分 markdown 文件（保留最近 N 天，其余按月存档）
+    print()
+    print("-" * 30)
+    print("      拆分 Markdown 文件      ")
+    print("-" * 30)
+    split_markdown_file(MD_PATH, ARCHIVE_DIR, RECENT_DAYS)
 
 
 if __name__ == "__main__":

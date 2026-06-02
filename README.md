@@ -328,22 +328,40 @@ python -m http.server 8080
 - 修复 `note-viewer.html` 中 `notes-toc.js` 路径错误（`../../` → `../`）。
 - 修复 loader.js 的 `loadPluginScript` 探测顺序（优先文件夹形式，消除 404 噪声）。
 - 修复 `destroyNotePlugin` 中 CSS 路径匹配逻辑（相对路径 → 目录名匹配）。
+- 修复 `notes.html`、`schedule.html` 品牌链接 `../../index.html` 越级问题，改为 `../index.html`。
+- 修复 `gallery.html` 中 `2023.webp` 引用不存在文件，改为 `2023.jpg`。
+- 修复 `schedule.html` 中 `@keyframes breathingGlow` 重名冲突，白色版改名 `breathingGlowWhite`。
+- `markdown_editor.html` 新增 `style-new.css` 引用，启用统一主题样式。
+- note-viewer 资源路径修正：自定义 marked renderer 自动将 `resources/xxx` 等相对路径加 `../` 前缀，修复 `note-viewer/` 与 `md/` 目录层级差异导致的图片 404。
+- note-viewer 图片居中：新增 `#note-content img { display: block; margin: auto }` 样式，覆盖 `notes.css` 默认 margin，配合 cache-busting 参数生效。
+- `gee-coursework.md` 文件扩展名修正：`nanyang_feature_importance.png` → `.webp`（磁盘仅有 webp）。
+- 插件 loader 404 消除：引入 `pluginDirs` 白名单，无插件的笔记不再盲试脚本路径产生 404。
+- `word-learning-record` 插件补全：创建空 `styles.css`，消除 loader 自动 CSS 加载的 404。
+
+**代码去重**：
+- 提取 `initTocToggle()` 和 `processMarkdown()` 为全局共享函数（`loader.js`），消除 `note-viewer.js`、`gallery.html`、`note-template.html` 三处重复。
+- 提取 `.toc-toggle-btn` / `.note-toc--hidden` 内联 CSS 到 `notes.css`，消除 `gallery.html`、`note-template.html` 两处重复（~90 行/处）。
 
 **修改的文件路径**：
 - `Pages/Note/note-viewer/`（新建目录，4 个文件）
-- `Pages/Note/plugins/loader.js`（重写：NotePluginUtils + 生命周期 + 自动 CSS + 安全修复）
+- `Pages/Note/note-viewer/note-viewer.js`（修改：自定义 marked renderer 修正相对路径）
+- `Pages/Note/note-viewer/note-viewer.css`（修改：新增图片居中样式）
+- `Pages/Note/note-viewer/note-viewer.html`（修改：修复 notes-toc.js 路径 + CSS cache-busting）
+- `Pages/Note/plugins/loader.js`（重写：NotePluginUtils + 生命周期 + 自动 CSS + 安全修复 + 白名单 + 共享函数）
 - `Pages/Note/plugins/Google_tiles/`（新建目录，index.js + styles.css）
 - `Pages/Note/plugins/word-learning-record/index.js`（新建：整合渲染 + 遮挡 + 存档 + 生命周期）
+- `Pages/Note/plugins/word-learning-record/styles.css`（新建：空样式文件）
 - 删除 `Pages/Note/plugins/word-learning-record/chinese-meaning-mask.js`（死代码，709 行）
 - `Pages/Note/md/word-learning-archive/`（新建目录，10 个文件）
+- `Pages/Note/md/gee-coursework.md`（修改：文件扩展名修正）
 - `Pages/Note/resources/正则提取注入json.py`（修改：增量式拆分 + 倒序写入）
 - `Pages/public/`（新建目录，2 个文件）
-- `Pages/Note/note-viewer/note-viewer.html`（修改：修复 notes-toc.js 路径）
-- `Pages/notes.html`（修改：修复语法错误、更新链接）
-- `Pages/schedule.html`（修改：修复语义、更新链接）
-- `Pages/Note/gallery.html`（修改：修复路径）
-- `Pages/Note/note-template.html`（修改：修复路径）
-- `Pages/Note/markdown_editor.html`（修改：修复 og:image）
+- `Pages/Note/gallery.html`（修改：修复路径 + 删除内联 TOC CSS，改用共享版本）
+- `Pages/Note/note-template.html`（修改：修复路径 + 同上）
+- `Pages/Note/markdown_editor.html`（修改：修复 og:image + 新增 style-new.css 引用）
+- `Pages/css/notes.css`（修改：新增 TOC toggle 共享样式）
+- `Pages/notes.html`（修改：修复语法错误、品牌链接）
+- `Pages/schedule.html`（修改：修复语义、品牌链接 + 动画重名）
 - 7 个 HTML 文件 favicon 去重
 - `README.md` + `Pages/Note/md/README.md`（修改：更新文件树、插件文档、笔记列表）
 

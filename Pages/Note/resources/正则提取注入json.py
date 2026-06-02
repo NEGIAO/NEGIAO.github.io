@@ -195,9 +195,10 @@ def split_markdown_file(md_path, archive_dir, recent_days=7):
                     leading_month_headers.append(mm.group(0))
                 break
 
-    # 6. 写入主文件（倒序）
+    # 6. 写入主文件（按日期倒序：最新在前）
+    keep_sections.sort(key=lambda x: x['date'], reverse=True)
     main_body_parts = leading_month_headers[:]
-    for s in reversed(keep_sections):
+    for s in keep_sections:
         main_body_parts.append(s['raw'])
 
     with open(md_path, 'w', encoding='utf-8') as f:
@@ -282,7 +283,8 @@ def split_markdown_file(md_path, archive_dir, recent_days=7):
             parts = [header.split('\n')[0]]  # # 标题行
             if month_header_text:
                 parts.append(month_header_text)
-            for s in reversed(month_secs):
+            month_secs.sort(key=lambda x: x['date'], reverse=True)
+            for s in month_secs:
                 parts.append(s['raw'])
 
             with open(archive_path, 'w', encoding='utf-8') as f:
@@ -335,8 +337,9 @@ def main():
         print("[终止] 无法获取 Markdown 内容。")
         return
 
-    # 2. 解析 Markdown 中的单词
+    # 2. 解析 Markdown 中的单词（逆序处理，使新词在前）
     extracted_words = parse_markdown_words(markdown_content)
+    extracted_words.reverse()
     print(f"-> 从 Markdown 中解析出 {len(extracted_words)} 条记录")
 
     # 3. 读取现有 JSON
@@ -392,7 +395,10 @@ def main():
             new_words_count += 1
             print(f"   [新增] {item['word']} ({item['meaning']})")
 
-    # 6. 保存结果
+    # 6. 按日期倒序排列，确保新词在前
+    final_list.sort(key=lambda x: x.get('date', ''), reverse=True)
+
+    # 7. 保存结果
     should_save = new_words_count > 0 or len(deduped_existing_words) != len(existing_words_list)
     if should_save:
         try:
@@ -408,7 +414,7 @@ def main():
     else:
         print("\n[完成] 没有发现需要添加的新单词。")
 
-    # 7. 拆分 markdown 文件（保留最近 N 天，其余按月存档）
+    # 8. 拆分 markdown 文件（保留最近 N 天，其余按月存档）
     print()
     print("-" * 30)
     print("      拆分 Markdown 文件      ")

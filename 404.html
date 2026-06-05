@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0D1117">
+    <meta name="description" content="页面未找到 - NEGIAO's GitHub Page">
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>404 - 页面未找到 | NEGIAO</title>
+    <link rel="icon" type="image/webp" sizes="32x32 192x192 512x512" href="/images/icon.webp">
+    <link rel="shortcut icon" type="image/webp" href="/images/icon.webp">
+
+    <!-- 预连接第三方资源 -->
+    <link rel="preconnect" href="https://fonts.loli.net">
+    <link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.loli.net">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
+    <link href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- 404 页面专用样式 -->
+    <link rel="stylesheet" href="Pages/css/base.css">
+    <link rel="stylesheet" href="Pages/css/404.css">
+
+    <!-- 主题初始化：防止闪烁 -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme');
+            if (saved) document.body.setAttribute('data-theme', saved);
+        })();
+    </script>
+</head>
+
+<body>
+    <!-- 浮动装饰元素 -->
+    <div class="error-shapes" aria-hidden="true">
+        <div class="error-shape error-shape--1"></div>
+        <div class="error-shape error-shape--2"></div>
+        <div class="error-shape error-shape--3"></div>
+    </div>
+
+    <main class="error-page" role="main">
+        <!-- 404 数字 -->
+        <div class="error-code" aria-hidden="true">404</div>
+
+        <!-- 错误信息卡片 -->
+        <div class="error-card">
+            <div class="error-icon">
+                <i class="fas fa-compass" aria-hidden="true"></i>
+            </div>
+
+            <h1 class="error-title">迷路了？</h1>
+
+            <p class="error-message">
+                你访问的页面似乎不存在，可能已被移动或删除。
+            </p>
+
+            <!-- 显示请求的路径 -->
+            <div class="error-path" id="error-path" aria-label="请求的路径">
+                <!-- JS 动态填充 -->
+            </div>
+
+            <!-- 智能推荐链接 -->
+            <div class="error-suggestions" id="error-suggestions" style="display: none;">
+                <div class="error-suggestions__title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>你是否在找：</span>
+                </div>
+                <ul class="suggestion-list" id="suggestion-list">
+                    <!-- JS 动态填充 -->
+                </ul>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="error-actions">
+                <a href="/" class="btn btn--primary">
+                    <i class="fas fa-home"></i> 返回首页
+                </a>
+                <button class="btn btn--outline" onclick="history.back()">
+                    <i class="fas fa-arrow-left"></i> 返回上一页
+                </button>
+            </div>
+
+            <!-- 倒计时 -->
+            <div class="error-countdown">
+                <i class="fas fa-clock"></i>
+                <span><span class="error-countdown__timer" id="countdown-timer">10</span> 秒后自动返回首页</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        /**
+         * 404 页面逻辑
+         * - 显示请求路径
+         * - 智能路径匹配推荐
+         * - 倒计时自动跳转
+         */
+        (function() {
+            'use strict';
+
+            // 获取当前请求路径
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestedPath = urlParams.get('path') || window.location.pathname;
+            const displayPath = document.getElementById('error-path');
+            const suggestionsContainer = document.getElementById('error-suggestions');
+            const suggestionList = document.getElementById('suggestion-list');
+            const countdownTimer = document.getElementById('countdown-timer');
+
+            // 显示请求路径（去除开头的斜杠）
+            displayPath.textContent = requestedPath;
+
+            // 智能路径匹配规则
+            const routeMap = [
+                { keywords: ['note', 'notes', '笔记', '学习'], url: '/Pages/notes.html', label: '技术笔记' },
+                { keywords: ['schedule', '课程', '课表', 'timetable'], url: '/Pages/schedule.html', label: '课程表' },
+                { keywords: ['webgis', 'map', '地图', 'gis'], url: '/WebGIS/index.html', label: 'WebGIS 地图应用' },
+                { keywords: ['gallery', '画廊', '成就', 'achievement'], url: '/Pages/Note/gallery.html', label: '成就画廊' },
+                { keywords: ['quiz', '单词', '测试', 'word'], url: '/Pages/Note/word-quiz.html', label: '单词测试' },
+                { keywords: ['geoscene', '宝藏', '小城', 'season'], url: '/Geoscene_宝藏小城/awesome.html', label: '宝藏小城' },
+                { keywords: ['editor', '编辑', 'markdown'], url: '/Pages/Note/markdown_editor.html', label: 'Markdown 编辑器' },
+                { keywords: ['decoder', '解码', '工具'], url: '/Others/decoder.html', label: '解码工具' },
+                { keywords: ['phy', '物理'], url: '/Pages/phy.html', label: '物理页面' }
+            ];
+
+            /**
+             * 根据路径关键词匹配推荐页面
+             * @param {string} path - 当前请求路径
+             * @returns {Array} 匹配的推荐页面列表
+             */
+            function matchSuggestions(path) {
+                const lowerPath = path.toLowerCase();
+                const matches = [];
+
+                for (const route of routeMap) {
+                    for (const keyword of route.keywords) {
+                        if (lowerPath.includes(keyword.toLowerCase())) {
+                            matches.push(route);
+                            break; // 每个路由只匹配一次
+                        }
+                    }
+                }
+
+                return matches;
+            }
+
+            // 显示推荐链接
+            const suggestions = matchSuggestions(requestedPath);
+            if (suggestions.length > 0) {
+                suggestionsContainer.style.display = 'block';
+                suggestions.forEach(function(suggestion) {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = suggestion.url;
+                    a.className = 'suggestion-link';
+                    a.innerHTML = '<i class="fas fa-arrow-right"></i>' + suggestion.label;
+                    li.appendChild(a);
+                    suggestionList.appendChild(li);
+                });
+            }
+
+            // 倒计时自动跳转
+            let seconds = 10;
+            const countdownInterval = setInterval(function() {
+                seconds--;
+                countdownTimer.textContent = seconds;
+
+                if (seconds <= 0) {
+                    clearInterval(countdownInterval);
+                    window.location.href = '/';
+                }
+            }, 1000);
+
+            // 用户交互时暂停倒计时
+            const errorCard = document.querySelector('.error-card');
+            errorCard.addEventListener('mouseenter', function() {
+                clearInterval(countdownInterval);
+                countdownTimer.textContent = '—';
+            });
+
+            // 键盘快捷键：Escape 返回上一页，Enter 回首页
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    history.back();
+                } else if (e.key === 'Enter') {
+                    window.location.href = '/';
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

@@ -183,17 +183,22 @@ def split_markdown_file(md_path, archive_dir, recent_days=7):
     keep_sections = [s for s in sections if s['date'] in keep_dates]
     archive_sections = [s for s in sections if s['date'] not in keep_dates]
 
-    # 5. 找出主文件需要的 ## 月标题
+    # 5. 找出主文件需要的 ## 月标题（只保留最新月份的标题）
     month_pattern = re.compile(r'^## .+$', re.MULTILINE)
     keep_months = set(s['date'][:7] for s in keep_sections)
 
-    leading_month_headers = []
+    # 只保留最新月份对应的那一个月标题，避免旧月份标题因后面紧跟新月份日期而被误留
+    latest_month_header = None
+    latest_month_start = -1
     for mm in month_pattern.finditer(body):
         for dp in date_positions:
             if dp.start() > mm.start():
-                if dp.group(1)[:7] in keep_months:
-                    leading_month_headers.append(mm.group(0))
+                if dp.group(1)[:7] in keep_months and mm.start() > latest_month_start:
+                    latest_month_header = mm.group(0)
+                    latest_month_start = mm.start()
                 break
+
+    leading_month_headers = [latest_month_header] if latest_month_header else []
 
     # 6. 写入主文件（按日期倒序：最新在前）
     keep_sections.sort(key=lambda x: x['date'], reverse=True)

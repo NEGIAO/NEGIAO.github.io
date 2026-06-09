@@ -11,15 +11,33 @@
 | ---- | ---- | ---- | ---- |
 | stale | adj. | **不新鲜的**；难闻的；**陈旧的** | — |
 | shed | v./n. | **去除**；**脱掉**；棚屋 | — |
-| inhale | v. | **吸入** | in向内+hal呼吸 |
-| exhale | v. | **呼出** | ex向外+hal呼吸 |
-| syndrome | n. | **综合征**；典型表现 | syn共同+drom跑动 |
-| outright | adj./adv. | **完全的**；**公开的**；彻底的 | out向外+right径直 |
-| inflame | v. | **发炎**；引发炎症；燃烧 | in进入+flame火焰 |
-| respite | n./v. | **暂缓**；**休息**；喘息 | re回+spit停止 |
+| inhale | v. | **吸入** | in向内 + hal呼吸 |
+| exhale | v. | **呼出** | ex向外 + hal呼吸 |
+| syndrome | n. | **综合征**；典型表现 | syn共同 + drom运行 |
+| outright | adj./adv. | **完全的**；**公开的**；彻底的 | out向外 + right径直 |
+| inflame | v. | **发炎**；引发炎症；燃烧 | in进入 + flame火焰 |
+| respite | n./v. | **暂缓**；**休息**；喘息 | — |
 | vapor | n. | **水蒸气** | — |
 | caveat | n. | **警告**；**告诫** | — |
 | crank up | 短语 | **调高**；**启动** | — |
+| affiliate | n./v. | **附庸**；**子公司**；加入 | af加强 + fil子女 |
+| preserve | v./n. | **保护**；**维持**；保存 | pre预先 + serv守护 |
+| conserve | v. | **保护**；**节约** | con共同 + serv守护 |
+| conservative | adj./n. | **保守的**；**保守派** | conserve保守 + ative后缀 |
+| lifeblood | n. | **命根**；命脉 | life生命 + blood血液 |
+| appeal court | 短语 | **上诉法院** | appeal上诉 + court法院 |
+| neutral | adj./n. | **中立的**；中立者 | neutr中间 |
+| expense | n. | **代价**；**开销**；费用 | ex出 + pens花费 |
+| unanimous | adj. | **一致的**；**全体同意的** | uni单一 + anim心神 |
+| uphold | v. | **支持**；**认可**；维护 | up向上 + hold握住 |
+| concur | v. | **同意**；**同时发生** | con共同 + cur运行 |
+| hinge | n./v. | **铰链**；合叶；**枢纽**；取决于 | — |
+| unhinge | v. | **分开**；使失常 | un否定 + hinge铰链 |
+| trap | n./v. | **陷阱**；**捕获**；困住 | — |
+| throw out | 短语 | **丢弃**；**扔出**；驳回 | — |
+| enact | v. | **通过**；**颁布**；上演 | en使 + act行动 |
+| cry out | 短语 | **迫切需要**；大声呼喊 | — |
+| bar | n./v. | **禁止**；**阻止**；酒吧；条；围栏 | — |
 ### 2026-06-08 新增单词
 | 单词 | 词性 | 核心释义 | 极简词根助记 |
 | ---- | ---- | ---- | ---- |

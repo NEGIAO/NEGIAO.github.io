@@ -132,10 +132,45 @@
      * 修正 note-viewer/ 相对于 md/ 目录的路径差异
      */
     function rewriteRelativeUrl(href) {
-        if (!href || /^(?:https?:|data:|blob:|\/\/)/.test(href) || href.startsWith('/')) {
+        // 锚点链接（#开头）不需要路径修正，保持原样
+        if (!href || /^(?:https?:|data:|blob:|\/\/|#)/.test(href) || href.startsWith('/')) {
             return href;
         }
         return '../' + href;
+    }
+
+    /**
+     * 修正渲染后 heading 元素的 id，使其保留中文字符
+     * marked 默认只保留 [a-zA-Z0-9_] 会剥离中文，导致手动锚点链接跳转失效
+     * @param {HTMLElement} container - 笔记内容容器
+     */
+    function normalizeHeadingId(text) {
+        return String(text || '').toLowerCase().trim()
+            .replace(/[、，。；：！？「」『』【】《》（）—…·]/g, '')
+            .replace(/[^a-z0-9一-龥]+/g, '-')
+            .replace(/-{2,}/g, '-')
+            .replace(/(^-|-$)/g, '');
+    }
+
+    function fixHeadingIds(container) {
+        var headings = container.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        var headingIdMap = {};
+
+        headings.forEach(function (h) {
+            var rawText = h.textContent || '';
+            var newId = normalizeHeadingId(rawText);
+
+            if (newId && newId !== h.id) {
+                // 处理重复 id：追加序号
+                var finalId = newId;
+                var counter = 1;
+                while (headingIdMap[finalId]) {
+                    finalId = newId + '-' + (++counter);
+                }
+                headingIdMap[finalId] = true;
+                h.id = finalId;
+            }
+        });
     }
 
     function renderMarkdown(md, container) {
@@ -166,6 +201,11 @@
         };
 
         container.innerHTML = window.marked.parse(md, { renderer: renderer });
+
+        // 修正 heading 的 id：marked 默认只保留 [a-zA-Z0-9_] 会剥离中文，
+        // 导致正文手动锚点链接（如 #1-极限与连续）跳转失效。
+        // 在 DOM 生成后修正 id，确保与手动编写的锚点格式一致。
+        fixHeadingIds(container);
         container.classList.add('animate-in');
 
         // 保存原始 md 供插件使用（如 word-learning-record 需要重新渲染）

@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			name="viewport"
+			content="initial-scale=1,maximum-scale=1,user-scalable=no"
+		/>
+		<title>Integrate 2D and 3D Views</title>
+
+		<link
+			rel="stylesheet"
+			href="https://js.arcgis.com/4.30/esri/css/main.css"
+		/>
+		<script src="https://js.arcgis.com/4.30/"></script>
+		<script type="module" src="../back-to-index.js"></script>
+		
+		<style>
+			html,
+			body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+				width: 100%;
+			}
+
+			#viewDiv_2d {
+				float: left;
+				height: 100%;
+				width: 50%;
+				background-color: #eee;
+			}
+
+			#viewDiv_3d {
+				float: right;
+				height: 100%;
+				width: 50%;
+				background-color: #ddd;
+			}
+		</style>
+
+		<script>
+			require([
+				"esri/views/MapView",
+				"esri/views/SceneView",
+				"esri/WebMap",
+				"esri/WebScene",
+				// 加载图例和图层列表组件
+				"esri/widgets/Legend",
+				"esri/widgets/LayerList",
+			], function (MapView, SceneView, WebMap, WebScene, Legend, LayerList) {
+				// 回调函数传入对应的构造器名
+
+				var view_2d, view_3d;
+
+				create_2dView();
+				create_3dView();
+
+				function create_2dView() {
+					var webmap = new WebMap({
+						portalItem: {
+							id: "ef17f0ce3073434180646931802c832d",
+						},
+					});
+
+					view_2d = new MapView({
+						map: webmap,
+						container: "viewDiv_2d",
+					});
+
+					view_2d.when(function () {
+						// 2D 视图联动到 3D 视图
+						view_2d.watch("extent", function (response) {
+							if (response && view_3d) {
+								view_3d.center = response.center;
+							}
+						});
+
+						view_2d.watch("scale", function (response) {
+							if (response && view_3d) {
+								view_3d.scale = response;
+							}
+						});
+
+						view_2d.watch("rotation", function (response) {
+							if (response !== undefined && view_3d) {
+								view_3d.goTo({
+									heading: 360 - response,
+								});
+							}
+						});
+
+						// 将图例组件移入 view_2d 准备就绪的生命周期中
+						var legend = new Legend({
+							view: view_2d,
+						});
+						view_2d.ui.add(legend, "bottom-right");
+
+						//函数：在 2D 视图中移动光标时，显示光标位置的要素信息
+						view_2d.on("pointer-move", function (evt) {
+							// 获取光标的位置
+							var loc = evt.mapPoint;
+							// 光标是否与任何地理要素相交
+							view_2d.hitTest(evt).then(function (response) {
+								// 如果至少有一个要素，那么在光标位置打开 2D 视图的弹出窗口，
+								// 并在弹出窗口中显示第一个与光标位置重叠的地理要素。
+								if (response.results.length > 0) {
+									view_2d.popup.open({
+										features: [response.results[0].graphic],
+										location: loc,
+									});
+								}
+							});
+						});
+					});
+				}
+
+				function create_3dView() {
+					var scene = new WebScene({
+						portalItem: {
+							id: "ae2631226f9b4883942a1d2423e29772",
+						},
+					});
+
+					view_3d = new SceneView({
+						map: scene,
+						container: "viewDiv_3d",
+					});
+
+					view_3d.when(function () {
+						//将图层列表组件移入 view_3d 准备就绪的生命周期中
+						var layerList = new LayerList({
+							view: view_3d,
+						});
+						view_3d.ui.add(layerList, "bottom-right");
+
+						view_3d.on("click", function (event) {
+							var vlat = event.mapPoint.latitude;
+							var vlng = event.mapPoint.longitude;
+							var heading = view_3d.camera.heading;
+							// alert("点击位置的经纬度为：\n纬度："+vlat+"\n经度："+vlng+"\n当前视角方向为："+heading);
+							var gUrl =
+								"https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=" +
+								vlat +
+								"," +
+								vlng +
+								"&heading=" +
+								heading +
+								"&pitch=0&fov=90";
+							var myWindow = window.open(
+								gUrl,
+								" Street View",
+								"width=800,height=600",
+							);
+							myWindow.focus();
+						});
+					});
+				}
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="viewDiv_2d"></div>
+		<div id="viewDiv_3d"></div>
+	</body>
+</html>

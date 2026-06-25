@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<title>
+			Load a basic web scene | Sample | ArcGIS Maps SDK for JavaScript
+		</title>
+
+		<!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+		<script type="module" src="https://js.arcgis.com/5.0/"></script>
+		<script type="module" src="../back-to-index.js"></script>
+
+		<style>
+			html,
+			body {
+				height: 100%;
+				margin: 0;
+			}
+			arcgis-scene {
+				--arcgis-layout-overlay-space-top: 40px;
+			}
+
+			#titleDiv {
+				background-color: lightgray;
+				position: absolute;
+				font-size: 20pt;
+				font-weight: 800;
+				width: 100%;
+				height: 40px;
+				text-align: center;
+				opacity: 0.75;
+			}
+		</style>
+	</head>
+
+	<body>
+		<arcgis-scene
+			item-id="611fac405c344f8ab42dae2352bc16d7"
+			popupDisabled="true"
+		>
+			<arcgis-zoom slot="top-left"></arcgis-zoom>
+			<arcgis-navigation-toggle slot="top-left"></arcgis-navigation-toggle>
+			<arcgis-compass slot="top-left"></arcgis-compass>
+			<div id="titleDiv"></div>
+		</arcgis-scene>
+		<script type="module">
+			// Get references to DOM elements
+			const viewElement = document.querySelector("arcgis-scene");
+			const titleDiv = document.getElementById("titleDiv");
+
+			// Wait for the view to fully initialize
+			await viewElement.viewOnReady();
+
+			// Display the web scene's title on the screen
+			titleDiv.textContent = viewElement.map.portalItem.title;
+		</script>
+	</body>
+</html>

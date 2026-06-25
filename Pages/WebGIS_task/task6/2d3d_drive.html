@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="initial-scale=1, maximum-scale=1, user-scalable=no"
+		/>
+		<title>实习6:模拟汽车在2D和3D视图中行驶</title>
+
+		<!-- ArcGIS Maps SDK for JavaScript 5.0 -->
+		<script type="module" src="https://js.arcgis.com/5.0/"></script>
+		<script type="module" src="../back-to-index.js"></script>
+
+		<style>
+			html,
+			body {
+				padding: 0;
+				margin: 0;
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+			}
+
+			arcgis-map {
+				float: left;
+				height: 100%;
+				width: 49.9%;
+			}
+
+			arcgis-scene {
+				float: right;
+				height: 100%;
+				width: 49.9%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<arcgis-map
+			id="view2d"
+			item-id="6f6c70b904074a14952e406505f9418e"
+			popup-disabled
+		>
+			<arcgis-zoom slot="top-left"></arcgis-zoom>
+			<arcgis-compass slot="top-left"></arcgis-compass>
+			<!-- <arcgis-legend slot="bottom-right"></arcgis-legend> -->
+		</arcgis-map>
+
+		<arcgis-scene
+			id="view3d"
+			item-id="1a012902eede472d9cd8750684abe51c"
+			popup-disabled
+		>
+			<arcgis-zoom slot="top-left"></arcgis-zoom>
+			<arcgis-navigation-toggle slot="top-left"></arcgis-navigation-toggle>
+			<arcgis-compass slot="top-left"></arcgis-compass>
+		</arcgis-scene>
+
+		<script type="module">
+			// 汽车行驶路径。最后一个点回到起点，用来形成闭合路线。
+			const locations = Object.freeze([
+				[-117.61396, 34.11502],
+				[-117.61362, 34.11482],
+				[-117.61318, 34.11476],
+				[-117.61272, 34.11484],
+				[-117.61228, 34.11503],
+				[-117.61191, 34.11531],
+				[-117.61182, 34.1156],
+				[-117.61202, 34.11582],
+				[-117.61243, 34.11591],
+				[-117.61291, 34.11588],
+				[-117.61337, 34.11575],
+				[-117.61374, 34.1155],
+				[-117.61396, 34.11522],
+				[-117.61396, 34.11502],
+			]);
+
+			// 摄像机高度，单位是米
+			const CAMERA_DISTANCE_METERS = 30;
+			// 摄像机高度，单位是米。
+			const CAMERA_Z_METERS = 430;
+			// 摄像机俯仰角，单位是度。
+			const CAMERA_TILT_DEGREES = 55;
+
+			const EARTH_RADIUS_METERS = 6378137;
+			const toRadians = (value) => (value * Math.PI) / 180;
+			const toDegrees = (value) => (value * 180) / Math.PI;
+
+			// ArcGIS 5.0 通过全局 $arcgis.import 加载模块。
+			const arcgis = await waitForArcGISGlobal();
+			const [Graphic, Point, GraphicsLayer, FeatureLayer, WebStyleSymbol] =
+				await Promise.all([
+					arcgis.import("@arcgis/core/Graphic.js"),
+					arcgis.import("@arcgis/core/geometry/Point.js"),
+					arcgis.import("@arcgis/core/layers/GraphicsLayer.js"),
+					arcgis.import("@arcgis/core/layers/FeatureLayer.js"),
+					arcgis.import("@arcgis/core/symbols/WebStyleSymbol.js"),
+				]);
+
+			const mapElement = document.getElementById("view2d");
+			const sceneElement = document.getElementById("view3d");
+
+			// 使用 Web Component 自己创建的 view，避免再手动嵌套 MapView/SceneView。
+			await Promise.all([mapElement.viewOnReady(), sceneElement.viewOnReady()]);
+
+			const mapView = mapElement.view;
+			const sceneView = sceneElement.view;
+
+			mapView.constraints = {
+				snapToZoom: false,
+			};
+
+			// 如果路径末尾重复起点，动画步进时跳过这个重复点。
+			const routeLength =
+				locations.at(0)[0] === locations.at(-1)[0] &&
+				locations.at(0)[1] === locations.at(-1)[1]
+					? locations.length - 1
+					: locations.length;
+
+			let carGraphic2d;
+			let carLayer3d;
+			let routeIndex = 0;
+			let timerId = 0;
+
+			const firstPoint = makePoint(locations[0]);
+			const firstHeading = bearingBetween(locations[0], locations[1]);
+
+			// 2D 视图用 GraphicsLayer 管理汽车图形。
+			const graphicsLayer2d = new GraphicsLayer({
+				id: "car-layer-2d",
+				title: "2D 汽车",
+			});
+
+			carGraphic2d = new Graphic({
+				geometry: firstPoint,
+				// 加载 ArcGIS CDN 上的 WebStyleSymbol，蓝色小汽车
+				symbol: new WebStyleSymbol({
+					// Blue car
+					name: "Point symbol_36",
+					styleUrl:
+						"https://cdn.arcgis.com/sharing/rest/content/items/0d9f00ffc3af4d128ac5771e3dbce440/data/",
+				}),
+				attributes: {
+					OBJECTID: 1,
+					rotation: firstHeading,
+				},
+				popupTemplate: {
+					title: "行驶中的汽车",
+					content: "当前航向：{rotation}°",
+				},
+			});
+
+			graphicsLayer2d.add(carGraphic2d);
+			mapView.map.add(graphicsLayer2d);
+
+			// 3D 汽车需要 rotation 字段，供 WebStyleSymbol 的旋转视觉变量读取。
+			const carFeature3d = new Graphic({
+				geometry: firstPoint,
+				attributes: {
+					OBJECTID: 1,
+					rotation: firstHeading,
+				},
+			});
+
+			carLayer3d = new FeatureLayer({
+				id: "car-layer-3d",
+				title: "3D 汽车",
+				source: [carFeature3d],
+				objectIdField: "OBJECTID",
+				geometryType: "point",
+				spatialReference: { wkid: 4326 },
+				fields: [
+					{ name: "OBJECTID", alias: "OBJECTID", type: "oid" },
+					{ name: "rotation", alias: "汽车朝向", type: "double" },
+				],
+				renderer: {
+					type: "simple",
+					symbol: new WebStyleSymbol({
+						name: "Ford_Expedition",
+						styleName: "EsriRealisticTransportationStyle",
+					}),
+					visualVariables: [
+						{
+							type: "rotation",
+							field: "rotation",
+							rotationType: "geographic",
+						},
+					],
+				},
+				elevationInfo: {
+					mode: "relative-to-ground",
+					offset: 0.35,
+				},
+				popupTemplate: {
+					title: "3D 汽车",
+					content: "当前航向：{rotation}°",
+				},
+			});
+
+			sceneView.map.add(carLayer3d);
+			await carLayer3d.load();
+
+			await driveCar();
+
+			// 等待 ArcGIS CDN 注入全局对象；超时后给出明确错误，便于定位网络问题。
+			function waitForArcGISGlobal(timeoutMs = 15000) {
+				if (window.$arcgis?.import) return Promise.resolve(window.$arcgis);
+
+				return new Promise((resolve, reject) => {
+					const startedAt = Date.now();
+					const check = () => {
+						if (window.$arcgis?.import) {
+							resolve(window.$arcgis);
+							return;
+						}
+
+						if (Date.now() - startedAt > timeoutMs) {
+							reject(
+								new Error(
+									"ArcGIS Maps SDK 5.0 未完成加载，请检查 https://js.arcgis.com/5.0/ 是否可访问",
+								),
+							);
+							return;
+						}
+
+						window.setTimeout(check, 50);
+					};
+
+					check();
+				});
+			}
+
+			// 把经纬度数组统一转换为 ArcGIS Point。
+			function makePoint([longitude, latitude]) {
+				return new Point({
+					longitude,
+					latitude,
+					spatialReference: { wkid: 4326 },
+				});
+			}
+
+			// 计算从前一点到后一点的地理航向，结果规范到 0-360 度。
+			function bearingBetween(
+				[longitude1, latitude1],
+				[longitude2, latitude2],
+			) {
+				const latitude1Radians = toRadians(latitude1);
+				const latitude2Radians = toRadians(latitude2);
+				const longitudeDelta = toRadians(longitude2 - longitude1);
+
+				const y = Math.sin(longitudeDelta) * Math.cos(latitude2Radians);
+				const x =
+					Math.cos(latitude1Radians) * Math.sin(latitude2Radians) -
+					Math.sin(latitude1Radians) *
+						Math.cos(latitude2Radians) *
+						Math.cos(longitudeDelta);
+
+				return (toDegrees(Math.atan2(y, x)) + 360) % 360;
+			}
+
+			// 根据汽车航向，把 3D 观察点放在车后方。
+			function cameraBehind(
+				point,
+				heading,
+				distanceMeters = CAMERA_DISTANCE_METERS,
+			) {
+				return offsetPoint(point, (heading + 180) % 360, distanceMeters);
+			}
+
+			// 按球面近似从一个经纬度点偏移指定距离。
+			function offsetPoint([longitude, latitude], bearing, distanceMeters) {
+				const angularDistance = distanceMeters / EARTH_RADIUS_METERS;
+				const bearingRadians = toRadians(bearing);
+				const latitudeRadians = toRadians(latitude);
+				const longitudeRadians = toRadians(longitude);
+
+				const targetLatitude = Math.asin(
+					Math.sin(latitudeRadians) * Math.cos(angularDistance) +
+						Math.cos(latitudeRadians) *
+							Math.sin(angularDistance) *
+							Math.cos(bearingRadians),
+				);
+
+				const targetLongitude =
+					longitudeRadians +
+					Math.atan2(
+						Math.sin(bearingRadians) *
+							Math.sin(angularDistance) *
+							Math.cos(latitudeRadians),
+						Math.cos(angularDistance) -
+							Math.sin(latitudeRadians) * Math.sin(targetLatitude),
+					);
+
+				return [toDegrees(targetLongitude), toDegrees(targetLatitude)];
+			}
+
+			// 2D MapView 使用 Esri 官方二维图标；车头方向由地图旋转表达。
+			function createCar2DSymbol() {
+				return new WebStyleSymbol({
+					styleName: "Esri2DPointSymbolsStyle",
+					name: "car-rental",
+				});
+			}
+
+			// 单步驱动动画：更新车的位置、调整两个视图，然后安排下一步。
+			async function driveCar() {
+				window.clearTimeout(timerId);
+
+				const current = locations[routeIndex];
+				const next = locations[(routeIndex + 1) % routeLength];
+				const heading = bearingBetween(current, next);
+
+				window.exercise6DriveState = {
+					routeIndex,
+					location: current,
+					heading: Number(heading.toFixed(2)),
+					cameraDistanceMeters: CAMERA_DISTANCE_METERS,
+					cameraZMeters: CAMERA_Z_METERS,
+					cameraTiltDegrees: CAMERA_TILT_DEGREES,
+					updatedAt: new Date().toISOString(),
+				};
+
+				drawCar2D(current, heading);
+
+				const tasks = [
+					move2DView(current, heading),
+					move3DView(current, heading),
+					drawCar3D(current, heading),
+				];
+
+				const results = await Promise.allSettled(tasks);
+				for (const result of results) {
+					if (
+						result.status === "rejected" &&
+						result.reason?.name !== "AbortError"
+					) {
+						console.warn("汽车单步更新失败，动画将继续：", result.reason);
+					}
+				}
+
+				routeIndex = (routeIndex + 1) % routeLength;
+				scheduleNextStep();
+			}
+
+			function scheduleNextStep() {
+				timerId = window.setTimeout(driveCar, 900);
+			}
+
+			// 2D 汽车图形只创建一次，后续只更新位置和属性。
+			function drawCar2D(location, heading) {
+				carGraphic2d.geometry = makePoint(location);
+				carGraphic2d.attributes = {
+					OBJECTID: 1,
+					rotation: Number(heading.toFixed(2)),
+				};
+			}
+
+			// 3D 汽车放在客户端 FeatureLayer 中，通过 applyEdits 更新同一个要素。
+			async function drawCar3D(location, heading) {
+				const carFeature = new Graphic({
+					geometry: makePoint(location),
+					attributes: {
+						OBJECTID: 1,
+						rotation: Number(heading.toFixed(2)),
+					},
+				});
+
+				const result = await carLayer3d.applyEdits({
+					updateFeatures: [carFeature],
+				});
+
+				const editError = result.updateFeatureResults?.[0]?.error;
+				if (editError) throw editError;
+			}
+
+			// 2D 视图跟随汽车，并反向旋转地图，让汽车前进方向始终朝上。
+			function move2DView(location, heading) {
+				return mapView.goTo(
+					{
+						center: makePoint(location),
+						scale: 1250,
+						rotation: (360 - heading) % 360,
+					},
+					{ animate: false },
+				);
+			}
+
+			// 3D 视图把相机放到车后方，并用较低俯角看向车身。
+			function move3DView(location, heading) {
+				const [cameraLongitude, cameraLatitude] = cameraBehind(
+					location,
+					heading,
+					CAMERA_DISTANCE_METERS,
+				);
+				const camera = sceneView.camera.clone();
+
+				camera.position = new Point({
+					longitude: cameraLongitude,
+					latitude: cameraLatitude,
+					z: CAMERA_Z_METERS,
+					spatialReference: { wkid: 4326 },
+				});
+				camera.heading = heading;
+				camera.tilt = CAMERA_TILT_DEGREES;
+
+				return sceneView.goTo(camera, { animate: false });
+			}
+
+			// 页面离开时清理定时器，避免后台继续调度动画。
+			window.addEventListener("pagehide", () => {
+				window.clearTimeout(timerId);
+			});
+		</script>
+	</body>
+</html>

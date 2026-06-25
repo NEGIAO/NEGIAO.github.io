@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGIS Workspace</title>
+    <style>
+        :root {
+            --bg-main: #f1f5f9;       /* 略带质感的明亮底色 */
+            --bg-card: #ffffff;       /* 纯白卡片，与底色形成强对比 */
+            --border-strong: #0f172a; /* 纯深色边框，确保线框绝对清晰 */
+            --text-title: #000000;    /* 纯黑标题 */
+            --text-body: #334155;     /* 高可读性深灰正文 */
+            
+            /* 状态特征色 - 极高饱和度 */
+            --color-blue: #2563eb;    
+            --color-red: #dc2626;     
+            --color-gray: #64748b;    
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-title);
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 3.5rem;
+            border-bottom: 3px solid var(--border-strong);
+            padding-bottom: 1.5rem;
+        }
+
+        .env-tag {
+            display: inline-block;
+            font-family: monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: var(--border-strong);
+            color: #ffffff;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-body);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        /* 强对比卡片基础样式 */
+        .card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-strong);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 4px 4px 0px 0px var(--border-strong); /* 经典硬核硬阴影，拒绝模糊 */
+            transition: all 0.15s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px 0px var(--border-strong);
+        }
+
+        /* 卡片顶部色彩带，强行拉开视线对比 */
+        .card-banner {
+            height: 6px;
+            background-color: var(--color-blue);
+            border-bottom: 2px solid var(--border-strong);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-id {
+            font-family: monospace;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--text-title);
+            background: #e2e8f0;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-strong);
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-blue);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-title);
+            margin-bottom: 0.75rem;
+        }
+
+        .card p {
+            color: var(--text-body);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            font-weight: 500;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* 强对比按钮 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.65rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 6px;
+            text-decoration: none;
+            flex: 1;
+            border: 2px solid var(--border-strong);
+            background-color: #f8fafc;
+            color: var(--border-strong);
+            transition: all 0.1s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--border-strong);
+            color: #ffffff;
+        }
+
+        /* Task 6 特殊高亮强对比（红色警示路线） */
+        .card.featured .card-banner {
+            background-color: var(--color-red);
+        }
+        .card.featured .status-badge {
+            color: var(--color-red);
+        }
+        .card.featured .btn {
+            background-color: var(--border-strong);
+            color: #ffffff;
+        }
+        .card.featured .btn:hover {
+            background-color: var(--color-red);
+            border-color: var(--color-red);
+        }
+
+        /* Task 3 调测置灰强对比（虚线盒） */
+        .card.disabled {
+            background-color: #e2e8f0;
+            border-style: dashed;
+        }
+        .card.disabled .card-banner {
+            background-color: var(--color-gray);
+        }
+        .card.disabled .status-badge {
+            color: var(--color-gray);
+        }
+        .card.disabled .btn {
+            background-color: transparent;
+            color: var(--color-gray);
+            border-color: var(--color-gray);
+            cursor: not-allowed;
+        }
+        .card.disabled .btn:hover {
+            background-color: transparent;
+            color: var(--color-gray);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="env-tag">河南大学地理与工程学部 · ArcGIS SDK 实习四</div>
+            <h1>《WebGIS原理与应用·实习四》作品中转站</h1>
+            <p>围绕 2D/3D 地图创建、在线 WebMap/WebScene 加载、调试与监控、Widget 集成、鼠标交互和车辆模拟等任务整理的成果展示页。</p>
+        </header>
+
+        <main class="grid">
+            <div class="card">
+                <div class="card-banner"></div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-id">TASK_01</span>
+                        <span class="status-badge">Active</span>
+                    </div>
+                    <h3>创建简单的 2D / 3D 地图</h3>
+                    <p>加载 ESRI 影像底图并设置初始视角，完成 2D 地图与 3D 场景的基础创建，掌握 MapView、SceneView 及高程图层的接入方式。</p>
+                    <div class="btn-group">
+                        <a href="./task1/trials_2d_map.html" target="_blank" class="btn">查看 2D 地图</a>
+                        <a href="./task1/trials_3d_map.html" target="_blank" class="btn">查看 3D 场景</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner"></div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-id">TASK_02</span>
+                        <span class="status-badge">Active</span>
+                    </div>
+                    <h3>通过 Web 地图和 Web 场景加载图层</h3>
+                    <p>基于 ArcGIS Online 中配置好的 WebMap 与 WebScene 项目，通过 portal item id 加载在线资源并显示图层与场景内容。</p>
+                    <div class="btn-group">
+                        <a href="./task2/trials_2d_portal.html" target="_blank" class="btn">查看 WebMap</a>
+                        <a href="./task2/trials_3d_portal.html" target="_blank" class="btn">查看 WebScene</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card disabled">
+                <div class="card-banner"></div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-id">TASK_03</span>
+                        <span class="status-badge">Dev Only</span>
+                    </div>
+                    <h3>调试 JavaScript 并监控 HTTP 通讯</h3>
+                    <p>通过 console.log 排查字符、语法与逻辑问题，并结合浏览器控制台检查前后端请求 URL，验证数据传输与请求格式是否正确。</p>
+                    <div class="btn-group">
+                        <a href="javascript:void(0)" class="btn">调试说明</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner"></div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-id">TASK_04</span>
+                        <span class="status-badge">Active</span>
+                    </div>
+                    <h3>在 2D 和 3D 视图中集成 Widget</h3>
+                    <p>在 2D/3D 视图中分别集成图例和图层列表组件，让地图与场景能够同步展示图层信息与可视化控制项。</p>
+                    <div class="btn-group">
+                        <a href="./task4/2d3d_Views_linked_legend.html" target="_blank" class="btn">进入图例模块</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-banner"></div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-id">TASK_05</span>
+                        <span class="status-badge">Active</span>
+                    </div>
+                    <h3>处理鼠标事件和弹出窗口</h3>
+                    <p>在 3D 视图中监听鼠标位置并构造 Google 街景链接，在 2D 视图中根据鼠标位置检测要素并弹出对应信息窗口。</p>
+                    <div class="btn-group">
+                        <a href="./task5/2d3d_Views_linked_mouse.html" target="_blank" class="btn">进入交互模块</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card featured">
+                <div class="card-banner"></div>
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-id" style="background: #fee2e2; color: var(--color-red);">TASK_06</span>
+                        <span class="status-badge">Simulation</span>
+                    </div>
+                    <h3>利用图层、渲染器和符号模拟汽车行驶</h3>
+                    <p>通过替换 2D 与 3D 车辆符号样式，并结合轨迹路线、渲染器与相机跟随逻辑，实现汽车在地图中的动态行驶效果。</p>
+                    <div class="btn-group">
+                        <a href="./task6/2d3d_drive.html" target="_blank" class="btn">启动车辆模拟</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

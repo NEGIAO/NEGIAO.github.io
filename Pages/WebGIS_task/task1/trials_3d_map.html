@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<title>personal webGIS task 1.2 3d maps</title>
+
+		<!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+		<script type="module" src="https://js.arcgis.com/5.0/"></script>
+		<script type="module" src="../back-to-index.js"></script>
+		
+		<style>
+			html,
+			body {
+				height: 100%;
+				margin: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- 底图、缩放、中心位置 -->
+		<arcgis-scene basemap="satellite" zoom="4" center="114, 40">
+			<arcgis-zoom slot="top-left"></arcgis-zoom>
+
+			<arcgis-elevation-layer
+				url="https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"
+				slot="ground"
+			></arcgis-elevation-layer>
+		</arcgis-scene>
+
+		<script type="module">
+			// Get a reference to the scene component
+			const viewElement = document.querySelector("arcgis-scene");
+
+			// Wait for when the component is ready
+			await viewElement.viewOnReady();
+			console.log("Scene component is ready", event);
+		</script>
+	</body>
+</html>

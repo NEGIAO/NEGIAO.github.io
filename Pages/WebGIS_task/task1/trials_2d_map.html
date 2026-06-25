@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<title>personal webGIS task 1.1 2d maps</title>
+
+		<!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+		<script type="module" src="https://js.arcgis.com/5.0/"></script>
+		<script type="module" src="../back-to-index.js"></script>
+
+		<style>
+			html,
+			body {
+				height: 100%;
+				margin: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- 底图、缩放、中心位置 -->
+		<arcgis-map basemap="satellite" zoom="4" center="114, 40">
+			<!-- 缩放控件 -->
+			<arcgis-zoom slot="top-left"></arcgis-zoom>
+		</arcgis-map>
+		<script type="module">
+			// Get a reference to the map component
+			const viewElement = document.querySelector("arcgis-map");
+
+			// Wait for when the component is ready
+			await viewElement.viewOnReady();
+			console.log("Map component is ready", event);
+		</script>
+	</body>
+</html>

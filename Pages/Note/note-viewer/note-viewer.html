@@ -38,11 +38,12 @@
                 }
             },
             options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                renderActions: { typeset: false }
             }
         };
     </script>
-    <script defer id="MathJax-script" src="https://cdnjs.loli.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <script defer id="MathJax-script" src="https://cdnjs.loli.net/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
     <script defer src="../../navbar-widgets/index.js"></script>
     <script defer src="../plugins/loader.js"></script>
     <script defer src="./note-viewer.js"></script>

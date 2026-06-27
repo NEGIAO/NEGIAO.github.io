@@ -246,9 +246,13 @@
 
   // 初始化
   function init() {
+    // note-viewer 页面由 note-viewer.js 统一管理 TOC 构建时机
+    // 跳过自动 buildTOC，避免在 markdown 内容加载前构建空目录
+    var skipBuild = !!window._skipNoteViewerTOCBuild;
+
     const execute = () => {
       util.batchDOM(() => {
-        buildTOC();
+        if (!skipBuild) buildTOC();
         initProgressBar();
       });
     };

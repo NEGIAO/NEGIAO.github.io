@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    // 标记当前页面由 note-viewer.js 管理 TOC 构建
+    // notes-toc.js 读到此标志后会跳过 DOMContentLoaded 时的自动构建，避免重复
+    window._skipNoteViewerTOCBuild = true;
+
     const SAFE_NOTE_NAME_PATTERN = /^[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*$/;
 
     // 配置将从外部 JSON 文件加载
@@ -212,26 +216,45 @@
         container._originalMarkdown = md;
     }
 
+    /**
+     * 分批高亮代码块 — 使用 requestIdleCallback 避免一次性阻塞主线程
+     * 每批处理 BATCH_SIZE 个代码块，空闲时继续下一批
+     * @param {HTMLElement} container - 笔记内容容器
+     */
     function applyHighlight(container) {
-        if (!window.hljs || typeof window.hljs.highlightElement !== 'function') {
-            return;
+        if (!window.hljs || typeof window.hljs.highlightElement !== 'function') { return; }
+        var BATCH_SIZE = 3;
+        var blocks = Array.from(container.querySelectorAll('pre code'));
+        function highlightBatch(deadline) {
+            var processed = 0;
+            while (blocks.length > 0 && (processed < BATCH_SIZE || (deadline && deadline.timeRemaining() > 1))) {
+                window.hljs.highlightElement(blocks.shift());
+                processed++;
+            }
+            if (blocks.length > 0) {
+                if (typeof requestIdleCallback === 'function') { requestIdleCallback(highlightBatch); }
+                else { setTimeout(function() { highlightBatch(null); }, 0); }
+            }
         }
-
-        container.querySelectorAll('pre code').forEach((block) => {
-            window.hljs.highlightElement(block);
-        });
+        if (typeof requestIdleCallback === 'function') { requestIdleCallback(highlightBatch); }
+        else { highlightBatch(null); }
     }
 
-    async function renderMath(container) {
-        if (!window.MathJax || typeof window.MathJax.typesetPromise !== 'function') {
-            return;
-        }
-
-        try {
-            await window.MathJax.typesetPromise([container]);
-        } catch (error) {
-            // 保持页面继续运行，不阻断主渲染流程
-        }
+    /**
+     * 延迟渲染数学公式 — 使用 requestIdleCallback 将 MathJax 排版推迟到浏览器空闲时
+     * 避免 MathJax 排版阻塞首屏交互，降低 CPU 峰值
+     * @param {HTMLElement} container - 笔记内容容器
+     * @returns {Promise} 排版完成的 Promise
+     */
+    function renderMath(container) {
+        return new Promise(function(resolve) {
+            if (!window.MathJax || typeof window.MathJax.typesetPromise !== 'function') { resolve(); return; }
+            function doTypeset() {
+                window.MathJax.typesetPromise([container]).then(resolve).catch(function() { resolve(); });
+            }
+            if (typeof requestIdleCallback === 'function') { requestIdleCallback(doTypeset); }
+            else { setTimeout(doTypeset, 100); }
+        });
     }
 
     function detectMissingLibraries() {
@@ -370,10 +393,10 @@
             header.appendChild(langLabel);
             header.appendChild(copyBtn);
 
+            // 直接操作原始 pre 元素，不使用 cloneNode（确保与异步 highlight.js 兼容）
+            pre.parentNode.insertBefore(wrapper, pre);
             wrapper.appendChild(header);
-            wrapper.appendChild(pre.cloneNode(true));
-
-            pre.parentNode.replaceChild(wrapper, pre);
+            wrapper.appendChild(pre);
         });
     }
 

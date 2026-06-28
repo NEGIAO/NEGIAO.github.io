@@ -133,6 +133,105 @@ def generate_options(correct_meaning, all_meanings, count=3):
     return options
 
 
+def deduplicate_sections(sections):
+    """
+    对 sections 按日期去重，只保留每个日期的首次出现。
+    :param sections: [{'date': '2026-06-20', 'raw': '...'}, ...]
+    :return: 去重后的 sections 列表（保持原顺序）
+    """
+    seen_dates = set()
+    unique = []
+    for s in sections:
+        if s['date'] not in seen_dates:
+            seen_dates.add(s['date'])
+            unique.append(s)
+    return unique
+
+
+def cleanup_archive_files(archive_dir):
+    """
+    一次性清理所有存档文件中的重复内容：
+    - 去除重复的 ## 月标题（只保留第一个）
+    - 去除重复的 ### 日期段落（每个日期只保留首次出现）
+    """
+    if not os.path.isdir(archive_dir):
+        print("[跳过] 存档目录不存在，跳过清理。")
+        return
+
+    month_pattern = re.compile(r'^## .+$', re.MULTILINE)
+    date_pattern = re.compile(r'^### (\d{4}-\d{2}-\d{2})', re.MULTILINE)
+    cleaned_count = 0
+
+    for fname in sorted(os.listdir(archive_dir)):
+        if not fname.endswith('.md'):
+            continue
+        fpath = os.path.join(archive_dir, fname)
+        content = read_markdown_file(fpath)
+        if not content:
+            continue
+
+        # 1. 提取 # 标题行（第一个 ## 之前的部分）
+        first_h2 = content.find('\n## ')
+        if first_h2 < 0:
+            first_h2 = 0
+        title_line = content[:first_h2].rstrip() if first_h2 > 0 else ''
+
+        # 2. 只取第一个 ## 月标题
+        month_header = ''
+        for mm in month_pattern.finditer(content):
+            month_header = mm.group(0)
+            break
+
+        # 3. 提取所有 ### sections 并去重
+        date_positions = list(date_pattern.finditer(content))
+        if not date_positions:
+            continue
+
+        sections = []
+        for i, m in enumerate(date_positions):
+            start = m.start()
+            end = date_positions[i + 1].start() if i + 1 < len(date_positions) else len(content)
+            raw = content[start:end].rstrip()
+            # 去除 section 内部可能混入的 ## 月标题行
+            raw = re.sub(r'^## .+$', '', raw, flags=re.MULTILINE).strip()
+            sections.append({
+                'date': m.group(1),
+                'raw': raw
+            })
+
+        unique_sections = deduplicate_sections(sections)
+
+        # 判断是否有变化
+        has_dup_sections = len(unique_sections) < len(sections)
+        has_dup_headers = content.count('\n## ') > 1
+        # 检查 section 内部是否嵌有 ## 标题
+        has_embedded_headers = any(re.search(r'^## .+$', content[dp.start():date_positions[i+1].start() if i+1 < len(date_positions) else len(content)], re.MULTILINE) for i, dp in enumerate(date_positions))
+        if not has_dup_sections and not has_dup_headers and not has_embedded_headers:
+            continue
+
+        # 4. 重建文件
+        parts = []
+        if title_line:
+            parts.append(title_line)
+        if month_header:
+            parts.append(month_header)
+        for s in unique_sections:
+            parts.append(s['raw'])
+
+        with open(fpath, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(parts) + '\n')
+
+        dup_count = len(sections) - len(unique_sections)
+        h2_dup = content.count('\n## ') - 1
+        cleaned_count += 1
+        print(f"   [清理] {fname}: 去除 {dup_count} 个重复段落, {max(0, h2_dup)} 个重复标题")
+
+    if cleaned_count > 0:
+        print(f"-> 共清理 {cleaned_count} 个存档文件")
+    else:
+        print("[完成] 所有存档文件无需清理。")
+
+
 def split_markdown_file(md_path, archive_dir, recent_days=7):
     """
     增量式拆分：主文件超过 recent_days 天时，将最旧的剥离到对应月份存档。
@@ -170,6 +269,9 @@ def split_markdown_file(md_path, archive_dir, recent_days=7):
             'date': m.group(1),
             'raw': body[start:end].rstrip()
         })
+
+    # 去除主文件中重复的日期段落（每个日期只保留首次出现）
+    sections = deduplicate_sections(sections)
 
     # 3. 按日期去重，判断是否需要拆分
     unique_dates = sorted(set(s['date'] for s in sections), reverse=True)
@@ -244,27 +346,31 @@ def split_markdown_file(md_path, archive_dir, recent_days=7):
                     'raw': existing[start:end].rstrip()
                 })
 
-            # 合并并按日期倒序排列
+            # 去除已有存档中的重复日期段落
+            existing_sections = deduplicate_sections(existing_sections)
+
+            # 合并并按日期倒序排列，再去重（防止新旧 sections 有同日重复）
             all_secs = existing_sections + month_secs
             all_secs.sort(key=lambda x: x['date'], reverse=True)
+            all_secs = deduplicate_sections(all_secs)
 
-            # 重建存档内容：保留原 header + 月标题
-            archive_header_end = existing.find('\n### ')
-            if archive_header_end < 0:
-                archive_header_end = existing.find('\n## ')
-            if archive_header_end < 0:
-                archive_header_end = 0
-            archive_header = existing[:archive_header_end] if archive_header_end > 0 else ''
+            # 重建存档内容：只保留 # 标题行 + 一个 ## 月标题（去除所有重复的 ## 标题）
+            # 找到第一个 ## 之前的纯标题行（如 "# 📚 英语单词学习记录"）
+            first_h2 = existing.find('\n## ')
+            if first_h2 < 0:
+                first_h2 = 0
+            # 纯 # 标题行（不含 ## 月标题）
+            archive_title = existing[:first_h2].rstrip() if first_h2 > 0 else ''
 
-            # 找到月标题行
+            # 只取第一个 ## 月标题（跳过所有重复的）
             month_header = ''
             for mm in month_pattern.finditer(existing):
                 month_header = mm.group(0)
                 break
 
             parts = []
-            if archive_header:
-                parts.append(archive_header.rstrip())
+            if archive_title:
+                parts.append(archive_title)
             if month_header:
                 parts.append(month_header)
             for s in all_secs:
@@ -425,6 +531,13 @@ def main():
     print("      拆分 Markdown 文件      ")
     print("-" * 30)
     split_markdown_file(MD_PATH, ARCHIVE_DIR, RECENT_DAYS)
+
+    # 9. 清理所有存档文件中的重复内容（一次性修复历史遗留问题）
+    print()
+    print("-" * 30)
+    print("      清理存档重复内容      ")
+    print("-" * 30)
+    cleanup_archive_files(ARCHIVE_DIR)
 
 
 if __name__ == "__main__":

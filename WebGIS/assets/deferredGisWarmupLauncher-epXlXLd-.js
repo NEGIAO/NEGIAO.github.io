@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./deferredGisAssets-DIW3N0Ex.js","./vendor-ol-all-sRFWUzaL.js","./vendor-libs-BH3wVxJ6.js","./vendor-ol-all-BtPuoxOl.css"])))=>i.map(i=>d[i]);
+import{_ as r}from"./vendor-runtime-Dp1pzeXC.js";async function o(){return(await r(()=>import("./deferredGisAssets-DIW3N0Ex.js"),__vite__mapDeps([0,1,2,3]),import.meta.url)).warmDeferredGisAssets()}export{o as launchDeferredGisWarmup};

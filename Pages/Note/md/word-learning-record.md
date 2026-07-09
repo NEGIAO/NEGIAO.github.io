@@ -4,7 +4,24 @@
   ![visitors](https://visitor-badge.laobi.icu/badge?page_id=negiao.word-learning)
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
-## 2026年6月单词
+## 2026年7月单词
+### 2026-07-09新增单词
+| 单词 | 词性 | 核心释义 | 词根助记 |
+| ---- | ---- | ---- | ---- |
+| moralist | n. | **道德家**；卫道士 | moral道德 + ist表人 |
+| satirist | n. | **讽刺作家；讽刺家** | satire讽刺 + ist表人 |
+| satire | n. | **讽刺；讥讽；讽刺作品** | — |
+| clerk | n. | **职员；文员；办事员** | — |
+| paternal | adj. | **父系的；父亲般的** | pater父亲 + al形容词后缀 |
+| warehouse | n./v. | **仓库；货仓**；存入仓库 | ware货物 + house房屋 |
+| confide | v. | **委托，托付；倾诉，诉说心事** | con加强 + fid信任 |
+| errand | n. | **差事，跑腿；任务，使命** | — |
+| steno | n. | **速记；速记员** | stenography缩写 |
+| parliament | n. | **国会；议会** | parlia谈话 + ment，议事场所 |
+| transcribe | v. | **抄写；记录；改编（乐曲）** | trans跨越 + scribe书写 |
+| prose | n./adj. | **散文；白话文**；平淡乏味的 | — |
+| plump | adj./v. | **丰满的；圆润肥美的**；使丰满 | — |
+| spectacle | n. | **奇观；盛大场面；景象** | spect观看 + acle，供人观赏的景象 |
 ### 2026-07-07新增单词
 | 单词/短语 | 词性 | 核心释义 | 词根/词缀助记 |
 | ---- | ---- | ---- | ---- |
@@ -136,17 +153,3 @@ null
 |meditate|v.|**冥想**；谋划；深思思考|med中间+it行走+ate，沉下心思索|
 |lay|adj./v.|**外行的**；放置；下蛋；躺下|—|
 |institution|n.|**机构**；团体；制度；惯例|institute设立+ion名词后缀|
-### 2026-06-24新增单词
-|单词|词性|核心释义|词根助记|
-| ---- | ---- | ---- | ---- |
-|vestige|n.|**遗址**；遗迹；痕迹|vest踪迹 + ig后缀|
-|humility|n.|**谦逊**；谦恭|hum低下 + ility名词后缀|
-|humiliate|v.|**羞辱**；使蒙羞|hum低下 + ili + ate动词后缀|
-|charitable|adj.|**仁慈的**；宽容的；慈善的|charity仁慈 + able形容词后缀|
-|charity|n.|**慈善事业**；仁慈；宽厚|char喜爱 + ity名词后缀|
-|dismal|adj.|**忧郁的**；糟糕的；差劲的|—|
-|aversion|n.|**厌恶**；憎恨；反感|avers厌恶 + ion名词后缀|
-|reason|n./v.|**理智**；道理；**推理**；原因|—|
-|counter|adj./v./n.|**对立的**；抵制；反驳；柜台|count相对|
-|reasonable|adj.|**合理的**；讲道理的|reason理由 + able|
-|needy|adj.|**贫穷的**；需要关怀的|need需要 + y形容词后缀|

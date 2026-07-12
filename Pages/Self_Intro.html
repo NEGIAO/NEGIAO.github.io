@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姚乃高 - 中科院地理所夏令营答辩通关神器</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #0f172a;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 text-white p-2 rounded-lg shadow-lg shadow-blue-500/20">
+                <i class="fa-solid fa-graduation-cap text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold tracking-tight">中科院地理所夏令营 · 个人介绍演练神器</h1>
+                <p class="text-xs text-slate-400">候选人：姚乃高（河南大学 · 地信专业） | 目标：地图学与地理信息系统（GIS技术与应用）</p>
+            </div>
+        </div>
+        
+        <!-- Global Timer Tool -->
+        <div class="flex items-center gap-4 bg-slate-950 px-4 py-2 rounded-xl border border-slate-800">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-stopwatch text-amber-500 animate-pulse"></i>
+                <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">演练计时：</span>
+                <span id="timer-display" class="code-font font-bold text-lg text-amber-400">00:00</span>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="toggleTimer()" id="timer-btn" class="bg-amber-600 hover:bg-amber-500 text-white text-xs px-2.5 py-1 rounded font-medium transition-colors">
+                    <i class="fa-solid fa-play mr-1"></i>开始
+                </button>
+                <button onclick="resetTimer()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded font-medium transition-colors">
+                    <i class="fa-solid fa-arrow-rotate-left mr-1"></i>重置
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="flex-grow flex flex-col lg:flex-row overflow-hidden">
+        
+        <!-- Left Sidebar: Slide Navigator -->
+        <aside class="w-full lg:w-80 bg-slate-900 border-r border-slate-800 p-4 overflow-y-auto shrink-0 flex flex-col gap-2">
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2 mb-2 flex justify-between items-center">
+                <span>PPT 页面导航</span>
+                <span class="bg-slate-800 px-1.5 py-0.5 rounded text-[10px]">11 Pgs</span>
+            </div>
+            
+            <nav class="flex flex-col gap-1.5" id="slide-nav">
+                <!-- Nav Items dynamically created / state-managed -->
+            </nav>
+
+            <div class="mt-auto pt-4 border-t border-slate-800">
+                <div class="bg-blue-950/40 border border-blue-900/60 rounded-xl p-3 text-xs text-blue-300">
+                    <h4 class="font-bold mb-1"><i class="fa-solid fa-circle-info mr-1"></i> 终极备考贴士</h4>
+                    <p class="leading-relaxed text-slate-300">中科院导师极度重视<b>数理分析、算法落地与动手能力</b>。本讲稿深度咬合了你“既懂理化实验、又精算法编程、还能全栈独立开发”的复合标签，展现降维打击优势！</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center & Right Workspace -->
+        <main class="flex-grow flex flex-col overflow-hidden bg-slate-950">
+            
+            <!-- Global Mode Tabs -->
+            <div class="bg-slate-900 border-b border-slate-800 px-6 py-2.5 flex flex-wrap justify-between items-center gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-slate-400 font-bold uppercase tracking-wider mr-2">演练版本切换:</span>
+                    <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 flex gap-1">
+                        <button onclick="setVersion('5min')" id="btn-5min" class="version-tab px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200">
+                            <i class="fa-solid fa-clock mr-1"></i>5分钟 详尽通关版 (约1000字)
+                        </button>
+                        <button onclick="setVersion('3min')" id="btn-3min" class="version-tab px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200">
+                            <i class="fa-solid fa-bolt mr-1"></i>3分钟 高能黄金版 (约600字)
+                        </button>
+                        <button onclick="setVersion('1min')" id="btn-1min" class="version-tab px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200">
+                            <i class="fa-solid fa-gauge-high mr-1"></i>1分钟 极速电梯版 (约250字)
+                        </button>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="toggleQAModal()" class="bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/30 text-xs px-3.5 py-1.5 rounded-lg font-medium transition-all">
+                        <i class="fa-solid fa-circle-question mr-1.5"></i>地理所模拟提问库
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Splitter -->
+            <div class="flex-grow flex flex-col md:flex-row overflow-hidden">
+                
+                <!-- Left half: Slide Details Mockup & Focus -->
+                <div class="w-full md:w-[42%] border-r border-slate-800 overflow-y-auto p-6 flex flex-col gap-6 bg-slate-900/30">
+                    
+                    <!-- Slide Overview Card -->
+                    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-blue-900/40 text-blue-300 border border-blue-800/50 text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full" id="slide-section">Section</span>
+                            <span class="text-xs text-slate-500 font-semibold code-font" id="slide-index">Page 01 / 11</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-white mb-2" id="slide-title">Slide Title</h2>
+                        <p class="text-xs text-slate-400 leading-relaxed" id="slide-desc">Slide Description</p>
+                    </div>
+
+                    <!-- Strategic Logic Thread -->
+                    <div class="bg-emerald-950/20 border border-emerald-900/40 rounded-2xl p-5">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2">
+                            <i class="fa-solid fa-route mr-1.5"></i>本页汇报核心逻辑链条
+                        </h4>
+                        <p class="text-sm text-slate-300 leading-relaxed" id="slide-logic">
+                            Logic explanation goes here.
+                        </p>
+                    </div>
+
+                    <!-- Slide Contents Quick-Check -->
+                    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">
+                            <i class="fa-solid fa-list-check mr-1.5"></i>当前PPT对应要点速览
+                        </h4>
+                        <ul class="text-xs text-slate-400 space-y-2" id="slide-points">
+                            <!-- Points dynamic -->
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Right half: Script & Coach -->
+                <div class="w-full md:w-[58%] overflow-y-auto p-6 flex flex-col gap-6">
+                    
+                    <!-- Speech Delivery Coach Bar -->
+                    <div class="grid grid-cols-3 gap-3 bg-slate-900 p-4 rounded-2xl border border-slate-800 text-center">
+                        <div class="border-r border-slate-800/80">
+                            <span class="block text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">建议语速</span>
+                            <span class="text-sm font-bold text-slate-200" id="coach-speed">中速偏稳</span>
+                        </div>
+                        <div class="border-r border-slate-800/80">
+                            <span class="block text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">本页分配时间</span>
+                            <span class="text-sm font-bold text-amber-400 code-font" id="coach-time">00:30</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] text-slate-400 uppercase tracking-wider mb-0.5">答辩状态气场</span>
+                            <span class="text-sm font-bold text-blue-400" id="coach-tone">谦逊且自信</span>
+                        </div>
+                    </div>
+
+                    <!-- The Script Content -->
+                    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 relative">
+                        <div class="absolute top-4 right-4 flex gap-1">
+                            <button onclick="adjustFontSize(1)" class="p-1 px-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 rounded font-bold" title="放大字体">A+</button>
+                            <button onclick="adjustFontSize(-1)" class="p-1 px-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 rounded font-bold" title="缩小字体">A-</button>
+                        </div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+                            <i class="fa-solid fa-microphone-lines mr-1.5 text-blue-500"></i>实时演练逐字稿
+                        </h4>
+                        
+                        <!-- Script Body -->
+                        <div id="script-body" class="text-base text-slate-200 leading-relaxed space-y-4 whitespace-pre-wrap transition-all duration-200" style="font-size: 16px;">
+                            <!-- Script goes here -->
+                        </div>
+                    </div>
+
+                    <!-- Action Cues / Coach Directives -->
+                    <div class="bg-amber-950/10 border border-amber-900/30 rounded-2xl p-5">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-amber-500 mb-2">
+                            <i class="fa-solid fa-lightbulb mr-1.5"></i>本页演练台风与动作指令
+                        </h4>
+                        <div class="text-xs text-amber-300/90 leading-relaxed space-y-1.5" id="coach-tips">
+                            <!-- Tips goes here -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Footer Controls -->
+            <div class="bg-slate-900 border-t border-slate-800 px-6 py-4 flex justify-between items-center shrink-0">
+                <button onclick="navigateSlide(-1)" id="prev-btn" class="bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-white text-sm px-4 py-2 rounded-xl transition-all font-medium">
+                    <i class="fa-solid fa-chevron-left mr-2"></i>上一页 PPT
+                </button>
+                <div class="text-xs text-slate-400 font-medium">
+                    姚乃高 · GIS技术与应用方向 | 河南省优秀地信学子
+                </div>
+                <button onclick="navigateSlide(1)" id="next-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-sm px-4 py-2 rounded-xl transition-all font-medium">
+                    下一页 PPT<i class="fa-solid fa-chevron-right ml-2"></i>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Q&A Simulator Modal -->
+    <div id="qa-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col shadow-2xl">
+            <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/60">
+                <div class="flex items-center gap-2">
+                    <div class="bg-indigo-600 text-white p-1.5 rounded-lg text-sm">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">中科院地理所夏令营 · 导师高频提问库 & 回答模板</h3>
+                </div>
+                <button onclick="toggleQAModal()" class="text-slate-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto space-y-6 text-sm">
+                
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <span class="bg-indigo-900/50 text-indigo-300 text-[10px] font-bold uppercase px-2 py-0.5 rounded tracking-wide">Q1. 地学大模型与全栈工程相关</span>
+                    <h4 class="font-bold text-slate-200 mt-2 mb-2">问：“你提到在全栈开源项目里用到了 Docker 和 Hugging Face，还做到了系统线上部署，你写这些代码在科研中有什么价值？”</h4>
+                    <p class="text-slate-400 leading-relaxed">
+                        <span class="text-emerald-400 font-bold">答题话术：</span>“谢谢老师的提问。传统的 GIS 科研往往止步于发表论文或生成一张静态图表。我独立研发的这套 <b>Vue 3 + FastAPI + Docker</b> 架构体系，其核心价值在于<b>将复杂的地学算法工程化、服务化、可视化</b>。我们在 Hugging Face 上托管 API 容器，意味着可以将地理所先进的地学大模型、时空演化模拟，用极低的成本一键封装成在线交互工具。这不仅能让非地信专业的合作者直观体验地学研究成果，更为未来<b>‘云端协同的地学决策支持系统’</b>搭建好了底层脚手架，实现‘研究成果一键落地运行’。”
+                    </p>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <span class="bg-indigo-900/50 text-indigo-300 text-[10px] font-bold uppercase px-2 py-0.5 rounded tracking-wide">Q2. 物理地理与数理分析相关</span>
+                    <h4 class="font-bold text-slate-200 mt-2 mb-2">问：“你参与的虎丘岗遗址黑碳研究，这个纯物理实验课题与你的 GIS 申请方向（技术与应用）有什么联系？”</h4>
+                    <p class="text-slate-400 leading-relaxed">
+                        <span class="text-emerald-400 font-bold">答题话术：</span>“谢谢老师。这两年的系统物理实验，表面上在洗土样、烧黑碳，实际上锻炼了我<b>两个极关键的能力</b>：第一是<b>地学第一手物理现场数据的采集能力</b>。真正优秀的地信科学家绝不能只在电脑前做‘键盘侠’，必须理解泥土、气候等物理机理；第二是<b>高维时序分析的数理建模能力</b>。我负责处理收集到的磁化率、黑碳含量等核心理化时序。在导师指导下，我引入<b>小波分析（Wavelet Analysis）和小波功率谱</b>去识别地层沉积周期的全新世尺度。这种信号频域分解技术，与卫星遥感时间序列分析、气象时空变化规律挖掘在底层数学上完全互通。这使我未来做 GIS 应用开发时，有极为扎实的物理地学机理支撑。”
+                    </p>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                    <span class="bg-indigo-900/50 text-indigo-300 text-[10px] font-bold uppercase px-2 py-0.5 rounded tracking-wide">Q3. 大数据挖掘与算法设计相关</span>
+                    <h4 class="font-bold text-slate-200 mt-2 mb-2">问：“在‘宝藏小城’大数据的熵权法模型里，为什么要引入人口反比因子？”</h4>
+                    <p class="text-slate-400 leading-relaxed">
+                        <span class="text-emerald-400 font-bold">答题话术：</span>“谢谢老师。在传统熵权法评选热门旅游地时，北上广深由于基础客流、POI数量极大，会形成绝对统治力，这会导致普通‘宝藏小城’因基数低而被彻底掩盖。为了突出<b>‘反向旅游’</b>中‘小众、高性价比’的独特性，我通过严谨推导，将<b>‘城市常住人口’</b>的倒数作为惩罚约束（反比因子）引入决策公式。这样，在同等旅游热度和社交媒体爆发系数下，小城因基数小，其综合得分反而能实现指数级纠偏。这个因子保证了模型不偏心大都市，真正实现了‘反向挖宝’的数学合理性。”
+                    </p>
+                </div>
+
+            </div>
+            
+            <div class="p-4 border-t border-slate-800 bg-slate-950 text-center text-xs text-slate-500">
+                答辩彩排时，确保时刻牢记：<b>遇到不会的算法，真诚表达“下去立刻补齐”</b>，保持谦逊科学的作风。
+            </div>
+        </div>
+    </div>
+
+    <!-- Script/Database Definition -->
+    <script>
+        // Presentation Dataset containing all Slides, Logic Threads, Tips, and 3 Versions of Speech Script
+        const slideData = [
+            {
+                section: "封面页",
+                title: "“感受地理之美”夏令营 —— 个人自我介绍",
+                desc: "封面演讲，开场定基调。主旨：心向往之，素履以往。表现一个怀揣情怀、踏实肯干的青年地信学子。",
+                logic: "将诗意的‘心向往之，素履以往’，具象化地解释为：‘心向往之’是对中国科学院地理所学术高度与地信前沿技术的研究渴望；‘素履以往’是穿着最朴素的鞋、踏踏实实深入实验室、敲击十几万行代码的自驱型实干作风。",
+                points: [
+                    "学生：姚乃高 | 河南大学地理信息科学专业",
+                    "主题：感受地理之美夏令营答辩汇报",
+                    "汇报时间：2026年7月16日"
+                ],
+                speeds: {
+                    "5min": "中速偏慢，情感真挚饱满",
+                    "3min": "中速，精神饱满",
+                    "1min": "快速且有力度"
+                },
+                times: {
+                    "5min": "00:40",
+                    "3min": "00:25",
+                    "1min": "00:10"
+                },
+                tones: {
+                    "5min": "温润有情怀，透露出对地理所的神往",
+                    "3min": "大方得体，开门见山",
+                    "1min": "高能干练，一击必中"
+                },
+                tips: [
+                    "开场站姿挺拔，向台下地理所专家微微鞠躬，目光扫视全场中段评委。",
+                    "PPT投影切到第一页，等全场安静后，深吸一口气，语气自信沉稳地开始汇报。"
+                ],
+                scripts: {
+                    "5min": "各位尊敬的专家、老师，大家上午好！\n\n我是来自河南大学地理信息科学专业的姚乃高。非常荣幸能相聚在咱们地理所的‘感受地理之美’夏令营。今天我的汇报主题是——《心向往之，素履以往》。\n\n这八个字不仅是我三年地信求学生涯的真实写照，更是我对中科院地理所的神往。‘心向往之’，是对地理所最崇高的地学前沿、最顶尖GIS技术的渴望；而‘素履以往’，则是指我早已做好准备，愿意用最朴实的脚步去深入实验室，去敲击十几万行开发代码，用最扎实的汗水去践行地信青年科研报国的理想。接下来，我将从学业、科研、工程和规划四个方面，向各位老师汇报我这一路的成长足迹。",
+                    "3min": "各位老师好！我是来自河南大学地理信息科学专业的姚乃高。\n\n非常荣幸能在中科院地理所的夏令营中向大家做自我介绍。我今天的汇报主题是《心向往之，素履以往》。\n\n对我而言，‘心向往之’是我对中科院地理所学术圣殿的长久神往；‘素履以往’则是哪怕穿着最朴素的素履，我也将踏踏实实地攻克每一行代码、每一次物理理化实验。下面，我将从学业、科研、工程和规划四个方面展示一个复合型的自我。",
+                    "1min": "各位老师好！我是姚乃高，来自河南大学地理信息科学专业。\n\n今天我自我介绍的主题是《心向往之，素履以往》。对我而言，地理所是我的‘心向往之’；而‘素履以往’则是支撑我一路走来的实干精神。请允许我用一分钟展示我的地信成长之路！"
+                }
+            },
+            {
+                section: "基本情况",
+                title: "个人简介、成绩与成长轨迹",
+                desc: "展示过硬的高含金量基本功，重点指出自己的“逆袭上升成长轨迹”与“全面的科研底子”。",
+                logic: "不要机械地念PPT上的数字。要用动态发展的眼光包装你的绩点：从2023年的第39名，一路攀升到2024年的第8名，直至2025年的第7名、专业排名第6名！这能证明你具有极其强大的逆袭自驱力。接着，引出两项涵盖了‘人文异构大数据挖掘’与‘自然地学实验分析’的省级项目，证明自己复合型人才的底色。",
+                points: [
+                    "专业排名：6/48，GPA：3.43 / 4，英语：CET-6 519分",
+                    "成长轨迹：名次从39名攀升至第8、第7，展现强大后劲",
+                    "科研概括：完整参与两年期省级大创项目，负责样品处理、分析与可视化"
+                ],
+                speeds: {
+                    "5min": "稳重、突出重点数据",
+                    "3min": "快速，主次分明",
+                    "1min": "超快速切入"
+                },
+                times: {
+                    "5min": "00:45",
+                    "3min": "00:30",
+                    "1min": "00:10"
+                },
+                tones: {
+                    "5min": "严谨谦逊，用排名攀升体现超强学习后劲",
+                    "3min": "干练紧凑，突出逆袭上升趋势",
+                    "1min": "凝练干脆，用数据说话"
+                },
+                tips: [
+                    "手指指向PPT右侧的‘成长轨迹’图表，并面向老师做个手势：这展示出我强烈的学习爆发力。",
+                    "说出‘6/48’和‘大创结项’时，语气加重，体现成果分量。"
+                ],
+                scripts: {
+                    "5min": "首先，向老师们汇报我的基本学业概况。\n\n在本科阶段，我始终保持着严谨而有爆发力的学习习惯。虽然在大一刚入学时名次一般，但我迅速找到了地信科学的钻研方法。如大家所见，在我的成长轨迹中，绩点名次从39名强劲攀升至第8、第7，最终以专业综合排名第6名的成绩，夯实了我的地学数理根基。我的CET-6成绩为519分，具备流畅查阅地学前沿英文文献的阅读和应用能力。\n\n更为关键的是，我并非一个只在课堂里拿高分的学生，在大创中，我完整主导并参与了长达两年的省级项目，深度负责数据处理与可视化。这使我早早跨过了本科生科研的门槛。",
+                    "3min": "在学业表现上，我具有极强的‘逆袭爆发力’与‘全面科研素养’。\n\n我的专业综合排名位列第6，GPA为3.43/4。如图所示，我的成绩从大一的39名一路攀升至前十，这种不断超越的上升曲线代表了我的学习适应力与自驱力。CET-6分数为519分。\n\n在科研经历上，我不仅在课堂上名列前茅，更连续两年主导并参与省级大创，从野外采样到实验处理，再到系统开发与可视化，我全面打通了科研的完整闭环。",
+                    "1min": "我专业综合排名第6，英语CET-6为519分。\n\n大家可以看到，我的名次从大一的39名一路强劲攀升至前十，体现了极强的学习爆发力。同时，我曾完整参与两年省级大创项目，负责底层样品的测定及可视化，为攻读研究生积攒了扎实的科研基本功。"
+                }
+            },
+            {
+                section: "第一部分：学业成绩",
+                title: "课程三大核心模块与高分成绩单",
+                desc: "展示高分课程。突出复合型的“RS + CS + GIS”知识矩阵，这正是地理所导师最喜欢的背景。",
+                logic: "不要单摆浮搁说成绩，要展示宏观的知识架构！你学习的不仅是GIS，而是：以遥感（RS）为感知源，以计算机科学（CS）为算力武器，以地理信息科学（GIS）为决策大脑的三驾马车。重点点出你在‘云计算与遥感大数据（98分）’、‘GIS设计与开发（97分）’和‘面向对象（96分）’这些技术性、开发性课程中的绝对统治力分值！这直接印证了你申请‘GIS技术与应用’方向的完美匹配度。",
+                points: [
+                    "三大模块：遥感科学 (RS) + 计算机科学 (CS) + 地理信息科学 (GIS)",
+                    "技术开发高分课程：云计算与遥感大数据 98 | GIS设计与开发 97 | 面向对象 96 | 计算机网络技术 95",
+                    "专业核心课程：空间数据库 94 | 空间分析 94 | 数量地理学 93"
+                ],
+                speeds: {
+                    "5min": "沉稳、富有逻辑感",
+                    "3min": "中速，突出强CS/开发背景",
+                    "1min": "极速提炼技术标签"
+                },
+                times: {
+                    "5min": "00:45",
+                    "3min": "00:25",
+                    "1min": "00:10"
+                },
+                tones: {
+                    "5min": "体现出对学科交叉性的宏观把控，有大局观",
+                    "3min": "技术倾向鲜明，强化自己的程序开发底子",
+                    "1min": "重点抛出98、97、96等高分，以技惊人"
+                },
+                tips: [
+                    "在讲到‘遥感、计算机、地信三大模块’时，用双手手势做一个向中间靠拢的融合手势。",
+                    "眼神坚定地看着各位做GIS开发的导师，向他们传递‘我不仅懂地理，我写程序也极强’的信号。"
+                ],
+                scripts: {
+                    "5min": "接下来我们看第一部分：学业成绩。\n\n作为一个立志在‘地图学与地理信息系统技术及应用’方向深耕的申请者，我主动构建了‘遥感科学、计算机科学、地理信息科学’三大模块构成的三维立体交叉知识矩阵。这让我具备了利用计算机武器、解决地理大数据的复合能力。\n\n在课程表现中，我的技术与开发色彩极其鲜明：云计算与遥感大数据处理获得了98的高分，GIS设计与开发97分，面向对象程序设计96分，计算机网络95分。此外，我的数量地理学93分，空间数据库和空间分析均获得了94分的高分。超过90分的专业核心课程占了绝大部分。这为我接下来进行高难度的时空大数据分析及工程研发提供了充足的底气。",
+                    "3min": "看下第一部分，我的课程结构与专业成绩。\n\n我主动打破学科壁垒，围绕RS、CS和GIS三大模块，搭建了强计算机背景的时空复合知识矩阵。这不仅是课程的学习，更是未来科研的基石。\n\n我的技术科目均获得了极高分：云计算与遥感大数据98分，GIS设计与开发97分，面向对象设计96分。数量地理学、空间数据库与空间分析等GIS专业核心课也均在93至94分以上。这证明了我已经具备了从事GIS前沿算法与大型系统开发的基础实力。",
+                    "1min": "在学业成绩上，我重点搭建了遥感科学、计算机科学和地理信息科学的三叉戟架构。在技术类学科中表现优异：其中云计算与遥感大数据98分，GIS设计与开发97分，面向对象程序设计96分，在空间分析与数量地理上也都在93分以上。强计算机与GIS开发的复合背景，是我最核心的底气。"
+                }
+            },
+            {
+                section: "第二部分：科研竞赛",
+                title: "高含金量专业竞赛与结项成果",
+                desc: "用金字招牌和国家级、省级高水平赛事奖项自证科研硬核实力。",
+                logic: "地信强不强，拉出来练练就知道。重点展示：2025年易智睿中国大学生GIS开发竞赛二等奖（这个含金量极大，代表你的开发技能得到了行业权威大奖的背书）、‘新蚁族杯’地理科学展示大赛（代表你地理综合展示思维的广度）、以及历时两年‘大创’的‘省级良好结项’（代表你具备极其稳健的长期科研产出能力）。",
+                points: [
+                    "国家/省级高水平背书：2025 易智睿中国大学生GIS软件开发竞赛 二等奖",
+                    "综合学术表达：2025 “新蚁族杯”第八届中国高校地理科学展示大赛 三等奖",
+                    "实践及校内：河南大学GIS技能大赛 三等奖 | 大学生创新创业训练计划项目 省级良好结项"
+                ],
+                speeds: {
+                    "5min": "语气自豪且诚恳，点出奖项分量",
+                    "3min": "中速，快速穿插重点奖项",
+                    "1min": "快速提炼三大奖项"
+                },
+                times: {
+                    "5min": "00:40",
+                    "3min": "00:20",
+                    "1min": "00:08"
+                },
+                tones: {
+                    "5min": "自信、干练、展示极高行业竞争力",
+                    "3min": "铿锵有力，用大奖背书",
+                    "1min": "精炼，迅速铺垫后续的大创细节"
+                },
+                tips: [
+                    "在提及‘易智睿软件开发竞赛二等奖’和‘中国高校地理展示大赛’时，声音高扬，展现团队主导者的领袖气质。"
+                ],
+                scripts: {
+                    "5min": "下面我将汇报第二部分：科研竞赛。\n\n在打好了坚实的学业地基后，我积极参与高水平的全国性GIS与地理竞赛，检验学术成色。在2025年，我率队拿下了易智睿中国大学生GIS软件开发竞赛二等奖，该奖项由行业权威机构颁发，极大印证了我的GIS系统研发能力。\n\n同年，在极具学术综合展示性的‘新蚁族杯’第八届中国高校地理科学展示大赛中，我们荣获了三等奖。在校内我也包揽了河大GIS技能大赛等多项荣誉。同时，由我重点负责的省级大学生创新创业训练计划项目，最终以‘良好’评级顺利结项。下面我将具体拆解大创与核心科研项目的底层逻辑。",
+                    "3min": "接下来汇报第二部分：科研竞赛。\n\n我始终坚持以赛促研。2025年，我作为核心成员荣获了全国易智睿大学生GIS开发竞赛二等奖，这是对我们系统开发实力的权威肯定。\n\n同时，我们也获得了第八届中国高校地理科学展示大赛的全国三等奖，证明了我的综合学术研究和汇报表达水平。此外，我的省级大创项目，历时两年最终获得了良好的结项评级。这一系列奖项背书，是我专业实战水平的最好体现。",
+                    "1min": "在科研竞赛方面，我积极参与行业高水平赛事：曾荣获2025年易智睿大学生GIS开发竞赛全国二等奖、第八届中国高校地理展示大赛三等奖，主持的省级大学生创新创业项目以‘良好’结项。这些荣誉，标志着我完成了从知识储备到实战应用的跨越。"
+                }
+            },
+            {
+                section: "大创项目A",
+                title: "中国“宝藏小城”挖掘与可持续路径",
+                desc: "展示如何利用GIS大数据和算法去解决一个复杂、前沿、热门的实际人文地理问题。",
+                logic: "中科院地理所老师最关心的是‘你的底层数据链条和算法究竟是什么’。这一页是你的高光时刻！要清晰讲透三层逻辑：1. 数据层（多源异构大数据，爬取并清洗了百度逐日关注度、短视频舆情等5大类千万级数据）；2. 模型层（引入‘人口反比因子’改进传统的熵权法模型，避免了大都市垄断，筛选出真正的宝藏小城）；3. 决策层（写Python计算季节性、周内偏度指数并进行自然语言情感量化，最终用ECharts在Web端动态化呈现时空规律，并提出了反向旅游的发展建议）。",
+                points: [
+                    "核心逻辑：聚焦反向旅游，“数据爬取清洗 -> 熵权法建模分析 -> WebGIS前端可视化部署”全链条",
+                    "数据层：爬取并清洗 2020-2024 百度关注度、短视频舆情及基础POI等五类大数据",
+                    "模型层：改进熵权法模型，引入“人口反比因子”以实现小城价值的合理量化筛选",
+                    "分析层与部署：Python+Pandas时序计算 + 情感NLP量化 + 线上 ECharts 动态呈现"
+                ],
+                speeds: {
+                    "5min": "中速偏快，专业词汇发音标准清晰，突出技术实力",
+                    "3min": "快速，突出核心公式创新和技术栈",
+                    "1min": "提炼关键技术架构"
+                },
+                times: {
+                    "5min": "01:00",
+                    "3min": "00:40",
+                    "1min": "00:15"
+                },
+                tones: {
+                    "5min": "充溢着学术专业性，展现清晰的逻辑闭环和代码能力",
+                    "3min": "极强地技术推销感，突出“我是个技术干将”",
+                    "1min": "直截了当，直抓眼球"
+                },
+                tips: [
+                    "提到‘改进熵权法模型’和‘引入人口反比因子’时，手势指向屏幕上的数据计算框，这里最核心，最吸引喜欢数学模型的地理所导师。"
+                ],
+                scripts: {
+                    "5min": "在这里，我重点向各位专家拆解我的大创课题之一：《基于多源数据的中国“宝藏小城”挖掘与可持续路径》。这个课题完美诠释了我是如何利用GIS技术去解决现实问题的。\n\n面对国内‘反向旅游’的兴起，我们项目打通了‘样本筛选、时空挖掘、对策提出’的全逻辑链条。\n\n在数据层，我亲自编写网络爬虫并进行数据清洗，处理了2020到2024年的日际百度关注度、短视频舆情及地学POI等五类多源异构大数据。在模型层，为了消除大都市对熵权法计算的垄断，我推导引入了‘城市人口常住规模反比因子’作为约束，成功量化筛选出了淮安、铜仁、利川等五大典型代表城市。在分析层，我用Python Pandas计算并提取了这些城市旅游关注度的季节性指数与周内偏度。最终，我利用ECharts在前端完成了日际、年际和季节变动时空演化的线上动态交互。这个研究成果直接得到了省级良好评级。",
+                    "3min": "首先汇报我深度参与的大创项目A。在这个课题中，我独立负责多源大数据在Web端的数据处理及算法建模。\n\n我们聚焦反向旅游，建立了完整的数据挖掘链路。我亲自爬取并清洗了五大类多源数据。在此基础上，我负责了模型层算法的改进，推导出了引入‘常住人口规模反比因子’的改进型熵权法模型，从全国小城中量化评估、筛选出了五个最具代表性的宝藏城市。\n\n接着，我用Python Pandas计算了季节性集中指数、周内偏度指数，并进行NLP文本情感量化。最后，我们利用原生JS和ECharts进行了动态交互和Story Map的可视化线上部署。通过本研究，我扎实掌握了时序大数据建模技能。",
+                    "1min": "第一个代表项目，我们利用GIS大数据深度挖掘‘宝藏小城’。\n\n在该项目中，我个人主导了五大类、数千万级百度时空关注度、短视频舆情及地学POI多源大数据的爬取清洗。在模型层，我引入‘常住人口反比因子’改进了传统熵权法模型。在分析层，基于Python Pandas分析了季节集中指数与周内偏度，并配合自然语言NLP进行情感量化，最后在Web端通过ECharts实现了时空规律的动态线上部署。"
+                }
+            },
+            {
+                section: "大创项目B-基础",
+                title: "河南虎丘岗遗址全新世黑碳记录研究",
+                desc: "这一页是展现你‘能吃苦、肯钻研、甘于下实验室洗一千份土样’的学术毅力与扎实物理底子的金字招牌。",
+                logic: "地理所许多老专家非常看重学生做传统物理地理实验的吃苦精神。告诉老师：我为了这个课题，经历了长达两年的系统性研究，亲自进行了钻孔精细化分块与连续理化处理！从土壤微量元素测定、黑碳连续测定、磁化率，再到砂粘比。最重要的是：我通过写Matlab代码，用Morlet小波分析对钻孔粒度数据进行了多尺度沉积周期重构，揭示全新世环境变化。这代表了我‘软硬结合’、‘地学物理基础与定量数学算法并重’的优良学风！",
+                points: [
+                    "项目内容：河南虎丘岗遗址全新世以来的黑碳记录及其古环境指示意义",
+                    "科研时间度：历时两年的系统性地学物理研究",
+                    "物理测定：千份样品的精细预处理，测定土壤元素、黑碳、磁化率、砂粘比、PH等",
+                    "数理算法：小波分析(Wavelet)、PCA主成分、端元分析模型，重建遗址区全新世环境相应周期"
+                ],
+                speeds: {
+                    "5min": "中速，语气踏实严谨，充满学术敬畏感",
+                    "3min": "中速，注重物理实验与算法的有机结合",
+                    "1min": "快速提炼吃苦精神与小波分析"
+                },
+                times: {
+                    "5min": "00:50",
+                    "3min": "00:30",
+                    "1min": "00:15"
+                },
+                tones: {
+                    "5min": "沉稳、务实、有一线物理地学研究者的精气神",
+                    "3min": "沉着干练，突出“既能敲代码，也能做实验”",
+                    "1min": "言简意赅，提振气场"
+                },
+                tips: [
+                    "手势指向PPT上密集的小波功率谱和旋回划分图，并自信微笑。这个图表在学术上极其专业，能体现出你的扎实学术规范。"
+                ],
+                scripts: {
+                    "5min": "如果说大数据项目展示了我‘空中建楼阁’的计算机功底，那么第二个省级大创课题，则展现了我‘双脚踩在泥土里’、‘下实验室啃硬骨头’的踏实作风。我们聚焦全新世环境演变，研究了《河南虎丘岗遗址全新世以来的黑碳记录》。\n\n我们开展了长达两年的系统性研究。我深度参与了野外钻孔岩芯的连续分块、预处理。测定涵盖了土壤元素、重碳酸盐理化分析、有机质、磁化率及砂粘比等多维指标，累计处理千份样品。\n\n获得基础物理数据后，我绝没有只做定性描述。我编写Matlab代码进行数据标准化，采用Morlet连续小波分析（CWT）、PCA主成分分析和端元分析模型，在频域和尺度上，精细解析了粒度时序，识别了多尺度的沉积周期旋回，重建了遗址区在全新世的气候周期性环境响应规律。这夯实了我对物理自然地理规律的科学理解。",
+                    "3min": "我的第二个大创项目，更偏向传统物理地学过程，研究《河南虎丘岗遗址中晚全新世以来的黑碳记录》。这极大地锻炼了我吃苦耐劳和硬核实验的科研精神。\n\n历时两年的系统性实验中，我们对HS钻孔样品进行了连续分块和千份土壤样品的预处理，精准测定了土壤元素、黑碳含量、磁化率及pH等多维理化指标。\n\n在数据分析阶段，我将地学物理过程与数理算法高度结合。我使用Matlab进行小波功率谱分析、主成分分析与端元分析，识别了多个尺度的沉积周期旋回，精细重建了黄淮海平原新石器至历史时期人类活动与自然演化的周期性全新世环境响应。这极大地充实了我的自然地学根基。",
+                    "1min": "我的第二个代表科研：研究虎丘岗遗址全新世黑碳记录，这是一个长达两年的地学物理探索。\n\n在这里，我亲自预处理了近千份土壤样品，完成了元素、黑碳含量、磁化率及砂粘比等多指标分析，磨炼了极其严谨的一线实验作风。数据处理中，我编写Matlab对时序数据进行小波功率谱（Wavelet）分析和端元分析，定量识别了多尺度沉积周期，重构了古代文明的全新世沉积环境变化。"
+                }
+            },
+            {
+                section: "大创项目B-图集",
+                title: "实验实操图集：千份土壤与严谨作风",
+                desc: "这一页是前一页的物理化、视觉化补充。通过实验日常照，不言而喻地证明你的吃苦精神和学术诚信。",
+                logic: "用一句转折带过：‘老师们看到的这一页，就是我两年暑假和寒假在实验室奋斗的缩影，这些试剂、天平、烧杯，陪伴我走过了寒冬腊月，见证了我做地理人最踏实的探索。’这不仅展示了你操作规范，更展现了你极强的耐受力和坚韧性（这在地理所招收研究生时，是无形但极其加分的特质！）",
+                points: [
+                    "严谨实验全流程：研磨、分装、酸洗、高温烧结、元素滴定、有机质测定",
+                    "跨学科协同：寒暑假无休、深夜坚持、跨学科合作",
+                    "地学信念：用指尖的泥土、反映宏观的千年前地学历史"
+                ],
+                speeds: {
+                    "5min": "中速，感情真挚，带一点温情和坚定",
+                    "3min": "中速，一语带过，展现学术实干形象",
+                    "1min": "超快速，用一句金句过渡"
+                },
+                times: {
+                    "5min": "00:30",
+                    "3min": "00:15",
+                    "1min": "00:05"
+                },
+                tones: {
+                    "5min": "诚恳、朴实、充满极高热忱",
+                    "3min": "务实坚定，快速承接下一部分",
+                    "1min": "快速带过"
+                },
+                tips: [
+                    "语气要沉稳踏实。不要矫情地抱怨累，而是要用‘坚守’、‘热爱’、‘见证’这些正面词汇。"
+                ],
+                scripts: {
+                    "5min": "各位老师，这一页PPT照片就是我两年实验室坚守的缩影。\n\n寒暑假我几乎没有回过家。我独自守在实验室里，重复着研磨土样、精确称重、加酸、洗酸、烘干。每一只烧杯的排序，每一排离心管的标记，我都严格恪守国家标准和学术规范。\n\n无数次深夜在实验室里盯着离心机和管路，不仅磨练了我高度耐得下性子、能坐‘冷板凳’的严谨科研态度，也让我对自然地理的规律有了从微观到宏观的深入认知。这些高精度的底层实验物理数据，成了我地信大数据分析的生命线。这也是一个优秀的地信科研者，不可替代的扎实作风。",
+                    "3min": "这里展示的是我做实验和日常分装样品的纪实照片。\n\n在这两年的寒暑假里，我完成了研磨、分装、酸化、称量、测磁等全链条基础地学实验实操。这一系列的酸碱洗涤与深夜值守，不仅让我熟悉了严密、容不得半点虚假的规范理化实验流程，更锤炼了我脚踏实地、能在地理科研中‘坐得了冷板凳’的扎实作风。这也让我对数字背后的地理实体物理过程有了更深刻的切身体悟。",
+                    "1min": "这些照片记录了我寒暑假和深夜在理化实验室里的日常。\n\n通过对成百上千份样品的研磨、酸洗和数据提取，我培养了极其严谨的一线地学操守和学术诚信。我知道，真正科学的地信模型，必须建立在严谨物理实测的坚硬基石之上！"
+                }
+            },
+            {
+                section: "第三部分：工程实践",
+                title: "社会工程实践：地信技能变现与财务独立",
+                desc: "向地理所导师证明：我不止懂纸上谈兵的科研，我在行业内早已是个“身经百战、成果丰富、用技术反哺现实”的实干派。",
+                logic: "中科院非常欣赏具有超强自我驱动力和应用开发技能的学生。大胆抛出你的成果：从大二起步，从基础制图、三维渲染、到承接各行各业的GIS技术定制和企业大数据需求。通过出售自己强悍的GIS技能，不仅高产地支撑了上百个行业的空间需求，更获得了高达2.5w+的丰厚报酬，全额覆盖了我的大学学杂费！这证明两点：1. 我的地信技术是业界、市场检验过可落地、含金量十足的；2. 我是一个高度自驱、坚韧、生存力极强的地学青年。",
+                points: [
+                    "大二起步：基础空间制图，过渡到企业、行业中大型GIS地理数据服务",
+                    "财务与个人自驱力成果：用专业地信技能，在本科阶段变现 2.5w+，全额覆盖个人学杂费",
+                    "认知进阶：洞察社会各行业对GIS地理数据的真实需求，坚定了研究“GIS前沿工程应用开发”的方向"
+                ],
+                speeds: {
+                    "5min": "中速，语气笃定、突出极强的综合个人能力",
+                    "3min": "中速，自驱力强的标签要砸实",
+                    "1min": "快速突出财务独立和专业技能"
+                },
+                times: {
+                    "5min": "00:45",
+                    "3min": "00:25",
+                    "1min": "00:10"
+                },
+                tones: {
+                    "5min": "自信、独立、具备强烈的实干家作风",
+                    "3min": "干练自信，体现解决企业真实问题的自驱动力",
+                    "1min": "利落大方"
+                },
+                tips: [
+                    "手指向左侧大面积铺开的精美地图和可视化成果。这些都是你的一手产出，每一张都是极其专业的地形剖面、三维建模、夜光遥感分析，这会让老师感到极为震撼！"
+                ],
+                scripts: {
+                    "5min": "接下来我们看第三部分：工程实践。\n\n作为一名GIS应用和工程方向的申请人，我认为地信不仅要在实验室里钻研，更要走向社会，服务于真实的行业痛点。从大二起，我就在保证学业优秀的前提下，开启了长达三年的社会工程实践。\n\n我承接了包括地形渲染、城市生态规划图、交通流时序分析等在内的多种高精度行业地理技术服务，产出了大家在屏幕上看到的、大批兼具美观与学术性的成果。这也让我实现了极强的经济自立，本科阶段用技能累计获得了2.5w+的创收，全额覆盖了我的全部学杂费。这种强悍的生存力和极度饥饿的自驱力，也反过来指引我：行业迫切需要更高效的时空决策算法和系统开发！这也正是我想深入地理所继续探索的目标。",
+                    "3min": "接下来汇报第三部分：工程实践。\n\n我坚信，真正的GIS技术应当切实服务于社会真实需求。从大二起，我便以GIS技能为矛，主动走向产业最前沿。\n\n我承接了包含地形渲染、夜光时空动态变化、三维生态建模等上百张专业地图制图和地理技术分析工作，服务了多元实体企业。通过高水平地信技能输出，我不仅为众多行业痛点提供了空间地理解决方案，更实现了财务自立，本科阶段创造了超2.5w+的报酬，全额缴清了我的个人学杂费！这种真刀真枪的企业级实战，不仅淬炼了我的快速地信制图与分析手艺，更让我深谙真实世界的GIS痛点。"
+                    ,"1min": "在第三部分：工程实践中，我展示了如何用GIS技术解决现实痛点。\n\n我大二起步，独立承接了地形三维制图、夜光遥感演化分析等大量跨领域的商业GIS地理时空技术服务。在这个过程中，我凭借出色的地信技能在本科阶段变现2.5w+报酬，全额负担了我的大学学费。更重要的是，在帮助社会解决痛点时，我深刻洞悉了工业界对GIS数据的真实渴望，坚定了在地图学与GIS方向精进工程开发的决心。"
+                }
+            },
+            {
+                section: "全栈开发项目",
+                title: "Vue 3 + FastAPI 全栈WebGIS平台开发",
+                desc: "向中科院地理所老师抛出你的“降维打击”大招——在本科阶段，独自研发了一整套符合前沿技术潮流的开源全栈WebGIS系统！",
+                logic: "中科院地理所有着大批的GIS技术与应用、Web开发、遥感大数据的工程项目。在这里要全力展示你的技术栈厚度：我不仅懂基本建图，我还利用Vue 3 + Pinia作为前端，构建高精度的OpenLayers交互；使用FastAPI + Docker容器化部署后端；同时打通GEE和Python的数据服务接口。为了加快敏捷开发，我积极拥抱前沿AI辅助编程技术。这套WebGIS系统已经开源到GitHub并斩获多颗Stars。这代表了我极强的微服务、云原生、现代Web架构理解能力！这种全栈研发素质，大平层降维打击绝大部分地理地信本科生，完美对齐所里大团队的项目研发需求！",
+                points: [
+                    "全栈技术栈：前端 Vue 3 + Pinia + OpenLayers，后端 FastAPI + Docker 容器化管理",
+                    "云原生与服务整合：调用 Hugging Face 与 Python+GEE 数据计算，实现了成本为零的“无服务器”轻量化云原生高容错架构",
+                    "GitHub开源成果：项目开源且在 GitHub 社区获得Stars，极具工程落地、3D空间分析在线化、三维高渲染和线上运行的能力"
+                ],
+                speeds: {
+                    "5min": "中速偏快，条理极其清晰，极客范、技术硬核、自信大方",
+                    "3min": "快速、突出Docker、GEE、Vue3、FastAPI、开源Stars等高光技术细节",
+                    "1min": "极速展示开源全栈开发成果"
+                },
+                times: {
+                    "5min": "01:05",
+                    "3min": "00:45",
+                    "1min": "00:20"
+                },
+                tones: {
+                    "5min": "专业而有技术狂热感，展现超凡的极客自学、敏捷自研和工程抗压能力",
+                    "3min": "干练笃定、完全是一个技术骨干在汇报自主研发框架",
+                    "1min": "气势磅礴，用绝对的开发硬核实力折服评委"
+                },
+                tips: [
+                    "手指向右侧前端部署、后端部署、模型服务无缝闭环的‘系统部署架构图’。这个图完全是行业标杆级、架构师级的逻辑，会让很多导师眼前一亮。"
+                ],
+                scripts: {
+                    "5min": "各位老师，在所有的工程实践中，最让我感到自豪的，是我独立完成并开源的一整套现代云原生全栈 WebGIS 系统。\n\n面对行业大型地理分析系统部署成本高、协同慢的痛点，我拥抱最前沿的AI敏捷开发模式，从零设计并研发了这套架构。我们前端采用 Vue 3 结合 OpenLayers 构建了极速响应的2D/3D地图可视化面板。后端使用 FastAPI 配合 Python 及 Google Earth Engine (GEE) 实现了大规模遥感地学大数据的云端实时计算，并在后端用 Docker 进行了轻量级容器化封装。我创造性地将整个后端部署在了 Hugging Face 容器云上，省去了高昂的服务器维护成本，彻底跑通了零成本、免服务器的云原生高容错微服务链路。\n\n项目已经开源至 GitHub，并斩获了社区十几颗 Stars，具备完全线上稳定生产部署的能力。这极大地证明了我具备从前端地图引擎开发、到后端数据计算架构，再到运维服务器部署的独立全栈GIS开发和落地应用研发实力！",
+                    "3min": "在这里向老师们展示我工程实力的最大亮点：由我独自开发并开源的一套全栈云原生 WebGIS 地理信息交互平台。\n\n为了攻克传统GIS系统维护成本高、难以轻量化的痛点，我积极拥抱AI辅助工具，独立完成了这套极具敏捷精神的WebGIS底层系统。技术栈上，前端采用 Vue 3 + OpenLayers 进行高保真地图数据渲染；后端通过 FastAPI 封装 Python 与 Google Earth Engine 实时计算引擎，使用 Docker 将后端容器化打包一键分发；并将数据库和模型接口部署在 Hugging Face，成功搭建了一套成本极低的无服务器 Serverless 云上GIS应用微服务架构。\n\n目前项目已经在 GitHub 开源并获得了十几颗 Stars。这证明我完全具备独立主导中大型 WebGIS 项目架构设计、多维接口调优及云端分发运维的能力，能够直接无缝融入地理所大型地信团队的科研开发工作！",
+                    "1min": "在这一页，展示我工程开发的顶峰成果：独立研发并开源的一套全栈现代云原生 WebGIS 平台。\n\n我们前端采用 Vue 3 结合 OpenLayers 深度实现多维空间图表的线上流畅加载与分析；后端基于 FastAPI 搭建高负载数据接口，深度对接 Google Earth Engine (GEE) 时空计算。为了提高容错，我使用 Docker 容器化打包后端应用，并将全系统免服务器式托管于 Hugging Face，实现了轻量高敏捷。目前项目已经在 GitHub 开源并获得多颗Stars。我完全具备从Web前端、后端计算到容器化部署的独立全栈研发落地能力！"
+                }
+            },
+            {
+                section: "第四部分：未来规划",
+                title: "学术追求：聚焦智能遥感、三维WebGIS及地理所生涯规划",
+                desc: "向评委表忠心。展示未来在地理所清晰、踏实、具备高度学术远见的求学路线图。",
+                logic: "这是你的尾声。要把情怀和落地两相结合：我的未来规划，直接对标国家和地理所的核心方向——聚焦智能遥感（AI+RS）以及三维 WebGIS。我的研究生路线图规划得极为精细：研一深耕数理地学理论、精进代码深度学习算法；研二发表高水平高等级学术论文，并在导师指导下主导项目核心部分；研三打磨出卓越的毕业设计并确立深造目标。请老师们相信：我是一个带上电脑能敲几万行代码、背上行囊能下实验室洗土样、不仅懂前沿、更能下苦功的实力地信学子！",
+                points: [
+                    "研究聚焦：时空大数据应用、智能遥感 (AI+RS) 与三维 WebGIS 的深度交叉",
+                    "近期战略（大四/研一）：精进高阶深度学习模型构建（如 Transformer 在时空预测中应用），搭建全域地理知识体系",
+                    "中远期战略（研二/研三）：主导或深度参与地理所前沿科研项目，产出高等级学术成果，明确继续深造方向"
+                ],
+                speeds: {
+                    "5min": "中速偏慢，真挚诚恳，语气富有决心，最后做升华总结",
+                    "3min": "中速，注重条理性和科研野心",
+                    "1min": "快速坚决，展现诚意"
+                },
+                times: {
+                    "5min": "00:50",
+                    "3min": "00:30",
+                    "1min": "00:15"
+                },
+                tones: {
+                    "5min": "充满热情、对未来高度笃定、展现强烈的自我实现与科研渴望",
+                    "3min": "自信、条理清晰，展现清晰的人生设计",
+                    "1min": "慷慨昂扬，给导师留下好印象"
+                },
+                tips: [
+                    "最后一页，挺直脊梁，目光真诚地看着中间的主考官老师，语气中透露出坚定的求学渴望。"
+                ],
+                scripts: {
+                    "5min": "最后，向老师们汇报我的第四部分：未来规划与志向。\n\n进入中国科学院地理所继续深造，是我本科三年来魂牵梦绕的目标。我未来的研究方向，将紧密围绕‘智能遥感与三维 WebGIS 时空大数据的交叉融合’展开。\n\n为此，我制定了清晰的研究生求学生涯图：\n大四阶段，我将持续精进深度学习代码能力，巩固地学数理体系；研一阶段，我会深度研读经典地学书籍，夯实自然和人文地理空间过程的物理和人文机理；研二时，我渴望在导师带领下，参与到地理所承担的国家重点地信工程项目中，贡献我的全栈开发和时空大数据分析能力，并力争发表一篇高质量、高水平学术论文；研三打磨高质量毕业论文，确立未来继续深造的志向。\n\n心向往之，素履以往。一个愿意敲击数万行代码、也甘愿洗千份土样的河大学子，期待能真正走入地理所的殿堂！",
+                    "3min": "第四部分是我的未来规划与学术志向。进入中科院地理所深造，是我始终不变的学术理想。\n\n在接下来的研究生规划中，我的学术焦点将牢牢锁定在‘智能遥感、三维WebGIS以及时空大数据’方向。\n\n从大四毕业设计起，我将重点研究深度学习神经网络在时空轨迹预测和遥感分类中的高阶应用。研一阶段全力啃下数理与地学的高维理论；研二起，我争取利用自身强大的开发功底，无缝协助导师主导前沿工程项目开发，力争攻关一篇高水准的学术成果；研三做卓越的论文答辩，并争取在三维时空分析领域深造。\n\n我既有实验室里沉得下心实验的韧劲，也有全栈开源开发的硬实力，恳请地理所的各位老师能给我一个圆梦学术、为所奉献的机会！",
+                    "1min": "最后是我的未来规划。\n\n我希望在地理所深耕‘智能遥感、三维 WebGIS 与时空大数据研究’。\n\n从大四起，我将重点精进深度学习模型在时空预测中的前沿应用。研一深耕地学高维物理机理；研二结合我的全栈开发能力，积极协助导师开展团队核心项目，发表高水平学术成果；研三认真打磨学术论文。我既有实验室里连续两年的踏实理化功底，又有开源社区认可的全栈开发肌肉，我已做好准备，真诚期盼能被地理所录取！"
+                }
+            },
+            {
+                section: "答辩结束",
+                title: "致谢与答辩恳请老师批评指正",
+                desc: "结束致谢，接受提问。谦逊有礼，保持最佳精神面貌。",
+                logic: "谦和、真诚。‘我的汇报到此结束，感谢地理所各位评委老师在百忙之中的聆听。恳请各位老师批评指正！’",
+                points: [
+                    "学生：姚乃高 | 河南大学地理信息科学专业",
+                    "对各位评委老师在炎热夏日抽空听取汇报致以崇高敬意",
+                    "接受现场地理所老师提问准备"
+                ],
+                speeds: {
+                    "5min": "慢速，鞠躬致谢",
+                    "3min": "慢速，鞠躬致谢",
+                    "1min": "慢速，鞠躬致谢"
+                },
+                times: {
+                    "5min": "00:15",
+                    "3min": "00:10",
+                    "1min": "00:05"
+                },
+                tones: {
+                    "5min": "谦逊得体，礼貌周全",
+                    "3min": "谦逊得体，礼貌周全",
+                    "1min": "谦逊得体，礼貌周全"
+                },
+                tips: [
+                    "汇报完毕后，一定要将身体微微向前躬15-30度，面向所有专家说‘谢谢老师’。随后站直，双手自然在腹前交叉，面带微笑，目光和善地等待提问。"
+                ],
+                scripts: {
+                    "5min": "以上就是我自我介绍的全部内容。\n\n感谢地理所的各位专家和评委老师，在百忙之中和这炎热的酷暑中，聆听我的汇报、给我展示的机会。这一路的经历让我更加坚定了迈向地信前沿的步伐。\n\n恳请各位老师批评指正，我也做好了准备，真诚期待并乐意回答老师们的提问，谢谢大家！",
+                    "3min": "以上就是我的自我介绍。\n\n非常感谢地理所各位评委老师在炎热盛夏里对我的聆听与指导。\n\n恳请各位专家、老师批评指正，非常期待能回答各位老师的提问，谢谢大家！",
+                    "1min": "我的汇报完毕。\n\n真诚感谢地理所各位老师的聆听！恳请各位老师批评指正，谢谢！"
+                }
+            }
+        ];
+
+        // Core App States
+        let currentSlide = 0;
+        let currentVersion = "3min"; // Defaulting to the goldilocks version
+        let timerSeconds = 0;
+        let timerInterval = null;
+        let isTimerRunning = false;
+        let fontSizePx = 16;
+
+        // Create navigation buttons based on database
+        function buildSlideNavigation() {
+            const nav = document.getElementById("slide-nav");
+            nav.innerHTML = "";
+            slideData.forEach((slide, idx) => {
+                const btn = document.createElement("button");
+                btn.className = `w-full text-left px-3 py-2.5 rounded-xl transition-all duration-200 text-xs font-medium flex items-center justify-between border ${idx === currentSlide ? 'bg-blue-600/20 border-blue-500/40 text-blue-300' : 'bg-slate-900 border-transparent hover:bg-slate-800 text-slate-400'}`;
+                btn.onclick = () => {
+                    selectSlide(idx);
+                };
+                
+                // Truncate title for short preview
+                const shortTitle = slide.title.length > 15 ? slide.title.substring(0, 15) + "..." : slide.title;
+                btn.innerHTML = `
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <span class="bg-slate-800 text-[10px] text-slate-400 font-mono w-5 h-5 flex items-center justify-center rounded-md shrink-0">${(idx + 1).toString().padStart(2, '0')}</span>
+                        <div class="truncate">
+                            <span class="block text-[10px] text-slate-500 uppercase tracking-wide">${slide.section}</span>
+                            <span class="block font-semibold truncate text-slate-200">${shortTitle}</span>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-600 shrink-0"></i>
+                `;
+                nav.appendChild(btn);
+            });
+        }
+
+        // Handle slide selections
+        function selectSlide(idx) {
+            currentSlide = idx;
+            buildSlideNavigation();
+            updateSlideUI();
+        }
+
+        // Font scaling
+        function adjustFontSize(dir) {
+            fontSizePx += dir * 2;
+            fontSizePx = Math.max(12, Math.min(32, fontSizePx)); // constraint font
+            document.getElementById("script-body").style.fontSize = `${fontSizePx}px`;
+        }
+
+        // Navigate slide backward or forward
+        function navigateSlide(dir) {
+            let next = currentSlide + dir;
+            if(next >= 0 && next < slideData.length) {
+                selectSlide(next);
+            }
+        }
+
+        // Mode versions toggle (1/3/5 min)
+        function setVersion(ver) {
+            currentVersion = ver;
+            // update classes on tabs
+            ['5min', '3min', '1min'].forEach(v => {
+                const btn = document.getElementById(`btn-${v}`);
+                if(v === ver) {
+                    btn.className = "version-tab px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 bg-blue-600 text-white shadow-lg shadow-blue-500/10";
+                } else {
+                    btn.className = "version-tab px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 text-slate-400 hover:text-white";
+                }
+            });
+            updateSlideUI();
+        }
+
+        // Refill DOM elements based on states
+        function updateSlideUI() {
+            const data = slideData[currentSlide];
+            
+            // Text values
+            document.getElementById("slide-index").innerText = `Page ${(currentSlide + 1).toString().padStart(2, '0')} / ${slideData.length.toString().padStart(2, '0')}`;
+            document.getElementById("slide-section").innerText = data.section;
+            document.getElementById("slide-title").innerText = data.title;
+            document.getElementById("slide-desc").innerText = data.desc;
+            document.getElementById("slide-logic").innerHTML = data.logic;
+
+            // Bullet points for fast check
+            const ptContainer = document.getElementById("slide-points");
+            ptContainer.innerHTML = "";
+            data.points.forEach(pt => {
+                const li = document.createElement("li");
+                li.className = "flex items-start gap-2 text-xs leading-relaxed";
+                li.innerHTML = `<i class="fa-solid fa-caret-right text-blue-500 mt-0.5 shrink-0"></i> <span>${pt}</span>`;
+                ptContainer.appendChild(li);
+            });
+
+            // Speeds & coach metrics
+            document.getElementById("coach-speed").innerText = data.speeds[currentVersion];
+            document.getElementById("coach-time").innerText = data.times[currentVersion];
+            document.getElementById("coach-tone").innerText = data.tones[currentVersion];
+
+            // Action Tips
+            const tipsContainer = document.getElementById("coach-tips");
+            tipsContainer.innerHTML = "";
+            data.tips.forEach(tip => {
+                const div = document.createElement("div");
+                div.className = "flex items-start gap-2 leading-relaxed";
+                div.innerHTML = `<i class="fa-solid fa-hand-point-right text-amber-500 mt-0.5 shrink-0"></i> <span>${tip}</span>`;
+                tipsContainer.appendChild(div);
+            });
+
+            // Script text rendering (Inject formatting styles based on timing markers and key definitions)
+            let formattedScript = data.scripts[currentVersion];
+            // Style high impact keywords
+            const highlightedWords = [
+                "心向往之", "素履以往", "遥感科学", "计算机科学", "地理信息科学", "逆袭上升", "专业综合排名第6",
+                "易智睿中国大学生GIS软件开发竞赛二等奖", "大创", "人口规模反比因子", "黑碳", "全新世", "小波分析",
+                "2.5w+", "Vue 3", "FastAPI", "Docker", "Hugging Face", "GEE", "开源至 GitHub", "智能遥感", "三维 WebGIS", "梯度攀升"
+            ];
+            highlightedWords.forEach(word => {
+                const regex = new RegExp(word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
+                formattedScript = formattedScript.replace(regex, `<b class="text-amber-400 font-bold underline decoration-amber-500/50 underline-offset-4">${word}</b>`);
+            });
+
+            // Replace line breaks to paragraphs
+            document.getElementById("script-body").innerHTML = formattedScript;
+
+            // Handle footer buttons state
+            document.getElementById("prev-btn").disabled = currentSlide === 0;
+            document.getElementById("next-btn").disabled = currentSlide === slideData.length - 1;
+        }
+
+        // QA Panel Modal controls
+        function toggleQAModal() {
+            const modal = document.getElementById("qa-modal");
+            modal.classList.toggle("hidden");
+        }
+
+        // Global Stopwatch implementation
+        function toggleTimer() {
+            const btn = document.getElementById("timer-btn");
+            if(isTimerRunning) {
+                // Pause timer
+                clearInterval(timerInterval);
+                btn.innerHTML = `<i class="fa-solid fa-play mr-1"></i>开始`;
+                btn.className = "bg-amber-600 hover:bg-amber-500 text-white text-xs px-2.5 py-1 rounded font-medium transition-colors";
+                isTimerRunning = false;
+            } else {
+                // Start timer
+                btn.innerHTML = `<i class="fa-solid fa-pause mr-1"></i>暂停`;
+                btn.className = "bg-red-600 hover:bg-red-500 text-white text-xs px-2.5 py-1 rounded font-medium transition-colors";
+                isTimerRunning = true;
+                timerInterval = setInterval(() => {
+                    timerSeconds++;
+                    const minutes = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+                    const seconds = (timerSeconds % 60).toString().padStart(2, '0');
+                    document.getElementById("timer-display").innerText = `${minutes}:${seconds}`;
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timerSeconds = 0;
+            document.getElementById("timer-display").innerText = "00:00";
+            const btn = document.getElementById("timer-btn");
+            btn.innerHTML = `<i class="fa-solid fa-play mr-1"></i>开始`;
+            btn.className = "bg-amber-600 hover:bg-amber-500 text-white text-xs px-2.5 py-1 rounded font-medium transition-colors";
+        }
+
+        // Initialize App on mount
+        window.onload = () => {
+            buildSlideNavigation();
+            setVersion("3min"); // Set goldilocks standard as default
+        };
+    </script>
+</body>
+</html>

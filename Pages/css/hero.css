@@ -354,4 +354,12 @@ body[data-theme='light'] .hero__title {
 
 body[data-theme='light'] .hero__subtitle {
   color: var(--text-secondary);
+  margin-bottom: 0; /* 或者 8px / 12px，根据需要微调 */
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.35rem auto 0.45rem;
+    line-height: 1;
+    max-width: min(435px, 100%);
+    min-height: 0;
 }

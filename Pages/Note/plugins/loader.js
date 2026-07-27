@@ -28,6 +28,16 @@
         'word-learning-record': 'word-learning-record'
     };
 
+    // 完全接管渲染的笔记：note-viewer 会跳过通用渲染，直接交给插件渲染，
+    // 避免整篇 markdown 被解析、建 DOM 两次
+    var customRenderNotes = {
+        'word-learning-record': true
+    };
+
+    window.notePluginCustomRender = function (noteName) {
+        return Boolean(customRenderNotes[noteName]);
+    };
+
     /* ========================================
      * 公共工具函数
      * ======================================== */

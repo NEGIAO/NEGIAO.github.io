@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     try {
                         (function () {
                             var s = document.createElement('script'); s.charset = 'UTF-8'; s.id = 'LA_COLLECT'; s.type = 'text/javascript'; s.src = '//sdk.51.la/js-sdk-pro.min.js'; s.async = true;
-                            s.onload = function () { try { if (window.LA && typeof LA.init === 'function') { LA.init({ id: '3OVJu4iCpXi3wE8k', ck: '3OVJu4iCpXi3wE8k', autoTrack: true, hashMode: true, screenRecord: true }); console.log('51.la (国际) SDK 已加载并初始化（来自 main-enhanced.js）。'); } else { console.log('51.la SDK 已加载，但 LA.init 不可用（来自 main-enhanced.js）。'); } } catch (e) { console.log('初始化 51.la (国际) 时出错：', e); } };
+                            s.onload = function () { try { if (window.LA && typeof LA.init === 'function') { /* screenRecord 会话录屏会持续监听并序列化全页 DOM 变更，在大页面（如单词记录）上产生持续 CPU 开销，故关闭 */ LA.init({ id: '3OVJu4iCpXi3wE8k', ck: '3OVJu4iCpXi3wE8k', autoTrack: true, hashMode: true, screenRecord: false }); console.log('51.la (国际) SDK 已加载并初始化（来自 main-enhanced.js）。'); } else { console.log('51.la SDK 已加载，但 LA.init 不可用（来自 main-enhanced.js）。'); } } catch (e) { console.log('初始化 51.la (国际) 时出错：', e); } };
                             s.onerror = function (e) { console.log('加载 51.la (国际) 脚本失败：', e); };
                             document.head.appendChild(s);
                         })();

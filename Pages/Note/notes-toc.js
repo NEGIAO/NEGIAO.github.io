@@ -72,6 +72,8 @@
 
   // 滚动进度条功能
   function initProgressBar() {
+    // 避免与 main-enhanced.js 重复创建两条进度条（双 scroll 监听 + 双份重绘）
+    if (document.getElementById('scroll-progress')) return;
     const progressBar = document.createElement('div');
     progressBar.id = 'scroll-progress';
     progressBar.style.cssText = `

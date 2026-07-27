@@ -177,11 +177,7 @@
         });
     }
 
-    function renderMarkdown(md, container) {
-        if (!window.marked || typeof window.marked.parse !== 'function') {
-            throw new Error('Markdown 解析器未加载。');
-        }
-
+    function createUrlRewritingRenderer() {
         // 自定义 renderer：修正相对路径，解决 note-viewer/ 与 md/ 之间的目录层级差异
         var renderer = new window.marked.Renderer();
         var originalImage = renderer.image;
@@ -204,7 +200,24 @@
             return originalLink.call(this, rewriteRelativeUrl(arguments[0]), arguments[1], arguments[2]);
         };
 
-        container.innerHTML = window.marked.parse(md, { renderer: renderer });
+        return renderer;
+    }
+
+    function parseMarkdownToHtml(md) {
+        if (!window.marked || typeof window.marked.parse !== 'function') {
+            throw new Error('Markdown 解析器未加载。');
+        }
+        return window.marked.parse(md, { renderer: createUrlRewritingRenderer() });
+    }
+
+    // 供插件复用：与通用渲染一致的解析（含相对路径重写）与标题 id 修正
+    window.NoteViewerMarked = {
+        parse: parseMarkdownToHtml,
+        fixHeadingIds: fixHeadingIds
+    };
+
+    function renderMarkdown(md, container) {
+        container.innerHTML = parseMarkdownToHtml(md);
 
         // 修正 heading 的 id：marked 默认只保留 [a-zA-Z0-9_] 会剥离中文，
         // 导致正文手动锚点链接（如 #1-极限与连续）跳转失效。
@@ -309,7 +322,33 @@
             const md = await loadMarkdown(noteName);
             const container = document.getElementById('note-content');
 
-            renderMarkdown(md, container);
+            // 提前挂载原始 md，供接管渲染的插件使用
+            container._originalMarkdown = md;
+
+            // 若插件声明接管渲染（如 word-learning-record），跳过通用渲染，
+            // 避免整篇 markdown 被解析、建 DOM 两次（此前该页面加载卡顿的主因之一）
+            const hasCustomRender = Boolean(
+                window.notePluginCustomRender && window.notePluginCustomRender(noteName) && window.loadNotePlugins
+            );
+            let pluginRendered = false;
+
+            if (hasCustomRender) {
+                try {
+                    await window.loadNotePlugins(noteName, container);
+                    pluginRendered = container.childElementCount > 0 && !container.querySelector('.loading-container');
+                } catch (pluginError) {
+                    console.warn('插件渲染失败，回退到通用渲染:', pluginError);
+                }
+                if (pluginRendered) {
+                    // 插件渲染的 DOM 同样需要修正中文标题 id，保证 TOC/锚点可用
+                    fixHeadingIds(container);
+                }
+            }
+
+            if (!pluginRendered) {
+                renderMarkdown(md, container);
+            }
+
             applyHighlight(container);
 
             try {
@@ -329,8 +368,8 @@
                 }
             }
 
-            // 加载笔记增强插件（如有）
-            if (window.loadNotePlugins) {
+            // 加载笔记增强插件（非接管渲染类，如 Google_tiles）
+            if (!hasCustomRender && window.loadNotePlugins) {
                 try {
                     await window.loadNotePlugins(noteName, container);
                 } catch (pluginError) {

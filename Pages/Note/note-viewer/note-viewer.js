@@ -317,6 +317,7 @@
 
         const config = noteConfig[noteName];
         updatePageMeta(noteName, config);
+        updateBreadcrumb(config);
 
         try {
             const md = await loadMarkdown(noteName);
@@ -359,6 +360,8 @@
 
             enhanceCodeBlocks(container);
             initSearch(container);
+            initFontControls(container);
+            updateReadingMeta(container, md);
 
             if (window.buildNoteTOC) {
                 try {
@@ -383,6 +386,99 @@
                 showError(error.message || '未知错误，请刷新重试。', 'NETWORK_ERROR');
             }
         }
+    }
+
+    function updateBreadcrumb(config) {
+        const el = document.getElementById('breadcrumb-title');
+        if (el && config && config.title) {
+            el.textContent = config.title;
+        }
+    }
+
+    /**
+     * 计算并显示阅读元信息：字数 + 预计阅读时间
+     * 中文按字符计数，英文按单词计数，阅读速度取中英混合经验值 400 字/分钟
+     * @param {HTMLElement} container - 笔记内容容器
+     * @param {string} md - 原始 markdown 文本（用于字数统计，避免被高亮/公式 DOM 干扰）
+     */
+    function updateReadingMeta(container, md) {
+        const metaEl = document.getElementById('note-reading-meta');
+        if (!metaEl) {
+            return;
+        }
+
+        // 去除 markdown 语法符号、代码块、公式，得到更接近正文的纯文本
+        const plainText = String(md || '')
+            .replace(/```[\s\S]*?```/g, '')
+            .replace(/\$\$[\s\S]*?\$\$/g, '')
+            .replace(/`[^`]*`/g, '')
+            .replace(/!\[.*?\]\(.*?\)/g, '')
+            .replace(/\[.*?\]\(.*?\)/g, '')
+            .replace(/[#>*_\-|]/g, '')
+            .trim();
+
+        const cjkCount = (plainText.match(/[一-龥]/g) || []).length;
+        const wordMatches = plainText
+            .replace(/[一-龥]/g, ' ')
+            .match(/[A-Za-z0-9']+/g) || [];
+        const totalCount = cjkCount + wordMatches.length;
+
+        const WORDS_PER_MINUTE = 400;
+        const minutes = Math.max(1, Math.round(totalCount / WORDS_PER_MINUTE));
+
+        metaEl.innerHTML = `<i class="fas fa-file-word"></i> ${totalCount.toLocaleString('zh-CN')} 字&nbsp;&nbsp;<i class="fas fa-clock"></i> 约 ${minutes} 分钟`;
+    }
+
+    /**
+     * 字号调节：A- / A / A+ 三档按钮，持久化到 localStorage
+     * 通过在 #note-content 上设置 CSS 变量 --note-font-scale 控制正文字号缩放
+     */
+    function initFontControls(container) {
+        const decreaseBtn = document.getElementById('font-decrease');
+        const resetBtn = document.getElementById('font-reset');
+        const increaseBtn = document.getElementById('font-increase');
+
+        if (!decreaseBtn || !resetBtn || !increaseBtn) {
+            return;
+        }
+
+        const STORAGE_KEY = 'note-viewer-font-scale';
+        const MIN_SCALE = 0.8;
+        const MAX_SCALE = 1.5;
+        const STEP = 0.1;
+        const DEFAULT_SCALE = 1;
+
+        function loadScale() {
+            const saved = parseFloat(localStorage.getItem(STORAGE_KEY));
+            if (!isNaN(saved) && saved >= MIN_SCALE && saved <= MAX_SCALE) {
+                return saved;
+            }
+            return DEFAULT_SCALE;
+        }
+
+        function applyScale(scale) {
+            const clamped = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
+            container.style.setProperty('--note-font-scale', clamped.toFixed(2));
+            decreaseBtn.disabled = clamped <= MIN_SCALE;
+            increaseBtn.disabled = clamped >= MAX_SCALE;
+            resetBtn.classList.toggle('is-active', clamped !== DEFAULT_SCALE);
+            localStorage.setItem(STORAGE_KEY, clamped.toFixed(2));
+            return clamped;
+        }
+
+        let currentScale = applyScale(loadScale());
+
+        decreaseBtn.addEventListener('click', () => {
+            currentScale = applyScale(currentScale - STEP);
+        });
+
+        increaseBtn.addEventListener('click', () => {
+            currentScale = applyScale(currentScale + STEP);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            currentScale = applyScale(DEFAULT_SCALE);
+        });
     }
 
     function enhanceCodeBlocks(container) {

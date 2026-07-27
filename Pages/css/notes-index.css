@@ -19,6 +19,158 @@ body[data-theme='light'].notes-index-page {
   --nip-blob: color-mix(in srgb, var(--primary) 8%, transparent);
 }
 
+/* ========================
+   顶部动态导航
+   ======================== */
+.notes-index-page .notes-navbar {
+  justify-content: flex-start;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+  gap: 0.55rem;
+}
+
+.notes-index-page .notes-navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.notes-index-page .notes-navbar__brand:hover {
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.notes-index-page .notes-navbar__brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, var(--glass-border));
+  border-radius: 50%;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  font-size: 0.82rem;
+  font-weight: 900;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.notes-index-page .notes-navbar__home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.05rem;
+  margin-left: auto;
+  padding: 0 0.72rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--glass-border));
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--surface-elevated) 72%, transparent);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notes-index-page .notes-navbar__home:hover {
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 50%, var(--glass-border));
+  background: color-mix(in srgb, var(--primary) 9%, var(--surface-elevated));
+  transform: translateY(-1px);
+  box-shadow: 0 7px 18px rgba(0, 217, 255, 0.1);
+}
+
+.notes-index-page .notes-navbar__home i {
+  font-size: 0.76rem;
+}
+
+.notes-index-page .notes-navbar .negiao-lang-toggle--nav,
+.notes-index-page .notes-navbar .theme-toggle,
+.notes-index-page .notes-navbar .share-note-btn {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  transform: none !important;
+  flex: 0 0 auto;
+  width: 2.05rem;
+  height: 2.05rem;
+  min-width: 2.05rem;
+  min-height: 2.05rem;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--glass-border));
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--surface-elevated) 68%, transparent);
+  color: var(--text-secondary);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.1);
+}
+
+.notes-index-page .notes-navbar .negiao-lang-toggle--nav:hover,
+.notes-index-page .notes-navbar .theme-toggle:hover,
+.notes-index-page .notes-navbar .share-note-btn:hover {
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--glass-border));
+  background: color-mix(in srgb, var(--primary) 9%, var(--surface-elevated));
+  transform: translateY(-1px) !important;
+}
+
+.notes-index-page .notes-navbar .negiao-lang-toggle--nav {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 576px) {
+  .notes-index-page .notes-navbar {
+    height: 3.5rem;
+    padding: 0 0.75rem;
+    gap: 0.42rem;
+  }
+
+  .notes-index-page .notes-navbar__brand-text {
+    display: none;
+  }
+
+  .notes-index-page .notes-navbar__brand-mark,
+  .notes-index-page .notes-navbar__home,
+  .notes-index-page .notes-navbar .theme-toggle,
+  .notes-index-page .notes-navbar .share-note-btn,
+  .notes-index-page .notes-navbar .negiao-lang-toggle--nav {
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+
+  .notes-index-page .notes-navbar__home {
+    padding: 0;
+  }
+
+  .notes-index-page .notes-navbar__home span {
+    display: none;
+  }
+
+  .notes-index-page .notes-navbar .negiao-lang-toggle--nav {
+    font-size: 0.62rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .notes-index-page .notes-navbar .share-note-btn {
+    display: none;
+  }
+}
+
 /* 顶部氛围：网格底纹 + 单个极光色斑（静态，零持续开销） */
 .notes-index-page::before {
   content: '';

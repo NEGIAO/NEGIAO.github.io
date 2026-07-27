@@ -71,9 +71,23 @@
 
 <body class="note-viewer-page">
     <nav class="navbar">
-        <div class="navbar__container">
-            <a href="../../../index.html" class="navbar__brand">NEGIAO</a>
-            <a href="../../notes.html" class="btn btn--secondary note-back-btn">返回索引</a>
+        <div class="navbar__container note-viewer-navbar">
+            <div class="note-viewer-navbar__main">
+                <a href="../../../index.html" class="note-viewer-navbar__home" aria-label="返回首页">
+                    <span class="note-viewer-navbar__home-icon" aria-hidden="true">
+                        <i class="fas fa-house"></i>
+                    </span>
+                    <span class="note-viewer-navbar__home-text">返回首页</span>
+                </a>
+                <span class="note-viewer-navbar__divider" aria-hidden="true"></span>
+                <span class="note-viewer-navbar__title">技术笔记</span>
+            </div>
+            <a href="../../notes.html" class="note-viewer-navbar__back" aria-label="返回笔记索引">
+                <span class="note-viewer-navbar__back-icon" aria-hidden="true">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <span class="note-viewer-navbar__back-text">返回索引</span>
+            </a>
         </div>
     </nav>
 

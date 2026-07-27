@@ -171,6 +171,281 @@
     pointer-events: none;
 }
 
+.note-viewer-page .note-toc {
+    position: fixed !important;
+    top: 50% !important;
+    right: 1.15rem !important;
+    width: min(18.25rem, calc(100vw - 2rem)) !important;
+    max-height: min(68vh, 40rem) !important;
+    padding: 0 !important;
+    border: 1px solid color-mix(in srgb, var(--glass-border) 78%, transparent);
+    border-radius: 1rem;
+    background:
+        linear-gradient(180deg, color-mix(in srgb, var(--surface-elevated) 76%, transparent), color-mix(in srgb, var(--surface) 64%, transparent));
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2) !important;
+    overflow: hidden;
+    backdrop-filter: blur(22px) saturate(135%);
+    -webkit-backdrop-filter: blur(22px) saturate(135%);
+}
+
+.note-viewer-page .note-toc--ready,
+.note-viewer-page .note-toc--empty {
+    display: flex !important;
+}
+
+.note-viewer-page .note-toc__nav {
+    max-height: min(68vh, 40rem) !important;
+    padding: 0.72rem;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+}
+
+.note-viewer-page .note-toc__title {
+    position: sticky;
+    top: -0.72rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.48rem;
+    margin: -0.72rem -0.72rem 0.58rem;
+    padding: 0.78rem 0.82rem 0.64rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--glass-border) 62%, transparent);
+    color: var(--text);
+    background: color-mix(in srgb, var(--surface-elevated) 72%, transparent);
+    font-size: 0.86rem;
+    font-weight: 800;
+    line-height: 1;
+    backdrop-filter: blur(16px) saturate(130%);
+    -webkit-backdrop-filter: blur(16px) saturate(130%);
+}
+
+.note-viewer-page .note-toc__title .toc-accent {
+    width: 0.34rem;
+    height: 1.05rem;
+    border-radius: var(--radius-full);
+    background: var(--gradient-primary);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--primary) 42%, transparent);
+}
+
+.note-viewer-page .note-toc__count {
+    margin-left: auto;
+    min-width: 1.25rem;
+    padding: 0.12rem 0.38rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 16%, var(--glass-border));
+    border-radius: var(--radius-full);
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 7%, transparent);
+    font-size: 0.64rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.note-viewer-page .note-toc__list {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.note-viewer-page .note-toc__list--children {
+    margin-left: 0;
+    padding-left: 1.08rem;
+    border-left: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
+    overflow: hidden;
+}
+
+.note-viewer-page .note-toc__item {
+    margin: 0.05rem 0;
+}
+
+.note-viewer-page .note-toc__item.is-collapsed > .note-toc__list--children {
+    display: none;
+}
+
+.note-viewer-page .note-toc__row {
+    display: flex;
+    align-items: center;
+    gap: 0.22rem;
+}
+
+.note-viewer-page .note-toc__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 1.32rem;
+    width: 1.32rem;
+    height: 1.32rem;
+    padding: 0;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0.42rem;
+    color: var(--text-disabled);
+    background: transparent;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.note-viewer-page .note-toc__spacer {
+    flex: 0 0 1.32rem;
+    width: 1.32rem;
+    height: 1.32rem;
+}
+
+.note-viewer-page .note-toc__toggle:disabled {
+    cursor: default;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.note-viewer-page .note-toc__toggle:not(:disabled):hover {
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 9%, transparent);
+}
+
+.note-viewer-page .note-toc__toggle i {
+    font-size: 0.62rem;
+    transition: transform 0.18s ease;
+}
+
+.note-viewer-page .note-toc__item.is-expanded > .note-toc__row .note-toc__toggle i {
+    transform: rotate(90deg);
+}
+
+.note-viewer-page .note-toc__link {
+    position: relative;
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0.42rem 0.58rem;
+    border: 1px solid transparent;
+    border-radius: 0.68rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.note-viewer-page .note-toc__link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 2px;
+    height: 0.9rem;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    opacity: 0;
+    transform: translateY(-50%) scaleY(0.55);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.note-viewer-page .note-toc__link:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--surface-elevated) 58%, transparent);
+    border-color: color-mix(in srgb, var(--glass-border) 62%, transparent);
+    transform: translateX(2px);
+}
+
+.note-viewer-page .note-toc__link.is-active {
+    color: var(--primary);
+    background:
+        linear-gradient(90deg, color-mix(in srgb, var(--primary) 12%, transparent), transparent 72%);
+    border-color: color-mix(in srgb, var(--primary) 18%, transparent);
+    font-weight: 760;
+}
+
+.note-viewer-page .note-toc__link.is-active::before {
+    opacity: 1;
+    transform: translateY(-50%) scaleY(1);
+}
+
+.note-viewer-page .note-toc__item.is-active-path > .note-toc__row .note-toc__link {
+    color: color-mix(in srgb, var(--primary) 78%, var(--text));
+}
+
+.note-viewer-page .note-toc__link[data-level="1"],
+.note-viewer-page .note-toc__link[data-level="2"] {
+    font-weight: 760;
+}
+
+.note-viewer-page .note-toc__link[data-level="3"] {
+    font-size: 0.76rem;
+}
+
+.note-viewer-page .note-toc__link[data-level="4"] {
+    font-size: 0.73rem;
+    color: color-mix(in srgb, var(--text-muted) 78%, transparent);
+}
+
+.note-viewer-page .note-toc__empty {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.68rem;
+    border: 1px dashed color-mix(in srgb, var(--glass-border) 72%, transparent);
+    border-radius: 0.78rem;
+    color: var(--text-muted);
+    background: color-mix(in srgb, var(--surface) 42%, transparent);
+    font-size: 0.8rem;
+}
+
+.note-viewer-page .note-toc__empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 9%, transparent);
+    font-weight: 900;
+}
+
+.note-viewer-page .note-content h2,
+.note-viewer-page .note-content h3,
+.note-viewer-page .note-content h4 {
+    scroll-margin-top: calc(4.5rem + 1rem);
+}
+
+body[data-theme='light'].note-viewer-page .note-toc {
+    background: color-mix(in srgb, #ffffff 84%, transparent);
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.1) !important;
+}
+
+body[data-theme='light'].note-viewer-page .note-toc__title {
+    background: color-mix(in srgb, #ffffff 82%, transparent);
+}
+
+body[data-theme='light'].note-viewer-page .note-toc__link::before {
+    background: #ffffff;
+}
+
+body[data-theme='light'].note-viewer-page .note-toc__link:hover {
+    background: rgba(37, 99, 235, 0.045);
+}
+
+body[data-theme='light'].note-viewer-page .note-toc__link.is-active {
+    background: linear-gradient(90deg, rgba(37, 99, 235, 0.1), transparent 72%);
+}
+
+.note-viewer-page .toc-toggle-btn[hidden] {
+    display: none !important;
+}
+
 .note-viewer-page .loading-container {
     display: flex;
     flex-direction: column;
@@ -327,11 +602,142 @@
     background: color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
-.note-viewer-page .note-back-btn {
-    padding: 0.3rem 0.65rem;
+.note-viewer-page .note-viewer-navbar {
+    justify-content: space-between;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(12rem, 24vw, 16rem);
+    gap: 1rem;
+}
+
+.note-viewer-page .note-viewer-navbar__main {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    gap: 0.75rem;
+}
+
+.note-viewer-page .note-viewer-navbar__home {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    min-height: 2.05rem;
+    padding: 0 0.68rem 0 0.32rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 20%, var(--glass-border));
+    border-radius: var(--radius-full);
+    color: var(--text);
+    background: color-mix(in srgb, var(--surface-elevated) 74%, transparent);
+    text-decoration: none;
     font-size: 0.82rem;
-    line-height: 1.15;
-    border-radius: 8px;
+    font-weight: 760;
+    white-space: nowrap;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.note-viewer-page .note-viewer-navbar__home:hover {
+    color: var(--primary);
+    border-color: color-mix(in srgb, var(--primary) 48%, var(--glass-border));
+    background: color-mix(in srgb, var(--primary) 9%, var(--surface-elevated));
+    transform: translateY(-1px);
+    box-shadow: 0 7px 18px rgba(0, 217, 255, 0.1);
+}
+
+.note-viewer-page .note-viewer-navbar__home-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.38rem;
+    height: 1.38rem;
+    border-radius: 50%;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.note-viewer-page .note-viewer-navbar__home-icon i {
+    font-size: 0.64rem;
+}
+
+.note-viewer-page .note-viewer-navbar__divider {
+    width: 1px;
+    height: 1.25rem;
+    flex: 0 0 auto;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--glass-border),
+        transparent
+    );
+}
+
+.note-viewer-page .note-viewer-navbar__title {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.note-viewer-page .note-viewer-navbar__back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.42rem;
+    min-height: 2.18rem;
+    padding: 0 0.78rem 0 0.42rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 26%, var(--glass-border));
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    background: color-mix(in srgb, var(--surface-elevated) 72%, transparent);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.note-viewer-page .note-viewer-navbar__back:hover {
+    color: var(--primary);
+    border-color: color-mix(in srgb, var(--primary) 52%, var(--glass-border));
+    background: color-mix(in srgb, var(--primary) 10%, var(--surface-elevated));
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 217, 255, 0.1);
+}
+
+.note-viewer-page .note-viewer-navbar__back-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.46rem;
+    height: 1.46rem;
+    border-radius: 50%;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    transition: transform 0.2s ease;
+}
+
+.note-viewer-page .note-viewer-navbar__back:hover .note-viewer-navbar__back-icon {
+    transform: translateX(-2px);
+}
+
+.note-viewer-page .note-viewer-navbar__back-icon i {
+    font-size: 0.68rem;
+}
+
+.note-viewer-page .note-viewer-navbar__back-text {
+    line-height: 1;
 }
 
 .note-viewer-page .note-content.animate-in {
@@ -351,13 +757,55 @@
 }
 
 @media (max-height: 400px) {
-    .note-viewer-page .note-back-btn {
-        padding: 0.26rem 0.58rem;
-        font-size: 0.78rem;
+    .note-viewer-page .note-viewer-navbar__back {
+        min-height: 1.95rem;
+        padding: 0 0.62rem 0 0.34rem;
+    }
+
+    .note-viewer-page .note-viewer-navbar__back-icon {
+        width: 1.3rem;
+        height: 1.3rem;
     }
 }
 
 @media (max-width: 768px) {
+    .note-viewer-page .note-viewer-navbar {
+        height: 4.5rem;
+        padding-inline: var(--space-md);
+        padding-right: clamp(10rem, 44vw, 13rem);
+    }
+
+    .note-viewer-page .note-viewer-navbar .navbar__brand {
+        position: static;
+        transform: none;
+    }
+
+    .note-viewer-page .note-viewer-navbar__main {
+        gap: 0.55rem;
+    }
+
+    .note-viewer-page .note-viewer-navbar__home {
+        min-height: 1.95rem;
+        padding: 0 0.58rem 0 0.28rem;
+        font-size: 0.76rem;
+    }
+
+    .note-viewer-page .note-viewer-navbar__home-icon {
+        width: 1.28rem;
+        height: 1.28rem;
+    }
+
+    .note-viewer-page .note-viewer-navbar__back {
+        min-height: 1.98rem;
+        padding: 0 0.62rem 0 0.32rem;
+        font-size: 0.76rem;
+    }
+
+    .note-viewer-page .note-viewer-navbar__back-icon {
+        width: 1.28rem;
+        height: 1.28rem;
+    }
+
     html {
         overflow-y: auto;
         overscroll-behavior-y: none;
@@ -383,19 +831,31 @@
     }
 
     .note-viewer-page .note-toc {
-        position: fixed;
-        top: 50%;
-        right: 20px;
-        width: 260px;
-        max-height: 60vh;
+        position: fixed !important;
+        top: 50% !important;
+        right: 0.75rem !important;
+        width: min(21rem, calc(100vw - 1.5rem)) !important;
+        max-height: min(72vh, calc(100dvh - 8rem)) !important;
         transform: translateY(-50%) translateZ(0);
         z-index: 1050;
         order: unset;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
         will-change: transform, opacity;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
         isolation: isolate;
+    }
+
+    .note-viewer-page .note-toc__nav {
+        max-height: min(72vh, calc(100dvh - 8rem)) !important;
+    }
+
+    .note-viewer-page .note-toc__list--children {
+        padding-left: 0.82rem;
+    }
+
+    .note-viewer-page .note-toc__link {
+        padding: 0.42rem 0.5rem;
     }
 
     .note-viewer-page .note-toc.note-toc--hidden {
@@ -415,6 +875,46 @@
     .note-viewer-page .container.section.note-layout {
         overscroll-behavior: contain;
         touch-action: pan-y;
+    }
+}
+
+@media (max-width: 480px) {
+    .note-viewer-page .note-viewer-navbar {
+        padding-right: var(--space-sm);
+    }
+
+    .note-viewer-page .note-viewer-navbar__main {
+        gap: 0.5rem;
+    }
+
+    .note-viewer-page .note-viewer-navbar__divider,
+    .note-viewer-page .note-viewer-navbar__title {
+        display: none;
+    }
+
+    .note-viewer-page .note-viewer-navbar__home-text,
+    .note-viewer-page .note-viewer-navbar__back-text {
+        display: none;
+    }
+
+    .note-viewer-page .note-viewer-navbar__home,
+    .note-viewer-page .note-viewer-navbar__back {
+        width: 2rem;
+        min-height: 2rem;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .note-viewer-page .note-viewer-navbar__home-icon,
+    .note-viewer-page .note-viewer-navbar__back-icon {
+        width: 1.32rem;
+        height: 1.32rem;
+    }
+
+    .note-viewer-page .note-viewer-navbar .theme-toggle,
+    .note-viewer-page .note-viewer-navbar .share-note-btn,
+    .note-viewer-page .note-viewer-navbar .negiao-lang-toggle--nav {
+        display: none;
     }
 }
 

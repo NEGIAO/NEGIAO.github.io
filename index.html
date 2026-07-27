@@ -86,27 +86,30 @@
 
 <body class="home-page">
     <!-- 侧边导航栏 (Desktop Sidebar) -->
-    <aside class="sidebar">
-        <a href="#main" class="sidebar__logo" aria-label="回到首页">NEGIAO</a>
+    <aside class="sidebar home-sidebar">
+        <a href="#main" class="sidebar__logo" aria-label="回到首页">
+            <span class="sidebar__logo-mark" aria-hidden="true">N</span>
+            <span class="sidebar__logo-text">NEGIAO</span>
+        </a>
 
         <nav class="sidebar__nav" aria-label="侧边导航">
             <a href="#projects" class="sidebar__link" data-title="项目展示">
-                <i class="fas fa-rocket"></i>
+                <span class="sidebar__link-icon"><i class="fas fa-rocket"></i></span>
             </a>
             <a href="Pages/notes.html" class="sidebar__link" data-title="技术笔记">
-                <i class="fas fa-book-open"></i>
+                <span class="sidebar__link-icon"><i class="fas fa-book-open"></i></span>
             </a>
             <a href="Pages/schedule.html" class="sidebar__link" data-title="课程表">
-                <i class="fas fa-calendar-alt"></i>
+                <span class="sidebar__link-icon"><i class="fas fa-calendar-alt"></i></span>
             </a>
             <a href="#contact" class="sidebar__link" data-title="联系我">
-                <i class="fas fa-envelope"></i>
+                <span class="sidebar__link-icon"><i class="fas fa-envelope"></i></span>
             </a>
         </nav>
 
         <div class="sidebar__footer">
             <a href="https://github.com/NEGIAO" target="_blank" rel="noopener" class="sidebar__link" data-title="GitHub 项目">
-                <i class="fab fa-github"></i>
+                <span class="sidebar__link-icon"><i class="fab fa-github"></i></span>
             </a>
         </div>
     </aside>

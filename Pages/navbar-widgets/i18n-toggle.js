@@ -198,11 +198,43 @@
         textMap.en[zhText] = enText;
     });
 
+    // 预编译翻译正则：将全部词条合并为单个正则（按长度降序保证最长优先匹配）。
+    // 旧实现对每个文本节点执行 Object.keys().sort() + 逐词 indexOf，
+    // 复杂度为 O(文本节点数 × 词条数 × 文本长度)，是大页面 CPU 占用的主要来源之一。
+    var compiledPattern = { zh: null, en: null };
+    function getCompiledPattern(lang) {
+        if (compiledPattern[lang] === null) {
+            var keys = Object.keys(textMap[lang]).sort(function (a, b) {
+                return b.length - a.length;
+            });
+            compiledPattern[lang] = keys.length
+                ? new RegExp(keys.map(escapeRegExp).join('|'), 'g')
+                : false;
+        }
+        return compiledPattern[lang] || null;
+    }
+
+    // 整棵子树跳过的选择器（含 data-no-i18n：笔记正文等用户内容不参与 UI 词条翻译）
+    var SKIP_SELECTOR = 'script, style, noscript, code, pre, textarea, svg, canvas, math, .negiao-lang-toggle, [data-no-i18n]';
+
+    var OBSERVE_OPTIONS = {
+        subtree: true,
+        childList: true,
+        characterData: true,
+        attributes: true,
+        attributeFilter: ['title', 'aria-label', 'data-title', 'placeholder', 'alt']
+    };
+
+    // 增量翻译队列：超过上限则退化为整页扫描一次
+    var MAX_PENDING_ROOTS = 40;
+
     var state = {
         lang: normalizeLang(readStoredLanguage()),
         observer: null,
         rafId: 0,
-        isApplying: false
+        isApplying: false,
+        pendingRoots: [],
+        pendingFull: false
     };
 
     function normalizeLang(lang) {
@@ -259,19 +291,21 @@
             return input;
         }
 
+        var pattern = getCompiledPattern(lang);
+        if (!pattern) {
+            return input;
+        }
+
+        pattern.lastIndex = 0;
+        if (!pattern.test(input)) {
+            return input;
+        }
+
         var map = textMap[lang];
-        var keys = Object.keys(map).sort(function (a, b) {
-            return b.length - a.length;
+        pattern.lastIndex = 0;
+        return input.replace(pattern, function (matched) {
+            return Object.prototype.hasOwnProperty.call(map, matched) ? map[matched] : matched;
         });
-
-        var result = input;
-        keys.forEach(function (key) {
-            if (result.indexOf(key) !== -1) {
-                result = result.split(key).join(map[key]);
-            }
-        });
-
-        return result;
     }
 
     function resolveGeosceneTitle(path, lang) {
@@ -338,16 +372,22 @@
         }
 
         document.querySelectorAll(selector).forEach(function (element) {
-            element.setAttribute('content', value);
+            // 仅在值变化时写入：无条件 setAttribute 会触发 MutationObserver，
+            // 曾导致“翻译→变更→再翻译”的无限循环
+            if (element.getAttribute('content') !== value) {
+                element.setAttribute('content', value);
+            }
         });
     }
 
     function applyPageMeta(path, lang) {
         var title = resolvePageTitle(path, lang);
         if (title) {
-            document.title = title;
+            if (document.title !== title) {
+                document.title = title;
+            }
             var titleHolder = document.getElementById('page-title');
-            if (titleHolder) {
+            if (titleHolder && titleHolder.textContent !== title) {
                 titleHolder.textContent = title;
             }
         }
@@ -369,21 +409,34 @@
         }
     }
 
-    function shouldSkipTextNode(node) {
-        if (!node || !node.parentElement) {
-            return true;
-        }
-
-        return Boolean(node.parentElement.closest('script, style, noscript, code, pre, textarea, svg, canvas, math, .negiao-lang-toggle, [data-no-i18n]'));
+    function isInsideSkipped(element) {
+        return Boolean(element && element.closest && element.closest(SKIP_SELECTOR));
     }
 
     function translateTextNodes(root, lang) {
-        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        if (!root) {
+            return;
+        }
+        if (root.nodeType === 3) {
+            root = root.parentElement;
+        }
+        if (!root || root.nodeType !== 1 || isInsideSkipped(root)) {
+            return;
+        }
+
+        // SHOW_ELEMENT + FILTER_REJECT 可整棵跳过被排除的子树（如笔记正文），
+        // 避免旧实现对每个文本节点做 closest() 回溯，整体从 O(全页) 降为 O(界面元素)
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT, {
             acceptNode: function (node) {
-                if (!node || !node.nodeValue || !node.nodeValue.trim()) {
+                if (node.nodeType === 1) {
+                    return node.matches(SKIP_SELECTOR)
+                        ? NodeFilter.FILTER_REJECT
+                        : NodeFilter.FILTER_SKIP;
+                }
+                if (!node.nodeValue || !node.nodeValue.trim()) {
                     return NodeFilter.FILTER_REJECT;
                 }
-                return shouldSkipTextNode(node) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+                return NodeFilter.FILTER_ACCEPT;
             }
         });
 
@@ -399,8 +452,29 @@
     }
 
     function translateAttributes(root, lang) {
+        if (!root) {
+            return;
+        }
+        if (root.nodeType === 3) {
+            root = root.parentElement;
+        }
+        if (!root || root.nodeType !== 1 || isInsideSkipped(root)) {
+            return;
+        }
+
         var selectors = '[title], [aria-label], [data-title], [placeholder], img[alt]';
+        var elements = [];
+        if (root.matches(selectors)) {
+            elements.push(root);
+        }
         root.querySelectorAll(selectors).forEach(function (element) {
+            elements.push(element);
+        });
+
+        elements.forEach(function (element) {
+            if (isInsideSkipped(element)) {
+                return;
+            }
             ['title', 'aria-label', 'data-title', 'placeholder', 'alt'].forEach(function (attributeName) {
                 if (!element.hasAttribute(attributeName)) {
                     return;
@@ -418,12 +492,25 @@
     }
 
     function syncToggleButtons(lang) {
+        var text = lang === 'en' ? '中文' : 'EN';
+        var label = lang === 'en' ? 'Switch to Chinese' : '切换为 English';
+        var pressed = String(lang === 'en');
+
         var buttons = document.querySelectorAll('.negiao-lang-toggle');
         buttons.forEach(function (button) {
-            button.textContent = lang === 'en' ? '中文' : 'EN';
-            button.setAttribute('aria-label', lang === 'en' ? 'Switch to Chinese' : '切换为 English');
-            button.setAttribute('title', lang === 'en' ? 'Switch to Chinese' : '切换为 English');
-            button.setAttribute('aria-pressed', String(lang === 'en'));
+            // 仅在值变化时写入，避免每次同步都产生 DOM 变更记录
+            if (button.textContent !== text) {
+                button.textContent = text;
+            }
+            if (button.getAttribute('aria-label') !== label) {
+                button.setAttribute('aria-label', label);
+            }
+            if (button.getAttribute('title') !== label) {
+                button.setAttribute('title', label);
+            }
+            if (button.getAttribute('aria-pressed') !== pressed) {
+                button.setAttribute('aria-pressed', pressed);
+            }
         });
     }
 
@@ -487,34 +574,112 @@
         }
     }
 
-    function translatePage(lang) {
+    function translatePage(lang, roots) {
         if (state.isApplying) {
             return;
         }
 
         state.isApplying = true;
 
-        var root = document.body || document.documentElement;
-        document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'zh-CN');
-        document.documentElement.setAttribute('data-lang', lang);
+        // 应用期间断开监听：自身写入不再产生变更记录（disconnect 会清空待处理队列），
+        // 从根源上杜绝“翻译 → 触发变更 → 再翻译”的无限循环（此前 CPU 打满的主因）
+        var wasObserving = Boolean(state.observer);
+        if (wasObserving) {
+            state.observer.disconnect();
+        }
+
+        var docEl = document.documentElement;
+        var langAttr = lang === 'en' ? 'en' : 'zh-CN';
+        if (docEl.getAttribute('lang') !== langAttr) {
+            docEl.setAttribute('lang', langAttr);
+        }
+        if (docEl.getAttribute('data-lang') !== lang) {
+            docEl.setAttribute('data-lang', lang);
+        }
 
         applyPageMeta(getPagePath(), lang);
-        if (root) {
-            translateTextNodes(root, lang);
-            translateAttributes(root, lang);
+
+        if (roots && roots.length) {
+            // 增量模式：只翻译发生变更的子树
+            roots.forEach(function (node) {
+                translateTextNodes(node, lang);
+                translateAttributes(node, lang);
+            });
+        } else {
+            var root = document.body || document.documentElement;
+            if (root) {
+                translateTextNodes(root, lang);
+                translateAttributes(root, lang);
+            }
         }
 
         syncToggleButtons(lang);
+
+        if (wasObserving) {
+            observeDocument();
+        }
         state.isApplying = false;
     }
 
-    function scheduleTranslate(lang) {
+    // 去重：丢弃已脱离文档的节点、被其他待处理根包含的节点
+    function dedupeRoots(list) {
+        var out = [];
+        for (var i = 0; i < list.length; i++) {
+            var node = list[i];
+            if (!node) {
+                continue;
+            }
+            if (node.nodeType === 3) {
+                node = node.parentElement;
+            }
+            if (!node || node.nodeType !== 1 || !node.isConnected) {
+                continue;
+            }
+            var covered = false;
+            for (var j = 0; j < out.length; j++) {
+                if (out[j] === node || out[j].contains(node)) {
+                    covered = true;
+                    break;
+                }
+            }
+            if (!covered) {
+                out.push(node);
+            }
+        }
+        return out;
+    }
+
+    function queueRoots(targets) {
+        if (state.pendingFull) {
+            return;
+        }
+        for (var i = 0; i < targets.length; i++) {
+            if (state.pendingRoots.length >= MAX_PENDING_ROOTS) {
+                state.pendingFull = true;
+                state.pendingRoots.length = 0;
+                return;
+            }
+            state.pendingRoots.push(targets[i]);
+        }
+    }
+
+    function scheduleTranslate(lang, targets) {
+        if (targets && targets.length) {
+            queueRoots(targets);
+        } else {
+            state.pendingFull = true;
+            state.pendingRoots.length = 0;
+        }
+
         if (state.rafId) {
-            cancelAnimationFrame(state.rafId);
+            return;
         }
         state.rafId = requestAnimationFrame(function () {
             state.rafId = 0;
-            translatePage(lang);
+            var roots = state.pendingFull ? null : dedupeRoots(state.pendingRoots);
+            state.pendingFull = false;
+            state.pendingRoots = [];
+            translatePage(state.lang, roots);
         });
     }
 
@@ -530,6 +695,10 @@
         scheduleTranslate(normalized);
     }
 
+    function observeDocument() {
+        state.observer.observe(document.documentElement, OBSERVE_OPTIONS);
+    }
+
     function initObserver() {
         if (!('MutationObserver' in window)) {
             return;
@@ -540,22 +709,25 @@
                 return;
             }
 
-            var shouldRefresh = mutations.some(function (mutation) {
-                return mutation.type === 'childList' || mutation.type === 'characterData' || mutation.type === 'attributes';
-            });
+            // 收集具体变更目标，按子树增量翻译，不再对整页做全量扫描
+            var targets = [];
+            for (var i = 0; i < mutations.length; i++) {
+                var mutation = mutations[i];
+                if (mutation.type === 'childList') {
+                    for (var j = 0; j < mutation.addedNodes.length; j++) {
+                        targets.push(mutation.addedNodes[j]);
+                    }
+                } else if (mutation.type === 'characterData' || mutation.type === 'attributes') {
+                    targets.push(mutation.target);
+                }
+            }
 
-            if (shouldRefresh) {
-                scheduleTranslate(state.lang);
+            if (targets.length) {
+                scheduleTranslate(state.lang, targets);
             }
         });
 
-        state.observer.observe(document.documentElement, {
-            subtree: true,
-            childList: true,
-            characterData: true,
-            attributes: true,
-            attributeFilter: ['title', 'aria-label', 'data-title', 'placeholder', 'alt']
-        });
+        observeDocument();
     }
 
     function init() {

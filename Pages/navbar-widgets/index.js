@@ -16,6 +16,9 @@
         return '';
     })();
 
+    // 子脚本缓存版本号：修改任一 widget 后更新此值
+    var VERSION = '20260727';
+
     var WIDGETS = [
         'theme-toggle.js',
         'i18n-toggle.js',
@@ -34,7 +37,7 @@
 
     function loadAll() {
         var promises = WIDGETS.map(function (name) {
-            return loadScript(BASE + 'navbar-widgets/' + name);
+            return loadScript(BASE + 'navbar-widgets/' + name + '?v=' + VERSION);
         });
         Promise.all(promises).then(function () {
             if (typeof window.initThemeToggle === 'function') window.initThemeToggle();

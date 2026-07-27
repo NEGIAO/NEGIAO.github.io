@@ -82,6 +82,11 @@
     function setCollapsed(cell, collapsed) {
         var btn = cell.querySelector('.cn-meaning-toggle');
         if (!btn) return;
+        // 状态未变化时不写 DOM：批量 setAll 时避免对上千单元格产生无意义的变更记录
+        if (cell.classList.contains('is-collapsed') === collapsed &&
+            btn.getAttribute('aria-expanded') === String(!collapsed)) {
+            return;
+        }
         if (collapsed) { cell.classList.add('is-collapsed'); }
         else { cell.classList.remove('is-collapsed'); }
         btn.setAttribute('aria-expanded', String(!collapsed));
@@ -201,13 +206,21 @@
 
     // ==================== 自定义渲染 ====================
 
+    // 与通用渲染一致的解析（含相对路径重写）；note-viewer 未暴露时回退到裸 marked
+    function parseMd(md) {
+        if (window.NoteViewerMarked && typeof window.NoteViewerMarked.parse === 'function') {
+            return window.NoteViewerMarked.parse(md);
+        }
+        return window.marked.parse(md);
+    }
+
     function extractWordLearningMarkdown(md) {
-        var tokens = window.marked.lexer(md);
-        var idx = tokens.findIndex(function (t) { return t.type === 'heading' && t.depth === 2; });
-        if (idx === -1) return { headerMarkdown: '', bodyMarkdown: md };
+        // 用正则定位首个二级标题作为分界，避免为拆分做一次完整的 lexer 解析
+        var match = /^##\s/m.exec(md);
+        if (!match) return { headerMarkdown: '', bodyMarkdown: md };
         return {
-            headerMarkdown: tokens.slice(0, idx).map(function (t) { return t.raw || ''; }).join(''),
-            bodyMarkdown: tokens.slice(idx).map(function (t) { return t.raw || ''; }).join('')
+            headerMarkdown: md.slice(0, match.index),
+            bodyMarkdown: md.slice(match.index)
         };
     }
 
@@ -219,13 +232,13 @@
         if (parts.headerMarkdown.trim()) {
             var headerDiv = document.createElement('div');
             headerDiv.className = 'note-chunk header-chunk';
-            headerDiv.innerHTML = window.marked.parse(parts.headerMarkdown);
+            headerDiv.innerHTML = parseMd(parts.headerMarkdown);
             container.appendChild(headerDiv);
         }
 
         var contentDiv = document.createElement('div');
         contentDiv.className = 'note-chunk days-content';
-        contentDiv.innerHTML = window.marked.parse(parts.bodyMarkdown);
+        contentDiv.innerHTML = parseMd(parts.bodyMarkdown);
         container.appendChild(contentDiv);
 
         return contentDiv;
@@ -268,7 +281,7 @@
                     .then(function (md) {
                         div.remove();
 
-                        var html = window.marked.parse(md);
+                        var html = parseMd(md);
                         var archiveDiv = document.createElement('div');
                         archiveDiv.className = 'note-chunk archive-content';
                         archiveDiv.innerHTML = html;

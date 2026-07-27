@@ -9,27 +9,50 @@
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
 
-    <!-- DNS Prefetch 和 Preconnect 优化 CDN 加载速度 -->
-    <link rel="preconnect" href="https://cdnjs.loli.net" crossorigin>
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://negiao.github.io/Pages/notes.html">
     <meta property="og:title" content="技术笔记索引 - NEGIAO">
     <meta property="og:description" content="NEGIAO的技术笔记索引 - WebGIS、数据可视化和前端开发学习心得与实践总结">
     <meta property="og:image" content="https://negiao.github.io/Pages/public/avatar.webp">
+
     <title>笔记索引 - NEGIAO</title>
     <link rel="icon" type="image/webp" href="/images/icon.webp">
-    <link rel="stylesheet" href="css/style-new.css?v=20260527">
-    <!-- Font Awesome 精简版 - 只加载使用的图标 -->
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
-    <script src="/Pages/navbar-widgets/index.js" defer></script>
+
+    <!-- 预连接第三方资源 -->
+    <link rel="preconnect" href="https://cdnjs.loli.net" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+    <!-- 站点样式：并行加载所需模块（替代 style-new.css 的 @import 串行链） -->
+    <link rel="stylesheet" href="css/base.css?v=20260727">
+    <link rel="stylesheet" href="css/components.css?v=20260727">
+    <link rel="stylesheet" href="css/layout.css?v=20260727">
+    <link rel="stylesheet" href="css/notes.css?v=20260727">
+    <link rel="stylesheet" href="css/responsive.css?v=20260727">
+    <link rel="stylesheet" href="css/notes-index.css?v=20260727">
+
+    <!-- Font Awesome 异步加载：不阻塞首屏渲染 -->
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
+        <style>.notes-index-page .note-card { opacity: 1 !important; transform: none !important; }</style>
+    </noscript>
+
+    <!-- 内联关键样式：避免样式就绪前的白屏闪烁 -->
+    <style>
+        body { margin: 0; padding: 0; overflow-x: hidden; background: #0A0E13; color: #F7FAFC; }
+        body[data-theme='light'] { background: #EFF1F5; color: #111827; }
+    </style>
+
+    <script src="/Pages/navbar-widgets/index.js?v=20260727" defer></script>
+    <script src="public/main-enhanced.js?v=20260727" defer></script>
 </head>
 
-<body>
+<body class="notes-index-page">
     <nav class="navbar" aria-label="主导航">
         <div class="navbar__container">
             <a href="../index.html" class="navbar__brand">NEGIAO</a>
@@ -40,14 +63,47 @@
     </nav>
 
     <main class="container section">
-        <div class="notes-index-header">
-            <h1 class="gradient-text">📚 笔记索引</h1>
-            <p class="notes-subtitle">技术学习心得与实践总结</p>
+        <!-- 页头 -->
+        <header class="page-head">
+            <p class="page-head__eyebrow">Notes</p>
+            <h1 class="page-head__title">笔记索引</h1>
+            <p class="page-head__sub">技术学习心得与实践总结</p>
+        </header>
+
+        <!-- 工具栏：搜索 + 分类筛选 -->
+        <div class="notes-toolbar">
+            <div class="notes-search">
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <input type="text" id="notes-search-input" class="notes-search__input" placeholder="搜索笔记..." aria-label="搜索笔记">
+                <button type="button" id="notes-search-clear" class="notes-search__clear" aria-label="清空搜索">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="notes-filter" role="tablist" aria-label="分类筛选">
+                <button type="button" class="filter-chip is-active" data-filter="all">
+                    <span>全部笔记</span><span class="filter-chip__count"></span>
+                </button>
+                <button type="button" class="filter-chip" data-filter="daily">
+                    <span>每日记录</span><span class="filter-chip__count"></span>
+                </button>
+                <button type="button" class="filter-chip" data-filter="tools">
+                    <span>项目与工具</span><span class="filter-chip__count"></span>
+                </button>
+                <button type="button" class="filter-chip" data-filter="tech">
+                    <span>技术笔记</span><span class="filter-chip__count"></span>
+                </button>
+                <button type="button" class="filter-chip" data-filter="gallery">
+                    <span>成果展示</span><span class="filter-chip__count"></span>
+                </button>
+                <button type="button" class="filter-chip" data-filter="about">
+                    <span>个人介绍</span><span class="filter-chip__count"></span>
+                </button>
+            </div>
         </div>
 
         <!-- 每日记录 -->
-        <div class="notes-category">
-            <h2 class="notes-section-title"><i class="fas fa-calendar-check"></i> 每日记录</h2>
+        <div class="notes-category" data-category="daily">
+            <h2 class="notes-section-title"><i class="fas fa-calendar-check"></i> 每日记录 <span class="cat-count"></span></h2>
             <section class="notes-grid">
                 <!-- 单词学习记录 -->
                 <div class="note-card">
@@ -79,11 +135,11 @@
                     <div class="note-card__header">
                         <div class="note-icon">👩‍🎓</div>
                         <div>
-                            <h3>Null</h3>
+                            <h3>周迪的学习记录</h3>
                             <span class="note-badge note-badge--data">单词</span>
                         </div>
                     </div>
-                    <p class="note-card__description"></p>
+                    <p class="note-card__description">周迪的英语单词学习记录，每日更新，包含释义与用法</p>
                     <div class="note-card__meta">
                         <span class="note-meta__item">
                             <i class="fas fa-calendar"></i> updating
@@ -99,8 +155,8 @@
         </div>
 
         <!-- 项目与工具 -->
-        <div class="notes-category">
-            <h2 class="notes-section-title"><i class="fas fa-tools"></i> 项目与工具</h2>
+        <div class="notes-category" data-category="tools">
+            <h2 class="notes-section-title"><i class="fas fa-tools"></i> 项目与工具 <span class="cat-count"></span></h2>
             <section class="notes-grid">
                 <!-- ArcGIS Engine Project -->
                 <div class="note-card">
@@ -215,8 +271,8 @@
         </div>
 
         <!-- 技术笔记 -->
-        <div class="notes-category">
-            <h2 class="notes-section-title"><i class="fas fa-book"></i> 技术笔记</h2>
+        <div class="notes-category" data-category="tech">
+            <h2 class="notes-section-title"><i class="fas fa-book"></i> 技术笔记 <span class="cat-count"></span></h2>
             <section class="notes-grid">
                 <!-- ML/DL -->
                 <div class="note-card">
@@ -614,11 +670,11 @@
                     </div>
                 </div>
             </section>
-            </div>
+        </div>
 
         <!-- 成果展示 -->
-        <div class="notes-category">
-            <h2 class="notes-section-title"><i class="fas fa-images"></i> 成果展示</h2>
+        <div class="notes-category" data-category="gallery">
+            <h2 class="notes-section-title"><i class="fas fa-images"></i> 成果展示 <span class="cat-count"></span></h2>
             <section class="notes-grid">
                 <!-- Gallery -->
                 <div class="note-card">
@@ -645,8 +701,8 @@
         </div>
 
         <!-- 个人介绍 -->
-        <div class="notes-category">
-            <h2 class="notes-section-title"><i class="fas fa-user-graduate"></i> 个人介绍</h2>
+        <div class="notes-category" data-category="about">
+            <h2 class="notes-section-title"><i class="fas fa-user-graduate"></i> 个人介绍 <span class="cat-count"></span></h2>
             <section class="notes-grid">
                 <!-- 夏令营答辩演练 -->
                 <div class="note-card">
@@ -672,6 +728,14 @@
             </section>
         </div>
 
+        <!-- 无结果提示 -->
+        <div class="notes-empty" id="notes-empty">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <p>未找到匹配的笔记</p>
+            <p class="notes-empty__hint">尝试更换关键词或切换分类</p>
+        </div>
+
+        <!-- 使用说明 -->
         <div class="notes-info">
             <h2>📝 使用说明</h2>
             <div class="info-grid">
@@ -693,9 +757,10 @@
             </div>
         </div>
 
+        <!-- 统计 -->
         <div class="notes-stats">
             <div class="stats-item">
-                <h3>17</h3>
+                <h3 id="stat-note-count">17</h3>
                 <p>笔记文件</p>
             </div>
             <div class="stats-item">
@@ -711,12 +776,110 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 NEGIAO. 持续学习，记录成长。</p>
+            <p>&copy; <span id="current-year">2026</span> NEGIAO. 持续学习，记录成长。</p>
         </div>
     </footer>
 
-    <!-- 引入增强脚本以支持返回顶部和阅读进度条 -->
-    <script src="public/main-enhanced.js" defer></script>
+    <!-- 页面内逻辑：分类计数 / 搜索筛选 / 入场动画 / 年份 -->
+    <script>
+        (function () {
+            'use strict';
+
+            var cards = Array.prototype.slice.call(document.querySelectorAll('.note-card'));
+            var cats = Array.prototype.slice.call(document.querySelectorAll('.notes-category'));
+            var chips = Array.prototype.slice.call(document.querySelectorAll('.filter-chip'));
+            var input = document.getElementById('notes-search-input');
+            var clearBtn = document.getElementById('notes-search-clear');
+            var emptyEl = document.getElementById('notes-empty');
+            var activeCat = 'all';
+
+            // 分类计数（区头 + 筛选chip）
+            cats.forEach(function (cat) {
+                var span = cat.querySelector('.cat-count');
+                if (span) span.textContent = String(cat.querySelectorAll('.note-card').length);
+            });
+            chips.forEach(function (chip) {
+                var f = chip.getAttribute('data-filter');
+                var c = chip.querySelector('.filter-chip__count');
+                if (!c) return;
+                c.textContent = f === 'all'
+                    ? String(cards.length)
+                    : String(document.querySelectorAll('.notes-category[data-category="' + f + '"] .note-card').length);
+            });
+
+            // 笔记文件统计：自动统计指向 note-viewer 的卡片数
+            var stat = document.getElementById('stat-note-count');
+            if (stat) stat.textContent = String(document.querySelectorAll('.note-card a[href*="note-viewer"]').length);
+
+            // 版权年份
+            var yearEl = document.getElementById('current-year');
+            if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+            // 搜索 + 分类筛选
+            function applyFilter() {
+                var q = (input && input.value || '').trim().toLowerCase();
+                if (input) input.parentElement.classList.toggle('has-value', !!q);
+
+                var anyVisible = false;
+                cats.forEach(function (cat) {
+                    var catName = cat.getAttribute('data-category');
+                    var visibleCount = 0;
+                    cat.querySelectorAll('.note-card').forEach(function (card) {
+                        var okCat = activeCat === 'all' || catName === activeCat;
+                        var okQuery = !q || card.textContent.toLowerCase().indexOf(q) !== -1;
+                        var show = okCat && okQuery;
+                        card.classList.toggle('is-filtered', !show);
+                        if (show) visibleCount++;
+                    });
+                    cat.classList.toggle('is-empty', visibleCount === 0);
+                    if (visibleCount) anyVisible = true;
+                });
+                if (emptyEl) emptyEl.classList.toggle('is-visible', !anyVisible);
+            }
+
+            var debounceId = null;
+            if (input) {
+                input.addEventListener('input', function () {
+                    clearTimeout(debounceId);
+                    debounceId = setTimeout(applyFilter, 120);
+                });
+            }
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function () {
+                    input.value = '';
+                    applyFilter();
+                    input.focus();
+                });
+            }
+            chips.forEach(function (chip) {
+                chip.addEventListener('click', function () {
+                    chips.forEach(function (c) { c.classList.remove('is-active'); });
+                    chip.classList.add('is-active');
+                    activeCat = chip.getAttribute('data-filter');
+                    applyFilter();
+                });
+            });
+
+            // 卡片入场动画（IntersectionObserver，逐个揭示）
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-revealed');
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+                cards.forEach(function (card, i) {
+                    card.style.transitionDelay = (i % 4) * 60 + 'ms';
+                    io.observe(card);
+                });
+            } else {
+                cards.forEach(function (card) { card.classList.add('is-revealed'); });
+            }
+        })();
+    </script>
 </body>
 
 </html>

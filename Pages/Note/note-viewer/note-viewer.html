@@ -8,19 +8,39 @@
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
 
-    <!-- DNS Prefetch & Preconnect -->
+    <!-- 预连接第三方资源 -->
     <link rel="preconnect" href="https://cdnjs.loli.net" crossorigin>
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
     <title id="page-title">笔记 - NEGIAO</title>
     <link rel="icon" type="image/webp" href="/images/icon.webp">
-    <link rel="stylesheet" href="../../css/style-new.css?v=20260527">
-    <link rel="stylesheet" href="./note-viewer.css?v=20260601">
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
-    <!-- Font Awesome 精简版 - 只加载使用的图标 -->
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
+
+    <!-- 站点样式：并行加载所需模块（替代 style-new.css 的 @import 串行链） -->
+    <link rel="stylesheet" href="../../css/base.css?v=20260727">
+    <link rel="stylesheet" href="../../css/components.css?v=20260727">
+    <link rel="stylesheet" href="../../css/layout.css?v=20260727">
+    <link rel="stylesheet" href="../../css/notes.css?v=20260727">
+    <link rel="stylesheet" href="../../css/responsive.css?v=20260727">
+    <link rel="stylesheet" href="./note-viewer.css?v=20260727">
+
+    <!-- 第三方样式异步加载：不阻塞首屏（代码高亮与图标渐进就绪） -->
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
+    </noscript>
+
+    <!-- 内联关键样式：避免样式就绪前的白屏闪烁 -->
+    <style>
+        body { margin: 0; padding: 0; overflow-x: hidden; background: #0A0E13; color: #F7FAFC; }
+        body[data-theme='light'] { background: #EFF1F5; color: #111827; }
+    </style>
+
     <script defer src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
     <script defer src="../notes-toc.js?v=20260727"></script>
     <script defer src="../../public/main-enhanced.js?v=20260727"></script>
@@ -67,8 +87,24 @@
         </aside>
 
         <article class="note-content card">
+            <!-- 面包屑 + 阅读信息 -->
+            <div class="note-topbar">
+                <nav class="note-breadcrumb" aria-label="面包屑导航">
+                    <a href="../../../index.html">首页</a>
+                    <i class="fas fa-angle-right" aria-hidden="true"></i>
+                    <a href="../../notes.html">笔记索引</a>
+                    <i class="fas fa-angle-right" aria-hidden="true"></i>
+                    <span id="breadcrumb-title">笔记</span>
+                </nav>
+                <span class="note-reading-meta" id="note-reading-meta" data-no-i18n></span>
+            </div>
+
+            <!-- 工具栏：站内搜索 + 字号调节 -->
             <div class="note-search-container">
-                <input type="text" id="note-search" class="note-search-input" placeholder="在笔记内搜索...">
+                <div class="notes-search note-search-box">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="text" id="note-search" class="note-search-input" placeholder="在笔记内搜索...">
+                </div>
                 <div class="note-search-nav">
                     <button id="note-search-prev" class="note-search-nav-btn" title="上一个结果" disabled>
                         <i class="fas fa-chevron-up"></i>
@@ -77,6 +113,11 @@
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <span id="note-search-count" class="note-search-count"></span>
+                </div>
+                <div class="note-font-controls" role="group" aria-label="字号调节">
+                    <button id="font-decrease" class="note-font-btn" title="减小字号" aria-label="减小字号">A-</button>
+                    <button id="font-reset" class="note-font-btn" title="重置字号" aria-label="重置字号">A</button>
+                    <button id="font-increase" class="note-font-btn" title="增大字号" aria-label="增大字号">A+</button>
                 </div>
             </div>
 

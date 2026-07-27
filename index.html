@@ -1,750 +1,580 @@
 <!doctype html>
 <html lang="zh-CN">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="theme-color" content="#0D1117" />
-		<meta
-			name="description"
-			content="NEGIAO's Personal GitHub Page - WebGIS, Data Visualization and Geospatial Technologies"
-		/>
-		<meta
-			name="keywords"
-			content="WebGIS, GIS, Data Visualization, Frontend Development, OpenLayers, Leaflet, Map, NEGIAO"
-		/>
-		<meta name="author" content="NEGIAO" />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0D1117" />
+    <meta name="description" content="NEGIAO's Personal GitHub Page - WebGIS, Data Visualization and Geospatial Technologies" />
+    <meta name="keywords" content="WebGIS, GIS, Data Visualization, Frontend Development, OpenLayers, Leaflet, Map, NEGIAO" />
+    <meta name="author" content="NEGIAO" />
 
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://negiao.github.io/" />
-		<meta property="og:title" content="NEGIAO - WebGIS & Data Visualization" />
-		<meta
-			property="og:description"
-			content="Personal portfolio focusing on WebGIS, Data Visualization and Geospatial Technologies."
-		/>
-		<meta
-			property="og:image"
-			content="https://negiao.github.io/Pages/public/avatar.webp"
-		/>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://negiao.github.io/" />
+    <meta property="og:title" content="NEGIAO - WebGIS & Data Visualization" />
+    <meta property="og:description" content="Personal portfolio focusing on WebGIS, Data Visualization and Geospatial Technologies." />
+    <meta property="og:image" content="https://negiao.github.io/Pages/public/avatar.webp" />
 
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://negiao.github.io/" />
-		<meta
-			property="twitter:title"
-			content="NEGIAO - WebGIS & Data Visualization"
-		/>
-		<meta
-			property="twitter:description"
-			content="Personal portfolio focusing on WebGIS, Data Visualization and Geospatial Technologies."
-		/>
-		<meta
-			property="twitter:image"
-			content="https://negiao.github.io/Pages/public/avatar.webp"
-		/>
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://negiao.github.io/" />
+    <meta property="twitter:title" content="NEGIAO - WebGIS & Data Visualization" />
+    <meta property="twitter:description" content="Personal portfolio focusing on WebGIS, Data Visualization and Geospatial Technologies." />
+    <meta property="twitter:image" content="https://negiao.github.io/Pages/public/avatar.webp" />
 
-		<title>NEGIAO - GitHub Page</title>
-		<link
-			rel="icon"
-			type="image/webp"
-			sizes="32x32 192x192 512x512"
-			href="/images/icon.webp"
-		/>
-		<link rel="shortcut icon" type="image/webp" href="/images/icon.webp" />
+    <title>NEGIAO - GitHub Page</title>
+    <link rel="icon" type="image/webp" sizes="32x32 192x192 512x512" href="/images/icon.webp" />
+    <link rel="shortcut icon" type="image/webp" href="/images/icon.webp" />
+    <link rel="canonical" href="https://negiao.github.io/" />
 
-		<!-- 性能优化：关键首屏样式已内联，完整样式表延迟加载 -->
-		<!-- 预连接第三方资源，减少 DNS 查询时间 -->
-		<link rel="preconnect" href="https://fonts.loli.net" />
-		<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
-		<link rel="preconnect" href="https://www.googletagmanager.com" />
-		<link rel="preconnect" href="https://cdnjs.loli.net" />
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "NEGIAO",
+        "url": "https://negiao.github.io/",
+        "image": "https://negiao.github.io/Pages/public/avatar.webp",
+        "sameAs": ["https://github.com/NEGIAO"],
+        "jobTitle": "WebGIS Developer",
+        "knowsAbout": ["WebGIS", "GIS", "Data Visualization", "OpenLayers", "Frontend Development"]
+    }
+    </script>
 
-		<link rel="canonical" href="https://negiao.github.io/" />
+    <!-- 预连接第三方资源 -->
+    <link rel="preconnect" href="https://cdnjs.loli.net" />
+    <link rel="preconnect" href="https://fonts.loli.net" />
+    <link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+    <link rel="dns-prefetch" href="https://hm.baidu.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
-		<!-- Font Awesome 精简版 - 只加载使用的图标 -->
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css"
-		/>
-		<link
-			href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&display=swap"
-			rel="stylesheet"
-		/>
+    <!-- 首屏关键资源 -->
+    <link rel="preload" href="Pages/public/avatar.webp" as="image" fetchpriority="high" />
 
-		<!-- 设置缓存控制 - 一周缓存时间 -->
-		<meta http-equiv="Cache-Control" content="max-age=604800, public" />
+    <!-- 站点样式：直接并行加载各模块（替代 style-new.css 的 @import 串行链，少一轮往返） -->
+    <link rel="stylesheet" href="Pages/css/base.css?v=20260727" />
+    <link rel="stylesheet" href="Pages/css/components.css?v=20260727" />
+    <link rel="stylesheet" href="Pages/css/layout.css?v=20260727" />
+    <link rel="stylesheet" href="Pages/css/hero.css?v=20260727" />
+    <link rel="stylesheet" href="Pages/css/projects.css?v=20260727" />
+    <link rel="stylesheet" href="Pages/css/responsive.css?v=20260727" />
+    <link rel="stylesheet" href="Pages/css/index.css?v=20260727b" />
 
-		<!-- 资源缓存策略：添加版本号便于更新时强制刷新 -->
-		<link
-			rel="stylesheet"
-			href="Pages/css/style-new.css?v=20260527"
-			media="all"
-		/>
-		<link
-			rel="preload"
-			href="Pages/public/avatar.webp"
-			as="image"
-			fetchpriority="high"
-		/>
-		<script src="Pages/public/main-enhanced.js?v=202603" defer></script>
+    <!-- 第三方样式异步加载：不阻塞首屏渲染（图标/字体就绪后自动应用） -->
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css" media="print" onload="this.media='all'" />
+    <link href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css" />
+        <link href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    </noscript>
 
-		<!-- 百度统计代码 -->
-		<script>
-			var _hmt = _hmt || [];
-			(function () {
-				var hm = document.createElement("script");
-				hm.src = "https://hm.baidu.com/hm.js?181b1781c7a473143256df46c8108bff";
-				var s = document.getElementsByTagName("script")[0];
-				s.parentNode.insertBefore(hm, s);
-			})();
-		</script>
+    <!-- 内联关键样式：避免样式就绪前的白屏闪烁 -->
+    <style>
+        body { margin: 0; padding: 0; overflow-x: hidden; background: #0A0E13; color: #F7FAFC; }
+        body[data-theme='light'] { background: #EFF1F5; color: #111827; }
+        .mobile-menu-toggle { display: none; }
+    </style>
 
-		<!-- 性能优化：内联关键首屏CSS -->
-		<style>
-			/* 首屏渲染关键样式 - 变量定义已移至 style.css */
-			body {
-				margin: 0;
-				padding: 0;
-				overflow-x: hidden;
-			}
+    <script src="Pages/public/main-enhanced.js?v=20260727" defer></script>
+    <script src="/Pages/navbar-widgets/index.js?v=20260727" defer></script>
+    <script src="/Pages/public/route-guard.js" defer></script>
+</head>
 
-			.loading-screen {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background: #0a0e13;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				z-index: 9999;
-				transition:
-					opacity 0.5s ease-out,
-					visibility 0.5s ease-out;
-			}
+<body class="home-page">
+    <!-- 侧边导航栏 (Desktop Sidebar) -->
+    <aside class="sidebar">
+        <a href="#main" class="sidebar__logo" aria-label="回到首页">NEGIAO</a>
 
-			.loading-spinner {
-				width: 50px;
-				height: 50px;
-				border: 3px solid rgba(0, 217, 255, 0.1);
-				border-radius: 50%;
-				border-top-color: #00d9ff;
-				animation: spin 1s ease-in-out infinite;
-			}
+        <nav class="sidebar__nav" aria-label="侧边导航">
+            <a href="#projects" class="sidebar__link" data-title="项目展示">
+                <i class="fas fa-rocket"></i>
+            </a>
+            <a href="Pages/notes.html" class="sidebar__link" data-title="技术笔记">
+                <i class="fas fa-book-open"></i>
+            </a>
+            <a href="Pages/schedule.html" class="sidebar__link" data-title="课程表">
+                <i class="fas fa-calendar-alt"></i>
+            </a>
+            <a href="#contact" class="sidebar__link" data-title="联系我">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </nav>
 
-			@keyframes spin {
-				to {
-					transform: rotate(360deg);
-				}
-			}
+        <div class="sidebar__footer">
+            <a href="https://github.com/NEGIAO" target="_blank" rel="noopener" class="sidebar__link" data-title="GitHub 项目">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </aside>
 
-			.mobile-menu-toggle {
-				display: none;
-			}
-		</style>
+    <!-- 主内容区域 -->
+    <div class="main-content-wrapper">
+        <!-- 顶部导航（移动端） -->
+        <header class="navbar">
+            <div class="container navbar__container">
+                <a href="index.html" class="navbar__brand">NEGIAO</a>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="打开菜单" aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav aria-label="主导航">
+                    <ul class="navbar__nav">
+                        <li><a href="#projects" class="navbar__link">项目</a></li>
+                        <li><a href="Pages/notes.html" class="navbar__link">笔记</a></li>
+                        <li><a href="Pages/schedule.html" class="navbar__link">课程表</a></li>
+                        <li><a href="#contact" class="navbar__link">联系我</a></li>
+                        <li>
+                            <a href="https://github.com/NEGIAO" target="_blank" rel="noopener" class="navbar__link">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-		<script src="/Pages/navbar-widgets/index.js" defer></script>
-		<script src="/Pages/public/route-guard.js" defer></script>
-	</head>
+        <!-- 移动端菜单 -->
+        <nav class="mobile-menu" id="mobile-menu" aria-label="移动端菜单" aria-hidden="true">
+            <ul class="mobile-menu__nav">
+                <li class="mobile-menu__item">
+                    <a href="#projects" class="mobile-menu__link">
+                        <i class="fas fa-rocket"></i><span>项目</span>
+                    </a>
+                </li>
+                <li class="mobile-menu__item">
+                    <a href="Pages/notes.html" class="mobile-menu__link">
+                        <i class="fas fa-book-open"></i><span>笔记</span>
+                    </a>
+                </li>
+                <li class="mobile-menu__item">
+                    <a href="Pages/schedule.html" class="mobile-menu__link">
+                        <i class="fas fa-calendar-alt"></i><span>课程表</span>
+                    </a>
+                </li>
+                <li class="mobile-menu__item">
+                    <a href="#contact" class="mobile-menu__link">
+                        <i class="fas fa-envelope"></i><span>联系我</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="mobile-menu__divider"></div>
+            <div class="mobile-menu__footer">
+                <a href="https://github.com/NEGIAO" target="_blank" rel="noopener" class="mobile-menu__social" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </nav>
 
-	<body>
-		<!-- 加载屏幕 -->
-		<div class="loading-screen" id="loading-screen">
-			<div class="loading-spinner"></div>
-		</div>
-		<noscript>
-			<style>
-				.loading-screen {
-					display: none !important;
-				}
-			</style>
-		</noscript>
+        <main id="main">
+            <!-- ============ Hero ============ -->
+            <section class="section section--hero" aria-label="个人简介">
+                <div class="hero-bg" aria-hidden="true">
+                    <div class="hero-bg__grid"></div>
+                    <div class="hero-bg__blob hero-bg__blob--1"></div>
+                    <div class="hero-bg__blob hero-bg__blob--2"></div>
+                    <div class="hero-bg__blob hero-bg__blob--3"></div>
+                </div>
 
-		<!-- 侧边导航栏 (Desktop Sidebar) -->
-		<aside class="sidebar">
-			<!-- Logo / Home -->
-			<a href="#main" class="sidebar__logo" aria-label="回到首页"> NEGIAO </a>
+                <div class="container">
+                    <div class="hero">
+                        <div class="avatar-container">
+                            <div class="avatar-ring"></div>
+                            <div class="avatar-glow"></div>
+                            <img src="Pages/public/avatar.webp" alt="NEGIAO 的头像" class="avatar" fetchpriority="high" />
+                        </div>
 
-			<!-- Navigation Links -->
-			<nav class="sidebar__nav">
-				<a href="#projects" class="sidebar__link" data-title="项目展示">
-					<i class="fas fa-rocket"></i>
-				</a>
+                        <p class="hero__greeting">你好，我是</p>
+                        <h1 class="hero__title">NEGIAO</h1>
 
-				<a href="Pages/notes.html" class="sidebar__link" data-title="技术笔记">
-					<i class="fas fa-book-open"></i>
-				</a>
-				<a href="Pages/schedule.html" class="sidebar__link" data-title="课程表">
-					<i class="fas fa-calendar-alt"></i>
-				</a>
-				<a href="#contact" class="sidebar__link" data-title="联系我">
-					<i class="fas fa-envelope"></i>
-				</a>
-			</nav>
+                        <div class="hero__subtitle">
+                            <img src="images/typing.svg" alt="WebGIS · 数据可视化 · 全栈开发" />
+                        </div>
 
-			<!-- Footer / Social -->
-			<div class="sidebar__footer">
-				<a
-					href="https://github.com/NEGIAO"
-					target="_blank"
-					class="sidebar__link"
-					data-title="GitHub 项目"
-				>
-					<i class="fab fa-github"></i>
-				</a>
-			</div>
-		</aside>
+                        <div class="hero-tech-badges">
+                            <span class="tech-badge tech-badge--primary" title="WebGIS Development">
+                                <i class="fas fa-globe-asia" aria-hidden="true"></i> WebGIS
+                            </span>
+                            <span class="tech-badge tech-badge--accent" title="Data Visualization">
+                                <i class="fas fa-chart-line" aria-hidden="true"></i> 数据可视化
+                            </span>
+                            <span class="tech-badge tech-badge--success" title="Full Stack Development">
+                                <i class="fas fa-laptop-code" aria-hidden="true"></i> 全栈开发
+                            </span>
+                        </div>
 
-		<!-- 主内容区域 (Main Content Wrapper) -->
-		<div class="main-content-wrapper">
-			<!-- 导航栏 -->
-			<header class="navbar">
-				<div class="container navbar__container">
-					<a href="index.html" class="navbar__brand">NEGIAO</a>
-					<button
-						class="mobile-menu-toggle"
-						id="mobile-menu-toggle"
-						aria-label="打开菜单"
-						aria-expanded="false"
-					>
-						<i class="fas fa-bars"></i>
-					</button>
-					<nav aria-label="主导航">
-						<ul class="navbar__nav">
-							<li><a href="#projects" class="navbar__link">项目</a></li>
+                        <div class="hero__actions">
+                            <a href="#projects" class="btn btn--primary btn--large">
+                                <i class="fas fa-rocket"></i> 探索项目
+                            </a>
+                            <a id="webgis-link" href="WebGIS/index.html" class="btn btn--outline" data-webgis-link>
+                                <i class="fas fa-map"></i> WebGIS 演示
+                            </a>
+                            <a href="Pages/notes.html" class="btn btn--outline">
+                                <i class="fas fa-book-open"></i> 技术笔记
+                            </a>
+                        </div>
 
-							<li><a href="Pages/notes.html" class="navbar__link">笔记</a></li>
-							<li>
-								<a href="Pages/schedule.html" class="navbar__link">课程表</a>
-							</li>
-							<li><a href="#contact" class="navbar__link">联系我</a></li>
-							<li>
-								<a
-									href="https://github.com/NEGIAO"
-									target="_blank"
-									class="navbar__link"
-									><i class="fab fa-github"></i> GitHub</a
-								>
-							</li>
-						</ul>
-					</nav>
-				</div>
-			</header>
+                        <!-- 快速通道：中转页高频入口 -->
+                        <nav class="quick-nav" aria-label="快速通道">
+                            <p class="quick-nav__label">快速通道</p>
+                            <div class="quick-nav__grid">
+                                <a href="Pages/notes.html" class="quick-tile">
+                                    <i class="fas fa-book-open" aria-hidden="true"></i>
+                                    <span>技术笔记</span>
+                                </a>
+                                <a href="Pages/Note/gallery.html" class="quick-tile">
+                                    <i class="fas fa-images" aria-hidden="true"></i>
+                                    <span>笔记画廊</span>
+                                </a>
+                                <a href="Pages/Note/word-quiz.html" class="quick-tile">
+                                    <i class="fas fa-spell-check" aria-hidden="true"></i>
+                                    <span>单词测试</span>
+                                </a>
+                                <a href="Pages/schedule.html" class="quick-tile">
+                                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                                    <span>课程表</span>
+                                </a>
+                                <a href="Pages/Note/markdown_editor.html" class="quick-tile">
+                                    <i class="fas fa-pen" aria-hidden="true"></i>
+                                    <span>MD 编辑器</span>
+                                </a>
+                                <a href="Others/decoder.html" class="quick-tile">
+                                    <i class="fas fa-qrcode" aria-hidden="true"></i>
+                                    <span>二维码解码</span>
+                                </a>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
 
-			<!-- 移动端菜单 -->
-			<nav
-				class="mobile-menu"
-				id="mobile-menu"
-				aria-label="移动端菜单"
-				aria-hidden="true"
-			>
-				<ul class="mobile-menu__nav">
-					<li class="mobile-menu__item">
-						<a href="#projects" class="mobile-menu__link">
-							<i class="fas fa-rocket"></i><span>项目</span>
-						</a>
-					</li>
-					<li class="mobile-menu__item">
-						<a href="Pages/notes.html" class="mobile-menu__link">
-							<i class="fas fa-book-open"></i><span>笔记</span>
-						</a>
-					</li>
-					<li class="mobile-menu__item">
-						<a href="Pages/schedule.html" class="mobile-menu__link">
-							<i class="fas fa-calendar-alt"></i><span>课程表</span>
-						</a>
-					</li>
-					<li class="mobile-menu__item">
-						<a href="#contact" class="mobile-menu__link">
-							<i class="fas fa-envelope"></i><span>联系我</span>
-						</a>
-					</li>
-				</ul>
-				<div class="mobile-menu__divider"></div>
-				<div class="mobile-menu__footer">
-					<a
-						href="https://github.com/NEGIAO"
-						target="_blank"
-						class="mobile-menu__social"
-						aria-label="GitHub"
-					>
-						<i class="fab fa-github"></i>
-					</a>
-				</div>
-			</nav>
+                <div class="hero-scroll-cue" aria-hidden="true">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </section>
 
-			<main id="main">
-				<section class="section section--hero">
-					<div class="container">
-						<div class="hero">
-							<div class="avatar-container">
-								<div class="avatar-ring"></div>
-								<div class="avatar-glow"></div>
-								<img
-									src="Pages/public/avatar.webp"
-									alt="NEGIAO's Avatar"
-									class="avatar"
-									fetchpriority="high"
-								/>
-							</div>
-							<h1 class="hero__title">NEGIAO</h1>
-							<div
-								class="hero__subtitle animate-in"
-								style="
-									/* margin-bottom: 0 !important; */
-                                    /* 重写大间距 */
-									opacity: 0;
-									transform: translateY(20px);
-									transition:
-										opacity 0.4s ease-out 0.1s,
-										transform 0.4s ease-out 0.1s;
-								"
-							>
-								<a href="https://git.io/typing-svg">
-									<img
-										src="images/typing.svg"
-										alt="Typing SVG"
-										style="
-											display: block;
-											max-width: 100%;
-											height: auto;
-											margin: 0 auto;
-										"
-									/>
-								</a>
-							</div>
+            <!-- ============ 项目展示 ============ -->
+            <section class="section projects" id="projects" aria-labelledby="projects-title">
+                <div class="container">
+                    <div class="section-head">
+                        <p class="section-head__eyebrow">Projects</p>
+                        <h2 class="section-head__title" id="projects-title">项目展示</h2>
+                        <p class="section-head__sub">精选作品与比赛项目</p>
+                    </div>
 
-							<!-- 修改后的 Google OAuth 审核专用应用用途说明 -->
-							<!-- <section
-								aria-label="Application Description"
-								style="
-									margin: 0.8rem auto 1.2rem;
-									max-width: 600px;
-									text-align: center;
-								"
-							>
-								<p
-									style="
-										font-size: 0.85rem;
-										color: #a0aec0;
-										line-height: 1.5;
-										margin: 0;
-										padding: 0 10px;
-									"
-								>
-									This site is an interactive
-									<strong>WebGIS & Data Visualization</strong> platform. Google
-									Login is used for user authentication to allow users to save
-									custom map projects and GIS analytics data.
-								</p>
-							</section> -->
+                    <div class="projects-grid">
+                        <article class="project-item">
+                            <div class="project-number" aria-hidden="true">01</div>
+                            <div class="project-header">
+                                <span class="project-label">比赛项目</span>
+                            </div>
+                            <h3 class="project-title">Geoscene - 宝藏小城</h3>
+                            <p class="project-desc">
+                                多地区地理空间数据可视化项目，通过交互式图表展示中国六个城市的时空变化规律。
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">数据可视化</span>
+                                <span class="tag">时空分析</span>
+                                <span class="tag">地理数据</span>
+                            </div>
+                            <a href="Geoscene_宝藏小城/awesome.html" class="project-link">
+                                探索项目 <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </article>
 
-							<div class="hero-tech-badges">
-								<span
-									class="tech-badge tech-badge--primary"
-									title="WebGIS Development"
-								>
-									<i class="fas fa-globe-asia" aria-hidden="true"></i> WebGIS
-								</span>
-								<span
-									class="tech-badge tech-badge--accent"
-									title="Data Visualization"
-								>
-									<i class="fas fa-chart-line" aria-hidden="true"></i>
-									数据可视化
-								</span>
-								<span
-									class="tech-badge tech-badge--success"
-									title="Full Stack Development"
-								>
-									<i class="fas fa-laptop-code" aria-hidden="true"></i> 全栈开发
-								</span>
-							</div>
-							<div class="hero__actions">
-								<a
-									id="webgis-link"
-									href="WebGIS/index.html?v=20260329"
-									class="btn btn--outline"
-								>
-									<i class="fas fa-book-open"></i> WebGIS
-								</a>
-								<a href="#projects" class="btn btn--primary btn--large">
-									<i class="fas fa-rocket"></i> 探索项目
-								</a>
-								<a href="Pages/notes.html" class="btn btn--outline">
-									<i class="fas fa-book-open"></i> 技术笔记
-								</a>
-							</div>
-						</div>
-					</div>
-					<!-- 视觉装饰元素 -->
-					<div class="floating-shapes">
-						<div class="shape shape-1"></div>
-						<div class="shape shape-2"></div>
-						<div class="shape shape-3"></div>
-					</div>
-				</section>
+                        <article class="project-item">
+                            <div class="project-number" aria-hidden="true">02</div>
+                            <div class="project-header">
+                                <span class="project-label">Vue 架构</span>
+                            </div>
+                            <h3 class="project-title">WebGIS 地理信息系统</h3>
+                            <p class="project-desc">
+                                基于 OpenLayers 构建的交互式地图应用，提供丰富的地理信息浏览与空间分析功能。
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">WebGIS</span>
+                                <span class="tag">OpenLayers</span>
+                                <span class="tag">JavaScript</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="WebGIS/index.html" class="project-link" data-webgis-link>
+                                    查看演示 <i class="fas fa-arrow-right"></i>
+                                </a>
+                                <a href="https://github.com/NEGIAO/WebGIS_henu_trials_5_28_vue3" target="_blank" rel="noopener" class="project-link-secondary" aria-label="GitHub 仓库">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </article>
 
-				<!-- 项目区域 -->
-				<section class="section projects" id="projects">
-					<div class="container">
-						<h2
-							class="text-center gradient-text"
-							style="margin-bottom: var(--space-2xl)"
-						>
-							Project
-						</h2>
+                        <article class="project-item">
+                            <div class="project-number" aria-hidden="true">03</div>
+                            <div class="project-header">
+                                <span class="project-label">比赛项目</span>
+                            </div>
+                            <h3 class="project-title">地区词云可视化</h3>
+                            <p class="project-desc">
+                                通过文本挖掘技术生成的地区特色词云图，直观展示不同地区的关键词特征和文化元素。
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">词云生成</span>
+                                <span class="tag">文本分析</span>
+                                <span class="tag">可视化</span>
+                            </div>
+                            <a href="Geoscene_宝藏小城/wordcloud.html" class="project-link">
+                                查看词云 <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </article>
 
-						<div class="projects-grid">
-							<!-- 宝藏小城项目 -->
-							<article class="project-item">
-								<div class="project-header">
-									<div class="project-number">01</div>
-									<span class="project-label">比赛项目</span>
-								</div>
-								<h3 class="project-title">Geoscene - 宝藏小城</h3>
-								<p class="project-desc">
-									多地区地理空间数据可视化项目，通过交互式图表展示中国六个城市的时空变化规律。
-								</p>
-								<div class="project-tags">
-									<span class="tag">数据可视化</span>
-									<span class="tag">时空分析</span>
-									<span class="tag">地理数据</span>
-								</div>
-								<a href="Geoscene_宝藏小城/awesome.html" class="project-link">
-									探索项目 <i class="fas fa-arrow-right"></i>
-								</a>
-							</article>
+                        <article class="project-item">
+                            <div class="project-number" aria-hidden="true">04</div>
+                            <div class="project-header">
+                                <span class="project-label">学习笔记</span>
+                            </div>
+                            <h3 class="project-title">技术笔记分享</h3>
+                            <p class="project-desc">
+                                个人学习笔记与经验分享，包括WebGIS、数据可视化等领域的技术积累和实践总结。
+                            </p>
+                            <div class="project-tags">
+                                <span class="tag">技术笔记</span>
+                                <span class="tag">UI优化</span>
+                                <span class="tag">经验分享</span>
+                            </div>
+                            <a href="Pages/notes.html" class="project-link">
+                                查看笔记 <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </article>
+                    </div>
+                </div>
+            </section>
 
-							<!-- WebGIS项目 -->
-							<article class="project-item">
-								<div class="project-header">
-									<div class="project-number">02</div>
-									<span class="project-label">Vue架构</span>
-								</div>
-								<h3 class="project-title">WebGIS 地理信息系统</h3>
-								<p class="project-desc">
-									基于 OpenLayers
-									构建的交互式地图应用，提供丰富的地理信息浏览与空间分析功能。
-								</p>
-								<div class="project-tags">
-									<span class="tag">WebGIS</span>
-									<span class="tag">OpenLayers</span>
-									<span class="tag">JavaScript</span>
-								</div>
-								<div class="project-actions">
-									<a href="WebGIS/index.html?v=20260325" class="project-link">
-										查看演示 <i class="fas fa-arrow-right"></i>
-									</a>
-									<a
-										href="https://github.com/NEGIAO/WebGIS_henu_trials_5_28_vue3"
-										target="_blank"
-										class="project-link-secondary"
-									>
-										<i class="fab fa-github"></i>
-									</a>
-								</div>
-							</article>
+            <!-- ============ 研究专题 ============ -->
+            <section class="section" id="research" aria-labelledby="research-title">
+                <div class="container">
+                    <div class="section-head">
+                        <p class="section-head__eyebrow">Research</p>
+                        <h2 class="section-head__title" id="research-title">研究专题</h2>
+                        <p class="section-head__sub">六城季节变化数据可视化</p>
+                    </div>
 
-							<!-- 词云图项目 -->
-							<article class="project-item">
-								<div class="project-header">
-									<div class="project-number">03</div>
-									<span class="project-label">比赛项目</span>
-								</div>
-								<h3 class="project-title">地区词云可视化</h3>
-								<p class="project-desc">
-									通过文本挖掘技术生成的地区特色词云图，直观展示不同地区的关键词特征和文化元素。
-								</p>
-								<div class="project-tags">
-									<span class="tag">词云生成</span>
-									<span class="tag">文本分析</span>
-									<span class="tag">可视化</span>
-								</div>
-								<a href="Geoscene_宝藏小城/wordcloud.html" class="project-link">
-									查看词云 <i class="fas fa-arrow-right"></i>
-								</a>
-							</article>
+                    <div class="research-grid">
+                        <a href="Geoscene_宝藏小城/季节变化/利川市_季节变化.html" class="research-card">
+                            <span class="research-card__icon"><i class="fas fa-leaf" aria-hidden="true"></i></span>
+                            <span class="research-card__body">
+                                <span class="research-card__city">利川市</span>
+                                <span class="research-card__meta">季节变化 · 湖北</span>
+                            </span>
+                            <i class="fas fa-arrow-right research-card__arrow" aria-hidden="true"></i>
+                        </a>
+                        <a href="Geoscene_宝藏小城/季节变化/淮安市_季节变化.html" class="research-card">
+                            <span class="research-card__icon"><i class="fas fa-water" aria-hidden="true"></i></span>
+                            <span class="research-card__body">
+                                <span class="research-card__city">淮安市</span>
+                                <span class="research-card__meta">季节变化 · 江苏</span>
+                            </span>
+                            <i class="fas fa-arrow-right research-card__arrow" aria-hidden="true"></i>
+                        </a>
+                        <a href="Geoscene_宝藏小城/季节变化/荣成市_季节变化.html" class="research-card">
+                            <span class="research-card__icon"><i class="fas fa-anchor" aria-hidden="true"></i></span>
+                            <span class="research-card__body">
+                                <span class="research-card__city">荣成市</span>
+                                <span class="research-card__meta">季节变化 · 山东</span>
+                            </span>
+                            <i class="fas fa-arrow-right research-card__arrow" aria-hidden="true"></i>
+                        </a>
+                        <a href="Geoscene_宝藏小城/季节变化/象山县_季节变化.html" class="research-card">
+                            <span class="research-card__icon"><i class="fas fa-umbrella-beach" aria-hidden="true"></i></span>
+                            <span class="research-card__body">
+                                <span class="research-card__city">象山县</span>
+                                <span class="research-card__meta">季节变化 · 浙江</span>
+                            </span>
+                            <i class="fas fa-arrow-right research-card__arrow" aria-hidden="true"></i>
+                        </a>
+                        <a href="Geoscene_宝藏小城/季节变化/铜仁市_季节变化.html" class="research-card">
+                            <span class="research-card__icon"><i class="fas fa-mountain" aria-hidden="true"></i></span>
+                            <span class="research-card__body">
+                                <span class="research-card__city">铜仁市</span>
+                                <span class="research-card__meta">季节变化 · 贵州</span>
+                            </span>
+                            <i class="fas fa-arrow-right research-card__arrow" aria-hidden="true"></i>
+                        </a>
+                        <a href="Geoscene_宝藏小城/季节变化/隰县_季节变化.html" class="research-card">
+                            <span class="research-card__icon"><i class="fas fa-seedling" aria-hidden="true"></i></span>
+                            <span class="research-card__body">
+                                <span class="research-card__city">隰县</span>
+                                <span class="research-card__meta">季节变化 · 山西</span>
+                            </span>
+                            <i class="fas fa-arrow-right research-card__arrow" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
 
-							<!-- 技术笔记项目 -->
-							<article class="project-item">
-								<div class="project-header">
-									<div class="project-number">04</div>
-									<span class="project-label">学习笔记</span>
-								</div>
-								<h3 class="project-title">技术笔记分享</h3>
-								<p class="project-desc">
-									个人学习笔记与经验分享，包括WebGIS、数据可视化等领域的技术积累和实践总结。
-								</p>
-								<div class="project-tags">
-									<span class="tag">技术笔记</span>
-									<span class="tag">UI优化</span>
-									<span class="tag">经验分享</span>
-								</div>
-								<a href="Pages/notes.html" class="project-link">
-									查看笔记 <i class="fas fa-arrow-right"></i>
-								</a>
-							</article>
-						</div>
-					</div>
-				</section>
+            <!-- ============ 联系我 ============ -->
+            <section class="section" id="contact" aria-labelledby="contact-title">
+                <div class="container">
+                    <div class="section-head">
+                        <p class="section-head__eyebrow">Contact</p>
+                        <h2 class="section-head__title" id="contact-title">联系我</h2>
+                        <p class="section-head__sub">欢迎交流与合作</p>
+                    </div>
 
-				<!-- 季节变化专题 -->
-				<section class="section">
-					<div class="container">
-						<h2
-							class="text-center gradient-text"
-							style="margin-bottom: var(--space-2xl)"
-						>
-							Researches
-						</h2>
-						<div class="grid grid--3-fixed">
-							<a
-								href="Geoscene_宝藏小城/季节变化/利川市_季节变化.html"
-								class="card"
-								style="text-decoration: none"
-							>
-								<h4 style="color: var(--primary)">利川市</h4>
-								<p style="color: var(--text-light); margin-bottom: 0">
-									探索利川市的季节性变化数据和趋势分析
-								</p>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/淮安市_季节变化.html"
-								class="card"
-								style="text-decoration: none"
-							>
-								<h4 style="color: var(--primary)">淮安市</h4>
-								<p style="color: var(--text-light); margin-bottom: 0">
-									淮安市地区季节变化的详细数据可视化
-								</p>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/荣成市_季节变化.html"
-								class="card"
-								style="text-decoration: none"
-							>
-								<h4 style="color: var(--primary)">荣成市</h4>
-								<p style="color: var(--text-light); margin-bottom: 0">
-									荣成市四季变迁的地理环境数据研究
-								</p>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/象山县_季节变化.html"
-								class="card"
-								style="text-decoration: none"
-							>
-								<h4 style="color: var(--primary)">象山县</h4>
-								<p style="color: var(--text-light); margin-bottom: 0">
-									象山县季节性地理特征的可视化展示
-								</p>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/铜仁市_季节变化.html"
-								class="card"
-								style="text-decoration: none"
-							>
-								<h4 style="color: var(--primary)">铜仁市</h4>
-								<p style="color: var(--text-light); margin-bottom: 0">
-									铜仁市季节变化趋势及特点分析
-								</p>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/隰县_季节变化.html"
-								class="card"
-								style="text-decoration: none"
-							>
-								<h4 style="color: var(--primary)">隰县</h4>
-								<p style="color: var(--text-light); margin-bottom: 0">
-									隰县地区季节性环境变化的研究数据
-								</p>
-							</a>
-						</div>
-					</div>
-				</section>
+                    <div class="grid grid--responsive">
+                        <div class="card glass">
+                            <div class="contact-card-icon contact-card-icon--primary">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h4 class="contact-card-title">Email</h4>
+                            <p class="contact-card-desc">合作与技术交流</p>
+                            <a href="mailto:1482918576@qq.com" class="btn btn--outline contact-card-btn">
+                                <i class="fas fa-paper-plane"></i> 发送邮件
+                            </a>
+                        </div>
 
-				<!-- 联系区域 -->
-				<section class="section" id="contact">
-					<div class="container">
-						<h2
-							class="text-center gradient-text"
-							style="margin-bottom: var(--space-2xl)"
-						>
-							Contact me
-						</h2>
-						<div class="grid grid--responsive">
-							<div class="card glass">
-								<div class="contact-card-icon contact-card-icon--primary">
-									<i class="fas fa-envelope"></i>
-								</div>
-								<h4 class="contact-card-title">Email</h4>
-								<p class="contact-card-desc">合作与技术交流</p>
-								<a
-									href="mailto:1482918576@qq.com"
-									class="btn btn--outline contact-card-btn"
-								>
-									<i class="fas fa-paper-plane"></i> 发送邮件
-								</a>
-							</div>
+                        <div class="card glass">
+                            <div class="contact-card-icon contact-card-icon--accent">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <h4 class="contact-card-title">GitHub</h4>
+                            <p class="contact-card-desc">开源项目与代码</p>
+                            <a href="https://github.com/NEGIAO" target="_blank" rel="noopener" class="btn btn--outline contact-card-btn">
+                                <i class="fab fa-github"></i> 访问 GitHub
+                            </a>
+                        </div>
 
-							<div class="card glass">
-								<div class="contact-card-icon contact-card-icon--accent">
-									<i class="fab fa-github"></i>
-								</div>
-								<h4 class="contact-card-title">GitHub</h4>
-								<p class="contact-card-desc">开源项目与代码</p>
-								<a
-									href="https://github.com/NEGIAO"
-									target="_blank"
-									class="btn btn--outline contact-card-btn"
-								>
-									<i class="fab fa-github"></i> 访问 GitHub
-								</a>
-							</div>
+                        <div class="card glass">
+                            <div class="contact-card-icon contact-card-icon--success">
+                                <i class="fab fa-qq"></i>
+                            </div>
+                            <h4 class="contact-card-title">QQ</h4>
+                            <p class="contact-card-desc">在线交流沟通</p>
+                            <a href="tencent://message/?uin=1482918576" class="btn btn--outline contact-card-btn">
+                                <i class="fab fa-qq"></i> QQ 联系
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
 
-							<div class="card glass">
-								<div class="contact-card-icon contact-card-icon--success">
-									<i class="fab fa-qq"></i>
-								</div>
-								<h4 class="contact-card-title">QQ</h4>
-								<p class="contact-card-desc">在线交流沟通</p>
-								<a
-									href="tencent://message/?uin=1482918576"
-									class="btn btn--outline contact-card-btn"
-								>
-									<i class="fab fa-qq"></i> QQ 联系
-								</a>
-							</div>
-						</div>
-					</div>
-				</section>
-			</main>
+        <!-- ============ 页脚 ============ -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__content footer__content--centered">
+                    <div class="footer__nav-section">
+                        <h4 class="footer__nav-title">快速导航</h4>
+                        <nav aria-label="页脚导航">
+                            <ul class="footer__nav-list">
+                                <li>
+                                    <a href="#projects" class="footer__nav-link">
+                                        <i class="fas fa-rocket"></i>项目展示
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="Pages/notes.html" class="footer__nav-link">
+                                        <i class="fas fa-book-open"></i>技术笔记
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#contact" class="footer__nav-link">
+                                        <i class="fas fa-envelope"></i>联系我
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
 
-			<!-- 现代化页脚 -->
-			<footer class="footer">
-				<div class="container">
-					<div class="footer__content footer__content--centered">
-						<!-- 快速导航 -->
-						<div class="footer__nav-section">
-							<h4 class="footer__nav-title">快速导航</h4>
-							<nav>
-								<ul class="footer__nav-list">
-									<li>
-										<a href="#projects" class="footer__nav-link">
-											<i class="fas fa-rocket"></i>项目展示
-										</a>
-									</li>
-									<li>
-										<a href="Pages/notes.html" class="footer__nav-link">
-											<i class="fas fa-book-open"></i>技术笔记
-										</a>
-									</li>
-									<li>
-										<a href="#contact" class="footer__nav-link">
-											<i class="fas fa-envelope"></i>联系我
-										</a>
-									</li>
-								</ul>
-							</nav>
-						</div>
+                    <div class="footer__brand footer__brand-section">
+                        <h3 class="gradient-text footer__brand-title">NEGIAO</h3>
+                        <p class="footer__brand-desc">
+                            专注于 WebGIS 开发、数据可视化与GIS<br />致力于GIS应用、开发领域的学习。
+                        </p>
 
-						<!-- NEGIAO 信息 -->
-						<div class="footer__brand footer__brand-section">
-							<h3 class="gradient-text footer__brand-title">NEGIAO</h3>
-							<p class="footer__brand-desc">
-								专注于 WebGIS 开发、数据可视化与GIS<br />致力于GIS应用、开发领域的学习。
-							</p>
+                        <div class="footer__contact-panel">
+                            <h4 class="footer__contact-title">联系方式</h4>
+                            <div class="footer__contact-grid">
+                                <div class="footer__contact-item">
+                                    <i class="fab fa-qq"></i>
+                                    <span class="label">QQ:</span>
+                                    <span class="value">1482918576</span>
+                                </div>
+                                <div class="footer__contact-item">
+                                    <i class="fab fa-weixin"></i>
+                                    <span class="label">微信:</span>
+                                    <span class="value">y1482918576</span>
+                                </div>
+                                <div class="footer__contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span class="label">邮箱:</span>
+                                    <span class="value">yaonaigao@gmail.com</span>
+                                </div>
+                            </div>
+                        </div>
 
-							<!-- 具体联系方式 -->
-							<div class="footer__contact-panel">
-								<h4 class="footer__contact-title">联系方式</h4>
-								<div class="footer__contact-grid">
-									<div class="footer__contact-item">
-										<i class="fab fa-qq"></i>
-										<span class="label">QQ:</span>
-										<span class="value">1482918576</span>
-									</div>
-									<div class="footer__contact-item">
-										<i class="fab fa-weixin"></i>
-										<span class="label">微信:</span>
-										<span class="value">y1482918576</span>
-									</div>
-									<div class="footer__contact-item">
-										<i class="fas fa-envelope"></i>
-										<span class="label">邮箱:</span>
-										<span class="value">yaonaigao@gmail.com</span>
-									</div>
-								</div>
-							</div>
+                        <div class="social-links footer__social-links">
+                            <a href="https://github.com/NEGIAO" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="mailto:1482918576@qq.com" class="social-link" aria-label="邮箱">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <a href="tencent://message/?uin=1482918576" class="social-link" aria-label="QQ">
+                                <i class="fab fa-qq"></i>
+                            </a>
+                        </div>
+                    </div>
 
-							<div class="social-links footer__social-links">
-								<a
-									href="https://github.com/NEGIAO"
-									target="_blank"
-									class="social-link"
-									aria-label="GitHub"
-								>
-									<i class="fab fa-github"></i>
-								</a>
-								<a
-									href="mailto:1482918576@qq.com"
-									class="social-link"
-									aria-label="邮箱"
-								>
-									<i class="fas fa-envelope"></i>
-								</a>
-								<a
-									href="tencent://message/?uin=1482918576"
-									class="social-link"
-									aria-label="QQ"
-								>
-									<i class="fab fa-qq"></i>
-								</a>
-							</div>
-						</div>
+                    <div class="footer__meta footer__meta-section">
+                        <img src="https://visitor-badge.laobi.icu/badge?page_id=negiao.pages" alt="visitor badge" loading="lazy" />
+                        <p class="footer__meta-text">
+                            用 ❤️ 和现代技术构建
+                            <span class="footer__version">Version : V1.9.0</span>
+                        </p>
 
-						<!-- 脚注 -->
-						<div class="footer__meta footer__meta-section">
-							<img
-								src="https://visitor-badge.laobi.icu/badge?page_id=negiao.pages"
-								alt="visitor badge"
-							/>
-							<p class="footer__meta-text">
-								用 ❤️ 和现代技术构建
-								<span class="footer__version">Version : V1.8.5</span>
-							</p>
+                        <!-- MapMyVisitors Map (Lazy Loaded) -->
+                        <div id="mapmyvisitors-container" class="footer__map-container"></div>
+                        <div class="footer__tech-tags">
+                            <span>WebGIS</span> • <span>数据可视化</span> • <span>全栈开发</span>
+                        </div>
+                        <p class="footer__copyright-text">
+                            &copy; <span id="current-year">2026</span> NEGIAO. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
 
-							<!-- MapMyVisitors Map (Lazy Loaded) -->
-							<div id="mapmyvisitors-container" class="footer__map-container">
-								<!-- 地图将在此处延迟加载 -->
-							</div>
-							<div class="footer__tech-tags">
-								<span>WebGIS</span> • <span>数据可视化</span> •
-								<span>全栈开发</span>
-							</div>
-							<p
-								style="
-									color: var(--text-muted);
-									font-size: 0.875rem;
-									margin-bottom: var(--space-sm);
-								"
-							>
-								&copy; <span id="current-year">2026</span> NEGIAO. All rights
-								reserved.
-							</p>
-						</div>
-					</div>
-				</div>
-			</footer>
-		</div>
-	</body>
+    <!-- 页面内逻辑：年份 / WebGIS 版本参数 / 延迟统计 -->
+    <script>
+        (function () {
+            'use strict';
+
+            // 版权年份
+            var yearEl = document.getElementById('current-year');
+            if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+            // WebGIS 链接统一附加当日版本参数（防缓存），覆盖所有标记 data-webgis-link 的入口
+            var now = new Date();
+            var stamp = now.getFullYear() +
+                String(now.getMonth() + 1).padStart(2, '0') +
+                String(now.getDate()).padStart(2, '0');
+            document.querySelectorAll('a[data-webgis-link]').forEach(function (a) {
+                a.href = 'WebGIS/index.html?v=' + stamp;
+            });
+
+            // 百度统计：延迟到 load 后再注入，不与首屏渲染争抢带宽
+            window._hmt = window._hmt || [];
+            window.addEventListener('load', function () {
+                setTimeout(function () {
+                    var hm = document.createElement('script');
+                    hm.src = 'https://hm.baidu.com/hm.js?181b1781c7a473143256df46c8108bff';
+                    hm.async = true;
+                    document.head.appendChild(hm);
+                }, 2500);
+            });
+        })();
+    </script>
+</body>
 </html>

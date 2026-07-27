@@ -2,6 +2,117 @@
 .note-viewer-page #note-content {
     text-align: left;
     font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+    --note-font-scale: 1;
+    /* 用 zoom 整体缩放，不依赖子元素用 rem 还是 em（本站正文多为 rem，
+       font-size 级联对 rem 子元素无效，故弃用该方案） */
+    zoom: var(--note-font-scale);
+}
+
+/* 兜底：不支持 zoom 的浏览器（旧版 Firefox）改用 transform 缩放 */
+@supports not (zoom: 1) {
+    .note-viewer-page #note-content {
+        transform: scale(var(--note-font-scale));
+        transform-origin: top left;
+        width: calc(100% / var(--note-font-scale));
+    }
+}
+
+/* 面包屑 + 阅读信息 顶栏 */
+.note-viewer-page .note-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.note-viewer-page .note-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+
+.note-viewer-page .note-breadcrumb a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.note-viewer-page .note-breadcrumb a:hover {
+    color: var(--primary);
+}
+
+.note-viewer-page .note-breadcrumb i {
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+.note-viewer-page .note-breadcrumb #breadcrumb-title {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.note-viewer-page .note-reading-meta {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.note-viewer-page .note-reading-meta i {
+    font-size: 0.72rem;
+    opacity: 0.75;
+}
+
+/* 字号调节按钮组 */
+.note-viewer-page .note-font-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding-left: 0.5rem;
+    margin-left: 0.25rem;
+    border-left: 1px solid var(--border);
+}
+
+.note-viewer-page .note-font-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 0.4rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.note-viewer-page .note-font-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+.note-viewer-page .note-font-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.note-viewer-page .note-font-btn.is-active {
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .note-viewer-page #note-content * {
@@ -381,6 +492,7 @@
     top: 1rem;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
     padding: 0.75rem 0.9rem;
     margin-bottom: 1.5rem;
@@ -504,5 +616,17 @@ mark.search-highlight.active {
 
     .note-viewer-page .code-block-copy-btn {
         align-self: flex-end;
+    }
+
+    .note-viewer-page .note-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+    }
+
+    .note-viewer-page .note-font-controls {
+        border-left: none;
+        padding-left: 0;
+        margin-left: 0;
     }
 }

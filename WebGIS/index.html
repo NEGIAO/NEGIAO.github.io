@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="">
+<html lang="zh-CN">
     <!--    
         NEGIAO's WebGIS
         联系作者：1482918576
@@ -12,10 +12,11 @@
         <!-- <meta name="referrer" content="no-referrer"> -->
         <link
             rel="icon"
-            href="images/icon.webp"
+            href="./images/icon.webp"
             type="image/x-icon"
         />
-        <!-- 自定义网页的logo -->
+        <!-- 自定义网页的logo
+             顶栏高清 logo 由 TopBar.vue 独立引用 images/icon.webp,互不影响 -->
 
         <meta
             name="viewport"
@@ -23,24 +24,31 @@
         />
         <!-- 多设备自适应 -->
 
-        <!-- Font Awesome (使用 BootCDN 加速国内访问) -->
+        <!-- Font Awesome (BootCDN 加速国内访问)
+             media="print" + onload 交换:CSS 异步加载不阻塞首屏渲染(图标可能晚到约百毫秒);
+             noscript 兜底保证无 JS 环境仍能加载图标样式 -->
         <link
             rel="stylesheet"
             href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            media="print"
+            onload="this.media='all'; this.onload=null;"
         />
+        <noscript>
+            <link
+                rel="stylesheet"
+                href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            />
+        </noscript>
 
         <!-- 关键资源预加载：减少首屏渲染等待 -->
         <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin />
 
         <title>NEGIAO's WebGIS</title>
-      <script type="module" crossorigin src="./assets/index-DrvYn8qS.js"></script>
-      <link rel="modulepreload" crossorigin href="./assets/vendor-vue-CeFD8sVv.js">
-      <link rel="modulepreload" crossorigin href="./assets/vendor-libs-IhiymJUG.js">
-      <link rel="modulepreload" crossorigin href="./assets/vendor-ol-all-CmDdjTVB.js">
+      <script type="module" crossorigin src="./assets/index-UqoCqGh6.js"></script>
+      <link rel="modulepreload" crossorigin href="./assets/vendor-vue-B9fA3uCf.js">
       <link rel="modulepreload" crossorigin href="./assets/vendor-axios-BP3Np6Vt.js">
       <link rel="modulepreload" crossorigin href="./assets/vendor-runtime-Dp1pzeXC.js">
-      <link rel="stylesheet" crossorigin href="./assets/vendor-ol-all-BtPuoxOl.css">
-      <link rel="stylesheet" crossorigin href="./assets/index-seXDO6wZ.css">
+      <link rel="stylesheet" crossorigin href="./assets/index-BzBTpiA9.css">
     </head>
 
     <body>

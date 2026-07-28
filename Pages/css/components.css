@@ -180,21 +180,35 @@
 }
 
 .btn--primary {
-  background: var(--gradient-primary);
-  color: white;
-  box-shadow: var(--shadow-md);
-  border: 1px solid transparent;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--primary) 14%, transparent) 0%,
+    color-mix(in srgb, var(--primary) 8%, transparent) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--primary);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--primary) 28%, var(--glass-border)),
+    0 4px 18px color-mix(in srgb, var(--primary) 12%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--primary) 35%, transparent);
 }
 
 .btn--primary:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg), var(--shadow-glow);
-  color: white;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--primary) 22%, transparent) 0%,
+    color-mix(in srgb, var(--primary) 14%, transparent) 100%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--primary) 42%, var(--glass-border)),
+    0 8px 28px color-mix(in srgb, var(--primary) 20%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color: var(--primary-light);
   text-decoration: none;
+  text-shadow: 0 0 22px color-mix(in srgb, var(--primary) 50%, transparent);
 }
 
 .btn--primary:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
 }
 
 .btn--secondary {
@@ -215,17 +229,25 @@
 }
 
 .btn--outline {
-  background: transparent;
-  color: var(--primary);
-  border: 2px solid var(--primary);
+  background: color-mix(in srgb, var(--surface-elevated) 58%, transparent);
+  color: var(--text-secondary);
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--glass-border));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .btn--outline:hover {
-  background: var(--primary);
-  color: white;
+  background: color-mix(in srgb, var(--primary) 12%, var(--surface-elevated));
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--glass-border));
   text-decoration: none;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 217, 255, 0.12);
+}
+
+.btn--outline:active {
+  transform: scale(0.97);
 }
 
 .btn--accent {
@@ -251,6 +273,9 @@
   padding: var(--space-lg) var(--space-2xl);
   font-size: 1rem;
   min-height: 52px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-xl);
 }
 
 /* ========================
@@ -406,22 +431,39 @@ body[data-theme='light'] .card::before {
 }
 
 body[data-theme='light'] .btn--primary {
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
-}
-
-body[data-theme='light'] .btn--primary:hover {
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
-}
-
-body[data-theme='light'] .btn--outline {
-  border-color: var(--primary);
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--primary) 10%, transparent) 0%,
+    color-mix(in srgb, var(--primary) 5%, transparent) 100%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--primary) 22%, var(--glass-border)),
+    0 4px 14px rgba(37, 99, 235, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
   color: var(--primary);
 }
 
+body[data-theme='light'] .btn--primary:hover {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--primary) 18%, transparent) 0%,
+    color-mix(in srgb, var(--primary) 10%, transparent) 100%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--primary) 38%, var(--glass-border)),
+    0 8px 22px rgba(37, 99, 235, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  color: var(--primary);
+}
+
+body[data-theme='light'] .btn--outline {
+  background: color-mix(in srgb, #ffffff 72%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 28%, rgba(15, 23, 42, 0.12));
+  color: var(--text);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
 body[data-theme='light'] .btn--outline:hover {
-  background: var(--primary);
-  color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  background: color-mix(in srgb, var(--primary) 10%, #ffffff);
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 50%, transparent);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.12);
 }
 
 body[data-theme='light'] .tag {

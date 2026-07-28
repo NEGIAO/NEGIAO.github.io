@@ -7,9 +7,9 @@
     <meta name="description" content="实时Markdown编辑器 - 支持实时预览的在线Markdown写作工具">
     <meta name="keywords" content="Markdown, 编辑器, 在线工具, 实时预览, NEGIAO">
     <meta name="author" content="NEGIAO">
-    <meta name="theme-color" content="#0D1117">
+    <meta name="theme-color" content="#0A0E13">
 
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://negiao.github.io/Pages/markdown_editor.html">
     <meta property="og:title" content="Markdown 编辑器 - NEGIAO">
@@ -19,26 +19,12 @@
     <title>Markdown 编辑器 - NEGIAO</title>
     <link rel="icon" type="image/webp" href="/images/icon.webp">
     <link rel="stylesheet" href="../css/style-new.css?v=20260601">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-                /* Fix for code block alignment - 
-        代码块要默认左对齐
-        ensure left alignment for ASCII trees */
-        .note-content pre, 
-        .note-content code {
-            text-align: left !important;
-        }
-        :root {
-            --background: #0D1117;
-            --surface: #161B22;
-            --surface-alt: #21262D;
-            --primary: #58A6FF;
-            --text: #C9D1D9;
-            --text-light: #8B949E;
-            --border: #30363D;
-            --font-sans: 'Inter', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-        }
+        /* ================================
+           Markdown Editor — Modern Glass UI
+           ================================ */
 
         body {
             font-family: var(--font-sans);
@@ -46,205 +32,833 @@
             color: var(--text);
             background: var(--background);
             margin: 0;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 90%;
-            margin: 0 auto;
-        }
-
-        .editor-container {
+            min-height: 100vh;
             display: flex;
-            height: calc(100vh - 12rem);
+            flex-direction: column;
+        }
+
+        /* ---- Page Layout ---- */
+        .editor-page {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 1500px;
+            width: 100%;
+            margin: 0 auto;
+            padding: var(--space-lg) var(--space-xl) var(--space-xl);
+            gap: var(--space-md);
+            min-height: 0;
+        }
+
+        /* ---- Header ---- */
+        .editor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+        }
+
+        .editor-header__left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .editor-header__back {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all var(--transition-slow);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-md);
+        }
+
+        .editor-header__back:hover {
+            color: var(--primary);
+            background: var(--surface);
+            transform: translateX(-2px);
+        }
+
+        .editor-header__title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin: 0;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        .editor-header__title-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-md);
+            background: var(--gradient-primary);
+            color: #fff;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 10px rgba(0, 217, 255, 0.25);
+        }
+
+        .editor-header__meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .editor-visit-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 0 0 6px 6px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+            transition: border-color var(--transition-slow);
+        }
+
+        .editor-visit-badge:hover {
+            border-color: var(--border-light);
+        }
+
+        .editor-visit-badge i {
+            font-size: 0.7rem;
+            color: var(--primary);
+        }
+
+        /* ---- Header Widget Buttons ---- */
+        .editor-header__widget-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all var(--transition-slow);
+            font-size: 0.8rem;
+            position: relative;
+        }
+
+        .editor-header__widget-btn:hover {
+            background: var(--surface-elevated);
+            color: var(--text);
+            border-color: var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-1px);
+        }
+
+        .editor-header__widget-btn:active {
+            transform: scale(0.94);
+        }
+
+        .editor-header__widget-btn i {
+            transition: transform var(--transition-slow);
+        }
+
+        .editor-header__widget-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        #editor-theme-btn:hover i {
+            transform: rotate(150deg);
+        }
+
+        #editor-share-btn.copied {
+            border-color: var(--success);
+            color: var(--success);
+            background: rgba(81, 207, 102, 0.1);
+        }
+
+        #editor-lang-btn {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        #editor-lang-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* ---- Toolbar ---- */
+        .editor-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            flex-wrap: wrap;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .toolbar-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            padding: 3px;
+            background: var(--background-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            animation: toolbarFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+
+        .toolbar-group:nth-child(1) { animation-delay: 0ms; }
+        .toolbar-group:nth-child(3) { animation-delay: 50ms; }
+        .toolbar-group:nth-child(5) { animation-delay: 100ms; }
+        .toolbar-group:nth-child(7) { animation-delay: 150ms; }
+        .toolbar-group:nth-child(9) { animation-delay: 200ms; }
+
+        @keyframes toolbarFadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .toolbar-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            margin: 0 2px;
+            flex-shrink: 0;
+        }
+
+        .toolbar-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 5px 10px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all var(--transition-normal);
+            white-space: nowrap;
+            min-width: 30px;
+            min-height: 30px;
+            position: relative;
+        }
+
+        .toolbar-btn:hover:not(:disabled) {
+            background: var(--surface-elevated);
+            color: var(--text);
+            border-color: var(--border-light);
+            box-shadow: var(--shadow-xs);
+        }
+
+        .toolbar-btn:active:not(:disabled) {
+            background: var(--surface-hover);
+            transform: scale(0.94);
+        }
+
+        .toolbar-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .toolbar-btn i {
+            font-size: 0.8rem;
+            width: 14px;
+            text-align: center;
+            transition: transform var(--transition-normal);
+        }
+
+        .toolbar-btn:hover:not(:disabled) i {
+            transform: scale(1.1);
+        }
+
+        .toolbar-btn__label {
+            font-size: 0.65rem;
+            opacity: 0.7;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .toolbar-btn--icon-only {
+            padding: 5px;
+            min-width: 30px;
+        }
+
+        .toolbar-btn--active {
+            background: var(--surface-elevated);
+            color: var(--primary);
+            border-color: var(--border-light);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .toolbar-btn--active i {
+            color: var(--primary);
+        }
+
+        /* Tooltip on hover */
+        .toolbar-btn::after {
+            content: attr(title);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            padding: 4px 10px;
+            background: var(--surface-hover);
+            color: var(--text);
+            font-size: 0.7rem;
+            font-weight: 500;
+            border-radius: var(--radius-xs);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all var(--transition-normal);
+            z-index: 100;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .toolbar-btn:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ---- Editor Split Pane ---- */
+        .editor-split {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
             overflow: hidden;
+            background: var(--surface);
+            min-height: 0;
+            position: relative;
+            box-shadow: var(--shadow-lg);
         }
 
         .editor-pane,
         .preview-pane {
-            width: 50%;
-            height: 100%;
-            padding: 1rem;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
         }
 
         .editor-pane {
             border-right: 1px solid var(--border);
         }
 
-        #markdown-editor {
+        .pane-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px var(--space-md);
+            background: var(--background-secondary);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .pane-header__label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .pane-header__label-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 6px var(--success);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        .editor-pane .pane-header__label-dot {
+            background: var(--primary);
+            box-shadow: 0 0 6px var(--primary);
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .pane-header__stats {
+            font-size: 0.7rem;
+            color: var(--text-disabled);
+            font-variant-numeric: tabular-nums;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .pane-header__stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .pane-header__stat i {
+            font-size: 0.65rem;
+            opacity: 0.6;
+        }
+
+        /* ---- Textarea ---- */
+        .editor-textarea {
+            flex: 1;
             width: 100%;
-            height: 100%;
+            padding: var(--space-md) var(--space-lg);
             background: transparent;
             border: none;
             color: var(--text);
             font-family: var(--font-mono);
-            font-size: 14px;
-            line-height: 1.6;
+            font-size: 13.5px;
+            line-height: 1.75;
             resize: none;
             outline: none;
+            tab-size: 4;
+            overflow-y: auto;
         }
 
-        #content {
+        .editor-textarea::placeholder {
+            color: var(--text-disabled);
+            font-style: italic;
+        }
+
+        /* ---- Custom Scrollbar ---- */
+        .editor-textarea::-webkit-scrollbar,
+        .preview-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .editor-textarea::-webkit-scrollbar-track,
+        .preview-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .editor-textarea::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .editor-textarea::-webkit-scrollbar-thumb:hover {
+            background: var(--border-light);
+        }
+
+        .preview-content::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .preview-content::-webkit-scrollbar-thumb:hover {
+            background: var(--border-light);
+        }
+
+        /* ---- Preview ---- */
+        .preview-content {
+            flex: 1;
+            padding: var(--space-md) var(--space-xl);
+            overflow-y: auto;
             background: var(--surface);
-            border-radius: 6px;
         }
 
-        h1,
-        h2,
-        h3 {
-            color: var(--primary);
-            border-bottom: 1px solid var(--border);
+        /* ---- Preview Markdown Styles ---- */
+        .preview-content h1,
+        .preview-content h2,
+        .preview-content h3,
+        .preview-content h4 {
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+
+        .preview-content h1:first-child,
+        .preview-content h2:first-child,
+        .preview-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .preview-content h1 {
+            font-size: 1.75rem;
+            border-bottom: 2px solid var(--border);
             padding-bottom: 0.5rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
         }
 
-        a {
+        .preview-content h2 {
+            font-size: 1.35rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.35rem;
+            margin-top: 1.8rem;
+            margin-bottom: 0.6rem;
+            color: var(--primary);
+        }
+
+        .preview-content h3 {
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-content h4 {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 1.2rem;
+        }
+
+        .preview-content p {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .preview-content a {
             color: var(--primary);
             text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color var(--transition-slow);
         }
 
-        a:hover {
-            text-decoration: underline;
+        .preview-content a:hover {
+            border-bottom-color: var(--primary);
         }
 
-        code {
+        .preview-content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .preview-content code {
             background: var(--background);
-            padding: 0.2em 0.4em;
-            margin: 0;
-            font-size: 85%;
-            border-radius: 3px;
+            color: var(--accent);
+            padding: 0.15em 0.45em;
+            font-size: 0.85em;
+            border-radius: var(--radius-xs);
             font-family: var(--font-mono);
+            border: 1px solid var(--border);
         }
 
-        pre {
+        .preview-content pre {
             background: var(--background);
             border: 1px solid var(--border);
-            padding: 1rem;
-            border-radius: 6px;
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
             overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
         }
 
-        pre code {
+        .preview-content pre code {
             padding: 0;
             background: none;
+            color: var(--text);
+            font-size: 0.82rem;
+            text-align: left;
+            border: none;
+            line-height: 1.65;
         }
 
-        blockquote {
-            border-left: 4px solid var(--primary);
-            padding-left: 1rem;
-            color: var(--text-light);
-            margin-left: 0;
+        .preview-content blockquote {
+            border-left: 3px solid var(--primary);
+            padding-left: var(--space-md);
+            color: var(--text-muted);
+            margin: 1rem 0;
+            background: rgba(0, 217, 255, 0.04);
+            padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-md);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            font-style: italic;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            font-weight: 500;
+        .preview-content blockquote p {
+            color: var(--text-muted);
+            margin: 0.3rem 0;
         }
 
-        table {
+        .preview-content ul,
+        .preview-content ol {
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .preview-content li {
+            margin: 0.2rem 0;
+        }
+
+        .preview-content hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 1.5rem 0;
+        }
+
+        .preview-content table {
             border-collapse: collapse;
             width: 100%;
-            margin-bottom: 1rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
         }
 
-        th,
-        td {
+        .preview-content th,
+        .preview-content td {
             border: 1px solid var(--border);
-            padding: 0.5rem;
+            padding: 8px var(--space-md);
+            text-align: left;
         }
 
-        th {
-            background-color: var(--surface-alt);
-        }
-
-        .toolbar {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px 6px 0 0;
-        }
-
-        .toolbar-btn {
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
+        .preview-content th {
+            background: var(--background-secondary);
+            font-weight: 600;
             color: var(--text);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
+        }
+
+        .preview-content tr:nth-child(even) td {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .preview-content img {
+            max-width: 100%;
+            border-radius: var(--radius-md);
+        }
+
+        .preview-content input[type="checkbox"] {
+            margin-right: 6px;
+            accent-color: var(--primary);
+        }
+
+        /* ---- Toast notification ---- */
+        .editor-toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 10px 22px;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            color: var(--text);
+            font-size: 0.8rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-2xl);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 9999;
+            pointer-events: none;
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 8px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
-        .toolbar-btn:hover {
-            background: var(--primary);
-            color: var(--background);
-            transform: translateY(-1px);
+        .editor-toast--visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
-        .toolbar-btn:active {
-            transform: translateY(0);
+        .editor-toast--success { border-color: rgba(81, 207, 102, 0.3); }
+        .editor-toast--success i { color: var(--success); }
+        .editor-toast--error { border-color: rgba(255, 107, 107, 0.3); }
+        .editor-toast--error i { color: var(--danger); }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 1024px) {
+            .editor-split {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+
+            .editor-pane {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
         }
 
-        .toolbar-btn[disabled] {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
+        @media (max-width: 768px) {
+            .editor-page {
+                padding: var(--space-md) var(--space-sm);
+                gap: var(--space-sm);
+            }
+
+            .editor-toolbar {
+                padding: 6px 10px;
+                gap: 4px;
+                border-radius: var(--radius-lg);
+            }
+
+            .toolbar-btn {
+                padding: 4px 7px;
+                min-width: 26px;
+                min-height: 26px;
+                font-size: 0.7rem;
+            }
+
+            .toolbar-group {
+                padding: 2px;
+                gap: 1px;
+            }
+
+            .toolbar-divider {
+                display: none;
+            }
+
+            .editor-header__title {
+                font-size: 1.1rem;
+            }
+
+            .toolbar-btn__label {
+                display: none;
+            }
+
+            .editor-textarea {
+                font-size: 13px;
+                padding: var(--space-sm) var(--space-md);
+            }
+
+            .preview-content {
+                padding: var(--space-sm) var(--space-md);
+            }
         }
     </style>
-    <script src="/Pages/navbar-widgets/index.js" defer></script>
 </head>
 
 <body>
-    <div class="container">
-        <a href="../notes.html" class="back-link">&larr; 返回索引</a>
-        <h1 style="text-align: center; margin-bottom: 2rem;">实时 Markdown 编辑器</h1>
+    <div class="editor-page">
 
-        <div class="toolbar">
-            <button class="toolbar-btn" id="clear-btn" title="清空编辑器内容">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 6h18"></path>
-                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                </svg>
-                Clear
-            </button>
-            <button class="toolbar-btn" id="copy-btn" title="复制编辑器内容到剪贴板">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-                Copy
-            </button>
-            <button class="toolbar-btn" id="paste-btn" title="从剪贴板粘贴内容">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                </svg>
-                Paste
-            </button>
+        <!-- Header -->
+        <header class="editor-header">
+            <div class="editor-header__left">
+                <a href="../notes.html" class="editor-header__back">
+                    <i class="fas fa-arrow-left"></i> 返回索引
+                </a>
+                <h1 class="editor-header__title">
+                    <span class="editor-header__title-icon"><i class="fas fa-pen-nib"></i></span>
+                    Markdown 编辑器
+                </h1>
+            </div>
+            <div class="editor-header__meta">
+                <span class="editor-visit-badge" id="visit-badge">
+                    <i class="fas fa-eye"></i> <span id="visit-count">0</span>
+                </span>
+                <button class="editor-header__widget-btn" id="editor-lang-btn" title="切换语言">
+                    <i class="fas fa-globe"></i>
+                </button>
+                <button class="editor-header__widget-btn" id="editor-theme-btn" title="切换主题">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="editor-header__widget-btn" id="editor-share-btn" title="复制链接">
+                    <i class="fas fa-share-nodes"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Toolbar -->
+        <div class="editor-toolbar">
+            <div class="toolbar-group">
+                <button class="toolbar-btn toolbar-btn--icon-only" id="clear-btn" title="清空内容 (Ctrl+K)">
+                    <i class="fas fa-trash-can"></i>
+                </button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="copy-btn" title="复制全部内容">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="paste-btn" title="从剪贴板粘贴">
+                    <i class="fas fa-paste"></i>
+                </button>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-h1" title="标题 1"><i class="fas fa-heading"></i><span class="toolbar-btn__label">1</span></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-h2" title="标题 2"><i class="fas fa-heading"></i><span class="toolbar-btn__label">2</span></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-h3" title="标题 3"><i class="fas fa-heading"></i><span class="toolbar-btn__label">3</span></button>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-bold" title="粗体"><i class="fas fa-bold"></i></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-italic" title="斜体"><i class="fas fa-italic"></i></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-strikethrough" title="删除线"><i class="fas fa-strikethrough"></i></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-code" title="行内代码"><i class="fas fa-code"></i></button>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-quote" title="引用"><i class="fas fa-quote-left"></i></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-link" title="链接"><i class="fas fa-link"></i></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-image" title="图片"><i class="fas fa-image"></i></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-list-ul" title="无序列表"><i class="fas fa-list-ul"></i></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-list-ol" title="有序列表"><i class="fas fa-list-ol"></i></button>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-table" title="表格"><i class="fas fa-table"></i></button>
+                <button class="toolbar-btn toolbar-btn--icon-only" id="btn-hr" title="分割线"><i class="fas fa-minus"></i></button>
+            </div>
         </div>
 
-        <div class="editor-container">
+        <!-- Split Pane -->
+        <div class="editor-split">
+
+            <!-- Editor -->
             <div class="editor-pane">
-                <textarea id="markdown-editor" spellcheck="false"></textarea>
+                <div class="pane-header">
+                    <span class="pane-header__label"><span class="pane-header__label-dot"></span> 编辑</span>
+                    <div class="pane-header__stats">
+                        <span class="pane-header__stat"><i class="fas fa-grip-lines"></i> <span id="stat-lines">0</span></span>
+                        <span class="pane-header__stat"><i class="fas fa-font"></i> <span id="stat-chars">0</span></span>
+                        <span class="pane-header__stat"><i class="fas fa-clock"></i> <span id="stat-words">0</span></span>
+                    </div>
+                </div>
+                <textarea class="editor-textarea" id="markdown-editor" spellcheck="false" placeholder="在此输入 Markdown 文本，右侧实时预览..."></textarea>
             </div>
-            <div class="preview-pane" id="content">
-                <!-- Rendered HTML will appear here -->
+
+            <!-- Preview -->
+            <div class="preview-pane">
+                <div class="pane-header">
+                    <span class="pane-header__label"><span class="pane-header__label-dot"></span> 预览</span>
+                    <div class="pane-header__stats">
+                        <span class="pane-header__stat"><i class="fas fa-sync-alt" style="font-size: 0.6rem; opacity: 0.5;"></i> 实时同步</span>
+                    </div>
+                </div>
+                <div class="preview-content" id="preview-content"></div>
             </div>
+
         </div>
     </div>
 
+    <!-- Toast -->
+    <div class="editor-toast" id="toast"></div>
+
+    <!-- Marked.js -->
     <script defer src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
+
+    <!-- MathJax -->
     <script>
         window.MathJax = {
             tex: {
@@ -266,20 +880,30 @@
         };
     </script>
     <script defer id="MathJax-script" src="https://cdnjs.loli.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+
     <script>
-        const editor = document.getElementById('markdown-editor');
-        const preview = document.getElementById('content');
+        /* ================================
+           Markdown Editor — Logic
+           ================================ */
 
-        const markdownContent = `
-# Markdown 语法指南
+        const editor   = document.getElementById('markdown-editor');
+        const preview  = document.getElementById('preview-content');
+        const toast    = document.getElementById('toast');
+        const linesEl  = document.getElementById('stat-lines');
+        const charsEl  = document.getElementById('stat-chars');
+        const wordsEl  = document.getElementById('stat-words');
+        const visitEl  = document.getElementById('visit-count');
 
-欢迎来到Markdown学习笔记。Markdown是一种轻量级标记语言，让你能够使用易于阅读、易于编写的纯文本格式编写文档。
+        // ---- Default Content ----
+        const DEFAULT_CONTENT = `# Markdown 语法指南
+
+欢迎来到 Markdown 学习笔记。Markdown 是一种轻量级标记语言，让你能够使用易于阅读、易于编写的纯文本格式编写文档。
 
 ---
 
 ## 1. 标题 (Headers)
 
-使用\`#\`号可以创建标题，\`#\`的数量代表标题的级别。
+使用 \`#\` 号可以创建标题，\`#\` 的数量代表标题的级别。
 
 \`\`\`markdown
 # 这是一级标题
@@ -294,9 +918,9 @@
 
 ## 2. 文本样式 (Text Styling)
 
-- **粗体**: 使用两个星号\`**\`或两个下划线\`__\`。
-- *斜体*: 使用一个星号\`*\`或一个下划线\`_\`。
-- ~~删除线~~: 使用两个波浪线\`~~\`。
+- **粗体**: 使用两个星号 \`**\` 或两个下划线 \`__\`
+- *斜体*: 使用一个星号 \`*\` 或一个下划线 \`_\`
+- ~~删除线~~: 使用两个波浪线 \`~~\`
 
 \`\`\`markdown
 **这是粗体文本**
@@ -311,7 +935,7 @@
 
 ### 无序列表
 
-使用星号\`*\`、加号\`+\`或减号\`-\`来创建无序列表。
+使用星号 \`*\`、加号 \`+\` 或减号 \`-\` 来创建无序列表。
 
 \`\`\`markdown
 * 苹果
@@ -323,7 +947,7 @@
 
 ### 有序列表
 
-使用数字加\`.\`来创建有序列表。
+使用数字加 \`. \` 来创建有序列表。
 
 \`\`\`markdown
 1. 第一步
@@ -335,8 +959,6 @@
 
 ## 4. 链接 (Links)
 
-链接可以让你跳转到其他网页。
-
 \`\`\`markdown
 [访问我的GitHub主页](https://github.com/NEGIAO)
 \`\`\`
@@ -346,8 +968,6 @@
 ---
 
 ## 5. 图片 (Images)
-
-图片语法与链接类似，只是在前面多一个感叹号\`!\`。
 
 \`\`\`markdown
 ![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.webp)
@@ -361,41 +981,24 @@
 
 ### 行内代码
 
-使用反引号 \` \` 来包裹行内代码。
-
 \`\`\`markdown
-在JavaScript中，使用 \`console.log()\` 来打印信息。
+在 JavaScript 中，使用 \`console.log()\` 来打印信息。
 \`\`\`
 
-**效果:** 在JavaScript中，使用 \`console.log()\` 来打印信息。
+**效果:** 在 JavaScript 中，使用 \`console.log()\` 来打印信息。
 
 ### 代码块
 
-使用三个反引号 \`\`\` 来创建代码块，并可以指定语言以获得语法高亮。
-
-\`\`\`markdown
 \`\`\`javascript
 function greet(name) {
   console.log('Hello, ' + name + '!');
 }
-
 greet('World');
-\`\`\`
 \`\`\`
 
 ---
 
 ## 7. 引用 (Blockquotes)
-
-使用大于号\`>\`来创建引用块。
-
-\`\`\`markdown
-> 这是一段引用。
->
-> > 引用可以嵌套。
->
-> —— 引用出处
-\`\`\`
 
 **效果:**
 > 这是一段引用。
@@ -407,17 +1010,6 @@ greet('World');
 
 ## 8. 表格 (Tables)
 
-使用管道符\`|\`和连字符\`-\`来创建表格。使用冒号\`:\`来定义对齐方式。
-
-\`\`\`markdown
-| 左对齐 | 居中对齐 | 右对齐 |
-| :--- | :---: | ---: |
-| 单元格1 | 单元格2 | 单元格3 |
-| 单元格4 | 单元格5 | 单元格6 |
-\`\`\`
-
-**效果:**
-
 | 左对齐 | 居中对齐 | 右对齐 |
 | :--- | :---: | ---: |
 | 单元格1 | 单元格2 | 单元格3 |
@@ -425,79 +1017,35 @@ greet('World');
 
 ---
 
-## 9. 分割线 (Horizontal Rules)
+## 9. 分割线
 
-使用三个或更多的星号\`***\`、减号\`---\`或下划线\`___\`来创建分割线。
-
-\`\`\`markdown
 ---
 ***
 ___
-\`\`\`
 
 ---
 
 ## 10. 任务列表 (Task Lists)
 
-这是GitHub Flavored Markdown (GFM) 的扩展功能。
-
-\`\`\`markdown
-- [x] 完成Markdown语法学习
+- [x] 完成 Markdown 语法学习
 - [ ] 开始撰写新的笔记
-- [ ] 部署更新到GitHub Pages
-\`\`\`
-
-**效果:**
-- [x] 完成Markdown语法学习
-- [ ] 开始撰写新的笔记
-- [ ] 部署更新到GitHub Pages
+- [ ] 部署更新到 GitHub Pages
 
 ---
 
 ## 11. 数学公式 (LaTeX)
 
-现在这个编辑器支持 LaTeX 实时预览。学习方式建议保持“概念 + 写法 + 效果”三步。
-
 ### 11.1 行内公式
 
-在一句话里插入公式时，用 \`$...$\`。
-
-\`\`\`markdown
 函数 $f(x)=x^2+1$ 在 $x=0$ 处取值为 $1$。
-\`\`\`
-
-**效果：** 函数 $f(x)=x^2+1$ 在 $x=0$ 处取值为 $1$。
 
 ### 11.2 块级公式
-
-当公式需要独立成行时，用 \`$$...$$\`。
-
-\`\`\`markdown
-$$
-\\lim_{x\\to 0}\\frac{\\sin x}{x}=1
-$$
-\`\`\`
-
-**效果：**
 
 $$
 \\lim_{x\\to 0}\\frac{\\sin x}{x}=1
 $$
 
 ### 11.3 多行推导（对齐）
-
-复杂推导推荐使用 \`aligned\`，把 \`&\` 放在等号前对齐。
-
-\`\`\`markdown
-$$
-\\begin{aligned}
-\\int_0^1 x^2\\dd x &= \\frac{1}{3} \\\\
-\\frac{d}{dx}(x^3) &= 3x^2
-\\end{aligned}
-$$
-\`\`\`
-
-**效果：**
 
 $$
 \\begin{aligned}
@@ -510,254 +1058,299 @@ $$
 
 分段函数：
 
-\`\`\`markdown
 $$
 f(x)=\\begin{cases}
 x^2, & x\\ge 0 \\\\
 -x, & x<0
 \\end{cases}
 $$
-\`\`\`
 
 矩阵：
 
-\`\`\`markdown
 $$
 A=\\begin{bmatrix}
 1 & 2 \\\\
 3 & 4
 \\end{bmatrix}
 $$
-\`\`\`
 
-### 11.5 AMS 自动编号（增强支持）
+### 11.5 AMS 自动编号
 
-同一篇内容内，块级公式会自动编号，可用于引用：
-
-\`\`\`markdown
 $$
 \\int_a^b f(x)\\dd x = F(b)-F(a)
 $$
-\`\`\`
 
-### 11.6 编辑器内置快捷宏（增强支持）
+### 11.6 编辑器内置快捷宏
 
 当前支持这些快捷宏：
 - \`$\\RR$\` 表示实数域
 - \`$\\dd$\` 表示微分符号
 - \`$\\e^x$\` 表示自然指数
 
-示例：
-
-\`\`\`markdown
 $$
 f: \\RR \\to \\RR,\\quad \\int_0^1 \\e^x\\dd x = \\e-1
 $$
-\`\`\`
 
-这只是Markdown的基础功能，但已经足够满足大部分日常的文档编写需求。
-        `;
+这只是 Markdown 的基础功能，但已经足够满足大部分日常的文档编写需求。`;
 
-        // Set initial content
-        editor.value = markdownContent.trim();
+        // ---- Render ----
+        let mathTimer = null;
 
-        // Function to render markdown
-        function renderMarkdown() {
-            if (window.marked) {
-                preview.innerHTML = window.marked.parse(editor.value);
-                renderMathInPreview();
-            }
+        function renderPreview() {
+            if (!window.marked) return;
+            preview.innerHTML = window.marked.parse(editor.value);
+            scheduleMathRender();
+            updateStats();
         }
 
-        let mathRenderTimer = null;
-
-        // Render MathJax formulas in preview pane (debounced for smoother typing)
-        function renderMathInPreview() {
-            if (mathRenderTimer) {
-                clearTimeout(mathRenderTimer);
-            }
-
-            mathRenderTimer = setTimeout(() => {
-                let retryCount = 0;
-                const maxRetries = 80;
-
-                function tryTypeset() {
+        function scheduleMathRender() {
+            if (mathTimer) clearTimeout(mathTimer);
+            mathTimer = setTimeout(() => {
+                let retries = 0;
+                const max = 80;
+                function attempt() {
                     if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
                         if (typeof window.MathJax.typesetClear === 'function') {
                             window.MathJax.typesetClear([preview]);
                         }
-
-                        window.MathJax.typesetPromise([preview]).catch(() => {
-                            // Ignore formula render errors and keep editor responsive.
-                        });
+                        window.MathJax.typesetPromise([preview]).catch(() => {});
                         return;
                     }
-
-                    if (retryCount < maxRetries) {
-                        retryCount++;
-                        setTimeout(tryTypeset, 50);
-                    }
+                    if (retries < max) { retries++; setTimeout(attempt, 50); }
                 }
-
-                tryTypeset();
+                attempt();
             }, 120);
         }
 
-        // Initial render
-        document.addEventListener('DOMContentLoaded', renderMarkdown);
-
-        // Add event listener for real-time updates
-        editor.addEventListener('input', renderMarkdown);
-
-        // 增加访问计数功能
-        function updateVisitCounter() {
-            // 尝试获取当前访问计数
-            let visits = localStorage.getItem('markdown_editor_visits') || 0;
-            visits = parseInt(visits) + 1;
-
-            // 保存更新后的计数
-            localStorage.setItem('markdown_editor_visits', visits);
-
-            // 显示访问计数
-            const counterElement = document.createElement('div');
-            counterElement.className = 'visit-counter';
-            counterElement.textContent = `访问次数: ${visits}`;
-            counterElement.style.position = 'fixed';
-            counterElement.style.bottom = '10px';
-            counterElement.style.right = '10px';
-            counterElement.style.padding = '5px 10px';
-            counterElement.style.background = 'var(--surface)';
-            counterElement.style.border = '1px solid var(--border)';
-            counterElement.style.borderRadius = '4px';
-            counterElement.style.fontSize = '12px';
-            counterElement.style.color = 'var(--text-light)';
-            counterElement.style.zIndex = '999';
-
-            document.body.appendChild(counterElement);
+        function updateStats() {
+            const text = editor.value;
+            const lines = text.split('\n').length;
+            const chars = text.length;
+            // Rough word count: CJK chars + space-separated tokens
+            const cjk = (text.match(/[一-鿿]/g) || []).length;
+            const latin = (text.match(/[a-zA-Z]+/g) || []).length;
+            linesEl.textContent = lines;
+            charsEl.textContent = chars;
+            wordsEl.textContent = cjk + latin;
         }
 
-        // 页面加载时调用
-        updateVisitCounter();
+        // ---- Toast ----
+        let toastTimer = null;
+        function showToast(message, type) {
+            if (toastTimer) clearTimeout(toastTimer);
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            toast.innerHTML = '<i class="fas ' + icon + '"></i> ' + message;
+            toast.className = 'editor-toast editor-toast--visible editor-toast--' + type;
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('editor-toast--visible');
+            }, 2200);
+        }
 
-        // Toolbar functionality
-        const clearBtn = document.getElementById('clear-btn');
-        const copyBtn = document.getElementById('copy-btn');
-        const pasteBtn = document.getElementById('paste-btn');
+        // ---- Toolbar Actions ----
+        function insertMarkdown(before, after, placeholder) {
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const selected = editor.value.substring(start, end) || placeholder;
+            const insert = before + selected + after;
+            editor.value = editor.value.substring(0, start) + insert + editor.value.substring(end);
+            editor.selectionStart = start + before.length;
+            editor.selectionEnd = start + before.length + selected.length;
+            editor.focus();
+            renderPreview();
+        }
 
-        // Clear button
-        clearBtn.addEventListener('click', function () {
+        document.getElementById('clear-btn').addEventListener('click', function () {
+            if (!editor.value.trim()) return;
             if (confirm('确定要清空编辑器内容吗？此操作无法撤销。')) {
                 editor.value = '';
-                renderMarkdown();
+                renderPreview();
                 editor.focus();
+                showToast('已清空', 'success');
             }
         });
 
-        // Copy button
-        copyBtn.addEventListener('click', async function () {
+        document.getElementById('copy-btn').addEventListener('click', async function () {
             try {
                 await navigator.clipboard.writeText(editor.value);
-
-                // Visual feedback
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = `
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20,6 9,17 4,12"></polyline>
-                    </svg>
-                    Copied!
-                `;
-                copyBtn.style.background = '#28a745';
-
-                setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
-                    copyBtn.style.background = '';
-                }, 2000);
+                showToast('已复制到剪贴板', 'success');
             } catch (err) {
-                alert('复制失败，请手动选择文本进行复制。');
+                showToast('复制失败，请手动选择复制', 'error');
             }
         });
 
-        // Paste button
-        pasteBtn.addEventListener('click', async function () {
+        document.getElementById('paste-btn').addEventListener('click', async function () {
             try {
-                const clipboardText = await navigator.clipboard.readText();
-                const cursorPosition = editor.selectionStart;
-                const textBefore = editor.value.substring(0, cursorPosition);
-                const textAfter = editor.value.substring(editor.selectionEnd);
-
-                editor.value = textBefore + clipboardText + textAfter;
-                editor.setSelectionRange(cursorPosition + clipboardText.length, cursorPosition + clipboardText.length);
-                renderMarkdown();
+                const text = await navigator.clipboard.readText();
+                const pos = editor.selectionStart;
+                editor.value = editor.value.substring(0, pos) + text + editor.value.substring(editor.selectionEnd);
+                editor.selectionStart = editor.selectionEnd = pos + text.length;
+                renderPreview();
                 editor.focus();
-
-                // Visual feedback
-                const originalText = pasteBtn.innerHTML;
-                pasteBtn.innerHTML = `
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20,6 9,17 4,12"></polyline>
-                    </svg>
-                    Pasted!
-                `;
-                pasteBtn.style.background = '#28a745';
-
-                setTimeout(() => {
-                    pasteBtn.innerHTML = originalText;
-                    pasteBtn.style.background = '';
-                }, 2000);
+                showToast('已粘贴', 'success');
             } catch (err) {
-                alert('粘贴失败，请使用 Ctrl+V 手动粘贴。');
+                showToast('粘贴失败，请使用 Ctrl+V', 'error');
             }
         });
 
-        // Keyboard shortcuts
+        // Inline formatting buttons
+        document.getElementById('btn-h1').addEventListener('click', () => insertMarkdown('# ', '', '标题'));
+        document.getElementById('btn-h2').addEventListener('click', () => insertMarkdown('## ', '', '标题'));
+        document.getElementById('btn-h3').addEventListener('click', () => insertMarkdown('### ', '', '标题'));
+        document.getElementById('btn-bold').addEventListener('click', () => insertMarkdown('**', '**', '粗体'));
+        document.getElementById('btn-italic').addEventListener('click', () => insertMarkdown('*', '*', '斜体'));
+        document.getElementById('btn-strikethrough').addEventListener('click', () => insertMarkdown('~~', '~~', '删除线'));
+        document.getElementById('btn-code').addEventListener('click', () => insertMarkdown('`', '`', 'code'));
+        document.getElementById('btn-quote').addEventListener('click', () => insertMarkdown('> ', '', '引用内容'));
+        document.getElementById('btn-link').addEventListener('click', () => insertMarkdown('[', '](https://)', '链接文字'));
+        document.getElementById('btn-image').addEventListener('click', () => insertMarkdown('![', '](https://example.com/image.png)', 'alt文本'));
+        document.getElementById('btn-list-ul').addEventListener('click', () => insertMarkdown('- ', '', '列表项'));
+        document.getElementById('btn-list-ol').addEventListener('click', () => insertMarkdown('1. ', '', '列表项'));
+        document.getElementById('btn-table').addEventListener('click', () => insertMarkdown('| 列1 | 列2 | 列3 |\n| :--- | :---: | ---: |\n|  |  |  |\n', ''));
+        document.getElementById('btn-hr').addEventListener('click', () => insertMarkdown('\n---\n', '', ''));
+
+        // ---- Keyboard Shortcuts ----
         editor.addEventListener('keydown', function (e) {
-            // Ctrl+K for clear (with confirmation)
             if (e.ctrlKey && e.key === 'k') {
                 e.preventDefault();
-                clearBtn.click();
+                document.getElementById('clear-btn').click();
             }
-
-            // Tab support for indentation
+            if (e.ctrlKey && e.key === 'b') {
+                e.preventDefault();
+                document.getElementById('btn-bold').click();
+            }
+            if (e.ctrlKey && e.key === 'i') {
+                e.preventDefault();
+                document.getElementById('btn-italic').click();
+            }
             if (e.key === 'Tab') {
                 e.preventDefault();
                 const start = this.selectionStart;
                 const end = this.selectionEnd;
                 this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
-                this.setSelectionRange(start + 4, start + 4);
-                renderMarkdown();
+                this.selectionStart = this.selectionEnd = start + 4;
+                renderPreview();
             }
         });
 
-        // Check clipboard API support and disable paste button if not available
+        // ---- Clipboard API check ----
         if (!navigator.clipboard || !navigator.clipboard.readText) {
-            pasteBtn.disabled = true;
-            pasteBtn.title = '此浏览器不支持剪贴板 API';
+            document.getElementById('paste-btn').disabled = true;
+            document.getElementById('paste-btn').title = '此浏览器不支持剪贴板 API';
         }
 
-        // Synchronized scrolling between editor and preview
-        let isSyncing = false;
+        // ---- Sync Scroll ----
+        let syncing = false;
 
         editor.addEventListener('scroll', function () {
-            if (isSyncing) return;
-            isSyncing = true;
-            const scrollable = editor.scrollHeight - editor.clientHeight;
-            if (scrollable > 0) {
-                const ratio = editor.scrollTop / scrollable;
+            if (syncing) return;
+            syncing = true;
+            const range = editor.scrollHeight - editor.clientHeight;
+            if (range > 0) {
+                const ratio = editor.scrollTop / range;
                 preview.scrollTop = ratio * (preview.scrollHeight - preview.clientHeight);
             }
-            isSyncing = false;
+            requestAnimationFrame(() => { syncing = false; });
         });
 
         preview.addEventListener('scroll', function () {
-            if (isSyncing) return;
-            isSyncing = true;
-            const scrollable = preview.scrollHeight - preview.clientHeight;
-            if (scrollable > 0) {
-                const ratio = preview.scrollTop / scrollable;
+            if (syncing) return;
+            syncing = true;
+            const range = preview.scrollHeight - preview.clientHeight;
+            if (range > 0) {
+                const ratio = preview.scrollTop / range;
                 editor.scrollTop = ratio * (editor.scrollHeight - editor.clientHeight);
             }
-            isSyncing = false;
+            requestAnimationFrame(() => { syncing = false; });
         });
+
+        // ---- Visit Counter ----
+        function trackVisit() {
+            let n = parseInt(localStorage.getItem('md_editor_visits') || '0', 10) + 1;
+            localStorage.setItem('md_editor_visits', n);
+            visitEl.textContent = n;
+        }
+
+        // ---- Init ----
+        document.addEventListener('DOMContentLoaded', () => {
+            editor.value = DEFAULT_CONTENT.trim();
+            renderPreview();
+            trackVisit();
+            initHeaderWidgets();
+        });
+
+        /* ================================
+           Header Widget Buttons
+           ================================ */
+
+        var THEME_KEY = 'site-theme';
+        var LANG_KEY  = 'negiao.preferred-lang';
+
+        function initHeaderWidgets() {
+            var themeBtn = document.getElementById('editor-theme-btn');
+            var langBtn  = document.getElementById('editor-lang-btn');
+            var shareBtn = document.getElementById('editor-share-btn');
+
+            // 主题切换
+            function getTheme() {
+                var s = localStorage.getItem(THEME_KEY);
+                if (s === 'light' || s === 'dark') return s;
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            }
+            function applyTheme(t) {
+                document.body.dataset.theme = t;
+                localStorage.setItem(THEME_KEY, t);
+                var icon = themeBtn.querySelector('i');
+                icon.classList.remove('fa-sun', 'fa-moon');
+                icon.classList.add(t === 'dark' ? 'fa-sun' : 'fa-moon');
+                themeBtn.setAttribute('title', t === 'dark' ? '切换到浅色主题' : '切换到深色主题');
+                var meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute('content', t === 'dark' ? '#0A0E13' : '#EFF1F5');
+            }
+            applyTheme(getTheme());
+            themeBtn.addEventListener('click', function () {
+                applyTheme(getTheme() === 'dark' ? 'light' : 'dark');
+            });
+
+            // 语言切换
+            function getLang() {
+                var s = localStorage.getItem(LANG_KEY);
+                return s === 'en' ? 'en' : 'zh';
+            }
+            function applyLang(lang) {
+                localStorage.setItem(LANG_KEY, lang);
+                langBtn.textContent = lang === 'en' ? '中' : 'EN';
+                langBtn.setAttribute('title', lang === 'en' ? '切换到中文' : 'Switch to English');
+            }
+            applyLang(getLang());
+            langBtn.addEventListener('click', function () {
+                applyLang(getLang() === 'en' ? 'zh' : 'en');
+            });
+
+            // 分享
+            shareBtn.addEventListener('click', function () {
+                var done = function () {
+                    shareBtn.innerHTML = '<i class="fas fa-check"></i>';
+                    shareBtn.classList.add('copied');
+                    setTimeout(function () {
+                        shareBtn.innerHTML = '<i class="fas fa-share-nodes"></i>';
+                        shareBtn.classList.remove('copied');
+                    }, 1500);
+                };
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(window.location.href).then(done).catch(done);
+                } else {
+                    var input = document.createElement('input');
+                    input.value = window.location.href;
+                    document.body.appendChild(input);
+                    input.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(input);
+                    done();
+                }
+            });
+        }
+
+        editor.addEventListener('input', renderPreview);
     </script>
 </body>
 

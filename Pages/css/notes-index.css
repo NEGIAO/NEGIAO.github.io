@@ -95,39 +95,9 @@ body[data-theme='light'].notes-index-page {
   font-size: 0.76rem;
 }
 
-.notes-index-page .notes-navbar .negiao-lang-toggle--nav,
-.notes-index-page .notes-navbar .theme-toggle,
-.notes-index-page .notes-navbar .share-note-btn {
-  position: static !important;
-  top: auto !important;
-  right: auto !important;
-  transform: none !important;
-  flex: 0 0 auto;
-  width: 2.05rem;
-  height: 2.05rem;
-  min-width: 2.05rem;
-  min-height: 2.05rem;
-  padding: 0;
-  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--glass-border));
-  border-radius: var(--radius-full);
-  background: color-mix(in srgb, var(--surface-elevated) 68%, transparent);
-  color: var(--text-secondary);
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.1);
-}
-
-.notes-index-page .notes-navbar .negiao-lang-toggle--nav:hover,
-.notes-index-page .notes-navbar .theme-toggle:hover,
-.notes-index-page .notes-navbar .share-note-btn:hover {
-  color: var(--primary);
-  border-color: color-mix(in srgb, var(--primary) 48%, var(--glass-border));
-  background: color-mix(in srgb, var(--primary) 9%, var(--surface-elevated));
-  transform: translateY(-1px) !important;
-}
-
+/* notes navbar 中的 widget 按钮 — 复用基础样式，仅调整间距 */
 .notes-index-page .notes-navbar .negiao-lang-toggle--nav {
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  margin-left: 0.3rem;
 }
 
 @media (max-width: 576px) {
@@ -142,10 +112,7 @@ body[data-theme='light'].notes-index-page {
   }
 
   .notes-index-page .notes-navbar__brand-mark,
-  .notes-index-page .notes-navbar__home,
-  .notes-index-page .notes-navbar .theme-toggle,
-  .notes-index-page .notes-navbar .share-note-btn,
-  .notes-index-page .notes-navbar .negiao-lang-toggle--nav {
+  .notes-index-page .notes-navbar__home {
     width: 2rem;
     height: 2rem;
     min-width: 2rem;
@@ -162,6 +129,7 @@ body[data-theme='light'].notes-index-page {
 
   .notes-index-page .notes-navbar .negiao-lang-toggle--nav {
     font-size: 0.62rem;
+    padding: 0 0.5rem;
   }
 }
 

@@ -22,1093 +22,101 @@
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="public/main-enhanced.js" defer></script>
 
-    <style>
-        /* 现代化课程表样式重设计 */
-        .schedule-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--space-2xl) var(--space-md);
-            background: linear-gradient(135deg,
-                    rgba(0, 217, 255, 0.03) 0%,
-                    rgba(78, 205, 196, 0.02) 35%,
-                    rgba(255, 107, 107, 0.02) 65%,
-                    rgba(255, 217, 61, 0.03) 100%);
-            border-radius: var(--radius-2xl);
-        }
-
-        .schedule-header {
-            text-align: center;
-            margin-bottom: var(--space-2xl);
-        }
-
-        .schedule-title {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: var(--space-md);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-
-        .current-time {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--radius-xl);
-            padding: var(--space-lg) var(--space-xl);
-            margin-bottom: var(--space-xl);
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-md);
-            color: var(--text);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: all var(--transition-normal);
-        }
-
-        .current-time:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .schedule-table {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: var(--radius-2xl);
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: var(--space-lg);
-            text-align: center;
-            border: none;
-            position: relative;
-            transition: all var(--transition-normal);
-        }
-
-        th {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
-            color: #ffffff;
-            font-weight: 700;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            font-size: 1rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .time-column {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            color: var(--text);
-            min-width: 120px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-        }
-
-        /* 现代化时段背景区分 */
-        .time-morning {
-            background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 235, 59, 0.08) 100%);
-            border-left: 4px solid #FFC107;
-            border-radius: var(--radius-md);
-            box-shadow: inset 0 1px 3px rgba(255, 193, 7, 0.2);
-        }
-
-        .time-afternoon {
-            background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(3, 169, 244, 0.08) 100%);
-            border-left: 4px solid #2196F3;
-            border-radius: var(--radius-md);
-            box-shadow: inset 0 1px 3px rgba(33, 150, 243, 0.2);
-        }
-
-        .time-evening {
-            background: linear-gradient(135deg, rgba(156, 39, 176, 0.15) 0%, rgba(233, 30, 99, 0.08) 100%);
-            border-left: 4px solid #9C27B0;
-            border-radius: var(--radius-md);
-            box-shadow: inset 0 1px 3px rgba(156, 39, 176, 0.2);
-        }
-
-        /* 现代化课程块样式 */
-        .period-morning {
-            background: linear-gradient(135deg, rgba(255, 248, 225, 0.8) 0%, rgba(255, 251, 235, 0.4) 100%);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(255, 193, 7, 0.2);
-        }
-
-        .period-afternoon {
-            background: linear-gradient(135deg, rgba(227, 242, 253, 0.8) 0%, rgba(240, 249, 255, 0.4) 100%);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(33, 150, 243, 0.2);
-        }
-
-        .period-evening {
-            background: linear-gradient(135deg, rgba(243, 229, 245, 0.8) 0%, rgba(248, 243, 250, 0.4) 100%);
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(156, 39, 176, 0.2);
-        }
-
-        .period-morning:hover {
-            background: linear-gradient(135deg, rgba(255, 248, 225, 1) 0%, rgba(255, 251, 235, 0.6) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.15);
-        }
-
-        .period-afternoon:hover {
-            background: linear-gradient(135deg, rgba(227, 242, 253, 1) 0%, rgba(240, 249, 255, 0.6) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.15);
-        }
-
-        .period-evening:hover {
-            background: linear-gradient(135deg, rgba(243, 229, 245, 1) 0%, rgba(248, 243, 250, 0.6) 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(156, 39, 176, 0.15);
-        }
-
-        .day-header {
-            background: var(--surface-elevated);
-            min-width: 180px;
-        }
-
-        /* 现代化周几颜色区分 - 整列背景 */
-        .col-monday {
-            background: linear-gradient(180deg, rgba(244, 67, 54, 0.06) 0%, rgba(244, 67, 54, 0.02) 100%);
-            border-radius: var(--radius-md);
-        }
-
-        .col-tuesday {
-            background: linear-gradient(180deg, rgba(33, 150, 243, 0.06) 0%, rgba(33, 150, 243, 0.02) 100%);
-            border-radius: var(--radius-md);
-        }
-
-        .col-wednesday {
-            background: linear-gradient(180deg, rgba(76, 175, 80, 0.06) 0%, rgba(76, 175, 80, 0.02) 100%);
-            border-radius: var(--radius-md);
-        }
-
-        .col-thursday {
-            background: linear-gradient(180deg, rgba(255, 152, 0, 0.06) 0%, rgba(255, 152, 0, 0.02) 100%);
-            border-radius: var(--radius-md);
-        }
-
-        .col-friday {
-            background: linear-gradient(180deg, rgba(156, 39, 176, 0.06) 0%, rgba(156, 39, 176, 0.02) 100%);
-            border-radius: var(--radius-md);
-        }
-
-        .day-header {
-            min-width: 180px;
-            position: relative;
-            overflow: hidden;
-            border-radius: var(--radius-lg);
-        }
-
-        /* 表头的现代化周几颜色 */
-        .day-header.day-monday {
-            background: linear-gradient(135deg, rgba(244, 67, 54, 0.9) 0%, rgba(229, 57, 53, 0.9) 100%);
-            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
-        }
-
-        .day-header.day-tuesday {
-            background: linear-gradient(135deg, rgba(33, 150, 243, 0.9) 0%, rgba(30, 136, 229, 0.9) 100%);
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
-        }
-
-        .day-header.day-wednesday {
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.9) 0%, rgba(67, 160, 71, 0.9) 100%);
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
-
-        .day-header.day-thursday {
-            background: linear-gradient(135deg, rgba(255, 152, 0, 0.9) 0%, rgba(251, 140, 0, 0.9) 100%);
-            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
-        }
-
-        .day-header.day-friday {
-            background: linear-gradient(135deg, rgba(156, 39, 176, 0.9) 0%, rgba(142, 36, 170, 0.9) 100%);
-            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
-        }
-
-        /* 今日表头呼吸灯效果 */
-        .day-header.today {
-            animation: breathingGlowWhite 3s ease-in-out infinite;
-            position: relative;
-            overflow: visible;
-        }
-
-        .day-header.today::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg,
-                    rgba(255, 255, 255, 0.3) 0%,
-                    rgba(255, 255, 255, 0.1) 50%,
-                    rgba(255, 255, 255, 0.3) 100%);
-            border-radius: inherit;
-            animation: breathingGlowWhite 3s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        .day-header.today::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: 8px;
-            transform: translateY(-50%);
-            font-size: 1.2rem;
-            animation: todayPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes breathingGlowWhite {
-
-            0%,
-            100% {
-                box-shadow:
-                    0 4px 15px rgba(255, 255, 255, 0.2),
-                    0 0 20px rgba(255, 255, 255, 0.1),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-                transform: scale(1);
-            }
-
-            50% {
-                box-shadow:
-                    0 6px 25px rgba(255, 255, 255, 0.4),
-                    0 0 40px rgba(255, 255, 255, 0.3),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-                transform: scale(1.02);
-            }
-        }
-
-        @keyframes todayPulse {
-
-            0%,
-            100% {
-                opacity: 0.7;
-                transform: translateY(-50%) scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: translateY(-50%) scale(1.1);
-            }
-        }
-
-        /* 现代化课程颜色主题 - 优化版本 */
-        [class*="course-"] {
-            color: #ffffff;
-            transition: all var(--transition-normal);
-        }
-
-        [class*="course-"]:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.1);
-        }
-
-        .course-spatial-db {
-            background: linear-gradient(135deg, rgba(63, 81, 181, 0.9) 0%, rgba(48, 63, 159, 0.7) 100%);
-            box-shadow: 0 6px 20px rgba(63, 81, 181, 0.3);
-        }
-
-        .course-gee {
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.9) 0%, rgba(56, 142, 60, 0.7) 100%);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
-        }
-
-        .course-spatial-analysis {
-            background: linear-gradient(135deg, rgba(156, 39, 176, 0.9) 0%, rgba(123, 31, 162, 0.7) 100%);
-            box-shadow: 0 6px 20px rgba(156, 39, 176, 0.3);
-        }
-
-        .course-gis-dev {
-            background: linear-gradient(135deg, rgba(244, 67, 54, 0.9) 0%, rgba(211, 47, 47, 0.7) 100%);
-            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.3);
-        }
-
-        .course-navigation {
-            background: linear-gradient(135deg, rgba(33, 150, 243, 0.9) 0%, rgba(25, 118, 210, 0.7) 100%);
-            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
-        }
-
-        .course-lidar {
-            background: linear-gradient(135deg, rgba(103, 58, 183, 0.9) 0%, rgba(81, 45, 168, 0.7) 100%);
-            box-shadow: 0 6px 20px rgba(103, 58, 183, 0.3);
-        }
-
-        .course-ml {
-            background: linear-gradient(135deg, rgba(233, 30, 99, 0.9) 0%, rgba(194, 24, 91, 0.7) 100%);
-            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.3);
-        }
-
-        .course-uav {
-            background: linear-gradient(135deg, rgba(0, 150, 136, 0.9) 0%, rgba(0, 121, 107, 0.7) 100%);
-            box-shadow: 0 6px 20px rgba(0, 150, 136, 0.3);
-        }
-
-        .course-photogrammetry {
-            background: linear-gradient(135deg, rgba(121, 85, 72, 0.9) 0%, rgba(93, 64, 55, 0.7) 100%);
-            box-shadow: 0 6px 20px rgba(121, 85, 72, 0.3);
-        }
-
-        /* 现代化合并单元格样式 - 去掉全包围边框 */
-        .merged-cell {
-            vertical-align: middle;
-            position: relative;
-            border-radius: var(--radius-lg);
-            border: none;
-            overflow: hidden;
-            transition: all var(--transition-normal);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 左侧色条装饰 */
-        .merged-cell::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
-            z-index: 2;
-            border-radius: 0 3px 3px 0;
-        }
-
-        /* 顶部微妙光效 */
-        .merged-cell::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 6px;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
-            z-index: 1;
-        }
-
-        .merged-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            text-align: center;
-            padding: var(--space-lg);
-            position: relative;
-            z-index: 3;
-        }
-
-        .merged-content .course-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: var(--space-sm);
-            line-height: 1.3;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-        .merged-content .course-location {
-            font-size: 0.9rem;
-            margin-bottom: var(--space-sm);
-            opacity: 0.9;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .course-duration {
-            font-size: 0.8rem;
-            background: rgba(255, 255, 255, 0.15);
-            padding: var(--space-xs) var(--space-md);
-            border-radius: var(--radius-full);
-            margin-top: var(--space-sm);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            font-weight: 600;
-        }
-
-        /* 课程悬停效果 - 更温和 */
-        .merged-cell:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .merged-cell:hover::before {
-            width: 8px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 100%);
-        }
-
-        /* 不同课程的现代化合并单元格左侧色条 */
-        .course-spatial-db.merged-cell::before {
-            background: linear-gradient(180deg, #3F51B5 0%, #5C6BC0 100%);
-            box-shadow: 2px 0 8px rgba(63, 81, 181, 0.3);
-        }
-
-        .course-gee.merged-cell::before {
-            background: linear-gradient(180deg, #4CAF50 0%, #66BB6A 100%);
-            box-shadow: 2px 0 8px rgba(76, 175, 80, 0.3);
-        }
-
-        .course-spatial-analysis.merged-cell::before {
-            background: linear-gradient(180deg, #9C27B0 0%, #BA68C8 100%);
-            box-shadow: 2px 0 8px rgba(156, 39, 176, 0.3);
-        }
-
-        .course-gis-dev.merged-cell::before {
-            background: linear-gradient(180deg, #F44336 0%, #EF5350 100%);
-            box-shadow: 2px 0 8px rgba(244, 67, 54, 0.3);
-        }
-
-        .course-navigation.merged-cell::before {
-            background: linear-gradient(180deg, #2196F3 0%, #64B5F6 100%);
-            box-shadow: 2px 0 8px rgba(33, 150, 243, 0.3);
-        }
-
-        .course-lidar.merged-cell::before {
-            background: linear-gradient(180deg, #673AB7 0%, #9575CD 100%);
-            box-shadow: 2px 0 8px rgba(103, 58, 183, 0.3);
-        }
-
-        .course-ml.merged-cell::before {
-            background: linear-gradient(180deg, #E91E63 0%, #F06292 100%);
-            box-shadow: 2px 0 8px rgba(233, 30, 99, 0.3);
-        }
-
-        .course-uav.merged-cell::before {
-            background: linear-gradient(180deg, #009688 0%, #4DB6AC 100%);
-            box-shadow: 2px 0 8px rgba(0, 150, 136, 0.3);
-        }
-
-        .course-photogrammetry.merged-cell::before {
-            background: linear-gradient(180deg, #795548 0%, #A1887F 100%);
-            box-shadow: 2px 0 8px rgba(121, 85, 72, 0.3);
-        }
-
-        /* 悬停时增强色条效果 */
-        .course-spatial-db.merged-cell:hover::before {
-            background: linear-gradient(180deg, #3F51B5 0%, #7986CB 100%);
-            box-shadow: 3px 0 12px rgba(63, 81, 181, 0.5);
-        }
-
-        .course-gee.merged-cell:hover::before {
-            background: linear-gradient(180deg, #4CAF50 0%, #81C784 100%);
-            box-shadow: 3px 0 12px rgba(76, 175, 80, 0.5);
-        }
-
-        .course-spatial-analysis.merged-cell:hover::before {
-            background: linear-gradient(180deg, #9C27B0 0%, #CE93D8 100%);
-            box-shadow: 3px 0 12px rgba(156, 39, 176, 0.5);
-        }
-
-        .course-gis-dev.merged-cell:hover::before {
-            background: linear-gradient(180deg, #F44336 0%, #FFAB91 100%);
-            box-shadow: 3px 0 12px rgba(244, 67, 54, 0.5);
-        }
-
-        .course-navigation.merged-cell:hover::before {
-            background: linear-gradient(180deg, #2196F3 0%, #90CAF9 100%);
-            box-shadow: 3px 0 12px rgba(33, 150, 243, 0.5);
-        }
-
-        .course-lidar.merged-cell:hover::before {
-            background: linear-gradient(180deg, #673AB7 0%, #B39DDB 100%);
-            box-shadow: 3px 0 12px rgba(103, 58, 183, 0.5);
-        }
-
-        .course-ml.merged-cell:hover::before {
-            background: linear-gradient(180deg, #E91E63 0%, #F8BBD9 100%);
-            box-shadow: 3px 0 12px rgba(233, 30, 99, 0.5);
-        }
-
-        .course-uav.merged-cell:hover::before {
-            background: linear-gradient(180deg, #009688 0%, #80CBC4 100%);
-            box-shadow: 3px 0 12px rgba(0, 150, 136, 0.5);
-        }
-
-        .course-photogrammetry.merged-cell:hover::before {
-            background: linear-gradient(180deg, #795548 0%, #D7CCC8 100%);
-            box-shadow: 3px 0 12px rgba(121, 85, 72, 0.5);
-        }
-
-        .period-cell {
-            background: var(--surface);
-            transition: all var(--transition-normal);
-            cursor: pointer;
-            min-height: 60px;
-            vertical-align: middle;
-        }
-
-        .period-cell:hover {
-            background: var(--surface-hover);
-            transform: scale(1.02);
-        }
-
-        .course-name {
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: var(--space-xs);
-        }
-
-        .course-location {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        /* 当前课程高亮 - 呼吸灯效果 */
-        .current-period {
-            background: linear-gradient(135deg,
-                    rgba(76, 175, 80, 0.18) 0%,
-                    rgba(129, 199, 132, 0.13) 50%,
-                    rgba(165, 214, 167, 0.09) 100%) !important;
-            animation: breathingGlow 2.8s ease-in-out infinite;
-            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.18), 0 2px 8px rgba(76, 175, 80, 0.10);
-        }
-
-
-
-        .current-period .course-name {
-            color: var(--text) !important;
-            font-weight: 600;
-        }
-
-        .current-period .course-location {
-            color: var(--text-muted) !important;
-        }
-
-        /* 呼吸灯动画 */
-        @keyframes breathingGlow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.18), 0 2px 8px rgba(76, 175, 80, 0.10);
-                transform: scale(1);
-            }
-
-            50% {
-                box-shadow: 0 0 16px 8px rgba(76, 175, 80, 0.22), 0 4px 16px rgba(76, 175, 80, 0.13);
-                transform: scale(1.025);
-            }
-        }
-
-        /* 现代化下节课程高亮 - 简化版本 */
-        .next-period {
-            background: linear-gradient(135deg,
-                    rgba(255, 152, 0, 0.2) 0%,
-                    rgba(255, 183, 77, 0.15) 50%,
-                    rgba(255, 204, 128, 0.1) 100%) !important;
-        }
-
-        .next-period .course-name {
-            color: var(--text) !important;
-            font-weight: 600;
-        }
-
-        .next-period .course-location {
-            color: var(--text-muted) !important;
-        }
-
-        /* 现代化通勤提醒高亮 - 简化版本 */
-        .commute-period {
-            background: linear-gradient(135deg,
-                    rgba(33, 150, 243, 0.2) 0%,
-                    rgba(100, 181, 246, 0.15) 50%,
-                    rgba(144, 202, 249, 0.1) 100%) !important;
-        }
-
-        .commute-period .course-name {
-            color: var(--text) !important;
-            font-weight: 600;
-        }
-
-        .commute-period .course-location {
-            color: var(--text-muted) !important;
-        }
-
-        /* 现代化动画效果 */
-        @keyframes currentPulse {
-
-            0%,
-            100% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.1);
-            }
-        }
-
-
-
-        /* Empty period */
-        .empty-period {
-            background: var(--surface);
-            color: transparent;
-            font-style: italic;
-        }
-
-        /* 现代化状态指示器布局 */
-        .status-indicators {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-xl);
-            margin-bottom: var(--space-xl);
-            flex-wrap: wrap;
-            padding: var(--space-lg);
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--radius-xl);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            padding: var(--space-md) var(--space-lg);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border-radius: var(--radius-lg);
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all var(--transition-normal);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .status-indicator::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .status-indicator:hover::before {
-            left: 100%;
-        }
-
-        .status-indicator:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .indicator-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            position: relative;
-            animation: dotPulse 2s infinite;
-        }
-
-        .current-dot {
-            background: linear-gradient(135deg, #4CAF50, #81C784);
-            box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
-        }
-
-        .next-dot {
-            background: linear-gradient(135deg, #FF9800, #FFB74D);
-            box-shadow: 0 0 20px rgba(255, 152, 0, 0.6);
-        }
-
-        .normal-dot {
-            background: linear-gradient(135deg, #64748B, #94A3B8);
-            box-shadow: 0 0 10px rgba(100, 116, 139, 0.4);
-        }
-
-        @keyframes dotPulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.2);
-                opacity: 0.8;
-            }
-        }
-
-        /* 响应式设计优化 */
-        @media (max-width: 768px) {
-            .schedule-container {
-                padding: var(--space-lg) var(--space-xs);
-            }
-
-            .schedule-title {
-                font-size: clamp(1.5rem, 6vw, 2.5rem);
-                margin-bottom: var(--space-lg);
-            }
-
-            .current-time {
-                padding: var(--space-sm);
-                font-size: 0.875rem;
-            }
-
-            .status-indicators {
-                flex-direction: column;
-                align-items: center;
-                gap: var(--space-md);
-                margin-bottom: var(--space-lg);
-                padding: var(--space-md);
-            }
-
-            .status-indicator {
-                padding: var(--space-sm) var(--space-md);
-                font-size: 0.8rem;
-                width: 100%;
-                max-width: 280px;
-                justify-content: center;
-            }
-
-            .indicator-dot {
-                width: 14px;
-                height: 14px;
-            }
-
-            .table-wrapper {
-                font-size: 0.75rem;
-                border-radius: var(--radius-lg);
-                overflow: hidden;
-            }
-
-            th,
-            td {
-                padding: var(--space-xs);
-                min-height: 45px;
-            }
-
-            .day-header {
-                min-width: 80px;
-                font-size: 0.75rem;
-                padding: var(--space-sm) var(--space-xs);
-            }
-
-            .time-slot {
-                min-width: 60px;
-                font-size: 0.7rem;
-                padding: var(--space-xs);
-            }
-
-            .course-cell {
-                font-size: 0.7rem;
-                min-height: 40px;
-                padding: var(--space-xs);
-            }
-
-            .course-name {
-                font-size: 0.7rem;
-                margin-bottom: 2px;
-            }
-
-            .course-location {
-                font-size: 0.65rem;
-            }
-
-            .merged-content {
-                padding: var(--space-sm);
-                gap: var(--space-xs);
-            }
-
-            .merged-content .course-name {
-                font-size: 0.9rem;
-                margin-bottom: var(--space-xs);
-            }
-
-            .merged-content .course-location {
-                font-size: 0.75rem;
-            }
-
-            .course-duration {
-                font-size: 0.7rem;
-                padding: 2px var(--space-sm);
-            }
-
-            /* 移动端动画优化 */
-            .current-period,
-            .next-period,
-            .commute-period {
-                animation-duration: 4s;
-            }
-
-            .merged-cell:hover {
-                transform: translateY(-2px) scale(1.01);
-            }
-        }
-
-        /* 超小屏幕优化 */
-        @media (max-width: 480px) {
-            .schedule-container {
-                padding: var(--space-md) var(--space-xs);
-            }
-
-            .schedule-title {
-                font-size: 1.5rem;
-                margin-bottom: var(--space-md);
-            }
-
-            .status-indicators {
-                padding: var(--space-sm);
-                gap: var(--space-sm);
-            }
-
-            .status-indicator {
-                padding: var(--space-xs) var(--space-sm);
-                font-size: 0.75rem;
-            }
-
-            .table-wrapper {
-                font-size: 0.7rem;
-            }
-
-            .day-header {
-                min-width: 70px;
-                font-size: 0.7rem;
-            }
-
-            .time-slot {
-                min-width: 50px;
-                font-size: 0.65rem;
-            }
-
-            .course-cell {
-                min-height: 35px;
-                padding: 2px;
-            }
-
-            .course-name {
-                font-size: 0.65rem;
-            }
-
-            .course-location {
-                font-size: 0.6rem;
-                line-height: 1.1;
-            }
-
-            .period-cell {
-                min-height: 45px;
-                padding: var(--space-xs);
-            }
-
-            /* 移动端合并课程优化 */
-            .merged-content {
-                padding: var(--space-sm);
-            }
-
-            .merged-content .course-name {
-                font-size: 0.8rem;
-                margin-bottom: var(--space-xs);
-            }
-
-            .merged-content .course-location {
-                font-size: 0.7rem;
-            }
-
-            .course-duration {
-                font-size: 0.65rem;
-                padding: 2px var(--space-xs);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .schedule-container {
-                padding: var(--space-md) var(--space-xs);
-            }
-
-            .navbar__container {
-                padding: 0 var(--space-sm);
-            }
-
-            .table-wrapper {
-                font-size: 0.7rem;
-            }
-
-            th,
-            td {
-                padding: 2px;
-                min-height: 40px;
-            }
-
-            .day-header {
-                min-width: 60px;
-                font-size: 0.7rem;
-            }
-
-            .time-column {
-                min-width: 70px;
-                font-size: 0.65rem;
-            }
-
-            .course-name {
-                font-size: 0.65rem;
-                margin-bottom: 1px;
-            }
-
-            .course-location {
-                font-size: 0.55rem;
-            }
-
-            .period-cell {
-                min-height: 40px;
-                padding: 2px;
-            }
-
-            .status-indicators {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .status-indicator {
-                padding: var(--space-xs);
-                font-size: 0.7rem;
-                margin: 2px;
-            }
-
-            /* 超小屏幕的合并课程优化 */
-            .merged-content {
-                padding: var(--space-xs);
-            }
-
-            .merged-content .course-name {
-                font-size: 0.75rem;
-                margin-bottom: 2px;
-                line-height: 1.2;
-            }
-
-            .merged-content .course-location {
-                font-size: 0.65rem;
-                margin-bottom: 2px;
-            }
-
-            .course-duration {
-                font-size: 0.6rem;
-                padding: 1px var(--space-xs);
-                margin-top: 2px;
-            }
-        }
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1030;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            height: 4.5rem;
-            transition: all var(--transition-normal);
-        }
-
-        .navbar__container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 4.5rem;
-            max-width: min(1400px, calc(100vw - 2rem));
-            margin: 0 auto;
-            padding: 0 var(--space-md);
-        }
-
-        .navbar__brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text);
-            text-decoration: none;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        main {
-            margin-top: 4.5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="css/schedule.css?v=20260728-2">
     <script src="/Pages/navbar-widgets/index.js" defer></script>
 </head>
 
-<body>
-    <!-- 导航栏 -->
+<body class="schedule-page">
     <header class="navbar">
         <div class="navbar__container">
-            <a href="../index.html" class="navbar__brand">NEGIAO</a>
-            <a href="../index.html" class="btn btn--secondary">
-                <i class="fas fa-home"></i> 返回首页
+            <a href="../index.html" class="schedule-brand" aria-label="返回 NEGIAO 首页">
+                <span class="schedule-brand__mark" aria-hidden="true">N</span>
+                <span class="schedule-brand__text">NEGIAO</span>
+            </a>
+            <a href="../index.html" class="schedule-home" aria-label="返回首页">
+                <i class="fas fa-home" aria-hidden="true"></i>
+                <span>返回首页</span>
             </a>
         </div>
     </header>
 
-    <main>
-        <div class="schedule-container">
-            <!-- 页面标题 -->
-            <div class="schedule-header">
-                <h1 class="schedule-title">📅 课程表</h1>
-                <div class="current-time" id="currentTime">
-                    <i class="fas fa-clock"></i>
-                    <span id="timeDisplay">加载中...</span>
-                </div>
+    <main class="schedule-main">
+        <section class="schedule-hero" aria-labelledby="scheduleTitle">
+            <div>
+                <p class="schedule-eyebrow">学习日程</p>
+                <h1 class="schedule-title" id="scheduleTitle">本周课程表</h1>
+                <p class="schedule-subtitle">集中查看课程时间、上课地点与当日进度，当前课程和下一节安排会自动更新。</p>
             </div>
+            <div class="live-clock" role="status" aria-live="polite">
+                <span class="live-clock__icon" aria-hidden="true"><i class="fas fa-clock"></i></span>
+                <span class="live-clock__content">
+                    <span class="live-clock__label">当前时间</span>
+                    <span class="live-clock__value" id="timeDisplay">正在获取当前时间...</span>
+                </span>
+            </div>
+        </section>
 
-            <!-- 状态指示器 -->
-            <div class="status-indicators">
-                <div class="status-indicator">
-                    <div class="indicator-dot current-dot"></div>
-                    <span>当前课程</span>
+        <section class="schedule-overview" aria-label="课程概览">
+            <article class="schedule-summary schedule-summary--current">
+                <div class="schedule-summary__top">
+                    <span class="schedule-summary__label"><i class="fas fa-circle-play" aria-hidden="true"></i>当前状态</span>
+                    <span class="schedule-summary__state" id="currentCourseState">实时</span>
                 </div>
-                <div class="status-indicator">
-                    <div class="indicator-dot next-dot"></div>
-                    <span>下节课</span>
+                <p class="schedule-summary__value" id="currentCourseText">正在判断课程状态...</p>
+                <span class="schedule-summary__meta" id="currentCourseMeta">请稍候</span>
+            </article>
+            <article class="schedule-summary schedule-summary--next">
+                <div class="schedule-summary__top">
+                    <span class="schedule-summary__label"><i class="fas fa-forward-step" aria-hidden="true"></i>下一节课</span>
+                    <span class="schedule-summary__state">自动更新</span>
                 </div>
-                <div class="status-indicator">
-                    <div class="indicator-dot"
-                        style="background: var(--accent-secondary); box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);">
-                    </div>
-                    <span>通勤提醒 (40分钟内)</span>
+                <p class="schedule-summary__value" id="nextCourseText">正在读取课程安排...</p>
+                <span class="schedule-summary__meta" id="nextCourseMeta">请稍候</span>
+            </article>
+            <article class="schedule-summary schedule-summary--week">
+                <div class="schedule-summary__top">
+                    <span class="schedule-summary__label"><i class="fas fa-calendar-week" aria-hidden="true"></i>本周概览</span>
+                    <span class="schedule-summary__state">周一至周五</span>
                 </div>
-            </div>
+                <p class="schedule-summary__value">9 门课程</p>
+                <span class="schedule-summary__meta">覆盖 13 个上课时段，地点与连续课时均已标注</span>
+            </article>
+        </section>
 
-            <!-- 课程表 -->
-            <div class="schedule-table">
-                <div class="table-wrapper">
-                    <table id="scheduleTable">
-                        <thead>
-                            <tr>
-                                <th class="time-column">时间</th>
-                                <th class="day-header day-monday">周一</th>
-                                <th class="day-header day-tuesday">周二</th>
-                                <th class="day-header day-wednesday">周三</th>
-                                <th class="day-header day-thursday">周四</th>
-                                <th class="day-header day-friday">周五</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scheduleBody">
-                            <!-- 课程表内容将通过JavaScript动态生成 -->
-                        </tbody>
-                    </table>
+        <section class="schedule-panel" aria-labelledby="weeklyScheduleTitle">
+            <div class="schedule-panel__header">
+                <div class="schedule-panel__heading">
+                    <h2 class="schedule-panel__title" id="weeklyScheduleTitle"><i class="fas fa-table-cells-large" aria-hidden="true"></i>每周安排</h2>
+                    <p class="schedule-panel__description">时间按每日教学节次排列，连续课程会自动合并显示。</p>
+                </div>
+                <div class="status-indicators" aria-label="课程状态图例">
+                    <span class="status-indicator"><span class="indicator-dot current-dot"></span>当前课程</span>
+                    <span class="status-indicator"><span class="indicator-dot next-dot"></span>下一节课</span>
+                    <span class="status-indicator"><span class="indicator-dot commute-dot"></span>40 分钟内需出发</span>
                 </div>
             </div>
-        </div>
+            <div class="schedule-scroll-hint" aria-hidden="true"><i class="fas fa-arrows-left-right"></i>左右滑动查看完整课程表</div>
+            <div class="table-wrapper" tabindex="0" aria-label="可横向滚动的课程表">
+                <table class="schedule-table" id="scheduleTable">
+                    <caption class="sr-only">周一至周五课程时间表</caption>
+                    <thead>
+                        <tr>
+                            <th class="time-column" scope="col">时间</th>
+                            <th class="day-header day-monday" data-day="1" scope="col">周一</th>
+                            <th class="day-header day-tuesday" data-day="2" scope="col">周二</th>
+                            <th class="day-header day-wednesday" data-day="3" scope="col">周三</th>
+                            <th class="day-header day-thursday" data-day="4" scope="col">周四</th>
+                            <th class="day-header day-friday" data-day="5" scope="col">周五</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody"><!-- 课程表内容由 JavaScript 动态生成 --></tbody>
+                </table>
+            </div>
+            <div class="schedule-panel__footer">
+                <span><i class="fas fa-location-dot" aria-hidden="true"></i>地点信息以课程安排中的教室为准</span>
+                <span><i class="fas fa-rotate" aria-hidden="true"></i>课程状态每分钟自动刷新</span>
+            </div>
+        </section>
     </main>
 
     <script>
@@ -1195,7 +203,12 @@
         const domCache = {
             timeDisplay: null,
             scheduleBody: null,
-            dayHeaders: null
+            dayHeaders: null,
+            currentCourseText: null,
+            currentCourseMeta: null,
+            currentCourseState: null,
+            nextCourseText: null,
+            nextCourseMeta: null
         };
 
         const timeCache = new Map(); // 缓存时间转换结果
@@ -1220,15 +233,18 @@
         // 优化的更新当前时间显示函数
         function updateCurrentTime() {
             const now = new Date();
-            const timeString = now.toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
+            const datePart = now.toLocaleDateString('zh-CN', {
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+            const timePart = now.toLocaleTimeString('zh-CN', {
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
-                weekday: 'long'
+                hour12: false
             });
+            const timeString = `${datePart} · ${timePart}`;
 
             // 使用缓存的DOM元素
             if (!domCache.timeDisplay) {
@@ -1338,6 +354,60 @@
             };
         }
 
+        // 更新页面顶部的当前课程与下一节课概览。
+        function updateStatusSummary(status) {
+            const now = new Date();
+            const currentDay = now.getDay();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+
+            if (!domCache.currentCourseText) {
+                domCache.currentCourseText = document.getElementById('currentCourseText');
+                domCache.currentCourseMeta = document.getElementById('currentCourseMeta');
+                domCache.currentCourseState = document.getElementById('currentCourseState');
+                domCache.nextCourseText = document.getElementById('nextCourseText');
+                domCache.nextCourseMeta = document.getElementById('nextCourseMeta');
+            }
+
+            if (currentDay < 1 || currentDay > 5) {
+                domCache.currentCourseText.textContent = '今天没有课程';
+                domCache.currentCourseMeta.textContent = '周末可以整理学习计划或适当休息';
+                domCache.currentCourseState.textContent = '休息日';
+                domCache.nextCourseText.textContent = '下周一：空间数据库';
+                domCache.nextCourseMeta.textContent = '10:00–11:40 · 113机房';
+                return;
+            }
+
+            if (status.current) {
+                const startSlot = timeSlots.find(slot => slot.period === status.current.startPeriod);
+                const endSlot = timeSlots.find(slot => slot.period === status.current.endPeriod);
+                domCache.currentCourseText.textContent = status.current.courseName;
+                domCache.currentCourseMeta.textContent = `${startSlot.start}–${endSlot.end} · ${status.current.location}`;
+                domCache.currentCourseState.textContent = '进行中';
+            } else {
+                domCache.currentCourseText.textContent = '当前没有课程';
+                domCache.currentCourseState.textContent = '课间';
+                if (status.next) {
+                    const minutesUntilNext = status.next.startTime - currentTime;
+                    domCache.currentCourseMeta.textContent = minutesUntilNext > 0
+                        ? `距离下一节课还有 ${minutesUntilNext} 分钟`
+                        : '今日课程状态正在更新';
+                } else {
+                    domCache.currentCourseMeta.textContent = '今天的课程已经结束';
+                    domCache.currentCourseState.textContent = '已结束';
+                }
+            }
+
+            if (status.next) {
+                const startSlot = timeSlots.find(slot => slot.period === status.next.startPeriod);
+                const endSlot = timeSlots.find(slot => slot.period === status.next.endPeriod);
+                domCache.nextCourseText.textContent = status.next.courseName;
+                domCache.nextCourseMeta.textContent = `${startSlot.start}–${endSlot.end} · ${status.next.location}`;
+            } else {
+                domCache.nextCourseText.textContent = '今天暂无后续课程';
+                domCache.nextCourseMeta.textContent = '可以安排复习或自由时间';
+            }
+        }
+
         // 优化的课程表生成函数
         function generateScheduleTable() {
             // 缓存DOM元素
@@ -1347,6 +417,7 @@
 
             const tbody = domCache.scheduleBody;
             const status = getCurrentPeriodStatus();
+            updateStatusSummary(status);
 
             tbody.innerHTML = '';
 
@@ -1365,7 +436,7 @@
                 // 创建时间列
                 const timeCell = document.createElement('td');
                 timeCell.className = `time-column ${timeClasses[timeIndex]}`;
-                timeCell.innerHTML = `<strong>第${slot.period}节</strong><br>${slot.start} - ${slot.end}`;
+                timeCell.innerHTML = `<strong>第${slot.period}节</strong><span>${slot.start}–${slot.end}</span>`;
                 row.appendChild(timeCell);
 
                 // 处理周一到周五的课程
@@ -1488,6 +559,11 @@
             domCache.timeDisplay = document.getElementById('timeDisplay');
             domCache.scheduleBody = document.getElementById('scheduleBody');
             domCache.dayHeaders = document.querySelectorAll('.day-header');
+            domCache.currentCourseText = document.getElementById('currentCourseText');
+            domCache.currentCourseMeta = document.getElementById('currentCourseMeta');
+            domCache.currentCourseState = document.getElementById('currentCourseState');
+            domCache.nextCourseText = document.getElementById('nextCourseText');
+            domCache.nextCourseMeta = document.getElementById('nextCourseMeta');
 
             // 初始加载
             updateCurrentTime();
@@ -1533,12 +609,18 @@
                 isWindowFocused = false;
             });
 
-            // 移动端优化：自动滚动到今天
+            // 移动端仅横向定位到今天，避免页面加载后发生纵向跳转。
             if (window.innerWidth < 768) {
                 setTimeout(() => {
                     const todayHeader = document.querySelector('.day-header.today');
-                    if (todayHeader) {
-                        todayHeader.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    const tableWrapper = document.querySelector('.table-wrapper');
+                    if (todayHeader && tableWrapper) {
+                        const targetLeft = todayHeader.offsetLeft
+                            - (tableWrapper.clientWidth - todayHeader.offsetWidth) / 2;
+                        tableWrapper.scrollTo({
+                            left: Math.max(0, targetLeft),
+                            behavior: 'smooth'
+                        });
                     }
                 }, 500);
             }

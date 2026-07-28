@@ -1,3 +1,7 @@
+/**
+ * notes-toc.js — 文章目录生成器
+ * UI 对齐 note-viewer 设计语言：毛玻璃侧边栏 + 层级缩进 + active 路径追踪
+ */
 (function () {
   'use strict';
 
@@ -62,40 +66,28 @@
 
   function ensureHeadingIds(headings) {
     const usedIds = new Set(Array.from(document.querySelectorAll('[id]')).map((el) => el.id));
-
     headings.forEach((heading) => {
-      if (heading.id) {
-        return;
-      }
-
+      if (heading.id) return;
       const base = slugify(heading.textContent) || 'section';
       let finalId = base;
       let counter = 2;
-
       while (usedIds.has(finalId)) {
         finalId = `${base}-${counter++}`;
       }
-
       heading.id = finalId;
       usedIds.add(finalId);
     });
   }
 
   function setTocState(kind) {
-    if (!state.tocRootEl) {
-      return;
-    }
-
+    if (!state.tocRootEl) return;
     state.tocRootEl.classList.toggle('note-toc--empty', kind === 'empty');
     state.tocRootEl.classList.toggle('note-toc--ready', kind === 'ready');
   }
 
   function setToggleAvailability(hasToc) {
     const toggle = document.getElementById('toc-toggle-btn');
-    if (!toggle) {
-      return;
-    }
-
+    if (!toggle) return;
     toggle.hidden = !hasToc;
     toggle.disabled = !hasToc;
     toggle.setAttribute('aria-disabled', hasToc ? 'false' : 'true');
@@ -114,7 +106,6 @@
     resetMaps();
     setTocState('empty');
     setToggleAvailability(false);
-
     state.tocNavEl.innerHTML = '';
 
     const empty = document.createElement('div');
@@ -175,15 +166,15 @@
     event.preventDefault();
     event.stopPropagation();
     const item = event.currentTarget.closest('.note-toc__item');
-    if (!item) {
-      return;
-    }
+    if (!item) return;
     setItemExpanded(item, !item.classList.contains('is-expanded'));
   }
 
   function renderTreeNodes(nodes, options = {}) {
     const list = document.createElement('ul');
-    list.className = options.isRoot ? 'note-toc__list note-toc__list--root' : 'note-toc__list note-toc__list--children';
+    list.className = options.isRoot
+      ? 'note-toc__list note-toc__list--root'
+      : 'note-toc__list note-toc__list--children';
 
     nodes.forEach((node, index) => {
       const hasChildren = node.children.length > 0;
@@ -229,6 +220,7 @@
 
       list.appendChild(li);
 
+      // 默认展开第一个有子级的顶级节点
       if (options.isRoot && index === 0 && hasChildren) {
         requestFrame(() => setItemExpanded(li, true));
       }
@@ -246,9 +238,12 @@
     const tree = createHeadingTree(headings);
 
     title.className = 'note-toc__title';
+
     accent.className = 'toc-accent';
     accent.setAttribute('aria-hidden', 'true');
+
     label.textContent = '文章目录';
+
     count.className = 'note-toc__count';
     count.textContent = String(headings.length);
 
@@ -285,43 +280,29 @@
   }
 
   function scrollLinkIntoViewIfNeeded(link) {
-    if (!state.tocNavEl || !link || state.isUserTocScrolling) {
-      return;
-    }
+    if (!state.tocNavEl || !link || state.isUserTocScrolling) return;
 
     const linkRect = link.getBoundingClientRect();
     const navRect = state.tocNavEl.getBoundingClientRect();
     const isAbove = linkRect.top < navRect.top + 12;
     const isBelow = linkRect.bottom > navRect.bottom - 12;
 
-    if (!isAbove && !isBelow) {
-      return;
-    }
+    if (!isAbove && !isBelow) return;
 
-    link.scrollIntoView({
-      block: 'nearest',
-      behavior: prefersReducedMotion() ? 'auto' : 'smooth'
-    });
+    link.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   }
 
   function setActive(id, options = {}) {
     const scrollNav = options.scrollNav !== false;
-
-    if (!id) {
-      return;
-    }
+    if (!id) return;
 
     const nextLink = state.linksById.get(id);
-    if (!nextLink) {
-      return;
-    }
+    if (!nextLink) return;
 
     if (id === state.activeId) {
       clearActivePath();
       expandActivePath(id);
-      if (scrollNav) {
-        scrollLinkIntoViewIfNeeded(nextLink);
-      }
+      if (scrollNav) scrollLinkIntoViewIfNeeded(nextLink);
       return;
     }
 
@@ -338,21 +319,18 @@
     state.activeId = id;
     state.activeLink = nextLink;
 
-    if (scrollNav) {
-      scrollLinkIntoViewIfNeeded(nextLink);
-    }
+    if (scrollNav) scrollLinkIntoViewIfNeeded(nextLink);
   }
 
   function pickActiveHeadingId() {
-    if (!state.headingPositions.length) {
-      return null;
-    }
+    if (!state.headingPositions.length) return null;
 
     const scrollY = window.scrollY || document.documentElement.scrollTop;
     const readLine = scrollY + getHeaderOffset();
     const viewportBottom = window.innerHeight + scrollY;
     const docHeight = document.documentElement.scrollHeight;
 
+    // 页面底部 → 最后一个标题
     if (viewportBottom >= docHeight - 32) {
       return state.headingPositions[state.headingPositions.length - 1].id;
     }
@@ -372,27 +350,20 @@
   function updateActiveFromScroll() {
     state.scrollRaf = 0;
     const activeId = pickActiveHeadingId();
-    if (activeId) {
-      setActive(activeId);
-    }
+    if (activeId) setActive(activeId);
   }
 
   function scheduleActiveUpdate() {
-    if (state.scrollRaf) {
-      return;
-    }
+    if (state.scrollRaf) return;
     state.scrollRaf = requestFrame(updateActiveFromScroll);
   }
 
   function handleTocClick(event) {
     event.preventDefault();
-
     const link = event.currentTarget;
     const id = link.dataset.headingId;
     const target = document.getElementById(id);
-    if (!target) {
-      return;
-    }
+    if (!target) return;
 
     const targetTop = target.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
     window.scrollTo({
@@ -400,15 +371,10 @@
       behavior: prefersReducedMotion() ? 'auto' : 'smooth'
     });
 
-    if (!target.hasAttribute('tabindex')) {
-      target.setAttribute('tabindex', '-1');
-    }
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
     target.focus({ preventScroll: true });
 
-    if (history.pushState) {
-      history.pushState(null, '', `#${id}`);
-    }
-
+    if (history.pushState) history.pushState(null, '', `#${id}`);
     setActive(id, { scrollNav: false });
   }
 
@@ -421,15 +387,9 @@
   }
 
   function clear() {
-    if (!state.tocNavEl) {
-      state.tocNavEl = document.querySelector(TOC_NAV_SELECTOR);
-    }
-    if (!state.tocRootEl) {
-      state.tocRootEl = document.querySelector(TOC_ROOT_SELECTOR);
-    }
-    if (state.tocNavEl) {
-      renderEmptyState();
-    }
+    if (!state.tocNavEl) state.tocNavEl = document.querySelector(TOC_NAV_SELECTOR);
+    if (!state.tocRootEl) state.tocRootEl = document.querySelector(TOC_ROOT_SELECTOR);
+    if (state.tocNavEl) renderEmptyState();
   }
 
   function build() {
@@ -437,9 +397,7 @@
     state.tocRootEl = document.querySelector(TOC_ROOT_SELECTOR);
     state.tocNavEl = document.querySelector(TOC_NAV_SELECTOR);
 
-    if (!state.contentEl || !state.tocNavEl) {
-      return;
-    }
+    if (!state.contentEl || !state.tocNavEl) return;
 
     const headings = Array.from(state.contentEl.querySelectorAll(HEADING_SELECTOR));
     state.headings = headings;
@@ -458,11 +416,8 @@
     updateActiveFromScroll();
   }
 
-  function refresh() {
-    build();
-  }
+  function refresh() { build(); }
 
-  // 阅读进度条保留为兼容行为，但与目录构建解耦，避免重复创建。
   function initProgressBar() {
     if (state.progressInitialized || document.getElementById('scroll-progress')) {
       state.progressInitialized = true;
@@ -471,16 +426,16 @@
 
     const progressBar = document.createElement('div');
     progressBar.id = 'scroll-progress';
-    progressBar.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:var(--gradient-primary);width:0%;z-index:99999;transition:width .1s ease-out;box-shadow:0 0 10px rgba(0,217,255,.5);';
+    progressBar.style.cssText =
+      'position:fixed;top:0;left:0;height:3px;background:var(--gradient-primary);' +
+      'width:0%;z-index:99999;transition:width .1s ease-out;box-shadow:0 0 10px rgba(0,217,255,.5);';
     document.body.appendChild(progressBar);
 
     const updateProgress = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      requestFrame(() => {
-        progressBar.style.width = `${scrollPercent}%`;
-      });
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      requestFrame(() => { progressBar.style.width = `${pct}%`; });
     };
 
     window.addEventListener('scroll', updateProgress, { passive: true });
@@ -490,14 +445,10 @@
   function destroy() {
     window.removeEventListener('scroll', scheduleActiveUpdate);
     window.removeEventListener('resize', handleResize);
-    if (state.tocNavEl) {
-      state.tocNavEl.removeEventListener('scroll', onTocNavScroll);
-    }
+    if (state.tocNavEl) state.tocNavEl.removeEventListener('scroll', onTocNavScroll);
     clearTimeout(state.resizeTimer);
     clearTimeout(state.userScrollTimer);
-    if (state.scrollRaf) {
-      window.cancelAnimationFrame(state.scrollRaf);
-    }
+    if (state.scrollRaf) window.cancelAnimationFrame(state.scrollRaf);
     state.initialized = false;
   }
 
@@ -510,21 +461,15 @@
   }
 
   function init() {
-    if (state.initialized) {
-      return;
-    }
-
+    if (state.initialized) return;
     state.initialized = true;
-    const skipBuild = !!window._skipNoteViewerTOCBuild;
 
     const execute = () => {
       state.tocNavEl = document.querySelector(TOC_NAV_SELECTOR);
       if (state.tocNavEl) {
         state.tocNavEl.addEventListener('scroll', onTocNavScroll, { passive: true });
       }
-      if (!skipBuild) {
-        build();
-      }
+      build();
       initProgressBar();
     };
 
@@ -538,17 +483,8 @@
     window.addEventListener('resize', handleResize, { passive: true });
   }
 
-  const controller = {
-    init,
-    build,
-    refresh,
-    clear,
-    destroy,
-    setActive
-  };
-
   init();
 
-  window.NoteTOC = controller;
-  window.buildNoteTOC = () => controller.refresh();
+  window.NoteTOC = { init, build, refresh, clear, destroy, setActive };
+  window.buildNoteTOC = () => refresh();
 })();

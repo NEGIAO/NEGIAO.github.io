@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NEGIAO英语单词测试系统 - 随机测验，巩固记忆">
     <meta name="author" content="NEGIAO">
-    <meta name="theme-color" content="#0D1117">
+    <meta name="theme-color" content="#0A0E13">
 
     <title>单词测试 - NEGIAO</title>
     <link rel="icon" type="image/webp" href="/images/icon.webp">
@@ -14,299 +14,423 @@
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
+        /* ============================
+           Word Quiz - Modern Glass UI
+           ============================ */
+
         body {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            background: var(--background);
         }
 
-        .quiz-container {
+        /* ---- Layout ---- */
+        .quiz-layout {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            max-width: 800px;
+            padding: var(--space-xl) var(--space-md);
+            max-width: 720px;
             margin: 0 auto;
             width: 100%;
+            gap: var(--space-xl);
         }
 
+        /* ---- Header ---- */
         .quiz-header {
             text-align: center;
-            margin-bottom: 30px;
+        }
+
+        .quiz-header__icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-xl);
+            background: var(--gradient-primary);
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: var(--space-md);
+            box-shadow: var(--shadow-glow);
         }
 
         .quiz-header h1 {
-            font-size: 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+            letter-spacing: -0.02em;
         }
 
         .quiz-header p {
             color: var(--text-muted);
+            margin-top: var(--space-xs);
+            font-size: 0.9rem;
         }
 
-        /* Word test container styles */
-        .word-test-container {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 16px;
-            padding: 24px;
+        /* ---- Main Card (Glass) ---- */
+        .quiz-card {
             width: 100%;
-            max-width: 600px;
-            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--glass-shadow);
+            padding: var(--space-2xl);
+            position: relative;
+            overflow: hidden;
         }
 
-        .word-test-container h2 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: white;
-            font-weight: 600;
-            font-size: 1.5rem;
+        /* subtle top accent line */
+        .quiz-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px 3px 0 0;
         }
 
-        .test-stats {
+        /* ---- Progress ---- */
+        .quiz-progress {
+            display: none;
+            margin-bottom: var(--space-lg);
+        }
+
+        .quiz-progress__bar {
+            height: 4px;
+            background: var(--surface-elevated);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .quiz-progress__fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quiz-progress__text {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: var(--space-xs);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ---- Stats Row ---- */
+        .quiz-stats {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
             flex-wrap: wrap;
         }
 
-        .stat-item {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
+        .quiz-stat {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-md);
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
             font-weight: 500;
-            color: white;
-            backdrop-filter: blur(10px);
+            color: var(--text-secondary);
+            transition: all var(--transition-slow);
         }
 
-        .test-card {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            color: #333;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        .quiz-stat i {
+            font-size: 0.75rem;
         }
 
-        .test-question h3 {
-            font-size: 32px;
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 10px;
+        .quiz-stat--correct i { color: var(--success); }
+        .quiz-stat--wrong i   { color: var(--danger); }
+        .quiz-stat--acc i     { color: var(--primary); }
+
+        .quiz-stat__value {
+            font-variant-numeric: tabular-nums;
             font-weight: 700;
-            letter-spacing: 1px;
+            color: var(--text);
         }
 
-        .question-text {
+        /* ---- Word Display ---- */
+        .quiz-word-area {
             text-align: center;
-            color: #7f8c8d;
-            margin-bottom: 25px;
-            font-size: 16px;
+            margin-bottom: var(--space-xl);
         }
 
-        .test-options {
+        .quiz-word {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .quiz-word--placeholder {
+            color: var(--text-disabled);
+            font-weight: 600;
+        }
+
+        .quiz-hint {
+            margin-top: var(--space-sm);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ---- Options Grid ---- */
+        .quiz-options {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xl);
         }
 
-        .option-btn {
-            padding: 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            background: white;
-            color: #333;
+        .quiz-option {
+            position: relative;
+            padding: var(--space-md) var(--space-lg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 15px;
+            transition: all var(--transition-slow);
             text-align: center;
-            min-height: 60px;
+            min-height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
+            line-height: 1.4;
+            overflow: hidden;
         }
 
-        .option-btn:hover {
-            border-color: #667eea;
-            background: #f8f9fa;
+        .quiz-option:hover:not(.quiz-option--disabled) {
+            border-color: var(--primary);
+            background: var(--surface-elevated);
+            color: var(--text);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 4px 16px rgba(0, 217, 255, 0.12);
         }
 
-        .option-btn.correct {
-            border-color: #28a745;
-            background: #d4edda;
-            color: #155724;
+        .quiz-option:active:not(.quiz-option--disabled) {
+            transform: translateY(0);
         }
 
-        .option-btn.wrong {
-            border-color: #dc3545;
-            background: #f8d7da;
-            color: #721c24;
+        /* Correct */
+        .quiz-option--correct {
+            border-color: var(--success) !important;
+            background: rgba(81, 207, 102, 0.12) !important;
+            color: var(--success) !important;
+            box-shadow: 0 0 20px rgba(81, 207, 102, 0.15);
         }
 
-        .option-btn.disabled {
+        /* Wrong */
+        .quiz-option--wrong {
+            border-color: var(--danger) !important;
+            background: rgba(255, 107, 107, 0.12) !important;
+            color: var(--danger) !important;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.15);
+        }
+
+        /* Disabled after answer */
+        .quiz-option--disabled {
             pointer-events: none;
-            opacity: 0.7;
+            opacity: 0.5;
         }
 
-        .test-controls {
+        .quiz-option--correct.quiz-option--disabled,
+        .quiz-option--wrong.quiz-option--disabled {
+            opacity: 1;
+        }
+
+        /* ---- Feedback Toast ---- */
+        .quiz-feedback {
+            display: none;
             text-align: center;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: var(--space-md);
+            animation: feedbackSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quiz-feedback--correct {
+            background: rgba(81, 207, 102, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(81, 207, 102, 0.25);
+        }
+
+        .quiz-feedback--wrong {
+            background: rgba(255, 107, 107, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(255, 107, 107, 0.25);
+        }
+
+        @keyframes feedbackSlide {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---- Controls ---- */
+        .quiz-controls {
             display: flex;
-            gap: 12px;
+            gap: var(--space-sm);
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .test-result {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 16px;
-            font-weight: 500;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .test-result.correct {
-            color: #155724;
-            background: #d4edda;
-        }
-
-        .test-result.wrong {
-            color: #721c24;
-            background: #f8d7da;
-        }
-
-        .btn-quiz {
-            padding: 12px 24px;
+        .quiz-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-sm) var(--space-lg);
             border: none;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            transition: all var(--transition-slow);
+            white-space: nowrap;
         }
 
-        .btn-primary {
-            background: #667eea;
-            color: white;
+        .quiz-btn--primary {
+            background: var(--gradient-primary);
+            color: #fff;
+            box-shadow: var(--shadow-glow);
         }
 
-        .btn-primary:hover {
-            background: #5a6fd8;
+        .quiz-btn--primary:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 217, 255, 0.35);
         }
 
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
+        .quiz-btn--secondary {
+            background: var(--surface-elevated);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
         }
 
-        .btn-secondary:hover {
-            background: #5a6268;
+        .quiz-btn--secondary:hover {
+            background: var(--surface-hover);
+            color: var(--text);
+            border-color: var(--border-light);
         }
 
-        .btn-outline {
+        .quiz-btn--ghost {
             background: transparent;
-            border: 2px solid #667eea;
-            color: #667eea;
+            color: var(--text-muted);
+            border: 1.5px solid var(--border);
         }
 
-        .btn-outline:hover {
-            background: #667eea;
-            color: white;
+        .quiz-btn--ghost:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 217, 255, 0.05);
         }
 
+        .quiz-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* ---- Footer ---- */
         .quiz-footer {
-            margin-top: 30px;
             text-align: center;
         }
 
         .quiz-footer a {
             color: var(--text-muted);
             text-decoration: none;
-            transition: color 0.2s;
+            font-size: 0.85rem;
+            transition: color var(--transition-slow);
         }
 
         .quiz-footer a:hover {
             color: var(--primary);
         }
 
-        /* Loading state */
-        .loading-spinner {
+        /* ---- Loading Spinner ---- */
+        .quiz-spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #667eea;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
+            animation: quizSpin 0.8s linear infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes quizSpin {
+            to { transform: rotate(360deg); }
         }
 
-        /* Progress bar */
-        .progress-container {
-            margin-bottom: 20px;
+        /* ---- Word reveal animation ---- */
+        @keyframes wordReveal {
+            from { opacity: 0; transform: translateY(12px) scale(0.96); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .progress-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 3px;
-            overflow: hidden;
+        .quiz-word--reveal {
+            animation: wordReveal 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .progress-fill {
-            height: 100%;
-            background: white;
-            border-radius: 3px;
-            transition: width 0.3s ease;
+        /* ---- Option stagger animation ---- */
+        @keyframes optionFadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .progress-text {
-            text-align: center;
-            color: white;
-            font-size: 13px;
-            margin-top: 8px;
-            opacity: 0.9;
+        .quiz-option {
+            animation: optionFadeUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
         }
 
-        @media (max-width: 768px) {
-            .test-options {
+        .quiz-option:nth-child(1) { animation-delay: 0.05s; }
+        .quiz-option:nth-child(2) { animation-delay: 0.10s; }
+        .quiz-option:nth-child(3) { animation-delay: 0.15s; }
+        .quiz-option:nth-child(4) { animation-delay: 0.20s; }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 600px) {
+            .quiz-layout {
+                padding: var(--space-lg) var(--space-sm);
+                gap: var(--space-lg);
+            }
+
+            .quiz-card {
+                padding: var(--space-lg);
+                border-radius: var(--radius-xl);
+            }
+
+            .quiz-word {
+                font-size: 2rem;
+            }
+
+            .quiz-options {
                 grid-template-columns: 1fr;
             }
 
-            .test-stats {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .word-test-container {
-                padding: 16px;
-            }
-
-            .test-card {
-                padding: 20px;
-            }
-
-            .test-question h3 {
-                font-size: 26px;
+            .quiz-stats {
+                gap: var(--space-sm);
             }
 
             .quiz-header h1 {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
         }
     </style>
@@ -317,71 +441,86 @@
     <nav class="navbar">
         <div class="navbar__container">
             <a href="../../index.html" class="navbar__brand">NEGIAO</a>
-            <a href="note-viewer/note-viewer.html?note=word-learning-record" class="btn btn--secondary">
-                <i class="fas fa-book"></i> 查看词库
+            <a href="note-viewer/note-viewer.html?note=word-learning-record" class="navbar-nav-btn" aria-label="查看词库">
+                <span class="navbar-nav-btn__icon" aria-hidden="true"><i class="fas fa-book"></i></span>
+                <span class="navbar-nav-btn__text">查看词库</span>
             </a>
         </div>
     </nav>
 
-    <main class="quiz-container">
-        <div class="quiz-header">
-            <h1>🎯 单词测试</h1>
-            <p>随机抽取词库中的单词进行测验，巩固记忆</p>
+    <main class="quiz-layout">
+
+        <!-- Header -->
+        <header class="quiz-header">
+            <div class="quiz-header__icon"><i class="fas fa-bullseye"></i></div>
+            <h1>单词测试</h1>
+            <p>随机抽测 · 即时反馈 · 巩固记忆</p>
+        </header>
+
+        <!-- Main Card -->
+        <div class="quiz-card">
+
+            <!-- Progress -->
+            <div class="quiz-progress" id="progress-container">
+                <div class="quiz-progress__bar">
+                    <div class="quiz-progress__fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="quiz-progress__text" id="progress-text">已答 0 题</div>
+            </div>
+
+            <!-- Stats -->
+            <div class="quiz-stats">
+                <div class="quiz-stat quiz-stat--correct">
+                    <i class="fas fa-check-circle"></i>
+                    正确 <span class="quiz-stat__value" id="correct-count">0</span>
+                </div>
+                <div class="quiz-stat quiz-stat--wrong">
+                    <i class="fas fa-times-circle"></i>
+                    错误 <span class="quiz-stat__value" id="wrong-count">0</span>
+                </div>
+                <div class="quiz-stat quiz-stat--acc">
+                    <i class="fas fa-chart-pie"></i>
+                    准确率 <span class="quiz-stat__value" id="accuracy">0%</span>
+                </div>
+            </div>
+
+            <!-- Word -->
+            <div class="quiz-word-area">
+                <h2 class="quiz-word quiz-word--placeholder" id="test-word">准备开始</h2>
+                <p class="quiz-hint" id="question-text">点击下方按钮开始测试</p>
+            </div>
+
+            <!-- Options -->
+            <div class="quiz-options" id="test-options"></div>
+
+            <!-- Feedback -->
+            <div class="quiz-feedback" id="test-result"></div>
+
+            <!-- Controls -->
+            <div class="quiz-controls">
+                <button id="start-test-btn" class="quiz-btn quiz-btn--primary">
+                    <i class="fas fa-play"></i> 开始测试
+                </button>
+                <button id="next-word-btn" class="quiz-btn quiz-btn--primary" style="display: none;">
+                    <i class="fas fa-arrow-right"></i> 下一题
+                </button>
+                <button id="reset-btn" class="quiz-btn quiz-btn--ghost" style="display: none;">
+                    <i class="fas fa-rotate-left"></i> 重新开始
+                </button>
+            </div>
+
         </div>
 
-        <div id="word-test-section" class="word-test-container">
-            <h2>📚 每日单词测试</h2>
-
-            <div class="progress-container" id="progress-container" style="display: none;">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-                </div>
-                <div class="progress-text" id="progress-text">已答 0 题</div>
-            </div>
-
-            <div class="test-stats">
-                <span class="stat-item">✅ 正确: <span id="correct-count">0</span></span>
-                <span class="stat-item">❌ 错误: <span id="wrong-count">0</span></span>
-                <span class="stat-item">📊 准确率: <span id="accuracy">0%</span></span>
-            </div>
-
-            <div id="test-card" class="test-card">
-                <div class="test-question">
-                    <h3 id="test-word">准备开始</h3>
-                    <p class="question-text" id="question-text">点击"开始测试"按钮开始</p>
-                </div>
-
-                <div class="test-options" id="test-options">
-                    <!-- 选项将由JavaScript动态生成 -->
-                </div>
-
-                <div class="test-controls">
-                    <button id="start-test-btn" class="btn-quiz btn-primary">
-                        <i class="fas fa-play"></i> 开始测试
-                    </button>
-                    <button id="next-word-btn" class="btn-quiz btn-primary" style="display: none;">
-                        <i class="fas fa-arrow-right"></i> 下一题
-                    </button>
-                    <button id="reset-btn" class="btn-quiz btn-outline" style="display: none;">
-                        <i class="fas fa-redo"></i> 重新开始
-                    </button>
-                </div>
-
-                <div id="test-result" class="test-result" style="display: none;">
-                    <!-- 结果反馈 -->
-                </div>
-            </div>
-        </div>
-
-        <div class="quiz-footer">
+        <!-- Footer -->
+        <footer class="quiz-footer">
             <a href="../notes.html"><i class="fas fa-arrow-left"></i> 返回笔记索引</a>
-        </div>
+        </footer>
+
     </main>
 
     <script>
         /**
-         * 单词测试系统
-         * 从 word-list.json 加载词库进行随机测试
+         * Word Quiz - Modern UI
          */
         class WordQuiz {
             constructor() {
@@ -392,7 +531,6 @@
                 this.totalAnswered = 0;
                 this.isAnswered = false;
 
-                // 备用词库（当JSON加载失败时使用）
                 this.fallbackWords = [
                     { word: 'sanction', meaning: '制裁；批准', options: ['制裁；批准', '伪造', '逃避', '景象'] },
                     { word: 'forge', meaning: '伪造；锻造', options: ['伪造；锻造', '蔓延', '高潮', '共谋'] },
@@ -433,26 +571,22 @@
 
             async loadWords() {
                 this.startBtn.disabled = true;
-                this.startBtn.innerHTML = '<span class="loading-spinner"></span>加载词库中...';
+                this.startBtn.innerHTML = '<span class="quiz-spinner"></span> 加载词库中...';
 
                 try {
                     const resp = await fetch('./word-list.json', { cache: 'no-store' });
                     if (!resp.ok) throw new Error('Failed to load');
-                    
+
                     const data = await resp.json();
                     this.words = (Array.isArray(data) ? data : []).map(item => ({
                         word: String(item.word || '').trim(),
                         meaning: String(item.meaning || '').trim(),
-                        options: Array.isArray(item.options) && item.options.length 
-                            ? item.options.slice() 
+                        options: Array.isArray(item.options) && item.options.length
+                            ? item.options.slice()
                             : [String(item.meaning || '').trim()]
                     })).filter(w => w.word && w.meaning);
 
-                    console.log('词库加载成功，共', this.words.length, '个单词');
-
-                    if (this.words.length === 0) {
-                        throw new Error('词库为空');
-                    }
+                    if (this.words.length === 0) throw new Error('词库为空');
                 } catch (err) {
                     console.warn('JSON加载失败，使用备用词库:', err);
                     this.words = this.fallbackWords;
@@ -467,7 +601,6 @@
                     this.testWord.textContent = '词库加载失败';
                     return;
                 }
-
                 this.startBtn.style.display = 'none';
                 this.resetBtn.style.display = 'inline-flex';
                 this.progressContainer.style.display = 'block';
@@ -479,16 +612,21 @@
                 this.testResult.style.display = 'none';
                 this.nextBtn.style.display = 'none';
 
-                // 随机选择单词
                 this.currentWord = this.words[Math.floor(Math.random() * this.words.length)];
-                this.testWord.textContent = this.currentWord.word.toLowerCase();
-                this.questionText.textContent = '请选择正确的中文含义 (答对自动跳转)';
 
-                // 确保选项包含正确答案并随机排序
+                // Reveal animation
+                this.testWord.classList.remove('quiz-word--reveal');
+                void this.testWord.offsetWidth; // reflow
+                this.testWord.textContent = this.currentWord.word.toLowerCase();
+                this.testWord.classList.remove('quiz-word--placeholder');
+                this.testWord.classList.add('quiz-word--reveal');
+
+                this.questionText.textContent = '请选择正确的中文含义';
+
+                // Build options
                 const optionSet = new Set(this.currentWord.options || []);
                 optionSet.add(this.currentWord.meaning);
-                
-                // 如果选项不足4个，从其他单词中补充
+
                 if (optionSet.size < 4 && this.words.length > 4) {
                     const otherMeanings = this.words
                         .filter(w => w.word !== this.currentWord.word)
@@ -500,49 +638,44 @@
                     }
                 }
 
-                const shuffledOptions = this.shuffleArray(Array.from(optionSet));
+                const shuffled = this.shuffleArray(Array.from(optionSet));
 
-                // 生成选项按钮
                 this.testOptions.innerHTML = '';
-                shuffledOptions.forEach((option) => {
+                shuffled.forEach(option => {
                     const btn = document.createElement('button');
-                    btn.className = 'option-btn';
+                    btn.className = 'quiz-option';
                     btn.textContent = option;
                     btn.addEventListener('click', () => this.checkAnswer(option, btn));
                     this.testOptions.appendChild(btn);
                 });
             }
 
-            checkAnswer(selectedOption, btnElement) {
+            checkAnswer(selected, btnEl) {
                 if (this.isAnswered) return;
-
                 this.isAnswered = true;
                 this.totalAnswered++;
-                const isCorrect = selectedOption === this.currentWord.meaning;
 
-                // 禁用所有按钮并标记正确答案
-                const allBtns = this.testOptions.querySelectorAll('.option-btn');
+                const correct = selected === this.currentWord.meaning;
+
+                const allBtns = this.testOptions.querySelectorAll('.quiz-option');
                 allBtns.forEach(btn => {
-                    btn.classList.add('disabled');
+                    btn.classList.add('quiz-option--disabled');
                     if (btn.textContent === this.currentWord.meaning) {
-                        btn.classList.add('correct');
-                    } else if (btn === btnElement && !isCorrect) {
-                        btn.classList.add('wrong');
+                        btn.classList.add('quiz-option--correct');
+                    } else if (btn === btnEl && !correct) {
+                        btn.classList.add('quiz-option--wrong');
                     }
                 });
 
-                // 更新统计
-                if (isCorrect) {
+                if (correct) {
                     this.correctCount++;
-                    this.testResult.textContent = '✅ 正确！正在跳转下一题...';
-                    this.testResult.className = 'test-result correct';
-
-                    // 正确答案：0.6秒后自动跳转
-                    setTimeout(() => this.nextQuestion(), 600);
+                    this.testResult.textContent = '回答正确！即将进入下一题...';
+                    this.testResult.className = 'quiz-feedback quiz-feedback--correct';
+                    setTimeout(() => this.nextQuestion(), 800);
                 } else {
                     this.wrongCount++;
-                    this.testResult.textContent = `❌ 错误！正确答案是: ${this.currentWord.meaning}`;
-                    this.testResult.className = 'test-result wrong';
+                    this.testResult.textContent = '回答错误 — 正确答案：' + this.currentWord.meaning;
+                    this.testResult.className = 'quiz-feedback quiz-feedback--wrong';
                     this.nextBtn.style.display = 'inline-flex';
                 }
 
@@ -555,14 +688,12 @@
                 this.wrongCountEl.textContent = this.wrongCount;
 
                 const total = this.correctCount + this.wrongCount;
-                const accuracy = total > 0 ? Math.round((this.correctCount / total) * 100) : 0;
-                this.accuracyEl.textContent = accuracy + '%';
+                const acc = total > 0 ? Math.round((this.correctCount / total) * 100) : 0;
+                this.accuracyEl.textContent = acc + '%';
 
-                // 更新进度
-                this.progressText.textContent = `已答 ${this.totalAnswered} 题`;
-                // 进度条循环（每20题一轮）
-                const progressPercent = (this.totalAnswered % 20) * 5;
-                this.progressFill.style.width = progressPercent + '%';
+                this.progressText.textContent = '已答 ' + this.totalAnswered + ' 题';
+                const pct = (this.totalAnswered % 20) * 5;
+                this.progressFill.style.width = pct + '%';
             }
 
             resetTest() {
@@ -578,7 +709,9 @@
                 this.progressText.textContent = '已答 0 题';
 
                 this.testWord.textContent = '准备开始';
-                this.questionText.textContent = '点击"开始测试"按钮开始';
+                this.testWord.classList.add('quiz-word--placeholder');
+                this.testWord.classList.remove('quiz-word--reveal');
+                this.questionText.textContent = '点击下方按钮开始测试';
                 this.testOptions.innerHTML = '';
                 this.testResult.style.display = 'none';
                 this.nextBtn.style.display = 'none';
@@ -587,19 +720,16 @@
                 this.startBtn.style.display = 'inline-flex';
             }
 
-            shuffleArray(array) {
-                for (let i = array.length - 1; i > 0; i--) {
+            shuffleArray(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
                 }
-                return array;
+                return arr;
             }
         }
 
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            new WordQuiz();
-        });
+        document.addEventListener('DOMContentLoaded', () => new WordQuiz());
     </script>
 </body>
 

@@ -1,7 +1,7 @@
 /**
- * Navbar Widgets 统一入口
- * 主题切换 + 语言切换 + 分享按钮
- * 页面只需加载此文件，所有 widget 自动初始化
+ * Navbar Widgets — 统一入口
+ * 只负责加载子脚本，不注入任何样式
+ * 所有 CSS 通过 layout.css 集中管理
  */
 (function () {
     'use strict';
@@ -16,8 +16,7 @@
         return '';
     })();
 
-    // 子脚本缓存版本号：修改任一 widget 后更新此值
-    var VERSION = '20260727';
+    var VERSION = '20260728b';
 
     var WIDGETS = [
         'theme-toggle.js',
@@ -41,7 +40,7 @@
         });
         Promise.all(promises).then(function () {
             if (typeof window.initThemeToggle === 'function') window.initThemeToggle();
-            // i18n-toggle.js 自执行，无需手动调用
+            if (typeof window.initLangToggle === 'function') window.initLangToggle();
             if (typeof window.initShareButton === 'function') window.initShareButton();
         });
     }

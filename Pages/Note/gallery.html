@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="../css/style-new.css?v=20260527">
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="notes-toc.css?v=20260728">
     <script defer src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
+    <script defer src="plugins/loader.js"></script>
     <script defer src="notes-toc.js"></script>
     <script defer src="../public/main-enhanced.js"></script>
 
@@ -392,7 +394,10 @@
     <nav class="navbar">
         <div class="navbar__container">
             <a href="../../index.html" class="navbar__brand">NEGIAO</a>
-            <a href="../notes.html" class="btn btn--secondary">返回索引</a>
+            <a href="../notes.html" class="navbar-nav-btn" aria-label="返回索引">
+                <span class="navbar-nav-btn__icon" aria-hidden="true"><i class="fas fa-arrow-left"></i></span>
+                <span class="navbar-nav-btn__text">返回索引</span>
+            </a>
         </div>
     </nav>
 
@@ -421,7 +426,15 @@
     <div class="gallery-placeholder">图片加载中，请稍候...</div>
 </div>
 
-<script type="application/json" id="gallery-data-inline">
+## 2. 数据可视化
+
+<div class="gallery-grid" id="gallery-viz">
+    <div class="gallery-placeholder">分类整理中，稍后更新。</div>
+</div>
+            </script>
+        </article>
+
+        <script type="application/json" id="gallery-data-inline">
 [
     {
         "title":  "00E1FCEFEE0B6CEFD70ACBC84B4CDC15",
@@ -1331,13 +1344,6 @@
 ]
 </script>
 
-            ## 2. 数据可视化
-
-            <div class="gallery-grid" id="gallery-viz">
-                <div class="gallery-placeholder">分类整理中，稍后更新。</div>
-            </div>
-
-            </script>
         </article>
     </main>
 

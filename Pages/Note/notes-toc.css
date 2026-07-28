@@ -1,0 +1,391 @@
+/**
+ * notes-toc.css — 文章目录通用样式
+ * 由 notes-toc.js 生成的 DOM 结构驱动
+ * 适用于 note-viewer.html 和 gallery.html
+ */
+
+/* ========================
+   TOC 切换按钮
+   ======================== */
+.toc-toggle-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 100px;
+    width: 45px;
+    height: 45px;
+    background: var(--surface-elevated);
+    border: 2.5px solid var(--border);
+    border-radius: 50%;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.toc-toggle-btn:hover {
+    background: var(--primary);
+    color: #ffffff;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+}
+
+.toc-toggle-btn[hidden] {
+    display: none !important;
+}
+
+/* ========================
+   TOC 容器 — 毛玻璃侧边栏
+   ======================== */
+.note-toc {
+    position: fixed !important;
+    top: 50% !important;
+    right: 1.15rem !important;
+    transform: translateY(-50%) translateZ(0);
+    width: min(18.25rem, calc(100vw - 2rem)) !important;
+    max-height: min(68vh, 40rem) !important;
+    padding: 0 !important;
+    border: 1px solid color-mix(in srgb, var(--glass-border) 78%, transparent);
+    border-radius: 1rem;
+    background:
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--surface-elevated) 76%, transparent),
+            color-mix(in srgb, var(--surface) 64%, transparent));
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2) !important;
+    overflow: hidden;
+    backdrop-filter: blur(22px) saturate(135%);
+    -webkit-backdrop-filter: blur(22px) saturate(135%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    display: none;
+    flex-direction: column;
+    z-index: 1050;
+}
+
+.note-toc--ready,
+.note-toc--empty {
+    display: flex !important;
+}
+
+.note-toc.note-toc--hidden {
+    transform: translateY(-50%) translateX(150%) !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ========================
+   TOC 滚动区域
+   ======================== */
+.note-toc__nav {
+    max-height: min(68vh, 40rem) !important;
+    padding: 0.72rem;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+}
+
+/* ========================
+   TOC 标题栏 — sticky 顶部
+   ======================== */
+.note-toc__title {
+    position: sticky;
+    top: -0.72rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.48rem;
+    margin: -0.72rem -0.72rem 0.58rem;
+    padding: 0.78rem 0.82rem 0.64rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--glass-border) 62%, transparent);
+    color: var(--text);
+    background: color-mix(in srgb, var(--surface-elevated) 72%, transparent);
+    font-size: 0.86rem;
+    font-weight: 800;
+    line-height: 1;
+    backdrop-filter: blur(16px) saturate(130%);
+    -webkit-backdrop-filter: blur(16px) saturate(130%);
+}
+
+.note-toc__title .toc-accent {
+    width: 0.34rem;
+    height: 1.05rem;
+    border-radius: var(--radius-full);
+    background: var(--gradient-primary);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--primary) 42%, transparent);
+    flex-shrink: 0;
+}
+
+.note-toc__count {
+    margin-left: auto;
+    min-width: 1.25rem;
+    padding: 0.12rem 0.38rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 16%, var(--glass-border));
+    border-radius: var(--radius-full);
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 7%, transparent);
+    font-size: 0.64rem;
+    font-weight: 800;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* ========================
+   TOC 列表树
+   ======================== */
+.note-toc__list {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.note-toc__list--children {
+    margin-left: 0;
+    padding-left: 1.08rem;
+    border-left: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
+    overflow: hidden;
+}
+
+.note-toc__item {
+    margin: 0.05rem 0;
+}
+
+.note-toc__item.is-collapsed > .note-toc__list--children {
+    display: none;
+}
+
+.note-toc__row {
+    display: flex;
+    align-items: center;
+    gap: 0.22rem;
+}
+
+/* 折叠/展开按钮 */
+.note-toc__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 1.32rem;
+    width: 1.32rem;
+    height: 1.32rem;
+    padding: 0;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0.42rem;
+    color: var(--text-disabled);
+    background: transparent;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+.note-toc__spacer {
+    flex: 0 0 1.32rem;
+    width: 1.32rem;
+    height: 1.32rem;
+}
+
+.note-toc__toggle:disabled {
+    cursor: default;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.note-toc__toggle:not(:disabled):hover {
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 9%, transparent);
+}
+
+.note-toc__toggle i {
+    font-size: 0.62rem;
+    transition: transform 0.18s ease;
+}
+
+.note-toc__item.is-expanded > .note-toc__row .note-toc__toggle i {
+    transform: rotate(90deg);
+}
+
+/* ========================
+   TOC 链接
+   ======================== */
+.note-toc__link {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0.42rem 0.58rem;
+    border: 1px solid transparent;
+    border-radius: 0.68rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+/* 左侧 2px 色条指示器 */
+.note-toc__link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 2px;
+    height: 0.9rem;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    opacity: 0;
+    transform: translateY(-50%) scaleY(0.55);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.note-toc__link:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--surface-elevated) 58%, transparent);
+    border-color: color-mix(in srgb, var(--glass-border) 62%, transparent);
+    transform: translateX(2px);
+}
+
+.note-toc__link.is-active {
+    color: var(--primary);
+    background:
+        linear-gradient(90deg, color-mix(in srgb, var(--primary) 12%, transparent), transparent 72%);
+    border-color: color-mix(in srgb, var(--primary) 18%, transparent);
+    font-weight: 760;
+}
+
+.note-toc__link.is-active::before {
+    opacity: 1;
+    transform: translateY(-50%) scaleY(1);
+}
+
+/* 父级路径高亮 */
+.note-toc__item.is-active-path > .note-toc__row .note-toc__link {
+    color: color-mix(in srgb, var(--primary) 78%, var(--text));
+}
+
+/* 层级缩进样式 */
+.note-toc__link[data-level="1"],
+.note-toc__link[data-level="2"] {
+    font-weight: 760;
+}
+
+.note-toc__link[data-level="3"] {
+    font-size: 0.76rem;
+}
+
+.note-toc__link[data-level="4"] {
+    font-size: 0.73rem;
+    color: color-mix(in srgb, var(--text-muted) 78%, transparent);
+}
+
+/* ========================
+   空状态
+   ======================== */
+.note-toc__empty {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.68rem;
+    border: 1px dashed color-mix(in srgb, var(--glass-border) 72%, transparent);
+    border-radius: 0.78rem;
+    color: var(--text-muted);
+    background: color-mix(in srgb, var(--surface) 42%, transparent);
+    font-size: 0.8rem;
+}
+
+.note-toc__empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 9%, transparent);
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+/* ========================
+   标题锚点偏移（避免被 navbar 遮挡）
+   ======================== */
+.note-content h2,
+.note-content h3,
+.note-content h4 {
+    scroll-margin-top: calc(4.5rem + 1rem);
+}
+
+/* ========================
+   阅读进度条
+   ======================== */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    width: 0%;
+    z-index: 99999;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+/* ========================
+   响应式
+   ======================== */
+@media (max-width: 768px) {
+    .toc-toggle-btn {
+        bottom: 100px;
+        right: 30px;
+    }
+
+    .note-toc {
+        top: 50% !important;
+        right: 0.75rem !important;
+        width: min(21rem, calc(100vw - 1.5rem)) !important;
+        max-height: min(72vh, calc(100dvh - 8rem)) !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .note-toc__nav {
+        max-height: min(72vh, calc(100dvh - 8rem)) !important;
+    }
+}
+
+/* ========================
+   浅色主题
+   ======================== */
+body[data-theme='light'] .note-toc {
+    background: color-mix(in srgb, #ffffff 84%, transparent);
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.1) !important;
+}
+
+body[data-theme='light'] .note-toc__title {
+    background: color-mix(in srgb, #ffffff 82%, transparent);
+}
+
+body[data-theme='light'] .note-toc__link::before {
+    background: #ffffff;
+}
+
+body[data-theme='light'] .note-toc__link:hover {
+    background: rgba(37, 99, 235, 0.045);
+}
+
+body[data-theme='light'] .note-toc__link.is-active {
+    background: linear-gradient(90deg, rgba(37, 99, 235, 0.1), transparent 72%);
+}

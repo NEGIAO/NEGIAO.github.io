@@ -30,8 +30,8 @@
 .navbar__container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-xl);
+  justify-content: space-between;
+  gap: var(--space-md);
   height: 4.5rem;
   position: relative;
 }
@@ -191,48 +191,217 @@
 }
 
 /* ========================
-   Theme Toggle
+   Navbar Nav Buttons（返回/查看/首页）
+   毛玻璃胶囊，和 widget 按钮统一设计语言
    ======================== */
-.theme-toggle {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+.navbar-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-height: 2.05rem;
+  padding: 0 0.78rem 0 0.42rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--glass-border));
   border-radius: var(--radius-full);
-  padding: var(--space-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  width: 44px;
-  height: 44px;
-  display: flex;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--surface-elevated) 72%, transparent);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.navbar-nav-btn:hover {
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 50%, var(--glass-border));
+  background: color-mix(in srgb, var(--primary) 9%, var(--surface-elevated));
+  transform: translateY(-1px);
+  box-shadow: 0 7px 18px rgba(0, 217, 255, 0.1);
+  text-decoration: none;
+}
+
+.navbar-nav-btn:active {
+  transform: scale(0.97);
+}
+
+.navbar-nav-btn__icon {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--text);
+  width: 1.38rem;
+  height: 1.38rem;
+  border-radius: 50%;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
 }
 
-.theme-toggle:hover {
-  background: var(--surface-elevated);
-  transform: rotate(180deg);
+.navbar-nav-btn:hover .navbar-nav-btn__icon {
+  transform: translateX(-2px);
 }
 
-.navbar__container .theme-toggle {
-  position: absolute;
-  right: calc(var(--space-md) + 5rem);
+.navbar-nav-btn__icon i {
+  font-size: 0.64rem;
 }
 
-.navbar__container:has(.mobile-menu-toggle) .theme-toggle {
-  right: calc(3.7rem + 4.5rem + 0.5rem);
+.navbar-nav-btn__text {
+  line-height: 1;
 }
 
-.navbar__container:has(.mobile-menu-toggle) .share-note-btn {
-  right: calc(3.7rem + 4.5rem + 0.5rem + 2.75rem + 0.5rem);
+/* ========================
+   Navbar Widgets (Theme / Lang / Share)
+   统一设计：毛玻璃胶囊，flex 流式布局
+   ======================== */
+
+/* 基础按钮样式 — 所有 navbar widget 共用 */
+.navbar-widget-btn {
+  position: relative;
+  background: color-mix(in srgb, var(--surface-elevated) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--glass-border));
+  border-radius: var(--radius-full);
+  width: 2.05rem;
+  height: 2.05rem;
+  min-width: 2.05rem;
+  min-height: 2.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1;
+  font-size: 0.8rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.1);
 }
 
-.navbar__container:not(:has(.mobile-menu-toggle)) .share-note-btn {
-  right: calc(var(--space-md) + 4.5rem + 0.5rem + 2.75rem + 0.5rem);
+.navbar-widget-btn:hover {
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--glass-border));
+  background: color-mix(in srgb, var(--primary) 9%, var(--surface-elevated));
+  transform: translateY(-1px);
+  box-shadow: 0 7px 18px rgba(0, 217, 255, 0.12);
 }
 
-.sidebar__footer .theme-toggle {
-  background: var(--surface-elevated);
-  border-color: var(--border);
+.navbar-widget-btn:active {
+  transform: scale(0.94);
+}
+
+.navbar-widget-btn i {
+  font-size: 0.8rem;
+  transition: transform 0.25s ease;
+}
+
+/* 主题切换 — 悬停时图标旋转 */
+.theme-toggle:hover i {
+  transform: rotate(150deg);
+}
+
+/* 分享按钮 — 悬停时图标抖动 */
+.share-note-btn:hover i {
+  transform: rotate(-12deg) scale(1.1);
+}
+
+/* 分享按钮 — 复制成功反馈 */
+.share-note-btn.copied {
+  border-color: var(--success);
+  color: var(--success);
+  background: rgba(81, 207, 102, 0.12);
+}
+
+/* 语言切换 — 文字标签而非图标 */
+.negiao-lang-toggle,
+.negiao-lang-toggle--nav {
+  width: auto;
+  min-width: 2.05rem;
+  padding: 0 0.78rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-family: var(--font-sans);
+}
+
+.negiao-lang-toggle:hover,
+.negiao-lang-toggle--nav:hover {
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 48%, var(--glass-border));
+  background: color-mix(in srgb, var(--primary) 9%, var(--surface-elevated));
+}
+
+/* 浮动语言按钮（无 navbar 时的降级） */
+.negiao-lang-toggle--floating {
+  position: fixed !important;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  top: auto;
+  transform: none !important;
+  z-index: 1065;
+  width: 48px;
+  height: 48px;
+}
+
+/* 侧边栏 footer 中的 widget — 更小更紧凑 */
+.sidebar__footer .navbar-widget-btn {
+  width: 2.35rem;
+  height: 2.35rem;
+  min-width: 2.35rem;
+  min-height: 2.35rem;
+  border-radius: 0.88rem;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: var(--text-muted);
+}
+
+.sidebar__footer .navbar-widget-btn:hover {
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 24%, transparent);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 768px) {
+  .navbar-nav-btn {
+    min-height: 2rem;
+    padding: 0 0.62rem 0 0.34rem;
+    font-size: 0.76rem;
+  }
+
+  .navbar-nav-btn__icon {
+    width: 1.28rem;
+    height: 1.28rem;
+  }
+
+  .navbar-widget-btn {
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+    min-height: 2rem;
+    font-size: 0.72rem;
+  }
+
+  .negiao-lang-toggle,
+  .negiao-lang-toggle--nav {
+    min-width: 2rem;
+    padding: 0 0.5rem;
+    font-size: 0.62rem;
+  }
+
+  .negiao-lang-toggle--floating {
+    width: 42px;
+    height: 42px;
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
 }
 
 /* ========================
@@ -300,19 +469,12 @@
   }
 
   .navbar__container {
-    justify-content: center;
+    justify-content: space-between;
     position: relative;
   }
 
   .navbar__brand {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1050;
-  }
-
-  .navbar__container:has(.mobile-menu-toggle) .navbar__brand {
-    left: 20px;
+    position: static;
     transform: none;
   }
 
@@ -322,22 +484,16 @@
     top: 50%;
     transform: translateY(-50%);
     z-index: 1060;
+    order: 3;
   }
 
-  .navbar__container:has(.mobile-menu-toggle) .theme-toggle {
-    right: calc(var(--space-md) + 2.5rem + 0.5rem + 3.6rem + 0.5rem);
+  /* 移动端：widget 按钮紧跟在 brand 后面，hamburger 在最右 */
+  .navbar__container .navbar-widget-btn {
+    order: 2;
   }
 
-  .navbar__container:has(.mobile-menu-toggle) .share-note-btn {
-    right: calc(var(--space-md) + 2.5rem + 0.5rem + 3.6rem + 0.5rem + 2.75rem + 0.5rem);
-  }
-
-  .navbar__container:not(:has(.mobile-menu-toggle)) .theme-toggle {
-    right: calc(var(--space-sm) + 3.6rem + 0.5rem);
-  }
-
-  .navbar__container:not(:has(.mobile-menu-toggle)) .share-note-btn {
-    right: calc(var(--space-sm) + 3.6rem + 0.5rem + 2.75rem + 0.5rem);
+  .navbar__container:has(.mobile-menu-toggle) .navbar-widget-btn {
+    order: 2;
   }
 }
 

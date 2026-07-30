@@ -5,6 +5,40 @@
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 ## 2026年7月单词
+### 2026-07-30新增单词
+| 单词 | 词性 | 核心释义 | 词根助记 |
+| ---- | ---- | ---- | ---- |
+| rivalry | n. | **竞争；较量；对抗** | rival对手 + ry名词后缀 |
+| rival | n./adj./v. | **对手；竞争者**；竞争的；与…匹敌 | — |
+| rigorous | adj. | **严格的；缜密的；严密的** | rig僵硬严格 + orous形容词后缀 |
+| plural | adj./n. | **复数的；多样的；多元的；复数** | plu多 + ral |
+| stifle | v./n. | **抑制；压抑；窒息；扼杀** | 原生词 |
+| conflate | v. | **合并；混合；混淆** | con共同 + flat吹，揉合到一起 |
+| fashion | n./v. | **时尚；流行**；手工制作、塑造 | fac做 + ion，手工打造样式 |
+| yet | adv./conj. | （转折）然而，相反；（句尾）仍然，还；迄今为止 | 基础虚词 |
+| notion | n. | **观念；想法；主张；概念** | know知道变体 + ion |
+| motion | n./v. | **运动；移动；动作**；示意 | mot移动 + ion |
+| remind | v. | **提醒；使想起** | re再次 + mind思绪 |
+| remain | v. | **剩余；留存；保持** | re回 + man停留 |
+| remainder | n. | **剩余物；其余人员；余数** | remain剩余 + der名词后缀 |
+| indigenous | adj. | **本土的；土著的；固有的** | indi内部 + gen出生 + ous，本地出生 |
+| perpetuate | v. | **使永久化；使持续** | per永久 + pet追寻 + uate |
+| buildup | n. | **逐步增长；积累；宣传造势** | build积累 + up向上 |
+| cylinder | n. | **圆柱体；气缸；圆筒** | cylind卷 + er |
+| buffet | v./n. | **打击；反复伤害**；自助餐 | — |
+| contract | n./v. | **合同；契约**；缩小、收缩 | con共同 + tract拉，双方拉扯约定 |
+| feudal | adj. | **封建的** | feud封地 + al |
+| federal | adj. | **联邦的；联盟的** | feder联盟 + al |
+| toll | n./v. | **代价；损失；伤亡人数**；敲钟；过路费 | — |
+| poll | n./v. | **民意调查；投票**；调研 | — |
+| volatile | adj. | **易变的；动荡的；挥发性的** | vol飞 + atile，易飞走、不稳定 |
+| violate | v. | **违背；违反；侵犯** | vi分开 + olate，打破规则 |
+| gear | n./v. | **装备；齿轮**；调整适配 | — |
+| curate | v./n. | **策展；展出**；馆长 | cur照看 + ate，照看展品展出 |
+| dissertation | n. | **博士论文；专题论述** | dis分开 + sert论述 + ation，长篇专业论述 |
+| thesis | n. | **本/硕士论文；论点** | 原生学术词 |
+| grant | n./v. | **拨款；补助金**；授予、准许 | — |
+| pending | adj./prep. | **待定的；未决的；即将发生的** | pend悬挂 + ing，悬而未决 |
 ### 2026-07-24新增单词
 | 单词 | 词性 | 核心释义 | 词根助记 |
 | --- | --- | --- | --- |

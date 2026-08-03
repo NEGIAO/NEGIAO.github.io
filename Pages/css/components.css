@@ -500,6 +500,101 @@ body[data-theme='light'] .tech-badge--success {
   color: var(--success);
 }
 
+/* ========================
+   GitHub Contribution Calendar (Snake + Labels)
+   ======================== */
+.github-calendar-wrapper {
+    padding: var(--space-xl) 0;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+    /* -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    pointer-events: none; */
+}
+
+.github-calendar {
+    display: inline-block;
+    min-width: 720px;
+    margin-left: 32px;
+}
+
+/* Snake 图片容器 — 相对定位，作为星期标签定位的参考系
+ * 图片自然尺寸 880×192，viewBox="-16 -32 880 192"
+ * 网格: 53列×7行，单元格12px，间距16px(中心到中心)
+ * 网格左边缘: SVG_x=2 → 图片x=2+16=18px(2.045%)
+ * 网格上边缘: SVG_y=2 → 图片y=2+32=32px(16.67%)
+ * 行中心Y坐标(SVG): 2+6=8, 18+6=24, 34+6=40, 50+6=56, 66+6=72, 82+6=88, 98+6=104
+ * 行中心图片Y(+32): 40, 56, 72, 88, 104, 120, 136
+ * 百分比(÷192): 20.83%, 29.17%, 37.5%, 45.83%, 54.17%, 62.5%, 70.83% */
+.github-calendar__grid {
+    position: relative;
+    min-width: 0;
+}
+
+.github-calendar__grid img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 顶部月份标签 — 绝对定位叠在图片顶部空白区域
+ * 图片顶部到网格顶部有32px(16.67%)空白
+ * 月份标签放在 top:4px(2.08%) 到 top:12px(6.25%) 之间
+ * 左边缘对齐网格左边缘(2.045%)，宽度=网格宽度(94.55%) */
+.github-calendar__months {
+    position: absolute;
+    top: 4.17%;
+    left: 2.045%;
+    width: 94.55%;
+    display: flex;
+    gap: 0;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.github-calendar__months span {
+    flex: 1 1 0;
+    text-align: center;
+}
+
+/* 左侧星期标签 — 绝对定位在图片左边缘外侧
+ * 往左移出图片区域，往下对齐行中心
+ * Mon=row0(20.83%), Wed=row2(37.5%), Fri=row4(54.17%) */
+.github-calendar__weekdays {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    width: 28px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+}
+
+.github-calendar__weekdays span {
+    position: absolute;
+    right: 4px;
+    line-height: 12px;
+    height: 12px;
+    white-space: nowrap;
+}
+
+.github-calendar__weekdays span:nth-child(1) { top: 20.83%; transform: translateY(-50%); }   /* Mon = row 0 */
+.github-calendar__weekdays span:nth-child(2) { top: 37.5%; transform: translateY(-50%); }    /* Wed = row 2 */
+.github-calendar__weekdays span:nth-child(3) { top: 54.17%; transform: translateY(-50%); }   /* Fri = row 4 */
+
+body[data-theme='light'] .github-calendar__months,
+body[data-theme='light'] .github-calendar__weekdays {
+    color: rgba(0, 0, 0, 0.45);
+}
+
 body[data-theme='light'] .loading::after {
   background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06), transparent);
 }

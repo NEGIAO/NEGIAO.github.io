@@ -376,15 +376,15 @@ body[data-theme='light'].home-page {
   display: none;
 }
 
+/* GIS 网格底纹：整页背景，随页面滚动 */
 .home-page .hero-bg {
-  position: absolute;
+  position: fixed;
   inset: 0;
   overflow: hidden;
   z-index: -1;
   pointer-events: none;
 }
 
-/* GIS 网格底纹：中心径向淡出 */
 .home-page .hero-bg__grid {
   position: absolute;
   inset: 0;
@@ -392,8 +392,6 @@ body[data-theme='light'].home-page {
     linear-gradient(var(--hero-grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--hero-grid-line) 1px, transparent 1px);
   background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, #000 35%, transparent 78%);
-  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, #000 35%, transparent 78%);
 }
 
 /* 极光色斑：仅 transform 动画，GPU 合成，成本极低 */
@@ -405,35 +403,35 @@ body[data-theme='light'].home-page {
 }
 
 .home-page .hero-bg__blob--1 {
-  width: 46vw;
-  height: 46vw;
-  max-width: 640px;
-  max-height: 640px;
+  width: 56vw;
+  height: 56vw;
+  max-width: 720px;
+  max-height: 720px;
   background: radial-gradient(circle, var(--hero-blob-1) 0%, transparent 70%);
-  top: -12%;
+  top: 10%;
   right: -8%;
   animation: home-drift-1 36s ease-in-out infinite alternate;
 }
 
 .home-page .hero-bg__blob--2 {
-  width: 34vw;
-  height: 34vw;
-  max-width: 480px;
-  max-height: 480px;
+  width: 44vw;
+  height: 44vw;
+  max-width: 580px;
+  max-height: 580px;
   background: radial-gradient(circle, var(--hero-blob-2) 0%, transparent 70%);
-  bottom: -10%;
+  bottom: 5%;
   left: -6%;
   animation: home-drift-2 44s ease-in-out infinite alternate;
 }
 
 .home-page .hero-bg__blob--3 {
-  width: 22vw;
-  height: 22vw;
-  max-width: 320px;
-  max-height: 320px;
+  width: 30vw;
+  height: 30vw;
+  max-width: 400px;
+  max-height: 400px;
   background: radial-gradient(circle, var(--hero-blob-3) 0%, transparent 70%);
-  top: 52%;
-  left: 24%;
+  top: 60%;
+  left: 30%;
   animation: home-drift-3 30s ease-in-out infinite alternate;
 }
 

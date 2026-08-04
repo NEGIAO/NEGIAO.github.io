@@ -34,8 +34,8 @@
                             ck: '3OVJu4iCpXi3wE8k',
                             autoTrack: true,
                             hashMode: true,
-                            // 录屏采集持续消耗运行时性能,学习项目价值低,已关闭(V3.4.54,用户批准)
-                            screenRecord: false,
+                            // 录屏采集持续消耗运行时性能,学习项目价值低,可关闭(V3.4.54,Fable 提出)
+                            screenRecord: true,
                         });
                         console.log('51.la (国际) SDK 已加载并初始化。');
                     } else {

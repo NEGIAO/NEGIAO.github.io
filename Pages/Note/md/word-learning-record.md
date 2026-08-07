@@ -4,47 +4,71 @@
   ![visitors](https://visitor-badge.laobi.icu/badge?page_id=negiao.word-learning)
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
-## 2026年7月单词
+## 2026年8月单词
+### 2026-08-06新增单词
+|单词/短语|词性|释义|助记|
+| ---- | ---- | ---- | ---- |
+|stern|adj.|严厉的；棘手的|st‑turn，转头严肃训斥→严厉|
+|keep from|短语|阻止；抑制|keep（守住）from（远离）→阻拦|
+|internship|n.|实习生；实习期|intern实习生+ship名词后缀→实习阶段|
+|upfront|adj.|坦率的；在前的|up向上+front前面→摆在明面、坦率|
+|allowance|n.|津贴；折扣|allow允许‑ance名词后缀→准许下发补贴|
+|legitimate|adj.|正当的；合理的|leg法律+itim+ate→合乎法律→正当|
+|legitimacy|n.|合法性；合理性|legitim(合法)+acy名词后缀|
+|legislate|v.|立法|legis法律+late送出→出台法律、立法|
+|row|n./v.|争吵；责骂；一排|一(row)堆人吵架|
+|liberal|adj.|自由的；文科的|liber自由+al形容词后缀|
+|affirm|v.|支持；认可；确认|af加强+firm坚定→坚定确认|
+|contempt|n.|轻蔑；蔑视；瞧不起|con共同+tempt试探→轻视试探|
+|tolerant|adj.|宽容的，包容接纳|toler忍受+ant形容词后缀|
+|progressive|adj.|改革的；进步的；新潮的|pro向前+gress行走+ive→向前进步|
+|intellectual|n./adj.|知识分子；思想的；智力的|intellect智力+ual|
+|bark|v./n.|狗叫；树皮|同音区分，树皮(bark)、犬吠(bark)|
+|confine|v.|限制；局限|con加强+fine边界→圈定边界、约束|
+|trait|n.|特点；特征|读音类似“吹它”，吹嘘自身特点|
+|appliance|n.|用具；器具|apply使用‑ance→日常使用器具|
+|outlet|n.|经销商；出口|out向外+let放出→出口、分销点|
+|preach|v.|宣传；讲道；说教|p‑reach，reach众人→宣讲道理|
+|precede|v.|先于|pre在前+ced行走+e→走在前面|
+|precaution|n.|预防；警惕|pre预先+caution小心→提前防备|
 ### 2026-08-05新增单词
-# 英语词汇整理
-|单词/短语|释义|
-| ---- | ---- |
-|influx|n. 流入；涌入；注入|
-|intercept|v. 拦截；截获；中途阻止|
-|summarily|adv. 立刻地；草率地；概括地|
-|carry on|短语：继续；从事；开展|
-|put on|短语：穿上；上演；举办；增重|
-|build on|短语：以…为基础；依靠；发展|
-|take on|短语：承担；接纳；呈现；聘用|
-|period|n. 周期；时期；学时；句号|
-|periodical|n. 期刊；adj. 周期性的|
-|token|n. 象征；标志；礼券；adj. 象征性的|
-|chip|n. 芯片；碎片；薯片；v. 碎裂；打破|
-|ingenious|adj. 精巧的；机灵的；善于创新的|
-|preside|v. 主持；掌管；主管；领导|
-|prescribe|v. 开处方；规定；指定|
-|strenuous|adj. 费力的；艰辛的；奋力的|
-|transient|adj. 短暂的；临时的；转瞬即逝的（纠正拼写transitent）|
-|arouse|v. 激起；唤醒；引发|
-|array|n. 大量；阵列；队列；v. 部署；盛装|
-|dispute|n.&v. 争论；争执；质疑|
-|dissolve|v. 溶解；解散；解除；消散|
-|exclusive|adj. 独有的；排他的；高端的；n. 独家新闻|
+|单词/短语|词性|释义|助记|
+| ---- | ---- | ---- | ---- |
+|influx|n.|流入；涌入；注入|in‑进入+‑flux流动 → 向内流动|
+|intercept|v.|拦截；截获；中途阻止|inter‑中间+cept拿 → 在中途拿下→拦截|
+|summarily|adv.|即刻地；草率地；概要地|summary摘要+‑ly副词后缀|
+|carry on|phrasal‑verb|从事；继续开展|carry推进+on持续|
+|put on|phrasal‑verb|上演；穿上；增重；举办|put放置穿戴+on|
+|build on|phrasal‑verb|基于；依靠；拓展|build搭建+on依托于|
+|take on|phrasal‑verb|承担；接纳；呈现|take接手+on|
+|period|n.|周期；时期；学时；句号|peri‑周围+od道路→循环一圈|
+|periodical|n./adj.|期刊；周期性的|period周期+‑ical形容词后缀|
+|token|n./adj.|标志；礼券；象征性的|源自take，当作凭证拿去|
+|chip|n./v.|芯片；碎片；薯片；打破|谐音“切普”，切割成碎片|
+|ingenious|adj.|机灵的；构思巧妙的|in‑内+gen天赋+ious→内里有天赋|
+|preside|v.|主持；掌管；领导|pre‑在前+sid坐→坐在主位→主持|
+|prescribe|v.|开处方；规定|pre预先+scribe书写→提前写下药方|
+|strenuous|adj.|艰辛费力的；发奋努力的|stren(拉紧)+‑uous→神经紧绷→费劲|
+|transient|adj.|短暂的；临时的|trans穿过+ient→匆匆穿过、转瞬即逝|
+|arouse|v.|唤醒；激起|a‑加强+rouse起身→唤起情绪|
+|array|n./v.|大量；队列；部署；盛装|ar朝向+ray光线→整齐排布如光束|
+|dispute|v./n.|争执；争论；质疑|dis分开+put思考→想法分开→争辩|
+|dissolve|v.|溶解；解散；取消|dis分开+sol松开+ve→松开分散→溶解|
+|exclusive|adj./n.|专有的；排外的；高档的；独家新闻|ex向外+clus关闭+ive→对外关闭、专属|
 ### 2026-08-04新增单词
-# 单词整理
-|单词|释义|
-| ---- | ---- |
-|assimilate|v. 同化；吸收；消化理解；使相似|
-|invoice|n. 发票；账单；费用清单|
-|track|n. 踪迹；轨道；小路 v. 追踪|
-|agenda|n. 议程；日程表|
-|bound|adj. 必然的；准备前往 v. 弹跳；激增 n. 边界，界限|
-|perish|v. 丧生；凋零；腐烂；消亡|
-|perpetual|adj. 永恒的；长久的；无休止的|
-|perplex|v. 使困惑；使费解；使复杂化|
-|cherish|v. 珍惜；珍视；怀有（情感）|
-|verdict|n.（法庭）裁决；裁定；定论|
-|verse|n. 诗篇；韵文；诗节<br>注：表示精通熟练为 **versed（adj.）**，注意二者区分|
+|单词|词性|释义|助记|
+| ---- | ---- | ---- | ---- |
+|assimilate|v.|同化、吸收、理解、使相似|as加强+simil相同+ate→变得相同‑同化|
+|invoice|n.|账单；发票；工作清单|in+voice发声→发出费用清单|
+|track|n./v.|踪迹、追踪、道路轨道|tra拖拽+ck→拖拽留下痕迹|
+|agenda|n.|议程，日程表|ag做+enda→待办事项|
+|bound|adj./v./n.|必定；去往；跳跃；界限|bind捆绑过去分词→被限制→边界|
+|perish|v.|惨死；腐烂；消亡|per彻底+ish→彻底毁坏|
+|perpetual|adj.|永恒的，永久的|per一直+pet追寻+ual→一直追寻‑永恒|
+|perplex|v.|困惑；使复杂化|per完全+plex缠绕→思绪缠绕‑困惑|
+|cherish|v.|珍视；珍惜|cher关心+ish→用心爱惜|
+|verdict|n.|裁决；裁定|ver真实+dict说话→说出真相‑判决|
+|verse|n.|诗篇；韵文；诗节|vers转动→话语来回流转‑诗歌|
 ### 2026-08-03新增单词
 | 单词 | 词性 | 核心释义 | 词根助记 |
 | ---- | ---- | ---- | ---- |

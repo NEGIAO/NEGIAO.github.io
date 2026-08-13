@@ -5,6 +5,46 @@
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 ## 2026年8月单词
+### 2026-08-13新增单词
+|单词/短语|词性|释义|助记|
+| ---- | ---- | ---- | ---- |
+|dishonor|v./n.|拒付；违背；拒绝|dis‑否定+honor荣誉，丢掉信誉→拒付、背弃|
+|abide|v.|忍受；遵从|a加强‑bide停留，坚守规则→遵从|
+|dilute|v./adj.|稀释；降低；冲淡的|di分开+lut流淌，水分分流冲淡液体|
+|dim|adj./v.|暗淡的；模糊的；使昏暗|谐音“抵目”，视线受阻变得模糊|
+|compress|v.|压缩；精简|com‑共同+press按压，一起按压→压缩|
+|comprise|v.|包含；组成|com一起+prise抓住，收拢在内→包含|
+|conceive|v.|想象；认为；受孕|con加强+ceive抓取，抓取思绪→构想|
+|confess|v.|承认；忏悔；坦白|con加强+fess诉说，全盘说出→坦白|
+|confer|v.|商议；授予|con共同+fer运送，一同商谈、递交授予|
+|concise|adj.|简明的|con加强+cise切割，切掉多余部分→简洁|
+|epic|n./adj.|史诗；壮举；宏大的|e向外+pic画面，宏大叙事画面→史诗|
+|indignant|adj.|愤怒的|in否定+dign尊严，尊严受损而愤慨|
+|indispensable|adj.|必不可少的|in‑不+dispense免除，不可免除→必需的|
+|militant|adj./n.|好战的；激进分子|milit军队，词根代表征战→激进好战|
+|redeem|v.|弥补；救赎；偿清；遵守|red回+eem拿出，拿回债务、挽回过错|
+|spoil|v./n.|破坏；溺爱；战利品|s破碎+oil，环境被油污损毁→破坏|
+|spur|v./n.|刺激；鞭策；激励；马刺|古代马刺刺激马匹前进→引申为鞭策|
+### 2026-08-12新增单词
+|单词/短语|词性|释义|助记|
+| ---- | ---- | ---- | ---- |
+|for all|词组|尽管如此|for（对于）all全部，纵使发生全部情况|
+|ballot|n./v.|投票；公投|ball‑ball球，古时用小球投票|
+|circuit|n.|电路；环行；巡回活动|circ‑环绕，词根circ圆圈|
+|blame on|短语|归咎于|blame责怪+on把责任投向|
+|oppression|n.|压迫；压抑|op‑加强+press按压，不断施压→压迫|
+|it is a that b|句型|正是a使得b|强调句式结构|
+|synthetic|adj.|合成的、人造的；综合的|syn‑共同+thet放置，放到一起→合成|
+|as opposed to|固定短语|相对，不同于|oppose反对，和另一方相对|
+|distinctly|adv.|独特地；明显地|distinct清晰的+ly副词后缀|
+|bound by|短语|受……约束|bind过去分词bound，被某物捆绑约束|
+|bound|adj./v./n.|肯定的，受约束的，跳跃，划界限，捆绑|bind捆绑的过去式，一词多义熟记|
+|code|n.|行为规范，道德准则；代码|谐音“扣的”，需要恪守的准则|
+|subject to|短语|受……限制|subject受制于|
+|subject|n./adj.|主体，主观；主题，学科，受支配的|sub‑向下+ject投掷，投于管控之下|
+|envision as|短语|视为，想象为|en‑使+vision看见，想象成为|
+|Dismiss as|短语|误认为；斥之为|dismiss摒弃，当作（不好事物）看待|
+|Otherwise|adv.|否则，在其他方面|other另外+wise方式，别的方式→否则|
 ### 2026-08-11新增单词
 |单词/短语|词性|释义|助记|
 | ---- | ---- | ---- | ---- |
@@ -140,17 +180,3 @@
 |dispute|v./n.|争执；争论；质疑|dis分开+put思考→想法分开→争辩|
 |dissolve|v.|溶解；解散；取消|dis分开+sol松开+ve→松开分散→溶解|
 |exclusive|adj./n.|专有的；排外的；高档的；独家新闻|ex向外+clus关闭+ive→对外关闭、专属|
-### 2026-08-04新增单词
-|单词|词性|释义|助记|
-| ---- | ---- | ---- | ---- |
-|assimilate|v.|同化、吸收、理解、使相似|as加强+simil相同+ate→变得相同‑同化|
-|invoice|n.|账单；发票；工作清单|in+voice发声→发出费用清单|
-|track|n./v.|踪迹、追踪、道路轨道|tra拖拽+ck→拖拽留下痕迹|
-|agenda|n.|议程，日程表|ag做+enda→待办事项|
-|bound|adj./v./n.|必定；去往；跳跃；界限|bind捆绑过去分词→被限制→边界|
-|perish|v.|惨死；腐烂；消亡|per彻底+ish→彻底毁坏|
-|perpetual|adj.|永恒的，永久的|per一直+pet追寻+ual→一直追寻‑永恒|
-|perplex|v.|困惑；使复杂化|per完全+plex缠绕→思绪缠绕‑困惑|
-|cherish|v.|珍视；珍惜|cher关心+ish→用心爱惜|
-|verdict|n.|裁决；裁定|ver真实+dict说话→说出真相‑判决|
-|verse|n.|诗篇；韵文；诗节|vers转动→话语来回流转‑诗歌|

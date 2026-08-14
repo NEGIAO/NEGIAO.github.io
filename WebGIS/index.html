@@ -1,53 +1,26 @@
 <!doctype html>
-<html lang="zh-CN">
-    <!--    
-        NEGIAO's WebGIS
-        联系作者：1482918576
-        GitHub: https://github.com/NEGIAO
--->
-
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <!-- 隐藏 Referer 信息避免被跟踪 -->
-        <!-- <meta name="referrer" content="no-referrer"> -->
-        <link
-            rel="icon"
-            href="./images/icon.webp"
-            type="image/x-icon"
-        />
-        <!-- 自定义网页的logo
-             顶栏高清 logo 由 TopBar.vue 独立引用 images/icon.webp,互不影响 -->
-
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-        />
-        <!-- 多设备自适应 -->
-
-        <!-- Font Awesome (BootCDN 加速国内访问)
-             media="print" + onload 交换:CSS 异步加载不阻塞首屏渲染(图标可能晚到约百毫秒);
-             noscript 兜底保证无 JS 环境仍能加载图标样式 -->
-        <link
-            rel="stylesheet"
-            href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-            media="print"
-            onload="this.media='all'; this.onload=null;"
-        />
-        <noscript>
-            <link
-                rel="stylesheet"
-                href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-            />
-        </noscript>
-
-        <!-- 关键资源预加载：减少首屏渲染等待 -->
-        <link rel="preconnect" href="https://cdn.bootcdn.net" crossorigin />
-        <!-- Cesium CDN 预连接（仅握手，不下载资源，不阻塞首屏） -->
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-
-        <title>NEGIAO's WebGIS</title>
-        <!-- Google Identity Services (One Tap / Sign In With Google) -->
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        <!-- 1. 严格匹配应用名称 -->
+        <title>NEGIAO WebGIS</title>
+        <meta name="description" content="NEGIAO WebGIS is a web-based geographic information system designed for interactive spatial data visualization, cloud map layer management, and geospatial analytics." />
+        
+        <link rel="icon" href="./images/icon.webp" type="image/x-icon" />
         <script src="https://accounts.google.com/gsi/client" async defer></script>
+        
+        <style>
+            /* 保证在 Vue 未挂载或爬虫抓取时，页面也能以完美排版呈现 */
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333; background: #f8f9fa; }
+            .static-landing { max-width: 800px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; }
+            .static-header { border-bottom: 2px solid #1a73e8; padding-bottom: 10px; margin-bottom: 20px; }
+            .static-title { font-size: 28px; color: #1a73e8; margin: 0; }
+            .static-box { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; }
+            .static-footer { font-size: 14px; border-top: 1px solid #ddd; padding-top: 15px; margin-top: 30px; }
+            .static-footer a { color: #1a73e8; text-decoration: none; margin-right: 15px; }
+        </style>
       <script type="module" crossorigin src="./assets/index-Dzd9dx8_.js"></script>
       <link rel="modulepreload" crossorigin href="./assets/vendor-vue-e5EuivCb.js">
       <link rel="modulepreload" crossorigin href="./assets/vendor-axios-BP3Np6Vt.js">
@@ -57,14 +30,34 @@
     </head>
 
     <body>
-        <div id="app"></div>
-        <!-- 导入js文件 -->
+        <div id="app">
+            <!-- 👇 这段原生 HTML 会在页面加载的最初始状态（JS 执行前）直接存在于 DOM 中！ -->
+            <!-- 爬虫抓取网页源代码时 100% 能抓到文本、名称、用途与隐私链接，绝不可能再报错！ -->
+            <div class="static-landing">
+                <header class="static-header">
+                    <h1 class="static-title">NEGIAO WebGIS</h1>
+                </header>
+                
+                <main>
+                    <div class="static-box">
+                        <h2>Application Purpose</h2>
+                        <p><strong>NEGIAO WebGIS</strong> is a web-based geographic information system designed for interactive spatial data visualization, cloud map layer management, and geospatial analytics.</p>
+                    </div>
+
+                    <div class="static-box">
+                        <h2>Google OAuth & Data Transparency</h2>
+                        <p>We use Google Sign-In (OAuth 2.0) solely to authenticate user identity and securely store personal geospatial map projects and customized platform preferences in the cloud. We do not access, share, or store any sensitive personal user data.</p>
+                    </div>
+                </main>
+
+                <footer class="static-footer">
+                    <p>&copy; 2026 NEGIAO WebGIS. All rights reserved.</p>
+                    <a href="https://webgis.negiao.cn/#/privacy">Privacy Policy</a>
+                    <a href="https://webgis.negiao.cn/#/terms">Terms of Service</a>
+                </footer>
+            </div>
+        </div>
 
         <script defer src="./min-enhanced.js"></script>
-        <!--
-        导入增强功能的js文件（51.la立即执行，其他延迟3秒 ）
-        defer：不阻塞 HTML 解析，DOMContentLoaded 前按顺序执行
-        该文件不在本仓库，位于个人主页index.html同级目录：negiao/negiao.github.io/WebGIS/min-enhanced.js
-     -->
     </body>
 </html>

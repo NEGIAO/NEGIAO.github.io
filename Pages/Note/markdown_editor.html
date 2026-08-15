@@ -1294,7 +1294,8 @@ $$
             function getTheme() {
                 var s = localStorage.getItem(THEME_KEY);
                 if (s === 'light' || s === 'dark') return s;
-                return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+                // 默认暗色：只有显式切换过才记住，不跟随系统偏好
+                return 'dark';
             }
             function applyTheme(t) {
                 document.body.dataset.theme = t;

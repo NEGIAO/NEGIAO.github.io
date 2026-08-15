@@ -11,7 +11,7 @@
     function getPreferredTheme() {
         var stored = localStorage.getItem(STORAGE_KEY);
         if (stored === 'light' || stored === 'dark') return stored;
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
+        // 默认暗色：只有用户显式切换过才记住，不跟随系统偏好
         return 'dark';
     }
 

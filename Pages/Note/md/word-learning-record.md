@@ -8,12 +8,26 @@
 ### 2026-08-15新增单词
 |单词/短语|词性|释义|助记|
 | ---- | ---- | ---- | ---- |
-|generative|adj.|有生产力的；生成的|gener(产生)+‑ative形容词后缀→能够产生的|
-|apprehend|v.|逮捕；理解；忧虑|ap加强+prehend抓住；抓住人=逮捕、抓住含义=理解|
-|columnist|n.|专栏作者；专栏作家|column专栏+‑ist人→专栏作者|
-|justification|n.|理由；依据；正当化|just正义、合理+ification名词后缀→正当的理由|
-|universality|n.|普遍性；广泛性|universal普遍的+‑ity名词后缀→普遍性|
-|arise|v.|产生；起源；上升|a加强+rise升起，升起来→出现、产生|
+|generative|adj.|有生产力的；生成的|gener‑产生+ative形容词后缀，可以生成的|
+|apprehend|v.|逮捕；理解；忧虑|ap加强+prehend抓，抓住人→逮捕；抓住含义→理解|
+|columnist|n.|专栏作者；专栏作家|column专栏+ist人，写专栏的人|
+|justification|n.|理由；依据|just公正+ification名词后缀，证明合理→依据、理由|
+|universality|n.|普遍性；广泛性|universal普遍的+ity名词后缀|
+|arise|v.|产生；起源；上升|a‑向上+rise升起，慢慢浮现→产生、出现|
+|a hell|adv.|极其；非常|固定口语搭配，表程度加深|
+|bounce around|phr.|上下浮动、来回波动|bounce弹跳+around四处，来回弹动→波动|
+|edge down|phr.|微降；渐落|edge缓慢移动+down向下，一点点下滑|
+|crash|v./n.|冲撞；暴跌；惨败；崩溃|拟声词，猛烈撞击发出声响|
+|Fed|n.|美联储|Federal Reserve 的缩写|
+|odd|adj.|奇怪的；奇数的；大约左右|熟词多义，除了奇怪还有大约、奇数含义|
+|odds|n.|可能性；机会；困难|odd变形，成败的几率→可能性|
+|firm|n./adj.|公司；稳健的；坚定的|两层高频义：商号；稳固不动摇|
+|vise|n.|钳子|谐音“外死死”，钳子牢牢夹住|
+|revise|v.|修订；改变|re再次+vis看，重新审阅→修订|
+|payroll|n.|工资单；薪资；工资总额|pay支付+roll名单，领工资人员名单→薪资|
+|gauge|v./n.|估计判断；测量；标准|联想：用仪表gauge去测量、估量|
+|through|n.|低谷；凹点|熟词僻义，事物周期里的谷底阶段|
+|imminent|adj.|即将发生的；临近的|im向内+min伸出+ent，马上就要冒出来→迫近的|
 ### 2026-08-14新增单词
 |单词/短语|词性|释义|助记|
 | ---- | ---- | ---- | ---- |

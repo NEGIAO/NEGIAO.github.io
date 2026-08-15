@@ -793,12 +793,12 @@ body[data-theme='light'].home-page .research-card:hover {
 }
 
 .home-page .contact-card-icon {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .home-page #contact .card:hover .contact-card-icon {
-  transform: translateY(-3px) scale(1.06);
-  box-shadow: 0 8px 22px color-mix(in srgb, var(--primary) 25%, transparent);
+  transform: translateY(-3px) scale(1.1);
+  color: var(--primary-hover);
 }
 
 /* ========================

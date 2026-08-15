@@ -750,30 +750,17 @@
    Contact Section
    ======================== */
 .contact-card-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto var(--space-lg);
+  color: var(--primary);
+  transition: color 0.25s ease;
 }
 
-.contact-card-icon i {
-  font-size: 1.5rem;
-  color: white;
-}
-
-.contact-card-icon--primary {
-  background: var(--gradient-primary);
-}
-
-.contact-card-icon--accent {
-  background: var(--gradient-accent);
-}
-
-.contact-card-icon--success {
-  background: var(--gradient-success);
+.contact-card-icon svg {
+  width: 26px;
+  height: 26px;
 }
 
 .contact-card-title {

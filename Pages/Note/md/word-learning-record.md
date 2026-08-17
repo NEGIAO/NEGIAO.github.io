@@ -5,6 +5,33 @@
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 ## 2026年8月单词
+### 2026-08-17
+|单词/短语|词性|释义|助记|
+|---|---|---|---|
+|measurable|adj.|显著的；明显的；可测量的|measur(e)测量‑able可…的→可测量的，引申为明显的|
+|renewable|adj.|可再生的；可延续的|renew更新‑able可…的→可更新、可再生|
+|tone|n./v.|音调；基调；协调；强健|谐音“通”，音调通畅→基调、音色|
+|not...but...|连词|不是…而是…|固定并列结构，否定前者肯定后者|
+|to say at least|短语|最起码|at least至少→最起码可以说|
+|faint|adj./v.|模糊的；微小的；虚弱的；晕厥|f‑air变弱→微弱、晕倒|
+|crisis|n.|危机|cris(判断)+is→需要做出抉择→危机|
+|critic|n.|批评家|crit判断‑ic人→做评判的人→评论家|
+|cloak|n./v.|披风斗篷；遮盖；掩饰|联想：斗篷用来遮盖身体→掩盖真相|
+|scrutinize|v.|仔细审查|scrutin观察‑ize动词后缀→仔细察看|
+|scrutiny|n.|仔细审查；监视|scrutinize 的名词形式|
+|succession|n.|连续不断的人或物；继承|suc下+cess走+ion→一步步往下走→连续、继任|
+|success|n.|成功|suc下+cess走→一路走到底→成功|
+|succeed|v.|成功；接替；继任|success 的动词形式|
+|nod|v./n.|点头；同意|象形记忆，头往下一点|
+|cloud|n./v.|云；阴影；令人忧虑的事；破坏；模糊|熟词僻义：乌云→蒙上阴影、使模糊|
+|deputy|n.|副手；代理人|de向下+put放置‑y→被委派的人→代理人|
+|vice|n./adj.|副手；代理的；邪恶；罪行|vice‑表副；另一个义项：罪恶|
+|net|n./v./adj.|网；净赚|熟词僻义：除去成本后净得|
+|without a net|短语|兜底|没有防护网→缺少兜底保障|
+|stick(stuck)|v.|困住；粘贴；戳刺|过去式/过去分词stuck，卡进去→被困住|
+|disgrace|n./v.|羞辱；耻辱；失宠|dis否定+grace体面→失去体面→耻辱|
+|invert|v.|倒置；翻转|in向内+vert转→向内转→颠倒|
+|revert|v.|恢复；归还|re回+vert转→转回去→恢复原状|
 ### 2026-08-15新增单词
 |单词/短语|词性|释义|助记|
 | ---- | ---- | ---- | ---- |
@@ -139,23 +166,3 @@
 |huddle|v.|蜷缩；聚集在一起（同cower)|hudd‑扎堆，挤成一团|
 |narrative|n.|叙述|narrate讲述+‑ive名词后缀，故事叙述|
 |portion|n./v.|部分；分配|part变体，一份、划分份额|
-### 2026-08-09新增单词
-|单词|词性|释义|助记|
-| ---- | ---- | ---- | ---- |
-|articulate|adj./v.|善于表达的；清晰地说清楚|arti(关节)+culate，关节灵活→口齿流畅|
-|stipulate|v.|规定；明确要求|stip‑根基+ulate，定下根基规矩→规定|
-|approach|v./n.|接近；处理；方式、方法|ap‑朝向+proach靠近，向着目标靠近|
-|conform|v.|符合；一致；遵从；适应|con‑共同+form形式，统一形式→遵从|
-|disperse|v./adj.|分散；驱散；离散的|di‑分开+spers散播，向外散开|
-|mock|v.|嘲笑；模仿|谐音“莫可”，刻意效仿捉弄→嘲讽、模仿|
-|apt|adj.|易于；适宜的；善于|apt本身表倾向，be apt to容易|
-|grant|v./n.|给予；拨款|同意之后交付→授予、拨款|
-|submit|v.|提交；屈服、顺从|sub‑向下+mit送出，往下递交→提交、臣服|
-|fond|adj.|喜爱；喜欢|常搭配be fond of 喜爱某物|
-|find（found）|v.|找到；创立（found为find过去式/原形创立）|一词两套变形，find‑found找到；found‑founded建立|
-|in|prep.|表状态、表方式、表具体方面|固定介词含义归类记忆|
-|for|prep.|表用途、表原因、表目的|介词，用来引出目标缘由|
-|to|prep.|表方向范围时段、表结果、表目的|指向性介词|
-|on|prep.|表影响关系|作用于、针对|
-|defensible|adj.|可辩解的；合乎情理的|defend辩护+‑sible可…的|
-|mark|v./n.|打分；标记；记号|做记号、标注分数|

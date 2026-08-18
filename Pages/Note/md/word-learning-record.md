@@ -5,6 +5,30 @@
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 ## 2026年8月单词
+### 2026-08-18
+|单词/短语|词性|释义|助记|
+|---|---|---|---|
+|exploit|v./n.|剥削；利用；开发；壮举|ex向外‑ploit折叠→向外拓展→开发、利用|
+|complement|v./n.|补充|com全部‑ple填满‑ment→补满、补充|
+|compensate|v.|弥补；补偿；赔偿；酬报|com共同‑pens称重‑ate→称重补齐→补偿|
+|hostage|n.|人质|host主人‑age→被掌控的人→人质|
+|allege|v.|指控；宣称|al朝向‑lege说→公开声称、指控|
+|hijack|v.|劫持；操纵|谐音：嗨杰克→半路劫持|
+|steep|adj./v.|陡峭的；大幅度的；浸泡|st(stand)+deep→地势深陡；泡进深处|
+|provoke|v.|引起；挑衅|pro向前‑voke呼喊→上前喊话挑衅|
+|provocate|v.|激怒|pro向前‑voc叫喊‑ate→出言激怒|
+|past tense|词组|过去式|past过去 + tense时态|
+|tense|adj./n.|紧张的；绷紧的；动词的时态|词根tend伸展→拉紧→紧张、时态|
+|damp|adj./v.|潮湿的；抑制；减弱|联想dam水坝→潮湿，打压→抑制|
+|gratify|v.|满足|grat感激、愉快‑ify使…→使满足|
+|newsstand|n.|报刊；杂志摊|news新闻+stand摊位→报刊摊|
+|procreate|v.|生育；产生|pro向前‑create创造→创造新生命→生育|
+|kitten|n.|小猫；幼崽|kit(小猫)+en表小→幼猫|
+|round‑the‑clock|adj.|全天候的|round环绕+clock时钟→围着时钟转→全天候|
+|dumb|adj.|沉默的；愚蠢的；简易的|联想dump丢下不说话→沉默|
+|parenthood|n.|做父母身份|parent父母+hood身份名词后缀|
+|retrospect|v./n.|回顾；回想|retro向后‑spect看→回头看→回顾|
+|gossip|n./v.|八卦；闲聊；流言蜚语|go走动+sip小口聊→到处闲聊八卦|
 ### 2026-08-17
 |单词/短语|词性|释义|助记|
 |---|---|---|---|
@@ -141,28 +165,3 @@
 |lion's share|固定习语|最大份额|狮子分到猎物绝大部分→大头、最大一份|
 |sparse|adj.|稀少的；简朴的|拆分spar分散‑se，分散稀疏、物资单薄|
 |sink|v./n.|下沉；恶化；贫民窟；洼地|向下沉落；境况往下衰败；地势低洼地带|
-### 2026-08-10新增单词
-|单词/短语|词性|释义|助记|
-| ---- | ---- | ---- | ---- |
-|get cracking|词组|开始行动|crack破开，破开僵局→着手行动|
-|conceive|v.|想象；怀孕|con‑共同+ceive抓取，脑海抓取想法→构想|
-|ever|adv.|曾经；一直都；确实|常用于完成时、强调句加强语气|
-|gloom|n./adj.|昏暗的；萧条的；忧郁的；悲观的|谐音“格鲁姆”，情绪沉闷→阴郁|
-|endure|v.|持久存在；忍受|en‑进入+dure持久，扛住煎熬→忍耐|
-|flagship|n.|旗舰；一流；佼佼者|flag旗帜+ship船只，挂旗主力舰→标杆|
-|lengthy|adj.|漫长的；长时间的|length长度+y形容词后缀，时长很长|
-|passing|n./adj.|流逝；暂时的；路过；非常|pass经过+ing，转瞬而过|
-|stance|n.|观点；态度；站立姿势|stand站立的名词形式，立场姿态|
-|startle|v./n.|惊讶；吃惊|star星星‑tle，猝然受惊|
-|steer|v.|驾驶；指导；带领|和wheel车轮关联，操控方向|
-|stem|v./n.|起源；阻止；根茎|根茎发源；堵住源头→遏制|
-|stern|adj.|严肃的；严格的|形近term，严苛强硬|
-|anonymous|adj.|匿名的|an‑无+onym名字+ous，没有名字|
-|assassinate|v.|暗杀；破坏|多次重复ass，暗中偷袭刺杀|
-|condemn|v.|谴责；判刑|con‑加强+damn诅咒，斥责、宣判|
-|condense|v.|压缩；简洁|con‑聚拢+dense浓密，收拢浓缩|
-|disclose|v.|揭露；披露|dis‑分开+close关闭，打开封闭→公开|
-|hoist|v.|举起；升起|谐音“豪伊斯特”，用力向上吊起|
-|huddle|v.|蜷缩；聚集在一起（同cower)|hudd‑扎堆，挤成一团|
-|narrative|n.|叙述|narrate讲述+‑ive名词后缀，故事叙述|
-|portion|n./v.|部分；分配|part变体，一份、划分份额|

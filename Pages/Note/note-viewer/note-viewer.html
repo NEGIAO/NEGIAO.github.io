@@ -15,14 +15,8 @@
     <title id="page-title">笔记 - NEGIAO</title>
     <link rel="icon" type="image/webp" href="/images/icon.webp">
 
-    <!-- 站点样式：并行加载所需模块（替代 style-new.css 的 @import 串行链） -->
-    <link rel="stylesheet" href="../../css/base.css?v=20260727">
-    <link rel="stylesheet" href="../../css/components.css?v=20260727">
-    <link rel="stylesheet" href="../../css/layout.css?v=20260727">
-    <link rel="stylesheet" href="../../css/notes.css?v=20260727">
-    <link rel="stylesheet" href="../../css/responsive.css?v=20260727">
-    <link rel="stylesheet" href="../notes-toc.css?v=20260728">
-    <link rel="stylesheet" href="./note-viewer.css?v=20260727">
+    <!-- 站点样式：由脚本按当天日期动态生成版本号（见 head 末尾），替代手工维护 ?v= 硬编码 -->
+
 
     <!-- 第三方样式异步加载：不阻塞首屏（代码高亮与图标渐进就绪） -->
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" media="print" onload="this.media='all'">
@@ -43,8 +37,6 @@
     </style>
 
     <script defer src="https://cdnjs.loli.net/ajax/libs/marked/9.1.2/marked.min.js"></script>
-    <script defer src="../notes-toc.js?v=20260727"></script>
-    <script defer src="../../public/main-enhanced.js?v=20260727"></script>
     <script defer src="https://cdnjs.loli.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script>
         window.MathJax = {
@@ -59,15 +51,46 @@
                 }
             },
             options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-                renderActions: { typeset: false }
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            },
+            // 禁用 MathJax 启动时的自动排版，由 note-viewer.js 在内容注入后手动 typesetPromise
+            startup: {
+                typeset: false
             }
         };
     </script>
-    <script defer id="MathJax-script" src="https://cdnjs.loli.net/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
-    <script defer src="../../navbar-widgets/index.js?v=20260727"></script>
-    <script defer src="../plugins/loader.js?v=20260727"></script>
-    <script defer src="./note-viewer.js?v=20260727"></script>
+    <script defer id="MathJax-script" src="https://cdnjs.loli.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+    <!-- 本地资源版本号：按当天日期动态生成，避免手工维护 ?v= 硬编码导致缓存不刷新 -->
+    <script>
+        (function () {
+            var now = new Date();
+            var ver = now.getFullYear() + ('0' + (now.getMonth() + 1)).slice(-2) + ('0' + now.getDate()).slice(-2);
+            var css = [
+                '../../css/base.css',
+                '../../css/components.css',
+                '../../css/layout.css',
+                '../../css/notes.css',
+                '../../css/responsive.css',
+                '../notes-toc.css',
+                './note-viewer.css'
+            ];
+            var js = [
+                '../notes-toc.js',
+                '../../public/main-enhanced.js',
+                '../../navbar-widgets/index.js',
+                '../plugins/loader.js',
+                './note-viewer.js'
+            ];
+            var i;
+            for (i = 0; i < css.length; i++) {
+                document.write('<link rel="stylesheet" href="' + css[i] + '?v=' + ver + '">');
+            }
+            for (i = 0; i < js.length; i++) {
+                document.write('<script defer src="' + js[i] + '?v=' + ver + '"><\/script>');
+            }
+        })();
+    </script>
 </head>
 
 <body class="note-viewer-page">

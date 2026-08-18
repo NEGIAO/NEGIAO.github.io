@@ -5,8 +5,8 @@
 (function () {
     'use strict';
 
-    var OL_CSS = '/WebGIS/ol.css';
-    var OL_JS = '/WebGIS/ol.js';
+    var OL_CSS = 'https://cdn.jsdelivr.net/npm/ol@latest/ol.css';
+    var OL_JS  = 'https://cdn.jsdelivr.net/npm/ol@latest/dist/ol.js';
     var DEFAULT_URL = 'https://mt0.google.com/vt/lyrs=m&hl=zh-CN&x={x}&y={y}&z={z}';
 
     var PRESETS = [
@@ -17,7 +17,7 @@
         { label: '仅标注(透明)', url: 'https://mt0.google.com/vt/lyrs=h&hl=zh-CN&x={x}&y={y}&z={z}' },
         { label: '纯路网(中文)', url: 'https://mt0.google.com/vt/lyrs=m&hl=zh-CN&x={x}&y={y}&z={z}&apistyle=s.t:0|p.v:off,s.t:3|p.v:on' },
         { label: '纯路网骨架', url: 'https://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&apistyle=s.t:0|p.v:off,s.t:3|p.v:on,s.t:3|s.e:l|p.v:off' },
-        { label: '纯水体', url: 'https://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&apistyle=s.t:0|p.v:off,s.t:6|p.v:on' },
+        { label: '纯水体', url: 'https://mt0.google.com/vt/lyrs=m&x={x}&&hl=zh-CN&y={y}&z={z}&apistyle=s.t:0|p.v:off,s.t:6|p.v:on' },
         { label: '山体阴影(Protobuf)', url: 'https://www.google.com/maps/vt/pb=!1m4!1m3!1i{z}!2i{x}!3i{y}!2m1!1e5' },
     ];
 

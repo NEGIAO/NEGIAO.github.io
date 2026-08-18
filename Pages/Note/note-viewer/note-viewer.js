@@ -203,11 +203,48 @@
         return renderer;
     }
 
+    /**
+     * 保护数学公式区域（$...$、$$...$$），避免 marked 的 CommonMark 转义规则
+     * 破坏 LaTeX 内容（如 \,、\{、\% 等反斜杠转义符会被吞掉或改写）。
+     * 解析完成后再还原占位符，保证 MathJax 收到原始公式文本。
+     * @param {string} md - 原始 markdown 文本
+     * @returns {{ text: string, placeholders: string[] }} 保护后的文本与占位符表
+     */
+    function protectMath(md) {
+        var placeholders = [];
+        var protectedText = String(md || '')
+            .replace(/\$\$[\s\S]*?\$\$/g, function (m) {
+                placeholders.push(m);
+                return '\u0000MJX' + (placeholders.length - 1) + '\u0000';
+            })
+            .replace(/\$[^$\n]+\$/g, function (m) {
+                placeholders.push(m);
+                return '\u0000MJX' + (placeholders.length - 1) + '\u0000';
+            });
+        return { text: protectedText, placeholders: placeholders };
+    }
+
+    /**
+     * 将解析后的 HTML 中的公式占位符还原为原始 LaTeX
+     * @param {string} html - marked 解析后的 HTML
+     * @param {string[]} placeholders - protectMath 产生的占位符表
+     * @returns {string} 还原后的 HTML
+     */
+    function restoreMath(html, placeholders) {
+        var result = html;
+        placeholders.forEach(function (ph, i) {
+            result = result.split('\u0000MJX' + i + '\u0000').join(ph);
+        });
+        return result;
+    }
+
     function parseMarkdownToHtml(md) {
         if (!window.marked || typeof window.marked.parse !== 'function') {
             throw new Error('Markdown 解析器未加载。');
         }
-        return window.marked.parse(md, { renderer: createUrlRewritingRenderer() });
+        var protectedMath = protectMath(md);
+        var html = window.marked.parse(protectedMath.text, { renderer: createUrlRewritingRenderer() });
+        return restoreMath(html, protectedMath.placeholders);
     }
 
     // 供插件复用：与通用渲染一致的解析（含相对路径重写）与标题 id 修正

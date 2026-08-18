@@ -115,7 +115,7 @@
     color: var(--primary);
 }
 
-.note-viewer-page #note-content * {
+.note-viewer-page #note-content :not(mjx-container):not(mjx-container *) {
     text-align: inherit;
 }
 

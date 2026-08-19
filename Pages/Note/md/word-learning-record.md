@@ -5,6 +5,35 @@
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 ## 2026年8月单词
+### 2026-08-19
+|单词/短语|词性|释义|助记|
+|---|---|---|---|
+|bring out|词组|激发|bring带出，使内在东西显露→激发|
+|be wronged|词组|受到不公平的待遇|wrong错误、不公+ed被动→被亏待|
+|canon|n.|标准；真经；|谐音“规范”→准则、标准|
+|resist|v.|抵抗|re反‑sist站→站回去→抵抗|
+|insist|v.|坚称|in加强‑sist站→站稳立场→坚持|
+|embark|v.|着手；开始|em进入‑bark船→登船出发→着手做|
+|prerequisite|n./adj.|前提；先决条件；必备的；|pre预先+requisite必需品→先决条件|
+|requisite|adj./n.|必需的；必备的；|requir(need)+ite→需要的→必备|
+|transmission|n.|播送；发送；传播|trans跨越‑mit送‑sion名词→传送、传播|
+|transfer|v./n.|转移；转让；|trans跨‑fer携带→拿到另一边→转移|
+|exclusive|adj./n.|独有的；专用的；高档的；独家新闻|ex向外‑clus关闭‑ive→关在外边→独有的|
+|holistic|adj.|全面的；整体的|hol(whole整体)+istic→整体观的|
+|weave|v.|编织；编造；|w‑eave，联想wave交错摆动→编织|
+|weaver|n.|织布者|weave编织+er人→织布工|
+|contention|n.|观点；争论；竞争|con共同‑tent伸展‑ion→互相拉扯→争论、主张|
+|content|adj./n.|满意的；满足|con共同‑tain持有→心里有所得→满足|
+|jerk|v./n.|急拉；猛推；|拟声，猛地一拽|
+|sobering|adj.|清醒的；冷静的|sober清醒+ing→令人警醒的|
+|sober|adj.|清醒的；朴素的|s‑ober，o像圆脑袋保持清醒|
+|tumble|v.|跌倒；暴跌，下降|tum翻滚+ble→摔倒、价格大跌|
+|turbulent|adj.|动荡；混乱|turb搅动‑ulent→搅成一团→动荡|
+|vulgar|adj.|庸俗的；普通的|vulg大众‑ar→大众的、粗俗的|
+|avail|v./n.|利用；有助于|a朝向‑vail力量→发挥作用、利用|
+|culprit|n.|罪犯；问题起因|cult罪‑prit→肇事者、问题根源|
+|dubious|adj.|无把握的；引起怀疑的|dub怀疑‑ious→可疑的|
+|revenge|n./v.|报仇；复仇|re回‑venge惩罚→回过去惩罚→复仇|
 ### 2026-08-18
 |单词/短语|词性|释义|助记|
 |---|---|---|---|
@@ -135,33 +164,3 @@
 |envision as|短语|视为，想象为|en‑使+vision看见，想象成为|
 |Dismiss as|短语|误认为；斥之为|dismiss摒弃，当作（不好事物）看待|
 |Otherwise|adv.|否则，在其他方面|other另外+wise方式，别的方式→否则|
-### 2026-08-11新增单词
-|单词/短语|词性|释义|助记|
-| ---- | ---- | ---- | ---- |
-|knock‑out|短语动词|击倒；淘汰|knock敲打，out出局→敲打使其出局|
-|upset|v./adj.|搅乱；推翻；烦恼|up向上‑set放置，位置被打翻→打乱心绪|
-|contest|n./v.|比赛；竞争|con共同‑test测试→一同测试比拼|
-|contested|adj./v‑ed|有争议的；竞争|contest竞争‑ed形容词后缀，存有争夺的→有争议|
-|naturalization|n.|归化、移入（外籍人员入本国国籍）|natural自然的‑ization名词后缀，变成本国本地人|
-|fashion|n./v.|塑造；制作；时尚|fash做‑ion后缀，做出潮流物件→时尚、塑造|
-|join by|短语|陪同；协同|join参与，by伴随→相伴加入|
-|fly too close|短语|冒险行为|飞得距离过近，铤而走险|
-|law enforcement|名词词组|警察；执法部门|law法律，enforce执行，执行法律的机构|
-|envision|v.|想象；预想|en使‑vis看‑ion，在内心里看见→设想|
-|turn on|短语动词|开启；突然攻击；取决于|turn转动，on开启档位|
-|assertion|n.|肯定；主张|assert断言‑ion名词后缀|
-|to the letter|固定短语|完全地；准确地|照着每一个文字→一字不差、严格遵照|
-|in effect|固定短语|实际上|处在生效状态，事实层面上|
-|rightly|adv.|正确地；恰当地|right正确‑ly副词后缀|
-|remarkable|adj.|卓越的；非凡的|re再次‑mark标记‑able值得被标记→出众显眼|
-|console|v./n.|安慰；慰问；控制台；仪表盘|con共同‑sole安抚，一同宽慰；设备操控台|
-|consist|v.|在于；由…组成；符合|con共同‑stand站立，站在一起→构成整体|
-|strike|v./n.|罢工；突然想到；进攻；袭击|敲击引申，敲击停工→罢工；脑中敲响→猛然想起|
-|stride|v./n.|进步；发展；阔步走|大步迈开，引申事业大步前进|
-|stun|v.|使震惊；使晕眩|谐音“死晕”，受到冲击头脑发懵|
-|liable|adj.|有责任的；容易出问题的|li捆绑‑able，被责任捆绑；易于产生状况|
-|anguish|n./v.|痛苦；悲伤|an加重‑guish煎熬，内心煎熬苦痛|
-|anchor|n./v.|锚；精神支柱；固定驻扎|船锚固定船只；引申心灵依靠、驻守|
-|lion's share|固定习语|最大份额|狮子分到猎物绝大部分→大头、最大一份|
-|sparse|adj.|稀少的；简朴的|拆分spar分散‑se，分散稀疏、物资单薄|
-|sink|v./n.|下沉；恶化；贫民窟；洼地|向下沉落；境况往下衰败；地势低洼地带|

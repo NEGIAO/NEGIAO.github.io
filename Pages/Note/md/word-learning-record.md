@@ -5,6 +5,27 @@
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 ## 2026年8月单词
+### 2026-08-20
+|单词/短语|词性|释义|助记|
+|---|---|---|---|
+|perplexing|adj.|令人费解的|perplex使困惑+ing→令人迷惑的|
+|perplex|v.|困惑；茫然；复杂化|per全部‑plex折叠→全部缠在一起→困惑|
+|mischief|n.|捣乱；顽皮；伤害；麻烦|mis坏+chief头领→搞破坏、恶作剧|
+|subject to|词组|经历；遭受；使承受|subject受制于+to→遭受到|
+|duly|adv.|准时地；如期地|due到期的+ly副词→按时地|
+|plateau|n./v.|高原；稳定期；达到平稳|谐音“平台”→高原、平台期|
+|slack|adj./v./n.|松弛的；懈怠的；松懈|s‑lack，lack缺少紧绷→松垮、偷懒|
+|pin down|词组|确定；准确解释|pin钉住→钉牢、把含义弄清楚|
+|dispute|v./n.|争论；否认；竞争|dis分开‑put思考→想法不一样→争辩|
+|amateur|adj./n.|业余的；业余爱好者|amat爱+eur→出于爱好做→业余|
+|inexorable|adj.|不可阻挡的；无法改变的|in不‑ex出‑ora说‑ble→说不动、不可动摇|
+|learned|adj.|博学的；学术性的；后天习得的|learn学习+ed→学识渊博的|
+|stylish|adj.|时髦的；流行的|style风格+ish→有格调、时髦|
+|ornament|n./v.|装饰；装饰物；美化|orn装备+ment→用来装点的东西|
+|virtual|adj.|实质上的；虚拟的|virtu优点‑al→几乎就是、实质上|
+|knight|n.|骑士；爵士|k‑night，night夜晚护卫→骑士|
+|prose|n.|散文|和poem诗歌区分，prose散文|
+|retreat|v./n.|撤退；衰落|re向后‑treat拉→往后拉→撤退|
 ### 2026-08-19
 |单词/短语|词性|释义|助记|
 |---|---|---|---|
@@ -144,23 +165,3 @@
 |redeem|v.|弥补；救赎；偿清；遵守|red回+eem拿出，拿回债务、挽回过错|
 |spoil|v./n.|破坏；溺爱；战利品|s破碎+oil，环境被油污损毁→破坏|
 |spur|v./n.|刺激；鞭策；激励；马刺|古代马刺刺激马匹前进→引申为鞭策|
-### 2026-08-12新增单词
-|单词/短语|词性|释义|助记|
-| ---- | ---- | ---- | ---- |
-|for all|词组|尽管如此|for（对于）all全部，纵使发生全部情况|
-|ballot|n./v.|投票；公投|ball‑ball球，古时用小球投票|
-|circuit|n.|电路；环行；巡回活动|circ‑环绕，词根circ圆圈|
-|blame on|短语|归咎于|blame责怪+on把责任投向|
-|oppression|n.|压迫；压抑|op‑加强+press按压，不断施压→压迫|
-|it is a that b|句型|正是a使得b|强调句式结构|
-|synthetic|adj.|合成的、人造的；综合的|syn‑共同+thet放置，放到一起→合成|
-|as opposed to|固定短语|相对，不同于|oppose反对，和另一方相对|
-|distinctly|adv.|独特地；明显地|distinct清晰的+ly副词后缀|
-|bound by|短语|受……约束|bind过去分词bound，被某物捆绑约束|
-|bound|adj./v./n.|肯定的，受约束的，跳跃，划界限，捆绑|bind捆绑的过去式，一词多义熟记|
-|code|n.|行为规范，道德准则；代码|谐音“扣的”，需要恪守的准则|
-|subject to|短语|受……限制|subject受制于|
-|subject|n./adj.|主体，主观；主题，学科，受支配的|sub‑向下+ject投掷，投于管控之下|
-|envision as|短语|视为，想象为|en‑使+vision看见，想象成为|
-|Dismiss as|短语|误认为；斥之为|dismiss摒弃，当作（不好事物）看待|
-|Otherwise|adv.|否则，在其他方面|other另外+wise方式，别的方式→否则|

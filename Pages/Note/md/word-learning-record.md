@@ -5,6 +5,33 @@
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 ## 2026年8月单词
+### 2026-08-21
+|单词/短语|词性|释义|助记|
+|---|---|---|---|
+|herd|n./v.|民众，人群；兽群；放牧|联想herdsman牧人→兽群、一大群人|
+|abuzz|adj.|嗡嗡的；议论纷纷的|a‑buzz，buzz嗡嗡响→沸沸扬扬|
+|circuit|n.|环线；电路；巡回法院|circ圆‑uit→环形线路、巡回|
+|pool|n./v.|池塘；备用人员；集中资源供备用|资源汇到一处，像水池|
+|pooling|n.|合并；池化（IT terms）|pool集中+ing→资源合并、池化|
+|defensive|adj./n.|防御的；生气的；辩解|defend防御+ive→防御性、急于辩解|
+|punch|v./n.|拳击；猛击|拟声词，砰一拳打出去|
+|to the punch|词组|先发制人|先打出一拳→抢占先机|
+|goodwill|n.|信誉；善意|good好+will意愿→好意、商业信誉|
+|hostility|n.|对抗；敌意；战斗|host敌人+ility→敌对情绪|
+|hedge|n./v.|防范措施；包围，限制；树篱|树篱隔开风险→避险、防范|
+|obvious|adj.|明显的；平淡无奇的；合情合理的|ob在前‑vi看‑ous→一眼看得见→明显|
+|attorney|n.|律师；代理人|at+turn转，代为处理事务→代理人、律师|
+|informed|adj.|明智的；有知识的；了解，熟悉|inform告知+ed→知情的、信息充足|
+|intuition|n.|直觉；|in里面‑tuit观察‑ion→内心感知→直觉|
+|intuitive|adj.|易懂的；直觉性的；|intuition直觉+ive→凭直觉的|
+|compel|v.|强迫；使发生|com共同‑pel推动→强力推动→迫使|
+|compelling|adj.|令人信服的；有说服力的；强迫；迫使|compel逼迫+ing→极具感染力、令人信服|
+|anecdotal|adj.|传闻的；轶事的|anecdote轶事+al→小道传闻的|
+|propagate|v.|宣传；传播|pro向前‑pag扩散‑ate→向外散播|
+|assimilate|v.|同化；吸收；消化|as加强‑sim相同‑ilate→变得一样、吸收|
+|convene|v.|召集；聚集；集合|con一起‑ven来→来到一块→召集开会|
+|converge|v.|集中；趋同；汇集|con一起‑verge倾斜→往一处靠拢|
+|procession|n.|队列；行列|pro向前‑cess行走‑ion→排成队伍前行|
 ### 2026-08-20
 |单词/短语|词性|释义|助记|
 |---|---|---|---|
@@ -145,23 +172,3 @@
 |clamp|v./n.|夹住；夹钳|拟声，夹紧发出咔嗒声|
 |hardline|adj.|强硬的|hard强硬+line立场，强硬立场→强硬的|
 |vigorous|adj.|精力充沛的；强健的|vig生命+orous形容词后缀，充满生命力|
-### 2026-08-13新增单词
-|单词/短语|词性|释义|助记|
-| ---- | ---- | ---- | ---- |
-|dishonor|v./n.|拒付；违背；拒绝|dis‑否定+honor荣誉，丢掉信誉→拒付、背弃|
-|abide|v.|忍受；遵从|a加强‑bide停留，坚守规则→遵从|
-|dilute|v./adj.|稀释；降低；冲淡的|di分开+lut流淌，水分分流冲淡液体|
-|dim|adj./v.|暗淡的；模糊的；使昏暗|谐音“抵目”，视线受阻变得模糊|
-|compress|v.|压缩；精简|com‑共同+press按压，一起按压→压缩|
-|comprise|v.|包含；组成|com一起+prise抓住，收拢在内→包含|
-|conceive|v.|想象；认为；受孕|con加强+ceive抓取，抓取思绪→构想|
-|confess|v.|承认；忏悔；坦白|con加强+fess诉说，全盘说出→坦白|
-|confer|v.|商议；授予|con共同+fer运送，一同商谈、递交授予|
-|concise|adj.|简明的|con加强+cise切割，切掉多余部分→简洁|
-|epic|n./adj.|史诗；壮举；宏大的|e向外+pic画面，宏大叙事画面→史诗|
-|indignant|adj.|愤怒的|in否定+dign尊严，尊严受损而愤慨|
-|indispensable|adj.|必不可少的|in‑不+dispense免除，不可免除→必需的|
-|militant|adj./n.|好战的；激进分子|milit军队，词根代表征战→激进好战|
-|redeem|v.|弥补；救赎；偿清；遵守|red回+eem拿出，拿回债务、挽回过错|
-|spoil|v./n.|破坏；溺爱；战利品|s破碎+oil，环境被油污损毁→破坏|
-|spur|v./n.|刺激；鞭策；激励；马刺|古代马刺刺激马匹前进→引申为鞭策|

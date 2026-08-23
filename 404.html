@@ -22,15 +22,22 @@
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
     <link href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- 404 页面专用样式 -->
-    <link rel="stylesheet" href="Pages/css/base.css">
-    <link rel="stylesheet" href="Pages/css/404.css">
+    <!-- 404 页面专用样式（必须使用根相对绝对路径：GitHub Pages 返回 404 内容时 URL 保持原深层路径，
+         相对路径会被错误解析为 /深层目录/Pages/css/... 导致二次 404、样式加载失败、页面无法渲染） -->
+    <link rel="stylesheet" href="/Pages/css/base.css">
+    <link rel="stylesheet" href="/Pages/css/404.css">
 
-    <!-- 主题初始化：防止闪烁 -->
+    <!-- 主题初始化：防止闪烁（此时 body 尚未解析，须挂载到 document.documentElement 上） -->
     <script>
         (function() {
-            const saved = localStorage.getItem('theme');
-            if (saved) document.body.setAttribute('data-theme', saved);
+            try {
+                var saved = localStorage.getItem('theme');
+                if (saved) {
+                    document.documentElement.setAttribute('data-theme', saved);
+                    // 兼容全站以 document.body 为主题载体的情况
+                    if (document.body) document.body.setAttribute('data-theme', saved);
+                }
+            } catch (e) { /* localStorage 不可用时静默降级，不阻塞渲染 */ }
         })();
     </script>
 </head>
@@ -103,9 +110,11 @@
         (function() {
             'use strict';
 
-            // 获取当前请求路径
+            // 获取当前请求路径（?path= 参数由站内路由守卫 route-guard.js 注入，直接访问时回退到 pathname）
             const urlParams = new URLSearchParams(window.location.search);
-            const requestedPath = urlParams.get('path') || window.location.pathname;
+            const rawRequestedPath = urlParams.get('path') || window.location.pathname;
+            // 净化展示：剥离查询串/哈希与末尾斜杠，避免向用户暴露冗余参数
+            const requestedPath = rawRequestedPath.split(/[?#]/)[0].replace(/\/+$/, '') || '/';
             const displayPath = document.getElementById('error-path');
             const suggestionsContainer = document.getElementById('error-suggestions');
             const suggestionList = document.getElementById('suggestion-list');

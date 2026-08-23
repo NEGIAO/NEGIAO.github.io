@@ -10,13 +10,20 @@
         <meta charset="UTF-8" />
         <!-- 隐藏 Referer 信息避免被跟踪 -->
         <!-- <meta name="referrer" content="no-referrer"> -->
+        <!-- 品牌 icon.webp 全站唯一网络请求：preload 提前触发，
+             favicon 与首屏 logo <img> 均命中同一缓存响应 -->
+        <link
+            rel="preload"
+            href="./images/icon.webp"
+            as="image"
+            type="image/webp"
+        />
         <link
             rel="icon"
             href="./images/icon.webp"
-            type="image/x-icon"
+            type="image/webp"
         />
-        <!-- 自定义网页的logo
-             顶栏高清 logo 由 TopBar.vue 独立引用 images/icon.webp,互不影响 -->
+        <!-- 自定义网页的logo：favicon / LandingView / TopBar / RegisterView 共用同一资源 -->
 
         <meta
             name="viewport"
@@ -48,12 +55,12 @@
         <title>NEGIAO's WebGIS</title>
         <!-- Google Identity Services (One Tap / Sign In With Google) -->
         <script src="https://accounts.google.com/gsi/client" async defer></script>
-      <script type="module" crossorigin src="./assets/index-BOTbj5ID.js"></script>
-      <link rel="modulepreload" crossorigin href="./assets/vendor-vue-DFe8dmUm.js">
+      <script type="module" crossorigin src="./assets/index-D3Ass3L6.js"></script>
+      <link rel="modulepreload" crossorigin href="./assets/vendor-vue-fkj3u8GG.js">
       <link rel="modulepreload" crossorigin href="./assets/vendor-axios-BP3Np6Vt.js">
       <link rel="modulepreload" crossorigin href="./assets/vendor-runtime-Dp1pzeXC.js">
-      <link rel="modulepreload" crossorigin href="./assets/vendor-lucide-D5caXXyd.js">
-      <link rel="stylesheet" crossorigin href="./assets/index-BQGlg9MB.css">
+      <link rel="modulepreload" crossorigin href="./assets/vendor-lucide-uUfL6rNf.js">
+      <link rel="stylesheet" crossorigin href="./assets/index-DM_3VDUY.css">
     </head>
 
     <body>

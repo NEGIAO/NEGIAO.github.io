@@ -27,22 +27,30 @@
     <link rel="stylesheet" href="/Pages/css/base.css">
     <link rel="stylesheet" href="/Pages/css/404.css">
 
-    <!-- 主题初始化：防止闪烁（此时 body 尚未解析，须挂载到 document.documentElement 上） -->
+    <!-- 主题预读：防止闪烁（全站主题存储键为 site-theme，载体为 body[data-theme]，默认深色；
+         此时 body 尚未解析，仅暂存到全局变量，待 <body> 起始处的脚本立即应用） -->
     <script>
         (function() {
             try {
-                var saved = localStorage.getItem('theme');
-                if (saved) {
-                    document.documentElement.setAttribute('data-theme', saved);
-                    // 兼容全站以 document.body 为主题载体的情况
-                    if (document.body) document.body.setAttribute('data-theme', saved);
-                }
-            } catch (e) { /* localStorage 不可用时静默降级，不阻塞渲染 */ }
+                var saved = localStorage.getItem('site-theme');
+                window.__INIT_THEME__ = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+            } catch (e) { window.__INIT_THEME__ = 'dark'; /* localStorage 不可用时静默降级 */ }
         })();
     </script>
 </head>
 
 <body>
+    <!-- 立即应用主题：body 已存在，同步执行避免浅色用户看到深色闪烁 -->
+    <script>
+        (function() {
+            try {
+                var t = window.__INIT_THEME__ || 'dark';
+                document.body.dataset.theme = t;
+                var meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute('content', t === 'light' ? '#EFF1F5' : '#0D1117');
+            } catch (e) { /* 静默降级，不阻塞渲染 */ }
+        })();
+    </script>
     <!-- 浮动装饰元素 -->
     <div class="error-shapes" aria-hidden="true">
         <div class="error-shape error-shape--1"></div>

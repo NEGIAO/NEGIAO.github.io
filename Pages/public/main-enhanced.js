@@ -47,15 +47,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const loadingScreen = document.getElementById('loading-screen');
         if (!loadingScreen) return;
 
-        window.addEventListener('load', () => {
+        let done = false;
+        function hide() {
+            if (done) return;
+            done = true;
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.visibility = 'hidden';
             setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                loadingScreen.style.visibility = 'hidden';
-                setTimeout(() => {
-                    if (loadingScreen.parentNode) loadingScreen.parentNode.removeChild(loadingScreen);
-                }, 150);
+                if (loadingScreen.parentNode) loadingScreen.parentNode.removeChild(loadingScreen);
             }, 150);
-        });
+        }
+
+        // 遮罩只等「首屏就绪」，不等整页资源：慢资源（如 GitHub 的 snake.svg）会
+        // 把 window.load 拖后十几秒，导致遮罩一直转。DOMContentLoaded 即可隐藏，
+        // 另加 3s 兜底，防止个别资源挂起时用户被遮罩卡死。
+        if (document.readyState !== 'loading') {
+            setTimeout(hide, 150);
+        } else {
+            document.addEventListener('DOMContentLoaded', () => setTimeout(hide, 150));
+        }
+        setTimeout(hide, 3000);
     }
 
     /* --------------------------

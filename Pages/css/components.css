@@ -549,22 +549,22 @@ body[data-theme='light'] .tech-badge--success {
     top: 4.17%;
     left: 2.045%;
     width: 94.55%;
-    display: flex;
-    gap: 0;
+    height: 12px;
     font-size: 10px;
     color: rgba(255, 255, 255, 0.5);
     pointer-events: none;
     z-index: 2;
 }
 
+/* 每个 span 由 JS 绝对定位（left/width 按月占列数计算） */
 .github-calendar__months span {
-    flex: 1 1 0;
+    position: absolute;
+    top: 0;
     text-align: center;
 }
 
-/* 左侧星期标签 — 绝对定位在图片左边缘外侧
- * 往左移出图片区域，往下对齐行中心
- * Mon=row0(20.83%), Wed=row2(37.5%), Fri=row4(54.17%) */
+/* 左侧星期标签 — 绝对定位在图片左边缘外侧，往下对齐行中心
+ * GitHub 日历行序为周日开头：Mon=row1, Wed=row3, Fri=row5（每行 8.33%） */
 .github-calendar__weekdays {
     position: absolute;
     top: 0;
@@ -586,9 +586,9 @@ body[data-theme='light'] .tech-badge--success {
     white-space: nowrap;
 }
 
-.github-calendar__weekdays span:nth-child(1) { top: 20.83%; transform: translateY(-50%); }   /* Mon = row 0 */
-.github-calendar__weekdays span:nth-child(2) { top: 37.5%; transform: translateY(-50%); }    /* Wed = row 2 */
-.github-calendar__weekdays span:nth-child(3) { top: 54.17%; transform: translateY(-50%); }   /* Fri = row 4 */
+.github-calendar__weekdays span:nth-child(1) { top: 29.16%; transform: translateY(-50%); }   /* Mon = row 1 */
+.github-calendar__weekdays span:nth-child(2) { top: 45.83%; transform: translateY(-50%); }   /* Wed = row 3 */
+.github-calendar__weekdays span:nth-child(3) { top: 62.5%; transform: translateY(-50%); }    /* Fri = row 5 */
 
 body[data-theme='light'] .github-calendar__months,
 body[data-theme='light'] .github-calendar__weekdays {

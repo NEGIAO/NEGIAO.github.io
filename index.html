@@ -77,8 +77,8 @@
 		<link rel="preconnect" href="https://cdnjs.loli.net" />
 		<link rel="preconnect" href="https://fonts.loli.net" />
 		<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
-		<link rel="dns-prefetch" href="https://hm.baidu.com" />
 		<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+		<link rel="dns-prefetch" href="https://visitor-badge.laobi.icu" />
 
 		<!-- 首屏关键资源 -->
 		<link
@@ -88,14 +88,8 @@
 			fetchpriority="high"
 		/>
 
-		<!-- 站点样式：直接并行加载各模块（替代 style-new.css 的 @import 串行链，少一轮往返） -->
-		<link rel="stylesheet" href="Pages/css/base.css?v=20260727" />
-		<link rel="stylesheet" href="Pages/css/components.css?v=20260727" />
-		<link rel="stylesheet" href="Pages/css/layout.css?v=20260727" />
-		<link rel="stylesheet" href="Pages/css/hero.css?v=20260727" />
-		<link rel="stylesheet" href="Pages/css/projects.css?v=20260727" />
-		<link rel="stylesheet" href="Pages/css/responsive.css?v=20260727" />
-		<link rel="stylesheet" href="Pages/css/index.css?v=20260727b" />
+		<!-- 站点样式：首页合并为单文件（源文件改动后重跑 Pages/css/build-home-css.mjs 重新生成） -->
+		<link rel="stylesheet" href="Pages/css/home.css?v=20260826" />
 
 		<!-- 第三方样式异步加载：不阻塞首屏渲染（图标/字体就绪后自动应用） -->
 		<link
@@ -413,8 +407,8 @@
 							<div class="github-calendar">
 								<!-- Snake 动画图片 + 标签(绝对定位叠在图片上) -->
 								<div class="github-calendar__grid">
-									<!-- 顶部月份标签 -->
-									<div class="github-calendar__months">
+									<!-- 顶部月份标签（JS 按“最右=当前月”动态生成；无 JS 时显示静态兜底） -->
+									<div class="github-calendar__months" id="github-months">
 										<span>Aug</span><span>Sep</span><span>Oct</span
 										><span>Nov</span> <span>Dec</span><span>Jan</span
 										><span>Feb</span><span>Mar</span> <span>Apr</span
@@ -440,6 +434,9 @@
 										<img
 											alt="github contribution grid snake animation"
 											src="https://raw.githubusercontent.com/NEGIAO/NEGIAO/output/snake.svg"
+											loading="lazy"
+											decoding="async"
+											onerror="this.onerror=null;this.src='images/snake-fallback.svg';"
 										/>
 									</picture>
 								</div>
@@ -914,6 +911,66 @@
 				var yearEl = document.getElementById("current-year");
 				if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+				// GitHub 贡献日历月份标签：snake.svg 为 53 列周网格（列=周日~周六，7 行），
+				// 最右列 = 含今天的本周（未到的日子留空），最左列 ≈ 一年前。
+				// 锚点：本周周日为第 52 列起点，gridStart = 它再往前推 52 周。
+				// 每个月标签从「当月 1 日所在列」起、到「下月 1 日所在列」止，
+				// 宽度随该月占的列数变化（4~6 列），与 GitHub 官方对齐方式一致。
+				var monthsEl = document.getElementById("github-months");
+				if (monthsEl) {
+					var MONTH_NAMES = [
+						"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+						"Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+					];
+					var today = new Date();
+					today.setHours(0, 0, 0, 0);
+
+					var TOTAL_WEEKS = 53;
+					var DAY_MS = 24 * 60 * 60 * 1000;
+
+					// 本周周日（getDay(): 0=Sun）→ 网格最右列的起点
+					var gridEnd = new Date(today);
+					gridEnd.setDate(gridEnd.getDate() - gridEnd.getDay());
+					// 网格起点 = 最右列往前推 52 周（共 53 列）
+					var gridStart = new Date(gridEnd);
+					gridStart.setDate(gridStart.getDate() - 7 * (TOTAL_WEEKS - 1));
+
+					// 日期 → 列号
+					function colOf(d) {
+						return Math.floor((d - gridStart) / (7 * DAY_MS));
+					}
+
+					// 从 gridStart 所在月起逐月推进，记录每个月的起始列
+					var spans = [];
+					var cursor = new Date(gridStart.getFullYear(), gridStart.getMonth(), 1);
+					for (var guard = 0; guard < 16; guard++) {
+						var startCol = Math.max(0, Math.min(TOTAL_WEEKS - 1, colOf(cursor)));
+						spans.push({ name: MONTH_NAMES[cursor.getMonth()], first: startCol });
+						if (cursor.getFullYear() === today.getFullYear() && cursor.getMonth() === today.getMonth()) break;
+						cursor.setMonth(cursor.getMonth() + 1);
+					}
+					// 只保留最后 12 个标签（最左月往往只剩零星几列，裁掉）
+					spans = spans.slice(-12);
+
+					// 绝对定位渲染：每个标签 left 到下一个标签 left 为止，末月到网格右缘
+					var html = "";
+					for (var i = 0; i < spans.length; i++) {
+						var s = spans[i];
+						var endCol = i + 1 < spans.length ? spans[i + 1].first : TOTAL_WEEKS;
+						var leftPct = (s.first / TOTAL_WEEKS) * 100;
+						var widthPct = ((endCol - s.first) / TOTAL_WEEKS) * 100;
+						html +=
+							'<span style="position:absolute;left:' +
+							leftPct.toFixed(3) +
+							"%;width:" +
+							widthPct.toFixed(3) +
+							'%">' +
+							s.name +
+							"</span>";
+					}
+					monthsEl.innerHTML = html;
+				}
+
 				// WebGIS 链接统一附加当日版本参数（防缓存），覆盖所有标记 data-webgis-link 的入口
 				var now = new Date();
 				var stamp =
@@ -924,17 +981,7 @@
 					a.href = "WebGIS/index.html?v=" + stamp;
 				});
 
-				// 百度统计：延迟到 load 后再注入，不与首屏渲染争抢带宽
-				window._hmt = window._hmt || [];
-				window.addEventListener("load", function () {
-					setTimeout(function () {
-						var hm = document.createElement("script");
-						hm.src =
-							"https://hm.baidu.com/hm.js?181b1781c7a473143256df46c8108bff";
-						hm.async = true;
-						document.head.appendChild(hm);
-					}, 2500);
-				});
+				// 百度统计已移除（保留 51.la / GA / MapMyVisitors）
 			})();
 		</script>
 	</body>

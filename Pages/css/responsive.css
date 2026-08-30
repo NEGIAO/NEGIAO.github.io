@@ -434,9 +434,9 @@
   :root {
     --background: #ffffff;
     --text: #000000;
-    --text-secondary: #333333;
+    --text-secondary: #3F3E3A;
     --surface: #ffffff;
-    --border: #cccccc;
+    --border: #D6D3C9;
   }
 
   body {
@@ -466,7 +466,7 @@
   .note-content,
   .schedule-container {
     box-shadow: none;
-    border: 1px solid #ddd;
+    border: 1px solid #D6D3C9;
     background: white;
     color: black;
   }
@@ -479,7 +479,7 @@
   a[href^="http"]::after {
     content: " (" attr(href) ")";
     font-size: 0.8em;
-    color: #666;
+    color: #6B6A62;
   }
 
   .avatar-glow,

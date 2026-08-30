@@ -111,7 +111,7 @@
   border-left: 4px solid var(--primary);
   padding: var(--space-md) var(--space-lg);
   margin: var(--space-lg) 0;
-  background: rgba(0, 217, 255, 0.05);
+  background: color-mix(in srgb, var(--primary) 5%, transparent);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   color: var(--text-secondary);
 }
@@ -200,7 +200,7 @@
   width: 280px;
   overflow: visible;
   padding: calc(var(--space-lg) * 0.9);
-  background: linear-gradient(180deg, rgba(18, 22, 30, 1), rgba(12, 14, 18, 1));
+  background: linear-gradient(180deg, var(--surface), var(--background));
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: calc(var(--radius-xl) - 4px);
   backdrop-filter: none;
@@ -250,7 +250,7 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-right: none;
   background: inherit;
-  background-color: rgba(18, 22, 30, 1);
+  background-color: var(--surface);
   color: var(--text);
   display: flex;
   align-items: center;
@@ -316,13 +316,13 @@
 
 .note-toc__link:hover {
   color: var(--primary);
-  background: rgba(0, 217, 255, 0.05);
-  border-left-color: rgba(0, 217, 255, 0.3);
+  background: color-mix(in srgb, var(--primary) 5%, transparent);
+  border-left-color: color-mix(in srgb, var(--primary) 30%, transparent);
 }
 
 .note-toc__link.is-active {
   color: var(--primary);
-  background: rgba(0, 217, 255, 0.1);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
   border-left-color: var(--primary);
   font-weight: 500;
 }
@@ -577,21 +577,21 @@
 }
 
 .note-badge--template {
-  background: rgba(255, 217, 61, 0.2);
+  background: color-mix(in srgb, var(--warning) 20%, transparent);
   color: var(--warning);
-  border: 1px solid rgba(255, 217, 61, 0.3);
+  border: 1px solid color-mix(in srgb, var(--warning) 30%, transparent);
 }
 
 .note-badge--tech {
-  background: rgba(0, 217, 255, 0.2);
+  background: color-mix(in srgb, var(--primary) 20%, transparent);
   color: var(--primary);
-  border: 1px solid rgba(0, 217, 255, 0.3);
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
 }
 
 .note-badge--data {
-  background: rgba(81, 207, 102, 0.2);
+  background: color-mix(in srgb, var(--success) 20%, transparent);
   color: var(--success);
-  border: 1px solid rgba(81, 207, 102, 0.3);
+  border: 1px solid color-mix(in srgb, var(--success) 30%, transparent);
 }
 
 .note-card__description {
@@ -634,9 +634,9 @@
 .info-item {
   text-align: center;
   padding: var(--space-lg);
-  background: rgba(0, 217, 255, 0.05);
+  background: color-mix(in srgb, var(--primary) 5%, transparent);
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(0, 217, 255, 0.1);
+  border: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
 .info-icon {
@@ -703,7 +703,7 @@
    ======================== */
 body[data-theme='light'] .note-content {
   color: var(--text);
-  background: #FFFFFF;
+  background: var(--surface);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
@@ -737,14 +737,14 @@ body[data-theme='light'] .note-content a:hover {
 }
 
 body[data-theme='light'] .note-content pre {
-  background: #F4F6F8;
+  background: var(--surface-elevated);
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--radius-md);
 }
 
 body[data-theme='light'] .note-content code {
   background: rgba(0, 0, 0, 0.06);
-  color: #C7254E;
+  color: var(--danger);
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -756,43 +756,43 @@ body[data-theme='light'] .note-content pre code {
 }
 
 body[data-theme='light'] .note-card {
-  background: #FFFFFF;
+  background: var(--surface);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 body[data-theme='light'] .note-card:hover {
-  border-color: rgba(37, 99, 235, 0.3);
+  border-color: color-mix(in srgb, var(--primary) 30%, transparent);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 body[data-theme='light'] .note-badge--tech {
-  background: rgba(37, 99, 235, 0.1);
-  border-color: rgba(37, 99, 235, 0.25);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 25%, transparent);
 }
 
 body[data-theme='light'] .note-badge--template {
-  background: rgba(245, 158, 11, 0.1);
-  border-color: rgba(245, 158, 11, 0.25);
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  border-color: color-mix(in srgb, var(--warning) 25%, transparent);
 }
 
 body[data-theme='light'] .note-badge--data {
-  background: rgba(22, 163, 74, 0.1);
-  border-color: rgba(22, 163, 74, 0.25);
+  background: color-mix(in srgb, var(--success) 10%, transparent);
+  border-color: color-mix(in srgb, var(--success) 25%, transparent);
 }
 
 body[data-theme='light'] .info-item {
-  background: rgba(37, 99, 235, 0.06);
-  border-color: rgba(37, 99, 235, 0.12);
+  background: color-mix(in srgb, var(--primary) 6%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 12%, transparent);
 }
 
 body[data-theme='light'] .note-toc__link:hover {
-  background: rgba(37, 99, 235, 0.06);
-  border-left-color: rgba(37, 99, 235, 0.4);
+  background: color-mix(in srgb, var(--primary) 6%, transparent);
+  border-left-color: color-mix(in srgb, var(--primary) 40%, transparent);
 }
 
 body[data-theme='light'] .note-toc__link.is-active {
-  background: rgba(37, 99, 235, 0.1);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
   border-left-color: var(--primary);
   color: var(--primary);
   font-weight: 600;
@@ -825,7 +825,7 @@ body[data-theme='light'] .note-toc__link.is-active {
     background: var(--primary);
     color: #ffffff;
     transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+    box-shadow: 0 0 15px color-mix(in srgb, var(--primary) 40%, transparent);
 }
 
 .note-toc {

@@ -5,8 +5,8 @@
 .gt-preview-panel {
     margin: 24px 0 32px;
     border-radius: var(--radius-lg, 12px);
-    border: 1px solid rgba(0, 217, 255, 0.2);
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.03), rgba(0, 184, 230, 0.03));
+    border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 3%, transparent), color-mix(in srgb, var(--primary) 3%, transparent));
     overflow: hidden;
 }
 
@@ -15,19 +15,19 @@
     align-items: center;
     gap: 10px;
     padding: 14px 20px;
-    background: rgba(0, 217, 255, 0.06);
-    border-bottom: 1px solid rgba(0, 217, 255, 0.15);
+    background: color-mix(in srgb, var(--primary) 6%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--primary) 15%, transparent);
 }
 
 .gt-preview-header i {
-    color: var(--primary, #00d9ff);
+    color: var(--primary, var(--primary));
     font-size: 16px;
 }
 
 .gt-preview-header span {
     font-size: 14px;
     font-weight: 600;
-    color: var(--text-primary, #e6edf3);
+    color: var(--text-primary, var(--text-secondary));
 }
 
 .gt-preview-controls {
@@ -47,9 +47,9 @@
     flex: 1;
     padding: 8px 12px;
     border-radius: var(--radius-md, 8px);
-    border: 1px solid rgba(0, 217, 255, 0.25);
+    border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
     background: rgba(0, 0, 0, 0.2);
-    color: var(--text-primary, #e6edf3);
+    color: var(--text-primary, var(--text-secondary));
     font-family: var(--font-mono, 'Fira Code', monospace);
     font-size: 12px;
     outline: none;
@@ -57,16 +57,16 @@
 }
 
 .gt-url-input:focus {
-    border-color: var(--primary, #00d9ff);
-    box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.1);
+    border-color: var(--primary, var(--primary));
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
 .gt-apply-btn {
     padding: 8px 16px;
     border-radius: var(--radius-md, 8px);
-    border: 1px solid var(--primary, #00d9ff);
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(0, 184, 230, 0.15));
-    color: var(--primary, #00d9ff);
+    border: 1px solid var(--primary, var(--primary));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 15%, transparent), color-mix(in srgb, var(--primary) 15%, transparent));
+    color: var(--primary, var(--primary));
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
@@ -75,8 +75,8 @@
 }
 
 .gt-apply-btn:hover {
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.25), rgba(0, 184, 230, 0.25));
-    box-shadow: 0 2px 8px rgba(0, 217, 255, 0.2);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 25%, transparent), color-mix(in srgb, var(--primary) 25%, transparent));
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
 .gt-presets {
@@ -88,9 +88,9 @@
 .gt-preset-btn {
     padding: 5px 12px;
     border-radius: 20px;
-    border: 1px solid rgba(0, 217, 255, 0.2);
+    border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
     background: rgba(0, 0, 0, 0.15);
-    color: var(--text-secondary, #8b949e);
+    color: var(--text-secondary, var(--text-muted));
     font-size: 11px;
     cursor: pointer;
     transition: all 0.2s;
@@ -98,16 +98,16 @@
 
 .gt-preset-btn:hover,
 .gt-preset-btn.active {
-    border-color: var(--primary, #00d9ff);
-    color: var(--primary, #00d9ff);
-    background: rgba(0, 217, 255, 0.08);
+    border-color: var(--primary, var(--primary));
+    color: var(--primary, var(--primary));
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
 }
 
 .gt-map-container {
     width: 100%;
     height: 420px;
     position: relative;
-    border-top: 1px solid rgba(0, 217, 255, 0.1);
+    border-top: 1px solid color-mix(in srgb, var(--primary) 10%, transparent);
     background: #ffffff;
 }
 
@@ -122,9 +122,9 @@
     z-index: 10;
     padding: 4px 10px;
     border-radius: 6px;
-    background: rgba(13, 17, 23, 0.85);
+    background: color-mix(in srgb, var(--background) 85%, transparent);
     backdrop-filter: blur(6px);
-    color: var(--primary, #00d9ff);
+    color: var(--primary, var(--primary));
     font-size: 11px;
     font-family: var(--font-mono, 'Fira Code', monospace);
     pointer-events: none;
@@ -132,29 +132,29 @@
 
 /* ---- Light theme ---- */
 body[data-theme='light'] .gt-preview-panel {
-    border-color: rgba(0, 150, 200, 0.2);
-    background: linear-gradient(135deg, rgba(0, 150, 200, 0.04), rgba(0, 180, 220, 0.04));
+    border-color: color-mix(in srgb, var(--primary) 20%, transparent);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 4%, transparent), color-mix(in srgb, var(--primary) 4%, transparent));
 }
 
 body[data-theme='light'] .gt-preview-header {
-    background: rgba(0, 150, 200, 0.06);
-    border-bottom-color: rgba(0, 150, 200, 0.12);
+    background: color-mix(in srgb, var(--primary) 6%, transparent);
+    border-bottom-color: color-mix(in srgb, var(--primary) 12%, transparent);
 }
 
 body[data-theme='light'] .gt-url-input {
     background: rgba(255, 255, 255, 0.8);
-    border-color: rgba(0, 150, 200, 0.25);
-    color: #1a1a2e;
+    border-color: color-mix(in srgb, var(--primary) 25%, transparent);
+    color: var(--surface);
 }
 
 body[data-theme='light'] .gt-preset-btn {
-    background: rgba(0, 150, 200, 0.05);
+    background: color-mix(in srgb, var(--primary) 5%, transparent);
     color: #555;
 }
 
 body[data-theme='light'] .gt-zoom-info {
     background: rgba(255, 255, 255, 0.9);
-    color: #0077a0;
+    color: var(--primary);
 }
 
 /* ---- Responsive ---- */
@@ -179,7 +179,7 @@ body[data-theme='light'] .gt-zoom-info {
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: #94a3b8;
+    color: var(--text-muted);
     text-align: center;
     padding: 1rem;
 }
@@ -187,7 +187,7 @@ body[data-theme='light'] .gt-zoom-info {
 .gt-ol-fallback i {
     font-size: 2rem;
     margin-bottom: 0.75rem;
-    color: #f59e0b;
+    color: var(--warning);
 }
 
 .gt-ol-fallback p {

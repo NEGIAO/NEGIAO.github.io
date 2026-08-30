@@ -32,7 +32,7 @@
     background: var(--primary);
     color: #ffffff;
     transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+    box-shadow: 0 0 15px color-mix(in srgb, var(--primary) 40%, transparent);
 }
 
 .toc-toggle-btn[hidden] {
@@ -340,7 +340,7 @@
     width: 0%;
     z-index: 99999;
     transition: width 0.1s ease-out;
-    box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--primary) 50%, transparent);
 }
 
 /* ========================
@@ -369,13 +369,13 @@
    浅色主题
    ======================== */
 body[data-theme='light'] .note-toc {
-    background: color-mix(in srgb, #ffffff 84%, transparent);
-    border-color: rgba(15, 23, 42, 0.1);
-    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.1) !important;
+    background: color-mix(in srgb, var(--surface) 84%, transparent);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.1) !important;
 }
 
 body[data-theme='light'] .note-toc__title {
-    background: color-mix(in srgb, #ffffff 82%, transparent);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
 }
 
 body[data-theme='light'] .note-toc__link::before {
@@ -383,9 +383,9 @@ body[data-theme='light'] .note-toc__link::before {
 }
 
 body[data-theme='light'] .note-toc__link:hover {
-    background: rgba(37, 99, 235, 0.045);
+    background: color-mix(in srgb, var(--primary) 5%, transparent);
 }
 
 body[data-theme='light'] .note-toc__link.is-active {
-    background: linear-gradient(90deg, rgba(37, 99, 235, 0.1), transparent 72%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--primary) 10%, transparent), transparent 72%);
 }

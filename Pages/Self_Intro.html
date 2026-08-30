@@ -17,18 +17,18 @@
         ::-webkit-scrollbar-track { background:var(--bg1); }
         ::-webkit-scrollbar-thumb { background:#334155; border-radius:3px; }
         .glass-card { background:var(--bg2); border:1px solid var(--bd); border-radius:16px; }
-        .glass-card:hover { border-color:#2d4a6f; }
+        .glass-card:hover { border-color:#334155; }
         .version-tab { transition:all .2s; font-weight:500; }
-        .version-tab.active { background:var(--accent); color:#fff; box-shadow:0 0 20px rgba(59,130,246,.15); }
+        .version-tab.active { background:var(--accent); color:#fff; box-shadow:0 0 20px rgba(59, 130, 246, .15); }
         .version-tab:not(.active) { color:var(--t2); }
-        .version-tab:not(.active):hover { color:#fff; background:rgba(59,130,246,.1); }
-        .hl-kw { color:#fbbf24; font-weight:700; text-decoration:underline; text-decoration-color:rgba(251,191,36,.3); text-underline-offset:4px; }
+        .version-tab:not(.active):hover { color:#fff; background:rgba(59, 130, 246, .1); }
+        .hl-kw { color:#f59e0b; font-weight:700; text-decoration:underline; text-decoration-color:rgba(251, 191, 36, .3); text-underline-offset:4px; }
         .nav-item { transition:all .15s; }
-        .nav-item.active { background:rgba(59,130,246,.12); border-color:rgba(59,130,246,.4); color:#93c5fd; }
+        .nav-item.active { background:rgba(59, 130, 246, .12); border-color:rgba(59, 130, 246, .4); color:#93c5fd; }
         .nav-item:not(.active) { background:transparent; border-color:transparent; color:var(--t2); }
-        .nav-item:not(.active):hover { background:rgba(30,41,59,.8); color:var(--t1); }
-        .cs-card { background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(16,185,129,.06)); border:1px solid rgba(59,130,246,.2); border-radius:14px; position:relative; overflow:hidden; }
-        .cs-card::before { content:'\201C'; position:absolute; top:-8px; left:8px; font-size:48px; color:rgba(59,130,246,.12); font-family:Georgia,serif; line-height:1; }
+        .nav-item:not(.active):hover { background:rgba(0, 0, 0,.8); color:var(--t1); }
+        .cs-card { background:linear-gradient(135deg,rgba(59, 130, 246, .08),rgba(16, 185, 129, .06)); border:1px solid rgba(59, 130, 246, .2); border-radius:14px; position:relative; overflow:hidden; }
+        .cs-card::before { content:'\201C'; position:absolute; top:-8px; left:8px; font-size:48px; color:rgba(59, 130, 246, .12); font-family:Georgia,serif; line-height:1; }
         .cs-card p { position:relative; z-index:1; padding-left:8px; }
         @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
         .anim { animation:fadeIn .25s ease; }
@@ -36,7 +36,7 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
-    <header id="top-bar" class="border-b border-[#1e2d4a] bg-[#0d1326]/90 backdrop-blur sticky top-0 z-50 px-4 lg:px-6 py-3 flex flex-wrap justify-between items-center gap-3" style="transition:transform .3s ease;">
+    <header id="top-bar" class="border-b border-[#1e2d4a] bg-[#111827]/90 backdrop-blur sticky top-0 z-50 px-4 lg:px-6 py-3 flex flex-wrap justify-between items-center gap-3" style="transition:transform .3s ease;">
         <div class="flex items-center gap-3 min-w-0">
             <div class="bg-blue-600 text-white p-2 rounded-lg shrink-0"><i class="fa-solid fa-graduation-cap text-lg"></i></div>
             <div class="min-w-0">
@@ -54,7 +54,7 @@
         </div>
     </header>
     <div class="flex-grow flex flex-col lg:flex-row overflow-hidden">
-        <aside class="w-full lg:w-72 bg-[#0d1326] border-r border-[#1e2d4a] p-3 overflow-y-auto shrink-0 flex flex-col gap-2">
+        <aside class="w-full lg:w-72 bg-[#111827] border-r border-[#1e2d4a] p-3 overflow-y-auto shrink-0 flex flex-col gap-2">
             <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2 mb-1 flex justify-between items-center"><span>PPT 导航</span><span class="bg-slate-800 px-1.5 py-0.5 rounded text-[10px]">10 页</span></div>
             <nav class="flex flex-col gap-1" id="slide-nav"></nav>
             <div class="mt-auto pt-3 border-t border-[#1e2d4a]">
@@ -65,7 +65,7 @@
             </div>
         </aside>
         <main class="flex-grow flex flex-col overflow-hidden bg-[#0a0f1e]">
-            <div class="bg-[#0d1326] border-b border-[#1e2d4a] px-4 lg:px-6 py-2.5 flex flex-wrap justify-between items-center gap-3">
+            <div class="bg-[#111827] border-b border-[#1e2d4a] px-4 lg:px-6 py-2.5 flex flex-wrap justify-between items-center gap-3">
                 <div class="flex items-center gap-2">
                     <span class="text-xs text-slate-400 font-bold uppercase tracking-wider mr-1 hidden sm:inline">版本</span>
                     <div class="bg-[#0a0f1e] p-1 rounded-xl border border-[#1e2d4a] flex gap-1">
@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div class="w-full md:w-[58%] overflow-hidden p-3 lg:p-4 flex flex-col gap-2 anim" id="script-panel">
-                    <div class="grid grid-cols-3 gap-2 bg-[#0d1326] px-3 py-2 rounded-xl border border-[#1e2d4a] text-center shrink-0">
+                    <div class="grid grid-cols-3 gap-2 bg-[#111827] px-3 py-2 rounded-xl border border-[#1e2d4a] text-center shrink-0">
                         <div class="border-r border-[#1e2d4a]"><span class="block text-[9px] text-slate-400 uppercase tracking-wider mb-0.5">语速</span><span class="text-xs font-bold text-slate-200" id="c-speed">中速</span></div>
                         <div class="border-r border-[#1e2d4a]"><span class="block text-[9px] text-slate-400 uppercase tracking-wider mb-0.5">时间</span><span class="text-xs font-bold text-amber-400 code-font" id="c-time">00:30</span></div>
                         <div><span class="block text-[9px] text-slate-400 uppercase tracking-wider mb-0.5">气场</span><span class="text-xs font-bold text-blue-400" id="c-tone">谦逊自信</span></div>
@@ -120,7 +120,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-[#0d1326] border-t border-[#1e2d4a] px-4 lg:px-6 py-3 flex justify-between items-center shrink-0">
+            <div class="bg-[#111827] border-t border-[#1e2d4a] px-4 lg:px-6 py-3 flex justify-between items-center shrink-0">
                 <button onclick="nav(-1)" id="prev-btn" class="bg-slate-800 hover:bg-slate-700 disabled:opacity-30 text-white text-sm px-4 py-2 rounded-xl transition-all font-medium disabled:cursor-not-allowed"><i class="fa-solid fa-chevron-left mr-2"></i>上一页</button>
                 <div class="text-xs text-slate-500 font-medium hidden sm:block">姚乃高 · GIS技术与应用</div>
                 <button onclick="nav(1)" id="next-btn" class="bg-blue-600 hover:bg-blue-500 text-white text-sm px-4 py-2 rounded-xl transition-all font-medium">下一页<i class="fa-solid fa-chevron-right ml-2"></i></button>

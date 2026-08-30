@@ -305,7 +305,7 @@ body[data-theme='light'] .section--hero::after {
   border-color: rgba(37, 99, 235, 0.08);
   background:
     radial-gradient(circle, rgba(37, 99, 235, 0.04) 0%, transparent 70%),
-    linear-gradient(135deg, rgba(37, 99, 235, 0.02) 0%, rgba(13, 148, 136, 0.02) 100%);
+    linear-gradient(135deg, rgba(37, 99, 235, 0.02) 0%, rgba(78, 205, 196, 0.02) 100%);
 }
 
 body[data-theme='light'] .avatar {
@@ -349,7 +349,7 @@ body[data-theme='light'] .shape-3 {
 }
 
 body[data-theme='light'] .hero__title {
-  filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.1));
+  filter: drop-shadow(0 2px 6px rgba(37, 99, 235, 0.18));
 }
 
 body[data-theme='light'] .hero__subtitle {

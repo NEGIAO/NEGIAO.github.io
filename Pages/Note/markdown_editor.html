@@ -7,7 +7,7 @@
     <meta name="description" content="实时Markdown编辑器 - 支持实时预览的在线Markdown写作工具">
     <meta name="keywords" content="Markdown, 编辑器, 在线工具, 实时预览, NEGIAO">
     <meta name="author" content="NEGIAO">
-    <meta name="theme-color" content="#0A0E13">
+    <meta name="theme-color" content="#0D1117">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -105,7 +105,7 @@
             background: var(--gradient-primary);
             color: #fff;
             font-size: 0.85rem;
-            box-shadow: 0 2px 10px rgba(0, 217, 255, 0.25);
+            box-shadow: 0 2px 10px color-mix(in srgb, var(--primary) 25%, transparent);
         }
 
         .editor-header__meta {
@@ -181,7 +181,7 @@
         #editor-share-btn.copied {
             border-color: var(--success);
             color: var(--success);
-            background: rgba(81, 207, 102, 0.1);
+            background: color-mix(in srgb, var(--success) 10%, transparent);
         }
 
         #editor-lang-btn {
@@ -584,7 +584,7 @@
             padding-left: var(--space-md);
             color: var(--text-muted);
             margin: 1rem 0;
-            background: rgba(0, 217, 255, 0.04);
+            background: color-mix(in srgb, var(--primary) 4%, transparent);
             padding: var(--space-sm) var(--space-md) var(--space-sm) var(--space-md);
             border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
             font-style: italic;
@@ -677,9 +677,9 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        .editor-toast--success { border-color: rgba(81, 207, 102, 0.3); }
+        .editor-toast--success { border-color: color-mix(in srgb, var(--success) 30%, transparent); }
         .editor-toast--success i { color: var(--success); }
-        .editor-toast--error { border-color: rgba(255, 107, 107, 0.3); }
+        .editor-toast--error { border-color: color-mix(in srgb, var(--danger) 30%, transparent); }
         .editor-toast--error i { color: var(--danger); }
 
         /* ---- Responsive ---- */
@@ -1305,7 +1305,7 @@ $$
                 icon.classList.add(t === 'dark' ? 'fa-sun' : 'fa-moon');
                 themeBtn.setAttribute('title', t === 'dark' ? '切换到浅色主题' : '切换到深色主题');
                 var meta = document.querySelector('meta[name="theme-color"]');
-                if (meta) meta.setAttribute('content', t === 'dark' ? '#0A0E13' : '#EFF1F5');
+                if (meta) meta.setAttribute('content', t === 'dark' ? '#0D1117' : '#EFF1F5');
             }
             applyTheme(getTheme());
             themeBtn.addEventListener('click', function () {

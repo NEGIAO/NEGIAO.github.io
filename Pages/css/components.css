@@ -84,7 +84,7 @@
   background: linear-gradient(145deg,
       rgba(0, 217, 255, 0.1) 0%,
       rgba(26, 31, 46, 0.9) 50%,
-      rgba(255, 107, 107, 0.1) 100%);
+      rgba(239, 68, 68, 0.1) 100%);
   border: 1px solid rgba(0, 217, 255, 0.3);
   position: relative;
 }
@@ -349,15 +349,15 @@
 }
 
 .tech-badge--accent {
-  background: rgba(255, 107, 107, 0.1);
-  border-color: rgba(255, 107, 107, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
   color: var(--accent);
 }
 
 .tech-badge--accent:hover {
-  background: rgba(255, 107, 107, 0.2);
+  background: rgba(239, 68, 68, 0.2);
   border-color: var(--accent);
-  box-shadow: var(--shadow-md), 0 0 15px rgba(255, 107, 107, 0.3);
+  box-shadow: var(--shadow-md), 0 0 15px rgba(239, 68, 68, 0.3);
 }
 
 .tech-badge--success {

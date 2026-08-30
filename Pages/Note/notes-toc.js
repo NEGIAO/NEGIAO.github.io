@@ -428,7 +428,7 @@
     progressBar.id = 'scroll-progress';
     progressBar.style.cssText =
       'position:fixed;top:0;left:0;height:3px;background:var(--gradient-primary);' +
-      'width:0%;z-index:99999;transition:width .1s ease-out;box-shadow:0 0 10px rgba(0,217,255,.5);';
+      'width:0%;z-index:99999;transition:width .1s ease-out;box-shadow:0 0 10px color-mix(in srgb, var(--primary) 50%, transparent);';
     document.body.appendChild(progressBar);
 
     const updateProgress = () => {

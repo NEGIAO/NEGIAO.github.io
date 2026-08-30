@@ -18,6 +18,9 @@
   --primary-light: #33E1FF;
   --accent: #FF6B6B;
   --accent-secondary: #4ECDC4;
+  --accent-purple: #A78BFA;
+  --accent-blue: #60A5FA;
+  --accent-rose: #FB7185;
   --success: #51CF66;
   --warning: #FFD93D;
   --danger: #FF6B6B;
@@ -122,6 +125,9 @@ body[data-theme='light'] {
   /* 强调色 - 保持活力但更柔和 */
   --accent: #EF4444;
   --accent-secondary: #0D9488;
+  --accent-purple: #8B5CF6;
+  --accent-blue: #3B82F6;
+  --accent-rose: #F87171;
   --success: #16A34A;
   --warning: #F59E0B;
   --danger: #EF4444;
@@ -401,7 +407,7 @@ body::before {
   height: 100%;
   background:
     radial-gradient(ellipse at 15% 15%, rgba(0, 217, 255, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 85% 85%, rgba(255, 107, 107, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 85%, rgba(239, 68, 68, 0.06) 0%, transparent 60%),
     radial-gradient(ellipse at 50% 50%, rgba(78, 205, 196, 0.04) 0%, transparent 70%);
   pointer-events: none;
   z-index: -2;

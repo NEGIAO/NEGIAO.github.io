@@ -294,6 +294,114 @@ python -m http.server 8080
 
 ## 变更/Changelog
 
+### 2026-08-30 · v2.2.0 · 配色回退蓝青体系（保留变量化架构）
+
+**背景**：
+- v2.1.0 将全站配色切换为 Claude 风格（暖橙/炭黑），变量化架构与全站硬编码清理的收益得以保留
+- 用户希望个人站点不体现明显第三方品牌特征，要求把两套配色恢复为原创蓝青体系，**保留变量驱动架构**（改变量即可整体换肤）
+
+**修改内容**：
+- `base.css` 变量定义整体回退：
+  - 深色：`#0A0E13` 底 / 荧光青 `#00D9FF` 主色 / 红 `#FF6B6B` / teal `#4ECDC4` / 亮绿 `#51CF66` / 黄 `#FFD93D` / 文字 `#F7FAFC`
+  - 浅色：`#EFF1F5` 底 / 专业蓝 `#2563EB` 主色 / 红 `#EF4444` / teal `#0D9488` / 绿 `#16A34A` / 黄 `#F59E0B` / 文字 `#111827`
+- 7 个源 CSS + 全站 HTML/JS/MD 中散落的 Claude 橙色值（`#D97757`/`#C15F3C`/`#B8552F`/`rgba(217,119,87)` 等）→ 反向映射回原始蓝青 rgba/hex
+- `index.css` 标题微光渐变恢复原始蓝系（暗色 `#00d9ff→#3b82f6→#7dd3fc`、浅色 `#2563eb→#93c5fd`），**sheen 动画保留双主题**（v2.1.3 修复不回退）
+- 独立页恢复：`Self_Intro.html`（含 Tailwind 任意值类）、`WebGIS_task/index.html`
+- meta/防闪烁测试色恢复：`#0D1117` / `#0A0E13` / `#EFF1F5` / `#F7FAFC`；theme-toggle.js `THEME_COLORS` 恢复 `{dark:#0D1117, light:#EFF1F5}`
+- 重建 `home.css`
+- **保留的 v2.1.x 收益**：全站变量化、md 加粗字 `var(--primary)`、schedule 课程色变量簇、背景光晕/玻璃均已跟随变量
+
+**修改的文件路径**：
+- `Pages/css/base.css`（变量回退）、`Pages/css/home.css`（重建）
+- `Pages/css/{components,hero,index,layout,projects,responsive,notes,404,style-new}.css`、`Pages/Note/note-viewer/note-viewer.css`、`notes-toc.css`、`Google_tiles/styles.css`（rgba 反向）
+- `index.html`、`404.html`、`Pages/notes.html`、`schedule.html`、`note-viewer.html`、`note-template.html`、`gallery.html`、`markdown_editor.html`、`word-quiz.html`（防闪烁/meta）、`Pages/Self_Intro.html`、`Pages/WebGIS_task/index.html`、`Pages/navbar-widgets/theme-toggle.js`
+
+---
+
+### 2026-08-30 · v2.1.3 · 修复浅色主题 Hero 标题特效缺失
+
+**问题分析**：
+- 首页 Hero 标题（`NEGIAO`）的「微光扫过」特效（`home-title-sheen` 动画）只写在暗色主题规则 `.home-page .hero__title` 中
+- 浅色主题 override `body[data-theme='light'].home-page .hero__title` 只改了渐变背景，漏写 `animation` 属性 → 浅色下标题静态无动效
+
+**修改内容**：
+- `index.css`：浅色 `.home-page .hero__title` 补上 `animation: home-title-sheen 9s linear infinite`；高光点 `#E29578` → `#D97757`（浅色米白底上更清晰）
+- `hero.css`：浅色 `body[data-theme='light'] .hero__title` 投影 `drop-shadow(0 2px 4px / 0.1)` → `(0 2px 6px / 0.18)`，浅色下轻微发光感与暗色同源
+- 重建 `home.css`
+
+**修改的文件路径**：
+- `Pages/css/index.css`、`Pages/css/hero.css`、`Pages/css/home.css`（重建）、`index.html`（版本号）
+
+---
+
+### 2026-08-30 · v2.1.2 · 绿色系饱和度提升（Claude 参考色对齐）
+
+**问题分析**：
+- v2.1.0 将绿色整体映射为低饱和橄榄绿（`--success:#7E9B63`、`--accent-secondary:#788C5D`），观感发灰、饱和度不足
+- 参考设计 `trials.negiao.cn` 的 Claude 主题绿色为鲜亮 `#4ADE80`（深）/ `#2E7D32`（浅）
+
+**修改内容**：
+- `base.css` 深色主题：`--success:#7E9B63 → #4ADE80`；`--accent-secondary:#788C5D → #3FB6A8`（恢复青绿特性）
+- `base.css` 浅色主题：`--success:#5D7052 → #2E7D32`；`--accent-secondary:#788C5D → #0F8A7E`
+- `--gradient-success`：深 `#4ADE80→#2E9E5B`、浅 `#2E7D32→#1B5E20`；`--gradient-cool` 尾色同步青绿
+- `Self_Intro.html` 独立页 `--ok:#7E9B63 → #4ADE80`
+
+**影响**：成功徽章 / 课表 gee 课色 / 笔记 code 提示 / 进度光晕等所有 `var(--success)` 引用点自动跟随；schedule 课表 uav 课恢复青绿。
+
+**修改的文件路径**：
+- `Pages/css/base.css`（绿色变量）、`Pages/css/home.css`（重建）、`Pages/Self_Intro.html`、`index.html`（版本号）
+
+---
+
+### 2026-08-30 · v2.1.1 · md 加粗字主题化 + 全站残留硬编码色清理
+
+**问题分析**：
+- 笔记详情 Markdown 渲染的 `**加粗**` 文字颜色硬编码为荧光青 `#00D9FF`，未随 Claude 主题切换
+- 首页之外的页面（notes / schedule / gallery / markdown_editor / word-quiz / 404 / note-template 等）CSS、内联防闪烁样式、meta theme-color、JS 进度条、笔记 md 内容仍残留约 40 处旧配色
+
+**修改内容**：
+- `note-viewer.css` `.note-viewer-page #note-content strong`：`#00D9FF` → `var(--primary)`（md 加粗字随主题变化，深色=Claude 橙、浅色=深橙）
+- `base.css` 增强点缀色域：新增 `--accent-purple / --accent-blue / --accent-rose` 双主题变量（课表 9 门课程分类色、进度条光晕用）
+- **脚本化清理 8 个 CSS**：404.css / notes.css / notes-index.css / schedule.css / style-new.css / note-viewer.css / notes-toc.css / Google_tiles/styles.css —— 全部旧配色 → `var(--主题变量)` 或 `color-mix(var(--主题变量) N%, transparent)`；纯白底 → `var(--surface)`；schedule 课表 9 课程色映射到主题变量簇
+- **内联样式清理**：notes.html / schedule.html / note-viewer.html 防闪烁色与 meta theme-color → `#FAF9F5 / #141413`；gallery / markdown_editor / word-quiz 内联旧色 → 变量；notes-toc.js 进度条、main-enhanced.js 进度条光晕 → `color-mix`；`Pages/Note/md/negiao-toolbox.md` 内联 rgba → 变量
+- **独立页面**：Self_Intro.html / WebGIS_task/index.html（不加载 base.css，无法用 var）→ 换 Claude 等效字面值（`#141413/#F5F4EF/#D97757` 等）
+- **主题 meta 同步**：theme-toggle.js `THEME_COLORS`、404.html 动态 meta → `{dark:#141413, light:#FAF9F5}`
+- 重建 `home.css`（含新点缀变量）
+
+**修改的文件路径**：
+- `Pages/Note/note-viewer/note-viewer.css`（md 加粗字 `var(--primary)` + 清理）
+- `Pages/css/base.css`（新增 3 点缀变量）+ `404.css / notes.css / notes-index.css / schedule.css / style-new.css / notes-toc.css / Google_tiles/styles.css`（清理）
+- `Pages/css/home.css`（重建）
+- `Pages/notes.html / schedule.html / note-viewer.html`（防闪烁色）、`Pages/Note/gallery.html / markdown_editor.html / word-quiz.html / note-template.html`（内联色）、`Pages/Self_Intro.html / WebGIS_task/index.html`（字面值）、`Pages/Note/md/negiao-toolbox.md`、`Pages/navbar-widgets/theme-toggle.js`、`Pages/public/main-enhanced.js`、`Pages/Note/notes-toc.js`、`404.html`、`index.html`（版本号）
+
+---
+
+### 2026-08-30 · v2.1.0 · 首页主题配色重构（Claude 风格双主题）
+
+**问题分析**：
+- 原深色主题为「荧光青 (#00D9FF) + 蓝紫底」科技风，原浅色主题为「专业蓝 (#2563EB) + 冷灰底」
+- 配色散落硬编码于 7 个源 CSS（约 180 处 rgba/hex），与参考设计（Claude 双主题）风格差异大
+
+**设计目标**：对齐 Claude 官网设计语言——暖调中性底、赤陶橙主色、低饱和点缀色、柔和阴影
+
+#### 色彩系统（新）
+- **深色主题**：背景 `#141413` / `#1A1A19`，卡片 `#1F1F1E`，文字 `#F5F4EF` / `#A3A199`，主色 Claude 橙 `#D97757`
+- **浅色主题**：背景米白 `#FAF9F5` / `#F0EEE6`，卡片 `#FFFFFF`，文字 `#191918` / `#52514C`，主色深橙 `#C15F3C`（保证对比度）
+- **点缀色**：赤陶 `#C15F3C`、橄榄绿 `#788C5D`、琥珀 `#E0A458`（替换原红/青/黄荧光色）
+- **渐变**：`--gradient-primary` 改为橙→赤陶暖渐变；hero 光晕、tech-badge 发光、渐变文字 shimmer 同步映射
+- **meta theme-color / 内联防闪烁样式**：`#0D1117 → #141413`，`#EFF1F5 → #FAF9F5`
+
+#### 实施方式
+- 脚本化色值映射（定向替换 + rgba 通道映射 + HEX 大小写不敏感替换），一次性处理 `base/components/layout/hero/projects/responsive/index` 7 个源 CSS
+- 重跑 `Pages/css/build-home-css.mjs` 重建 `home.css`（缓存参数 `?v=20260830`）
+
+**修改的文件路径**：
+- `Pages/css/base.css` `components.css` `layout.css` `hero.css` `projects.css` `responsive.css` `index.css`（修改：主题色映射）
+- `Pages/css/home.css`（重新构建）
+- `index.html`（修改：meta theme-color、内联防闪烁色、CSS 版本参数、footer 版本号）
+
+---
+
 ### 2026-06-01 · v2.0.0 · 架构重构与性能优化
 
 **目录结构重组**：

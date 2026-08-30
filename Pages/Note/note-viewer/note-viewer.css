@@ -279,7 +279,7 @@
 
 .note-viewer-page .error-container__back-link:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 30%, transparent);
 }
 
 .note-viewer-page .error-container__refresh-btn {
@@ -335,7 +335,7 @@
     border-color: color-mix(in srgb, var(--primary) 48%, var(--glass-border));
     background: color-mix(in srgb, var(--primary) 9%, var(--surface-elevated));
     transform: translateY(-1px);
-    box-shadow: 0 7px 18px rgba(0, 217, 255, 0.1);
+    box-shadow: 0 7px 18px color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
 .note-viewer-page .note-viewer-navbar__home-icon {
@@ -402,7 +402,7 @@
     border-color: color-mix(in srgb, var(--primary) 52%, var(--glass-border));
     background: color-mix(in srgb, var(--primary) 10%, var(--surface-elevated));
     transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgba(0, 217, 255, 0.1);
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
 .note-viewer-page .note-viewer-navbar__back-icon {
@@ -669,9 +669,9 @@
 }
 
 .note-viewer-page .code-block-copy-btn.copied {
-    border-color: #22c55e;
-    color: #22c55e;
-    background: color-mix(in srgb, #22c55e 12%, transparent);
+    border-color: var(--success);
+    color: var(--success);
+    background: color-mix(in srgb, var(--success) 12%, transparent);
 }
 
 /* Search box and navigation */
@@ -783,11 +783,11 @@ mark.search-highlight.active {
 .note-viewer-page #note-content h4,
 .note-viewer-page #note-content h5,
 .note-viewer-page #note-content h6 {
-    color: #00D9FF;
+    color: var(--primary);
 }
 
 .note-viewer-page #note-content strong {
-    color: #00D9FF;
+    color: var(--primary);
 }
 
 /* Mobile responsive */

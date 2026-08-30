@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NEGIAO英语单词测试系统 - 随机测验，巩固记忆">
     <meta name="author" content="NEGIAO">
-    <meta name="theme-color" content="#0A0E13">
+    <meta name="theme-color" content="#0D1117">
 
     <title>单词测试 - NEGIAO</title>
     <link rel="icon" type="image/webp" href="/images/icon.webp">
@@ -223,7 +223,7 @@
             background: var(--surface-elevated);
             color: var(--text);
             transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 217, 255, 0.12);
+            box-shadow: 0 4px 16px color-mix(in srgb, var(--primary) 12%, transparent);
         }
 
         .quiz-option:active:not(.quiz-option--disabled) {
@@ -233,17 +233,17 @@
         /* Correct */
         .quiz-option--correct {
             border-color: var(--success) !important;
-            background: rgba(81, 207, 102, 0.12) !important;
+            background: color-mix(in srgb, var(--success) 12%, transparent) !important;
             color: var(--success) !important;
-            box-shadow: 0 0 20px rgba(81, 207, 102, 0.15);
+            box-shadow: 0 0 20px color-mix(in srgb, var(--success) 15%, transparent);
         }
 
         /* Wrong */
         .quiz-option--wrong {
             border-color: var(--danger) !important;
-            background: rgba(255, 107, 107, 0.12) !important;
+            background: color-mix(in srgb, var(--danger) 12%, transparent) !important;
             color: var(--danger) !important;
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.15);
+            box-shadow: 0 0 20px color-mix(in srgb, var(--danger) 15%, transparent);
         }
 
         /* Disabled after answer */
@@ -270,15 +270,15 @@
         }
 
         .quiz-feedback--correct {
-            background: rgba(81, 207, 102, 0.1);
+            background: color-mix(in srgb, var(--success) 10%, transparent);
             color: var(--success);
-            border: 1px solid rgba(81, 207, 102, 0.25);
+            border: 1px solid color-mix(in srgb, var(--success) 25%, transparent);
         }
 
         .quiz-feedback--wrong {
-            background: rgba(255, 107, 107, 0.1);
+            background: color-mix(in srgb, var(--danger) 10%, transparent);
             color: var(--danger);
-            border: 1px solid rgba(255, 107, 107, 0.25);
+            border: 1px solid color-mix(in srgb, var(--danger) 25%, transparent);
         }
 
         @keyframes feedbackSlide {
@@ -316,7 +316,7 @@
 
         .quiz-btn--primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 217, 255, 0.35);
+            box-shadow: 0 8px 24px color-mix(in srgb, var(--primary) 35%, transparent);
         }
 
         .quiz-btn--secondary {
@@ -340,7 +340,7 @@
         .quiz-btn--ghost:hover {
             color: var(--primary);
             border-color: var(--primary);
-            background: rgba(0, 217, 255, 0.05);
+            background: color-mix(in srgb, var(--primary) 5%, transparent);
         }
 
         .quiz-btn:disabled {

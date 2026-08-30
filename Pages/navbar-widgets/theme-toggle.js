@@ -6,7 +6,7 @@
     'use strict';
 
     var STORAGE_KEY = 'site-theme';
-    var THEME_COLORS = { dark: '#0A0E13', light: '#EFF1F5' };
+    var THEME_COLORS = { dark: '#0D1117', light: '#EFF1F5' };
 
     function getPreferredTheme() {
         var stored = localStorage.getItem(STORAGE_KEY);

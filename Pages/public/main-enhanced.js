@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (document.getElementById('scroll-progress')) return;
             const progressBar = document.createElement('div');
             progressBar.id = 'scroll-progress';
-            progressBar.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:var(--gradient-primary);width:0%;z-index:99999;transition:width 0.1s ease-out;box-shadow:0 0 10px rgba(0,217,255,0.5);';
+            progressBar.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:var(--gradient-primary);width:0%;z-index:99999;transition:width 0.1s ease-out;box-shadow:0 0 10px color-mix(in srgb, var(--primary) 50%, transparent);';
             document.body.appendChild(progressBar);
             let ticking = false;
             const updateProgress = () => { const scrollTop = window.scrollY || document.documentElement.scrollTop; const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight; const scrollPercent = (scrollTop / Math.max(docHeight, 1)) * 100; progressBar.style.width = `${scrollPercent}%`; ticking = false; };

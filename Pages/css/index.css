@@ -487,6 +487,7 @@ body[data-theme='light'].home-page .hero__title {
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
+  animation: home-title-sheen 9s linear infinite;
 }
 
 @keyframes home-title-sheen {

@@ -46,7 +46,7 @@
 
 .footer__navigation ul li a:hover {
   color: var(--primary);
-  background: rgba(0, 217, 255, 0.1);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
   transform: translateY(-2px);
   text-decoration: none;
 }
@@ -74,7 +74,7 @@
 
 .social-link:hover {
   color: var(--primary);
-  background: rgba(0, 217, 255, 0.1);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
   transform: translateY(-2px);
   text-decoration: none;
 }

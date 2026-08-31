@@ -5,6 +5,18 @@
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 ## 2026年8月单词
+### 2026-08-31
+|单词|词性|释义|助记|
+|---|---|---|---|
+|unfolding|adj./v.|展开；正在发展的，逐渐明朗的|un‑打开+fold折叠+ing→正在展开、逐步显现|
+|puritan|n./adj.|清教徒；禁欲者；清教徒式的|pure纯净+itan→恪守严苛戒律的人→清教徒|
+|theological|adj.|神学的|theo神+logical学说的→关于神的理论的|
+|theology|n.|宗教；神学|theo神+logy学科→研究神的学科|
+|episode|n.|一段时间；一集；插曲|epi在上+sode路→行程中的一段→插曲、剧集|
+|virtuosity|n.|精湛技艺；艺术鉴赏力|virtu技艺+osity名词后缀→技艺高超的程度|
+|impress|v./n.|使印象深刻；铭记；强征|im向内+press压→压入心底→留下印象|
+|impressive|adj.|令人钦佩的；给人印象深刻的|impress使印象深刻+ive→打动人心的|
+|superstition|n.|迷信|super超越+stit站立+ion→凌驾理性之上的虚妄观念|
 ### 2026-08-26
 |单词|词性|释义|助记|
 |---|---|---|---|
@@ -147,26 +159,3 @@
 |disgrace|n./v.|羞辱；耻辱；失宠|dis否定+grace体面→失去体面→耻辱|
 |invert|v.|倒置；翻转|in向内+vert转→向内转→颠倒|
 |revert|v.|恢复；归还|re回+vert转→转回去→恢复原状|
-### 2026-08-15新增单词
-|单词/短语|词性|释义|助记|
-| ---- | ---- | ---- | ---- |
-|generative|adj.|有生产力的；生成的|gener‑产生+ative形容词后缀，可以生成的|
-|apprehend|v.|逮捕；理解；忧虑|ap加强+prehend抓，抓住人→逮捕；抓住含义→理解|
-|columnist|n.|专栏作者；专栏作家|column专栏+ist人，写专栏的人|
-|justification|n.|理由；依据|just公正+ification名词后缀，证明合理→依据、理由|
-|universality|n.|普遍性；广泛性|universal普遍的+ity名词后缀|
-|arise|v.|产生；起源；上升|a‑向上+rise升起，慢慢浮现→产生、出现|
-|a hell|adv.|极其；非常|固定口语搭配，表程度加深|
-|bounce around|phr.|上下浮动、来回波动|bounce弹跳+around四处，来回弹动→波动|
-|edge down|phr.|微降；渐落|edge缓慢移动+down向下，一点点下滑|
-|crash|v./n.|冲撞；暴跌；惨败；崩溃|拟声词，猛烈撞击发出声响|
-|Fed|n.|美联储|Federal Reserve 的缩写|
-|odd|adj.|奇怪的；奇数的；大约左右|熟词多义，除了奇怪还有大约、奇数含义|
-|odds|n.|可能性；机会；困难|odd变形，成败的几率→可能性|
-|firm|n./adj.|公司；稳健的；坚定的|两层高频义：商号；稳固不动摇|
-|vise|n.|钳子|谐音“外死死”，钳子牢牢夹住|
-|revise|v.|修订；改变|re再次+vis看，重新审阅→修订|
-|payroll|n.|工资单；薪资；工资总额|pay支付+roll名单，领工资人员名单→薪资|
-|gauge|v./n.|估计判断；测量；标准|联想：用仪表gauge去测量、估量|
-|through|n.|低谷；凹点|熟词僻义，事物周期里的谷底阶段|
-|imminent|adj.|即将发生的；临近的|im向内+min伸出+ent，马上就要冒出来→迫近的|

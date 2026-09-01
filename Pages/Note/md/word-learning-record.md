@@ -4,6 +4,20 @@
   ![visitors](https://visitor-badge.laobi.icu/badge?page_id=negiao.word-learning)
 
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
+
+## 2026年8月单词
+### 2026-09-01
+|单词|词性|释义|助记|
+|---|---|---|---|
+|disposition|n.|性格；倾向|dis分开+pos放置+ition→内在排布状态→性情、倾向|
+|coincide|v.|巧合；同时发生；相交；重叠|co共同+incide落下→一同发生→重合、巧合|
+|secure|adj./v.|获得；得到；可靠的|se分开+cure关心→无需担忧→可靠的；引申为取得|
+|gratify|v.|满足；满意|grat愉悦+ify使动→使愉悦→满足|
+|appetite|n.|欲望；胃口；爱好|ap加强+pet寻求+ite→渴求的事物→食欲、欲望|
+|perpetual|adj.|长久的；永恒的；终身的|per一直+pet行走+ual→持续行进的→永久的|
+|enslave|v.|奴役；束缚|en使动+slave奴隶→使成为奴隶→奴役|
+|note|v./n.|注意；留意；笔记；记录|熟词多义，兼具名词、动词词性|
+|upon|prep.|在…之上；即将发生的|on的正式表达，表方位与临近发生|
 ## 2026年8月单词
 ### 2026-08-31
 |单词|词性|释义|助记|
@@ -132,30 +146,3 @@
 |parenthood|n.|做父母身份|parent父母+hood身份名词后缀|
 |retrospect|v./n.|回顾；回想|retro向后‑spect看→回头看→回顾|
 |gossip|n./v.|八卦；闲聊；流言蜚语|go走动+sip小口聊→到处闲聊八卦|
-### 2026-08-17
-|单词/短语|词性|释义|助记|
-|---|---|---|---|
-|measurable|adj.|显著的；明显的；可测量的|measur(e)测量‑able可…的→可测量的，引申为明显的|
-|renewable|adj.|可再生的；可延续的|renew更新‑able可…的→可更新、可再生|
-|tone|n./v.|音调；基调；协调；强健|谐音“通”，音调通畅→基调、音色|
-|not...but...|连词|不是…而是…|固定并列结构，否定前者肯定后者|
-|to say at least|短语|最起码|at least至少→最起码可以说|
-|faint|adj./v.|模糊的；微小的；虚弱的；晕厥|f‑air变弱→微弱、晕倒|
-|crisis|n.|危机|cris(判断)+is→需要做出抉择→危机|
-|critic|n.|批评家|crit判断‑ic人→做评判的人→评论家|
-|cloak|n./v.|披风斗篷；遮盖；掩饰|联想：斗篷用来遮盖身体→掩盖真相|
-|scrutinize|v.|仔细审查|scrutin观察‑ize动词后缀→仔细察看|
-|scrutiny|n.|仔细审查；监视|scrutinize 的名词形式|
-|succession|n.|连续不断的人或物；继承|suc下+cess走+ion→一步步往下走→连续、继任|
-|success|n.|成功|suc下+cess走→一路走到底→成功|
-|succeed|v.|成功；接替；继任|success 的动词形式|
-|nod|v./n.|点头；同意|象形记忆，头往下一点|
-|cloud|n./v.|云；阴影；令人忧虑的事；破坏；模糊|熟词僻义：乌云→蒙上阴影、使模糊|
-|deputy|n.|副手；代理人|de向下+put放置‑y→被委派的人→代理人|
-|vice|n./adj.|副手；代理的；邪恶；罪行|vice‑表副；另一个义项：罪恶|
-|net|n./v./adj.|网；净赚|熟词僻义：除去成本后净得|
-|without a net|短语|兜底|没有防护网→缺少兜底保障|
-|stick(stuck)|v.|困住；粘贴；戳刺|过去式/过去分词stuck，卡进去→被困住|
-|disgrace|n./v.|羞辱；耻辱；失宠|dis否定+grace体面→失去体面→耻辱|
-|invert|v.|倒置；翻转|in向内+vert转→向内转→颠倒|
-|revert|v.|恢复；归还|re回+vert转→转回去→恢复原状|

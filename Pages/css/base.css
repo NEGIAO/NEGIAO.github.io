@@ -317,19 +317,6 @@ body[data-theme='light'] ::selection {
   color: var(--text);
 }
 
-body[data-theme='light'] ::-webkit-scrollbar-track {
-  background: var(--background-secondary);
-}
-
-body[data-theme='light'] ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: var(--radius-full);
-}
-
-body[data-theme='light'] ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
-}
-
 body[data-theme='light'] .gradient-text {
   background: var(--gradient-primary);
   -webkit-background-clip: text;
@@ -465,8 +452,8 @@ a:focus {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
@@ -474,18 +461,22 @@ a:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
+  /* 半透明主题色滑块：暗色青 #00D9FF / 亮色蓝 #2563EB，随 --primary 自动适配明暗主题 */
+  /* 第一行是不支持 color-mix 的旧浏览器兜底值 */
+  background: var(--border-light);
+  background: color-mix(in srgb, var(--primary) 55%, transparent);
   border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--border-light);
+  background: var(--primary);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--primary) 60%, transparent);
 }
 
 /* Firefox scrollbar */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) var(--background-secondary);
+  scrollbar-width: auto;
+  scrollbar-color: color-mix(in srgb, var(--primary) 60%, transparent) var(--background-secondary);
 }
 
 /* ========================

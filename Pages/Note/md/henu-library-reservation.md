@@ -10,8 +10,11 @@
 
 河南大学图书馆座位预约系统采用 **CAS 统一认证 + Token 业务鉴权** 架构：
 
-```
-用户 → CAS 认证(ids.henu.edu.cn) → 业务系统(zwyy.henu.edu.cn) → 预约
+```mermaid
+flowchart LR
+    U["用户"] --> CAS["CAS 统一认证<br/>ids.henu.edu.cn"]
+    CAS --> BIZ["业务系统<br/>zwyy.henu.edu.cn"]
+    BIZ --> R["座位预约"]
 ```
 
 | 项目 | 地址 |
@@ -87,7 +90,7 @@ def encrypt_password(password, salt):
 POST /v4/login/user
 Content-Type: application/json
 
-{"cas": "从302重定向URL提取"}
+{"cas": "最终落地URL中的 hex 令牌（32位）"}
 ```
 
 响应：
@@ -237,7 +240,7 @@ aesjson 明文：
 ### 6.1 第 1 步：请求登录页，拿到三样东西
 
 ```http
-GET https://ids.henu.edu.cn/authserver/login?service=https%3A%2F%2Fzwyy.henu.edu.cn%2Fv4%2Flogin%2Fcas
+GET https://ids.henu.edu.cn/authserver/login?service=https://zwyy.henu.edu.cn/v4/login/cas
 ```
 
 > `service` 参数告诉 CAS「登录成功后把我送回预约系统」。**必须带上**（就是 `zwyy.henu.edu.cn/v4/login/cas` 的 URL 编码），否则最后拿不到 cas ticket。
@@ -246,7 +249,7 @@ curl 示例（`-c` 把 Cookie 存成文件，之后每一步都用 `-b cookies.t
 
 ```bash
 curl -s -c cookies.txt \
-  "https://ids.henu.edu.cn/authserver/login?service=https%3A%2F%2Fzwyy.henu.edu.cn%2Fv4%2Flogin%2Fcas" \
+  "https://ids.henu.edu.cn/authserver/login?service=https://zwyy.henu.edu.cn/v4/login/cas" \
   -o login.html
 
 # 从 HTML 里提取三个关键字段
@@ -263,7 +266,7 @@ name="execution" value="e1s1"
 name="lt" value="LT-1234567-xxxxxxxxxx-cas"
 ```
 
-把三个值抄下来备用。若 salt 取不到 → 登录页结构变化或被风控，先用浏览器打开 `https://ids.henu.edu.cn` 看一眼是否正常。
+把三个值抄下来备用。⚠️ **`lt` 输入框当前登录页已不再渲染**（实测 2026-09-02），取不到就传空字符串即可，不影响登录。若 salt 取不到 → 登录页结构变化或被风控，先用浏览器打开 `https://ids.henu.edu.cn` 看一眼是否正常。
 
 ### 6.2 第 2 步：检查是否需要验证码
 
@@ -286,17 +289,18 @@ curl -s -b cookies.txt -c cookies.txt \
 
 ### 6.3 第 3 步：加密密码并提交登录，拿 cas ticket
 
-密码**不是明文传输**：AES-128-CBC，Key = 第 1 步的 salt，IV = 16 位随机串，明文 = 64 位随机串 + 真实密码（加密原理见 §3.2）。用 Python 算出 `password` 字段：
+密码**不是明文传输**：AES-128-CBC（混合加密算法），Key = 第 1 步的 salt，IV = 16 位随机串，明文 = 64 位随机串 + 真实密码（加密原理见 §3.2）。用 Python 算出 `password` 字段：
 
 ```python
 import base64, random
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 
+#专门剔除容易混淆字符：I、l、O、0、V，只取剩下大小写字母 + 数字。
 AES_CHARS = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678"
 
 def encrypt_password(password, salt):
-    key = salt.encode()                                                    # salt 就是 key
+    key = salt.encode()                                                    # salt 就是 key，utf-8
     iv = "".join(random.choice(AES_CHARS) for _ in range(16)).encode()     # 随机 IV
     plain = ("".join(random.choice(AES_CHARS) for _ in range(64)) + password).encode()
     return base64.b64encode(
@@ -318,13 +322,17 @@ curl -s -b cookies.txt -c cookies.txt -i \
   "https://ids.henu.edu.cn/authserver/login?service=https%3A%2F%2Fzwyy.henu.edu.cn%2Fv4%2Flogin%2Fcas"
 ```
 
-登录成功时，响应头的 `Location`（或最终跳转 URL）会重定向回预约系统并带上 ticket：
+登录成功时是**两跳重定向**，`cas` 十六进制令牌只在第二跳之后才出现，这是最容易踩的坑：
 
-```
-https://zwyy.henu.edu.cn/v4/login/cas?cas=a1b2c3d4e5f6...
+```text
+第 1 跳（POST 登录响应 302 的 Location，参数名是 ticket，值以 ST- 开头）：
+https://zwyy.henu.edu.cn/v4/login/cas?ticket=ST-601455-xxxxxxxxxxxx
+
+第 2 跳（业务系统验证 ST ticket 后，最终落地 URL 里才有 cas=hex）：
+https://zwyy.henu.edu.cn/h5/index.html#/cas/?cas=4e9fc602ce9b300d13fbda7e1c6745fe
 ```
 
-用正则 `[?&]cas=([0-9a-fA-F]+)` 把这串十六进制的 ticket 提取出来。**若没有 Location / cas → 学号或密码错误**，页面里 `id="msg"` 节点有具体错误文本可以看。
+所以正确做法是：`allow_redirects=False` 拿到第一跳的 `ST-xxx`，再主动 `GET /v4/login/cas?ticket=ST-xxx` 并让它跟随全部重定向，最后用正则 `[?&]cas=([0-9a-fA-F]+)` 从**最终落地 URL** 提取 hex 令牌。**若第一跳连 `ticket=ST-` 都没有 → 学号或密码错误**，此时响应是 200 错误页，页面里 `id="msg"` 节点有具体错误文本可以看。
 
 ### 6.4 第 4 步：cas 换 Token（鉴权凭证）
 
@@ -497,12 +505,13 @@ def main():
     s = requests.Session()
     s.headers["User-Agent"] = "Mozilla/5.0"
 
-    # 第 1 步：登录页，拿 salt / execution / lt
+    # 第 1 步：登录页，拿 salt / execution（lt 输入框当前页面已不渲染，必须容错取值）
     login_url = f"{CAS}/authserver/login?service=https%3A%2F%2Fzwyy.henu.edu.cn%2Fv4%2Flogin%2Fcas"
     soup = BeautifulSoup(s.get(login_url).text, "html.parser")
     salt = soup.find("input", {"id": "pwdEncryptSalt"})["value"]
     execution = soup.find("input", {"name": "execution"})["value"]
-    lt = soup.find("input", {"name": "lt"})["value"]
+    lt_inp = soup.find("input", {"name": "lt"})
+    lt = lt_inp["value"] if lt_inp else ""
     print("[1] 登录页字段获取成功")
 
     # 第 2 步：验证码检查
@@ -511,18 +520,25 @@ def main():
     if '"isNeed":true' in need:
         sys.exit("该账号需要验证码，请先在浏览器手动登录一次")
 
-    # 第 3 步：提交登录表单，从 302 的 Location 提取 cas ticket
+    # 第 3 步：提交登录表单。第一跳 302 的 Location 带的是 ticket=ST-xxx（不是 cas=hex！）
     form = {"username": username, "password": encrypt_password(password, salt),
             "captcha": "", "execution": execution, "_eventId": "submit",
             "lt": lt, "dllt": "generalLogin", "cllt": "userNameLogin"}
     r = s.post(login_url, data=form, allow_redirects=False)
-    m = re.search(r"[?&]cas=([0-9a-fA-F]+)", r.headers.get("Location", ""))
+    m = re.search(r"[?&]ticket=(ST-[0-9a-zA-Z\-]+)", r.headers.get("Location", ""))
     if not m:
-        sys.exit("登录失败：未取得 cas ticket（检查学号密码是否正确）")
-    print("[3] cas ticket 获取成功")
+        sys.exit("登录失败：未取得 ticket（检查学号密码是否正确）")
+    print("[3] ST ticket 获取成功")
+
+    # 第 3.5 步：拿 ST ticket 去业务系统验证；跟随全部重定向后，最终落地 URL 里才有 cas=hex
+    landing = s.get(f"{API}/v4/login/cas?ticket={m.group(1)}")
+    m2 = re.search(r"[?&]cas=([0-9a-fA-F]+)", landing.url)
+    if not m2:
+        sys.exit("登录失败：无法获取 cas 令牌")
+    print("[3.5] cas hex 获取成功")
 
     # 第 4 步：cas 换 token（注意 bearer 后无空格）
-    token = s.post(f"{API}/v4/login/user", json={"cas": m.group(1)}).json()["data"]["member"]["token"]
+    token = s.post(f"{API}/v4/login/user", json={"cas": m2.group(1)}).json()["data"]["member"]["token"]
     h = {"Content-Type": "application/json", "authorization": "bearer" + token}
     print("[4] token 获取成功")
 
@@ -753,17 +769,24 @@ def reserve_with_retry(api, candidates, day, timeout=6, interval=0.2):
 
 ## 十、完整调用链路
 
-```
-1. GET 登录页 → 解析 salt/execution/lt
-2. POST checkNeedCaptcha → 判断验证码
-3. POST 登录表单 → AES 加密密码
-4. 302 重定向 → 提取 cas ticket
-5. POST /v4/login/user → 获取 Token
-6. POST /v4/space/pcTopFor → 校区+楼层
-7. POST /v4/space/pick → 区域列表
-8. POST /v4/Space/map → 时段配置
-9. POST /v4/Space/seat → 座位状态
-10. POST /v4/space/confirm → AES 加密提交(重试)
+```mermaid
+flowchart TD
+    subgraph AUTH["阶段一：CAS 认证换取 Token"]
+        A1["1. GET 登录页<br/>解析 salt / execution / lt"] --> A2["2. POST checkNeedCaptcha<br/>判断是否需要验证码"]
+        A2 --> A3["3. POST 登录表单<br/>AES 加密密码"]
+        A3 --> A4["4. 302 第一跳带 ticket=ST-xxx<br/>二跳最终URL才有 cas=hex"]
+        A4 --> A5["5. POST /v4/login/user<br/>获取 Token"]
+    end
+    subgraph QUERY["阶段二：查询座位信息"]
+        Q1["6. POST /v4/space/pcTopFor<br/>校区 + 楼层"] --> Q2["7. POST /v4/space/pick<br/>区域列表"]
+        Q2 --> Q3["8. POST /v4/Space/map<br/>时段配置"]
+        Q3 --> Q4["9. POST /v4/Space/seat<br/>座位状态"]
+    end
+    subgraph SUBMIT["阶段三：加密提交"]
+        S1["10. POST /v4/space/confirm<br/>AES 加密提交（带重试）"]
+    end
+    A5 --> Q1
+    Q4 --> S1
 ```
 
 ---

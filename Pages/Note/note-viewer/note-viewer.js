@@ -307,6 +307,84 @@
         });
     }
 
+    /**
+     * Mermaid 主题取值：随站点明暗主题切换
+     * @returns {string} mermaid theme 名称
+     */
+    function getMermaidTheme() {
+        return (document.body.dataset.theme || 'dark') === 'light' ? 'neutral' : 'dark';
+    }
+
+    /**
+     * 监听 body[data-theme] 属性变化（theme-toggle.js 只改 dataset 不派发自定义事件），
+     * 主题切换时用保存的原始源码重渲染页面上所有 Mermaid 图
+     */
+    var mermaidThemeWatcherBound = false;
+    function watchMermaidTheme() {
+        if (mermaidThemeWatcherBound || typeof MutationObserver !== 'function') { return; }
+        mermaidThemeWatcherBound = true;
+        var last = document.body.dataset.theme || 'dark';
+        new MutationObserver(function () {
+            var cur = document.body.dataset.theme || 'dark';
+            if (cur === last) { return; }
+            last = cur;
+            if (!window.mermaid || typeof window.mermaid.run !== 'function') { return; }
+            var nodes = Array.prototype.slice.call(document.querySelectorAll('.mermaid'))
+                .filter(function (el) { return el._mermaidSource; });
+            if (nodes.length === 0) { return; }
+            window.mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: getMermaidTheme() });
+            nodes.forEach(function (el) {
+                el.removeAttribute('data-processed');
+                el.textContent = el._mermaidSource;
+            });
+            window.mermaid.run({ nodes: nodes }).catch(function (err) {
+                console.warn('Mermaid 主题重渲染失败:', err);
+            });
+        }).observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+    }
+
+    /**
+     * 渲染 Mermaid 图 — 将 ```mermaid 代码块转换为 Mermaid 图表
+     * 核心逻辑：
+     *   1. 同步阶段把 pre>code 替换为 div.mermaid（必须发生在 hljs 高亮之前，避免代码被高亮改写；
+     *      同时赶在 MathJax 排版前完成，防止图表源码中的 $...$ 被当作公式处理）
+     *   2. 异步阶段调用 mermaid.run 生成 SVG
+     *   3. 库缺失时静默降级：代码块原样保留，走 hljs 普通高亮
+     * @param {HTMLElement} container - 笔记内容容器
+     * @returns {Promise} SVG 生成完成（或降级跳过）后 resolve，永不 reject
+     */
+    function renderMermaid(container) {
+        return new Promise(function (resolve) {
+            var codeBlocks = container.querySelectorAll('pre > code.language-mermaid');
+            if (codeBlocks.length === 0) { resolve(); return; }
+            if (!window.mermaid || typeof window.mermaid.run !== 'function') {
+                console.warn('Mermaid 库未加载，mermaid 代码块按普通代码块显示');
+                resolve(); return;
+            }
+
+            var diagrams = [];
+            codeBlocks.forEach(function (code) {
+                var pre = code.parentElement;
+                var div = document.createElement('div');
+                div.className = 'mermaid';
+                div.textContent = code.textContent;
+                div._mermaidSource = code.textContent; // 保存源码供主题切换时重渲染
+                pre.parentNode.replaceChild(div, pre);
+                diagrams.push(div);
+            });
+
+            window.mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: getMermaidTheme() });
+            watchMermaidTheme();
+
+            window.mermaid.run({ nodes: diagrams })
+                .catch(function (err) {
+                    console.warn('Mermaid 渲染失败:', err);
+                    // 渲染失败的块还原为错误提示（mermaid.run 失败的节点会保留错误 SVG 或原始文本）
+                })
+                .then(resolve);
+        });
+    }
+
     function detectMissingLibraries() {
         const issues = [];
         
@@ -387,7 +465,17 @@
                 renderMarkdown(md, container);
             }
 
+            // Mermaid 渲染：同步替换代码块的动作在 renderMermaid 内立即执行，
+            // 必须先于 applyHighlight 调用，确保 mermaid 块不被 hljs 高亮
+            const mermaidTask = renderMermaid(container);
+
             applyHighlight(container);
+
+            try {
+                await mermaidTask;
+            } catch (mermaidError) {
+                console.warn('Mermaid 渲染异常，继续执行其他操作:', mermaidError);
+            }
 
             try {
                 await renderMath(container);

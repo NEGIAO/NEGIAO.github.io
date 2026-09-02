@@ -143,6 +143,12 @@
       "description": "Google切片类型总结、apistyle查询、动态纠偏代理。",
       "category": "tech",
       "icon": "🗺️"
+    },
+    "henu-library-reservation": {
+      "title": "河大图书馆座位预约 —— 官方接口逆向与自动预约实现",
+      "description": "河大图书馆座位预约系统官方接口逆向分析，包含 9 个接口详情、AES 加密机制、CAS 认证流程、Python 自动预约完整实现与定时抢座逻辑。",
+      "category": "project",
+      "icon": "📚"
     }
   },
   "categories": {

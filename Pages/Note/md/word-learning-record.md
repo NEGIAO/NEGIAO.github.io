@@ -6,6 +6,30 @@
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 
 ## 2026年8月单词
+### 2026-09-04
+|单词|词性|释义|助记|
+|---|---|---|---|
+|mores|n.|风俗；习惯；道德观念|mor(道德)+es复数→道德准则、风俗|
+|sprawl|v./n.|摊开四肢坐；瘫坐；蔓延|sp展开+rawl爬行→四肢摊开状→瘫坐、蔓延|
+|giggle|v./n.|傻笑|拟声，模拟咯咯笑的声音|
+|veneer|n./v.|假象；外表；虚饰；掩饰|源自面板义→表面一层装饰→虚饰|
+|dosage|n.|剂量；用量（整体）|dose剂量+age表总称→总用量|
+|dose|n./v.|单次用量|谐音“多斯”→单次的药量|
+|ostensible|adj.|表面的；声称的；假装的|os向外+tens伸展+ible→对外展示的→表面上的|
+|beverage|n.|饮料|bever喝+age名词后缀→饮品|
+|imperil|v.|危及；使危险|im进入+peril危险→陷入险境→危及|
+|imperial|adj./n.|帝国的；皇帝的；帝国|emper皇帝变体+ial→帝国的|
+|possession|n.|拥有；持有；财产|possess拥有+ion名词后缀→所有物|
+|handsome|adj.|英俊的；值钱的；优厚的|hand手+some→体面大方→英俊、丰厚|
+|infection|n.|感染；传染病|infect感染+ion名词后缀→传染、感染|
+|secular|adj.|世俗的；长期的；趋势性的|se分离+cular时代→脱离宗教的→世俗的|
+|pedal|n./adj./v.|踏板；脚踩的；关于脚的；踩踏板|ped脚+al→脚用的→踏板|
+|hamper|v./n.|妨碍；阻碍；篮筐|拦住去路→阻碍行动|
+|distaste|n./v.|反感；不喜欢|dis否定+taste口味→不合口味→反感|
+|clause|n.|从句；条款|close闭合→约定条文→条款；语法从句|
+|inflate|v.|充气；膨胀；夸大；上升|in向内+flat吹→往里吹气→膨胀|
+|inflating|v.-ing|膨胀；抬高；夸大|inflate+ing→正在膨胀/夸大|
+|carve|v.|雕刻；赢得；侵蚀；削减|刻刀雕琢→雕刻；引申为削减、打拼获得|
 ### 2026-09-01
 |单词|词性|释义|助记|
 |---|---|---|---|
@@ -122,27 +146,3 @@
 |culprit|n.|罪犯；问题起因|cult罪‑prit→肇事者、问题根源|
 |dubious|adj.|无把握的；引起怀疑的|dub怀疑‑ious→可疑的|
 |revenge|n./v.|报仇；复仇|re回‑venge惩罚→回过去惩罚→复仇|
-### 2026-08-18
-|单词/短语|词性|释义|助记|
-|---|---|---|---|
-|exploit|v./n.|剥削；利用；开发；壮举|ex向外‑ploit折叠→向外拓展→开发、利用|
-|complement|v./n.|补充|com全部‑ple填满‑ment→补满、补充|
-|compensate|v.|弥补；补偿；赔偿；酬报|com共同‑pens称重‑ate→称重补齐→补偿|
-|hostage|n.|人质|host主人‑age→被掌控的人→人质|
-|allege|v.|指控；宣称|al朝向‑lege说→公开声称、指控|
-|hijack|v.|劫持；操纵|谐音：嗨杰克→半路劫持|
-|steep|adj./v.|陡峭的；大幅度的；浸泡|st(stand)+deep→地势深陡；泡进深处|
-|provoke|v.|引起；挑衅|pro向前‑voke呼喊→上前喊话挑衅|
-|provocate|v.|激怒|pro向前‑voc叫喊‑ate→出言激怒|
-|past tense|词组|过去式|past过去 + tense时态|
-|tense|adj./n.|紧张的；绷紧的；动词的时态|词根tend伸展→拉紧→紧张、时态|
-|damp|adj./v.|潮湿的；抑制；减弱|联想dam水坝→潮湿，打压→抑制|
-|gratify|v.|满足|grat感激、愉快‑ify使…→使满足|
-|newsstand|n.|报刊；杂志摊|news新闻+stand摊位→报刊摊|
-|procreate|v.|生育；产生|pro向前‑create创造→创造新生命→生育|
-|kitten|n.|小猫；幼崽|kit(小猫)+en表小→幼猫|
-|round‑the‑clock|adj.|全天候的|round环绕+clock时钟→围着时钟转→全天候|
-|dumb|adj.|沉默的；愚蠢的；简易的|联想dump丢下不说话→沉默|
-|parenthood|n.|做父母身份|parent父母+hood身份名词后缀|
-|retrospect|v./n.|回顾；回想|retro向后‑spect看→回头看→回顾|
-|gossip|n./v.|八卦；闲聊；流言蜚语|go走动+sip小口聊→到处闲聊八卦|

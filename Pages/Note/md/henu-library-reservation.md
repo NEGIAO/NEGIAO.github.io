@@ -1,8 +1,9 @@
 # 河大图书馆座位预约 —— 官方接口逆向与自动预约实现
 
 > **日期**：2026-09-02  
-> **来源**：服务器 Azure-NEGIAO 源码分析 + 抓包逆向  
-> **关键词**：Python、AES 加密、CAS 认证、定时任务、座位预约
+> **修订**：2026-09-04（线上实测补齐：`subscribe` 我的预约、`signin` 签到、`leave` 暂离、`cancel` 取消四个接口的真实请求形状与返回码；定时抢座改为多任务串行 + 开抢前预热；`run_at` 语义改为开抢时刻）  
+> **来源**：服务器 Azure-NEGIAO 源码分析 + 抓包逆向 + 线上真实预约/签到/暂离全链路实测  
+> **关键词**：Python、AES 加密、CAS 认证、定时任务、座位预约、签到
 
 ---
 
@@ -26,9 +27,11 @@ flowchart LR
 
 ---
 
-## 二、官方接口清单（9 个）
+## 二、官方接口清单（13 个已验证 + 1 个仅逆向）
 
-### 认证相关（4 个）
+> 状态标记说明：✅ = 线上真实调用验证过（含成功与各类拒绝）；🔍 = 仅从官方 H5 JS 包逆向出地址与参数形状，未真实触发（多为写动作，不敢乱点）。
+
+### 认证相关（4 个，✅）
 
 | # | 方法 | 地址 | 说明 |
 |---|---|---|---|
@@ -37,7 +40,7 @@ flowchart LR
 | 3 | POST | `ids.henu.edu.cn/authserver/login` | 提交登录表单 |
 | 4 | POST | `zwyy.henu.edu.cn/v4/login/user` | CAS 换 Token |
 
-### 查询相关（4 个）
+### 查询相关（4 个，✅）
 
 | # | 方法 | 地址 | 说明 |
 |---|---|---|---|
@@ -46,11 +49,20 @@ flowchart LR
 | 7 | POST | `zwyy.henu.edu.cn/v4/Space/map` | 时段配置 |
 | 8 | POST | `zwyy.henu.edu.cn/v4/Space/seat` | 座位状态 |
 
-### 预约提交（1 个）
+### 预约提交（1 个，✅）
 
 | # | 方法 | 地址 | 说明 |
 |---|---|---|---|
 | 9 | POST | `zwyy.henu.edu.cn/v4/space/confirm` | AES 加密提交 |
+
+### 我的预约与签到（4 个，✅；#13 仅逆向）
+
+| # | 方法 | 地址 | 请求体 | 说明 |
+|---|---|---|---|---|
+| 10 | POST | `zwyy.henu.edu.cn/v4/index/subscribe` | `{}`（无需参数） | 我的预约列表：含记录 id、座位号、起止时间、状态、可取消标记 |
+| 11 | POST | `zwyy.henu.edu.cn/v4/space/signin` | `{"aesjson": …}` 内层 `{"id": "预约记录id"}` | 签到（需 AES 信封，见 §十三） |
+| 12 | POST | `zwyy.henu.edu.cn/v4/space/leave` | `{"aesjson": …}` 内层 `{"id": "预约记录id"}` | 暂离 90 分钟（见 §十三） |
+| 13 | POST | `zwyy.henu.edu.cn/v4/space/cancel` | `{"id": "预约记录id"}`（明文，无需加密） | 🔍 取消预约（见 §十四；成功码为 0 **或 287**，从 JS 取消按钮逻辑确认，未真实触发） |
 
 
 ---
@@ -359,6 +371,15 @@ curl -s -X POST "https://zwyy.henu.edu.cn/v4/login/user" \
 {"code": 0, "msg": "成功", "data": {"member": {"id": "你的学号", "token": "eyJhbGciOi..."}}}
 ```
 
+**注意**：`data.member` 里同时回了用户画像，合理利用它（线上实测字段，示例值已脱敏）：
+
+```json
+{"id": "2xxxxxxxx", "name": "张三", "deptName": "某某学院",
+ "roleName": "本科生", "flagName": "正常", "status": 1}
+```
+
+`flagName` 非"正常"（如违纪冻结）时抢座/签到都会失败，适合做账号健康检查。一卡通号/邮箱/手机等敏感字段也在同一对象里——**只取展示必需的 6 个，不要持久化敏感字段**。
+
 **把 Token 存好，后续所有业务接口都靠它鉴权。** 请求头写法是 `authorization: bearer<token>`——⚠️ **`bearer` 和 Token 之间没有空格**（源码就是 `"bearer" + token` 直接拼接，这是该系统的约定，与标准 `Bearer xxx` 不同，写错直接 401/403）。
 
 ### 6.5 第 5 步：查校区与楼层
@@ -611,14 +632,24 @@ CREATE TABLE accounts (
     fallback_mode TEXT DEFAULT 'nearby', enabled INTEGER DEFAULT 1,
     campus_id TEXT, floor_id TEXT, area_id TEXT, seat_id TEXT
 );
+CREATE TABLE reservation_tasks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, name TEXT,
+    run_at TEXT,              -- 开抢时刻 HH:MM
+    day_offset INTEGER,       -- 0=抢当日，1=抢明日
+    area_id TEXT, area_name TEXT, seat_no INTEGER, seat_id TEXT,
+    area_chain TEXT,          -- 逗号分隔的区域 id，有序兜底
+    fallback_mode TEXT, enabled INTEGER DEFAULT 1
+);
 CREATE TABLE reservation_history (
     id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, seat_no INTEGER,
     area TEXT, day TEXT, status TEXT, message TEXT
+    -- status 含 success / already / unavailable / cancelled（官方对账后取消）
 );
 CREATE TABLE reservation_logs (
     id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, action TEXT,
     result TEXT, message TEXT
 );
+-- settings 键值表：cron_*（旧时刻）、signin_enabled / signin_at、cron_semantics_v2（语义迁移旗）
 ```
 
 ### 7.2 登录模块
@@ -728,30 +759,49 @@ def reserve_with_retry(api, candidates, day, timeout=6, interval=0.2):
 
 ---
 
-## 八、定时抢座
+## 八、定时抢座（多任务串行 + 开抢前预热）
 
-### 8.1 时序
+> 本节已按线上实际重写（旧版是单任务、提前 20s 登录、到点才开第一枪）。
+
+### 8.1 核心语义：`run_at` = 开抢时刻
+
+| 概念 | 含义 |
+|---|---|
+| `run_at`（如 `06:30`） | **开抢时刻 T**，即你想开火的时间，用户填的就是它 |
+| cron 行 | T **前 1 分钟**（如 `29 6 * * *`），只负责唤醒登录 |
+| `day_offset` | 目标日 = 开抢日 + 偏移（`0`=抢当日被释放的座，`1`=抢明日正式名额） |
+
+### 8.2 时序（以 06:30 开抢为例）
 
 ```
-06:29:40    06:29:50         06:30:00    06:30:01~06:30:06
-   │           │                │              │
-   ▼           ▼                ▼              ▼
-开始登录    登录完成         开放预约       高频抢座
-(提前20s)   (Token就绪)      (到点)        (0.2s间隔)
+06:29:00         06:29:45      06:29:55      06:30:00
+   │                │              │              │
+   ▼                ▼              ▼              ▼
+cron 唤醒+登录    预热开始       切全速        开抢，全力 hammer
+(提前60s)      (1秒一枪        (0.2秒一枪     (约5次/秒，
+                只探首选)       只探首选)       总预算从此刻起 90 秒)
 ```
 
-### 8.2 Cron
+两档预热的依据是实测：官方曾收下 **06:29:55** 发出的请求（06:30:05 确认），说明窗口提前开几秒或双方有时钟差——最后 5 秒必须全速。预热期只探首选座位，"未开始"类返回原地等，**绝不推进候选列表、不计尝试次数**（否则会把全列表烧在 615 里，到点无座可约）。
+
+### 8.3 多任务串行
 
 ```bash
-40 29 6 * * * /srv/negiao/src/backend/seat/henu_runner.sh
+29 6 * * * www-data henu_runner.sh <学号> 1   # 今日补抢：先抢当日释放座
+29 6 * * * www-data henu_runner.sh <学号> 2   # 明日正式：再抢明日心仪座
+0  8 * * * www-data henu_runner.sh <学号> signin  # 每日签到（见 §十三）
 ```
 
-### 8.3 兜底策略
+- 同账号多任务靠文件锁串行，绝不并发登录；任务 2 会比任务 1 晚几秒启动（等锁释放），仍在 180 秒宽限内。
+- 每个任务独立配置：触发时刻、今日/明日、首选区域+座位（0=任意）、区域兜底链（如 大厅→三楼→南附楼）、兜底策略。
+
+### 8.4 兜底策略
 
 | 模式 | 排序 |
 |---|---|
 | `nearby` | 按与首选座位距离 |
 | `any` | 按座位号从小到大 |
+| `none` | 不换座，只约首选 |
 
 ---
 
@@ -759,11 +809,15 @@ def reserve_with_retry(api, candidates, day, timeout=6, interval=0.2):
 
 | 常量 | 值 | 说明 |
 |---|---|---|
-| `DEFAULT_OPEN_AT` | `06:30:00` | 开放时刻 |
-| `LEAD_SECONDS` | `20` | 提前登录 |
-| `RETRY_INTERVAL` | `0.2s` | 重试间隔 |
-| `RETRY_TIMEOUT` | `6s` | 单座超时 |
-| `GRACE_SECONDS` | `180s` | 宽限期 |
+| `DEFAULT_OPEN_AT` | `06:30:00` | 开放时刻（馆方每日开放预约） |
+| `DEFAULT_LEAD_SECONDS` | `60` | 开抢前多少秒完成登录 |
+| `WARMUP_INTERVAL` | `1.0s` | 预热 gentle 期节拍（开抢前 15s→5s） |
+| `SPRINT_LAST_SECONDS` | `5` | 最后几秒切 0.2s 全速 |
+| `RETRY_INTERVAL` | `0.2s` | 开抢后重试间隔 |
+| `RETRY_TIMEOUT` | `6s` | 首选座位持续尝试窗口（兜底一击即换） |
+| `TOTAL_BUDGET_SECONDS` | `90` | 单次总时间硬上限（从开抢起算） |
+| `MISSED_GRACE_SECONDS` | `180s` | 错过开抢时刻后的宽限期 |
+| `MAX_WAIT_SECONDS` | `3600` | 距开抢超 1 小时视为配置错误，直接退出 |
 
 ---
 
@@ -802,5 +856,97 @@ flowchart TD
 | 返回"频繁操作" | 请求太快 | 增大间隔 |
 
 ---
+
+## 十二、我的预约与状态同步
+
+### 12.1 查询：`POST /v4/index/subscribe`
+
+请求体为空对象 `{}` 即可（bearer 鉴权），返回当前账号名下全部有效预约：
+
+```bash
+curl -s -X POST "https://zwyy.henu.edu.cn/v4/index/subscribe" \
+  -H "Content-Type: application/json" \
+  -H "authorization: bearer$TOKEN" \
+  -d '{}'
+```
+
+单条记录关键字段（示例值已脱敏）：
+
+```json
+{"id": "6xxxxxx", "area_id": "8",
+ "nameMerge": "金明校区-金明二楼-二楼南附楼走廊",
+ "no": "031", "beginTime": "2026-09-04 08:00:00", "endTime": "2026-09-04 22:59:59",
+ "status": "2", "statusname": "预约成功", "signIn": "0", "cancel": 1,
+ "lastSigninTime": "2026-09-04 08:45:00"}
+```
+
+| 字段 | 含义 |
+|---|---|
+| `id` | 预约记录 id（签到/暂离/取消的参数） |
+| `no` | 座位号（注意是**字符串**，如 `"031"`，转 int 用） |
+| `beginTime` 前 10 位 | 目标日期 `YYYY-MM-DD` |
+| `statusname` | `预约成功` / `使用中` 等官方原文 |
+| `cancel == 1` | 当前可取消 |
+| `signIn == 1` | 已签到 |
+| `lastSigninTime` | 签到截止时间（缺失时按 `beginTime + 45 分钟` 估算，实测吻合） |
+
+### 12.2 易错认知：显示层没有"暂离态"
+
+实测发现：暂离成功后记录显示**依然是"使用中"**，唯一变化是新增字段 `flag_leave: 0→1`。只看 `statusname` 永远发现不了暂离，**必须读 `flag_leave`**。同理，签到恢复成功后 `flag_leave` 归零。
+
+### 12.3 对账语义（本地库 vs 官方）
+
+本地只记"我约上过"，官方渠道取消/重约本地感知不到。正确做法是双向对账，且只动今明两天：
+
+- 本地成功、官方消失 → 标 `cancelled`（留原消息备查，不删行）
+- 官方有、本地无 → 补一行 `success`（注明补记原因）
+- 官方拿不到（网络/登录失败）→ **一个字不动**，绝不能把"查不到"当成"被取消"
+- 10 分钟内新建的行暂不标取消（给官方列表传播留时间）
+
+---
+
+## 十三、签到与暂离
+
+### 13.1 签到：`POST /v4/space/signin`
+
+```bash
+# 内层 {"id": "预约记录id"}，AES 信封同 confirm（Key 规则见 §四，day 取当日）
+curl -s -X POST "https://zwyy.henu.edu.cn/v4/space/signin" \
+  -H "Content-Type: application/json" \
+  -H "authorization: bearer$TOKEN" \
+  -d '{"aesjson": "…"}'
+```
+
+实测结论（线上真实预约验证过）：
+
+| 场景 | 返回 | 说明 |
+|---|---|---|
+| 对未签到的当日预约签到 | `code=0` | 成功，无需内网、无需定位，全程无经纬度参数 |
+| 提前一天签明日的预约 | `code=362 请开始后操作` | **时间门，非位置门**——begin 时刻之后才受理 |
+| 参数不对（`{}`/`seat_id` 等） | `code=201 缺少参数或参数错误` | 必须是 `{"id": 预约记录id}` |
+| 已签到的再签 | `code=621` 类"无可签" | 幂等方向安全，可放心重试逻辑 |
+
+** deadline**：`lastSigninTime`（如 08:00 开场则 08:45 截止）。断签=违约，所以签到适合做成每日定时任务（如 08:00 跑，只签当日未签）。
+
+> ⚠️ 保留意见：以上验证的是"恢复签到"（暂离后签回）与参数形状；**首次签到**是否要求闸机刷卡/刷脸，只能等真实首签那次见分晓。若官方返回位置类错误，说明有内网门。尝试本身不丢座位（座位保持预约成功态），可放心验证。
+
+### 13.2 暂离：`POST /v4/space/leave`
+
+同信封，内层同样 `{"id": "预约记录id"}`。语义：座位保留 90 分钟，超时未回馆刷卡签到则丢座位（可能记违约）。**只对当日、已签到、id 精确命中的记录执行**；`checkout`（提前签退=主动丢座）绝不要碰。
+
+暂离成功后显示层**没有变化**（还是"使用中"），只能看 `flag_leave`。回馆必须刷卡/刷脸，系统侧只做倒计时提醒，不做自动签退。
+
+---
+
+## 十四、取消接口（仅逆向，未实测，慎用）
+
+```http
+POST /v4/space/cancel
+Content-Type: application/json
+
+{"id": "预约记录id"}     # 明文即可，无需 AES 信封
+```
+
+依据：官方 H5 取消按钮直调此接口（普通座位用它，研讨间用 `/v4/space/studyCancel`，参数同为 `{id}`）。**成功码是 `0` 或 `287`**（从取消按钮的成功判定逻辑确认）。因取消是不可逆写动作，从未真实触发过——要用它时务必先 dry-run 把参数打出来人工核对 id。
 
 > **声明**：本文档仅供学习研究，使用请遵守学校规定。

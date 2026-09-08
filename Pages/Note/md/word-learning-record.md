@@ -6,6 +6,16 @@
 > 🎯 **[点击这里开始单词测试](../Note/word-quiz.html)** - 随机抽取词库单词进行测验，巩固记忆！
 
 ## 2026年8月单词
+### 2026-09-08
+|单词/短语|词性|释义|助记|
+|---|---|---|---|
+|elusive|adj.|难以捉摸的；难找的|e向外+lus欺骗+ive→善于规避藏匿→难以捕捉的|
+|sweeping|adj.|广泛的；彻底的；全面的|sweep清扫+ing→一扫全覆盖的→全面彻底的|
+|moratorium|n.|暂停；中止|mor延迟+atorium表状态→暂缓执行→暂停|
+|stroke|v./n.|抚摸；轻触；中风；击球|st伸展+roke→轻轻划过→轻抚；引申卒中|
+|bulk|n.|主体；大部分；庞大身躯|谐音“霸客”→大块头→主体、绝大部分|
+|accept a as b|词组|把a看作b|accept接受+as作为→将A认作B|
+|well founded|adj.短语|有依据的；站得住脚的；理由充分的|well良好+found建立→根基牢固的→有充分根据的|
 ### 2026-09-04
 |单词|词性|释义|助记|
 |---|---|---|---|
@@ -117,32 +127,3 @@
 |knight|n.|骑士；爵士|k‑night，night夜晚护卫→骑士|
 |prose|n.|散文|和poem诗歌区分，prose散文|
 |retreat|v./n.|撤退；衰落|re向后‑treat拉→往后拉→撤退|
-### 2026-08-19
-|单词/短语|词性|释义|助记|
-|---|---|---|---|
-|bring out|词组|激发|bring带出，使内在东西显露→激发|
-|be wronged|词组|受到不公平的待遇|wrong错误、不公+ed被动→被亏待|
-|canon|n.|标准；真经；|谐音“规范”→准则、标准|
-|resist|v.|抵抗|re反‑sist站→站回去→抵抗|
-|insist|v.|坚称|in加强‑sist站→站稳立场→坚持|
-|embark|v.|着手；开始|em进入‑bark船→登船出发→着手做|
-|prerequisite|n./adj.|前提；先决条件；必备的；|pre预先+requisite必需品→先决条件|
-|requisite|adj./n.|必需的；必备的；|requir(need)+ite→需要的→必备|
-|transmission|n.|播送；发送；传播|trans跨越‑mit送‑sion名词→传送、传播|
-|transfer|v./n.|转移；转让；|trans跨‑fer携带→拿到另一边→转移|
-|exclusive|adj./n.|独有的；专用的；高档的；独家新闻|ex向外‑clus关闭‑ive→关在外边→独有的|
-|holistic|adj.|全面的；整体的|hol(whole整体)+istic→整体观的|
-|weave|v.|编织；编造；|w‑eave，联想wave交错摆动→编织|
-|weaver|n.|织布者|weave编织+er人→织布工|
-|contention|n.|观点；争论；竞争|con共同‑tent伸展‑ion→互相拉扯→争论、主张|
-|content|adj./n.|满意的；满足|con共同‑tain持有→心里有所得→满足|
-|jerk|v./n.|急拉；猛推；|拟声，猛地一拽|
-|sobering|adj.|清醒的；冷静的|sober清醒+ing→令人警醒的|
-|sober|adj.|清醒的；朴素的|s‑ober，o像圆脑袋保持清醒|
-|tumble|v.|跌倒；暴跌，下降|tum翻滚+ble→摔倒、价格大跌|
-|turbulent|adj.|动荡；混乱|turb搅动‑ulent→搅成一团→动荡|
-|vulgar|adj.|庸俗的；普通的|vulg大众‑ar→大众的、粗俗的|
-|avail|v./n.|利用；有助于|a朝向‑vail力量→发挥作用、利用|
-|culprit|n.|罪犯；问题起因|cult罪‑prit→肇事者、问题根源|
-|dubious|adj.|无把握的；引起怀疑的|dub怀疑‑ious→可疑的|
-|revenge|n./v.|报仇；复仇|re回‑venge惩罚→回过去惩罚→复仇|

@@ -418,27 +418,14 @@
 									<div class="github-calendar__weekdays">
 										<span>Mon</span><span>Wed</span><span>Fri</span>
 									</div>
-									<picture>
-										<source
-											media="(prefers-color-scheme: dark)"
-											srcset="
-												https://api.negiao.cn/api/snake-dark
-											"
-										/>
-										<source
-											media="(prefers-color-scheme: light)"
-											srcset="
-												https://api.negiao.cn/api/snake
-											"
-										/>
-										<img
-											alt="github contribution grid snake animation"
-											src="https://api.negiao.cn/api/snake"
-											loading="lazy"
-											decoding="async"
-											onerror="this.onerror=null;this.src='images/snake-fallback.svg';"
-										/>
-									</picture>
+								<img
+									id="contrib-snake"
+									alt="github contribution grid snake animation"
+									src="https://api.negiao.cn/api/snake-dark"
+									loading="lazy"
+									decoding="async"
+									onerror="this.onerror=null;this.src='images/snake-fallback.svg';"
+								 />
 								</div>
 							</div>
 						</div>
@@ -982,6 +969,45 @@
 				});
 
 				// 百度统计已移除（保留 51.la / GA / MapMyVisitors）
+
+				// 贪吃蛇跟随站内主题：<picture> 只认操作系统深浅色，而本站主题是
+				// body[data-theme]（localStorage，不跟随系统），故用 JS 同步 src。
+				// theme-toggle.js 直接写 dataset 无事件，MutationObserver 是唯一可靠钩子。
+				(function () {
+					var img = document.getElementById("contrib-snake");
+					if (!img) return;
+					var URLS = {
+						dark: "https://api.negiao.cn/api/snake-dark",
+						light: "https://api.negiao.cn/api/snake",
+					};
+					function currentTheme() {
+						var t = document.body && document.body.dataset.theme;
+						if (t === "light" || t === "dark") return t;
+						try {
+							var s = localStorage.getItem("site-theme");
+							if (s === "light" || s === "dark") return s;
+						} catch (e) {}
+						return "dark"; // 与 theme-toggle.js 默认一致
+					}
+					function sync() {
+						var url = URLS[currentTheme()] || URLS.dark;
+						if (img.getAttribute("src") !== url) img.setAttribute("src", url);
+					}
+					sync();
+					if (window.MutationObserver && document.body) {
+						new MutationObserver(function (muts) {
+							for (var i = 0; i < muts.length; i++) {
+								if (muts[i].attributeName === "data-theme") {
+									sync();
+									break;
+								}
+							}
+						}).observe(document.body, {
+							attributes: true,
+							attributeFilter: ["data-theme"],
+						});
+					}
+				})();
 			})();
 		</script>
 	</body>

@@ -1083,6 +1083,16 @@ body[data-theme='light'] .tech-badge--success {
     display: block;
 }
 
+/* 活动折线图：放在 snake 日历下方，等比缩放 */
+.github-activity-graph {
+    display: block;
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    margin: 1.25rem auto 0;
+    border-radius: 12px;
+}
+
 /* 顶部月份标签 — 绝对定位叠在图片顶部空白区域
  * 图片顶部到网格顶部有32px(16.67%)空白
  * 月份标签放在 top:4px(2.08%) 到 top:12px(6.25%) 之间

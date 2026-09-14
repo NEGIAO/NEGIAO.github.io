@@ -1,27 +1,22 @@
 /**
- * WebGIS-Dev GitHub 开源数据边缘 API（Cloudflare Worker）
+ * NEGIAO 个人主页 GitHub 边缘 API（Cloudflare Worker）
  *
  * 为什么需要它：
  * - api.github.com / raw.githubusercontent.com 在国内直连不稳定，且匿名限流 60 次/小时/IP；
- * - Worker 跑在 Cloudflare 边缘，境外抓 GitHub 极稳，结果再缓存 10 分钟，
- *   前端只跟自己的 Worker 通信（workers.dev 或自有域名，国内连通性好得多）。
+ * - Worker 跑在 Cloudflare 边缘，境外抓 GitHub 极稳，结果再缓存后，
+ *   首页只跟自己的 Worker 通信（api.negiao.cn / workers.dev，国内连通性好得多）。
  *
  * 路由（均为 GET，公开只读）：
- *   /api/stats  → { stars, forks, updatedAt, version, repo, fetchedAt }（JSON，边缘缓存 10 分钟）
- *   /api/chart  → star-history 趋势图 SVG 代理（边缘缓存 6 小时，每日更新足够）
- *   /api/snake /api/snake-dark → GitHub 贡献贪吃蛇动画 SVG 代理（供 NEGIAO.github.io 首页，
- *     上游由 Platane/snk 每日重新生成，边缘缓存 6 小时）
- *   /api/activity-graph.svg → 贡献活动折线/面积图（自绘 SVG + 描线动画，边缘缓存 6 小时）
+ *   /api/stats  → NEGIAO/WebGIS-Dev 的 { stars, forks, version, ... }（JSON）
+ *   /api/chart  → star-history 趋势图 SVG 代理
+ *   /api/snake /api/snake-dark → GitHub 贡献贪吃蛇动画 SVG 代理
+ *   /api/activity-graph.svg → 贡献活动折线/面积图（Chartist 风格，对齐 github-readme-activity-graph）
  *
- * 部署（本目录执行，需要一个 Cloudflare 账号，免费计划即可）：
+ * 部署（本目录执行）：
  *   npx wrangler login
  *   npx wrangler deploy
- *   # 可选（推荐）：GitHub API 限额 60/h → 5000/h
- *   npx wrangler secret put GITHUB_TOKEN
- *   # 可选：轮换 star-history 授权（默认内置 README 里已公开的那个，不设也能用）
- *   npx wrangler secret put STAR_HISTORY_SEALED_TOKEN
- * 部署成功后，把输出的 https://xxx.workers.dev 填到 deploy/.env 的
- * VITE_GITHUB_STATS_WORKER_URL，重建前端即可（push main 自动部署）。
+ *   npx wrangler secret put GITHUB_TOKEN   # 推荐，GraphQL 限额 60/h → 5000/h
+ *   npx wrangler secret put STAR_HISTORY_SEALED_TOKEN  # 可选
  */
 
 const REPO = 'NEGIAO/WebGIS-Dev';
@@ -42,7 +37,6 @@ const DEFAULT_SEALED_TOKEN =
 const statsCacheKey = () => new Request('https://webgis-stats.internal/api/stats');
 const chartCacheKey = () => new Request('https://webgis-stats.internal/api/chart');
 const snakeCacheKey = (variant) => new Request(`https://webgis-stats.internal/api/${variant}`);
-const activityGraphCacheKey = () => new Request('https://webgis-stats.internal/api/activity-graph.svg');
 
 function parseVersionFromReadme(markdown) {
     if (!markdown || typeof markdown !== 'string') return '';
@@ -323,7 +317,7 @@ function renderActivityGraphSvg(userDetails, { hideTitle = false, customTitle = 
         })
         .join('\n      ');
 
-    const areaEl = area ? `<path d="${areaD}" class="ct-area"/>` : '';
+    const areaEl = `<path d="${areaD}" class="ct-area"/>`;
 
     return `<svg
     width="${width}"
@@ -361,8 +355,6 @@ function renderActivityGraphSvg(userDetails, { hideTitle = false, customTitle = 
     </g>
   </svg>`;
 }
-
-const area = true; // 默认面积图（等同 ?area=true）
 
 async function handleActivityGraphSvg(request, env, ctx) {
     const url = new URL(request.url);

@@ -149,6 +149,12 @@
       "description": "河大图书馆座位预约系统官方接口逆向分析，包含 9 个接口详情、AES 加密机制、CAS 认证流程、Python 自动预约完整实现与定时抢座逻辑。",
       "category": "project",
       "icon": "📚"
+    },
+    "njnu-interview-2026-09-16": {
+      "title": "南师大面试复盘 2026.09.16",
+      "description": "南京师范大学 10 分钟面试八连问实录与复盘：小波分析、PCA 与相似方法、择校逻辑、本校信息题，附参考答法与下次检查清单。",
+      "category": "daily",
+      "icon": "🎓"
     }
   },
   "categories": {

@@ -155,6 +155,12 @@
       "description": "南京师范大学 10 分钟面试八连问实录与复盘：小波分析、PCA 与相似方法、择校逻辑、本校信息题，附参考答法与下次检查清单。",
       "category": "daily",
       "icon": "🎓"
+    },
+    "tencent-building-reverse": {
+      "title": "腾讯建筑矢量逆向：getPoint到带楼高GeoJSON",
+      "description": "从lbs.qq.com/getPoint免key入口逆向腾讯矢量瓦片：批量接口、混淆解码、196619楼层提取、TMS翻转、跨缝去重，附mjs抓取程序逐段讲解。",
+      "category": "tech",
+      "icon": "🏢"
     }
   },
   "categories": {

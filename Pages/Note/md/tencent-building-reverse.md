@@ -292,7 +292,56 @@ node qq_building_to_geojson.mjs --bbox 108.415669,27.048246,108.433691,27.061264
 
 ---
 
-## 11. 翻车速查表（先看这里）
+## 12. 高德篇：同一套思路，换了三处机关
+
+高德 `lbs.amap.com` 的 3D 演示页同样免登录有楼看，逆向链路和腾讯同构，
+只是具体接口全换了。结论先行：**镇远同区域跑通 2510 栋**， heights 同样是整数米，
+部分楼还带名称（腾讯没有）。
+
+<p>
+  <a href="../resources/amap-building-reverse/amap_building_to_geojson.mjs" download style="font-weight: bold; font-size: 1.1em;">📥 点击下载 amap_building_to_geojson.mjs</a>
+</p>
+
+```bash
+node amap_building_to_geojson.mjs --bbox 108.415669,27.048246,108.433691,27.061264 --zoom 14 --out zhenyuan_amap.geojson
+```
+
+和腾讯版的三处不同（都是实测踩出来的）：
+
+1. **认证多一步**：先 `GET web/init?key=` 拿 `tileVersion`（目前 `26_09_22_00`），
+   再 `POST web_map/get_tile` 换 `tile_urls`（每次带新鲜 `auth_key`，会过期，
+   所以每次运行现换现用）。演示 key 和腾讯一样是公开的，但它**绑域名白名单**：
+   Node 里自带 `Referer` 能过，浏览器里会发你自己网站的域名，用演示 key 会直接
+   `INVALID_USER_DOMAIN`——前端直连必须换自己申请的 key（白名单含自己域名），
+   或走同源后端中转。
+2. **数据是标准 protobuf**（不是腾讯的自创混淆）：`帧长+gzip+protobuf`，
+   楼在 `type=3` 层，`polygon` 是 zigzag 打包差分，高度就是 `mainBuildingHeight`
+   （米，整数）。`--zoom` 是**数据级别**（默认 14，和官方演示一致），
+   不是显示级别。
+3. **格网 y 是等距纬度行**：`x` 同标准 slippy，`y = (90-lat)×2^z/180`，
+   不是墨卡托行号（用错会跑到南半球，顺带触发 `OVERSEA_FORBIDDEN`，
+   别被这个报错骗了，先查 y）。某省瓦片偶发要 `access_oversea=1`，
+   程序里已自动切换重试。
+
+前端直跑版（Vue 直接 import，复用项目内 `coordTransform`）：
+`WebGIS-Dev/frontend/src/domains/common/data-import/parsers/amapBuildingFetcher.js`，
+用法和腾讯那版 `tencentBuildingFetcher.js` 对称（`fetchAmapBuildings` + `downloadGeoJSON`，
+支持进度条与取消，记得传自己 key）。
+
+关于楼名如实说：协议里确实有名字字段（`nameZh/nameEng`），解析器也写好了——
+有就写 `properties.name`。但实测北京国贸 777 栋、陆家嘴 953 栋、西直门 433 栋、
+镇远 2510 栋，名字**全是空的**（连 `multi_lang=1` 要来的字节都和原来一模一样）。
+所以镇远文件里没有 `name` 不是漏解析，是源数据就没给；以后在别的区域抓到带名的楼，
+会自动写进去，真要名字还是得拿 POI/AOI 去挂接。
+
+**完整性质检**（同框对比腾讯）：腾讯 1318 栋里 77% 能在高德 15 米内找到对应；
+放宽到 25/40/60 米后命中率 90%/96%/98%，且无系统偏移——说明两家是**同一批楼、轮廓画法不同**
+（重心差十几二十米），剩下约 2% 属数据新旧差异。结论：程序没有漏数据，
+看着“缺”多半是两家底库本来就不一样；要最全就把两家结果合并去重。
+
+---
+
+## 13. 翻车速查表（先看这里）
 
 | 症状 | 多半是 | 怎么办 |
 |---|---|---|

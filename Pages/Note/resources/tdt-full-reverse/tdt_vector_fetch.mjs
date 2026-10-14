@@ -1131,7 +1131,14 @@ async function main() {
 			const recs = [];
 			for (const f of feats) {
 				if (f.type !== 2) continue;
-				if (typeof f.props.elemid !== "string" || !/^\d{14}$/.test(f.props.elemid)) continue;
+				// elemid 两种编码方案都收（ grouping 键只看稳定性，不看位数 ）：
+				//   ① 老样本：14位纯数字（如 41000002088680，沪/豫/开封）
+				//   ② 郑州z18起：含字母方案（如 41012025zzrespl0062339，30~34层高楼，
+				//      respt 同 id 挂"2号楼"等名）
+				// 历史 bug ：曾只认 /^\d{14}$/ ，方案②被静默丢弃（18_213794_104070 瓦 7→3，
+				// 丢的正是官方可见的 4 栋百米高楼）；elemid 只作跨瓦 Union 分组键，不得按格式预设。
+				const eid = f.props.elemid;
+				if (typeof eid !== "string" || !/^[0-9A-Za-z]{6,32}$/.test(eid)) continue;
 				// buffer盒裁剪（[-82,4178]）替代整要素丢弃：只去全越界环，bbox边缘不断楼
 				// （前端/Node建筑脚本沿用整要素弃的严格版，输出schema与已验证数不变；最终程序取更保数据的裁剪版）
 				const rings = [];

@@ -16,30 +16,35 @@
       "title": "ArcPy学习笔记",
       "description": "ArcPy学习笔记 - 涵盖ArcGIS Python自动化处理、地理处理工具等内容。",
       "category": "tech",
+      "subcategory": "gis",
       "icon": "📊"
     },
     "gee-coursework": {
       "title": "GEE结课作业",
       "description": "Google Earth Engine课程结课作业代码。",
       "category": "tech",
+      "subcategory": "gis",
       "icon": "🛰️"
     },
     "spatial-analysis-R": {
       "title": "机器学习与智能算法（R）",
       "description": "ANN、梯度下降、SVM、随机森林、CNN、遗传算法、元胞自动机、ABM等R语言实现。",
       "category": "tech",
+      "subcategory": "ml",
       "icon": "🤖"
     },
     "ml-dl-learning": {
       "title": "机器学习与深度学习",
       "description": "核心概念、学习范式、经典模型深度拆解与GIS实践应用指南。",
       "category": "tech",
+      "subcategory": "ml",
       "icon": "🤖"
     },
     "arcgis-engine": {
       "title": "ArcGIS Engine",
       "description": "ArcGIS Engine开发实践，包括地图控件、空间分析等功能的实现。",
       "category": "tech",
+      "subcategory": "gis",
       "icon": "🌍"
     },
     "arcgis-engine-project": {
@@ -70,78 +75,91 @@
       "title": "微积分重要结论与知识点",
       "description": "用于日常更新和复习的微积分速查笔记，支持复杂数学公式渲染。",
       "category": "tech",
+      "subcategory": "math",
       "icon": "📐"
     },
     "linearAlgebra": {
       "title": "线性代数重要结论",
       "description": "用于日常更新与复习的线性代数结论速查，支持复杂数学公式渲染。",
       "category": "tech",
+      "subcategory": "math",
       "icon": "📐"
     },
     "non-standard-xyz-and-gcj02": {
       "title": "非标准XYZ切片与GCJ-02适配",
       "description": "系统总结目录分级、TMS、QuadKey、百度方案、动态API与GCJ-02纠偏策略，附OpenLayers适配实践。",
       "category": "tech",
+      "subcategory": "tiles",
       "icon": "🗺️"
     },
     "vue3-webgis-practice-essentials": {
       "title": "Vue 3 实战精要：从基础到 WebGIS 架构思考",
       "description": "围绕响应式、生命周期、Composables、Pinia 与易错点总结，构建 Vue 3 + WebGIS 的工程化实践框架。",
       "category": "tech",
+      "subcategory": "web",
       "icon": "🧭"
     },
     "Hexo": {
       "title": "从0到1搭建Hexo博客",
       "description": "详细记录使用 Hexo + GitHub Pages 双分支管理法搭建个人博客的完整流程，包括避坑经验。",
       "category": "tech",
+      "subcategory": "web",
       "icon": "📝"
     },
     "WebSite_Deploy": {
       "title": "WebGIS 全栈免费部署方案",
       "description": "基于 GitHub Actions 实现的零成本 WebGIS 方案：国内高速访问、前后端分离及数据持久化实战总结。",
       "category": "tech",
+      "subcategory": "web",
       "icon": "🌍"
     },
     "Wind2D_Prompt": {
       "title": "agent提示词",
       "description": "Cesium生成2d风场Prompt。",
       "category": "tech",
+      "subcategory": "ml",
       "icon": "🤖"
     },
     "WebService": {
       "title": "WebService",
       "description": "WebGIS必知：主流网络地图服务协议全解析。",
       "category": "tech",
+      "subcategory": "tiles",
       "icon": "📡"
     },
     "AmapAPI": {
       "title": "AmapAPI",
       "description": "高德地图全套高阶付费API 后端无痕实战调用手册（可直接接入项目）。",
       "category": "tech",
+      "subcategory": "tiles",
       "icon": "🗺️"
     },
     "WebKnowledge": {
       "title": "WebKnowledge",
       "description": "GIS 开发必看：Referer 与 Origin 跨域请求头详解。",
       "category": "tech",
+      "subcategory": "web",
       "icon": "🛡️"
     },
     "Docker": {
       "title": "Docker",
       "description": "Docker 容器化技术在 GIS 开发中的应用与实践。",
       "category": "tech",
+      "subcategory": "web",
       "icon": "📦"
     },
     "XYZTilesFormat": {
       "title": "XYZ切片格式解析",
       "description": "XYZ切片中jpg、png和tif格式数据结构详解。",
       "category": "tech",
+      "subcategory": "tiles",
       "icon": "🖼️"
     },
     "Google_tiles": {
       "title": "Google切片",
       "description": "Google切片类型总结、apistyle查询、动态纠偏代理。",
       "category": "tech",
+      "subcategory": "tiles",
       "icon": "🗺️"
     },
     "henu-library-reservation": {
@@ -156,29 +174,33 @@
       "category": "daily",
       "icon": "🎓"
     },
-    "tencent-building-reverse": {
-      "title": "腾讯地图建筑矢量逆向",
-      "description": "记录腾讯建筑瓦片接口、Base64/字节混淆解码、196619建筑层、TMS翻转、GCJ-02转换和几何去重。",
-      "category": "tech",
-      "icon": "🏢"
-    },
-    "amap-building-reverse": {
-      "title": "高德地图建筑矢量逆向",
-      "description": "记录高德 web/init、web_map/get_tile、动态授权、帧式 gzip/protobuf 建筑数据解析，以及建筑坐标和属性转换过程。",
-      "category": "tech",
-      "icon": "🏢"
-    },
     "tianditu-vector-full-reverse": {
       "title": "天地图矢量瓦片全量逆向",
       "description": "天地图 VTS 逆向总纲与最终版：12 层全量解析、三编码/XOR/整数族/ClosePath 修复、接缝拓扑合并与单文件最终程序；建筑提取已并入（同输入 135→139 栋验证，+4/-0）。",
       "category": "tech",
+      "subcategory": "reverse",
       "icon": "🗺️"
     },
     "tencent-vector-full-reverse": {
       "title": "腾讯地图矢量瓦片全量逆向",
       "description": "腾讯矢量瓦片逆向总纲与最终版：5 频段 2113 个图层 ID 全量解析、txDecode 解码链、不裁剪+按瓦抽稀的跨瓦面 Union 拓扑与单文件最终程序；建筑提取已并入（同框 270/270 一致）。",
       "category": "tech",
+      "subcategory": "reverse",
       "icon": "🗺️"
+    },
+    "amap-vector-full-reverse": {
+      "title": "高德地图矢量瓦片全量逆向",
+      "description": "高德五层矢量瓦片全量逆向：web/init 授权链、帧式 gzip/protobuf、schema 驱动全字段解码、region 九子类拆分与单文件一键取数。",
+      "category": "tech",
+      "subcategory": "reverse",
+      "icon": "🗺️"
+    },
+    "tile-rectify-seam-quad-resampling": {
+      "title": "瓦片纠偏接缝：精确四角重采样",
+      "description": "复盘 bd2wgs/gcj2wgs 相邻瓦片拼接缝：压扁的平行四边形、int() 截断与精度—清晰度 trade-off，及统一 QUAD 后的性能账本。",
+      "category": "tech",
+      "subcategory": "reverse",
+      "icon": "🧩"
     }
   },
   "categories": {
@@ -192,7 +214,33 @@
     },
     "tech": {
       "title": "技术笔记",
-      "icon": "fas fa-book"
+      "icon": "fas fa-book",
+      "subcategories": {
+        "reverse": {
+          "title": "瓦片逆向",
+          "icon": "🗺️"
+        },
+        "tiles": {
+          "title": "瓦片与地图服务",
+          "icon": "🛰️"
+        },
+        "gis": {
+          "title": "GIS与遥感",
+          "icon": "🌍"
+        },
+        "ml": {
+          "title": "机器学习/AI",
+          "icon": "🤖"
+        },
+        "math": {
+          "title": "数学基础",
+          "icon": "📐"
+        },
+        "web": {
+          "title": "前端与工程",
+          "icon": "🧩"
+        }
+      }
     }
   }
 }

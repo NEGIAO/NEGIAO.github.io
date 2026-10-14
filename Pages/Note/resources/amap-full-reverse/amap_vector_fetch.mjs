@@ -51,113 +51,57 @@ function packedVarint(b, arr) {
 		arr.push(v);
 	}
 }
-const Lang = (b) => { const o = { name: "", lang: "" }; F(b, (f, wt, r) => { if (f === 1 && wt === 2) o.name = r.str(); else if (f === 2 && wt === 2) o.lang = r.str(); }); return o; };
-const nameOf = (arr) => (arr && arr.length && arr[0].name) || "";
-
-// ================= 五层 schema（bundle 明文 proto，字段号见文章数据字典） =================
-function ShapeFeature(b) {
-	const o = { nameLoc: [], rank: 0, polygon: [], uid: 1, mainBuildingHeight: 6, bz: "", nameEng: [], nameMulti: [], nameZh: [] };
-	F(b, (f, wt, r) => {
-		if (f === 1 && wt === 2) o.nameLoc.push(Lang(r.bytes()));
-		else if (f === 2) o.rank = r.u32();
-		else if (f === 3 && wt === 2) packedZig(r.bytes(), o.polygon);
-		else if (f === 4) o.uid = r.u32();
-		else if (f === 5) o.mainBuildingHeight = r.u32();
-		else if (f === 6 && wt === 2) o.bz = r.str();
-		else if (f === 7 && wt === 2) o.nameEng.push(Lang(r.bytes()));
-		else if (f === 8 && wt === 2) o.nameMulti.push(Lang(r.bytes()));
-		else if (f === 9 && wt === 2) o.nameZh.push(Lang(r.bytes()));
+// ---- 通用 schema 驱动解码：已知字段给语义名，未知字段按线型兜底捕获为 fN（全量不丢） ----
+// spec 条目: {t:'u32'|'str'|'lang'|'msg'|'bytes'|'pz'|'pv', k:输出键, rep:是否数组, spec:子消息spec}; spec.defaults=缺省值表
+const isPrintable = (b) => { let n = 0; for (const c of b) { if (c === 0x09 || c === 0x0a || (c >= 0x20 && c !== 0x7f)) n++; } return b.length > 0 && n === b.length; };
+function decodeMsg(b, spec) {
+	const o = {};
+	const put = (k, v, rep) => { if (rep) { (o[k] = o[k] || []).push(v); } else o[k] = v; };
+	new R(b).msg((f, wt, r) => {
+		const s = spec[f];
+		if (!s) { // 未知字段: 按 wire type 全捕获
+			if (wt === 0) put("f" + f, r.u32(), true);
+			else if (wt === 1) { put("f" + f, Buffer.from(r.b.slice(r.pos, r.pos + 8)).toString("hex"), true); r.pos += 8; }
+			else if (wt === 5) { put("f" + f, Buffer.from(r.b.slice(r.pos, r.pos + 4)).toString("hex"), true); r.pos += 4; }
+			else if (wt === 2) { const bb = Buffer.from(r.bytes()); put("f" + f, isPrintable(bb) ? bb.toString("utf8") : bb.toString("hex"), true); }
+			return;
+		}
+		const k = s.k || "f" + f;
+		if (s.t === "u32") put(k, r.u32(), s.rep);
+		else if (s.t === "str") put(k, r.str(), s.rep);
+		else if (s.t === "lang") put(k, decodeMsg(r.bytes(), S_LANG), true);
+		else if (s.t === "msg") put(k, decodeMsg(r.bytes(), s.spec), s.rep !== false);
+		else if (s.t === "bytes") put(k, r.bytes(), s.rep);
+		else if (s.t === "pz") { const a = []; packedZig(r.bytes(), a); put(k, a, false); }
+		else if (s.t === "pv") { const a = []; packedVarint(r.bytes(), a); put(k, a, false); }
 	});
+	if (spec.defaults) for (const [k, v] of Object.entries(spec.defaults)) if (o[k] === undefined) o[k] = v;
 	return o;
 }
-function ShapeFeatureMulti(b) {
-	const o = { minZoom: 15, maxZoom: 30, drawOrder: 0, shapeFeatures: [] };
-	F(b, (f, wt, r) => { if (f === 1) o.minZoom = r.u32(); else if (f === 2) o.maxZoom = r.u32(); else if (f === 3) o.drawOrder = r.u32(); else if (f === 4 && wt === 2) o.shapeFeatures.push(ShapeFeature(r.bytes())); });
-	return o;
-}
-function SameStyle(b, itemReader) {
-	const o = { mainKey: null, subKey: 1, resolution: 12, items: [] };
-	F(b, (f, wt, r) => { if (f === 1) o.mainKey = r.u32(); else if (f === 2) o.subKey = r.u32(); else if (f === 3) o.resolution = r.u32(); else if (f === 4 && wt === 2) o.items.push(itemReader(r.bytes())); });
-	return o;
-}
-function RoadLine(b) {
-	const o = { nameLoc: [], rank: 0, shield: "", shieldType: 0, line: [], nameEng: [], uid: 1, nameMulti: [], nameZh: [] };
-	F(b, (f, wt, r) => {
-		if (f === 1 && wt === 2) o.nameLoc.push(Lang(r.bytes()));
-		else if (f === 2) o.rank = r.u32();
-		else if (f === 3 && wt === 2) o.shield = r.str();
-		else if (f === 4) o.shieldType = r.u32();
-		else if (f === 5 && wt === 2) packedZig(r.bytes(), o.line);
-		else if (f === 6 && wt === 2) o.nameEng.push(Lang(r.bytes()));
-		else if (f === 7) o.uid = r.u32();
-		else if (f === 8 && wt === 2) o.nameMulti.push(Lang(r.bytes()));
-		else if (f === 9 && wt === 2) o.nameZh.push(Lang(r.bytes()));
-	});
-	return o;
-}
-function RoadLineMulti(b) {
-	const o = { minZoom: 2, maxZoom: 30, drawOrder: 0, roadLines: [] };
-	F(b, (f, wt, r) => { if (f === 1) o.minZoom = r.u32(); else if (f === 2) o.maxZoom = r.u32(); else if (f === 3) o.drawOrder = r.u32(); else if (f === 4 && wt === 2) o.roadLines.push(RoadLine(r.bytes())); });
-	return o;
-}
-function PointFeature(b) {
-	const o = { nameLoc: [], drawOrder: 0, rti: "", pos: [], nameEng: [], uid: 1, nameMulti: [], nameZh: [] };
-	F(b, (f, wt, r) => {
-		if (f === 1 && wt === 2) o.nameLoc.push(Lang(r.bytes()));
-		else if (f === 2) o.drawOrder = r.u32();
-		else if (f === 3 && wt === 2) o.rti = r.str();
-		else if (f === 4 && wt === 2) packedVarint(r.bytes(), o.pos); // tw: 普通 varint (dx,dy) 成对
-		else if (f === 5 && wt === 2) o.nameEng.push(Lang(r.bytes()));
-		else if (f === 6) o.uid = r.u32();
-		else if (f === 7 && wt === 2) o.nameMulti.push(Lang(r.bytes()));
-		else if (f === 8 && wt === 2) o.nameZh.push(Lang(r.bytes()));
-	});
-	return o;
-}
-function PointFeatureMulti(b) {
-	const o = { minZoom: 18, maxZoom: 30, rank: 0, E9t: [] };
-	F(b, (f, wt, r) => { if (f === 1) o.minZoom = r.u32(); else if (f === 2) o.maxZoom = r.u32(); else if (f === 3) o.rank = r.u32(); else if (f === 4 && wt === 2) o.E9t.push(PointFeature(r.bytes())); });
-	return o;
-}
-function GeometryPolygon(b) { const o = { polygon: [] }; F(b, (f, wt, r) => { if (f === 1 && wt === 2) packedZig(r.bytes(), o.polygon); }); return o; }
-function PolygonFeature(b) {
-	const o = { minZoom: 2, maxZoom: 30, f6t: [], drawOrder: 0, rank: 0, polygons: [], nameEng: [], uid: 1 };
-	F(b, (f, wt, r) => {
-		if (f === 1) o.minZoom = r.u32();
-		else if (f === 2) o.maxZoom = r.u32();
-		else if (f === 3 && wt === 2) o.f6t.push(Lang(r.bytes()));
-		else if (f === 4) o.drawOrder = r.u32();
-		else if (f === 5) o.rank = r.u32();
-		else if (f === 6 && wt === 2) o.polygons.push(GeometryPolygon(r.bytes()));
-		else if (f === 7 && wt === 2) o.nameEng.push(Lang(r.bytes()));
-		else if (f === 8) o.uid = r.u32();
-	});
-	return o;
-}
-function LineFeature(b) {
-	const o = { nameLoc: [], rank: 0, line: [], nameEng: [], uid: 1, nameMulti: [], nameZh: [] };
-	F(b, (f, wt, r) => {
-		if (f === 1 && wt === 2) o.nameLoc.push(Lang(r.bytes()));
-		else if (f === 2) o.rank = r.u32();
-		else if (f === 3 && wt === 2) packedZig(r.bytes(), o.line);
-		else if (f === 4 && wt === 2) o.nameEng.push(Lang(r.bytes()));
-		else if (f === 5) o.uid = r.u32();
-		else if (f === 6 && wt === 2) o.nameMulti.push(Lang(r.bytes()));
-		else if (f === 7 && wt === 2) o.nameZh.push(Lang(r.bytes()));
-	});
-	return o;
-}
-function LineFeatureMulti(b) {
-	const o = { minZoom: 2, maxZoom: 30, drawOrder: 0, lineFeatures: [] };
-	F(b, (f, wt, r) => { if (f === 1) o.minZoom = r.u32(); else if (f === 2) o.maxZoom = r.u32(); else if (f === 3) o.drawOrder = r.u32(); else if (f === 4 && wt === 2) o.lineFeatures.push(LineFeature(r.bytes())); });
-	return o;
-}
-const PoiLayer = (b) => { const o = { points: [], Pii: "", tile_region: "" }; F(b, (f, wt, r) => { if (f === 1 && wt === 2) o.points.push(SameStyle(r.bytes(), PointFeatureMulti)); else if (f === 2 && wt === 2) o.Pii = r.str(); else if (f === 3 && wt === 2) o.tile_region = r.str(); }); return o; };
-const RoadLayer = (b) => { const o = { roadLines: [], Pii: "", tile_region: "" }; F(b, (f, wt, r) => { if (f === 1 && wt === 2) o.roadLines.push(SameStyle(r.bytes(), RoadLineMulti)); else if (f === 2 && wt === 2) o.Pii = r.str(); else if (f === 3 && wt === 2) o.tile_region = r.str(); }); return o; };
-const RegionLayer = (b) => { const o = { polygons: [], lines: [], Pii: "", tile_region: "" }; F(b, (f, wt, r) => { if (f === 1 && wt === 2) o.polygons.push(SameStyle(r.bytes(), (x) => PolygonFeature(x))); else if (f === 2 && wt === 2) o.lines.push(SameStyle(r.bytes(), LineFeatureMulti)); else if (f === 3 && wt === 2) o.Pii = r.str(); else if (f === 4 && wt === 2) o.tile_region = r.str(); }); return o; };
-const BuildingLayer = (b) => { const o = { buildings: [], Pii: "", tile_region: "" }; F(b, (f, wt, r) => { if (f === 1 && wt === 2) o.buildings.push(SameStyle(r.bytes(), ShapeFeatureMulti)); else if (f === 2 && wt === 2) o.Pii = r.str(); else if (f === 3 && wt === 2) o.tile_region = r.str(); }); return o; };
-const TransitLayer = (b) => { const o = { lines: [], points: [], polygons: [], Pii: "", tile_region: "" }; F(b, (f, wt, r) => { if (f === 1 && wt === 2) o.lines.push(SameStyle(r.bytes(), LineFeatureMulti)); else if (f === 2 && wt === 2) o.points.push(SameStyle(r.bytes(), PointFeatureMulti)); else if (f === 3 && wt === 2) o.polygons.push(SameStyle(r.bytes(), (x) => PolygonFeature(x))); else if (f === 4 && wt === 2) o.Pii = r.str(); else if (f === 5 && wt === 2) o.tile_region = r.str(); }); return o; };
-const LAYER_READERS = { 0: PoiLayer, 1: RoadLayer, 2: RegionLayer, 3: BuildingLayer, 4: TransitLayer };
+const S_LANG = { 1: { t: "str", k: "name" }, 2: { t: "str", k: "lang" } };
+const SAME = (itemSpec) => ({ 1: { t: "u32", k: "mainKey" }, 2: { t: "u32", k: "subKey", }, 3: { t: "u32", k: "resolution" }, 4: { t: "msg", k: "items", spec: itemSpec }, defaults: { subKey: 1, resolution: 12 } });
+// 点要素（poi / transit.points）: PointFeatureMulti{minZoom,maxZoom,rank} -> PointFeature
+const S_POINT = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "drawOrder" }, 3: { t: "str", k: "rti" }, 4: { t: "pv", k: "pos" }, 5: { t: "lang", k: "nameEng" }, 6: { t: "u32", k: "uid" }, 7: { t: "lang", k: "nameMulti" }, 8: { t: "lang", k: "nameZh" }, defaults: { uid: 1 } };
+const S_POINT_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "rank" }, 4: { t: "msg", k: "points", spec: S_POINT }, defaults: { minZoom: 18, maxZoom: 30, rank: 0 } };
+// 道路线: RoadLineMulti -> RoadLine
+const S_ROADLINE = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "rank" }, 3: { t: "str", k: "shield" }, 4: { t: "u32", k: "shieldType" }, 5: { t: "pz", k: "line" }, 6: { t: "lang", k: "nameEng" }, 7: { t: "u32", k: "uid" }, 8: { t: "lang", k: "nameMulti" }, 9: { t: "lang", k: "nameZh" }, defaults: { uid: 1, rank: 0 } };
+const S_ROADLINE_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "drawOrder" }, 4: { t: "msg", k: "roadLines", spec: S_ROADLINE }, defaults: { minZoom: 2, maxZoom: 30, drawOrder: 0 } };
+// 通用线要素（road/transit.lines/region.lines）: LineFeatureMulti -> LineFeature
+const S_LINEF = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "rank" }, 3: { t: "pz", k: "line" }, 4: { t: "lang", k: "nameEng" }, 5: { t: "u32", k: "uid" }, 6: { t: "lang", k: "nameMulti" }, 7: { t: "lang", k: "nameZh" }, defaults: { uid: 1, rank: 0 } };
+const S_LINEF_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "drawOrder" }, 4: { t: "msg", k: "lineFeatures", spec: S_LINEF }, defaults: { minZoom: 2, maxZoom: 30, drawOrder: 0 } };
+// 建筑面: ShapeFeatureMulti -> ShapeFeature
+const S_SHAPE = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "rank" }, 3: { t: "pz", k: "polygon" }, 4: { t: "u32", k: "uid" }, 5: { t: "u32", k: "mainBuildingHeight" }, 6: { t: "str", k: "bz" }, 7: { t: "lang", k: "nameEng" }, 8: { t: "lang", k: "nameMulti" }, 9: { t: "lang", k: "nameZh" }, defaults: { uid: 1, rank: 0 } };
+const S_SHAPE_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "drawOrder" }, 4: { t: "msg", k: "shapeFeatures", spec: S_SHAPE }, defaults: { minZoom: 15, maxZoom: 30, drawOrder: 0 } };
+// 通用面要素（region/transit.polygons）: PolygonFeature（自带 minZoom/maxZoom/drawOrder/rank）+ GeometryPolygon
+const S_GEOMPOLY = { 1: { t: "pz", k: "polygon" } };
+const S_POLYF = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "lang", k: "nameLoc" }, 4: { t: "u32", k: "drawOrder" }, 5: { t: "u32", k: "rank" }, 6: { t: "msg", k: "polygons", spec: S_GEOMPOLY }, 7: { t: "lang", k: "nameEng" }, 8: { t: "u32", k: "uid" }, defaults: { uid: 1, minZoom: 2, maxZoom: 30, drawOrder: 0, rank: 0 } };
+// 五层顶层容器（Pii/tile_region 为层级元数据，未知字段自动 fN）
+const S_POI = { 1: { t: "msg", k: "points", spec: SAME(S_POINT_M) }, 2: { t: "str", k: "Pii" }, 3: { t: "str", k: "tile_region" } };
+const S_ROAD = { 1: { t: "msg", k: "roadLines", spec: SAME(S_ROADLINE_M) }, 2: { t: "str", k: "Pii" }, 3: { t: "str", k: "tile_region" } };
+const S_REGION = { 1: { t: "msg", k: "polygons", spec: SAME(S_POLYF) }, 2: { t: "msg", k: "lines", spec: SAME(S_LINEF_M) }, 3: { t: "str", k: "Pii" }, 4: { t: "str", k: "tile_region" } };
+const S_BUILDING = { 1: { t: "msg", k: "buildings", spec: SAME(S_SHAPE_M) }, 2: { t: "str", k: "Pii" }, 3: { t: "str", k: "tile_region" } };
+const S_TRANSIT = { 1: { t: "msg", k: "lines", spec: SAME(S_LINEF_M) }, 2: { t: "msg", k: "points", spec: SAME(S_POINT_M) }, 3: { t: "msg", k: "polygons", spec: SAME(S_POLYF) }, 4: { t: "str", k: "Pii" }, 5: { t: "str", k: "tile_region" } };
+const LAYER_SPECS = { 0: S_POI, 1: S_ROAD, 2: S_REGION, 3: S_BUILDING, 4: S_TRANSIT };
 const LAYER_NAMES = { 0: "poi", 1: "road", 2: "region", 3: "building", 4: "transit" };
 
 // ================= 坐标（bundle tileInnerCoord2LngLat 移植 + 标准 GCJ02 算法） =================
@@ -236,8 +180,11 @@ function lngLatToXyz(lng, lat, z) {
 // ================= 帧解包: 4字节大端帧长 + gzip + protobuf =================
 // Result{f1 tiles, f2 version, f3 status} -> Tile{f1 z,f2 x,f3 y,f4 layers}
 //   -> Layer{f1 z,f2 x,f3 y,f4 type,f5 d}（layer 自带 z/x/y 为 z15 子瓦片号, 缺失回退 tile）
+const S_LAYER = { 1: { t: "u32", k: "z" }, 2: { t: "u32", k: "x" }, 3: { t: "u32", k: "y" }, 4: { t: "u32", k: "type" }, 5: { t: "bytes", k: "d" } };
+const S_TILE = { 1: { t: "u32", k: "z" }, 2: { t: "u32", k: "x" }, 3: { t: "u32", k: "y" }, 4: { t: "msg", k: "layers", spec: S_LAYER } };
+const S_RESULT = { 1: { t: "msg", k: "tiles", spec: S_TILE }, 2: { t: "u32", k: "version" }, 3: { t: "u32", k: "status" } };
 export function decodeTile(buf) {
-	const out = { z: 0, x: 0, y: 0, layers: [] };
+	const out = { z: 0, x: 0, y: 0, layers: [], result: {} };
 	const dv = new DataView(buf.buffer, buf.byteOffset, buf.length);
 	let off = 0;
 	while (off < buf.length) {
@@ -245,59 +192,55 @@ export function decodeTile(buf) {
 		if (len <= 0 || len > buf.length - off) break;
 		const raw = buf.slice(off, off + len); off += len;
 		const un = raw[0] === 0x1f && raw[1] === 0x8b ? zlib.gunzipSync(raw) : raw;
-		F(un, (f, wt, r) => {
-			if (f === 1 && wt === 2) {
-				const t = { z: 0, x: 0, y: 0, layers: [] };
-				F(r.bytes(), (f2, wt2, r2) => {
-					if (f2 === 1) t.z = r2.u32();
-					else if (f2 === 2) t.x = r2.u32();
-					else if (f2 === 3) t.y = r2.u32();
-					else if (f2 === 4 && wt2 === 2) {
-						const l = { z: null, x: null, y: null, type: 0, d: null };
-						F(r2.bytes(), (f3, wt3, r3) => {
-							if (f3 === 1) l.z = r3.u32();
-							else if (f3 === 2) l.x = r3.u32();
-							else if (f3 === 3) l.y = r3.u32();
-							else if (f3 === 4) l.type = r3.u32();
-							else if (f3 === 5 && wt3 === 2) l.d = r3.bytes();
-						});
-						t.layers.push(l);
-					}
-				});
-				out.z = t.z; out.x = t.x; out.y = t.y;
-				for (const l of t.layers) out.layers.push(l);
-			}
-		});
+		const res = decodeMsg(un, S_RESULT);
+		for (const [k, v] of Object.entries(res)) if (k !== "tiles") out.result[k] = v; // version/status/未知字段全保留
+		for (const t of res.tiles || []) {
+			out.z = t.z ?? 0; out.x = t.x ?? 0; out.y = t.y ?? 0;
+			for (const l of t.layers || []) out.layers.push(l);
+			for (const [k, v] of Object.entries(t)) if (!["z", "x", "y", "layers"].includes(k)) out.result["tile_" + k] = v; // Tile 级未知字段
+		}
 	}
 	return out;
 }
 export function parseTile(buf) {
 	const tile = decodeTile(buf);
-	const res = { tile: `${tile.z}_${tile.x}_${tile.y}`, z: tile.z, x: tile.x, y: tile.y, layers: [] };
+	const res = { tile: `${tile.z}_${tile.x}_${tile.y}`, z: tile.z, x: tile.x, y: tile.y, layers: [], ...(Object.keys(tile.result).length ? { result: tile.result } : {}) };
 	for (const l of tile.layers) {
-		const reader = LAYER_READERS[l.type];
+		const spec = LAYER_SPECS[l.type];
 		const entry = { type: l.type, name: LAYER_NAMES[l.type] ?? `type${l.type}`, x: l.x ?? tile.x, y: l.y ?? tile.y, z: l.z ?? tile.z };
-		if (!reader) { entry.error = "unknown layer type"; res.layers.push(entry); continue; }
-		try { entry.load = reader(l.d); res.layers.push(entry); }
-		catch (e) { entry.error = String(e.message).slice(0, 120); res.layers.push(entry); }
+		if (l.d && spec) { try { entry.load = decodeMsg(l.d, spec); } catch (e) { entry.error = String(e.message).slice(0, 120); } }
+		else if (l.d && !spec) entry.raw_hex = Buffer.from(l.d).toString("hex").slice(0, 500); // 未知图层类型: 原样保留
+		res.layers.push(entry);
 	}
 	return res;
 }
 
 // ================= 五层统一出口: SameStyle 组 -> GeoJSON features（WGS84） =================
-// itemsOf: 兼容两种 item 形态（Multi 包装 / region 的 item 即 feature）
+// itemsOf: Multi 包装 / 直挂 feature（region 的 item 即 PolygonFeature）统一展平
 function itemsOf(group) {
 	const out = [];
 	for (const it of group.items || []) {
-		if (it.shapeFeatures) out.push({ meta: { minZoom: it.minZoom, maxZoom: it.maxZoom, drawOrder: it.drawOrder }, feats: it.shapeFeatures });
-		else if (it.roadLines) out.push({ meta: { minZoom: it.minZoom, maxZoom: it.maxZoom, drawOrder: it.drawOrder }, feats: it.roadLines });
-		else if (it.lineFeatures) out.push({ meta: { minZoom: it.minZoom, maxZoom: it.maxZoom, drawOrder: it.drawOrder }, feats: it.lineFeatures });
-		else if (it.E9t) out.push({ meta: { minZoom: it.minZoom, maxZoom: it.maxZoom, rank: it.rank }, feats: it.E9t });
-		else out.push({ meta: { minZoom: it.minZoom, maxZoom: it.maxZoom, drawOrder: it.drawOrder, rank: it.rank }, feats: [it] });
+		const inner = it.shapeFeatures || it.roadLines || it.lineFeatures || it.points || null;
+		const meta = {};
+		for (const k of ["minZoom", "maxZoom", "drawOrder", "rank"]) if (it[k] !== undefined) meta[k] = it[k];
+		out.push({ meta, feats: inner || [it] });
 	}
 	return out;
 }
-const nmOf = (f) => (f.nameZh && f.nameZh[0] && f.nameZh[0].name) || (f.nameLoc && f.nameLoc[0] && f.nameLoc[0].name) || (f.f6t && f.f6t[0] && f.f6t[0].name) || "";
+// 全字段属性提取: 除几何流外全部进 properties（含未知字段 fN），不丢任何属性
+const GEO_KEYS = new Set(["pos", "polygon", "line", "polygons"]);
+function propsOf(f) {
+	const p = {};
+	for (const [k, v] of Object.entries(f)) {
+		if (GEO_KEYS.has(k)) continue;
+		if (Array.isArray(v)) { if (v.length) p[k] = v.length === 1 ? v[0] : v; }
+		else if (v !== "" && v !== null && v !== undefined) p[k] = v;
+	}
+	const nm = (f.nameZh && f.nameZh[0] && f.nameZh[0].name) || (f.nameLoc && f.nameLoc[0] && f.nameLoc[0].name) || "";
+	if (nm) p.name = nm;
+	if (f.mainBuildingHeight !== undefined) p.height_m = f.mainBuildingHeight; // 语义别名
+	return p;
+}
 const toWgs = (pts) => pts.map(([lo, la]) => gcj02ToWgs84(lo, la));
 const closeRing = (ring) => { const r = ring.slice(); if (r.length && (r[0][0] !== r[r.length - 1][0] || r[0][1] !== r[r.length - 1][1])) r.push(r[0]); return r; };
 
@@ -333,12 +276,14 @@ export function layerFeatures(parsed, layerName) {
 				const res = g.resolution || 12;
 				for (const { meta, feats: its } of itemsOf(g)) {
 					const isLine = l.type === 2 && cont === "lines";
-					const regionClass = l.type === 2 ? regionClassOf(g.mainKey, g.subKey, meta.drawOrder, isLine) : null;
+					const regionClass = l.type === 2 ? regionClassOf(g.mainKey ?? null, g.subKey, meta.drawOrder, isLine) : null;
 					if (wantClass && regionClass !== wantClass) continue;
 					for (const f of its) {
 						if (!f || typeof f !== "object") continue;
-						const name = nmOf(f);
-						const rec = { layer: l.name, sub: l.type === 2 ? (isLine ? "line" : "poly") : cont, mainKey: g.mainKey, subKey: g.subKey, resolution: g.resolution, tile: `${parsed.z}_${parsed.x}_${parsed.y}`, layer_tile: `${l.z}_${l.x}_${l.y}`, ...meta, ...(regionClass ? { region_class: regionClass } : {}), ...(name ? { name } : {}), uid: f.uid, ...(f.rti ? { rti: f.rti } : {}), ...(f.shield ? { shield: f.shield } : {}), ...(f.shieldType ? { shieldType: f.shieldType } : {}), ...(f.bz ? { bz: f.bz } : {}), ...(f.mainBuildingHeight !== undefined && f.mainBuildingHeight !== null ? { height_m: f.mainBuildingHeight } : {}), rank: f.rank };
+						const rec = { layer: l.name, sub: l.type === 2 ? (isLine ? "line" : "poly") : cont, mainKey: g.mainKey ?? null, subKey: g.subKey, resolution: g.resolution, tile: `${parsed.z}_${parsed.x}_${parsed.y}`, layer_tile: `${l.z}_${l.x}_${l.y}` };
+						if (regionClass) rec.region_class = regionClass;
+						Object.assign(rec, meta);      // Multi 包装级: minZoom/maxZoom/drawOrder/rank
+						Object.assign(rec, propsOf(f)); // 要素级全部字段（含未知 fN）
 						if ((l.type === 0 || (l.type === 4 && cont === "points")) && f.pos && f.pos.length >= 2) {
 							const p = path2coords(f.pos, l.x, l.y, l.z, res)[0];
 							feats.push({ type: "Feature", properties: rec, geometry: { type: "Point", coordinates: gcj02ToWgs84(p[0], p[1]) } });

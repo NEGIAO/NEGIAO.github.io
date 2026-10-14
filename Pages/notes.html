@@ -299,14 +299,23 @@
         <!-- 技术笔记 -->
         <div class="notes-category" data-category="tech">
             <h2 class="notes-section-title"><i class="fas fa-book"></i> 技术笔记 <span class="cat-count"></span></h2>
+            <div class="sub-filter is-hidden" data-subfilter="tech" role="tablist" aria-label="技术笔记二级分类">
+                <button type="button" class="sub-chip is-active" data-sub="all">全部</button>
+                <button type="button" class="sub-chip" data-sub="reverse">瓦片逆向</button>
+                <button type="button" class="sub-chip" data-sub="tiles">瓦片与地图服务</button>
+                <button type="button" class="sub-chip" data-sub="gis">GIS与遥感</button>
+                <button type="button" class="sub-chip" data-sub="ml">机器学习/AI</button>
+                <button type="button" class="sub-chip" data-sub="math">数学基础</button>
+                <button type="button" class="sub-chip" data-sub="web">前端与工程</button>
+            </div>
             <section class="notes-grid">
                 <!-- ML/DL -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="ml">
                     <div class="note-card__header">
                         <div class="note-icon">🤖</div>
                         <div>
                             <h3>机器学习与深度学习</h3>
-                            <span class="note-badge note-badge--tech">AI/ML</span>
+                            <span class="note-badge note-badge--ml">机器学习/AI</span>
                         </div>
                     </div>
                     <p class="note-card__description">核心概念、学习范式、经典模型深度拆解与 GIS 实践应用指南</p>
@@ -323,12 +332,12 @@
                 </div>
 
                 <!-- ArcGIS Engine -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="gis">
                     <div class="note-card__header">
                         <div class="note-icon">🌍</div>
                         <div>
                             <h3>ArcGIS Engine</h3>
-                            <span class="note-badge note-badge--tech">技术</span>
+                            <span class="note-badge note-badge--gis">GIS与遥感</span>
                         </div>
                     </div>
                     <p class="note-card__description">ArcGIS Engine开发实践，包括地图控件、空间分析等功能的实现</p>
@@ -345,12 +354,12 @@
                 </div>
 
                 <!-- ArcPy -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="gis">
                     <div class="note-card__header">
                         <div class="note-icon">📊</div>
                         <div>
                             <h3>ArcPy</h3>
-                            <span class="note-badge note-badge--data">数据分析</span>
+                            <span class="note-badge note-badge--gis">GIS与遥感</span>
                         </div>
                     </div>
                     <p class="note-card__description">基于ArcPy的代码示例与实践</p>
@@ -367,12 +376,12 @@
                 </div>
 
                 <!-- Spatial Analysis R -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="ml">
                     <div class="note-card__header">
                         <div class="note-icon">🤖</div>
                         <div>
                             <h3>机器学习与智能算法（R）</h3>
-                            <span class="note-badge note-badge--tech">AI/ML</span>
+                            <span class="note-badge note-badge--ml">机器学习/AI</span>
                         </div>
                     </div>
                     <p class="note-card__description">ANN、梯度下降、SVM、随机森林、CNN、遗传算法、元胞自动机、ABM等R语言实现</p>
@@ -389,12 +398,12 @@
                 </div>
 
                 <!-- GEE Coursework -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="gis">
                     <div class="note-card__header">
                         <div class="note-icon">🛰️</div>
                         <div>
                             <h3>GEE结课作业</h3>
-                            <span class="note-badge note-badge--tech">GEE</span>
+                            <span class="note-badge note-badge--gis">GIS与遥感</span>
                         </div>
                     </div>
                     <p class="note-card__description">GEE结课作业相关的代码，包括随机森林分类和特征重要性分析</p>
@@ -411,12 +420,12 @@
                 </div>
 
                 <!-- Calculus Key Points -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="math">
                     <div class="note-card__header">
                         <div class="note-icon">📐</div>
                         <div>
                             <h3>微积分重要结论</h3>
-                            <span class="note-badge note-badge--tech">数学</span>
+                            <span class="note-badge note-badge--math">数学基础</span>
                         </div>
                     </div>
                     <p class="note-card__description">用于日常更新与复习的微积分结论速查，支持复杂数学公式渲染</p>
@@ -433,12 +442,12 @@
                 </div>
 
                 <!-- Linear Algebra Key Points -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="math">
                     <div class="note-card__header">
                         <div class="note-icon">📐</div>
                         <div>
                             <h3>线性代数重要结论</h3>
-                            <span class="note-badge note-badge--tech">数学</span>
+                            <span class="note-badge note-badge--math">数学基础</span>
                         </div>
                     </div>
                     <p class="note-card__description">用于日常更新与复习的线性代数结论速查，支持复杂数学公式渲染</p>
@@ -455,12 +464,12 @@
                 </div>
 
                 <!-- Non-standard XYZ + GCJ-02 -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="tiles">
                     <div class="note-card__header">
                         <div class="note-icon">🗺️</div>
                         <div>
                             <h3>非标准XYZ与GCJ-02适配</h3>
-                            <span class="note-badge note-badge--tech">WebGIS</span>
+                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
                         </div>
                     </div>
                     <p class="note-card__description">总结目录分级、TMS、QuadKey、百度与GCJ-02切片适配策略，配套OpenLayers请求与排障流程</p>
@@ -476,57 +485,13 @@
                     </div>
                 </div>
 
-                <!-- Tencent Building Vector Reverse -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">🏢</div>
-                        <div>
-                            <h3>腾讯地图建筑矢量逆向</h3>
-                            <span class="note-badge note-badge--tech">WebGIS</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">记录腾讯建筑瓦片接口、Base64/字节混淆解码、196619建筑层、TMS 翻转、GCJ-02 转换和几何去重</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-map-marked-alt"></i> 逆向实战
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=tencent-building-reverse" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Amap Building Vector Reverse -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">🏢</div>
-                        <div>
-                            <h3>高德地图建筑矢量逆向</h3>
-                            <span class="note-badge note-badge--tech">WebGIS</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">记录高德动态版本与授权接口、帧式 gzip/protobuf 建筑层、建筑高度名称和坐标转换过程</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-map-marked-alt"></i> 逆向实战
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=amap-building-reverse" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
-                </div>
-
                 <!-- Tianditu Vector Full Reverse -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="reverse">
                     <div class="note-card__header">
                         <div class="note-icon">🗺️</div>
                         <div>
                             <h3>天地图矢量瓦片全量逆向</h3>
-                            <span class="note-badge note-badge--tech">WebGIS</span>
+                            <span class="note-badge note-badge--reverse">瓦片逆向</span>
                         </div>
                     </div>
                     <p class="note-card__description">12 层全量解析、三编码/XOR/整数族/ClosePath 修复、通用拓扑接缝合并，最终单文件程序一键取数（建筑提取已并入）</p>
@@ -543,12 +508,12 @@
                 </div>
 
                 <!-- Tencent Vector Full Reverse -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="reverse">
                     <div class="note-card__header">
                         <div class="note-icon">🗺️</div>
                         <div>
                             <h3>腾讯地图矢量瓦片全量逆向</h3>
-                            <span class="note-badge note-badge--tech">WebGIS</span>
+                            <span class="note-badge note-badge--reverse">瓦片逆向</span>
                         </div>
                     </div>
                     <p class="note-card__description">5 频段 2113 个图层 ID 全量解析、txDecode 解码链、不裁剪整要素重复的精确去重拓扑，最终单文件程序一键取数（建筑提取已并入）</p>
@@ -564,13 +529,35 @@
                     </div>
                 </div>
 
+                <!-- Amap Vector Full Reverse -->
+                <div class="note-card" data-subcategory="reverse">
+                    <div class="note-card__header">
+                        <div class="note-icon">🗺️</div>
+                        <div>
+                            <h3>高德地图矢量瓦片全量逆向</h3>
+                            <span class="note-badge note-badge--reverse">瓦片逆向</span>
+                        </div>
+                    </div>
+                    <p class="note-card__description">高德五层矢量瓦片全量逆向：web/init 授权链、帧式 gzip/protobuf、schema 驱动全字段解码、region 九子类拆分与单文件一键取数</p>
+                    <div class="note-card__meta">
+                        <span class="note-meta__item">
+                            <i class="fas fa-map-marked-alt"></i> 逆向实战
+                        </span>
+                    </div>
+                    <div class="note-card__actions">
+                        <a href="Note/note-viewer/note-viewer.html?note=amap-vector-full-reverse" class="btn btn--primary">
+                            <i class="fas fa-book-open"></i> 阅读笔记
+                        </a>
+                    </div>
+                </div>
+
                 <!-- Tile Rectify Seam QUAD Resampling -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="reverse">
                     <div class="note-card__header">
                         <div class="note-icon">🧩</div>
                         <div>
                             <h3>瓦片纠偏接缝：精确四角重采样</h3>
-                            <span class="note-badge note-badge--tech">WebGIS</span>
+                            <span class="note-badge note-badge--reverse">瓦片逆向</span>
                         </div>
                     </div>
                     <p class="note-card__description">复盘 bd2wgs/gcj2wgs 相邻瓦片拼接缝：压扁的平行四边形、int() 截断与精度—清晰度 trade-off，及统一 QUAD 后的性能账本</p>
@@ -587,12 +574,12 @@
                 </div>
 
                 <!-- Vue3 WebGIS Essentials -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="web">
                     <div class="note-card__header">
                         <div class="note-icon">🧭</div>
                         <div>
                             <h3>Vue 3 实战精要：从基础到 WebGIS 架构思考</h3>
-                            <span class="note-badge note-badge--tech">Vue 3</span>
+                            <span class="note-badge note-badge--web">前端与工程</span>
                         </div>
                     </div>
                     <p class="note-card__description">系统梳理响应式、生命周期、Composables 与 Pinia 在 WebGIS 项目中的落地方法，附高频避坑清单</p>
@@ -609,12 +596,12 @@
                 </div>
 
                 <!-- Hexo 博客建站 -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="web">
                     <div class="note-card__header">
                         <div class="note-icon">📝</div>
                         <div>
                             <h3>从0到1搭建Hexo博客</h3>
-                            <span class="note-badge note-badge--tech">Hexo</span>
+                            <span class="note-badge note-badge--web">前端与工程</span>
                         </div>
                     </div>
                     <p class="note-card__description">详细记录使用 Hexo + GitHub Pages 双分支管理法搭建个人博客的完整流程，包括避坑经验</p>
@@ -631,12 +618,12 @@
                 </div>
 
                 <!-- 网站部署 -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="web">
                     <div class="note-card__header">
                         <div class="note-icon">🌍</div>
                         <div>
                             <h3>WebGIS 全栈免费部署方案</h3>
-                            <span class="note-badge note-badge--tech">GitHub + Posit + HF</span>
+                            <span class="note-badge note-badge--web">前端与工程</span>
                         </div>
                     </div>
                     <p class="note-card__description">基于 GitHub Actions 实现的零成本 WebGIS 方案：国内高速访问、前后端分离及数据持久化实战总结</p>
@@ -653,12 +640,12 @@
                 </div>
 
                 <!-- agent提示词 -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="ml">
                     <div class="note-card__header">
                         <div class="note-icon">🤖</div>
                         <div>
                             <h3>agent提示词</h3>
-                            <span class="note-badge note-badge--tech">AI</span>
+                            <span class="note-badge note-badge--ml">机器学习/AI</span>
                         </div>
                     </div>
                     <p class="note-card__description">Cesium生成2d风场Prompt</p>
@@ -675,12 +662,12 @@
                 </div>
 
                 <!-- WebService -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="tiles">
                     <div class="note-card__header">
                         <div class="note-icon">📡</div>
                         <div>
                             <h3>WebService</h3>
-                            <span class="note-badge note-badge--tech">GIS</span>
+                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
                         </div>
                     </div>
                     <p class="note-card__description">WebGIS必知：主流网络地图服务协议全解析</p>
@@ -697,12 +684,12 @@
                 </div>
 
                 <!-- AmapAPI -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="tiles">
                     <div class="note-card__header">
                         <div class="note-icon">🗺️</div>
                         <div>
                             <h3>AmapAPI</h3>
-                            <span class="note-badge note-badge--tech">GIS</span>
+                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
                         </div>
                     </div>
                     <p class="note-card__description">高德地图全套高阶付费API 后端无痕实战调用手册（可直接接入项目）</p>
@@ -719,12 +706,12 @@
                 </div>
 
                 <!-- WebKnowledge -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="web">
                     <div class="note-card__header">
                         <div class="note-icon">🛡️</div>
                         <div>
                             <h3>WebKnowledge</h3>
-                            <span class="note-badge note-badge--tech">GIS</span>
+                            <span class="note-badge note-badge--web">前端与工程</span>
                         </div>
                     </div>
                     <p class="note-card__description">GIS 开发必看：Referer 与 Origin 跨域请求头详解</p>
@@ -741,12 +728,12 @@
                 </div>
 
                 <!-- Docker -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="web">
                     <div class="note-card__header">
                         <div class="note-icon">📦</div>
                         <div>
                             <h3>Docker</h3>
-                            <span class="note-badge note-badge--tech">GIS</span>
+                            <span class="note-badge note-badge--web">前端与工程</span>
                         </div>
                     </div>
                     <p class="note-card__description">Docker 容器化技术在 GIS 开发中的应用与实践</p>
@@ -763,12 +750,12 @@
                 </div>
 
                 <!-- XYZ切片格式解析 -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="tiles">
                     <div class="note-card__header">
                         <div class="note-icon">🖼️</div>
                         <div>
                             <h3>XYZ切片格式解析</h3>
-                            <span class="note-badge note-badge--tech">GIS</span>
+                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
                         </div>
                     </div>
                     <p class="note-card__description">XYZ切片中jpg、png和tif格式数据结构详解</p>
@@ -785,12 +772,12 @@
                 </div>
 
                 <!-- Google切片 -->
-                <div class="note-card">
+                <div class="note-card" data-subcategory="tiles">
                     <div class="note-card__header">
                         <div class="note-icon">🗺️</div>
                         <div>
                             <h3>Google切片</h3>
-                            <span class="note-badge note-badge--tech">GIS</span>
+                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
                         </div>
                     </div>
                     <p class="note-card__description">Google切片类型总结、apistyle查询、动态纠偏代理</p>
@@ -928,6 +915,9 @@
             var clearBtn = document.getElementById('notes-search-clear');
             var emptyEl = document.getElementById('notes-empty');
             var activeCat = 'all';
+            var activeSub = 'all';
+            var subFilter = document.querySelector('.sub-filter[data-subfilter="tech"]');
+            var subChips = Array.prototype.slice.call(document.querySelectorAll('.sub-chip'));
 
             // 分类计数（区头 + 筛选chip）
             cats.forEach(function (cat) {
@@ -963,7 +953,10 @@
                     cat.querySelectorAll('.note-card').forEach(function (card) {
                         var okCat = activeCat === 'all' || catName === activeCat;
                         var okQuery = !q || card.textContent.toLowerCase().indexOf(q) !== -1;
-                        var show = okCat && okQuery;
+                        var okSub = !(activeCat === 'tech' && catName === 'tech')
+                            || activeSub === 'all'
+                            || card.getAttribute('data-subcategory') === activeSub;
+                        var show = okCat && okQuery && okSub;
                         card.classList.toggle('is-filtered', !show);
                         if (show) visibleCount++;
                     });
@@ -987,11 +980,32 @@
                     input.focus();
                 });
             }
+            function updateSubFilterVisibility() {
+                if (!subFilter) return;
+                subFilter.classList.toggle('is-hidden', activeCat !== 'tech');
+            }
+
             chips.forEach(function (chip) {
                 chip.addEventListener('click', function () {
                     chips.forEach(function (c) { c.classList.remove('is-active'); });
                     chip.classList.add('is-active');
                     activeCat = chip.getAttribute('data-filter');
+                    if (activeCat !== 'tech') {
+                        activeSub = 'all';
+                        subChips.forEach(function (c) {
+                            c.classList.toggle('is-active', c.getAttribute('data-sub') === 'all');
+                        });
+                    }
+                    updateSubFilterVisibility();
+                    applyFilter();
+                });
+            });
+
+            subChips.forEach(function (chip) {
+                chip.addEventListener('click', function () {
+                    subChips.forEach(function (c) { c.classList.remove('is-active'); });
+                    chip.classList.add('is-active');
+                    activeSub = chip.getAttribute('data-sub');
                     applyFilter();
                 });
             });

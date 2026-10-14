@@ -28,6 +28,11 @@
 //      全越界环才弃，整要素无环才弃。
 //   7) 几何尾渣（_geom_partial）：保留既有闭合环并标记，尾环缺失如实声明。
 //   8) 残余严格重叠（洞感知、边界接触排除；BV除外）：标 _topo_review=1，不改几何。
+//      AP 为区级行政区划面（分层），跨要素“纯包含”属正常层级（区含乡/功能区残留）不打标，
+//      只报“部分重叠”（互相切进去又出来）；CE/CK/BM 保持原严格语义。
+//   9) 裁剪环洁净：Sutherland 以环形取模遍历，闭合环会让首点被再计入一次；
+//      旧版 clipRingToRect 因此给每个输出环插入 1 个零长边（凹环沿裁剪边留下退化桥→自相交）。
+//      现先开环化、输出前再去零长边，环内不再出现重复相邻点。
 //
 // 解析真结构（与建筑篇/全量篇一致，不再赘述）：f1=features,f2=层名,f3=values,f4=keys,
 // f5=extent,f15=version；Feature=f1几何(MoveTo2/LineTo3/ClosePath7＋zigzag差分＋深嵌套递归)
@@ -622,9 +627,13 @@ function globalTileToLngLat(x, y, zoom) {
 }
 
 /** 面裁剪到瓦片核心（去buffer；入参应已闭合，输出必闭合）。 */
-/** 面裁剪到任意矩形（Sutherland；输出必闭合）。clipRingToTile为其[0,4096]特例。 */
+/** 面裁剪到任意矩形（Sutherland；输出必闭合且无重复相邻点）。clipRingToTile为其[0,4096]特例。 */
 function clipRingToRect(ring, x0, y0, x1, y1) {
+	// 开环化：Sutherland 用 (i+1)%len 环形遍历，而闭合环（首==尾）会让首点被再计入一次，
+	// 旧版因此给【每个】输出环插入 1 个零长边（凹环还会沿裁剪边留下退化桥→自相交）。
+	// 入参已闭合，先摘掉重合尾点，遍历即回到标准 S-H。
 	let output = ring.slice();
+	if (output.length > 1 && samePoint(output[0], output[output.length - 1])) output.pop();
 	const limits = [
 		[0, (p) => p[0] >= x0],
 		[1, (p) => p[0] <= x1],
@@ -650,8 +659,14 @@ function clipRingToRect(ring, x0, y0, x1, y1) {
 		}
 		output = next;
 	}
-	if (output.length && !samePoint(output[0], output[output.length - 1])) output.push(output[0]);
-	return output;
+	// 去零长边后闭合：保证输出环无重复相邻点（旧版每环必多 1 点，见上方注释）
+	const cleaned = [];
+	for (const point of output) {
+		if (!cleaned.length || !samePoint(cleaned[cleaned.length - 1], point)) cleaned.push(point);
+	}
+	if (cleaned.length > 1 && samePoint(cleaned[0], cleaned[cleaned.length - 1])) cleaned.pop();
+	if (cleaned.length && !samePoint(cleaned[0], cleaned[cleaned.length - 1])) cleaned.push(cleaned[0]);
+	return cleaned;
 }
 
 function clipRingToTile(ring) {
@@ -996,7 +1011,34 @@ function polyBbox(ring) {
 	return a;
 }
 
-function auditResidualOverlap(features) {
+function distToRings(ring, pt) {
+	let d = Infinity;
+	for (let i = 0; i + 1 < ring.length; i++) d = Math.min(d, distSeg(pt, ring[i], ring[i + 1]));
+	return d;
+}
+
+/** 点是否在环组内（含贴边）：洞内不算，边界接触算在内。 */
+function insideOrOnRings(polyRings, pt) {
+	if (!pointInRing(polyRings[0], pt) && distToRings(polyRings[0], pt) >= 1e-9) return false;
+	for (let k = 1; k < polyRings.length; k++) {
+		if (pointInRing(polyRings[k], pt) && distToRings(polyRings[k], pt) >= 1e-9) return false;
+	}
+	return true;
+}
+
+/** src 环组是否整体落在 dst 环组内（允许贴边）：用于区分“父子嵌套”与“真·残余重叠”。 */
+function allInsideOrOnRings(srcRings, dstRings) {
+	for (const r of srcRings) for (const pt of r) if (!insideOrOnRings(dstRings, pt)) return false;
+	return true;
+}
+
+/**
+ * 残余重叠审计：严格在内（排除边界接触）＋洞感知；只打标不改几何。返回被标要素下标集。
+ * opt.allowContainment=true 时跳过“纯包含”对（一方整体落在另一方内）：分层数据（如 AP
+ * 区级行政区划面里大区含小区/乡级残留）属正常层级关系，不是残余重叠；
+ * 只有“部分重叠”（互相切进去又出来）才打标。CE 等平面铺满层保持原严格语义。
+ */
+function auditResidualOverlap(features, opt = {}) {
 	// 输入：已输出的面要素数组；输出：需打标下标Set（两两严格互含即残余重叠）
 	const polys = [];
 	features.forEach((f, idx) => {
@@ -1018,7 +1060,11 @@ function auditResidualOverlap(features) {
 			if (!hit) {
 				for (const r of B.rings) { for (const pt of r) { if (strictlyInsideRings(A.rings, pt)) { hit = true; break; } } if (hit) break; }
 			}
-			if (hit) { flag.add(A.idx); flag.add(B.idx); }
+			if (hit) {
+				// 纯包含=父子嵌套（分层数据里大区含小区属正常层级），非残余重叠，跳过
+				if (opt.allowContainment && (allInsideOrOnRings(A.rings, B.rings) || allInsideOrOnRings(B.rings, A.rings))) continue;
+				flag.add(A.idx); flag.add(B.idx);
+			}
 		}
 	}
 	return flag;
@@ -1382,8 +1428,9 @@ async function main() {
 			}
 		}
 		// 残余重叠只打标不改几何（BV原样直出，不参与审计）
+		// AP=区级行政区划面：跨要素“纯包含”是正常层级（区含乡/功能区），只报部分重叠
 		if (name === "CE" || name === "AP" || name === "CK" || name === "BM") {
-			const flagged = auditResidualOverlap(out);
+			const flagged = auditResidualOverlap(out, { allowContainment: name === "AP" });
 			for (const idx of flagged) out[idx].properties._topo_review = 1;
 			if (flagged.size) st.topo_review = flagged.size;
 		}

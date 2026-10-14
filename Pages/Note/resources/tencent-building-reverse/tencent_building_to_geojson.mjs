@@ -1,7 +1,7 @@
 // 从 lbs.qq.com/getPoint 同款接口批量解析腾讯建筑白模 -> GeoJSON
 // 用法(输入输出统一 WGS-84):
-//   node qq_building_to_geojson.mjs --bbox 108.416,27.047,108.434,27.060 --zoom 18 --out zhenyuan.geojson
-//   node qq_building_to_geojson.mjs --center 108.425,27.054 --delta 0.009 --zoom 18 --out zhenyuan.geojson
+//   node tencent_building_to_geojson.mjs --bbox 108.416,27.047,108.434,27.060 --zoom 18 --out zhenyuan.geojson
+//   node tencent_building_to_geojson.mjs --center 108.425,27.054 --delta 0.009 --zoom 18 --out zhenyuan.geojson
 // 原理: 复用 getPoint 页公用 key 的思路, 直接请求 rt*.map.gtimg.com/tile 批量矢量接口,
 // 返回 {datas:[{data: base64+混淆}]} , 本地解码后取 id==196619 (et) 的面, f[2] 即楼高(米),
 // 坐标为瓦片内差分像素, 累加后按 slippy map 转 GCJ02, 再经 gcj02ToWgs84 直接输出 WGS-84。
@@ -195,7 +195,7 @@ function parseArgs() {
 	}
 	if (!o.bbox || !o.out) {
 		console.error(
-			"用法: node qq_building_to_geojson.mjs --bbox minLng,minLat,maxLng,maxLat --zoom 18 --out out.geojson",
+			"用法: node tencent_building_to_geojson.mjs --bbox minLng,minLat,maxLng,maxLat --zoom 18 --out out.geojson",
 		);
 		process.exit(1);
 	}

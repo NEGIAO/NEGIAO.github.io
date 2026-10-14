@@ -10,12 +10,12 @@
 建筑提取（端点探测、txDecode 解码链、TMS 翻转、GCJ-02 换算、deltaDecode、
 196619 识别）已完全并入最终程序——同输入陆家嘴 z16 框 **270→270 栋、
 几何与楼高逐一比对 270/270 完全一致**，输出 schema 不变；
-建筑篇专用代码（`qq_building_to_geojson.mjs`）随之退役为历史篇，新工作一律走最终程序。
+建筑篇专用代码（`tencent_building_to_geojson.mjs`）随之退役为历史篇，新工作一律走最终程序。
 
 最终程序（单文件独立，取数＋全量解析＋通用拓扑＋CLI 全收敛）：
 
 <p>
-  <a href="../resources/qq-full-reverse/tencent_vector_fetch.mjs" download style="font-weight: bold; font-size: 1.1em;">📥 下载 tencent_vector_fetch.mjs</a>
+  <a href="../resources/tencent-full-reverse/tencent_vector_fetch.mjs" download style="font-weight: bold; font-size: 1.1em;">📥 下载 tencent_vector_fetch.mjs</a>
 </p>
 
 只用于小范围格式研究。请遵守腾讯位置服务条款；大范围/商用请用自己申请的 key。
@@ -356,13 +356,13 @@ Union 引擎移植自 WebGIS-Dev `tdtBuildingTopology.unionRings`（零依赖：
 ## 9. 产物与复现
 
 程序与采样都收敛到最终版，中间探针工具与旧版过程数据已全部清理
-（`qq_probe*.mjs` 系列、`qq_building_to_geojson.mjs` 功能均已并入最终程序；
+（`tencent_probe*.mjs` 系列、`tencent_building_to_geojson.mjs` 功能均已并入最终程序；
 建筑篇降级为历史子集篇，仓库代码只保留最终程序）：
 
 | 文件 | 说明 |
 |---|---|
-| `resources/qq-full-reverse/tencent_vector_fetch.mjs` | **最终程序**（单文件独立：取数＋txDecode全量解析＋频段schema＋通用拓扑（含跨瓦面 Union）＋CLI＋selftest **91 项**；建筑提取已并入，同框 270/270 一致） |
-| `resources/qq-full-reverse/sample_lujiazui_z16/` | 最终程序实测输出（陆家嘴 z16 六瓦：26 组 `<组名>.geojson`＋`merge_stats.json`＋`run_info.json`） |
+| `resources/tencent-full-reverse/tencent_vector_fetch.mjs` | **最终程序**（单文件独立：取数＋txDecode全量解析＋频段schema＋通用拓扑（含跨瓦面 Union）＋CLI＋selftest **91 项**；建筑提取已并入，同框 270/270 一致） |
+| `resources/tencent-full-reverse/sample_lujiazui_z16/` | 最终程序实测输出（陆家嘴 z16 六瓦：26 组 `<组名>.geojson`＋`merge_stats.json`＋`run_info.json`） |
 
 ```bash
 # 自检（频段/解码链/跨瓦对齐/去重/闭合/注记/POI/多part/洞嵌套/金标准/Union/融合/审计，91项不过不发版）
@@ -380,7 +380,7 @@ node tencent_vector_fetch.mjs --bbox 121.4957,31.2357,121.5037,31.2437 --zoom 16
 分层计数与拓扑计数 `tiles=6 / parsed=1553 / dedup=127 / union=23 / fallback=0 / failures=0` 完全相同
 ——即"程序是最终的、采样可复现"这一条已被验证，不是一次性产物。
 
-已发布采样只有最终版一份：`resources/qq-full-reverse/sample_lujiazui_z16/`
+已发布采样只有最终版一份：`resources/tencent-full-reverse/sample_lujiazui_z16/`
 （解析 1553 → 去重 127 → 面融合 23（回退 0）→ 26 组 1392 要素；area_building 270 栋楼高 4~640m
 （其中 77 个带 `_topo_review`：相邻楼共享墙的浮点细缝，总 0.0008 km²）；
 road_street 388 条（10 条闭合转面）；`merge_stats.json` 记分层

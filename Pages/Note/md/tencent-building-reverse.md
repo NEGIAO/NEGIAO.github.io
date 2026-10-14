@@ -2,7 +2,7 @@
 
 > **历史子集篇**：本文的建筑提取（端点探测、txDecode 解码链、TMS 翻转、GCJ-02 换算、
 > deltaDecode、196619 建筑识别）已完全并入《腾讯地图矢量瓦片全量逆向》最终程序
-> `qq_vector_fetch.mjs`（同输入陆家嘴 z16 框 270→270 栋，几何与楼高 270/270 一致），
+> `tencent_vector_fetch.mjs`（同输入陆家嘴 z16 框 270→270 栋，几何与楼高 270/270 一致），
 > 本文保留作过程记录，新工作请走全量篇与最终程序。
 
 ## 说明
@@ -10,7 +10,7 @@
 本文记录腾讯地图建筑白模数据的实时分析过程，配套脚本为：
 
 <p>
-  <a href="../resources/tencent-building-reverse/qq_building_to_geojson.mjs" download style="font-weight: bold; font-size: 1.1em;">📥 下载 qq_building_to_geojson.mjs</a>
+  <a href="../resources/tencent-building-reverse/tencent_building_to_geojson.mjs" download style="font-weight: bold; font-size: 1.1em;">📥 下载 tencent_building_to_geojson.mjs</a>
 </p>
 
 这不是高德或天地图的通用教程。腾讯使用独立的接口、编码和坐标流程，不能把本文的字段解释直接套到另外两家地图。
@@ -22,10 +22,10 @@
 脚本输入 WGS-84 范围，输出 WGS-84 GeoJSON：
 
 ```bash
-node qq_building_to_geojson.mjs \
+node tencent_building_to_geojson.mjs \
   --bbox 108.415669,27.048246,108.433691,27.061264 \
   --zoom 18 \
-  --out zhenyuan_qq.geojson
+  --out zhenyuan_tencent.geojson
 ```
 
 每条建筑要素主要包含：

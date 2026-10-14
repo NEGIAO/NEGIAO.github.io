@@ -168,11 +168,11 @@
       "category": "tech",
       "icon": "🏢"
     },
-    "tianditu-building-reverse": {
-      "title": "天地图建筑矢量逆向",
-      "description": "详细记录天地图私有 VTS、XOR 混淆、CE/respt 图层解析、建筑名称挂接、瓦片 buffer 裁剪和按 elemid 的自包含拓扑 Union。",
+    "tianditu-vector-full-reverse": {
+      "title": "天地图矢量瓦片全量逆向",
+      "description": "天地图 VTS 逆向总纲与最终版：12 层全量解析、三编码/XOR/整数族/ClosePath 修复、接缝拓扑合并与单文件最终程序；建筑提取已并入（同输入 135→139 栋验证，+4/-0）。",
       "category": "tech",
-      "icon": "🏢"
+      "icon": "🗺️"
     }
   },
   "categories": {

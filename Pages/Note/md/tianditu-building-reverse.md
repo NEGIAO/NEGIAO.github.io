@@ -1,8 +1,15 @@
 # 天地图建筑矢量逆向：私有 VTS、XOR 与跨瓦片拓扑
 
+> 📌 **历史子集篇**：本文的 CE/respt 解析、buffer 裁剪与按 elemid 跨瓦拓扑 Union
+> 已全部并入最终程序《[天地图矢量瓦片全量逆向](./tianditu-vector-full-reverse)》的
+> [tdt_vector_fetch.mjs](../resources/tdt-full-reverse/tdt_vector_fetch.mjs)
+> （12 层全量；同输入外滩框 135→139 栋验证，+4/-0，输出 schema 不变）。
+> 建筑专用脚本 `tdt_building_to_geojson.mjs` 已退役并删除，本文保留作为
+> 逆向细节与拓扑原理的历史记录；取数一律走最终程序，请勿再使用旧脚本。
+
 ## 说明
 
-本文对应 [tdt_building_to_geojson.mjs](../resources/tdt-building-reverse/tdt_building_to_geojson.mjs)。天地图不是腾讯的混淆 JSON，也不是高德的标准化建筑 PBF，而是带私有字段编号、前导记录、固定位置 XOR 和多图层的 VTS。
+本文历史版本对应 `tdt_building_to_geojson.mjs`（已退役，功能见上）。天地图不是腾讯的混淆 JSON，也不是高德的标准化建筑 PBF，而是带私有字段编号、前导记录、固定位置 XOR 和多图层的 VTS。
 
 天地图的真正难点还在于同一建筑会被多个瓦片分别返回。`layer=CE` 且 `elemid` 相同的记录代表同一建筑，但各片段可能带 buffer、重叠或有微小坐标误差。因此必须同时处理数据完整性和拓扑融合。
 
@@ -10,11 +17,23 @@
 
 ## 1. 请求和运行
 
+历史命令（已退役的建筑专用脚本，仅存档）：
+
 ```bash
 node tdt_building_to_geojson.mjs \
   --bbox 114.3006,34.8168,114.3068,34.8207 \
   --zoom 18 \
   --out heda_tdt_z18.geojson
+```
+
+现行命令（最终程序，建筑层按需勾选）：
+
+```bash
+node tdt_vector_fetch.mjs \
+  --bbox 114.3006,34.8168,114.3068,34.8207 \
+  --zoom 18 \
+  --layers CE,respt \
+  --outdir ./out
 ```
 
 接口形式：

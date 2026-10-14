@@ -173,6 +173,12 @@
       "description": "天地图 VTS 逆向总纲与最终版：12 层全量解析、三编码/XOR/整数族/ClosePath 修复、接缝拓扑合并与单文件最终程序；建筑提取已并入（同输入 135→139 栋验证，+4/-0）。",
       "category": "tech",
       "icon": "🗺️"
+    },
+    "tencent-vector-full-reverse": {
+      "title": "腾讯地图矢量瓦片全量逆向",
+      "description": "腾讯矢量瓦片逆向总纲与最终版：5 频段 2113 个图层 ID 全量解析、txDecode 解码链、不裁剪整要素重复的精确去重拓扑与单文件最终程序；建筑提取已并入（同框 270/270 一致）。",
+      "category": "tech",
+      "icon": "🗺️"
     }
   },
   "categories": {

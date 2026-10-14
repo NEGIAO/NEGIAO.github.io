@@ -2,9 +2,9 @@
 // 与天地图/高德全量程序同构 CLI 与输出结构, 仅解码链不同。
 //
 // 用法：
-//   node qq_vector_fetch.mjs --bbox 121.4730,31.2305,121.4760,31.2325 --zoom 16 --layers all --outdir ./out
-//   node qq_vector_fetch.mjs --center 121.4997,31.2397 --delta 0.004 --zoom 16 --layers area_building,road_mainroad --outdir ./out
-//   node qq_vector_fetch.mjs --selftest
+//   node tencent_vector_fetch.mjs --bbox 121.4730,31.2305,121.4760,31.2325 --zoom 16 --layers all --outdir ./out
+//   node tencent_vector_fetch.mjs --center 121.4997,31.2397 --delta 0.004 --zoom 16 --layers area_building,road_mainroad --outdir ./out
+//   node tencent_vector_fetch.mjs --selftest
 //
 // 参数：
 //   --bbox 四至（与 --center 二选一；均为WGS-84，内部转GCJ-02算瓦片，输出统一回WGS-84）
@@ -1029,7 +1029,7 @@ async function main() {
 		console.warn(`警告: z=${z} 未经实测验证(实测区间 14~18), 结果可能为空`);
 	if (!o.bbox) {
 		console.error(
-			"用法: node qq_vector_fetch.mjs --bbox minLng,minLat,maxLng,maxLat --zoom 16 --layers all --outdir ./out",
+			"用法: node tencent_vector_fetch.mjs --bbox minLng,minLat,maxLng,maxLat --zoom 16 --layers all --outdir ./out",
 		);
 		process.exit(1);
 	}

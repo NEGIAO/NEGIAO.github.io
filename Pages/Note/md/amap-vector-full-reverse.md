@@ -48,12 +48,13 @@ node amap_vector_fetch.mjs --selftest
 ```
 
 参数：`--bbox`（WGS84）/`--center`+`--delta` 二选一；`--zoom` 仅 12/14（数据只存在于这两级）；
-`--layers` 逗号分隔子集或 all；`--key` 自带高德 key；`--delay` 请求间隔（默认 400ms）；
+`--layers` 逗号分隔子集或 all；`region` 会自动展开为 9 个子类文件
+（region_water/green/parcel/builtup/harbor/airport/top/other/line），也可单取如 `--layers region_water`；`--key` 自带高德 key；`--delay` 请求间隔（默认 400ms）；
 `--max-tiles` 防呆上限（默认 200）。bbox 角点会先 WGS84→GCJ02 再算瓦片号（瓦片编号在 GCJ02 空间）。
 
 输出：`{outdir}/` 下按层各一个 `<layer>.geojson`（WGS84，去重后）+ `run_info.json`
 （瓦片清单、变体、失败原因）。单个瓦片实测（type=1+type=2 各一块）：
-building 945 / poi 6197 / road 1878 / region 457 / transit 51 要素。
+building 945 / poi 6197 / road 1878 / region 拆 9 类 / transit 51 要素。
 
 ## 2. 请求链与容器结构（全层共用）
 
@@ -134,7 +135,7 @@ inner   = (ix+sw)·2^(33-res-z)，再 c2d(c)=c·180/2^31
 |---|---|---|---|---|---|
 | poi | 0 | 16379 | Point | 16202/16379 | subKey 分类，rti 即高德 POI ID |
 | road | 1 | 11328 | LineString | 281/11328 | mainKey 是道路等级，只有干线才有名 |
-| region | 2 | 2491 | Polygon | 0/2491 | 纯底图填充面，drawOrder 分层 |
+| region | 2 | 2491+474线 | Polygon/Line | 0 | 拓扑叠放面族，按子类拆层（§4.3） |
 | building | 3 | 5623 | Polygon | 0/5623 | 全带高度，bz 是少数建筑才有 ID |
 | transit | 4 | 162 | 线52/点82/面28 | 大多数 | 地铁线、站点、场站 |
 
@@ -216,22 +217,31 @@ inner   = (ix+sw)·2^(33-res-z)，再 c2d(c)=c·180/2^31
 - rank 分布：0 占 11047/11328；1705 为主干道高频值（152 条），其余 500/1406/1701/2008/3010/4060 零星。
 - minZoom 6~17 覆盖（高速 6 起，支路 15-16 起）——即"到哪一级才开始画"。
 
-### 4.3 region（type=2）
+### 4.3 region（type=2）——按子类拆分，勿合成一层
 
-字段：`mainKey`、`subKey`、`drawOrder`、`minZoom/maxZoom`、`resolution`。
-**无任何名称、无 rti**，是底图填充面（绿地/水系/建筑群底板）。
+**region 不是平面一层，而是拓扑叠放的一组面**：底层是大地块（drawOrder 20–26），
+湖泊/绿地/建筑底板压在上面（drawOrder 61/63），顶层还有一批小面（drawOrder 80+，
+停车场/广场/高架/机场）。内外要素互相重叠，所以最终程序按 `region_class` 拆成子图层输出，
+每层仍带原始 `mainKey/subKey/drawOrder`，下游可自行重组回叠放关系。
 
-| drawOrder | mainKey | n | 含义推断 |
+实证归类依据（多案例交叉验证，非官版码表，高置信项已注明实测地标）：
+
+| region_class | 判定 | 含义 | 实证 |
 |---|---|---|---|
-| 61 | null | 1645 | 网格小面（无类型） |
-| 23 | 30002 | 490 | 大型土地利用（30002 即"面"大类） |
-| 24 | 30002 | 111 | 同上 |
-| 20 | 30002 | 92 | 绿地 |
-| 63 | null | 93 | 网格小面 |
-| 80/22/26/60/27/25/21 | 30002 | ~60 | 大型面分层 |
+| `region_water` | mk=null, sk=2, draw=63 | **水面**（江/湖/池塘） | 黄浦江 0.73/0.77km²、滴水湖 1.97km²×2（正盖"滴水湖"POI）、西湖 1.61km² |
+| `region_green` | mk=30002, sk=5, draw=20/21 | **绿地/公园大面** | 世纪公园 0.70/0.75km²、延中绿地 |
+| `region_parcel` | mk=30002（其余 sk） | 街区用地地块（含产业区/商业/居住/港口 sk=6） | 临港产业区 2.4km²、郑州东站街区 |
+| `region_builtup` | mk=null, sk=3, draw=61 | 建筑底板碎面（最常见，中位 ~1000m²） | 8 城 1095 个，落在办公楼/门 POI 上 |
+| `region_top` | drawOrder≥80 | 顶层小面（停车场/广场/高架） | 虹桥机场 mk=30004（airport 实例）|
+| `region_line` | 线组 mk=20017/20010/20014/20011, res 13/15 | 水系/边界线（含河流） | 世纪公园水系线、金鸡湖岸线 |
+| `region_other` | 兜底 | 未归类 | — |
 
-drawOrder 20→80 是叠放次序，与渲染层级一致。mk=30002 的面是行政区/绿地/水系大面，
-null 的是建筑物底板碎面。注意同 mainKey 内部 drawOrder 仍有细分。
+注意：
+- region 数据实际只在 **type=1 变体**有内容（type=2 的 region 是空壳），两个变体都请求才拿得到。
+- subKey 还观测到 7/8/9/10/11/19/20/21/42 等细分码（街区/商业/机场/顶层），
+  语义未全部定案，一律先归入 `parcel`/`top`，原码保留在属性里。
+- `region_line` 此前被丢弃（容器只读了 polygons 组），新版已修复。
+- properties 里 `region_class` 即子类名；`subKey` 原始码可继续做细分研究。
 
 ### 4.4 building（type=3）
 
@@ -314,7 +324,7 @@ pos→GCJ02 网格往返、packedZig/packedVarint 值流语义、瓦片号计算
 ```bash
 node amap_vector_fetch.mjs --bbox 121.4700,31.2280,121.4730,31.2310 --zoom 14 \
   --layers all --outdir ./out
-# building 945 / poi 6197 / road 1878 / region 457 / transit 51, failures=0
+# building 945 / poi 6197 / road 1878 / region_*(9 类) / transit 51, failures=0
 ```
 
 异地复现（河南大学金明校区，z14，6 瓦 × 2 变体，failures=0）：
@@ -322,7 +332,8 @@ node amap_vector_fetch.mjs --bbox 121.4700,31.2280,121.4730,31.2310 --zoom 14 \
 ```bash
 node amap_vector_fetch.mjs --bbox 114.293,34.812,114.312,34.828 --zoom 14 \
   --layers all --outdir ./out
-# poi 7227 / building 2597 / road 2351 / region 556 / transit 0（开封无地铁，符合预期）
+# poi 7227 / building 2597 / road 2351 / region_water 24 / region_green 1 / region_parcel 178 /
+# region_builtup 260 / region_top 93 / region_line 474 / transit 0（开封无地铁，符合预期）
 # building 全部带高度（4~132m，4 的倍数，8m 层高最常见 1258 栋）；
 # 校园地标齐全（体育部/行政楼/廪悦图书馆/河大附小…）；该区域 bz=0
 ```

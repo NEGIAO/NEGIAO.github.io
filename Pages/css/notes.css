@@ -594,6 +594,43 @@
   border: 1px solid color-mix(in srgb, var(--success) 30%, transparent);
 }
 
+/* 技术笔记二级分类徽章 */
+.note-badge--reverse {
+  background: color-mix(in srgb, #c084fc 20%, transparent);
+  color: #c084fc;
+  border: 1px solid color-mix(in srgb, #c084fc 30%, transparent);
+}
+
+.note-badge--tiles {
+  background: color-mix(in srgb, #4ea8ff 20%, transparent);
+  color: #4ea8ff;
+  border: 1px solid color-mix(in srgb, #4ea8ff 30%, transparent);
+}
+
+.note-badge--gis {
+  background: color-mix(in srgb, #2dd4a7 20%, transparent);
+  color: #2dd4a7;
+  border: 1px solid color-mix(in srgb, #2dd4a7 30%, transparent);
+}
+
+.note-badge--ml {
+  background: color-mix(in srgb, #fbbf24 20%, transparent);
+  color: #fbbf24;
+  border: 1px solid color-mix(in srgb, #fbbf24 30%, transparent);
+}
+
+.note-badge--math {
+  background: color-mix(in srgb, #f472b6 20%, transparent);
+  color: #f472b6;
+  border: 1px solid color-mix(in srgb, #f472b6 30%, transparent);
+}
+
+.note-badge--web {
+  background: color-mix(in srgb, #a78bfa 20%, transparent);
+  color: #a78bfa;
+  border: 1px solid color-mix(in srgb, #a78bfa 30%, transparent);
+}
+
 .note-card__description {
   color: var(--text-secondary);
   line-height: 1.6;
@@ -779,6 +816,36 @@ body[data-theme='light'] .note-badge--template {
 body[data-theme='light'] .note-badge--data {
   background: color-mix(in srgb, var(--success) 10%, transparent);
   border-color: color-mix(in srgb, var(--success) 25%, transparent);
+}
+
+body[data-theme='light'] .note-badge--reverse {
+  background: color-mix(in srgb, #c084fc 12%, transparent);
+  border-color: color-mix(in srgb, #c084fc 25%, transparent);
+}
+
+body[data-theme='light'] .note-badge--tiles {
+  background: color-mix(in srgb, #4ea8ff 12%, transparent);
+  border-color: color-mix(in srgb, #4ea8ff 25%, transparent);
+}
+
+body[data-theme='light'] .note-badge--gis {
+  background: color-mix(in srgb, #2dd4a7 12%, transparent);
+  border-color: color-mix(in srgb, #2dd4a7 25%, transparent);
+}
+
+body[data-theme='light'] .note-badge--ml {
+  background: color-mix(in srgb, #fbbf24 12%, transparent);
+  border-color: color-mix(in srgb, #fbbf24 25%, transparent);
+}
+
+body[data-theme='light'] .note-badge--math {
+  background: color-mix(in srgb, #f472b6 12%, transparent);
+  border-color: color-mix(in srgb, #f472b6 25%, transparent);
+}
+
+body[data-theme='light'] .note-badge--web {
+  background: color-mix(in srgb, #a78bfa 12%, transparent);
+  border-color: color-mix(in srgb, #a78bfa 25%, transparent);
 }
 
 body[data-theme='light'] .info-item {

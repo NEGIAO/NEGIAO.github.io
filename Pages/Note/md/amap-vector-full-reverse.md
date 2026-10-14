@@ -101,6 +101,13 @@ Layer   { f1:z, f2:x, f3:y, f4:type, f5:d(bytes) }
 `f3=resolution`（瓦片内网格精度，默认 12）、`f4=items[]`。
 item 三种包装：单 feature（region）、`*Multi` 包装（带 minZoom/maxZoom/drawOrder/rank）。
 
+**全字段解码（schema 驱动，一个字段都不丢）**：每条消息按"已知字段号→语义名 / 未知字段号→`fN` 兜底捕获"
+的通用解码器解析——protobuf wire type 0/1/5 原样落值，wire type 2 先试 UTF-8 字符串、不可打印存 hex。
+对现有 24 个缓存瓦片全量扫描的结果：**feature 级与容器级零未知字段**，五层 schema 100% 覆盖；
+新区域若出现新字段会自动落 `fN`，不会静默丢失。
+已经因此抓到过一个隐藏字段：POI 名称对象的 `f4:[6,12]`（Lang 消息第 4 字段，重复 varint，
+疑似字号/字形参数）——旧版白名单解析会直接丢掉它。
+
 几何字段的 packed 语义（曾在此栽过：误以为有内层长度前缀，导致 POI 只剩单点、建筑多边形被截断）：
 
 - 线/面（`IA` 字段）：**zigzag svarint 裸流**，首点绝对、其后逐点累加；外层 length 即结束边界。
@@ -149,8 +156,12 @@ inner   = (ix+sw)·2^(33-res-z)，再 c2d(c)=c·180/2^31
 
 ### 4.1 poi（type=0）
 
-字段：`subKey`（必有）、`mainKey`（多数缺省）、`rti`（= 高德 POI ID）、`uid`（瓦片内自增）、
-`name`（nameZh→nameLoc 回退）、`minZoom/maxZoom`、`rank`、`drawOrder`、`resolution`。
+**全字段**（GeoJSON properties，除几何流外全量输出）：
+`subKey`（必有，默认 1）、`mainKey`（缺省为 null）、`rti`（= 高德 POI ID）、`uid`（瓦片内自增，缺省 1）、
+`name`（首选名，nameZh→nameLoc 回退）、`nameLoc`（本地语言名对象 `{name,lang,f4}`，f4 为隐藏字段，疑字号参数）、
+`nameEng`/`nameMulti`/`nameZh`（多语言名，出现时是 `{name,lang}` 对象）、
+`minZoom/maxZoom`（Multi 包装级，默认 18/30）、`rank`、`drawOrder`、`resolution`（12）。
+未知字段会以 `fN` 原样出现。
 
 - `mainKey` 只在大类上出现（全部 16379 条中仅 378 条非空）：
   10001=公交站/高架出入口、10002=水系点（如黄浦江）、10007=地标（城隍庙、上海中心）。
@@ -193,8 +204,9 @@ inner   = (ix+sw)·2^(33-res-z)，再 c2d(c)=c·180/2^31
 
 ### 4.2 road（type=1）
 
-字段：`mainKey`、`subKey`、`rank`（0=普通，500/1406/1701/1705/1706/2008/3010 等为
-带权道路）、`shield`（盾牌数字，如"沪A"收费标）、`minZoom/maxZoom`、`drawOrder`、`resolution`。
+**全字段**：`mainKey`、`subKey`、`rank`（0=普通，500/1406/1701/1705/1706/2008/3010 等为
+带权道路）、`shield`（盾牌字符串）、`shieldType`、`name`/`nameLoc`/`nameEng`/`nameMulti`/`nameZh`（多语言名对象）、
+`uid`、`minZoom/maxZoom`、`drawOrder`、`resolution`（12 或 13）。
 
 - 11178/11328 有条目级 mainKey；只有 281 条有名称（命名主干道）。
 - mainKey 层级（次数）：
@@ -245,8 +257,9 @@ inner   = (ix+sw)·2^(33-res-z)，再 c2d(c)=c·180/2^31
 
 ### 4.4 building（type=3）
 
-字段：`mainKey`（全 null）、`subKey`、`height_m`（=`mainBuildingHeight`，米）、
-`bz`（高德建筑 ID，少数有）、`rank`、`minZoom/maxZoom`、`drawOrder`、`resolution`(=18)。
+**全字段**：`mainKey`（全 null）、`subKey`、`height_m`（=`mainBuildingHeight`，米，原始字段名同时保留）、
+`bz`（高德建筑 ID，少数有）、`rank`、`minZoom/maxZoom`、`drawOrder`、`uid`、`resolution`(=18)、
+`name`/`nameLoc`/`nameEng`/`nameMulti`/`nameZh`（多语言名，building 层实测全空）。
 
 - 全部 5623 条实测都有高度（人民广场样本），取值是 4 的倍数（4~314m），
   拟合楼高≈层数×4m 的档位化。历史篇 39/122 有值是早期瓦片覆盖差异，不是编码缺失。

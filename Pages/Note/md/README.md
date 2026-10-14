@@ -159,7 +159,9 @@ plugins/
 | WebSite_Deploy | 技术 | 网站部署指南 | `?note=WebSite_Deploy` |
 | Wind2D_Prompt | 技术 | Wind2D 提示词笔记 | `?note=Wind2D_Prompt` |
 | xyzTilesFormat | 技术 | XYZ 瓦片格式说明 | `?note=xyzTilesFormat` |
-| tencent-building-reverse | 技术 | 腾讯建筑矢量逆向：getPoint 到带楼高 GeoJSON | `?note=tencent-building-reverse` |
+| tianditu-vector-full-reverse | 技术 | 天地图矢量瓦片全量逆向 | `?note=tianditu-vector-full-reverse` |
+| tencent-vector-full-reverse | 技术 | 腾讯矢量瓦片全量逆向 | `?note=tencent-vector-full-reverse` |
+| amap-vector-full-reverse | 技术 | 高德矢量瓦片全量逆向 | `?note=amap-vector-full-reverse` |
 | note-template | — | 笔记模板 | `?note=note-template` |
 
 ## 🎯 单词测试

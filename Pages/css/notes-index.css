@@ -359,6 +359,48 @@ body[data-theme='light'].notes-index-page {
 }
 
 /* ========================
+   二级分类（子筛选）条
+   ======================== */
+.notes-index-page .sub-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0 0 var(--space-xl);
+}
+
+.notes-index-page .sub-filter.is-hidden {
+  display: none;
+}
+
+.notes-index-page .sub-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.78rem;
+  border: 1px dashed var(--glass-border);
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.notes-index-page .sub-chip:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+  transform: translateY(-1px);
+}
+
+.notes-index-page .sub-chip.is-active {
+  color: var(--primary);
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--primary) 55%, transparent);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  font-weight: 600;
+}
+
+/* ========================
    分类区头
    ======================== */
 .notes-index-page .notes-category {

@@ -7,6 +7,29 @@
 
     const SAFE_NOTE_NAME_PATTERN = /^[A-Za-z0-9_-]+(?:\/[A-Za-z0-9_-]+)*$/;
 
+    // 旧「建筑矢量逆向」文章已并入「矢量瓦片全量逆向」。
+    // 旧笔记名重定向到新笔记名，保证已分享/收藏的旧链接不会 404。
+    const NOTE_ALIASES = {
+        'amap-building-reverse': 'amap-vector-full-reverse',
+        'tencent-building-reverse': 'tencent-vector-full-reverse',
+        'tianditu-building-reverse': 'tianditu-vector-full-reverse'
+    };
+
+    function resolveNoteAlias(noteName) {
+        const target = NOTE_ALIASES[noteName];
+        if (!target) {
+            return noteName;
+        }
+        try {
+            const url = new URL(window.location.href);
+            url.searchParams.set('note', target);
+            history.replaceState(null, '', url.pathname + url.search + url.hash);
+        } catch (error) {
+            console.warn('笔记别名重定向失败:', error);
+        }
+        return target;
+    }
+
     // 配置将从外部 JSON 文件加载
     let noteConfig = {};
 
@@ -424,7 +447,7 @@
         let noteName;
 
         try {
-            noteName = getSafeNoteName();
+            noteName = resolveNoteAlias(getSafeNoteName());
         } catch (error) {
             showError(error.message, 'INVALID_PARAM');
             return;

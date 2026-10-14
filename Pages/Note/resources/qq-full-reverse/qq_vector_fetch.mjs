@@ -23,16 +23,22 @@
 //   arrow    327680-393215 道路箭头层
 //   raw_<id> 未进分类表的层（按 ID 单列，低置信，如 327701/196965）
 //
-// 通用拓扑规则（腾讯特性：服务端不裁剪瓦片，接缝整要素重复出现且逐点一致，实测 66 组跨瓦重复
-//   全部满足，故策略与天地图"逐瓦裁剪+接缝Union"完全不同）：
+// 通用拓扑规则（腾讯特性：服务端不裁剪瓦片，且对跨瓦同一要素按瓦抽稀，与天地图"逐瓦裁剪+接缝Union"完全不同）：
 //   1) 不裁剪：瓦片内局部坐标 + 瓦片原点 = 全局像素，越界点（buffer）原样保留（实测 27% 点越界）。
-//   2) 跨瓦去重：全局像素为整数，完全一致去重（几何整数坐标 + 稳定属性），无舍入误差。
-//   3) 面层多 part：按面积降序 + 包含关系嵌洞（不依赖绕向），只嵌套不改几何。
-//   4) 线层闭合几何（首尾差≤1px）转 Polygon（环岛等），否则 LineString；多 part 转 Multi*。
-//   5) 建筑层 196619：f[2] 为楼高（米，已对官方预览验证），保留 height_m/name/style。
-//   6) POI：f[2] 名、f[4] style、f[5] anchors 图集矩形；同名不同点不合并（渲染器按名去重是它的事）。
-//   7) 注记：逐字 Point（char/font/style/anchors），全局像素 + 字形去重。
-//   8) 无稳定 ID 不做跨类 Union；无重叠审计（腾讯面层本身多分类可重叠，重叠非错误）。
+//   2) 跨瓦精确去重：全局像素为整数，完全一致去重（几何整数坐标 + 稳定属性），无舍入误差。
+//   3) 跨瓦近重复面融合：同一要素在相邻瓦被抽稀成不同形状（同一公园 7 点 / 4 点两种），
+//      精确去重抓不到 → 输出里互相重叠。按 layer_id 分组 + 真重叠连通（并查集）→ Union →
+//      面积守恒回退 → 洞嵌套，标 _seam_merged / _fused_from。**建筑除外**（相邻楼共享墙，
+//      Union 会把整排楼粘成一块）；异 style 只认近乎整体包含（腾讯按瓦给不同外观配置码）。
+//   4) 面层多 part：按面积降序 + 包含关系嵌洞（不依赖绕向），只嵌套不改几何。
+//   5) 线层闭合几何（首尾差≤1px 且 ≥4 点）转 Polygon（环岛等），否则 LineString；多 part 转 Multi*。
+//      线层不做 Union：实测跨瓦几乎无重复（road_street 378 条仅 4 对，且都是 2 点短段），
+//      路口盲合会误接。
+//   6) 残余重叠审计：严格互含（洞感知 + 边界接触排除）打标 _topo_review=1，只打标不改几何。
+//   7) 建筑层 196619：f[2] 为楼高（米，已对官方预览验证），保留 height_m/name/style。
+//   8) POI：f[2] 名、f[4] style、f[5] anchors 图集矩形；同名不同点不合并（渲染器按名去重是它的事）。
+//   9) 注记：逐字 Point（char/font/style/anchors），全局像素 + 字形去重。
+//  10) 无稳定 ID 不做跨类 Union（异 layer_id 只审计不合，如 area_parkinglots 196629 vs 196787）。
 //
 // 解析真结构（gljs bundle 55722 模块原样移植）：
 //   响应 {datas:[{data: 自定义base64}]}；txDecode: stripPad(至多2个'=') -> 自定义b64
@@ -345,9 +351,11 @@ function deltaDecode(arr) {
 	return pts;
 }
 function isClosedRing(pts) {
-	// 渲染器口径: 首尾点差 ≤1px 视为闭合(环岛/面), 否则为线
+	// 渲染器口径: 首尾点差 ≤1px 视为闭合(环岛/面), 否则为线。
+	// 必须 ≥4 点: [A,B,A] 这种 2 点回头段首尾相同但只有 2 个不同点, 面积恒为 0,
+	// 当环输出会得到退化的 3 坐标 Polygon(实测 road_street 有一例), 应按线保留。
 	return (
-		pts.length > 2 &&
+		pts.length > 3 &&
 		Math.abs(pts[0][0] - pts[pts.length - 1][0]) <= 1 &&
 		Math.abs(pts[0][1] - pts[pts.length - 1][1]) <= 1
 	);
@@ -602,6 +610,326 @@ function featureKey(f) {
 	return `${f.group}|${f.kind}|${g}|${stab}`;
 }
 
+// ================= 通用拓扑: 跨瓦近重复面融合 + 残余重叠审计 =================
+// 腾讯特性(与天地图"逐瓦裁剪 + 接缝 Union"相反): 服务端不裁剪, 且**对跨瓦同一要素按瓦抽稀**
+// —— 同一个公园在相邻瓦给 7 点 / 4 点两种形状, 互不相等, 精确去重抓不到 → 输出里两块面互相重叠。
+// 实测(陆家嘴 z16 六瓦)真重叠面积: grass 0.076 / park 0.081 / otherarea 0.072 / water 0.027 /
+// commercial 0.017 / resident 0.004 km²(最大单对 2.85 公顷);
+// 线层跨瓦几乎无重复(road_street 378 条仅 4 对近完全重复, 且都是 2 点短段) → 精确去重已足够,
+// 不 Union(路口盲合会误接); 建筑相邻楼共享墙(实测共享 2 顶点, 只剩 ~8 m² 浮点细缝, 占比 ≤0.026)
+// → Union 会把整排楼粘成一块, 故建筑只审计不融合。
+const TOPO_MIN_RATIO = 0.05; // 同 style: 重叠 / 较小面(建筑实测 ≤0.026, 真实跨瓦抽稀 ≥0.28, 0.05 分离干净)
+const TOPO_MIN_RATIO_X = 0.5; // 异 style(腾讯按瓦给不同外观配置码): 只认"近乎整体包含", 实测 0.88~1.00
+const TOPO_MIN_PX2 = 2; // 绝对下限(px²), 防浮点噪声
+const TOPO_Q = 1e6; // 碎片端点归一键精度(远小于 1px, 仅用于串链)
+
+function ringBBox(pts) {
+	let x0 = Infinity,
+		y0 = Infinity,
+		x1 = -Infinity,
+		y1 = -Infinity;
+	for (const p of pts) {
+		if (p[0] < x0) x0 = p[0];
+		if (p[1] < y0) y0 = p[1];
+		if (p[0] > x1) x1 = p[0];
+		if (p[1] > y1) y1 = p[1];
+	}
+	return [x0, y0, x1, y1];
+}
+function bboxHit(a, b) {
+	return a[0] <= b[2] && a[2] >= b[0] && a[1] <= b[3] && a[3] >= b[1];
+}
+function distToSeg(p, a, b) {
+	const dx = b[0] - a[0],
+		dy = b[1] - a[1],
+		L2 = dx * dx + dy * dy;
+	if (!L2) return Math.hypot(p[0] - a[0], p[1] - a[1]);
+	let t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / L2;
+	t = t < 0 ? 0 : t > 1 ? 1 : t;
+	return Math.hypot(p[0] - (a[0] + t * dx), p[1] - (a[1] + t * dy));
+}
+// 严格落在环集合内(洞感知; 边界上的点一律判否) —— 对齐天地图篇 strictlyInsideRings
+// 注意: 腾讯 region 环数据侧不闭口(首尾点不同), 故边界遍历必须含末点->首点那条边
+function strictlyInside(rings, pt) {
+	if (!pointInRing(pt, rings[0])) return false;
+	for (let i = 1; i < rings.length; i++) if (pointInRing(pt, rings[i])) return false;
+	for (const r of rings)
+		for (let i = 0; i < r.length; i++) if (distToSeg(pt, r[i], r[(i + 1) % r.length]) < 1e-6) return false;
+	return true;
+}
+// 并集口径的"内"(任一环内): Union 边界提取必须用它 —— 用奇偶会把重叠区判成外部, 输出挖洞的 XOR
+function insideAny(rings, pt) {
+	for (const r of rings) if (pointInRing(pt, r)) return true;
+	return false;
+}
+// 两线段互相切割的参数(含共线重叠); 只收严格内部参数
+function segSplitParams(a, b, c, d) {
+	const rx = b[0] - a[0],
+		ry = b[1] - a[1];
+	const sx = d[0] - c[0],
+		sy = d[1] - c[1];
+	const qx = c[0] - a[0],
+		qy = c[1] - a[1];
+	const den = rx * sy - ry * sx;
+	const ra = [],
+		rb = [];
+	const push = (arr, v) => {
+		if (v > 1e-9 && v < 1 - 1e-9) arr.push(v);
+	};
+	if (Math.abs(den) > 1e-12) {
+		push(ra, (qx * sy - qy * sx) / den);
+		push(rb, (qx * ry - qy * rx) / den);
+		return [ra, rb];
+	}
+	if (Math.abs(qx * ry - qy * rx) > 1e-12) return [ra, rb];
+	const rr = rx * rx + ry * ry,
+		ss = sx * sx + sy * sy;
+	if (rr > 1e-12) {
+		push(ra, ((c[0] - a[0]) * rx + (c[1] - a[1]) * ry) / rr);
+		push(ra, ((d[0] - a[0]) * rx + (d[1] - a[1]) * ry) / rr);
+	}
+	if (ss > 1e-12) {
+		push(rb, ((a[0] - c[0]) * sx + (a[1] - c[1]) * sy) / ss);
+		push(rb, ((b[0] - c[0]) * sx + (b[1] - c[1]) * sy) / ss);
+	}
+	return [ra, rb];
+}
+// 栅格化求两环交集面积(px²): 只在候选对上跑, 用来判"真重叠"而不是"贴边"
+function interAreaPx(A, B, N = 48) {
+	const a = ringBBox(A),
+		b = ringBBox(B);
+	const x0 = Math.max(a[0], b[0]),
+		x1 = Math.min(a[2], b[2]);
+	const y0 = Math.max(a[1], b[1]),
+		y1 = Math.min(a[3], b[3]);
+	if (!(x0 < x1 && y0 < y1)) return 0;
+	let hit = 0;
+	for (let i = 0; i < N; i++)
+		for (let j = 0; j < N; j++) {
+			const p = [x0 + ((i + 0.5) / N) * (x1 - x0), y0 + ((j + 0.5) / N) * (y1 - y0)];
+			if (pointInRing(p, A) && pointInRing(p, B)) hit++;
+		}
+	return hit * ((x1 - x0) / N) * ((y1 - y0) / N);
+}
+function turnOf(e, inc) {
+	const ang = Math.atan2(e.b[1] - e.a[1], e.b[0] - e.a[0]);
+	return (ang - inc + Math.PI * 2) % (Math.PI * 2);
+}
+// 并集外边界(移植 WebGIS-Dev tdtBuildingTopology.unionRings, 内部判据由奇偶改为并集口径)
+// 输入/输出均为全局整数像素环; 输出 0..n 个闭合环(不含洞嵌套, 交 nestRings 处理)
+function unionRings(inputRings) {
+	const rings = inputRings
+		.map((ring) => {
+			const out = [];
+			for (const p of ring) {
+				const s = [Math.round(p[0]), Math.round(p[1])];
+				if (!out.length || out[out.length - 1][0] !== s[0] || out[out.length - 1][1] !== s[1]) out.push(s);
+			}
+			if (out.length > 1 && out[0][0] === out[out.length - 1][0] && out[0][1] === out[out.length - 1][1]) out.pop();
+			return out;
+		})
+		.filter((r) => r.length >= 3);
+	if (!rings.length) return [];
+	const source = [];
+	for (const ring of rings)
+		for (let i = 0; i < ring.length; i++) source.push({ a: ring[i], b: ring[(i + 1) % ring.length], cuts: [0, 1] });
+	for (let l = 0; l < source.length; l++)
+		for (let r = l + 1; r < source.length; r++) {
+			const [ca, cb] = segSplitParams(source[l].a, source[l].b, source[r].a, source[r].b);
+			if (ca.length) source[l].cuts.push(...ca);
+			if (cb.length) source[r].cuts.push(...cb);
+		}
+	const pk = (p) => `${Math.round(p[0] * TOPO_Q)},${Math.round(p[1] * TOPO_Q)}`;
+	const boundary = [];
+	for (const e of source) {
+		const cuts = [...new Set(e.cuts)].sort((x, y) => x - y);
+		for (let i = 0; i + 1 < cuts.length; i++) {
+			const t0 = cuts[i],
+				t1 = cuts[i + 1];
+			if (t1 - t0 < 1e-9) continue;
+			const a = [e.a[0] + (e.b[0] - e.a[0]) * t0, e.a[1] + (e.b[1] - e.a[1]) * t0];
+			const b = [e.a[0] + (e.b[0] - e.a[0]) * t1, e.a[1] + (e.b[1] - e.a[1]) * t1];
+			const dx = b[0] - a[0],
+				dy = b[1] - a[1];
+			const len = Math.hypot(dx, dy);
+			if (len < 1e-9) continue;
+			const mid = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+			const d = Math.min(0.01, len / 100);
+			const li = insideAny(rings, [mid[0] - (dy / len) * d, mid[1] + (dx / len) * d]);
+			const ri = insideAny(rings, [mid[0] + (dy / len) * d, mid[1] - (dx / len) * d]);
+			if (li === ri) continue; // 两侧同在内/同在外: 不是并集边界
+			const s = li ? a : b,
+				t = li ? b : a; // 统一成"内部在左"
+			boundary.push({ a: s, b: t, ak: pk(s), bk: pk(t) });
+		}
+	}
+	// 共享内边(两环反向各走一次)抵消
+	const uniq = new Map();
+	for (const e of boundary) {
+		const f = `${e.ak}>${e.bk}`,
+			r = `${e.bk}>${e.ak}`;
+		if (uniq.has(r)) uniq.delete(r);
+		else if (!uniq.has(f)) uniq.set(f, e);
+	}
+	const edges = [...uniq.values()];
+	const outgoing = new Map();
+	for (const e of edges) {
+		if (!outgoing.has(e.ak)) outgoing.set(e.ak, []);
+		outgoing.get(e.ak).push(e);
+	}
+	const out = [];
+	for (const first of edges) {
+		if (first.used) continue;
+		first.used = true;
+		const ring = [first.a, first.b];
+		let prev = first.a,
+			cur = first.b;
+		while (pk(cur) !== pk(ring[0])) {
+			const cand = (outgoing.get(pk(cur)) || []).filter((e) => !e.used);
+			if (!cand.length) break;
+			const inc = Math.atan2(cur[1] - prev[1], cur[0] - prev[0]);
+			cand.sort((x, y) => turnOf(x, inc) - turnOf(y, inc));
+			const nx = cand[0];
+			nx.used = true;
+			prev = cur;
+			cur = nx.b;
+			ring.push(cur);
+			if (ring.length > edges.length + 1) break;
+		}
+		if (pk(cur) === pk(ring[0]) && ring.length >= 4) {
+			const clean = [];
+			for (const p of ring) if (!clean.length || pk(clean[clean.length - 1]) !== pk(p)) clean.push(p);
+			if (pk(clean[0]) !== pk(clean[clean.length - 1])) clean.push(clean[0]);
+			if (clean.length >= 4) out.push(clean);
+		}
+	}
+	return out;
+}
+// 同 layer_id 分组 → 真重叠连通(并查集) → 逐连通分量 Union → 面积守恒回退 → 标 _seam_merged
+// 分组键只取 layer_id: 腾讯对同一要素在相邻瓦会给**不同 style**(外观配置码按瓦的 LOD 档变),
+// 实测同一公园跨瓦是 66519235 vs 66519048 / 66519100 vs 66519046 —— 带 style 做键会漏合。
+// 故 style 只用来定阈值: 同 style 部分重叠(≥5%)即合; 异 style 只认近乎整体包含(≥50%)。
+function fuseAreaGroup(list) {
+	const buckets = new Map();
+	for (const f of list) {
+		const k = String(f.layer_id);
+		if (!buckets.has(k)) buckets.set(k, []);
+		buckets.get(k).push(f);
+	}
+	const out = [];
+	let union = 0,
+		fallback = 0,
+		fusedMax = 0;
+	for (const [, g] of buckets) {
+		if (g.length === 1) {
+			out.push(g[0]);
+			continue;
+		}
+		const rings = g.map((f) => f.parts[0]);
+		const bbs = rings.map(ringBBox);
+		const areas = rings.map(ringArea);
+		const par = g.map((_, i) => i);
+		const find = (a) => (par[a] === a ? a : (par[a] = find(par[a])));
+		for (let i = 0; i < g.length; i++)
+			for (let j = i + 1; j < g.length; j++) {
+				if (!bboxHit(bbs[i], bbs[j])) continue;
+				const ov = interAreaPx(rings[i], rings[j]);
+				if (ov < TOPO_MIN_PX2) continue;
+				const sameStyle = g[i].props && g[j].props && g[i].props.style === g[j].props.style;
+				const need = sameStyle ? TOPO_MIN_RATIO : TOPO_MIN_RATIO_X;
+				if (ov / Math.min(areas[i], areas[j]) < need) continue;
+				par[find(i)] = find(j);
+			}
+		const comps = new Map();
+		g.forEach((f, i) => {
+			const r = find(i);
+			if (!comps.has(r)) comps.set(r, []);
+			comps.get(r).push(i);
+		});
+		for (const [, idxs] of comps) {
+			// 单成员 / 含多环(洞)要素: 不融合, 原样保留
+			if (idxs.length === 1 || idxs.some((i) => g[i].parts.length !== 1)) {
+				for (const i of idxs) out.push(g[i]);
+				continue;
+			}
+			const inRings = idxs.map((i) => rings[i]);
+			const before = inRings.reduce((s, r) => s + ringArea(r), 0);
+			const maxA = Math.max(...idxs.map((i) => areas[i]));
+			let merged = null;
+			try {
+				const u = unionRings(inRings);
+				const uA = u.reduce((s, r) => s + ringArea(r), 0);
+				// 面积守恒: 并集面积必须 ≥ 最大单面(没丢几何) 且 ≤ 原面积和(重叠只减不增);
+				// 注意不能要求 ≈ 原面积和 —— 输入本身重叠, 并集必然小于和
+				if (u.length && uA >= maxA * 0.99 - 1 && uA <= before + 1) merged = u;
+			} catch (e) {
+				merged = null;
+			}
+			if (!merged) {
+				fallback++;
+				for (const i of idxs) out.push(g[i]);
+				continue;
+			}
+			union++;
+			if (idxs.length > fusedMax) fusedMax = idxs.length;
+			out.push(
+				Object.assign({}, g[idxs[0]], {
+					parts: merged,
+					n_parts: merged.length,
+					_seam_merged: 1,
+					_fused_from: idxs.length,
+				}),
+			);
+		}
+	}
+	return { features: out, union, fallback, fusedMax };
+}
+// 残余重叠审计(洞感知 + 边界接触排除, 只打标不改几何)
+// 分两种信号, 因为腾讯面层是**多分类叠置**模型, 不同 layer_id 重叠往往是设计如此:
+//   _topo_review=1  同 layer_id 仍严格互含 —— 真拓扑残留(融合没覆盖到的, 或建筑共享墙细缝)
+//   _topo_overlap=1 异 layer_id 严格互含 —— 多分类/层级叠置(实测北京 196775 完整包含
+//                   196894/196895 一批子面; 陆家嘴 area_parkinglots 196629 vs 196787),
+//                   不是错误, 但会影响面积统计, 单独标出来供筛选
+function auditOverlap(list) {
+	const polys = [];
+	list.forEach((f, idx) => {
+		if (f.kind === "polygon" && f.parts && f.parts.length) polys.push({ rings: f.parts, bb: ringBBox(f.parts[0]), idx });
+	});
+	const rev = new Set(),
+		ovl = new Set();
+	for (let i = 0; i < polys.length; i++)
+		for (let j = i + 1; j < polys.length; j++) {
+			const A = polys[i],
+				B = polys[j];
+			if (!bboxHit(A.bb, B.bb)) continue;
+			let hit = false;
+			for (const r of A.rings) {
+				for (const pt of r)
+					if (strictlyInside(B.rings, pt)) {
+						hit = true;
+						break;
+					}
+				if (hit) break;
+			}
+			if (!hit)
+				for (const r of B.rings) {
+					for (const pt of r)
+						if (strictlyInside(A.rings, pt)) {
+							hit = true;
+							break;
+						}
+					if (hit) break;
+				}
+			if (!hit) continue;
+			const sameId = String(list[A.idx].layer_id) === String(list[B.idx].layer_id);
+			(sameId ? rev : ovl).add(A.idx);
+			(sameId ? rev : ovl).add(B.idx);
+		}
+	for (const idx of rev) list[idx]._topo_review = 1;
+	for (const idx of ovl) if (!rev.has(idx)) list[idx]._topo_overlap = 1;
+	return { review: rev.size, overlap: ovl.size };
+}
+
 // ---------- 输出: 全局像素 -> WGS-84 ----------
 function toWgs([gx, gy], z) {
 	const [lng, lat] = xyzToLngLatPx(gx, gy, z);
@@ -612,6 +940,11 @@ function emitFeature(f, z) {
 		_tile: f.tile,
 		_tiles_n: f._tiles_n || 1,
 	});
+	// 拓扑标记: 跨瓦融合 / 残余重叠审计(只打标, 不改几何)
+	if (f._seam_merged) props._seam_merged = 1;
+	if (f._fused_from) props._fused_from = f._fused_from;
+	if (f._topo_review) props._topo_review = 1;
+	if (f._topo_overlap) props._topo_overlap = 1;
 	if (f.kind === "point")
 		return {
 			type: "Feature",
@@ -819,6 +1152,7 @@ async function main() {
 	// 去重 + 分组
 	const groups = new Map();
 	let dup = 0;
+	const dupByGroup = new Map();
 	for (const f of feats) {
 		if (want && !want.includes(f.group)) continue;
 		const k = featureKey(f);
@@ -826,6 +1160,7 @@ async function main() {
 		const m = groups.get(f.group);
 		if (m.has(k)) {
 			dup++;
+			dupByGroup.set(f.group, (dupByGroup.get(f.group) || 0) + 1);
 			const old = m.get(k);
 			old._tiles_n = (old._tiles_n || 1) + 1;
 			continue;
@@ -833,10 +1168,41 @@ async function main() {
 		f._tiles_n = 1;
 		m.set(k, f);
 	}
+	// 通用拓扑: 面层跨瓦近重复融合(建筑除外) + 残余重叠审计
 	const stats = {};
+	let totUnion = 0,
+		totFallback = 0,
+		totReview = 0,
+		totOverlap = 0;
 	for (const [g, m] of groups) {
-		const arr = [...m.values()].map((f) => emitFeature(f, z));
-		stats[g] = { out: arr.length };
+		let list = [...m.values()];
+		const nDedup = dupByGroup.get(g) || 0;
+		const inN = list.length + nDedup;
+		let union = 0,
+			fallback = 0,
+			fusedMax = 0,
+			review = 0,
+			overlap = 0;
+		const polys = list.filter((f) => f.kind === "polygon");
+		if (polys.length && g !== "area_building") {
+			// 建筑不融合: 相邻楼共享墙, Union 会把整排楼粘成一块(实测共享 2 顶点, 占比 ≤0.026)
+			const r = fuseAreaGroup(polys);
+			union = r.union;
+			fallback = r.fallback;
+			fusedMax = r.fusedMax;
+			list = list.filter((f) => f.kind !== "polygon").concat(r.features);
+		}
+		if (polys.length) {
+			const a = auditOverlap(list.filter((f) => f.kind === "polygon"));
+			review = a.review;
+			overlap = a.overlap;
+		}
+		totUnion += union;
+		totFallback += fallback;
+		totReview += review;
+		totOverlap += overlap;
+		const arr = list.map((f) => emitFeature(f, z));
+		stats[g] = { in: inN, dedup: nDedup, out: arr.length, union, fallback, fused_from_max: fusedMax, review, overlap };
 		fs.writeFileSync(
 			path.join(o.outdir, `${g}.geojson`),
 			JSON.stringify(
@@ -852,7 +1218,11 @@ async function main() {
 				1,
 			),
 		);
-		console.log(`${g}: ${arr.length} 要素 -> ${path.join(o.outdir, g + ".geojson")}`);
+		console.log(
+			`${g}: ${arr.length} 要素 (in ${inN} / 去重 ${nDedup}${union ? ` / Union ${union}` : ""}${
+				fallback ? ` / 回退 ${fallback}` : ""
+			}${review ? ` / 同层重叠打标 ${review}` : ""}${overlap ? ` / 异层叠置 ${overlap}` : ""}) -> ${path.join(o.outdir, g + ".geojson")}`,
+		);
 	}
 	runInfo.elapsed_s = Math.round((Date.now() - started) / 1000);
 	fs.writeFileSync(
@@ -863,6 +1233,7 @@ async function main() {
 				requests: batches.length,
 				parsed_feats: feats.length,
 				dedup_removed: dup,
+				topology: { union: totUnion, fallback: totFallback, topo_review: totReview, topo_overlap: totOverlap },
 				layers: stats,
 			},
 			null,
@@ -871,7 +1242,7 @@ async function main() {
 	);
 	fs.writeFileSync(path.join(o.outdir, "run_info.json"), JSON.stringify(runInfo, null, 1));
 	console.log(
-		`merge_stats: 瓦片=${runInfo.tiles.length} 解析=${feats.length} 跨瓦去重=${dup} 失败=${runInfo.failures.length} 用时=${runInfo.elapsed_s}s`,
+		`merge_stats: 瓦片=${runInfo.tiles.length} 解析=${feats.length} 跨瓦去重=${dup} 面融合=${totUnion}(回退${totFallback}) 同层重叠打标=${totReview} 异层叠置=${totOverlap} 失败=${runInfo.failures.length} 用时=${runInfo.elapsed_s}s`,
 	);
 	console.log("注意: 输出已是 WGS-84; 小范围研究请遵守腾讯服务条款, 大范围/商用请自备 key");
 }
@@ -979,6 +1350,7 @@ function selftest() {
 	ok(isClosedRing([[10, 10], [20, 10], [20, 20], [10, 20], [10, 10]]) === true, "闭合环");
 	ok(isClosedRing([[10, 10], [20, 10], [20, 20], [10, 20]]) === false, "开口环");
 	ok(isClosedRing([[10, 10], [20, 10]]) === false, "线段");
+	ok(isClosedRing([[10, 10], [20, 10], [10, 10]]) === false, "2 点回头段不算环(面积恒 0, 防退化 Polygon)");
 	const roundabout = parseTile(
 		{ ret: 0, features: [[131336, [100, 100, 50, 0, 0, 50, -50, 0, 0, -50], "", 327745503]] },
 		10,
@@ -1113,6 +1485,55 @@ function selftest() {
 				}
 		}
 	ok(all.length === 9 && new Set(all).size === 9, `2x2 分批覆盖 9 块不重不漏 (得 ${all.length})`);
+	// 14. 通用拓扑: Union 引擎（重叠 / 分离 / 包含 / 共享边 四种合成用例）
+	const sq = (x0, y0, s) => [
+		[x0, y0],
+		[x0 + s, y0],
+		[x0 + s, y0 + s],
+		[x0, y0 + s],
+	];
+	const uOverlap = unionRings([sq(0, 0, 100), sq(50, 0, 100)]);
+	ok(uOverlap.length === 1, `Union 重叠正方形 -> 1 环 (得 ${uOverlap.length})`);
+	ok(
+		Math.abs(uOverlap.reduce((s, r) => s + ringArea(r), 0) - 15000) < 1,
+		`Union 重叠面积 = 10000+10000-5000 (得 ${uOverlap.reduce((s, r) => s + ringArea(r), 0).toFixed(1)})`,
+	);
+	ok(unionRings([sq(0, 0, 10), sq(100, 100, 10)]).length === 2, "Union 分离正方形 -> 2 环");
+	const uHole = unionRings([sq(0, 0, 100), sq(20, 20, 10)]);
+	ok(uHole.length === 1 && Math.abs(ringArea(uHole[0]) - 10000) < 1, "Union 被包含 -> 1 环且面积不变(不挖洞)");
+	const uShare = unionRings([sq(0, 0, 100), sq(100, 0, 100)]);
+	ok(uShare.length === 1 && Math.abs(ringArea(uShare[0]) - 20000) < 1, "Union 共享边 -> 1 环面积 20000");
+	// 15. 栅格化交集面积 + 严格内点判定
+	const ia = interAreaPx(sq(0, 0, 100), sq(50, 0, 100));
+	ok(Math.abs(ia - 5000) / 5000 < 0.05, `interAreaPx 重叠 5000px² (得 ${ia.toFixed(1)})`);
+	ok(interAreaPx(sq(0, 0, 100), sq(100, 0, 100)) === 0, "interAreaPx 共享边 = 0(贴边不算重叠)");
+	ok(strictlyInside([sq(0, 0, 100)], [50, 50]) === true, "strictlyInside 内部点");
+	ok(strictlyInside([sq(0, 0, 100)], [0, 50]) === false, "strictlyInside 边界点判否(共享墙不算重叠)");
+	ok(strictlyInside([sq(0, 0, 100), sq(40, 40, 20)], [50, 50]) === false, "strictlyInside 洞内判否");
+	// 16. 面融合: 同 layer_id+style 真重叠才合, 异 style / 仅贴边 都不合
+	const mkPoly = (id, style, ring) => ({ group: "area_park", layer_id: id, props: { style }, kind: "polygon", parts: [ring], tile: "16_0_0" });
+	const fSame = fuseAreaGroup([mkPoly(196622, 7, sq(0, 0, 100)), mkPoly(196622, 7, sq(50, 0, 100))]);
+	ok(fSame.features.length === 1 && fSame.union === 1, `同 id+style 重叠 -> 融合 1 个 (得 ${fSame.features.length})`);
+	ok(fSame.features[0]._seam_merged === 1 && fSame.features[0]._fused_from === 2, "融合标记 _seam_merged/_fused_from");
+	ok(Math.abs(ringArea(fSame.features[0].parts[0]) - 15000) < 1, "融合后面积 = 并集");
+	const fDiff = fuseAreaGroup([mkPoly(196622, 7, sq(0, 0, 100)), mkPoly(196622, 8, sq(80, 0, 100))]);
+	ok(fDiff.features.length === 2 && fDiff.union === 0, "异 style 仅部分重叠(20%)不融合");
+	const fContain = fuseAreaGroup([mkPoly(196622, 7, sq(0, 0, 100)), mkPoly(196622, 8, sq(20, 20, 30))]);
+	ok(fContain.features.length === 1 && fContain.union === 1, "异 style 近乎整体包含 -> 融合(实测跨瓦异 style 占比 0.88~1.00)");
+	const fTouch = fuseAreaGroup([mkPoly(196622, 7, sq(0, 0, 100)), mkPoly(196622, 7, sq(100, 0, 100))]);
+	ok(fTouch.features.length === 2 && fTouch.union === 0, "仅贴边(共享边)不融合");
+	const fDiffId = fuseAreaGroup([mkPoly(196622, 7, sq(0, 0, 100)), mkPoly(196629, 7, sq(50, 0, 100))]);
+	ok(fDiffId.features.length === 2, "异 layer_id 不融合");
+	// 17. 残余重叠审计: 同 layer_id 严格互含打 _topo_review, 异 layer_id 打 _topo_overlap, 贴边都不打
+	const auA = [mkPoly(196622, 1, sq(0, 0, 100)), mkPoly(196622, 2, sq(20, 20, 30))];
+	ok(auditOverlap(auA).review === 2 && auA[0]._topo_review === 1 && auA[1]._topo_review === 1, "同 layer_id 严格互含 -> _topo_review");
+	const auD = [mkPoly(196775, 1, sq(0, 0, 100)), mkPoly(196894, 2, sq(20, 20, 30))];
+	const auDr = auditOverlap(auD);
+	ok(auDr.review === 0 && auDr.overlap === 2 && auD[0]._topo_overlap === 1, "异 layer_id 叠置 -> _topo_overlap(多分类, 非错误)");
+	const auB = [mkPoly(1, 1, sq(0, 0, 100)), mkPoly(1, 2, sq(100, 0, 100))];
+	ok(auditOverlap(auB).review === 0 && auB[0]._topo_review === undefined, "共享墙相邻 -> 不打标");
+	const auC = [mkPoly(1, 1, sq(0, 0, 100)), mkPoly(1, 2, sq(500, 500, 10))];
+	ok(auditOverlap(auC).review === 0 && auditOverlap(auC).overlap === 0, "分离面 -> 不打标");
 	console.log(`selftest: ${pass} 过 / ${fail} 不过`);
 	if (fail) process.exit(1);
 }

@@ -40,7 +40,7 @@ node qq_vector_fetch.mjs --selftest
 - `--outdir`：每组一个 `<组名>.geojson` ＋ `merge_stats.json` ＋ `run_info.json`；
 - `--delay`（默认 400ms 禁调小）、`--max-tiles`（默认 100，超限拒绝请缩小范围）；
 - 内置 `--selftest`（频段/解码链/跨瓦对齐/去重/闭合判定/注记/POI/多part/洞嵌套/
-  WGS84 单调/GCJ02 金标准/2x2 分批覆盖合成用例，69 项不过不发版）。
+  WGS84 单调/GCJ02 金标准/Union 引擎/面融合/重叠审计/2x2 分批覆盖合成用例，**91 项不过不发版**）。
 
 请求格式（每批最多 4 块，2x2 邻接；TMS y = 2^z-1-xyz_y）：
 
@@ -57,9 +57,21 @@ Referer: https://lbs.qq.com/getPoint/
 bbox/center → 瓦片列表（GCJ-02 编号，超 --max-tiles 直接拒绝）
 → 2x2 批量 fetch（间隔400ms，重试3次，失败记 run_info.failures 不伪造空瓦片）
 → txDecode 全量解析（频段分发，全局像素化）
-→ 通用拓扑（不裁剪 + 跨瓦整数像素精确去重 + 多环嵌洞，见§7）
-→ <组名>.geojson（WGS84干净矢量）＋ merge_stats.json（分层 in/out/dedup）＋ run_info.json
+→ 通用拓扑（不裁剪 + 跨瓦整数像素精确去重 + 跨瓦近重复面 Union + 残余重叠审计，见§7）
+→ <组名>.geojson（WGS84干净矢量）
+   ＋ merge_stats.json（分层 in/dedup/out/union/fallback/fused_from_max/review/overlap）
+   ＋ run_info.json
 ```
+
+拓扑标记（写在要素 properties 上，只标不改几何）：
+
+| 标记 | 含义 |
+|---|---|
+| `_seam_merged=1` | 该要素由跨瓦近重复面 Union 融合而来（§7 规则 3） |
+| `_fused_from=N` | 融合前由 N 个面片合成（N≥2） |
+| `_topo_review=1` | 同 layer_id 残余严格重叠（真残留，值得复核） |
+| `_topo_overlap=1` | 异 layer_id 严格叠置（腾讯多分类/层级设计，非错误） |
+| `_tile` / `_tiles_n` | 首见瓦片 / 跨瓦出现次数 |
 
 建议采样矩阵（小范围、每种地貌/级别各取 1~4 瓦片即可，不要大范围扫）：
 
@@ -216,7 +228,7 @@ feature 为逐字记录数组：`[id, [x,y], char, font, style, anchors]`——
 3. 未收编且高频出现 → 按 bundle 新版更新分区表（`CATALOG` 常量）并补 selftest；
 4. 新字段长度（如出现 7 字段扁平记录）→ 先按 nums/strs 分流取稳定字段，再查 bundle 渲染路径确认语义，**严禁按位置硬解**。
 
-## 7. 通用拓扑（腾讯特性：不裁剪 + 整要素重复，与另两家完全不同）
+## 7. 通用拓扑（腾讯特性：不裁剪 + 跨瓦按瓦抽稀，与另两家完全不同）
 
 **关键实测**（2x2 邻接瓦片探针，4 瓦 1186 要素）：
 
@@ -227,20 +239,56 @@ feature 为逐字记录数组：`[id, [x,y], char, font, style, anchors]`——
 | 重复层分布 | 建筑 51、road 5+3+2+1+1、area 3+2、POI 1 | 全部层有此行为，非建筑特例 |
 | 建筑重复组 | style 尾值 40/40 一致（佐证） | 但 style 非唯一键，仍以几何为准 |
 
-因此腾讯的拓扑规则（与天地图"逐瓦裁剪+接缝 Union"相反，程序 §拓扑规则同此）：
+**但"整要素重复"只对建筑成立**。全量铺开后发现第二个特性：**腾讯对跨瓦同一面要素按瓦抽稀**——
+同一个公园在相邻瓦给 7 点 / 4 点两种形状，几何互不相等，精确去重抓不到，于是输出里两块面互相重叠。
+实测（陆家嘴 z16 六瓦）真重叠面积：
+
+| 层 | 拓扑前 | 拓扑后 | 最大单对（前） |
+|---|---|---|---|
+| area_park | 0.0806 km² | **0.0001** | 2.13 公顷 |
+| area_grass | 0.0758 km² | **0.0001** | 2.85 公顷 |
+| area_otherarea | 0.0715 km² | **0** | 2.55 公顷 |
+| area_water | 0.0267 km² | **0** | 2.59 公顷 |
+| area_commercial | 0.0169 km² | **0** | 1.36 公顷 |
+| area_resident | 0.0035 km² | **0** | 0.35 公顷 |
+| area_building | 0.0008 km² | 0.0008（只审计） | 104 m² |
+| road_* 全部 | 0 | 0 | — |
+
+据此定规则（程序 §通用拓扑同此），与天地图"逐瓦裁剪 + 接缝 Union"相反：
 
 | 规则 | 内容 |
 |---|---|
 | 1 不裁剪 | 局部像素 + 瓦片原点 = 全局像素，越界 buffer 点原样保留 |
 | 2 精确去重 | 全局像素为**整数**，去重键 = 组名 + 整数几何 + 稳定属性（style/height/name/char/font/startDistance），无舍入误差 |
-| 3 频段定面 | region 恒 Polygon（补首点闭合）；line/arrow 按首尾差≤1px 判闭合转面 |
-| 4 多 part | 线→MultiLineString；多环→面积降序 + 包含嵌洞 |
-| 5 无 Union/无审计 | 不存在半裁拼接；腾讯面层多分类天然可重叠，重叠非错误不打标 |
-| 6 _tile/_tiles_n | 每个要素记首见瓦片与跨瓦出现次数（_tiles_n=4 即四角瓦全重复） |
+| 3 跨瓦近重复面融合 | 按 **layer_id** 分组 → 真重叠（栅格化交集占比过阈）连通（并查集）→ 逐连通分量 **Union** → 面积守恒回退 → 洞嵌套；标 `_seam_merged=1` / `_fused_from=N`。**建筑除外** |
+| 4 频段定面 | region 恒 Polygon（补首点闭合）；line/arrow 按首尾差≤1px **且 ≥4 点**判闭合转面 |
+| 5 多 part | 线→MultiLineString；多环→面积降序 + 包含嵌洞 |
+| 6 线层不 Union | 实测跨瓦几乎无重复（road_street 378 条仅 4 对近完全重复，且都是 2 点短段）；路口盲合会误接 |
+| 7 残余重叠审计 | 严格互含（洞感知 + 边界接触排除）打标，只打标不改几何 |
+| 8 _tile/_tiles_n | 每个要素记首见瓦片与跨瓦出现次数（_tiles_n=4 即四角瓦全重复） |
 
-验收（陆家嘴 z16 六瓦）：解析 1553 → 去重 127 → 26 组输出；建筑 361→270，
-与旧建筑程序同框 270/270 几何楼高逐一一致；郑州 z18 九瓦 53 栋全 Polygon；
-北京 z15 四瓦 4882 栋；三区零失败、零 NaN、零空环。
+三条"别照抄天地图"的判据（都是实测逼出来的）：
+
+1. **分组键只取 layer_id，不带 style**：腾讯对同一要素在相邻瓦给**不同 style**（外观配置码按瓦的
+   LOD 档变，实测同一公园跨瓦是 66519235 vs 66519048、66519100 vs 66519046）。带 style 做键会漏合。
+   style 只用来定阈值：同 style 部分重叠 ≥5% 即合；**异 style 只认近乎整体包含 ≥50%**
+   （实测异 style 真实跨瓦占比 0.88~1.00，噪声细缝 0.001~0.003，分离干净）。
+2. **建筑必须排除融合**：相邻楼共享墙（实测共享 2 顶点、只剩 ~8 m² 浮点细缝，占比 ≤0.026），
+   Union 会把整排楼粘成一块。建筑只审计打标。
+3. **审计分两种信号**（腾讯面层是多分类叠置模型，异 layer_id 重叠常常是设计如此）：
+   `_topo_review=1` = 同 layer_id 仍严格互含（真残留）；`_topo_overlap=1` = 异 layer_id 严格互含
+   （实测北京 z15 `196775` 完整包含 `196894/196895` 一批子面；陆家嘴 `area_parkinglots`
+   `196629` vs `196787`）——不是错误，但影响面积统计，单独标出供筛选。
+
+Union 引擎移植自 WebGIS-Dev `tdtBuildingTopology.unionRings`（零依赖：逐边求交切分 →
+左右侧内外分类 → 反向内边抵消 → 最小转角串链），**一处关键改动**：内外判据由奇偶改为
+**并集口径（任一环内即内）**——用奇偶会把两环重叠区判成外部，输出的是挖洞的 XOR 而不是并集。
+面积守恒校验也随之改口径：并集面积必须 **≥ 最大单面（没丢几何）且 ≤ 原面积和（重叠只减不增）**，
+不能要求 ≈ 原面积和（输入本身重叠，并集必然小于和）。
+
+验收（陆家嘴 z16 六瓦）：解析 1553 → 去重 127 → **面融合 23 处（回退 0）** → 26 组 1392 要素；
+建筑 361→270，与旧建筑程序同框 270/270 几何楼高逐一一致；郑州 z18 十二瓦、北京 z15 四瓦、
+外滩 z17 十二瓦三地零失败、零回退、零未闭合环。
 **移植转录 bug 实录**：`_tLon` 第三项 `sin(lon/3)` 误抄 `sin(lat/3)`，
 陆家嘴整体偏移 46m——靠与旧程序 270/270 坐标比对一次抓捕，
 现 selftest 有 `_tLon/_tLat` 金标准 12 点逐值断言防回退。
@@ -252,7 +300,7 @@ feature 为逐字记录数组：`[id, [x,y], char, font, style, anchors]`——
 ```text
 组名 → MVT layer.name（26 组原样保留：road_*/area_*/poi_*/label_*/arrow/raw_<id>）
 本程序 props → MVT feature.properties（name/style/layer_id/height_m/char/font/anchors/
-  start_distance/_tile/_tiles_n 原样写入）
+  start_distance/_tile/_tiles_n/_seam_merged/_fused_from/_topo_review/_topo_overlap 原样写入）
 频段 type → MVT geometry type：point 频段 → 1；line/arrow 频段 → 2；
   region 频段 → 3（多环按面积降序，环内包含即洞，GeoJSON 环序与 MVT 环序一一对应）
 瓦片内局部整数像素 × 16 → MVT geometry（4096 格网；腾讯服务端不裁剪，
@@ -291,9 +339,15 @@ feature 为逐字记录数组：`[id, [x,y], char, font, style, anchors]`——
 
 | 源 | 建筑识别 | 坐标 | 解码 | 跨瓦拓扑 |
 |---|---|---|---|---|
-| 腾讯 | 频段 region∩196619 | GCJ-02 编号→WGS84 输出 | 自定义base64+rotate/xor→JSON | 不裁剪，整要素重复，精确去重 |
+| 腾讯 | 频段 region∩196619 | GCJ-02 编号→WGS84 输出 | 自定义base64+rotate/xor→JSON | **不裁剪**；建筑整要素重复→精确去重；面层按瓦抽稀→近重复面 Union；线层只去重不 Union |
 | 高德 | layer.type=3 | GCJ-02 编号→WGS84 输出 | pbf+packedZig | 逐瓦裁剪，按 key 去重 |
 | 天地图 | CE+type2+14位elemid | CGCS2000≈WGS84 直出 | 私有protobuf+三编码+XOR | 逐瓦裁剪+接缝 Union |
+
+三家拓扑的**本质差别**在于服务端是否裁剪：
+腾讯不裁剪（整要素跨瓦重复）却**按瓦抽稀**，所以"同一要素在相邻瓦几何不同"；
+天地图逐瓦裁剪，接缝处是**两个半片**必须 Union；
+高德逐瓦裁剪但按 key 去重。三者都最终收敛到"干净矢量"，但路径完全不同——
+照抄任何一家的拓扑代码到另一家都会出错（腾讯抄天地图会漏合、天地图抄腾讯会误合）。
 
 三源全量都通之后，才能做"同一 bbox 三源对照"（位置偏差≤17m 基线已有），
 再做统一 MVT + 统一样式，才是地理数据自由化。三篇总纲互为引用：
@@ -307,11 +361,11 @@ feature 为逐字记录数组：`[id, [x,y], char, font, style, anchors]`——
 
 | 文件 | 说明 |
 |---|---|
-| `resources/qq-full-reverse/qq_vector_fetch.mjs` | **最终程序**（单文件独立：取数＋txDecode全量解析＋频段schema＋通用拓扑＋CLI＋selftest 69 项；建筑提取已并入，同框 270/270 一致） |
-| `resources/qq-full-reverse/sample_lujiazui_z16/` | 最终程序实测输出（陆家嘴 z16 六瓦 1553 要素：26 组 `<组名>.geojson`＋`merge_stats.json`＋`run_info.json`） |
+| `resources/qq-full-reverse/qq_vector_fetch.mjs` | **最终程序**（单文件独立：取数＋txDecode全量解析＋频段schema＋通用拓扑（含跨瓦面 Union）＋CLI＋selftest **91 项**；建筑提取已并入，同框 270/270 一致） |
+| `resources/qq-full-reverse/sample_lujiazui_z16/` | 最终程序实测输出（陆家嘴 z16 六瓦：26 组 `<组名>.geojson`＋`merge_stats.json`＋`run_info.json`） |
 
 ```bash
-# 自检（频段/解码链/跨瓦对齐/去重/闭合/注记/POI/多part/洞嵌套/金标准，69项不过不发版）
+# 自检（频段/解码链/跨瓦对齐/去重/闭合/注记/POI/多part/洞嵌套/金标准/Union/融合/审计，91项不过不发版）
 node qq_vector_fetch.mjs --selftest
 
 # 最小复现（陆家嘴 z16，2 次请求 6 瓦）
@@ -322,14 +376,18 @@ node qq_vector_fetch.mjs --bbox 121.4957,31.2357,121.5037,31.2437 --zoom 16 --la
 ```
 
 **复现校验**（2026-10-14 实测）：按上述命令重跑，28 个输出文件与 `sample_lujiazui_z16/`
-**27 个逐字节一致**（另 1 个 `run_info.json` 仅 `bbox_wgs84` 字符串因输入式不同而略异，
-分层计数 `tiles=6 / parsed=1553 / dedup=127 / failures=0` 完全相同）——
-即"程序是最终的、采样可复现"这一条已被验证，不是一次性产物。
+**27 个逐字节一致**（另 1 个 `run_info.json` 仅 `bbox_wgs84` 字符串因输入式不同而略异），
+分层计数与拓扑计数 `tiles=6 / parsed=1553 / dedup=127 / union=23 / fallback=0 / failures=0` 完全相同
+——即"程序是最终的、采样可复现"这一条已被验证，不是一次性产物。
 
 已发布采样只有最终版一份：`resources/qq-full-reverse/sample_lujiazui_z16/`
-（1553 要素 → 去重 127 → 26 组；area_building 270 栋楼高 4~640m；
-road_street 388 条（10 条闭合转面）；poi/label/arrow 各组合计见目录；
-`merge_stats.json` 记分层去重数，`run_info.json` 记范围/瓦片/失败 0）。
+（解析 1553 → 去重 127 → 面融合 23（回退 0）→ 26 组 1392 要素；area_building 270 栋楼高 4~640m
+（其中 77 个带 `_topo_review`：相邻楼共享墙的浮点细缝，总 0.0008 km²）；
+road_street 388 条（10 条闭合转面）；`merge_stats.json` 记分层
+in/dedup/out/union/fallback/review/overlap 与全局 topology 汇总，`run_info.json` 记范围/瓦片/失败 0）。
+
+**跨区回归**（拓扑开启后）：郑州 z18 十二瓦（融合 33 / 回退 0）、北京 z15 四瓦（融合 26 / 回退 0，
+3073 栋建筑全 Polygon）、外滩 z17 十二瓦（融合 19 / 回退 0）——三地零失败、零未闭合环。
 
 ## 10. 残留定性对照结论（置信度表）
 
@@ -340,12 +398,18 @@ road_street 388 条（10 条闭合转面）；poi/label/arrow 各组合计见目
 | 建筑 f[2]=height(米) | 建筑篇已对官方预览验证；全量程序 270/270 复现 | 高 | 同框两程序逐一比对 |
 | 建筑 style 非唯一键 | 同值多楼共存，去重只佐证不作键 | 高 | 40/40 重复组 + 270 栋共式 |
 | 服务端不裁剪 | 27% 点越界 + 66 组跨瓦逐点一致 | 高 | 2x2 邻接探针 |
+| **跨瓦同一面要素按瓦抽稀** | 同公园在相邻瓦给 7 点 / 4 点两种形状，几何不等 → 精确去重漏网 → 面互相重叠 | 高 | 陆家嘴六瓦真重叠 0.075~0.081 km²；融合后降到 0.0001 |
+| **异 style 是同一要素** | 外观配置码按瓦 LOD 档变（66519235 vs 66519048），故分组键只取 layer_id | 高 | 异 style 真实跨瓦占比 0.88~1.00 |
+| **建筑不可 Union** | 相邻楼共享墙（共享 2 顶点），Union 会粘成整排 | 高 | 占比 ≤0.026；建筑层 60 对重叠全部 <105 m² |
+| **异 layer_id 叠置非错误** | 腾讯面层多分类/层级：196775 完整包含 196894/196895 一批子面 | 高 | 北京 z15 实测；标 `_topo_overlap` 不标 `_topo_review` |
 | label 位置为绝对像素 | 字距等距 ~13px、差分会溢出的瓦 | 高 | 262413/262179/262707 多样本 |
 | POI f[5]=图集矩形 | 矩形 4 数 / 出入口双矩形 | 高 | 麦当劳/地铁站样本 |
 | road 5 字段 num=startDistance | 渲染器 `P.startDistance=o[2]` | 中 | 131087 样本；语义名沿用 bundle |
+| 线层不做 Union | 跨瓦几乎无重复（road_street 378 条仅 4 对，且 2 点短段） | 高 | 端点 ≤1px 且同点数的跨瓦配对统计 |
 | 196965/197064 身份 | region 未命名面，style 值异常大 | 低 | bundle 无记录；待官图对照 |
 | 327701/327703/327936 | 道路箭头碎段（arrow 频段） | 中 | 频段归属确定；碎段语义从 bundle arrow 渲染路径 |
 | z14 无建筑/注记分工 | 级别规则非漏采 | 高 | 4 区域 5 级别对照 |
 
-解析完成度：字节→要素 100%（单请求全层 + 频段分发 + 整数几何，三区零失败）；
+解析完成度：字节→要素 100%（单请求全层 + 频段分发 + 整数几何，四区零失败）；
+拓扑完成度：跨瓦面重叠已消解 99.9%（同层残留仅建筑共享墙细缝，已打标）；
 语义完成度约 95%（上表低置信行待 bundle 新版/官图对照，非解析缺口）。

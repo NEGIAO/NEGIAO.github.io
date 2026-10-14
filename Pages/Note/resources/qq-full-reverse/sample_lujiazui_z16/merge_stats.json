@@ -3,84 +3,272 @@
  "requests": 2,
  "parsed_feats": 1553,
  "dedup_removed": 127,
+ "topology": {
+  "union": 23,
+  "fallback": 0,
+  "topo_review": 86,
+  "topo_overlap": 6
+ },
  "layers": {
   "area_park": {
-   "out": 27
+   "in": 28,
+   "dedup": 1,
+   "out": 13,
+   "union": 7,
+   "fallback": 0,
+   "fused_from_max": 5,
+   "review": 3,
+   "overlap": 0
   },
   "area_grass": {
-   "out": 32
+   "in": 34,
+   "dedup": 2,
+   "out": 21,
+   "union": 10,
+   "fallback": 0,
+   "fused_from_max": 3,
+   "review": 6,
+   "overlap": 0
   },
   "area_water": {
-   "out": 11
+   "in": 16,
+   "dedup": 5,
+   "out": 9,
+   "union": 1,
+   "fallback": 0,
+   "fused_from_max": 3,
+   "review": 0,
+   "overlap": 0
   },
   "road_mainroad": {
-   "out": 88
+   "in": 89,
+   "dedup": 1,
+   "out": 88,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "road_path": {
-   "out": 246
+   "in": 250,
+   "dedup": 4,
+   "out": 246,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "road_street": {
-   "out": 388
+   "in": 393,
+   "dedup": 5,
+   "out": 388,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "road_secondaryroad": {
-   "out": 180
+   "in": 181,
+   "dedup": 1,
+   "out": 180,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "raw_131650": {
-   "out": 8
+   "in": 8,
+   "dedup": 0,
+   "out": 8,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "raw_131651": {
-   "out": 7
+   "in": 7,
+   "dedup": 0,
+   "out": 7,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "area_building": {
-   "out": 270
+   "in": 361,
+   "dedup": 91,
+   "out": 270,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 77,
+   "overlap": 0
   },
   "poi_transport": {
-   "out": 6
+   "in": 10,
+   "dedup": 4,
+   "out": 6,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "label_ocean": {
-   "out": 6
+   "in": 6,
+   "dedup": 0,
+   "out": 6,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "label_secondaryroad": {
-   "out": 36
+   "in": 49,
+   "dedup": 13,
+   "out": 36,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "area_resident": {
-   "out": 5
+   "in": 5,
+   "dedup": 0,
+   "out": 4,
+   "union": 1,
+   "fallback": 0,
+   "fused_from_max": 2,
+   "review": 0,
+   "overlap": 0
   },
   "area_commercial": {
-   "out": 4
+   "in": 4,
+   "dedup": 0,
+   "out": 2,
+   "union": 2,
+   "fallback": 0,
+   "fused_from_max": 2,
+   "review": 0,
+   "overlap": 0
   },
   "area_otherarea": {
-   "out": 9
+   "in": 9,
+   "dedup": 0,
+   "out": 5,
+   "union": 2,
+   "fallback": 0,
+   "fused_from_max": 4,
+   "review": 0,
+   "overlap": 0
   },
   "road_ferry": {
-   "out": 1
+   "in": 1,
+   "dedup": 0,
+   "out": 1,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "road_subwayline": {
-   "out": 5
+   "in": 5,
+   "dedup": 0,
+   "out": 5,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "area_parkinglots": {
-   "out": 6
+   "in": 6,
+   "dedup": 0,
+   "out": 6,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 6
   },
   "road_pfurniture": {
-   "out": 77
+   "in": 77,
+   "dedup": 0,
+   "out": 77,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "poi_restrant": {
-   "out": 3
+   "in": 3,
+   "dedup": 0,
+   "out": 3,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "raw_131589": {
-   "out": 3
+   "in": 3,
+   "dedup": 0,
+   "out": 3,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "poi_subwayline": {
-   "out": 1
+   "in": 1,
+   "dedup": 0,
+   "out": 1,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "raw_66875": {
-   "out": 1
+   "in": 1,
+   "dedup": 0,
+   "out": 1,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "arrow": {
-   "out": 1
+   "in": 1,
+   "dedup": 0,
+   "out": 1,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   },
   "label_mainroad": {
-   "out": 5
+   "in": 5,
+   "dedup": 0,
+   "out": 5,
+   "union": 0,
+   "fallback": 0,
+   "fused_from_max": 0,
+   "review": 0,
+   "overlap": 0
   }
  }
 }

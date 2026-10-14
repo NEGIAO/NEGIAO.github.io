@@ -1,0 +1,153 @@
+{
+ "type": "FeatureCollection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+  }
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "style": 1400,
+    "anchors": [
+     6,
+     4,
+     3,
+     3
+    ],
+    "layer_id": 65615,
+    "_tile": "16_54886_26775",
+    "_tiles_n": 4
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.49857419925198,
+     31.242806682400843
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "style": 1400,
+    "anchors": [
+     15,
+     4,
+     3,
+     3
+    ],
+    "layer_id": 65615,
+    "_tile": "16_54886_26776",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.49700223162104,
+     31.24155498971203
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "style": 1400,
+    "anchors": [
+     15,
+     4,
+     3,
+     3
+    ],
+    "layer_id": 65615,
+    "_tile": "16_54887_26776",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.49928492676983,
+     31.242038613765946
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "浦东大道出口/(人民路隧道方向)",
+    "style": 4799,
+    "anchors": [
+     24,
+     4,
+     3,
+     3,
+     33,
+     4,
+     3,
+     3
+    ],
+    "layer_id": 65610,
+    "_tile": "16_54887_26776",
+    "_tiles_n": 2
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.50186944556349,
+     31.238433673095102
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "style": 1400,
+    "anchors": [
+     382,
+     4,
+     3,
+     3
+    ],
+    "layer_id": 65615,
+    "_tile": "16_54887_26777",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.50258040650544,
+     31.23480466693636
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "",
+    "style": 1400,
+    "anchors": [
+     391,
+     4,
+     3,
+     3
+    ],
+    "layer_id": 65615,
+    "_tile": "16_54887_26777",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.50441083286248,
+     31.23515855123943
+    ]
+   }
+  }
+ ]
+}

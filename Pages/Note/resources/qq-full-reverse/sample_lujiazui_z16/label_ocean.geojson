@@ -1,0 +1,155 @@
+{
+ "type": "FeatureCollection",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+  }
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "char": "黄",
+    "font": 332,
+    "style": 0,
+    "anchors": [
+     433,
+     2,
+     27,
+     27
+    ],
+    "layer_id": 262707,
+    "_tile": "16_54886_26775",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.49581734118335,
+     31.24685102380306
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "char": "浦",
+    "font": 333,
+    "style": 0,
+    "anchors": [
+     466,
+     2,
+     27,
+     27
+    ],
+    "layer_id": 262707,
+    "_tile": "16_54886_26775",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.49607575505902,
+     31.246961821257727
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "char": "江",
+    "font": 334,
+    "style": 0,
+    "anchors": [
+     182,
+     63,
+     27,
+     26
+    ],
+    "layer_id": 262707,
+    "_tile": "16_54886_26775",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.49633416897234,
+     31.247072618567522
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "char": "黄",
+    "font": 355,
+    "style": 0,
+    "anchors": [
+     440,
+     57,
+     27,
+     27
+    ],
+    "layer_id": 262707,
+    "_tile": "16_54887_26775",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.50070573322759,
+     31.24809423849833
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "char": "浦",
+    "font": 356,
+    "style": 0,
+    "anchors": [
+     473,
+     57,
+     27,
+     27
+    ],
+    "layer_id": 262707,
+    "_tile": "16_54887_26775",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.50072728856169,
+     31.247855921896036
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "char": "江",
+    "font": 355,
+    "style": 0,
+    "anchors": [
+     6,
+     112,
+     27,
+     26
+    ],
+    "layer_id": 262707,
+    "_tile": "16_54887_26775",
+    "_tiles_n": 1
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.50074884389345,
+     31.247617604743755
+    ]
+   }
+  }
+ ]
+}

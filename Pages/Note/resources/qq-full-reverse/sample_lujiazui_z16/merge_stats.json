@@ -1,0 +1,86 @@
+{
+ "tiles": 6,
+ "requests": 2,
+ "parsed_feats": 1553,
+ "dedup_removed": 127,
+ "layers": {
+  "area_park": {
+   "out": 27
+  },
+  "area_grass": {
+   "out": 32
+  },
+  "area_water": {
+   "out": 11
+  },
+  "road_mainroad": {
+   "out": 88
+  },
+  "road_path": {
+   "out": 246
+  },
+  "road_street": {
+   "out": 388
+  },
+  "road_secondaryroad": {
+   "out": 180
+  },
+  "raw_131650": {
+   "out": 8
+  },
+  "raw_131651": {
+   "out": 7
+  },
+  "area_building": {
+   "out": 270
+  },
+  "poi_transport": {
+   "out": 6
+  },
+  "label_ocean": {
+   "out": 6
+  },
+  "label_secondaryroad": {
+   "out": 36
+  },
+  "area_resident": {
+   "out": 5
+  },
+  "area_commercial": {
+   "out": 4
+  },
+  "area_otherarea": {
+   "out": 9
+  },
+  "road_ferry": {
+   "out": 1
+  },
+  "road_subwayline": {
+   "out": 5
+  },
+  "area_parkinglots": {
+   "out": 6
+  },
+  "road_pfurniture": {
+   "out": 77
+  },
+  "poi_restrant": {
+   "out": 3
+  },
+  "raw_131589": {
+   "out": 3
+  },
+  "poi_subwayline": {
+   "out": 1
+  },
+  "raw_66875": {
+   "out": 1
+  },
+  "arrow": {
+   "out": 1
+  },
+  "label_mainroad": {
+   "out": 5
+  }
+ }
+}

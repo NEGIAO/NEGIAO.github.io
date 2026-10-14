@@ -15,7 +15,7 @@
 最终程序（单文件独立，取数＋全量解析＋通用拓扑＋CLI 全收敛）：
 
 <p>
-  <a href="../resources/qq-full-reverse/qq_vector_fetch.mjs" download style="font-weight: bold; font-size: 1.1em;">📥 下载 qq_vector_fetch.mjs</a>
+  <a href="../resources/qq-full-reverse/tencent_vector_fetch.mjs" download style="font-weight: bold; font-size: 1.1em;">📥 下载 tencent_vector_fetch.mjs</a>
 </p>
 
 只用于小范围格式研究。请遵守腾讯位置服务条款；大范围/商用请用自己申请的 key。
@@ -29,9 +29,9 @@
 ## 1. 最终程序用法（范围＋图层选项＋级别→干净GeoJSON）
 
 ```bash
-node qq_vector_fetch.mjs --bbox 121.4730,31.2305,121.4760,31.2325 --zoom 16 --layers all --outdir ./out
-node qq_vector_fetch.mjs --center 121.4997,31.2397 --delta 0.004 --zoom 16 --layers area_building,road_mainroad --outdir ./out
-node qq_vector_fetch.mjs --selftest
+node tencent_vector_fetch.mjs --bbox 121.4730,31.2305,121.4760,31.2325 --zoom 16 --layers all --outdir ./out
+node tencent_vector_fetch.mjs --center 121.4997,31.2397 --delta 0.004 --zoom 16 --layers area_building,road_mainroad --outdir ./out
+node tencent_vector_fetch.mjs --selftest
 ```
 
 - `--bbox`/`--center`：范围（WGS-84；内部转 GCJ-02 算瓦片，输出统一回 WGS-84）；
@@ -361,18 +361,18 @@ Union 引擎移植自 WebGIS-Dev `tdtBuildingTopology.unionRings`（零依赖：
 
 | 文件 | 说明 |
 |---|---|
-| `resources/qq-full-reverse/qq_vector_fetch.mjs` | **最终程序**（单文件独立：取数＋txDecode全量解析＋频段schema＋通用拓扑（含跨瓦面 Union）＋CLI＋selftest **91 项**；建筑提取已并入，同框 270/270 一致） |
+| `resources/qq-full-reverse/tencent_vector_fetch.mjs` | **最终程序**（单文件独立：取数＋txDecode全量解析＋频段schema＋通用拓扑（含跨瓦面 Union）＋CLI＋selftest **91 项**；建筑提取已并入，同框 270/270 一致） |
 | `resources/qq-full-reverse/sample_lujiazui_z16/` | 最终程序实测输出（陆家嘴 z16 六瓦：26 组 `<组名>.geojson`＋`merge_stats.json`＋`run_info.json`） |
 
 ```bash
 # 自检（频段/解码链/跨瓦对齐/去重/闭合/注记/POI/多part/洞嵌套/金标准/Union/融合/审计，91项不过不发版）
-node qq_vector_fetch.mjs --selftest
+node tencent_vector_fetch.mjs --selftest
 
 # 最小复现（陆家嘴 z16，2 次请求 6 瓦）
-node qq_vector_fetch.mjs --center 121.4997,31.2397 --delta 0.004 --zoom 16 --outdir ./out
+node tencent_vector_fetch.mjs --center 121.4997,31.2397 --delta 0.004 --zoom 16 --outdir ./out
 
 # 复现已发布采样（即 sample_lujiazui_z16；与上面 --center 式等价，记录进 run_info 的 bbox 串略异）
-node qq_vector_fetch.mjs --bbox 121.4957,31.2357,121.5037,31.2437 --zoom 16 --layers all --outdir ./out
+node tencent_vector_fetch.mjs --bbox 121.4957,31.2357,121.5037,31.2437 --zoom 16 --layers all --outdir ./out
 ```
 
 **复现校验**（2026-10-14 实测）：按上述命令重跑，28 个输出文件与 `sample_lujiazui_z16/`

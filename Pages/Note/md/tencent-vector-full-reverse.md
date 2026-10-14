@@ -245,6 +245,48 @@ feature 为逐字记录数组：`[id, [x,y], char, font, style, anchors]`——
 陆家嘴整体偏移 46m——靠与旧程序 270/270 坐标比对一次抓捕，
 现 selftest 有 `_tLon/_tLat` 金标准 12 点逐值断言防回退。
 
+## 7b. 转标准 MVT（最高目标的落地路径，接上节程序输出）
+
+腾讯瓦片内是 **256px 局部整数格网**，MVT extent 4096 = 256 × 16，**整数直映、无需重采样**：
+
+```text
+组名 → MVT layer.name（26 组原样保留：road_*/area_*/poi_*/label_*/arrow/raw_<id>）
+本程序 props → MVT feature.properties（name/style/layer_id/height_m/char/font/anchors/
+  start_distance/_tile/_tiles_n 原样写入）
+频段 type → MVT geometry type：point 频段 → 1；line/arrow 频段 → 2；
+  region 频段 → 3（多环按面积降序，环内包含即洞，GeoJSON 环序与 MVT 环序一一对应）
+瓦片内局部整数像素 × 16 → MVT geometry（4096 格网；腾讯服务端不裁剪，
+  越界 buffer 点原样保留，与 MVT 的 buffer 语义天然一致，不需要额外裁剪）
+```
+
+两条落地路径：
+
+- **路径 A（精确，推荐）**：程序内存里本来就是瓦片内整数像素（全局像素 − 瓦片原点 × 256），
+  直接 ×16 写 MVT，零坐标往返误差；需在程序里加一个 `--format mvt` 出口
+  （复用 `parseTile` 后的中间要素、跳过 WGS84 反算），**当前版本尚未实现**。
+- **路径 B（现成，实践无损）**：拿已发布的 WGS84 GeoJSON，按目标 z/x/y 重新投影回瓦片像素再 ×16。
+  反算是双精度、往返误差 < 1cm，而 1 像素 ≈ 1.2m@z16，故实践上无损；
+  可直接用 `tippecanoe` / `geojson2mvt` 离线转。
+
+三点与另两家不同，转 MVT 时别照抄：
+
+1. **label 层是逐字点**：MVT 里就是带 `char` 属性的 Point；要整串路名需在客户端按字距聚类
+   （§4.5，实测字距 ~13px），或转 MVT 前预聚合成单点（丢原始字位，二选一）。
+2. **组名即图层名，天然分层**：26 组不需要二次拆分；前端按组名开关即可
+   （`label_*` 与同名 `road_*` 可拼成同一开关）。
+3. **不要丢 `_tiles_n`、也别拿 `style` 当 feature id**：前者是跨瓦出现次数（LOD/优先级有用），
+   后者是外观配置码、同值多要素共存（§4.1），做 id 会撞车。
+
+前端自由选取（复用现有 useTdtBuildingFetch / useAmapBuildingFetch / useTencentBuildingFetch 形状）：
+
+```text
+用户输入 bbox + 勾选图层组（road_*/area_building/label_mainroad/…） + zoom
+→ 按源构建瓦片地址（腾讯 TMS y 翻转 + version + 2x2 批量）
+→ fetch（限速+重试） → txDecode 全量解码（本程序 decode 逻辑的前端版）
+→ 按组名筛选 → GeoJSON / MVT 重编码
+→ 腾讯 GL JS（代理模式，前端无 key）渲染，点击弹全部 props
+```
+
 ## 8. 与天地图、高德全量的关系
 
 | 源 | 建筑识别 | 坐标 | 解码 | 跨瓦拓扑 |
@@ -255,7 +297,7 @@ feature 为逐字记录数组：`[id, [x,y], char, font, style, anchors]`——
 
 三源全量都通之后，才能做"同一 bbox 三源对照"（位置偏差≤17m 基线已有），
 再做统一 MVT + 统一样式，才是地理数据自由化。三篇总纲互为引用：
-本文（腾讯）+ `tianditu-vector-full-reverse.md`（天地图）+ `amap-full-reverse`（高德）。
+本文（腾讯）+ `tianditu-vector-full-reverse.md`（天地图）+ `amap-vector-full-reverse.md`（高德）。
 
 ## 9. 产物与复现
 
@@ -275,9 +317,14 @@ node qq_vector_fetch.mjs --selftest
 # 最小复现（陆家嘴 z16，2 次请求 6 瓦）
 node qq_vector_fetch.mjs --center 121.4997,31.2397 --delta 0.004 --zoom 16 --outdir ./out
 
-# 复现已发布采样（即 sample_lujiazui_z16）
+# 复现已发布采样（即 sample_lujiazui_z16；与上面 --center 式等价，记录进 run_info 的 bbox 串略异）
 node qq_vector_fetch.mjs --bbox 121.4957,31.2357,121.5037,31.2437 --zoom 16 --layers all --outdir ./out
 ```
+
+**复现校验**（2026-10-14 实测）：按上述命令重跑，28 个输出文件与 `sample_lujiazui_z16/`
+**27 个逐字节一致**（另 1 个 `run_info.json` 仅 `bbox_wgs84` 字符串因输入式不同而略异，
+分层计数 `tiles=6 / parsed=1553 / dedup=127 / failures=0` 完全相同）——
+即"程序是最终的、采样可复现"这一条已被验证，不是一次性产物。
 
 已发布采样只有最终版一份：`resources/qq-full-reverse/sample_lujiazui_z16/`
 （1553 要素 → 去重 127 → 26 组；area_building 270 栋楼高 4~640m；

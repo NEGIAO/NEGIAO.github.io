@@ -56,6 +56,23 @@ node amap_vector_fetch.mjs --selftest
 （瓦片清单、变体、失败原因）。单个瓦片实测（type=1+type=2 各一块）：
 building 945 / poi 6197 / road 1878 / region 拆 9 类 / transit 51 要素。
 
+### 1.1 按几何合并输出（QGIS 符号化专用可选项 `--bygeom`）
+
+```bash
+node amap_vector_fetch.mjs --bbox ... --zoom 14 --layers all --outdir ./out --bygeom
+```
+
+只出三个文件：`point.geojson` / `line.geojson` / `polygon.geojson`（不再按层分文件）。
+统一分类键 **`layer_subkey` = 层码:subKey**（三文件都有；subKey 缺席留空，如 `road:`），
+另有 `_layer` 冗余列；**仅 line 另加 `layer_mainkey_subkey` = 层_主码_子码**
+（如 `road_20009_3`，缺席留空；道路靠它区分，polygon/point 不加此列、不改动）。
+注意：`nameLoc` 等 `{name,lang}` 语言名对象保持原样输出（QGIS 可读；如需转 shp 再导出，
+请先压平嵌套对象，shp 不支持 QVariantMap）。
+QGIS 里对三个文件分别做唯一值分类即可跨地区复用符号：
+面按 `layer_subkey` 分建筑（`building:*`）/绿地/地块/水体（`region_water:2`…）等大类再细分；
+线按 `layer_mainkey_subkey`（`road_20009_3`、`region_line_20017_`（体育用地）…）分；
+点按 `poi:<码>` 分（码表见 `poi_subkey_names.mjs`，`subKeyName` 列已有中文类名）。
+
 ## 2. 请求链与容器结构（全层共用）
 
 ### 2.1 抓取链
@@ -97,9 +114,16 @@ Layer   { f1:z, f2:x, f3:y, f4:type, f5:d(bytes) }
 
 ### 2.3 SameStyle 分组与几何编码（跨层统一）
 
-每个 SameStyle 组：`f1=mainKey`（分类主码，可缺省）、`f2=subKey`（子分类码，默认 1）、
-`f3=resolution`（瓦片内网格精度，默认 12）、`f4=items[]`。
-item 三种包装：单 feature（region）、`*Multi` 包装（带 minZoom/maxZoom/drawOrder/rank）。
+每个 SameStyle 组：`f1=mainKey`（分类主码，wire 缺失即未知，记 null）、
+`f2=subKey`（子分类码，wire 缺失即未知，**禁止默认 1**）、
+`f3=resolution`（瓦片内网格精度；wire 缺失回退 12 并打 `_resAssumed` 标记，不静默）。
+item 三种包装：单 feature（region）、`*Multi` 包装（带 minZoom/maxZoom/drawOrder/rank，缺失即无，不补 0/2/15/18/30）。
+
+> 反例存档（2026-10 修）：旧版 `defaults:{subKey:1,resolution:12,uid:1,…}` 把缺失全填成一样的值，
+> 导致无 f2 的组全撞 `subKey=1`、无 f3 的组坐标可能错位、`uid` 全瓦 `1` 撞号。
+> wire 实测：region 水/建筑底板组常缺 f1（故 `mainKey=null` 是诚实的），region 线组缺 f2，
+> region 面组多缺 f3，building/poi 组恒缺 f1。分类时缺失按未知分支（`region_other`），
+> 不得当作具体类别；`uid` 只收 wire 真值。
 
 **全字段解码（schema 驱动，一个字段都不丢）**：每条消息按"已知字段号→语义名 / 未知字段号→`fN` 兜底捕获"
 的通用解码器解析——protobuf wire type 0/1/5 原样落值，wire type 2 先试 UTF-8 字符串、不可打印存 hex。
@@ -157,14 +181,19 @@ inner   = (ix+sw)·2^(33-res-z)，再 c2d(c)=c·180/2^31
 ### 4.1 poi（type=0）
 
 **全字段**（GeoJSON properties，除几何流外全量输出）：
-`subKey`（必有，默认 1）、`mainKey`（缺省为 null）、`rti`（= 高德 POI ID）、`uid`（瓦片内自增，缺省 1）、
+`subKey`（wire 有则收，无则该键缺席，**不再默认 1**）、`mainKey`（缺省为 null）、`rti`（= 高德 POI ID）、
+`uid`（仅 wire 真值，无则该键缺席，**不再全瓦填 1**）、
 `name`（首选名，nameZh→nameLoc 回退）、`nameLoc`（本地语言名对象 `{name,lang,f4}`，f4 为隐藏字段，疑字号参数）、
 `nameEng`/`nameMulti`/`nameZh`（多语言名，出现时是 `{name,lang}` 对象）、
-`minZoom/maxZoom`（Multi 包装级，默认 18/30）、`rank`、`drawOrder`、`resolution`（12）。
+`minZoom/maxZoom`（Multi 包装级，wire 有则收，无不补 18/30）、`rank`、`drawOrder`、`resolution`（wire 有则收，无则回退 12 并打 `_resAssumed`）。
 未知字段会以 `fN` 原样出现。
 
 - `mainKey` 只在大类上出现（全部 16379 条中仅 378 条非空）：
   10001=公交站/高架出入口、10002=水系点（如黄浦江）、10007=地标（城隍庙、上海中心）。
+  wire级核查（外滩单瓦1183组：1169组无f1；开封4236条同样1.7%有）：缺席是服务端常态，
+  有f1的全系 `mainKey=10001`＋空名＋空rti 的散布设施点——故 mainKey 是角色叠加标记
+  （匿名交通设施点），不是父分类；POI 主分类就是 subKey（704种）＋nameLoc/rti。
+  程序不伪造缺席，分类器对缺席走显式分支（见 §2.3 反例存档）。
 - `subKey` 是真正的分类码，实测 704 种，Top 分布（次数/样例）：
 
 | subKey | n | 样例 |
@@ -204,9 +233,20 @@ inner   = (ix+sw)·2^(33-res-z)，再 c2d(c)=c·180/2^31
 
 ### 4.2 road（type=1）
 
-**全字段**：`mainKey`、`subKey`、`rank`（0=普通，500/1406/1701/1705/1706/2008/3010 等为
-带权道路）、`shield`（盾牌字符串）、`shieldType`、`name`/`nameLoc`/`nameEng`/`nameMulti`/`nameZh`（多语言名对象）、
-`uid`、`minZoom/maxZoom`、`drawOrder`、`resolution`（12 或 13）。
+**全字段**：`mainKey`（wire 有则收，极少数 null）、`subKey`（wire 有则收，无则该键缺席——
+约半数组缺，**禁止默认 1**）、`rank`（0=普通，500/1406/1701/1705/1706/2008/3010 等为
+带权道路；与 subKey 缺席与否无关，独立信号）、`shield`（盾牌字符串，如 S219）、`shieldType`、
+`name`/`nameLoc`/`nameEng`/`nameMulti`/`nameZh`（多语言名对象）、
+`uid`（仅 wire 真值，无不补 1）、`minZoom/maxZoom`（有则收，不补）、`drawOrder`、
+`resolution`（12 或 13；缺则回退 12 并打 `_resAssumed`）。
+
+> wire 实测（2026-10，外滩 z14＋金明 z14＋z12 三地）：约半数 road 组无 f2（subKey），
+> 少数连 f1（mainKey）也无；缺失是服务端省略（疑为 proto 默认值省略，或该组本来就没有子类），
+> 不是解析丢——schema 全字段覆盖、零未知 `fN` 已证。下游判类请用
+> `(mainKey × rank × drawOrder × name)` 组合：如 `(20007, 2008/3010)`＝大道系（东京大道/黄河大街/金明大道，
+> 均无 subKey）、`(20009, 1406, sk=3)`＝普通街（雪垠路/九章路…）、`(20008, 500/1705)`＝辅路/街。
+> “缺 = 普通路面（subKey=1）”目前只是假说（与 .proto 默认省略模式吻合，但无 bundle 实锤），
+> 故程序保持缺席诚实，不回填；若官图对照证实，再升级为显式规则。
 
 - 11178/11328 有条目级 mainKey；只有 281 条有名称（命名主干道）。
 - mainKey 层级（次数）：

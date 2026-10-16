@@ -5,9 +5,15 @@
 //   node amap_vector_fetch.mjs --selftest
 // 说明:
 //   --bbox/--center 输入输出统一 WGS-84（瓦片按 GCJ-02 编号，内部自动换算）;
-//   --layers: all 或逗号指定 poi,road,region,building,transit（自动选数据变体: poi/road/region/transit→type2, building→type1, 两者都要→各抓一次）;
+//   --layers: all 或逗号指定 poi,road,region,building,transit（自动选数据变体，见下）;
 //   --zoom: 数据级别，仅 12/14 有数据（14 含全部五层，12 无 poi/building）;
 //   --key: 高德 key（必填，白名单含调用方域名）; --delay 默认 400ms 禁调小; --max-tiles 默认 200.
+//   --bygeom: 只出 point/line/polygon.geojson 三个文件（不再按层分文件），
+//     每个要素带统一分类键 layer_subkey=层码:subKey（缺席留空）+ _layer 来源层，供 QGIS 跨地区复用符号.
+//   数据变体（实测 z14 单瓦双变体对照，固定映射）：
+//     type=1 包 = road(1) + region(2) + building(3) + transit(4)；
+//     type=2 包 = poi(0) + transit(4)（无 road/region/building，旧代码按 type2 取 road/region 必然空）;
+//   故 poi→type2；road/region/building→type1；transit 哪边都行（两者都抓时几何去重兜底）。
 // 遵守高德服务条款；仅用于小范围格式研究。
 import fs from "fs";
 import path from "path";
@@ -52,7 +58,10 @@ function packedVarint(b, arr) {
 	}
 }
 // ---- 通用 schema 驱动解码：已知字段给语义名，未知字段按线型兜底捕获为 fN（全量不丢） ----
-// spec 条目: {t:'u32'|'str'|'lang'|'msg'|'bytes'|'pz'|'pv', k:输出键, rep:是否数组, spec:子消息spec}; spec.defaults=缺省值表
+// spec 条目: {t:'u32'|'str'|'lang'|'msg'|'bytes'|'pz'|'pv', k:输出键, rep:是否数组, spec:子消息spec}
+// 原则：只解码 wire 上真实存在的字段，禁止用 defaults 伪造缺失值
+// （曾用 defaults:{subKey:1,resolution:12,uid:1} 导致缺失类全撞同值，已删除；
+//   wire 缺失的 mainKey/subKey 保持 undefined，regionClassOf 按 null 显式分支）
 const isPrintable = (b) => { let n = 0; for (const c of b) { if (c === 0x09 || c === 0x0a || (c >= 0x20 && c !== 0x7f)) n++; } return b.length > 0 && n === b.length; };
 function decodeMsg(b, spec) {
 	const o = {};
@@ -75,26 +84,27 @@ function decodeMsg(b, spec) {
 		else if (s.t === "pz") { const a = []; packedZig(r.bytes(), a); put(k, a, false); }
 		else if (s.t === "pv") { const a = []; packedVarint(r.bytes(), a); put(k, a, false); }
 	});
+	// spec.defaults 机制保留但全库已无条目使用（伪造缺失值已证伪，见文件头注释）
 	if (spec.defaults) for (const [k, v] of Object.entries(spec.defaults)) if (o[k] === undefined) o[k] = v;
 	return o;
 }
 const S_LANG = { 1: { t: "str", k: "name" }, 2: { t: "str", k: "lang" } };
-const SAME = (itemSpec) => ({ 1: { t: "u32", k: "mainKey" }, 2: { t: "u32", k: "subKey", }, 3: { t: "u32", k: "resolution" }, 4: { t: "msg", k: "items", spec: itemSpec }, defaults: { subKey: 1, resolution: 12 } });
+const SAME = (itemSpec) => ({ 1: { t: "u32", k: "mainKey" }, 2: { t: "u32", k: "subKey", }, 3: { t: "u32", k: "resolution" }, 4: { t: "msg", k: "items", spec: itemSpec } });
 // 点要素（poi / transit.points）: PointFeatureMulti{minZoom,maxZoom,rank} -> PointFeature
-const S_POINT = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "drawOrder" }, 3: { t: "str", k: "rti" }, 4: { t: "pv", k: "pos" }, 5: { t: "lang", k: "nameEng" }, 6: { t: "u32", k: "uid" }, 7: { t: "lang", k: "nameMulti" }, 8: { t: "lang", k: "nameZh" }, defaults: { uid: 1 } };
-const S_POINT_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "rank" }, 4: { t: "msg", k: "points", spec: S_POINT }, defaults: { minZoom: 18, maxZoom: 30, rank: 0 } };
+const S_POINT = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "drawOrder" }, 3: { t: "str", k: "rti" }, 4: { t: "pv", k: "pos" }, 5: { t: "lang", k: "nameEng" }, 6: { t: "u32", k: "uid" }, 7: { t: "lang", k: "nameMulti" }, 8: { t: "lang", k: "nameZh" } };
+const S_POINT_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "rank" }, 4: { t: "msg", k: "points", spec: S_POINT } };
 // 道路线: RoadLineMulti -> RoadLine
-const S_ROADLINE = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "rank" }, 3: { t: "str", k: "shield" }, 4: { t: "u32", k: "shieldType" }, 5: { t: "pz", k: "line" }, 6: { t: "lang", k: "nameEng" }, 7: { t: "u32", k: "uid" }, 8: { t: "lang", k: "nameMulti" }, 9: { t: "lang", k: "nameZh" }, defaults: { uid: 1, rank: 0 } };
-const S_ROADLINE_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "drawOrder" }, 4: { t: "msg", k: "roadLines", spec: S_ROADLINE }, defaults: { minZoom: 2, maxZoom: 30, drawOrder: 0 } };
+const S_ROADLINE = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "rank" }, 3: { t: "str", k: "shield" }, 4: { t: "u32", k: "shieldType" }, 5: { t: "pz", k: "line" }, 6: { t: "lang", k: "nameEng" }, 7: { t: "u32", k: "uid" }, 8: { t: "lang", k: "nameMulti" }, 9: { t: "lang", k: "nameZh" } };
+const S_ROADLINE_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "drawOrder" }, 4: { t: "msg", k: "roadLines", spec: S_ROADLINE } };
 // 通用线要素（road/transit.lines/region.lines）: LineFeatureMulti -> LineFeature
-const S_LINEF = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "rank" }, 3: { t: "pz", k: "line" }, 4: { t: "lang", k: "nameEng" }, 5: { t: "u32", k: "uid" }, 6: { t: "lang", k: "nameMulti" }, 7: { t: "lang", k: "nameZh" }, defaults: { uid: 1, rank: 0 } };
-const S_LINEF_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "drawOrder" }, 4: { t: "msg", k: "lineFeatures", spec: S_LINEF }, defaults: { minZoom: 2, maxZoom: 30, drawOrder: 0 } };
+const S_LINEF = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "rank" }, 3: { t: "pz", k: "line" }, 4: { t: "lang", k: "nameEng" }, 5: { t: "u32", k: "uid" }, 6: { t: "lang", k: "nameMulti" }, 7: { t: "lang", k: "nameZh" } };
+const S_LINEF_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "drawOrder" }, 4: { t: "msg", k: "lineFeatures", spec: S_LINEF } };
 // 建筑面: ShapeFeatureMulti -> ShapeFeature
-const S_SHAPE = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "rank" }, 3: { t: "pz", k: "polygon" }, 4: { t: "u32", k: "uid" }, 5: { t: "u32", k: "mainBuildingHeight" }, 6: { t: "str", k: "bz" }, 7: { t: "lang", k: "nameEng" }, 8: { t: "lang", k: "nameMulti" }, 9: { t: "lang", k: "nameZh" }, defaults: { uid: 1, rank: 0 } };
-const S_SHAPE_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "drawOrder" }, 4: { t: "msg", k: "shapeFeatures", spec: S_SHAPE }, defaults: { minZoom: 15, maxZoom: 30, drawOrder: 0 } };
+const S_SHAPE = { 1: { t: "lang", k: "nameLoc" }, 2: { t: "u32", k: "rank" }, 3: { t: "pz", k: "polygon" }, 4: { t: "u32", k: "uid" }, 5: { t: "u32", k: "mainBuildingHeight" }, 6: { t: "str", k: "bz" }, 7: { t: "lang", k: "nameEng" }, 8: { t: "lang", k: "nameMulti" }, 9: { t: "lang", k: "nameZh" } };
+const S_SHAPE_M = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "u32", k: "drawOrder" }, 4: { t: "msg", k: "shapeFeatures", spec: S_SHAPE } };
 // 通用面要素（region/transit.polygons）: PolygonFeature（自带 minZoom/maxZoom/drawOrder/rank）+ GeometryPolygon
 const S_GEOMPOLY = { 1: { t: "pz", k: "polygon" } };
-const S_POLYF = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "lang", k: "nameLoc" }, 4: { t: "u32", k: "drawOrder" }, 5: { t: "u32", k: "rank" }, 6: { t: "msg", k: "polygons", spec: S_GEOMPOLY }, 7: { t: "lang", k: "nameEng" }, 8: { t: "u32", k: "uid" }, defaults: { uid: 1, minZoom: 2, maxZoom: 30, drawOrder: 0, rank: 0 } };
+const S_POLYF = { 1: { t: "u32", k: "minZoom" }, 2: { t: "u32", k: "maxZoom" }, 3: { t: "lang", k: "nameLoc" }, 4: { t: "u32", k: "drawOrder" }, 5: { t: "u32", k: "rank" }, 6: { t: "msg", k: "polygons", spec: S_GEOMPOLY }, 7: { t: "lang", k: "nameEng" }, 8: { t: "u32", k: "uid" } };
 // 五层顶层容器（Pii/tile_region 为层级元数据，未知字段自动 fN）
 const S_POI = { 1: { t: "msg", k: "points", spec: SAME(S_POINT_M) }, 2: { t: "str", k: "Pii" }, 3: { t: "str", k: "tile_region" } };
 const S_ROAD = { 1: { t: "msg", k: "roadLines", spec: SAME(S_ROADLINE_M) }, 2: { t: "str", k: "Pii" }, 3: { t: "str", k: "tile_region" } };
@@ -182,7 +192,8 @@ function lngLatToXyz(lng, lat, z) {
 //   -> Layer{f1 z,f2 x,f3 y,f4 type,f5 d}（layer 自带 z/x/y 为 z15 子瓦片号, 缺失回退 tile）
 const S_LAYER = { 1: { t: "u32", k: "z" }, 2: { t: "u32", k: "x" }, 3: { t: "u32", k: "y" }, 4: { t: "u32", k: "type" }, 5: { t: "bytes", k: "d" } };
 const S_TILE = { 1: { t: "u32", k: "z" }, 2: { t: "u32", k: "x" }, 3: { t: "u32", k: "y" }, 4: { t: "msg", k: "layers", spec: S_LAYER } };
-const S_RESULT = { 1: { t: "msg", k: "tiles", spec: S_TILE }, 2: { t: "u32", k: "version" }, 3: { t: "u32", k: "status" } };
+// Result.f2 实测为 11 字节版本串（非 varint，原 u32 规格会误读并污染后续字段），故不设规格走未知兜底
+const S_RESULT = { 1: { t: "msg", k: "tiles", spec: S_TILE } };
 export function decodeTile(buf) {
 	const out = { z: 0, x: 0, y: 0, layers: [], result: {} };
 	const dv = new DataView(buf.buffer, buf.byteOffset, buf.length);
@@ -217,18 +228,22 @@ export function parseTile(buf) {
 
 // ================= 五层统一出口: SameStyle 组 -> GeoJSON features（WGS84） =================
 // itemsOf: Multi 包装 / 直挂 feature（region 的 item 即 PolygonFeature）统一展平
+// 结构列固定：minZoom/maxZoom/drawOrder/rank 缺席填 null（下游属性表列稳定），别与“伪造值”混淆
+const META_KEYS = ["minZoom", "maxZoom", "drawOrder", "rank"];
 function itemsOf(group) {
 	const out = [];
 	for (const it of group.items || []) {
 		const inner = it.shapeFeatures || it.roadLines || it.lineFeatures || it.points || null;
 		const meta = {};
-		for (const k of ["minZoom", "maxZoom", "drawOrder", "rank"]) if (it[k] !== undefined) meta[k] = it[k];
+		for (const k of META_KEYS) meta[k] = it[k] !== undefined ? it[k] : null;
 		out.push({ meta, feats: inner || [it] });
 	}
 	return out;
 }
 // 全字段属性提取: 除几何流外全部进 properties（含未知字段 fN），不丢任何属性
+// 结构列固定：uid/rank 缺席填 null（同上）；其余内容字段缺席即缺席
 const GEO_KEYS = new Set(["pos", "polygon", "line", "polygons"]);
+const STRUCT_KEYS = new Set(["uid", "rank"]);
 function propsOf(f) {
 	const p = {};
 	for (const [k, v] of Object.entries(f)) {
@@ -236,6 +251,7 @@ function propsOf(f) {
 		if (Array.isArray(v)) { if (v.length) p[k] = v.length === 1 ? v[0] : v; }
 		else if (v !== "" && v !== null && v !== undefined) p[k] = v;
 	}
+	for (const k of STRUCT_KEYS) if (!(k in p)) p[k] = null;
 	const nm = (f.nameZh && f.nameZh[0] && f.nameZh[0].name) || (f.nameLoc && f.nameLoc[0] && f.nameLoc[0].name) || "";
 	if (nm) p.name = nm;
 	if (f.mainBuildingHeight !== undefined) p.height_m = f.mainBuildingHeight; // 语义别名
@@ -245,11 +261,14 @@ const toWgs = (pts) => pts.map(([lo, la]) => gcj02ToWgs84(lo, la));
 const closeRing = (ring) => { const r = ring.slice(); if (r.length && (r[0][0] !== r[r.length - 1][0] || r[0][1] !== r[r.length - 1][1])) r.push(r[0]); return r; };
 
 // ---- region 子类（按 item 级 drawOrder + mainKey/subKey 实证归类；拓扑叠放: 大地块在下, 湖泊/绿地/建筑底板压上, draw>=80 顶层小面）----
+// 缺失语义：mainKey/subKey 缺失即未知（undefined），禁止当作具体类别；
+// isLine→line 与 draw>=80→top 不依赖 subKey；其余无 subKey 一律 other。
 const REGION_CLASSES = ["water", "green", "parcel", "builtup", "harbor", "airport", "top", "other", "line"];
 function regionClassOf(mainKey, subKey, drawOrder, isLine) {
 	if (isLine) return "line";                         // region 线组（mk=20017/20010/20014/20011, res 13/15）
 	if ((drawOrder ?? 0) >= 80) return "top";          // 顶层小面（停车场/广场/高架/机场）
 	if (mainKey === 30004) return "airport";           // 机场（虹桥实例）
+	if (subKey == null) return "other";               // 无子类码无法归类，不伪造成具体类
 	if (mainKey === null && subKey === 2) return "water";  // 水面：江/湖/池塘（黄浦江/滴水湖/西湖实测）
 	if (mainKey === null && subKey === 3) return "builtup"; // 建筑底板碎面（最常见，中位 ~1000m²）
 	if (mainKey === 30002 && subKey === 5) return "green";  // 绿地/公园大面（世纪公园实测）
@@ -273,14 +292,17 @@ export function layerFeatures(parsed, layerName) {
 				: [[null, l.load.points || l.load.roadLines || l.load.buildings || l.load.polygons || l.load.lines || []]];
 		for (const [cont, gs] of groupSets) {
 			for (const g of gs || []) {
-				const res = g.resolution || 12;
+				// resolution wire缺失时回退12（bundle `|| 12` 同款先例）但必须打标，不静默
+				const res = g.resolution ?? 12;
+				const resAssumed = g.resolution == null;
 				for (const { meta, feats: its } of itemsOf(g)) {
 					const isLine = l.type === 2 && cont === "lines";
 					const regionClass = l.type === 2 ? regionClassOf(g.mainKey ?? null, g.subKey, meta.drawOrder, isLine) : null;
 					if (wantClass && regionClass !== wantClass) continue;
 					for (const f of its) {
 						if (!f || typeof f !== "object") continue;
-						const rec = { layer: l.name, sub: l.type === 2 ? (isLine ? "line" : "poly") : cont, mainKey: g.mainKey ?? null, subKey: g.subKey, resolution: g.resolution, tile: `${parsed.z}_${parsed.x}_${parsed.y}`, layer_tile: `${l.z}_${l.x}_${l.y}` };
+						const rec = { layer: l.name, sub: l.type === 2 ? (isLine ? "line" : "poly") : cont, mainKey: g.mainKey ?? null, subKey: g.subKey ?? null, resolution: res, tile: `${parsed.z}_${parsed.x}_${parsed.y}`, layer_tile: `${l.z}_${l.x}_${l.y}` };
+						if (resAssumed) rec._resAssumed = true;
 						if (regionClass) rec.region_class = regionClass;
 						Object.assign(rec, meta);      // Multi 包装级: minZoom/maxZoom/drawOrder/rank
 						Object.assign(rec, propsOf(f)); // 要素级全部字段（含未知 fN）
@@ -361,7 +383,7 @@ function parseArgs() {
 	const a = process.argv.slice(2), o = { zoom: 14, key: KEY_DEFAULT, delay: 400, maxTiles: 200, layers: "all", outdir: "./out" };
 	for (let i = 0; i < a.length; i += 2) {
 		const k = a[i].replace(/^--/, "");
-		if (k === "selftest") { o.selftest = true; i--; continue; }
+		if (k === "selftest" || k === "bygeom") { o[k] = true; i--; continue; }
 		o[k] = a[i + 1];
 	}
 	if (o.center && !o.bbox) {
@@ -386,10 +408,10 @@ async function main() {
 		want = want.filter((w) => w !== "region").concat(REGION_CLASSES.map((c) => "region_" + c));
 	}
 	if (!want.length) want = ["poi"];
-	// 数据变体: type=2(poi_region_road_transit, 含POI与命名道路) / type=1(building_region_road_transit, 含建筑)
+	// 数据变体: type=1含road/region/building(+transit), type=2含poi(+transit)；按需抓取
 	const variants = new Set();
-	if (want.some((w) => w !== "building")) variants.add(2);
-	if (want.includes("building")) variants.add(1);
+	if (want.some((w) => w === "poi")) variants.add(2);
+	if (want.some((w) => w !== "poi")) variants.add(1);
 	// bbox(WGS84) -> GCJ02 角点 -> 瓦片列表（等距纬度行 y）
 	const [wLng, wLat, eLng, eLat] = o.bbox.split(",").map(Number);
 	const cs = [[wLng, wLat], [wLng, eLat], [eLng, wLat], [eLng, eLat]].map(([lo, la]) => wgs84ToGcj02(lo, la));
@@ -426,9 +448,34 @@ async function main() {
 		}
 	}
 	for (const [w, arr] of Object.entries(gj)) {
-		if (!arr.length) continue;
+		if (o.bygeom || !arr.length) continue;
 		fs.writeFileSync(path.join(o.outdir, `${w}.geojson`), JSON.stringify({ type: "FeatureCollection", crs: "WGS84", features: arr }, null, 1));
 		console.log(`${w}: ${arr.length} 要素 -> ${path.join(o.outdir, w + ".geojson")}`);
+	}
+	// --bygeom: 按几何类型合并输出（点/线/面各一文件，属性全保留 + _layer 标明来源层），
+	// 供 QGIS/ArcGIS Pro 一次配好分类符号后跨地区复用（按 _layer、subKeyName、region_class、mainKey 分渠道/分类设样式）。
+	if (o.bygeom) {
+		const buckets = { Point: [], LineString: [], Polygon: [] };
+		const put = (arr, w) => {
+			for (const f of arr) {
+				const g = f.geometry.type;
+				// 统一分类键：layer_subkey=层码:subKey（缺席留空）。
+				// line 另加 layer_mainkey_subkey=层_主码_子码（道路靠它区分，缺席留空；仅line有，polygon/point不动）。
+				const props = { ...f.properties, _layer: w, layer_subkey: `${w}:${f.properties.subKey ?? ""}` };
+				if (g === "LineString" || g === "MultiLineString") props.layer_mainkey_subkey = `${w}_${f.properties.mainKey ?? ""}_${f.properties.subKey ?? ""}`;
+				if (g === "Point" || g === "MultiPoint") buckets.Point.push({ ...f, properties: props });
+				else if (g === "LineString" || g === "MultiLineString") buckets.LineString.push({ ...f, properties: props });
+				else if (g === "Polygon" || g === "MultiPolygon") buckets.Polygon.push({ ...f, properties: props });
+			}
+		};
+		for (const [w, arr] of Object.entries(gj)) put(arr, w);
+		const names = { Point: "point", LineString: "line", Polygon: "polygon" };
+		for (const [g, arr] of Object.entries(buckets)) {
+			if (!arr.length) continue;
+			fs.writeFileSync(path.join(o.outdir, `${names[g]}.geojson`), JSON.stringify({ type: "FeatureCollection", crs: "WGS84", features: arr }, null, 1));
+			const layers = [...new Set(arr.map((f) => f.properties._layer))].join(",");
+			console.log(`${names[g]}.geojson: ${arr.length} 要素 [${layers}]`);
+		}
 	}
 	fs.writeFileSync(path.join(o.outdir, "run_info.json"), JSON.stringify(runInfo, null, 1));
 	console.log(`run_info.json: tiles=${runInfo.tiles.length} failures=${runInfo.failures.length}`);
@@ -495,6 +542,20 @@ function selftest() {
 	// 6. 瓦片号计算: GCJ02 人民广场 -> z14 tile 13720_5349
 	const [tx, ty] = lngLatToXyz(121.4707, 31.2287, 14);
 	ok(tx === 13720 && ty === 5349, `瓦片号 (得 ${tx}_${ty})`);
+	// 7. 缺失字段不伪造（SameStyle 缺 f2/f3 时 subKey/resolution 保持 undefined，不填 1/12）
+	{
+		// 组块 bytes: f2 subKey=3 (0x10 0x03) + f4 items空 (0x22 0x00)；无 f1/f3
+		const g = decodeMsg(Buffer.from([0x10, 0x03, 0x22, 0x00]), SAME(S_GEOMPOLY));
+		ok(g.mainKey === undefined && g.subKey === 3 && g.resolution === undefined, `缺失不伪造 (得 mk=${g.mainKey} sk=${g.subKey} res=${g.resolution})`);
+		ok(regionClassOf(g.mainKey ?? null, g.subKey, undefined, false) === "builtup", "null主类+subKey=3 仍判 builtup");
+		ok(regionClassOf(null, undefined, undefined, false) === "other", "缺subKey判 other（不伪造成具体类）");
+		ok(regionClassOf(20017, undefined, undefined, true) === "line", "线组不依赖subKey");
+	}
+	// 8. Result 版本串按线型兜底为字符串（旧 u32 规格误读已删）
+	{
+		const r = decodeMsg(Buffer.from([0x12, 0x03, 0x61, 0x62, 0x63]), {});
+		ok(Array.isArray(r.f2) && r.f2[0] === "abc", `未知f2字符串兜底 (得 ${r.f2})`);
+	}
 	console.log(`selftest: ${pass} 过 / ${fail} 不过`);
 	if (fail) process.exit(1);
 }

@@ -73,7 +73,7 @@ npx wrangler secret put GITHUB_TOKEN   # 强烈建议
 │   ├── public/                # avatar.webp、main-enhanced.js
 │   ├── Note/                  # 笔记渲染器、插件、md、编辑器、画廊
 │   ├── WebGIS_task/           # 课程实验页
-│   ├── notes.html / schedule.html / Self_Intro.html / phy.html
+│   ├── notes.html / schedule.html / phy.html
 ├── Geoscene_宝藏小城/          # Pyecharts 专题
 ├── WebGIS/                    # WebGIS-Dev 构建产物（CI 同步）
 ├── workers/github-stats/      # Cloudflare Worker 源码

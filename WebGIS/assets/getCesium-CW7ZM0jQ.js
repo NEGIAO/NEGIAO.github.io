@@ -1,0 +1,1 @@
+function e(){const e="undefined"!=typeof window&&window.Cesium||"undefined"!=typeof globalThis&&globalThis.Cesium||null;if(!e)throw new Error("[Cloud] window.Cesium 未就绪，请先完成 Cesium CDN 加载");return e}export{e as t};

@@ -1,6 +1,7 @@
 # NEGIAO 个人主页 GitHub 边缘 API（Cloudflare Worker）
 # 部署：本目录执行 npx wrangler login && npx wrangler deploy
 # 首页引用：https://api.negiao.cn/api/snake|activity-graph.svg|stats|chart
+# 数据接口：/api/51la（51.la 访客数据 JSON，供 README 徽章与 WebGIS 页脚/用户中心共用）
 name = "webgis-github-stats"
 main = "src/index.js"
 compatibility_date = "2025-08-01"

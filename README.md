@@ -38,12 +38,18 @@
 
 目录：`workers/github-stats/`（与站点解耦，需单独 `wrangler deploy`）。
 
+**`api.negiao.cn` 的职责（2026-10-27 确立）**：这是**第三方数据接口的统一封装层** ——
+免费、与业务后端完全隔离、天然带边缘缓存。凡上游需要特殊 Header、证书异常、跨域受限，
+或返回的是 HTML/JS/XML 等非结构化内容，都在 Worker 里解析成 JSON 再对外。
+**新增此类接口一律加在本目录，不塞进 WebGIS-Dev 或主页站点**。
+
 | 路由 | 用途 |
 | --- | --- |
 | `GET /api/stats` | WebGIS-Dev Stars/Forks/版本 JSON |
 | `GET /api/chart` | Star History 趋势图 SVG |
 | `GET /api/snake` · `/api/snake-dark` | 贡献贪吃蛇 SVG |
 | `GET /api/activity-graph.svg?username=NEGIAO` | 贡献活动折线图（tokyo-night，默认 31 天） |
+| `GET /api/51la` · `/api/51la/stats` | 51.la 访客数据 JSON（`schemaVersion/label/message` + `metrics`，边缘缓存 300s） |
 
 ```bash
 cd workers/github-stats
@@ -115,6 +121,13 @@ HTML/CSS/JS · Vue 3 + Vite（WebGIS 产物）· OpenLayers / Cesium · ECharts/
 ## 变更 Changelog
 
 完整历史见 git log；下列为站点向节点摘要。
+
+### 2026-10-27 · v2.4.0
+
+- Worker 新增 `GET /api/51la`：直连 `v6-widget.51.la`（走明文 80 端口，规避其过期证书）解析访客数据，
+  输出 `{schemaVersion,label,message,updatedAt,metrics}`；边缘缓存 300s，`scheduled` 顺带预热。
+- 顶层三字段即 shields.io endpoint 契约，README 徽章与 WebGIS 页面共用同一响应。
+- 确立域名职责：`api.negiao.cn` 专门承接第三方数据接口封装，不混入业务站点。
 
 ### 2026-09-14 · v2.3.0
 

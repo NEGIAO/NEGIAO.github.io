@@ -475,6 +475,87 @@ async function fetchImageCached(cacheKey, upstreamUrl, ttlSeconds, label, ctx) {
     }
 }
 
+
+// ==================== 51.la 访客数据（第三方口径） ====================
+// 为什么由 Worker 直连、而不是前端解析或经 vpn.negiao.cn 中转：
+//   1. 上游 v6-widget.51.la 的 *.51.la 证书 2026-10-16 到期，浏览器加载 https 会被拦，
+//      而 Worker 的 fetch 走 http://（80 端口）不受 TLS 校验影响，无需任何代理；
+//   2. 上游返回的是"数据烘进 JS 的 innerHTML 字符串"，解析压缩 JS 只应存在一份实现，
+//      统一在这里做完，前端 / README 徽章只消费结构化 JSON；
+//   3. 边缘缓存 5 分钟，README 徽章与页面共享同一份数据，不会互相打架。
+const LA51_WIDGET_URL = 'http://v6-widget.51.la/v6/3OVJu4iCpXi3wE8k/quote.js?theme=0&f=12';
+const LA51_CACHE_TTL = 300; // 秒：今日 PV 分钟级更新，5 分钟足够"看起来实时"
+// 上游载荷里 <span>序号</span> 的下标 → 指标键（与脚本内 b/N 两张表的固定顺序一致）
+const LA51_ROW_KEYS = [
+    'activeRecent',
+    'todayUsers',
+    'todayPv',
+    'yesterdayUsers',
+    'yesterdayPv',
+    'monthPv',
+    'totalPv',
+];
+
+const la51CacheKey = () => new Request('https://webgis-stats.internal/api/51la');
+
+/** 数字千分位；过亿降级为「x.xx亿」（与 51.la 脚本内 z() 规则一致） */
+function formatVisitorNumber(value) {
+    if (!Number.isFinite(value)) return '-';
+    if (value >= 1e8) return `${(value / 1e8).toFixed(2)}亿`;
+    return String(value).replace(/\d{1,3}(?=(\d{3})+$)/g, '$&,');
+}
+
+/** 回源并解析成 { schemaVersion, label, message, updatedAt, metrics } */
+async function build51laStats() {
+    const res = await fetch(LA51_WIDGET_URL, {
+        headers: {
+            'User-Agent': 'WebGIS-Dev-stats-worker/1.0',
+            Referer: 'https://webgis.negiao.cn/',
+        },
+    });
+    if (!res.ok) throw new Error(`upstream 51la -> HTTP ${res.status}`);
+    const text = await res.text();
+    const payload = text.match(/innerHTML="(<p>[\s\S]*?)",/);
+    if (!payload) throw new Error('51la payload not found');
+    const paragraphs = payload[1].match(/<p>.*?<\/p>/g) || [];
+    const metrics = {};
+    paragraphs.slice(1).forEach((paragraph) => {
+        const nums = [...paragraph.matchAll(/<span>(\d+)<\/span>/g)].map((m) => Number(m[1]));
+        if (nums.length === 2 && LA51_ROW_KEYS[nums[0]]) metrics[LA51_ROW_KEYS[nums[0]]] = nums[1];
+    });
+    if (!Object.keys(metrics).length) throw new Error('51la metrics empty');
+    return {
+        // 顶层三字段直接满足 shields.io endpoint 徽章契约，README 与页面共用同一响应
+        schemaVersion: 1,
+        label: '总访问量',
+        message: formatVisitorNumber(metrics.totalPv || 0),
+        updatedAt: new Date().toISOString(),
+        metrics,
+    };
+}
+
+async function handle51laStats(_request, _env, ctx) {
+    const key = la51CacheKey();
+    const cached = await cachedResponse(key, 'HIT');
+    if (cached) return cached;
+    try {
+        const data = await build51laStats();
+        const response = jsonResponse(data, 200, {
+            'Cache-Control': `public, max-age=${LA51_CACHE_TTL}`,
+            'X-Cache-Status': 'MISS',
+        });
+        putCache(key, response, ctx);
+        return response;
+    } catch (error) {
+        // 上游不可用时返回 502 且不缓存，前端会自行降级（见 useVisitorStats 的回退分支）
+        return jsonResponse(
+            { error: 'upstream unavailable', detail: String((error && error.message) || error) },
+            502,
+            { 'Cache-Control': 'no-store', 'X-Cache-Status': 'ERROR' },
+        );
+    }
+}
+
 export default {
     async fetch(request, env, ctx) {
         if (request.method === 'OPTIONS') {
@@ -493,6 +574,9 @@ export default {
         if (request.method === 'GET' && (url.pathname === '/api/chart' || url.pathname === '/chart')) {
             return handleChart(request, env, ctx);
         }
+        if (request.method === 'GET' && (url.pathname === '/api/51la' || url.pathname === '/api/51la/stats')) {
+            return handle51laStats(request, env, ctx);
+        }
         if (request.method === 'GET' && (url.pathname === '/api/snake' || url.pathname === '/api/snake-dark')) {
             return handleSnake(url.pathname.slice(5), request, env, ctx); // 'snake' / 'snake-dark'
         }
@@ -501,6 +585,7 @@ export default {
                 error: 'Not found',
                 usage: [
                     'GET /api/stats',
+                    'GET /api/51la',
                     'GET /api/activity-graph.svg?username=NEGIAO',
                     'GET /api/chart',
                     'GET /api/snake',
@@ -525,6 +610,19 @@ export default {
                             'X-Cache-Status': 'WARMED',
                         }),
                     );
+                    // 顺带暖 51.la 访客数据：README 徽章与页面共用，避免冷启动首访慢
+                    try {
+                        const visitor = await build51laStats();
+                        await caches.default.put(
+                            la51CacheKey(),
+                            jsonResponse(visitor, 200, {
+                                'Cache-Control': `public, max-age=${LA51_CACHE_TTL}`,
+                                'X-Cache-Status': 'WARMED',
+                            }),
+                        );
+                    } catch (error) {
+                        console.log(`scheduled warm 51la failed: ${(error && error.message) || error}`);
+                    }
                 } catch (error) {
                     console.log(`scheduled warm failed: ${(error && error.message) || error}`);
                 }

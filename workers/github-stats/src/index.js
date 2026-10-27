@@ -542,6 +542,9 @@ async function handle51laStats(_request, _env, ctx) {
         const data = await build51laStats();
         const response = jsonResponse(data, 200, {
             'Cache-Control': `public, max-age=${LA51_CACHE_TTL}`,
+            // Cloudflare 边缘缓存默认按 zone 的 Browser Cache TTL 改写 Cache-Control（实测被改成 4 小时），
+            // 必须用 CDN-Cache-Control 显式压回 300s，否则徽章与页面最多滞后 4 小时
+            'CDN-Cache-Control': `max-age=${LA51_CACHE_TTL}`,
             'X-Cache-Status': 'MISS',
         });
         putCache(key, response, ctx);
@@ -617,6 +620,7 @@ export default {
                             la51CacheKey(),
                             jsonResponse(visitor, 200, {
                                 'Cache-Control': `public, max-age=${LA51_CACHE_TTL}`,
+                                'CDN-Cache-Control': `max-age=${LA51_CACHE_TTL}`,
                                 'X-Cache-Status': 'WARMED',
                             }),
                         );

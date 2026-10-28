@@ -1,13 +1,15 @@
 /**
- * NEGIAO 个人主页 GitHub 边缘 API（Cloudflare Worker）
+ * NEGIAO 边缘数据接口（Cloudflare Worker · negiao-api）
  *
- * 为什么需要它：
- * - api.github.com / raw.githubusercontent.com 在国内直连不稳定，且匿名限流 60 次/小时/IP；
- * - Worker 跑在 Cloudflare 边缘，境外抓 GitHub 极稳，结果再缓存后，
- *   首页只跟自己的 Worker 通信（api.negiao.cn / workers.dev，国内连通性好得多）。
+ * 定位：**第三方数据接口的统一封装层**（对外域名 api.negiao.cn）。
+ * 免费、与业务后端完全隔离、天然带边缘缓存；凡上游需要特殊 Header、证书异常、
+ * 跨域受限，或返回的是 HTML / JS / XML 等非结构化内容，都在这里解析成 JSON 再对外。
+ * 因此新增同类接口一律加在本文件，不塞进 WebGIS-Dev 或主页站点。
  *
  * 路由（均为 GET，公开只读）：
  *   /api/stats  → NEGIAO/WebGIS-Dev 的 { stars, forks, version, ... }（JSON）
+ *   /api/51la   → 51.la 访客数据 { schemaVersion, label, message, meta, metrics }
+ *                 meta 内含 Worker 回源与封装的时间信息（fetchedAt / generatedAt / durationMs）
  *   /api/chart  → star-history 趋势图 SVG 代理
  *   /api/snake /api/snake-dark → GitHub 贡献贪吃蛇动画 SVG 代理
  *   /api/activity-graph.svg → 贡献活动折线/面积图（Chartist 风格，对齐 github-readme-activity-graph）
@@ -18,6 +20,11 @@
  *   npx wrangler secret put GITHUB_TOKEN   # 推荐，GraphQL 限额 60/h → 5000/h
  *   npx wrangler secret put STAR_HISTORY_SEALED_TOKEN  # 可选
  */
+
+// Worker 名（与 wrangler.toml 的 name 保持一致）：既用于上行 UA，也写进 /api/51la 的 meta，
+// 便于在改名迁移期间一眼确认「这份响应到底是新 worker 还是旧 worker 给的」
+const WORKER_NAME = 'negiao-api';
+const WORKER_UA = `${WORKER_NAME}/1.0`;
 
 const REPO = 'NEGIAO/WebGIS-Dev';
 const GITHUB_API_URL = `https://api.github.com/repos/${REPO}`;
@@ -34,9 +41,9 @@ const DEFAULT_SEALED_TOKEN =
     'B5ReoH7FL9EMbjs7rJJ3APlIoYZwGKo3g2gC_4_0LxIrQ--e5uhUrYXR7UEBcnb3CU48BAX9--IyzI-TxTszy8HrMJ3oVSVvfowMjrMOxY8n477EUd4_Ip6F8EMaHsKX6H5b1JjudmBoRUn3HxJ1R6zxt3lO1CKGidFnlqFb2W_TXYy_sTk3AS3rn8v8';
 
 // 边缘缓存统一 key（fetch / scheduled 共用，保证定时暖缓存能被用户请求命中）
-const statsCacheKey = () => new Request('https://webgis-stats.internal/api/stats');
-const chartCacheKey = () => new Request('https://webgis-stats.internal/api/chart');
-const snakeCacheKey = (variant) => new Request(`https://webgis-stats.internal/api/${variant}`);
+const statsCacheKey = () => new Request('https://negiao-api.internal/api/stats');
+const chartCacheKey = () => new Request('https://negiao-api.internal/api/chart');
+const snakeCacheKey = (variant) => new Request(`https://negiao-api.internal/api/${variant}`);
 
 function parseVersionFromReadme(markdown) {
     if (!markdown || typeof markdown !== 'string') return '';
@@ -59,6 +66,22 @@ function corsHeaders() {
     };
 }
 
+/** 东八区偏移（毫秒）。Workers 运行时固定 UTC，与使用者所在时区差 8 小时 */
+const BEIJING_OFFSET_MS = 8 * 60 * 60 * 1000;
+
+/**
+ * 功能：生成**东八区**的 ISO 8601 时间串，如 `2026-10-28T09:11:18.123+08:00`。
+ * 参数：date —— Date 或毫秒时间戳，默认当前时刻。
+ * 返回：带 +08:00 偏移的 ISO 字符串。
+ * 说明：直接 `toISOString()` 得到的是 UTC（Z 结尾），读的人要自己加 8 小时才能对上北京时间。
+ * 这里先把时刻平移到东八区再取 ISO，最后把结尾的 Z 换成 +08:00 ——
+ * 展示的是北京时间，同时保留显式偏移量，`Date.parse()` / `new Date()` 仍能正确还原为同一瞬间。
+ */
+function toBeijingIso(date = new Date()) {
+    const ms = date instanceof Date ? date.getTime() : Number(date);
+    return new Date(ms + BEIJING_OFFSET_MS).toISOString().replace('Z', '+08:00');
+}
+
 function jsonResponse(data, status = 200, extraHeaders = {}) {
     return new Response(JSON.stringify(data), {
         status,
@@ -72,7 +95,7 @@ function jsonResponse(data, status = 200, extraHeaders = {}) {
 
 async function fetchUpstream(url, { token, accept } = {}) {
     const headers = {
-        'User-Agent': 'WebGIS-Dev-stats-worker/1.0',
+        'User-Agent': WORKER_UA,
         Accept: accept || 'application/vnd.github+json',
     };
     if (token) headers.Authorization = `Bearer ${token}`;
@@ -93,7 +116,8 @@ async function buildStats(env) {
         updatedAt: repo.pushed_at || repo.updated_at || '',
         version: parseVersionFromReadme(await readmeRes.text()),
         repo: REPO,
-        fetchedAt: new Date().toISOString(),
+        // 本接口自产的时间统一用东八区；updatedAt 是 GitHub 原样返回的 UTC，保持不动
+        fetchedAt: toBeijingIso(),
     };
 }
 
@@ -127,7 +151,7 @@ async function fetchContributionSeries(username, days, env) {
         }
       }`;
     const headers = {
-        'User-Agent': 'WebGIS-Dev-stats-worker/1.0',
+        'User-Agent': WORKER_UA,
         'Content-Type': 'application/json',
         Accept: 'application/vnd.github+json',
     };
@@ -361,7 +385,7 @@ async function handleActivityGraphSvg(request, env, ctx) {
     const username = (url.searchParams.get('username') || REPO.split('/')[0]).trim();
     const days = Math.min(90, Math.max(7, Number(url.searchParams.get('days')) || 31));
     const key = new Request(
-        `https://webgis-stats.internal/api/activity-graph.svg?u=${username}&d=${days}`,
+        `https://negiao-api.internal/api/activity-graph.svg?u=${username}&d=${days}`,
     );
     const hit = await cachedResponse(key, 'HIT');
     if (hit) return hit;
@@ -452,7 +476,7 @@ async function fetchImageCached(cacheKey, upstreamUrl, ttlSeconds, label, ctx) {
     if (hit) return hit;
     try {
         const upstream = await fetch(upstreamUrl, {
-            headers: { 'User-Agent': 'WebGIS-Dev-stats-worker/1.0' },
+            headers: { 'User-Agent': WORKER_UA },
         });
         if (!upstream.ok) throw new Error(`${label} upstream -> HTTP ${upstream.status}`);
         const res = new Response(upstream.body, {
@@ -496,7 +520,7 @@ const LA51_ROW_KEYS = [
     'totalPv',
 ];
 
-const la51CacheKey = () => new Request('https://webgis-stats.internal/api/51la');
+const la51CacheKey = () => new Request('https://negiao-api.internal/api/51la');
 
 /** 数字千分位；过亿降级为「x.xx亿」（与 51.la 脚本内 z() 规则一致） */
 function formatVisitorNumber(value) {
@@ -505,16 +529,29 @@ function formatVisitorNumber(value) {
     return String(value).replace(/\d{1,3}(?=(\d{3})+$)/g, '$&,');
 }
 
-/** 回源并解析成 { schemaVersion, label, message, updatedAt, metrics } */
+/**
+ * 回源并解析成 { schemaVersion, label, message, updatedAt, meta, metrics }。
+ *
+ * meta 记录这份 JSON 是「什么时候、由谁、花了多久」产出的 —— 因为响应会被边缘缓存
+ * 最多 LA51_CACHE_TTL 秒，消费方看到的数字可能不是此刻的，必须能自行判断新鲜度：
+ *   fetchedAt   —— 上游脚本取回（含 body 下载完成）的时刻
+ *   generatedAt —— 解析 + 封装成 JSON 完成的时刻（= 顶层 updatedAt）
+ *   durationMs  —— 上述两步的总耗时，用于判断上游是否变慢
+ *   timezone    —— 时间字段所用时区（固定 +08:00）
+ * 时间统一用 ISO 8601 且带 +08:00 偏移（北京时间），既可直接阅读，
+ * 也能被 `new Date()` 正确解析为同一瞬间，不产生"到底是哪个时区"的歧义。
+ */
 async function build51laStats() {
+    const startedAt = Date.now();
     const res = await fetch(LA51_WIDGET_URL, {
         headers: {
-            'User-Agent': 'WebGIS-Dev-stats-worker/1.0',
+            'User-Agent': WORKER_UA,
             Referer: 'https://webgis.negiao.cn/',
         },
     });
     if (!res.ok) throw new Error(`upstream 51la -> HTTP ${res.status}`);
     const text = await res.text();
+    const fetchedAt = toBeijingIso();
     const payload = text.match(/innerHTML="(<p>[\s\S]*?)",/);
     if (!payload) throw new Error('51la payload not found');
     const paragraphs = payload[1].match(/<p>.*?<\/p>/g) || [];
@@ -524,12 +561,23 @@ async function build51laStats() {
         if (nums.length === 2 && LA51_ROW_KEYS[nums[0]]) metrics[LA51_ROW_KEYS[nums[0]]] = nums[1];
     });
     if (!Object.keys(metrics).length) throw new Error('51la metrics empty');
+    const generatedAt = toBeijingIso();
     return {
         // 顶层三字段直接满足 shields.io endpoint 徽章契约，README 与页面共用同一响应
         schemaVersion: 1,
         label: '总访问量',
         message: formatVisitorNumber(metrics.totalPv || 0),
-        updatedAt: new Date().toISOString(),
+        // 保持向后兼容：语义等价于 meta.generatedAt
+        updatedAt: generatedAt,
+        meta: {
+            fetchedAt,
+            generatedAt,
+            durationMs: Date.now() - startedAt,
+            cacheTtl: LA51_CACHE_TTL,
+            timezone: '+08:00',
+            source: 'v6-widget.51.la',
+            worker: WORKER_NAME,
+        },
         metrics,
     };
 }
@@ -546,6 +594,8 @@ async function handle51laStats(_request, _env, ctx) {
             // 必须用 CDN-Cache-Control 显式压回 300s，否则徽章与页面最多滞后 4 小时
             'CDN-Cache-Control': `max-age=${LA51_CACHE_TTL}`,
             'X-Cache-Status': 'MISS',
+            // 与 body 的 meta.generatedAt 同值：命中缓存时该头一并返回，无需解析 JSON 即可看新鲜度
+            'X-Data-Generated-At': data.meta.generatedAt,
         });
         putCache(key, response, ctx);
         return response;
@@ -600,7 +650,13 @@ export default {
         );
     },
 
-    // 定时暖缓存（wrangler.toml crons）：保证用户永远命中热缓存，面试展示零等待
+    // 定时暖缓存（wrangler.toml crons = */15）。
+    // 注意 cron 间隔（15min）**大于**缓存 TTL（stats 600s / 51la 300s）：
+    // 它并不能让缓存"永远热"，只覆盖每个周期开头那 5~10 分钟；
+    // 其余时间缓存已过期，由第一个请求同步回源（实测 ~54ms，用户无感）。
+    // 也就是说 —— **数据新鲜度由 TTL 决定，与 cron 无关**；
+    // 这里保留 cron 的实际价值只有两点：固定频率主动探一次上游是否可用（失败会打日志），
+    // 以及让"刚好在 cron 后到访"的用户少等一次回源。
     async scheduled(_event, env, ctx) {
         ctx.waitUntil(
             (async () => {
@@ -622,6 +678,7 @@ export default {
                                 'Cache-Control': `public, max-age=${LA51_CACHE_TTL}`,
                                 'CDN-Cache-Control': `max-age=${LA51_CACHE_TTL}`,
                                 'X-Cache-Status': 'WARMED',
+                                'X-Data-Generated-At': visitor.meta.generatedAt,
                             }),
                         );
                     } catch (error) {

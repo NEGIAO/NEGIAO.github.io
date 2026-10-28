@@ -37,6 +37,7 @@
 ## 边缘 API（Cloudflare Worker）
 
 目录：`workers/github-stats/`（与站点解耦，需单独 `wrangler deploy`）。
+Worker 名：**`negiao-api`**（2026-10-28 由 `webgis-github-stats` 改名，反映其「数据接口层」定位而不再只服务 GitHub 统计）。
 
 **`api.negiao.cn` 的职责（2026-10-27 确立）**：这是**第三方数据接口的统一封装层** ——
 免费、与业务后端完全隔离、天然带边缘缓存。凡上游需要特殊 Header、证书异常、跨域受限，
@@ -49,7 +50,23 @@
 | `GET /api/chart` | Star History 趋势图 SVG |
 | `GET /api/snake` · `/api/snake-dark` | 贡献贪吃蛇 SVG |
 | `GET /api/activity-graph.svg?username=NEGIAO` | 贡献活动折线图（tokyo-night，默认 31 天） |
-| `GET /api/51la` · `/api/51la/stats` | 51.la 访客数据 JSON（`schemaVersion/label/message` + `metrics`，边缘缓存 300s） |
+| `GET /api/51la` · `/api/51la/stats` | 51.la 访客数据 JSON（`schemaVersion/label/message` + `meta` + `metrics`，边缘缓存 300s） |
+
+`/api/51la` 的 `meta` 说明这份 JSON 的产出时间，用于判断新鲜度（响应会被边缘缓存最多 300s）：
+
+| 字段 | 含义 |
+| --- | --- |
+| `meta.fetchedAt` | Worker 取回上游脚本的时刻（ISO 8601，**UTC+8**） |
+| `meta.generatedAt` | 解析并封装成 JSON 完成的时刻（与顶层 `updatedAt` 同值） |
+| `meta.durationMs` | 回源 + 解析总耗时，用于判断上游是否变慢 |
+| `meta.cacheTtl` | 边缘缓存秒数 |
+| `meta.timezone` | 时间字段所用时区，固定 `+08:00` |
+| `meta.source` / `meta.worker` | 上游主机名 / 产出该响应的 Worker 名 |
+
+时间字段形如 `2026-10-28T09:11:55.405+08:00`：直接读就是北京时间，且带显式偏移量，
+`new Date()` / `Date.parse()` 仍能还原为同一瞬间（Workers 运行时是 UTC，服务端做了平移）。
+
+响应头同步带 `X-Data-Generated-At`，命中缓存时一并返回，`curl -I` 即可看新鲜度而无需解析 body。
 
 ```bash
 cd workers/github-stats
@@ -121,6 +138,21 @@ HTML/CSS/JS · Vue 3 + Vite（WebGIS 产物）· OpenLayers / Cesium · ECharts/
 ## 变更 Changelog
 
 完整历史见 git log；下列为站点向节点摘要。
+
+### 2026-10-28 · v2.4.1
+
+- Worker 改名：`webgis-github-stats` → **`negiao-api`**，与其「第三方数据接口封装层」的定位一致。
+  改名会新建脚本，`api.negiao.cn` 的 Custom Domain 需在面板迁到新脚本后旧脚本方可删除。
+- `/api/51la` 新增 `meta` 时间信息：`fetchedAt`（回源时刻）/ `generatedAt`（封装时刻）/
+  `durationMs`（耗时）/ `cacheTtl` / `timezone` / `source` / `worker`；响应头补 `X-Data-Generated-At`。
+  目的：响应有 300s 边缘缓存，消费方需能自行判断数据新鲜度。
+- 时间统一输出**北京时间**（ISO 8601 带 `+08:00` 偏移，如 `2026-10-28T09:11:55.405+08:00`），
+  不再用 UTC 的 `Z` 结尾 —— 读的人不必自己加 8 小时。`/api/stats` 的 `fetchedAt` 同步统一
+  （其 `updatedAt` 是 GitHub 原样返回的 UTC，保持不动）。
+- 已部署并完成域名迁移：`api.negiao.cn` 现由 `negiao-api` 服务。
+  **注意 secret 按脚本存储**，改名后旧脚本的 `GITHUB_TOKEN` 不会跟过来，
+  需对新脚本重新 `wrangler secret put GITHUB_TOKEN`，否则 `/api/activity-graph.svg` 会 502。
+- 内部缓存 key 主机名同步改为 `negiao-api.internal`，上行 `User-Agent` 统一为 `negiao-api/1.0`。
 
 ### 2026-10-27 · v2.4.0
 

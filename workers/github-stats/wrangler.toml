@@ -1,18 +1,44 @@
-# NEGIAO 个人主页 GitHub 边缘 API（Cloudflare Worker）
+# NEGIAO 边缘数据接口（Cloudflare Worker）
+# 定位：第三方数据接口的统一封装层，对外域名 https://api.negiao.cn
 # 部署：本目录执行 npx wrangler login && npx wrangler deploy
-# 首页引用：https://api.negiao.cn/api/snake|activity-graph.svg|stats|chart
-# 数据接口：/api/51la（51.la 访客数据 JSON，供 README 徽章与 WebGIS 页脚/用户中心共用）
-name = "webgis-github-stats"
+# 路由：/api/stats（GitHub 仓库统计）| /api/51la（51.la 访客数据 JSON，含回源/封装时间）
+#       /api/chart（趋势图 SVG）| /api/snake(-dark)（贡献动画）| /api/activity-graph.svg
+#
+# 2026-10-28 改名：webgis-github-stats → negiao-api
+#   改名会创建**新的** Worker 脚本，而 Custom Domain 绑在旧脚本上，
+#   因此部署后必须手动把 api.negiao.cn 迁到新脚本（见文件末尾步骤）。
+name = "negiao-api"
 main = "src/index.js"
 compatibility_date = "2025-08-01"
 
-# 每 15 分钟暖一次 /api/stats 缓存（免费计划可用）
+# 每 15 分钟暖一次 /api/stats 与 /api/51la 的缓存。
+# 注意：cron 间隔（15min）> 缓存 TTL（stats 600s / 51la 300s），所以它只覆盖每个周期
+# 开头的 5~10 分钟，其余时间靠请求按需回源（~54ms）。数据新鲜度由 TTL 决定，与 cron 无关。
 [triggers]
 crons = ["*/15 * * * *"]
 
 # 敏感配置不进 git：
 #   npx wrangler secret put GITHUB_TOKEN
 #   npx wrangler secret put STAR_HISTORY_SEALED_TOKEN
+#
+# ⚠️ 浏览器侧缓存时长由 **zone 级设置** 决定，不是 Cache Rules：
+#    实测 Cache Rules（browser_ttl / cache: false）对本 Worker 的自定义域**完全不生效**，
+#    而 zone 的 Browser Cache TTL 只在"命中边缘缓存"那一刻改写 Cache-Control
+#    （源站 300 → 被抬成 14400，表现为徽章滞后 4 小时）。
+#    正确配置：negiao.cn → Caching → Configuration → Browser Cache TTL →
+#              **Respect Existing Headers**（2026-10-28 已改，HIT 时恢复为源站的 300）。
+#    另外瓦片 vpn.negiao.cn 是 `cf-cache-status: DYNAMIC`（CF 不缓存），不受该设置影响。
+#
+# ⚠️ secret 是**按脚本**存储的：改名/新建脚本后旧脚本的 secret 不会跟过来，
+#    必须对新脚本重新 set 一次。缺 GITHUB_TOKEN 时 /api/activity-graph.svg 会 502
+#    （GitHub GraphQL 未认证 → 403），/api/stats 与 /api/chart 不受影响。
 
-# 自定义域名：Cloudflare Dashboard → Workers → webgis-github-stats
-# → Domains & Routes → api.negiao.cn
+# 改名迁移记录（2026-10-28 已完成）：
+#   · 新脚本 negiao-api 已部署，cron 已生效
+#   · api.negiao.cn 的 Custom Domain 已从 webgis-github-stats 迁到 negiao-api
+#   · GITHUB_TOKEN 已通过面板补到 negiao-api，/api/activity-graph.svg 恢复 200
+#   · 剩余：删除旧脚本 webgis-github-stats（其 cron 仍每 15 分钟回源一次 GitHub）
+#     npx wrangler delete --name webgis-github-stats
+#
+# 验证当前服务的是哪个脚本：curl -s https://api.negiao.cn/api/51la | grep negiao-api
+#   响应里 meta.worker 为 "negiao-api" 即表示新脚本在服务

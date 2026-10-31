@@ -1,2 +1,0 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./deferredGisAssets-Ck_Nio7u.js","./rolldown-runtime-BofVGku5.js","./vendor-ol-all-Ceu9D34Y.js","./vendor-libs-CjayoFyX.js","./vendor-libs-DMZ4qLFT.css","./vendor-ol-all-c_1sG1-7.css"])))=>i.map(i=>d[i]);
-import{Mr as r}from"./vendor-geotiff-C_-saSR9.js";async function e(){return(await r(()=>import("./deferredGisAssets-Ck_Nio7u.js"),__vite__mapDeps([0,1,2,3,4,5]),import.meta.url)).warmDeferredGisAssets()}export{e as launchDeferredGisWarmup};

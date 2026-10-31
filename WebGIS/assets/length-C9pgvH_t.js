@@ -1,0 +1,1 @@
+function t(t,r,e,n){let o=t[r],s=t[r+1],a=0;for(let c=r+n;c<e;c+=n){const r=t[c],e=t[c+1];a+=Math.sqrt((r-o)*(r-o)+(e-s)*(e-s)),o=r,s=e}return a}export{t};

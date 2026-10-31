@@ -1,0 +1,1 @@
+import{n as e}from"./info-ATnr4d0D.js";var r=e({name:"square",size:24,node:[["rect",{width:"18",height:"18",x:"3",y:"3",rx:"2",key:"afitv7"}]]});export{r as t};

@@ -1,0 +1,1 @@
+import{BaseDecoder as e}from"./geotiff-Bo8NRmUz.js";var o=class extends e{decodeBlock(e){return e}};export{o as default};

@@ -1,0 +1,1 @@
+import{BaseDecoder as e}from"./geotiff-Bo8NRmUz.js";var t=class extends e{decodeBlock(e){const t=new DataView(e),r=[];for(let n=0;n<e.byteLength;++n){let e=t.getInt8(n);if(e<0){const o=t.getUint8(n+1);e=-e;for(let t=0;t<=e;++t)r.push(o);n+=1}else{for(let o=0;o<=e;++o)r.push(t.getUint8(n+o+1));n+=e+1}}return new Uint8Array(r).buffer}};export{t as default};

@@ -1,0 +1,1 @@
+import{BaseDecoder as e}from"./geotiff-AcMRI59u.js";var o=class extends e{decodeBlock(e){return e}};export{o as default};

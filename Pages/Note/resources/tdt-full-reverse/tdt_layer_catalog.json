@@ -1,0 +1,2316 @@
+{
+ "meta": {
+  "style": "天地图 normal 样式（Mapbox GL Style v8，source encoding=tvt）",
+  "style_layers": 487,
+  "source_layers": 73,
+  "verified_by": "瓦片实测 z4/6/10/12/14/16/18（郑州、南京、北京、广州、成都、武汉、西安、乌鲁木齐、哈尔滨）",
+  "note": "confidence 为语义判定置信度；低置信度层建议按几何直出、不断言语义"
+ },
+ "layers": {
+  "AA": {
+   "code": "AA",
+   "name_zh": "城市道路（含路名/编号/单行箭头注记载体）",
+   "geom": 1,
+   "zoom": [
+    11,
+    19
+   ],
+   "style_layers": 131,
+   "style_zoom": [
+    11,
+    19
+   ],
+   "style_geom": {
+    "line": 109,
+    "symbol": 22
+   },
+   "keys": "Z5 路名, J9 道路编号, X3 道路类型码, D3 等级1-5, JF 0/4, QQ 1/2/3, A6/V1 数据包码",
+   "confidence": "高",
+   "evidence": "109 个 line 层按 A6/V1+D3/X3/JF 分级设线宽；22 个 symbol 层 text-field={Z5}/{J9} 并配 arrowRight/Left 单行箭头；实测 Z5=中原东路、J9=G/S 编号",
+   "probe": {
+    "tiles": 4,
+    "features": 9953,
+    "geom": {
+     "1": 9953
+    },
+    "attr_keys": [
+     "A6",
+     "D3",
+     "J9",
+     "JF",
+     "QQ",
+     "V1",
+     "X3",
+     "Z5"
+    ]
+   }
+  },
+  "AB": {
+   "code": "AB",
+   "name_zh": "无名支路/巷道（z17+ 补充路网）",
+   "geom": 1,
+   "zoom": [
+    17,
+    19
+   ],
+   "style_layers": 40,
+   "style_zoom": [
+    17,
+    19
+   ],
+   "style_geom": {
+    "line": 40
+   },
+   "keys": "X3, D3, V1（无 Z5/J9）",
+   "confidence": "中高",
+   "evidence": "40 个 line 层仅用 V1/D3/X3 分级、无任何注记层，线宽 2.6~8 与 AA 同制式",
+   "probe": null
+  },
+  "CC": {
+   "code": "CC",
+   "name_zh": "国道/省道（低 zoom 干线）",
+   "geom": 1,
+   "zoom": [
+    5,
+    11
+   ],
+   "style_layers": 27,
+   "style_zoom": [
+    5,
+    11
+   ],
+   "style_geom": {
+    "line": 19,
+    "symbol": 8
+   },
+   "keys": "J9 编号(G104/S103/G311), G6 路名, JF, A6",
+   "confidence": "高",
+   "evidence": "symbol 层 icon=guodao/shengdao 且 text-field={J9}；实测 J9=G104/S103/G311、G6=京台线/南三环",
+   "probe": {
+    "tiles": 2,
+    "features": 2938,
+    "geom": {
+     "1": 2938
+    },
+    "attr_keys": [
+     "A6",
+     "G6",
+     "J9",
+     "JF",
+     "JP"
+    ]
+   }
+  },
+  "CE": {
+   "code": "CE",
+   "name_zh": "建筑物面（含 3D 拉伸）",
+   "geom": 2,
+   "zoom": [
+    11,
+    19
+   ],
+   "style_layers": 5,
+   "style_zoom": [
+    11,
+    19
+   ],
+   "style_geom": {
+    "fill": 4,
+    "fill-extrusion": 1
+   },
+   "keys": "elemid 唯一ID, h 高度(米), floor 楼层(=h/3), A6 数据包码, Z5 楼名, I8",
+   "confidence": "高",
+   "evidence": "fill-extrusion 层 fill-extrusion-height=[*,[get,h],…]；z18 实测 18/18 有 h+floor，h/floor=21/7、3/1、6/2；elemid 跨瓦可重复（相邻瓦 32 个 ID 中 3 个重复）",
+   "probe": {
+    "tiles": 2,
+    "features": 29,
+    "geom": {
+     "2": 29
+    },
+    "attr_keys": [
+     "A6",
+     "Z5",
+     "elemid",
+     "floor",
+     "h"
+    ]
+   }
+  },
+  "CK": {
+   "code": "CK",
+   "name_zh": "绿地/植被覆盖面",
+   "geom": 2,
+   "zoom": [
+    10,
+    19
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    10,
+    19
+   ],
+   "style_geom": {
+    "fill": 1
+   },
+   "keys": "S8 子类码(11~18)",
+   "confidence": "高",
+   "evidence": "唯一 fill 层 fill-color=#CEEAD6（绿），filter S8∈11~18；实测 S8=11/13/14/16",
+   "probe": {
+    "tiles": 5,
+    "features": 353,
+    "geom": {
+     "2": 353
+    },
+    "attr_keys": [
+     "S8"
+    ]
+   }
+  },
+  "BM": {
+   "code": "BM",
+   "name_zh": "水体面（河湖渠池）",
+   "geom": 2,
+   "zoom": [
+    10,
+    19
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    10,
+    19
+   ],
+   "style_geom": {
+    "fill": 2
+   },
+   "keys": "S8 子类码(9~18)",
+   "confidence": "高",
+   "evidence": "fill-color=#ABC6EF（水蓝），filter S8∈9~18；与 AN 同色描边、BK 水名注记落于其内",
+   "probe": {
+    "tiles": 3,
+    "features": 84,
+    "geom": {
+     "2": 84
+    },
+    "attr_keys": [
+     "S8"
+    ]
+   }
+  },
+  "AN": {
+   "code": "AN",
+   "name_zh": "水体边线（水面轮廓）",
+   "geom": 1,
+   "zoom": [
+    10,
+    19
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    10,
+    19
+   ],
+   "style_geom": {
+    "line": 2
+   },
+   "keys": "S8",
+   "confidence": "中高",
+   "evidence": "line-color 与 BM 完全相同 #ABC6EF，z 区间与 S8 过滤一致；z10 实测 27 条、S8=11",
+   "probe": {
+    "tiles": 1,
+    "features": 27,
+    "geom": {
+     "1": 27
+    },
+    "attr_keys": [
+     "S8"
+    ]
+   }
+  },
+  "BK": {
+   "code": "BK",
+   "name_zh": "水系名称注记线（放水名，非水体本身）",
+   "geom": 1,
+   "zoom": [
+    10,
+    19
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    10,
+    19
+   ],
+   "style_geom": {
+    "symbol": 2
+   },
+   "keys": "S8, Z5 水名",
+   "confidence": "高",
+   "evidence": "样式仅有 2 个 symbol 层、text-field={Z5}、text-color=#0E7AAD（水系蓝）；实测 Z5=贾鲁河/南水北调中线总干渠。注意：原始要素 type=1（线），用于沿线放字",
+   "probe": {
+    "tiles": 2,
+    "features": 85,
+    "geom": {
+     "1": 85
+    },
+    "attr_keys": [
+     "S8",
+     "Z5"
+    ]
+   }
+  },
+  "BV": {
+   "code": "BV",
+   "name_zh": "行政区划面（国/省/市多级混装）",
+   "geom": 2,
+   "zoom": [
+    1,
+    19
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    1,
+    19
+   ],
+   "style_geom": {
+    "fill": 1
+   },
+   "keys": "Z5 名称",
+   "confidence": "高",
+   "evidence": "fill 层 filter=[!=,Z5,\" \"]（匿名面不画）；z4 实测 59 个面含 JAPAN/CHINA/KOREA、z16 实测 1 个 Z5=河南省。低 zoom 含外国，不可当纯中国省界",
+   "probe": {
+    "tiles": 7,
+    "features": 67,
+    "geom": {
+     "2": 67
+    },
+    "attr_keys": [
+     "Z5"
+    ]
+   }
+  },
+  "AP": {
+   "code": "AP",
+   "name_zh": "面状街区/地块单元（objectid 唯一）",
+   "geom": 2,
+   "zoom": [
+    12,
+    19
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    12,
+    19
+   ],
+   "style_geom": {
+    "fill": 1
+   },
+   "keys": "objectid（sint64）",
+   "confidence": "中",
+   "evidence": "单 fill 层 #E8EAEC、z12 起；4 城 × z12~17 实测中位面积 0.7~3 公顷（郑州 z12 546 块/0.019km²、上海 1750/0.007、北京 662/0.013），数量随视域铺满；区级行政为 10~500km²，差 3~4 个量级。单瓦 objectid 唯一（546/546），跨瓦重复属接缝。旧“四区交汇”证据为巧合（那 4 面各 ≤0.04km²）",
+   "probe": {
+    "tiles": 4,
+    "features": 617,
+    "geom": {
+     "2": 617
+    },
+    "attr_keys": [
+     "objectid"
+    ]
+   }
+  },
+  "BI": {
+   "code": "BI",
+   "name_zh": "POI/单位点",
+   "geom": 4,
+   "zoom": [
+    10,
+    19
+   ],
+   "style_layers": 88,
+   "style_zoom": [
+    10,
+    19
+   ],
+   "style_geom": {
+    "symbol": 88
+   },
+   "keys": "B1 POI分类码(6位), P5 品牌/子类码, S8, F5 POI ID, Z5 名称, M2, W2",
+   "confidence": "高",
+   "evidence": "88 个 symbol 层，icon-image 由 B1 分支决定（医院1701xx/学校1601xx/银行150101/酒店1201xx/政府1900xx…）；实测 Z5=国家能源局|河南监管办公室（| 分行）、F5=1068621963",
+   "probe": {
+    "tiles": 4,
+    "features": 290,
+    "geom": {
+     "4": 290
+    },
+    "attr_keys": [
+     "B1",
+     "F5",
+     "M2",
+     "P5",
+     "S8",
+     "W2",
+     "Z5"
+    ]
+   }
+  },
+  "AX": {
+   "code": "AX",
+   "name_zh": "POI 补充点（文教/场馆等，中 zoom）",
+   "geom": 4,
+   "zoom": [
+    12,
+    19
+   ],
+   "style_layers": 6,
+   "style_zoom": [
+    12,
+    19
+   ],
+   "style_geom": {
+    "symbol": 6
+   },
+   "keys": "S8, A6, Z5",
+   "confidence": "中高",
+   "evidence": "symbol 层 icon=bowuguan1/xuexiao1/yiyuan1，text-field={Z5}；实测 Z5=郑州博物馆/郑州大学南校区",
+   "probe": {
+    "tiles": 2,
+    "features": 16,
+    "geom": {
+     "4": 16
+    },
+    "attr_keys": [
+     "A6",
+     "S8",
+     "Z5"
+    ]
+   }
+  },
+  "AD": {
+   "code": "AD",
+   "name_zh": "地铁站/出入口点",
+   "geom": 4,
+   "zoom": [
+    13,
+    19
+   ],
+   "style_layers": 0,
+   "style_zoom": null,
+   "style_geom": null,
+   "keys": "K0 城市码, A6(450101站/450190口), H7 出口字母, L1 线路号, Z5 名称, C8, E0",
+   "confidence": "高",
+   "evidence": "样式未收录，实测 z14 15 个：{K0:410100, A6:450101, Z5:绿城广场} 与 {A6:450190, H7:C, Z5:绿城广场站C口} 并存",
+   "probe": {
+    "tiles": 1,
+    "features": 15,
+    "geom": {
+     "4": 15
+    },
+    "attr_keys": [
+     "A6",
+     "C8",
+     "E0",
+     "H7",
+     "K0",
+     "L1",
+     "Z5"
+    ]
+   }
+  },
+  "AM": {
+   "code": "AM",
+   "name_zh": "轨道交通线",
+   "geom": 1,
+   "zoom": [
+    10,
+    19
+   ],
+   "style_layers": 0,
+   "style_zoom": null,
+   "style_geom": null,
+   "keys": "K0 城市码, C2 线路号, C8, Z5 线路名",
+   "confidence": "高",
+   "evidence": "样式未收录，实测 Z5=地铁１号线、C2=01、K0=410100（**K0 才是真行政区代码**，与 AA 的 A6 不同）",
+   "probe": {
+    "tiles": 3,
+    "features": 5,
+    "geom": {
+     "1": 5
+    },
+    "attr_keys": [
+     "C2",
+     "C8",
+     "K0",
+     "Z5"
+    ]
+   }
+  },
+  "respt": {
+   "code": "respt",
+   "name_zh": "楼栋名点（与 CE 按 elemid 挂接）",
+   "geom": 4,
+   "zoom": [
+    17,
+    19
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    17,
+    19
+   ],
+   "style_geom": {
+    "symbol": 1
+   },
+   "keys": "elemid, lzh 楼号, Z5",
+   "confidence": "高",
+   "evidence": "样式 text-field={undefined}（官方 bug）；实测 Z5=和平新村４栋、lzh=4栋；同瓦 5/5 命中 CE 的 elemid",
+   "probe": {
+    "tiles": 1,
+    "features": 5,
+    "geom": {
+     "4": 5
+    },
+    "attr_keys": [
+     "Z5",
+     "elemid",
+     "lzh"
+    ]
+   }
+  },
+  "AF": {
+   "code": "AF",
+   "name_zh": "行政地名点（国家/省/市/区县）",
+   "geom": 4,
+   "zoom": [
+    5,
+    13
+   ],
+   "style_layers": 19,
+   "style_zoom": [
+    5,
+    13
+   ],
+   "style_geom": {
+    "symbol": 19
+   },
+   "keys": "B7 名称, O4 等级(1首都/2市/4区县), I8 类型",
+   "confidence": "高",
+   "evidence": "19 个 symbol 层 text-field={B7}，icon=quxian1/dijishi1/shenghui1/guowaishoudu1；实测 B7=郑州市/中原区、O4=2/4",
+   "probe": {
+    "tiles": 3,
+    "features": 40,
+    "geom": {
+     "4": 40
+    },
+    "attr_keys": [
+     "B7",
+     "I8",
+     "O4"
+    ]
+   }
+  },
+  "CA": {
+   "code": "CA",
+   "name_zh": "街道/乡镇地名点",
+   "geom": 4,
+   "zoom": [
+    8,
+    11
+   ],
+   "style_layers": 3,
+   "style_zoom": [
+    8,
+    11
+   ],
+   "style_geom": {
+    "symbol": 3
+   },
+   "keys": "Z5 名称, F5 ID, I8=260110, S8",
+   "confidence": "中",
+   "evidence": "symbol 层 text-field={Z5}；实测 Z5=蜜蜂张街道/解放路街道、F5 连号",
+   "probe": {
+    "tiles": 1,
+    "features": 71,
+    "geom": {
+     "4": 71
+    },
+    "attr_keys": [
+     "F5",
+     "I8",
+     "S8",
+     "Z5"
+    ]
+   }
+  },
+  "AJ": {
+   "code": "AJ",
+   "name_zh": "街道/道路名补充注记点",
+   "geom": 4,
+   "zoom": [
+    13,
+    19
+   ],
+   "style_layers": 5,
+   "style_zoom": [
+    13,
+    19
+   ],
+   "style_geom": {
+    "symbol": 5
+   },
+   "keys": "E4, S8, Z5",
+   "confidence": "中低",
+   "evidence": "5 个 symbol 层 icon=jie2/jie4/jie5/jie6（“街”系列图标），text-field={Z5}",
+   "probe": {
+    "tiles": 1,
+    "features": 1,
+    "geom": {
+     "4": 1
+    },
+    "attr_keys": [
+     "E4",
+     "S8",
+     "Z5"
+    ]
+   }
+  },
+  "AT": {
+   "code": "AT",
+   "name_zh": "山/岛/自然地物名注记",
+   "geom": 4,
+   "zoom": [
+    5,
+    19
+   ],
+   "style_layers": 6,
+   "style_zoom": [
+    5,
+    19
+   ],
+   "style_geom": {
+    "symbol": 6
+   },
+   "keys": "B7, S8, display",
+   "confidence": "中低",
+   "evidence": "6 个 symbol 层黑字 text-field={B7}，含 display 开关字段",
+   "probe": null
+  },
+  "BH": {
+   "code": "BH",
+   "name_zh": "地名注记（综合）",
+   "geom": 4,
+   "zoom": [
+    5,
+    19
+   ],
+   "style_layers": 6,
+   "style_zoom": [
+    5,
+    19
+   ],
+   "style_geom": {
+    "symbol": 6
+   },
+   "keys": "B7, I8, S8",
+   "confidence": "中低",
+   "evidence": "6 个 symbol 层黑字 text-field={B7}，I8 分级",
+   "probe": null
+  },
+  "BN": {
+   "code": "BN",
+   "name_zh": "河流名称沿线注记",
+   "geom": 4,
+   "zoom": [
+    5,
+    19
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    5,
+    19
+   ],
+   "style_geom": {
+    "symbol": 2
+   },
+   "keys": "B7, S8",
+   "confidence": "高",
+   "evidence": "symbol 层 text-color=#0E7AAD、text-field={B7}；实测 B7=黄河、S8=5",
+   "probe": {
+    "tiles": 1,
+    "features": 1,
+    "geom": {
+     "1": 1
+    },
+    "attr_keys": [
+     "B7",
+     "S8"
+    ]
+   }
+  },
+  "AI": {
+   "code": "AI",
+   "name_zh": "水系名称注记（低 zoom 点状）",
+   "geom": 4,
+   "zoom": [
+    6,
+    11
+   ],
+   "style_layers": 5,
+   "style_zoom": [
+    6,
+    11
+   ],
+   "style_geom": {
+    "symbol": 5
+   },
+   "keys": "Z5, S8",
+   "confidence": "中",
+   "evidence": "5 个 symbol 层蓝色文字 text-field={Z5}，z6-11 逐级",
+   "probe": null
+  },
+  "BB": {
+   "code": "BB",
+   "name_zh": "地名注记（低 zoom）",
+   "geom": 4,
+   "zoom": [
+    6,
+    10
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    6,
+    10
+   ],
+   "style_geom": {
+    "symbol": 2
+   },
+   "keys": "B7, S8",
+   "confidence": "低",
+   "evidence": "2 个 symbol 层 text-field={B7}",
+   "probe": null
+  },
+  "BZ": {
+   "code": "BZ",
+   "name_zh": "地名注记（低 zoom）",
+   "geom": 4,
+   "zoom": [
+    6,
+    10
+   ],
+   "style_layers": 7,
+   "style_zoom": [
+    6,
+    10
+   ],
+   "style_geom": {
+    "symbol": 7
+   },
+   "keys": "B7, I8, R7",
+   "confidence": "低",
+   "evidence": "7 个 symbol 层 text-field={B7}，R7 参与排序/避让",
+   "probe": null
+  },
+  "BY": {
+   "code": "BY",
+   "name_zh": "国家/地区名注记",
+   "geom": 4,
+   "zoom": [
+    4,
+    6
+   ],
+   "style_layers": 6,
+   "style_zoom": [
+    4,
+    6
+   ],
+   "style_geom": {
+    "symbol": 6
+   },
+   "keys": "B7, I8, R7",
+   "confidence": "低",
+   "evidence": "6 个 symbol 层 text-field={B7}",
+   "probe": null
+  },
+  "BT": {
+   "code": "BT",
+   "name_zh": "国家/地区名注记（z3-4）",
+   "geom": 4,
+   "zoom": [
+    3,
+    4
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    3,
+    4
+   ],
+   "style_geom": {
+    "symbol": 2
+   },
+   "keys": "B7, I8, R7",
+   "confidence": "低",
+   "evidence": "2 个 symbol 层",
+   "probe": null
+  },
+  "BQ": {
+   "code": "BQ",
+   "name_zh": "洲/大区名注记",
+   "geom": 4,
+   "zoom": [
+    4,
+    5
+   ],
+   "style_layers": 3,
+   "style_zoom": [
+    4,
+    5
+   ],
+   "style_geom": {
+    "symbol": 3
+   },
+   "keys": "B7, I8",
+   "confidence": "低",
+   "evidence": "3 个 symbol 层",
+   "probe": {
+    "tiles": 1,
+    "features": 2,
+    "geom": {
+     "4": 2
+    },
+    "attr_keys": [
+     "B7",
+     "I8"
+    ]
+   }
+  },
+  "BL": {
+   "code": "BL",
+   "name_zh": "洲名/国家名注记（z1-10）",
+   "geom": 4,
+   "zoom": [
+    1,
+    10
+   ],
+   "style_layers": 4,
+   "style_zoom": [
+    1,
+    10
+   ],
+   "style_geom": {
+    "symbol": 4
+   },
+   "keys": "B7, I8",
+   "confidence": "中低",
+   "evidence": "4 个 symbol 层 text-field={B7}，覆盖最低 zoom",
+   "probe": {
+    "tiles": 1,
+    "features": 8,
+    "geom": {
+     "4": 8
+    },
+    "attr_keys": [
+     "B7",
+     "I8"
+    ]
+   }
+  },
+  "BS": {
+   "code": "BS",
+   "name_zh": "外国首都注记",
+   "geom": 4,
+   "zoom": [
+    5,
+    7
+   ],
+   "style_layers": 5,
+   "style_zoom": [
+    5,
+    7
+   ],
+   "style_geom": {
+    "symbol": 5
+   },
+   "keys": "B7, O4, U0",
+   "confidence": "中",
+   "evidence": "icon=guowaishoudu1（国外首都）",
+   "probe": null
+  },
+  "AY": {
+   "code": "AY",
+   "name_zh": "外国首都注记（z3-4）",
+   "geom": 4,
+   "zoom": [
+    3,
+    4
+   ],
+   "style_layers": 4,
+   "style_zoom": [
+    3,
+    4
+   ],
+   "style_geom": {
+    "symbol": 4
+   },
+   "keys": "B7, O4, U0",
+   "confidence": "中",
+   "evidence": "icon=guowaishoudu1",
+   "probe": null
+  },
+  "AZ": {
+   "code": "AZ",
+   "name_zh": "外国首都注记（z6-11）",
+   "geom": 4,
+   "zoom": [
+    6,
+    11
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    6,
+    11
+   ],
+   "style_geom": {
+    "symbol": 2
+   },
+   "keys": "B7, O4, U0",
+   "confidence": "中",
+   "evidence": "icon=guowaishoudu1",
+   "probe": null
+  },
+  "CB": {
+   "code": "CB",
+   "name_zh": "首都注记（z4-5）",
+   "geom": 4,
+   "zoom": [
+    4,
+    5
+   ],
+   "style_layers": 4,
+   "style_zoom": [
+    4,
+    5
+   ],
+   "style_geom": {
+    "symbol": 4
+   },
+   "keys": "B7, O4, U0, S8",
+   "confidence": "中",
+   "evidence": "icon=guowaishoudu1",
+   "probe": {
+    "tiles": 1,
+    "features": 2,
+    "geom": {
+     "4": 2
+    },
+    "attr_keys": [
+     "B7",
+     "O4",
+     "S8",
+     "U0"
+    ]
+   }
+  },
+  "BC": {
+   "code": "BC",
+   "name_zh": "首都注记（z3-11）",
+   "geom": 4,
+   "zoom": [
+    3,
+    11
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    3,
+    11
+   ],
+   "style_geom": {
+    "symbol": 1
+   },
+   "keys": "B7, O4",
+   "confidence": "中",
+   "evidence": "icon=shoudu1；实测 B7=北（极简首都名）",
+   "probe": {
+    "tiles": 2,
+    "features": 21,
+    "geom": {
+     "4": 21
+    },
+    "attr_keys": [
+     "B7",
+     "O4"
+    ]
+   }
+  },
+  "CJ": {
+   "code": "CJ",
+   "name_zh": "城市名注记（z4-5）",
+   "geom": 4,
+   "zoom": [
+    4,
+    5
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    4,
+    5
+   ],
+   "style_geom": {
+    "symbol": 2
+   },
+   "keys": "B7, O4",
+   "confidence": "低",
+   "evidence": "2 个 symbol 层",
+   "probe": {
+    "tiles": 1,
+    "features": 17,
+    "geom": {
+     "4": 17
+    },
+    "attr_keys": [
+     "B7",
+     "O4"
+    ]
+   }
+  },
+  "CD": {
+   "code": "CD",
+   "name_zh": "城市名注记（z5-11）",
+   "geom": 4,
+   "zoom": [
+    5,
+    11
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    5,
+    11
+   ],
+   "style_geom": {
+    "symbol": 1
+   },
+   "keys": "B7, O4, Y4",
+   "confidence": "低",
+   "evidence": "1 个 symbol 层",
+   "probe": null
+  },
+  "AS": {
+   "code": "AS",
+   "name_zh": "城市名注记（z7-11）",
+   "geom": 4,
+   "zoom": [
+    7,
+    11
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    7,
+    11
+   ],
+   "style_geom": {
+    "symbol": 1
+   },
+   "keys": "B7, O4",
+   "confidence": "低",
+   "evidence": "1 个 symbol 层",
+   "probe": null
+  },
+  "BF": {
+   "code": "BF",
+   "name_zh": "城市名注记（z5.2-10）",
+   "geom": 4,
+   "zoom": [
+    5.2,
+    10
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    5.2,
+    10
+   ],
+   "style_geom": {
+    "symbol": 1
+   },
+   "keys": "B7, O4",
+   "confidence": "低",
+   "evidence": "1 个 symbol 层",
+   "probe": null
+  },
+  "BW": {
+   "code": "BW",
+   "name_zh": "居民点注记（z6-11）",
+   "geom": 4,
+   "zoom": [
+    6,
+    11
+   ],
+   "style_layers": 3,
+   "style_zoom": [
+    6,
+    11
+   ],
+   "style_geom": {
+    "symbol": 3
+   },
+   "keys": "B7, O4",
+   "confidence": "低",
+   "evidence": "3 个 symbol 层 icon=dian1",
+   "probe": null
+  },
+  "BA": {
+   "code": "BA",
+   "name_zh": "铁路线",
+   "geom": 1,
+   "zoom": [
+    11,
+    19
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    11,
+    19
+   ],
+   "style_geom": {
+    "line": 2
+   },
+   "keys": "A6, Z5 线名",
+   "confidence": "高",
+   "evidence": "灰 2.2px + 白虚线 [4,4] 的铁路图式；实测 Z5=京广线、A6=410102（数据包码）",
+   "probe": {
+    "tiles": 1,
+    "features": 3,
+    "geom": {
+     "1": 3
+    },
+    "attr_keys": [
+     "A6",
+     "Z5"
+    ]
+   }
+  },
+  "AG": {
+   "code": "AG",
+   "name_zh": "界线（省/地区界，灰虚线）",
+   "geom": 1,
+   "zoom": [
+    4,
+    11
+   ],
+   "style_layers": 5,
+   "style_zoom": [
+    4,
+    11
+   ],
+   "style_geom": {
+    "line": 5
+   },
+   "keys": "O4, A6",
+   "confidence": "中高",
+   "evidence": "灰 #737373 虚线 [4,8,10,8]/[5,3]（境界图式），filter 含 O4=\" \" 与特定 A6",
+   "probe": {
+    "tiles": 2,
+    "features": 76,
+    "geom": {
+     "1": 76
+    },
+    "attr_keys": [
+     "A6",
+     "O4"
+    ]
+   }
+  },
+  "AE": {
+   "code": "AE",
+   "name_zh": "国界线",
+   "geom": 1,
+   "zoom": [
+    2,
+    11
+   ],
+   "style_layers": 4,
+   "style_zoom": [
+    2,
+    11
+   ],
+   "style_geom": {
+    "line": 4
+   },
+   "keys": "（无属性）",
+   "confidence": "中高",
+   "evidence": "棕 0.8~4px 双线（国界图式），无 filter 全量绘制",
+   "probe": {
+    "tiles": 1,
+    "features": 1,
+    "geom": {
+     "1": 1
+    },
+    "attr_keys": [
+     "objectid"
+    ]
+   }
+  },
+  "BE": {
+   "code": "BE",
+   "name_zh": "国界虚线段（z2-6）",
+   "geom": 1,
+   "zoom": [
+    2,
+    6
+   ],
+   "style_layers": 8,
+   "style_zoom": [
+    2,
+    6
+   ],
+   "style_geom": {
+    "line": 8
+   },
+   "keys": "A6",
+   "confidence": "中",
+   "evidence": "棕虚线 [0,2,4]/[1,4,5,5] 国界分段图式",
+   "probe": {
+    "tiles": 1,
+    "features": 4,
+    "geom": {
+     "1": 4
+    },
+    "attr_keys": [
+     "A6"
+    ]
+   }
+  },
+  "BG": {
+   "code": "BG",
+   "name_zh": "低 zoom 背景线（z1-6）",
+   "geom": 1,
+   "zoom": [
+    1,
+    6
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    1,
+    6
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "单 line 层，无 filter、无属性",
+   "probe": null
+  },
+  "AK": {
+   "code": "AK",
+   "name_zh": "铁路/界线低 zoom 底图线",
+   "geom": 1,
+   "zoom": [
+    4,
+    11
+   ],
+   "style_layers": 9,
+   "style_zoom": [
+    4,
+    11
+   ],
+   "style_geom": {
+    "line": 9
+   },
+   "keys": "A6, I8",
+   "confidence": "低",
+   "evidence": "米色 3-4px + 灰虚线，疑似铁路走廊底衬，无图例可证",
+   "probe": {
+    "tiles": 1,
+    "features": 9,
+    "geom": {
+     "1": 9
+    },
+    "attr_keys": [
+     "A6",
+     "I8"
+    ]
+   }
+  },
+  "CF": {
+   "code": "CF",
+   "name_zh": "快速路/高架（黄橙线）",
+   "geom": 1,
+   "zoom": [
+    9,
+    11
+   ],
+   "style_layers": 3,
+   "style_zoom": [
+    9,
+    11
+   ],
+   "style_geom": {
+    "line": 3
+   },
+   "keys": "A6",
+   "confidence": "中低",
+   "evidence": "黄橙 #FEF09E/#FFD78C 1.5~1.8px",
+   "probe": null
+  },
+  "CH": {
+   "code": "CH",
+   "name_zh": "桥梁/高架面边线",
+   "geom": 1,
+   "zoom": [
+    6,
+    11
+   ],
+   "style_layers": 4,
+   "style_zoom": [
+    6,
+    11
+   ],
+   "style_geom": {
+    "line": 4
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "粉色 4px + 灰 2px",
+   "probe": null
+  },
+  "AH": {
+   "code": "AH",
+   "name_zh": "低 zoom 界线补充",
+   "geom": 1,
+   "zoom": [
+    4,
+    7
+   ],
+   "style_layers": 3,
+   "style_zoom": [
+    4,
+    7
+   ],
+   "style_geom": {
+    "line": 3
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "棕色 1px 与国界同色系",
+   "probe": {
+    "tiles": 1,
+    "features": 2,
+    "geom": {
+     "1": 2
+    },
+    "attr_keys": [
+     "objectid"
+    ]
+   }
+  },
+  "AC": {
+   "code": "AC",
+   "name_zh": "低 zoom 线（灰）",
+   "geom": 1,
+   "zoom": [
+    4,
+    6
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    4,
+    6
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "N3",
+   "confidence": "低",
+   "evidence": "灰 #646464，唯一带 N3 字段的层",
+   "probe": {
+    "tiles": 1,
+    "features": 2,
+    "geom": {
+     "1": 2
+    },
+    "attr_keys": [
+     "N3"
+    ]
+   }
+  },
+  "AU": {
+   "code": "AU",
+   "name_zh": "低 zoom 线（灰）",
+   "geom": 1,
+   "zoom": [
+    2,
+    4
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    2,
+    4
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "A0",
+   "confidence": "低",
+   "evidence": "灰 #B4B4B4，带 A0 字段",
+   "probe": null
+  },
+  "AV": {
+   "code": "AV",
+   "name_zh": "红色虚线要素",
+   "geom": 1,
+   "zoom": [
+    2,
+    19
+   ],
+   "style_layers": 3,
+   "style_zoom": [
+    2,
+    19
+   ],
+   "style_geom": {
+    "line": 3
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "z6+ 转为红色 [2,2] 虚线 1.25px，语义未定（疑似管道/规划线）",
+   "probe": null
+  },
+  "Q5": {
+   "code": "Q5",
+   "name_zh": "低 zoom 干线（A6 过滤）",
+   "geom": 1,
+   "zoom": [
+    5,
+    10
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    5,
+    10
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "A6",
+   "confidence": "低",
+   "evidence": "单 line 层，按 A6 城市包过滤",
+   "probe": null
+  },
+  "Z1": {
+   "code": "Z1",
+   "name_zh": "低 zoom 线（z5-6）",
+   "geom": 1,
+   "zoom": [
+    5,
+    6
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    5,
+    6
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "底图线，无属性",
+   "probe": null
+  },
+  "Z2": {
+   "code": "Z2",
+   "name_zh": "低 zoom 线（z6-10）",
+   "geom": 1,
+   "zoom": [
+    6,
+    10
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    6,
+    10
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "底图线，无属性",
+   "probe": {
+    "tiles": 1,
+    "features": 1,
+    "geom": {
+     "1": 1
+    },
+    "attr_keys": [
+     "objectid"
+    ]
+   }
+  },
+  "Z6": {
+   "code": "Z6",
+   "name_zh": "低 zoom 线（z1-7）",
+   "geom": 1,
+   "zoom": [
+    1,
+    7
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    1,
+    7
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "底图线，无属性",
+   "probe": {
+    "tiles": 1,
+    "features": 12,
+    "geom": {
+     "1": 12
+    },
+    "attr_keys": [
+     "objectid"
+    ]
+   }
+  },
+  "Z7": {
+   "code": "Z7",
+   "name_zh": "低 zoom 线（z9-10）",
+   "geom": 1,
+   "zoom": [
+    9,
+    10
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    9,
+    10
+   ],
+   "style_geom": {
+    "line": 2
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "底图线，无属性",
+   "probe": null
+  },
+  "Z9": {
+   "code": "Z9",
+   "name_zh": "低 zoom 线（z3-5）",
+   "geom": 1,
+   "zoom": [
+    3,
+    5
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    3,
+    5
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "z4 实测 173 条，底图线",
+   "probe": {
+    "tiles": 1,
+    "features": 173,
+    "geom": {
+     "1": 173
+    },
+    "attr_keys": [
+     "objectid"
+    ]
+   }
+  },
+  "t8ji": {
+   "code": "t8ji",
+   "name_zh": "分级底图线（z7-8）",
+   "geom": 1,
+   "zoom": [
+    7,
+    8
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    7,
+    8
+   ],
+   "style_geom": {
+    "line": 2
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "按级别命名的底图线",
+   "probe": null
+  },
+  "t9ji": {
+   "code": "t9ji",
+   "name_zh": "分级底图线（z8-9）",
+   "geom": 1,
+   "zoom": [
+    8,
+    9
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    8,
+    9
+   ],
+   "style_geom": {
+    "line": 2
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "按级别命名的底图线",
+   "probe": null
+  },
+  "huangyandao34": {
+   "code": "huangyandao34",
+   "name_zh": "黄岩岛专线（z1-5）",
+   "geom": 1,
+   "zoom": [
+    1,
+    5
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    1,
+    5
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "中低",
+   "evidence": "层名直指黄岩岛，单线",
+   "probe": null
+  },
+  "AR": {
+   "code": "AR",
+   "name_zh": "低 zoom 面状水体（海/大湖/大河面）",
+   "geom": 2,
+   "zoom": [
+    2,
+    11
+   ],
+   "style_layers": 5,
+   "style_zoom": [
+    2,
+    11
+   ],
+   "style_geom": {
+    "fill": 5
+   },
+   "keys": "S8(0~7), Z8",
+   "confidence": "高",
+   "evidence": "5 个 fill 层全为水蓝 #AAC6EE，z2-11 逐级放宽 S8；实测 S8=0~5、11",
+   "probe": {
+    "tiles": 2,
+    "features": 95,
+    "geom": {
+     "2": 95
+    },
+    "attr_keys": [
+     "S8",
+     "Z8"
+    ]
+   }
+  },
+  "AW": {
+   "code": "AW",
+   "name_zh": "低 zoom 水系线（岸线/河线）",
+   "geom": 1,
+   "zoom": [
+    4,
+    11
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    4,
+    11
+   ],
+   "style_geom": {
+    "line": 2
+   },
+   "keys": "S8(0~5)",
+   "confidence": "高",
+   "evidence": "2 个 line 层水蓝 #ABC6EF，z4-11",
+   "probe": {
+    "tiles": 2,
+    "features": 749,
+    "geom": {
+     "1": 749
+    },
+    "attr_keys": [
+     "S8"
+    ]
+   }
+  },
+  "Y1": {
+   "code": "Y1",
+   "name_zh": "低 zoom 面（背景）",
+   "geom": 1,
+   "zoom": [
+    1,
+    2
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    1,
+    2
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "面/线底色层，无属性",
+   "probe": null
+  },
+  "Y2": {
+   "code": "Y2",
+   "name_zh": "低 zoom 线（背景）",
+   "geom": 1,
+   "zoom": [
+    1,
+    3
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    1,
+    3
+   ],
+   "style_geom": {
+    "line": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "底色线",
+   "probe": null
+  },
+  "Y3": {
+   "code": "Y3",
+   "name_zh": "低 zoom 面（S8 过滤）",
+   "geom": 2,
+   "zoom": [
+    2,
+    4
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    2,
+    4
+   ],
+   "style_geom": {
+    "fill": 1
+   },
+   "keys": "S8",
+   "confidence": "低",
+   "evidence": "1 个 fill 层，S8 过滤",
+   "probe": null
+  },
+  "Y5": {
+   "code": "Y5",
+   "name_zh": "低 zoom 面（浅黄，滩涂/沙地候选）",
+   "geom": 2,
+   "zoom": [
+    8,
+    19
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    8,
+    19
+   ],
+   "style_geom": {
+    "fill": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "唯一无 filter 的浅黄 #F1F1DA 面，z8 起；语义无图例",
+   "probe": null
+  },
+  "Y6": {
+   "code": "Y6",
+   "name_zh": "低 zoom 面（z7-8）",
+   "geom": 2,
+   "zoom": [
+    7,
+    8
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    7,
+    8
+   ],
+   "style_geom": {
+    "fill": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "低",
+   "evidence": "单 fill 层",
+   "probe": null
+  },
+  "Y9": {
+   "code": "Y9",
+   "name_zh": "低 zoom 面（IS 分级，已关闭）",
+   "geom": 2,
+   "zoom": [
+    1,
+    5
+   ],
+   "style_layers": 3,
+   "style_zoom": [
+    1,
+    5
+   ],
+   "style_geom": {
+    "fill": 3
+   },
+   "keys": "I8",
+   "confidence": "低",
+   "evidence": "3 个 fill 层按 I8=3/4 分档，但 visibility=none（官方默认关闭）",
+   "probe": null
+  },
+  "AL": {
+   "code": "AL",
+   "name_zh": "面要素（C8=1，z17+）",
+   "geom": 2,
+   "zoom": [
+    17,
+    19
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    17,
+    19
+   ],
+   "style_geom": {
+    "fill": 1
+   },
+   "keys": "C8",
+   "confidence": "低",
+   "evidence": "灰 #B4BEBE 0.4 透明填充，仅 C8=1；C8 同时出现在 AD/AM（地铁），疑似地下/构筑物面",
+   "probe": null
+  },
+  "TA": {
+   "code": "TA",
+   "name_zh": "天安门专指点",
+   "geom": 4,
+   "zoom": [
+    10,
+    19
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    10,
+    19
+   ],
+   "style_geom": {
+    "symbol": 1
+   },
+   "keys": "Z5",
+   "confidence": "高",
+   "evidence": "唯一 icon=tiananmen 的单点层",
+   "probe": null
+  },
+  "sea_poihy": {
+   "code": "sea_poihy",
+   "name_zh": "海域 POI 注记",
+   "geom": 4,
+   "zoom": [
+    11,
+    19
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    11,
+    19
+   ],
+   "style_geom": {
+    "symbol": 2
+   },
+   "keys": "G6 名称, I8, display",
+   "confidence": "中",
+   "evidence": "2 个 symbol 层 text-field={G6}",
+   "probe": null
+  },
+  "zangnan": {
+   "code": "zangnan",
+   "name_zh": "特定区域注记层",
+   "geom": 4,
+   "zoom": [
+    10,
+    19
+   ],
+   "style_layers": 2,
+   "style_zoom": [
+    10,
+    19
+   ],
+   "style_geom": {
+    "symbol": 2
+   },
+   "keys": "B1, Z5",
+   "confidence": "中",
+   "evidence": "按 B1 过滤的注记层，含 shan1 图标；涉及边界表述，建议按原样保留、不派生结论",
+   "probe": null
+  },
+  "tdt_ditie": {
+   "code": "tdt_ditie",
+   "name_zh": "地铁相关面（底图专用）",
+   "geom": 2,
+   "zoom": [
+    1,
+    19
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    1,
+    19
+   ],
+   "style_geom": {
+    "fill": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "中低",
+   "evidence": "单 fill 层，全 zoom；地铁专版底图用",
+   "probe": null
+  },
+  "tdt_ditie_poi": {
+   "code": "tdt_ditie_poi",
+   "name_zh": "地铁 POI 注记（底图专用）",
+   "geom": 4,
+   "zoom": [
+    1,
+    19
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    1,
+    19
+   ],
+   "style_geom": {
+    "symbol": 1
+   },
+   "keys": "（无属性）",
+   "confidence": "中低",
+   "evidence": "单 symbol 层，全 zoom",
+   "probe": null
+  },
+  "country_3level_w_vec": {
+   "code": "country_3level_w_vec",
+   "name_zh": "国界三级注记（z2-3）",
+   "geom": 4,
+   "zoom": [
+    2,
+    3
+   ],
+   "style_layers": 1,
+   "style_zoom": [
+    2,
+    3
+   ],
+   "style_geom": {
+    "symbol": 1
+   },
+   "keys": "B7, I8, R7",
+   "confidence": "中",
+   "evidence": "国界分级注记",
+   "probe": null
+  },
+  "country_5level_w_vec": {
+   "code": "country_5level_w_vec",
+   "name_zh": "国界五级注记（z4-5）",
+   "geom": 4,
+   "zoom": [
+    4,
+    5
+   ],
+   "style_layers": 5,
+   "style_zoom": [
+    4,
+    5
+   ],
+   "style_geom": {
+    "symbol": 5
+   },
+   "keys": "B7, I8, R7",
+   "confidence": "中",
+   "evidence": "5 个 symbol 层",
+   "probe": {
+    "tiles": 1,
+    "features": 2,
+    "geom": {
+     "4": 2
+    },
+    "attr_keys": [
+     "B7",
+     "I8",
+     "R7"
+    ]
+   }
+  }
+ },
+ "poi_b1": {
+  "120101": [
+   "住宿-宾馆",
+   "jiudian1"
+  ],
+  "120102": [
+   "住宿-酒店",
+   "jiudian1"
+  ],
+  "130105": [
+   "购物-超市",
+   "chaoshi1"
+  ],
+  "130402": [
+   "购物-便利店/小卖",
+   "dian1"
+  ],
+  "130501": [
+   "医疗-药店",
+   "yaodian1"
+  ],
+  "150101": [
+   "金融-银行网点（P5 区分银行）",
+   "gonghang1 等"
+  ],
+  "160101": [
+   "教育-小学",
+   "xuexiao1"
+  ],
+  "160102": [
+   "教育-中学",
+   "xuexiao1"
+  ],
+  "160103": [
+   "教育-大学",
+   "xuexiao1"
+  ],
+  "160104": [
+   "教育-职校",
+   "xuexiao1"
+  ],
+  "160105": [
+   "教育-幼儿园",
+   "xuexiao1"
+  ],
+  "160203": [
+   "文化-博物馆",
+   "bowuguan1"
+  ],
+  "160204": [
+   "文化-展览馆",
+   "bowuguan1"
+  ],
+  "170101": [
+   "医疗-综合医院",
+   "yiyuan1"
+  ],
+  "170105": [
+   "医疗-专科医院",
+   "yiyuan1"
+  ],
+  "170107": [
+   "医疗-社区医疗",
+   "yiyuan1"
+  ],
+  "180209": [
+   "娱乐-电影院",
+   "dianyingyuan1"
+  ],
+  "180210": [
+   "娱乐-音乐厅",
+   "yinyueting1"
+  ],
+  "180304": [
+   "休闲-公园",
+   "gongyuan1"
+  ],
+  "190001": [
+   "政府-国家级机关",
+   "zhengfujiguan1"
+  ],
+  "190101": [
+   "政府-机关",
+   "zhengfujiguan1"
+  ],
+  "190200": [
+   "政府-公安",
+   "gonganju1"
+  ],
+  "200103": [
+   "商业-大厦/写字楼",
+   "dasha1"
+  ],
+  "200105": [
+   "商业-商场",
+   "shangchang1"
+  ],
+  "210209": [
+   "设施-公墓",
+   "gongmu1"
+  ],
+  "210210": [
+   "设施-邮局",
+   "youju1"
+  ],
+  "210212": [
+   "设施-公共厕所",
+   "wc1"
+  ],
+  "230101": [
+   "交通-火车站",
+   "huochezhan1"
+  ],
+  "230104": [
+   "交通-长途汽车站",
+   "changtuchezhan1"
+  ],
+  "230109": [
+   "交通-机场",
+   "feijichang1"
+  ],
+  "230212": [
+   "交通-加油站",
+   "jiayouzhan1"
+  ],
+  "260203": [
+   "自然-山峰",
+   "shan1"
+  ],
+  "260400": [
+   "自然-渠/县界点",
+   "quxian1"
+  ]
+ },
+ "attrs": [
+  {
+   "key": "Z5",
+   "layers": "AA/CE/BI/AX/CA/BK/BN/AI/AJ/AD/AM/respt/BV/BN/TA/zangnan",
+   "type": "string",
+   "meaning": "名称（道路名/楼名/POI 名/行政区名/水名/站名）。BI 用 “|” 分行",
+   "pitfall": "最可靠的通用名称字段"
+  },
+  {
+   "key": "B7",
+   "layers": "AF/BN/AT/BH/BB/BZ/BY/BS/AY/AZ/CB/BC/CJ/CD/AS/BF/BW/country_*",
+   "type": "string",
+   "meaning": "地名类注记文字（行政地名、河流名、山名、国名）",
+   "pitfall": "与 Z5 互斥使用：注记层用 B7，POI 层用 Z5"
+  },
+  {
+   "key": "J9",
+   "layers": "AA/CC",
+   "type": "string",
+   "meaning": "道路编号（G104/S103/G311 等）",
+   "pitfall": "前缀 G=国道 S=省道，可与路名互为校验"
+  },
+  {
+   "key": "G6",
+   "layers": "CC/sea_poihy",
+   "type": "string",
+   "meaning": "道路/海域要素全名（京台线、南三环）",
+   "pitfall": "低 zoom 干线名"
+  },
+  {
+   "key": "A6",
+   "layers": "AA/AB/CE/AX/BA/AG/AK/CF/Q5/AD",
+   "type": "string",
+   "meaning": "**数据生产包码**，形似行政区码但与本瓦地理位置无关",
+   "pitfall": "北京道路记为 440300/440100；全国建筑恒为 3103xx；AD 例外：450101=站、450190=出入口（类型码）"
+  },
+  {
+   "key": "V1",
+   "layers": "AA/AB",
+   "type": "string",
+   "meaning": "道路数据包码（多与 A6 相同）",
+   "pitfall": "同 A6，不可当行政区"
+  },
+  {
+   "key": "K0",
+   "layers": "AD/AM",
+   "type": "string",
+   "meaning": "**真正的城市行政区代码**（410100=郑州）",
+   "pitfall": "仅地铁层携带；需要城市归属时用 K0"
+  },
+  {
+   "key": "X3",
+   "layers": "AA/AB",
+   "type": "string",
+   "meaning": "道路类型/等级码（00/01/02/03/04/05/06/07/0a/0b/12/14/15/16/17）",
+   "pitfall": "样式用它分级设线宽；0a/0b/12/14 等为十六进制式两位码，**字符串比较**"
+  },
+  {
+   "key": "D3",
+   "layers": "AA/AB",
+   "type": "string",
+   "meaning": "道路次级等级 1~5",
+   "pitfall": "与 X3 组合使用，1 最高"
+  },
+  {
+   "key": "JF",
+   "layers": "AA/CC",
+   "type": "string",
+   "meaning": "道路附加标记（0/1/2/3/4）",
+   "pitfall": "实测为字符串 \"0\"/\"4\""
+  },
+  {
+   "key": "QQ",
+   "layers": "AA",
+   "type": "string",
+   "meaning": "道路附加标记（1/2/3），z16+ 两个通用层按它开关",
+   "pitfall": "含义未定，勿当车道数"
+  },
+  {
+   "key": "S8",
+   "layers": "CK/BM/AN/BK/BN/BI/AX/CA/AI/AT/BH/BB/AR/AW/Y3",
+   "type": "string",
+   "meaning": "**按图层各自的要素类/符号编码**，跨层不通用",
+   "pitfall": "CK=绿地子类、BM=水体子类，数值可重叠（都出现 11/13）但语义不同；BI 的 S8 与 B1 是两套码"
+  },
+  {
+   "key": "B1",
+   "layers": "BI/zangnan",
+   "type": "string",
+   "meaning": "POI 分类码（6 位，前 2 位为大类）",
+   "pitfall": "样式用 B1 分支决定图标，是 POI 分类的官方依据"
+  },
+  {
+   "key": "P5",
+   "layers": "BI",
+   "type": "string",
+   "meaning": "POI 子类/品牌码（如 130001 工行）",
+   "pitfall": "需与 B1=150101 联合使用"
+  },
+  {
+   "key": "F5",
+   "layers": "BI/CA",
+   "type": "string",
+   "meaning": "POI/地名点稳定 ID",
+   "pitfall": "跨瓦去重键"
+  },
+  {
+   "key": "elemid",
+   "layers": "CE/respt",
+   "type": "string",
+   "meaning": "建筑物稳定 ID（14 位数字或含字母方案）",
+   "pitfall": "CE 与 respt 用它挂接；跨瓦会重复，需 Union"
+  },
+  {
+   "key": "objectid",
+   "layers": "AP",
+   "type": "sint64",
+   "meaning": "街区/地块单元 ID",
+   "pitfall": "单瓦唯一；跨瓦重复属接缝，Union 正确"
+  },
+  {
+   "key": "h",
+   "layers": "CE",
+   "type": "number",
+   "meaning": "建筑高度（米）",
+   "pitfall": "0 表示无高度/平房；3D 拉伸直接乘此值"
+  },
+  {
+   "key": "floor",
+   "layers": "CE",
+   "type": "string",
+   "meaning": "楼层数（字符串）",
+   "pitfall": "恒等于 h/3（21/7、6/2、3/1）"
+  },
+  {
+   "key": "I8",
+   "layers": "CE/AF/CA/AI/AT/BH/BB/BL/BQ/BT/BY/BZ/AK/AG/Y9/country_*",
+   "type": "string",
+   "meaning": "分级/类型序号（各层语义不同）",
+   "pitfall": "AF：B7 地名等级参照；Y9：面分档"
+  },
+  {
+   "key": "O4",
+   "layers": "AF/BS/AY/AZ/BC/BQ/CJ/CD/AS/BF/BW/CB/AG",
+   "type": "string",
+   "meaning": "地名/注记等级（1 首都、2 市、4 区县，\" \"=空）",
+   "pitfall": "AF 的 O4 可直接映射行政级别"
+  },
+  {
+   "key": "C8",
+   "layers": "AD/AM/AL",
+   "type": "string",
+   "meaning": "地铁/构筑物标记（实测恒 1）",
+   "pitfall": "含义未定"
+  },
+  {
+   "key": "L1",
+   "layers": "AD",
+   "type": "string",
+   "meaning": "地铁线路号",
+   "pitfall": "与 AM.C2 对应"
+  },
+  {
+   "key": "H7",
+   "layers": "AD",
+   "type": "string",
+   "meaning": "地铁出入口字母（A/B/C/D…）",
+   "pitfall": "与 L1+A6 组成出入口唯一键"
+  },
+  {
+   "key": "lzh",
+   "layers": "respt",
+   "type": "string",
+   "meaning": "楼号（全角数字，如 “4栋”）",
+   "pitfall": "楼栋注记专用"
+  },
+  {
+   "key": "Z8",
+   "layers": "AR",
+   "type": "string",
+   "meaning": "低 zoom 水体标记（实测空串）",
+   "pitfall": "—"
+  },
+  {
+   "key": "display",
+   "layers": "AT/sea_poihy",
+   "type": "string",
+   "meaning": "注记显示开关",
+   "pitfall": "—"
+  }
+ ],
+ "anomalies": [
+  {
+   "issue": "4 个注记层 text-field 写成 `{undefined}`",
+   "where": "base-dynamic-tdt254 / 256 / 257 / 401（含 respt、加油站图标层）",
+   "impact": "官方样式 bug：这些层实际不会显示文字。反推规则时不要据此认为对应图层“无名称字段”"
+  },
+  {
+   "issue": "10 个图层 filter 类型不匹配，恒不命中（死层）",
+   "where": "tdt9 (`h`>=`\"0\"`)、tdt49 (`X3`==4)、tdt66 (`in V1` 数字列表)、tdt268/270/271/272/273/274/275 (`JF`==0~5)",
+   "impact": "X3/JF/V1 实测均为**字符串**，与数字字面量比较恒假；tdt9 反向：数值 h 与字符串 \"0\" 比较。合计 10 层永远不渲染，是其样式拼补留下的缺陷"
+  },
+  {
+   "issue": "CK 与 BM 的 S8 过滤区间重叠（都含 11~18）",
+   "where": "tdt4 (CK:11-18) / tdt6 (BM:9-18)",
+   "impact": "说明 S8 是按图层分表的编码，不是全局唯一类别；不能用同一张 S8 字典解释两个层"
+  },
+  {
+   "issue": "109 个 AA 线层按 V1/A6 数据包门控",
+   "where": "tdt13~tdt200 等（109/109 带 V1，59 个叠加 A6）",
+   "impact": "V1/A6 实测与地理位置无关（北京道路=440300/440100），门控实际按“数据包”生效；样式由此呈拼补状态，非统一制图规则"
+  },
+  {
+   "issue": "Y9 三个面层 visibility=none",
+   "where": "tdt168/169/170",
+   "impact": "官方默认关闭的低 zoom 面"
+  },
+  {
+   "issue": "样式未收录 AD（地铁站）/AM（地铁线）",
+   "where": "73 个 source-layer 中无 AD/AM",
+   "impact": "说明该样式不等于图层清单；语义目录需样式 + 实测双向补全"
+  }
+ ]
+}

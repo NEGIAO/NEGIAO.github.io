@@ -8,6 +8,12 @@
 //   --layers: all 或逗号指定 poi,road,region,building,transit（自动选数据变体，见下）;
 //   --zoom: 数据级别，仅 12/14 有数据（14 含全部五层，12 无 poi/building）;
 //   --key: 高德 key（必填，白名单含调用方域名）; --delay 默认 400ms 禁调小; --max-tiles 默认 200.
+//   样式对照（可选）：同目录放 amap_style_class_map.json 即自动加载，每个要素额外输出
+//     style_kind/style_class/style_conf/style_color/style_zoom（mainKey 决定类别组），
+//     poi_class / poi_conf / poi_source（(mainKey|subKey) 联合查表；subKey 单独无意义）、region_class2（按官方填充色相分的 水面/绿地/地块底色/其他面）。
+//   mainKey/subKey 会被编码端省略，本脚本按逆向结论补全并写 keySrc/mainKeyWire/subKeyWire（见 amap_style_analysis.md §11）：
+//     subKey 缺省=1；mainKey 缺省=该层默认组（poi 12024 / region 30001 / building 55001）；road 少数组无法归组则保留 null。
+//     映射由官方样式 2.0.2.45 生成，见 amap_style_analysis.md；缺文件时行为与旧版完全一致。
 //   --bygeom: 只出 point/line/polygon.geojson 三个文件（不再按层分文件），
 //     每个要素带统一分类键 layer_subkey=层码:subKey（缺席留空）+ _layer 来源层，供 QGIS 跨地区复用符号.
 //   数据变体（实测 z14 单瓦双变体对照，固定映射）：
@@ -18,6 +24,7 @@
 import fs from "fs";
 import path from "path";
 import zlib from "zlib";
+import { fileURLToPath } from "url";
 
 const KEY_DEFAULT = "309f07ac6bc48160e80b480ae511e1e9"; // lbs.amap.com 3D 演示页公用 key(仅格式验证)
 const REF = "https://lbs.amap.com/demo/javascript-api-v2/example/3d/map3d";
@@ -263,17 +270,53 @@ const closeRing = (ring) => { const r = ring.slice(); if (r.length && (r[0][0] !
 // ---- region 子类（按 item 级 drawOrder + mainKey/subKey 实证归类；拓扑叠放: 大地块在下, 湖泊/绿地/建筑底板压上, draw>=80 顶层小面）----
 // 缺失语义：mainKey/subKey 缺失即未知（undefined），禁止当作具体类别；
 // isLine→line 与 draw>=80→top 不依赖 subKey；其余无 subKey 一律 other。
-const REGION_CLASSES = ["water", "green", "parcel", "builtup", "harbor", "airport", "top", "other", "line"];
-function regionClassOf(mainKey, subKey, drawOrder, isLine) {
-	if (isLine) return "line";                         // region 线组（mk=20017/20010/20014/20011, res 13/15）
-	if ((drawOrder ?? 0) >= 80) return "top";          // 顶层小面（停车场/广场/高架/机场）
-	if (mainKey === 30004) return "airport";           // 机场（虹桥实例）
-	if (subKey == null) return "other";               // 无子类码无法归类，不伪造成具体类
-	if (mainKey === null && subKey === 2) return "water";  // 水面：江/湖/池塘（黄浦江/滴水湖/西湖实测）
-	if (mainKey === null && subKey === 3) return "builtup"; // 建筑底板碎面（最常见，中位 ~1000m²）
-	if (mainKey === 30002 && subKey === 5) return "green";  // 绿地/公园大面（世纪公园实测）
+// ---- mainKey/subKey 补全（逆向结论，证据见 amap_style_analysis.md §2.5） ----
+// 瓦片里 SameStyle 组的 f1=mainKey、f2=subKey 会被"省略"——不是解析丢失，而是编码端的默认值省略：
+//   · subKey 缺失 → 1：样式表中不存在 subKey=0；20011/20019 等组全表只有 subKey=1，
+//     而瓦片里这两组恰以"只有 mainKey"的形式出现；363 组样本按此补全后 100% 命中样式表。
+//   · mainKey 缺失 → 该层默认组：region=30001（该键在任何瓦片里从不明写；其色 #B4EBAF/#B2CEFE
+//     与栅格像素实测一致）、building=55001（样式表唯一建筑组）、poi=12024（通用图标组，1442 个 subKey
+//     覆盖实测 390 个图标 id 中的 389 个，覆盖率 99.7%）。
+//   · road 层缺 mainKey 的组（约占道路要素 0.2%~2.5%）其栅格像素为 #484848，该色在 7811 条
+//     样式规则里不存在 → 属于样式表未覆盖的线类（铁路/特殊线），无法归组，保持 null 并打标。
+const LAYER_DEFAULT_MK = { poi: 12024, region: 30001, building: 55001 };
+function resolveKeys(layerName, mainKey, subKey) {
+	let mk = mainKey ?? null, sk = subKey ?? null;
+	const mkSrc = mk != null ? "wire" : "absent";
+	const skSrc = sk != null ? "wire" : "default";
+	if (sk == null) sk = 1;
+	if (mk == null && LAYER_DEFAULT_MK[layerName] != null) mk = LAYER_DEFAULT_MK[layerName];
+	return { mk, sk, mkSrc, skSrc };
+}
+
+// ---- 官方样式映射（amap_style_class_map.json，与脚本同目录；缺失则整体跳过） ----
+// 来源：https://o4.amap.com/style/2.0.2.45/v1/json/1_0_s_migrate（与同路径 pbf 同源，见 amap_style_analysis.md）
+// 作用：mainKey → 类别组（road 等级 / region 面 / poi 组 …）、subKey → POI 图标类、region 子类填充色。
+let STYLE_MAP = null;
+function styleMap() {
+	if (STYLE_MAP !== null) return STYLE_MAP;
+	try {
+		const p = path.join(path.dirname(fileURLToPath(import.meta.url)), "amap_style_class_map.json");
+		STYLE_MAP = JSON.parse(fs.readFileSync(p, "utf8"));
+	} catch {
+		STYLE_MAP = false; // 没有映射文件时不报错、不改变既有输出
+	}
+	return STYLE_MAP;
+}
+
+// 面类判定以官方样式填充色为准（styleCls 由 styleMap().regionSub 的 hexa→hue 得到），几何规则仅兜底。
+// 【纠错】旧版把 (mainKey=null, subKey=3) 判成 builtup；实测该组补全 mainKey=30001 后样式色为 #B4EBAF（绿地），
+// 栅格像素核验：该桶 2280 个样点中位色 #D1E8AC，绿 1200 / 灰 958 —— 是"公园+园内道路"的混合，本质是绿地。
+// 故 builtup 桶取消，全部并入 green；原有 region_builtup 输出不再生成（见 amap_style_analysis.md §5/§11）。
+const REGION_CLASSES = ["water", "green", "parcel", "harbor", "airport", "top", "other", "line"];
+function regionClassOf(mainKey, subKey, drawOrder, isLine, styleCls) {
+	if (isLine) return "line";                          // region 线组（mk=20017/20010/20014/20011, res 13/15）
+	if (styleCls === "水面") return "water";            // 官方填色蓝（30001|2/30001|6 #B2CEFE 等）
+	if (styleCls === "绿地") return "green";            // 官方填色绿（30001|3、30002|5/9/20 #B4EBAF 等）
+	if ((drawOrder ?? 0) >= 80) return "top";           // 顶层小面（停车场/广场/高架/机场）
+	if (mainKey === 30004) return "airport";            // 机场（虹桥实例）
 	if (mainKey === 30002 && subKey === 6) return "harbor"; // 港口码头（东方明珠码头实例）
-	if (mainKey === 30002) return "parcel";            // 街区用地地块
+	if (mainKey != null || subKey != null) return "parcel";  // 其余用地地块（按官方填色再细分为 parcel）
 	return "other";
 }
 
@@ -297,15 +340,59 @@ export function layerFeatures(parsed, layerName) {
 				const resAssumed = g.resolution == null;
 				for (const { meta, feats: its } of itemsOf(g)) {
 					const isLine = l.type === 2 && cont === "lines";
-					const regionClass = l.type === 2 ? regionClassOf(g.mainKey ?? null, g.subKey, meta.drawOrder, isLine) : null;
+					// 键补全（wire 缺失时按默认组填，并记录来源）
+					const rk = resolveKeys(l.name, g.mainKey, g.subKey);
+					const sm = styleMap();
+					// region 面：先按补全后的 (mainKey|subKey) 取官方填充色（同键不同 zoom 段颜色不同）
+					let styleSeg = null;
+					if (sm && l.type === 2 && !isLine) {
+						const segs = sm.regionSub[`${rk.mk}|${rk.sk}`] || [];
+						const z0 = parsed.z;
+						styleSeg = segs.find((x) => x.z[0] <= z0 && z0 <= x.z[1])
+							|| segs.slice().sort((a, b) => Math.abs(a.z[0] - z0) - Math.abs(b.z[0] - z0))[0]
+							|| null;
+					}
+					const regionClass = l.type === 2
+						? regionClassOf(rk.mk, rk.sk, meta.drawOrder, isLine, styleSeg ? styleSeg.cls : null)
+						: null;
 					if (wantClass && regionClass !== wantClass) continue;
 					for (const f of its) {
 						if (!f || typeof f !== "object") continue;
-						const rec = { layer: l.name, sub: l.type === 2 ? (isLine ? "line" : "poly") : cont, mainKey: g.mainKey ?? null, subKey: g.subKey ?? null, resolution: res, tile: `${parsed.z}_${parsed.x}_${parsed.y}`, layer_tile: `${l.z}_${l.x}_${l.y}` };
+						const rec = { layer: l.name, sub: l.type === 2 ? (isLine ? "line" : "poly") : cont, mainKey: rk.mk, subKey: rk.sk, resolution: res, tile: `${parsed.z}_${parsed.x}_${parsed.y}`, layer_tile: `${l.z}_${l.x}_${l.y}` };
 						if (resAssumed) rec._resAssumed = true;
+						if (rk.mkSrc !== "wire" || rk.skSrc !== "wire") rec.keySrc = `${rk.mkSrc}/${rk.skSrc}`;
+						if (rk.mkSrc !== "wire") rec.mainKeyWire = g.mainKey ?? null;
+						if (rk.skSrc !== "wire") rec.subKeyWire = g.subKey ?? null;
 						if (regionClass) rec.region_class = regionClass;
-						Object.assign(rec, meta);      // Multi 包装级: minZoom/maxZoom/drawOrder/rank
-						Object.assign(rec, propsOf(f)); // 要素级全部字段（含未知 fN）
+						// 样式派生字段（官方样式表对照；缺失映射时全部跳过）
+						if (sm) {
+							const mkInfo = rk.mk != null ? sm.mainKey[String(rk.mk)] : null;
+							if (mkInfo) {
+								rec.style_kind = mkInfo.kind;
+								rec.style_class = mkInfo.class;
+								if (mkInfo.conf) rec.style_conf = mkInfo.conf;
+								if (mkInfo.color) rec.style_color = mkInfo.color;
+								if (mkInfo.zoom) rec.style_zoom = `${mkInfo.zoom[0]}-${mkInfo.zoom[1]}`;
+							}
+							// POI：subKey 必须与 mainKey 联合查——10001|2=红绿灯、12024|2=景点/景观，
+							// 同一 subKey 在不同组含义完全不同；旧版按 subKey 全局建表会把两类混成一条。
+							if (l.name === "poi") {
+								const pk = sm.poiKey && sm.poiKey[`${rk.mk}|${rk.sk}`];
+								// 兼容旧映射：poiSubKey 只保留 12024 组，故仅在 mk=12024 时回退
+								const pc = pk || (rk.mk === 12024 && sm.poiSubKey ? sm.poiSubKey[String(rk.sk)] : null);
+								if (pc) {
+									rec.poi_class = pc.class;
+									if (pc.conf) rec.poi_conf = pc.conf;
+									if (pc.source) rec.poi_source = pc.source;
+								}
+							}
+							// region：写入该要素的官方填充色与按色相细分的面类
+							if (styleSeg) {
+								rec.style_color = styleSeg.color;
+								rec.region_class2 = styleSeg.cls;
+							}
+						}
+					Object.assign(rec, propsOf(f)); // 要素级全部字段（含未知 fN）
 						if ((l.type === 0 || (l.type === 4 && cont === "points")) && f.pos && f.pos.length >= 2) {
 							const p = path2coords(f.pos, l.x, l.y, l.z, res)[0];
 							feats.push({ type: "Feature", properties: rec, geometry: { type: "Point", coordinates: gcj02ToWgs84(p[0], p[1]) } });
@@ -403,7 +490,7 @@ async function main() {
 	let want = o.layers === "all" ? ["poi", "road", "region", "building", "transit"] : o.layers.split(",").map((s) => s.trim());
 	const invalid = want.filter((w) => !VALID.includes(w));
 	if (invalid.length) { console.error("未知图层:", invalid.join(","), "\n可用:", VALID.join(",")); process.exit(1); }
-	// "region" 展开为全部子类（region_water/green/parcel/builtup/harbor/airport/top/other/line）
+	// "region" 展开为全部子类（region_water/green/parcel/harbor/airport/top/other/line；builtup 已并入 green）
 	if (want.includes("region")) {
 		want = want.filter((w) => w !== "region").concat(REGION_CLASSES.map((c) => "region_" + c));
 	}
@@ -546,9 +633,19 @@ function selftest() {
 	{
 		// 组块 bytes: f2 subKey=3 (0x10 0x03) + f4 items空 (0x22 0x00)；无 f1/f3
 		const g = decodeMsg(Buffer.from([0x10, 0x03, 0x22, 0x00]), SAME(S_GEOMPOLY));
-		ok(g.mainKey === undefined && g.subKey === 3 && g.resolution === undefined, `缺失不伪造 (得 mk=${g.mainKey} sk=${g.subKey} res=${g.resolution})`);
-		ok(regionClassOf(g.mainKey ?? null, g.subKey, undefined, false) === "builtup", "null主类+subKey=3 仍判 builtup");
-		ok(regionClassOf(null, undefined, undefined, false) === "other", "缺subKey判 other（不伪造成具体类）");
+		ok(g.mainKey === undefined && g.subKey === 3 && g.resolution === undefined, `wire 层不伪造 (得 mk=${g.mainKey} sk=${g.subKey} res=${g.resolution})`);
+		// 解码层保持 wire 原样；语义补全发生在 resolveKeys（默认组/默认子键），二者职责分离
+		const r1 = resolveKeys("region", g.mainKey, g.subKey);
+		ok(r1.mk === 30001 && r1.sk === 3 && r1.mkSrc === "absent", `region 缺 mk → 30001 (得 ${r1.mk}|${r1.sk} src=${r1.mkSrc})`);
+		const r2 = resolveKeys("building", undefined, undefined);
+		ok(r2.mk === 55001 && r2.sk === 1, `building 缺键 → 55001|1 (得 ${r2.mk}|${r2.sk})`);
+		const r3 = resolveKeys("road", 20009, undefined);
+		ok(r3.mk === 20009 && r3.sk === 1 && r3.skSrc === "default", `road 缺 sk → 1 (得 ${r3.mk}|${r3.sk})`);
+		const r4 = resolveKeys("road", undefined, undefined);
+		ok(r4.mk === null && r4.mkSrc === "absent", `road 缺 mk 不臆造 (得 mk=${r4.mk})`);
+		// 面类以官方样式色为准：绿 → green（旧 builtup 已并入）
+		ok(regionClassOf(30001, 3, undefined, false, "绿地") === "green", "30001|3(#B4EBAF 绿) → green");
+		ok(regionClassOf(null, 3, undefined, false, null) === "parcel", "无样式色时按几何兜底为 parcel");
 		ok(regionClassOf(20017, undefined, undefined, true) === "line", "线组不依赖subKey");
 	}
 	// 8. Result 版本串按线型兜底为字符串（旧 u32 规格误读已删）

@@ -1,0 +1,524 @@
+{
+ "fields": {
+  "Z5": {
+   "zh": "名称",
+   "type": "string",
+   "use": "道路名/楼名/ POI名/行政区名/水名/站名",
+   "note": "BI 用 “|” 分行；respt/CE 的楼栋名也在此"
+  },
+  "B7": {
+   "zh": "地名",
+   "type": "string",
+   "use": "注记类文字：行政地名、河流名、山名、国名",
+   "note": "注记层用 B7，POI 层用 Z5"
+  },
+  "J9": {
+   "zh": "道路编号",
+   "type": "string",
+   "use": "G104/S103/G311 等公路编号",
+   "note": "G=国道 S=省道；与 Z5 路名可互校"
+  },
+  "G6": {
+   "zh": "要素全名",
+   "type": "string",
+   "use": "低 zoom 干线全名（京台线/南三环）、海域要素名",
+   "note": "CC/sea_poihy 专用"
+  },
+  "A6": {
+   "zh": "数据包码",
+   "type": "string",
+   "use": "数据生产批次码，形似行政区码但与地理位置无关",
+   "note": "切勿当行政区！北京道路=440300/440100；全国建筑恒 3103xx；AD 例外（450101站/450190口）"
+  },
+  "V1": {
+   "zh": "数据包码2",
+   "type": "string",
+   "use": "道路数据包码，多与 A6 相同",
+   "note": "同 A6，不可当选址依据"
+  },
+  "K0": {
+   "zh": "城市码",
+   "type": "string",
+   "use": "真正的行政区代码（410100=郑州）",
+   "note": "仅地铁层 AD/AM 携带；需要城市归属时用它"
+  },
+  "X3": {
+   "zh": "道路类型码",
+   "type": "string",
+   "use": "00~07 / 0a / 0b / 12 / 14~17，用于分级设线宽",
+   "note": "字符串比较；0a/0b 是十六进制式两位码"
+  },
+  "D3": {
+   "zh": "道路等级",
+   "type": "string",
+   "use": "1~5，1 最高",
+   "note": "与 X3 组合判断等级"
+  },
+  "JF": {
+   "zh": "道路标记",
+   "type": "string",
+   "use": "0/1/2/3/4，样式里按它分色/分宽",
+   "note": "实测是字符串 \"0\"/\"4\""
+  },
+  "QQ": {
+   "zh": "道路标记2",
+   "type": "string",
+   "use": "1/2/3，z16+ 两个通用层按它开关",
+   "note": "含义未定，勿当车道数"
+  },
+  "JP": {
+   "zh": "标记",
+   "type": "string",
+   "use": "CC 层布尔样式标记（true/false）",
+   "note": "含义未定"
+  },
+  "S8": {
+   "zh": "子类码",
+   "type": "string",
+   "use": "按图层各自分表的要素类/符号编码",
+   "note": "CK 绿地 / BM 水体 / BI-POI 各一套，数值可重叠但语义不同，跨层不可比"
+  },
+  "B1": {
+   "zh": "POI分类码",
+   "type": "string",
+   "use": "6 位 POI 分类，前 2 位为大类（17医院/15金融/19政府…）",
+   "note": "来自官方样式 icon 分支反推，非全表"
+  },
+  "P5": {
+   "zh": "POI子类码",
+   "type": "string",
+   "use": "银行品牌等子类码（130001=工行）",
+   "note": "需与 B1=150101 联用"
+  },
+  "F5": {
+   "zh": "POI编号",
+   "type": "string",
+   "use": "POI/地名点稳定 ID（10 位）",
+   "note": "跨瓦去重键"
+  },
+  "M2": {
+   "zh": "大类码",
+   "type": "string",
+   "use": "BI 的 POI 大类码（160201/170101 等）",
+   "note": "与 B1 并存，含义相近，优先用 B1"
+  },
+  "W2": {
+   "zh": "备用字段",
+   "type": "string",
+   "use": "BI 备用文本（实测多为空串）",
+   "note": "空串≠缺失，是源数据显式空值"
+  },
+  "elemid": {
+   "zh": "要素ID",
+   "type": "string",
+   "use": "建筑物稳定 ID（14 位数字或含字母方案）",
+   "note": "CE/respt 靠它挂接；跨瓦会重复，需 Union"
+  },
+  "objectid": {
+   "zh": "对象ID",
+   "type": "sint64",
+   "use": "AP 街区/地块单元 ID（数值）",
+   "note": "单瓦唯一；跨瓦重复属接缝"
+  },
+  "h": {
+   "zh": "高度",
+   "type": "number",
+   "use": "建筑高度，单位米",
+   "note": "0=无高度/平房；3D 拉伸直接乘此值"
+  },
+  "floor": {
+   "zh": "楼层",
+   "type": "string",
+   "use": "楼层数（字符串）",
+   "note": "恒等于 h/3"
+  },
+  "I8": {
+   "zh": "类型码",
+   "type": "string",
+   "use": "各层分级/类型序号（如 CE 的“无底座”）",
+   "note": "语义按图层不同"
+  },
+  "O4": {
+   "zh": "地名等级",
+   "type": "string",
+   "use": "1首都 / 2市 / 4区县；\" \"=空",
+   "note": "AF 的 O4 可直接映射行政级别"
+  },
+  "C8": {
+   "zh": "标记",
+   "type": "string",
+   "use": "地铁/构筑物标记（实测恒 1）",
+   "note": "含义未定"
+  },
+  "L1": {
+   "zh": "线路号",
+   "type": "string",
+   "use": "地铁线路号",
+   "note": "与 AM.C2 对应"
+  },
+  "H7": {
+   "zh": "出入口号",
+   "type": "string",
+   "use": "地铁出入口字母 A/B/C/D…",
+   "note": "与 L1+A6 组成出入口唯一键"
+  },
+  "C2": {
+   "zh": "线路号2",
+   "type": "string",
+   "use": "AM 的线路编号（01=1号线）",
+   "note": "—"
+  },
+  "E0": {
+   "zh": "标记2",
+   "type": "string",
+   "use": "AD 的状态标记（实测 0）",
+   "note": "含义未定"
+  },
+  "E4": {
+   "zh": "标记3",
+   "type": "string",
+   "use": "AJ 的样式/分级码",
+   "note": "含义未定"
+  },
+  "Z8": {
+   "zh": "标记4",
+   "type": "string",
+   "use": "AR 的低 zoom 水体标记（实测空串）",
+   "note": "—"
+  },
+  "U0": {
+   "zh": "标记5",
+   "type": "string",
+   "use": "首都类注记的分级码",
+   "note": "含义未定"
+  },
+  "R7": {
+   "zh": "排序",
+   "type": "string",
+   "use": "注记避让/优先级排序码",
+   "note": "样式用于 symbol 排序"
+  },
+  "Y4": {
+   "zh": "标记6",
+   "type": "string",
+   "use": "CD 城市名注记的分级码",
+   "note": "含义未定"
+  },
+  "N3": {
+   "zh": "标记7",
+   "type": "string",
+   "use": "AC 低 zoom 线标记",
+   "note": "含义未定"
+  },
+  "A0": {
+   "zh": "标记8",
+   "type": "string",
+   "use": "AU 低 zoom 线标记",
+   "note": "含义未定"
+  },
+  "lzh": {
+   "zh": "楼号",
+   "type": "string",
+   "use": "楼栋号（全角数字，“4栋”）",
+   "note": "respt 专用"
+  },
+  "display": {
+   "zh": "显示开关",
+   "type": "string",
+   "use": "注记显示控制字段",
+   "note": "—"
+  },
+  "height_m": {
+   "zh": "高度_米",
+   "type": "number",
+   "use": "派生：由 h 转来，单位米",
+   "note": "与 h 同值；h=0 时不输出"
+  },
+  "floors": {
+   "zh": "楼层数",
+   "type": "number",
+   "use": "派生：由 floor 转数值",
+   "note": "≡ height_m/3"
+  },
+  "name": {
+   "zh": "名称",
+   "type": "string",
+   "use": "派生：CE 取 Z5，缺失时由 respt 按 elemid 补",
+   "note": "与 Z5 同源"
+  },
+  "_tile": {
+   "zh": "来源瓦片",
+   "type": "string",
+   "use": "z_x_y，要素来自哪块瓦",
+   "note": "融合要素取首个片"
+  },
+  "_seam_merged": {
+   "zh": "接缝已合并",
+   "type": "number",
+   "use": "1=跨瓦同 id 做过 Union",
+   "note": "—"
+  },
+  "_fused_from": {
+   "zh": "融合片数",
+   "type": "number",
+   "use": "CK/BM 按 S8 融合了几个环片",
+   "note": ">1 表示由多片并成"
+  },
+  "_topo_review": {
+   "zh": "拓扑待核",
+   "type": "number",
+   "use": "1=存在残余重叠/包含，几何未改",
+   "note": "人工复核标记"
+  },
+  "_geom_partial": {
+   "zh": "几何截断",
+   "type": "number",
+   "use": "1=源几何不完整（缺闭合环/命令流中断）",
+   "note": "不是解析失败，是源瓦片截断"
+  },
+  "_poi_group": {
+   "zh": "POI大类",
+   "type": "string",
+   "use": "派生：B1 前两位映射的大类（政府机构/金融…）",
+   "note": "粗分，细类看 B1/P5"
+  }
+ },
+ "meta": [
+  "_tile",
+  "_seam_merged",
+  "_fused_from",
+  "_topo_review",
+  "_geom_partial",
+  "_poi_group"
+ ],
+ "derived": [
+  "height_m",
+  "floors",
+  "name"
+ ],
+ "key_layers_observed": {
+  "QQ": [
+   "AA"
+  ],
+  "A6": [
+   "AA",
+   "AD",
+   "AG",
+   "AX",
+   "BA",
+   "CC",
+   "CE"
+  ],
+  "X3": [
+   "AA",
+   "AB"
+  ],
+  "Z5": [
+   "AA",
+   "AD",
+   "AJ",
+   "AM",
+   "AX",
+   "BA",
+   "BI",
+   "BK",
+   "BV",
+   "CA",
+   "CE",
+   "respt"
+  ],
+  "V1": [
+   "AA",
+   "AB"
+  ],
+  "JF": [
+   "AA",
+   "CC"
+  ],
+  "D3": [
+   "AA",
+   "AB"
+  ],
+  "J9": [
+   "AA",
+   "CC"
+  ],
+  "K0": [
+   "AD",
+   "AM"
+  ],
+  "C8": [
+   "AD",
+   "AM"
+  ],
+  "E0": [
+   "AD"
+  ],
+  "L1": [
+   "AD"
+  ],
+  "H7": [
+   "AD"
+  ],
+  "B7": [
+   "AF",
+   "BC",
+   "BN"
+  ],
+  "O4": [
+   "AF",
+   "AG",
+   "BC"
+  ],
+  "I8": [
+   "AF",
+   "CA"
+  ],
+  "S8": [
+   "AJ",
+   "AN",
+   "AR",
+   "AW",
+   "AX",
+   "BI",
+   "BK",
+   "BM",
+   "BN",
+   "CA",
+   "CK"
+  ],
+  "E4": [
+   "AJ"
+  ],
+  "C2": [
+   "AM"
+  ],
+  "objectid": [
+   "AP",
+   "Z2"
+  ],
+  "Z8": [
+   "AR"
+  ],
+  "M2": [
+   "BI"
+  ],
+  "P5": [
+   "BI"
+  ],
+  "W2": [
+   "BI"
+  ],
+  "B1": [
+   "BI"
+  ],
+  "F5": [
+   "BI",
+   "CA"
+  ],
+  "JP": [
+   "CC"
+  ],
+  "G6": [
+   "CC"
+  ],
+  "elemid": [
+   "CE",
+   "respt"
+  ],
+  "h": [
+   "CE"
+  ],
+  "floor": [
+   "CE"
+  ],
+  "lzh": [
+   "respt"
+  ]
+ },
+ "zoom_outputs": {
+  "z4": [
+   "AC",
+   "AE",
+   "AG",
+   "AH",
+   "AK",
+   "AR",
+   "AW",
+   "BC",
+   "BE",
+   "BL",
+   "BQ",
+   "BV",
+   "CB",
+   "CJ",
+   "Z6",
+   "Z9",
+   "country_5level_w_vec"
+  ],
+  "z6": [
+   "AF",
+   "AG",
+   "AR",
+   "AW",
+   "BC",
+   "BV",
+   "CC"
+  ],
+  "z10": [
+   "AF",
+   "AN",
+   "BK",
+   "BM",
+   "BV",
+   "CA",
+   "CC",
+   "CK"
+  ],
+  "z12": [
+   "AA",
+   "AF",
+   "AM",
+   "AP",
+   "AX",
+   "BA",
+   "BI",
+   "BK",
+   "BM",
+   "BV",
+   "CK"
+  ],
+  "z16": [
+   "AA",
+   "AB",
+   "AD",
+   "AJ",
+   "AM",
+   "AP",
+   "AX",
+   "BI",
+   "BK",
+   "BM",
+   "BV",
+   "CE",
+   "CK"
+  ],
+  "z18": [
+   "AA",
+   "AP",
+   "BI",
+   "BM",
+   "BV",
+   "CE",
+   "CK"
+  ]
+ },
+ "audit": {
+  "tiles": 9,
+  "layer_instances": 76,
+  "features": 17281,
+  "null_values": 0,
+  "out_of_range_tags": 0,
+  "unused_keys": 0
+ }
+}

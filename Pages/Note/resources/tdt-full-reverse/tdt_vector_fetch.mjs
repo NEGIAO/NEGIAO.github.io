@@ -8,10 +8,13 @@
 // 参数：
 //   --bbox 四至（与 --center 二选一；均为WGS-84/CGCS2000直出无纠偏）
 //   --zoom 瓦片级别（15~18已验证；允许其它整数但会警告）
-//   --layers all（默认）或逗号分隔图层码：BI,BV,CE,CK,BM,BK,AA,AB,AP,AD,AM,respt
+//   --layers all（=全部75码）或逗号分隔；默认20码：
+//            BI,BV,CE,CK,BM,BK,AA,AB,AP,AD,AM,respt,BA,AN,AR,AW,AF,CA,BN,AX
+//            其余可用：CC(国道省道) AG/AE/BE(界线) AJ/AI/AT/BH/BL/BT/BY/BZ(注记) AL/Y*/Z*/t8ji/... （见 LAYER_SPEC）
 //   --tk 天地图tk（默认内置demo tk；自备tk用 --tk 覆盖；小范围研究，遵守服务条款）
 //   --outdir 输出目录（每层 <LAYER>.geojson + merge_stats.json + run_info.json）
 //   --delay 批间隔毫秒（默认400，禁调小） --max-tiles 上限（默认40，超限拒绝请缩小范围）
+//   --zh-keys 属性键输出为中文（仅供人工查看；生产管线勿用，会破坏既有 schema）
 //
 // 通用拓扑规则（分层设定，接缝先判后合，无id不跨类硬合；宁可打标不误删）：
 //   1) BV原样直出：不裁剪、不去重、不嵌套、不审计（行政底图，保持源样）。
@@ -51,7 +54,97 @@ const REFERER = "https://map.tianditu.gov.cn/";
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36";
 const DEMO_TK = "b88bfb160c81dab8d9d20aaa74846360";
 const EXT = 4096;
-const ALL_LAYERS = ["BI", "BV", "CE", "CK", "BM", "BK", "AA", "AB", "AP", "AD", "AM", "respt"];
+/* ===== 图层规范（由官方样式 + 瓦片实测生成，见 tdt_style_analysis.md）=====
+ * geom: 瓦片中实际要素类型 1=线 2=面 4=点；z: 样式声明可见区间；cls: 该层真实携带的属性键；
+ * conf: 语义置信度（低=仅配色/层级推断，建议按几何直出、不断言语义）。
+ * 关键结论：A6/V1 是数据生产包码（非行政区！跨城恒定）；K0 才是真城市码；B1 是 POI 分类码；
+ *           S8 按图层分表（CK 绿地 / BM 水体，数值可重叠但语义不同）；AP 是最小管理网格（非区级区划）。
+ */
+const LAYER_SPEC = {
+  AA: { zh: "城市道路（含路名/编号/单行箭头注记载体）", geom: 1, z: [11, 19], cls: ["Z5", "J9", "X3", "D3", "JF", "QQ", "A6", "V1"], conf: "高" },
+  AB: { zh: "无名支路/巷道（z17+ 补充路网）", geom: 1, z: [17, 19], cls: ["X3", "D3", "V1"], conf: "中高" },
+  CC: { zh: "国道/省道（低 zoom 干线）", geom: 1, z: [5, 11], cls: ["J9", "G6", "JF", "A6"], conf: "高" },
+  CE: { zh: "建筑物面（含 3D 拉伸）", geom: 2, z: [11, 19], cls: ["elemid", "h", "floor", "A6", "Z5", "I8"], conf: "高" },
+  CK: { zh: "绿地/植被覆盖面", geom: 2, z: [10, 19], cls: ["S8"], conf: "高" },
+  BM: { zh: "水体面（河湖渠池）", geom: 2, z: [10, 19], cls: ["S8"], conf: "高" },
+  AN: { zh: "水体边线（水面轮廓）", geom: 1, z: [10, 19], cls: ["S8"], conf: "中高" },
+  BK: { zh: "水系名称注记线（放水名，非水体本身）", geom: 1, z: [10, 19], cls: ["S8", "Z5"], conf: "高" },
+  BV: { zh: "行政区划面（国/省/市多级混装）", geom: 2, z: [1, 19], cls: ["Z5"], conf: "高" },
+  AP: { zh: "面状管理单元（网格/最小行政单元）", geom: 2, z: [12, 19], cls: ["objectid"], conf: "中" },
+  BI: { zh: "POI/单位点", geom: 4, z: [10, 19], cls: ["B1", "P5", "F5", "S8", "Z5", "M2", "W2"], conf: "高" },
+  AX: { zh: "POI 补充点（文教/场馆等，中 zoom）", geom: 4, z: [12, 19], cls: ["S8", "A6", "Z5"], conf: "中高" },
+  AD: { zh: "地铁站/出入口点", geom: 4, z: [13, 19], cls: ["K0", "A6", "C8", "Z5", "E0", "L1", "H7"], conf: "高" },
+  AM: { zh: "轨道交通线", geom: 1, z: [10, 19], cls: ["K0", "C2", "C8", "Z5"], conf: "高" },
+  respt: { zh: "楼栋名点（与 CE 按 elemid 挂接）", geom: 4, z: [17, 19], cls: ["elemid", "lzh", "Z5"], conf: "高" },
+  AF: { zh: "行政地名点（国家/省/市/区县）", geom: 4, z: [5, 13], cls: ["B7", "O4", "I8"], conf: "高" },
+  CA: { zh: "街道/乡镇地名点", geom: 4, z: [8, 11], cls: ["Z5", "F5", "I8", "S8"], conf: "中" },
+  AJ: { zh: "街道/道路名补充注记点", geom: 4, z: [13, 19], cls: ["E4", "S8", "Z5"], conf: "中低" },
+  AT: { zh: "山/岛/自然地物名注记", geom: 4, z: [5, 19], cls: ["B7", "S8", "display"], conf: "中低" },
+  BH: { zh: "地名注记（综合）", geom: 4, z: [5, 19], cls: ["B7", "I8", "S8"], conf: "中低" },
+  BN: { zh: "河流名称沿线注记", geom: 4, z: [5, 19], cls: ["B7", "S8"], conf: "高" },
+  AI: { zh: "水系名称注记（低 zoom 点状）", geom: 4, z: [6, 11], cls: ["Z5", "S8"], conf: "中" },
+  BB: { zh: "地名注记（低 zoom）", geom: 4, z: [6, 10], cls: [], conf: "低" },
+  BZ: { zh: "地名注记（低 zoom）", geom: 4, z: [6, 10], cls: [], conf: "低" },
+  BY: { zh: "国家/地区名注记", geom: 4, z: [4, 6], cls: [], conf: "低" },
+  BT: { zh: "国家/地区名注记（z3-4）", geom: 4, z: [3, 4], cls: [], conf: "低" },
+  BQ: { zh: "洲/大区名注记", geom: 4, z: [4, 5], cls: [], conf: "低" },
+  BL: { zh: "洲名/国家名注记（z1-10）", geom: 4, z: [1, 10], cls: [], conf: "中低" },
+  BS: { zh: "外国首都注记", geom: 4, z: [5, 7], cls: [], conf: "中" },
+  AY: { zh: "外国首都注记（z3-4）", geom: 4, z: [3, 4], cls: [], conf: "中" },
+  AZ: { zh: "外国首都注记（z6-11）", geom: 4, z: [6, 11], cls: [], conf: "中" },
+  CB: { zh: "首都注记（z4-5）", geom: 4, z: [4, 5], cls: [], conf: "中" },
+  BC: { zh: "首都注记（z3-11）", geom: 4, z: [3, 11], cls: [], conf: "中" },
+  CJ: { zh: "城市名注记（z4-5）", geom: 4, z: [4, 5], cls: [], conf: "低" },
+  CD: { zh: "城市名注记（z5-11）", geom: 4, z: [5, 11], cls: [], conf: "低" },
+  AS: { zh: "城市名注记（z7-11）", geom: 4, z: [7, 11], cls: [], conf: "低" },
+  BF: { zh: "城市名注记（z5.2-10）", geom: 4, z: [5.2, 10], cls: [], conf: "低" },
+  BW: { zh: "居民点注记（z6-11）", geom: 4, z: [6, 11], cls: [], conf: "低" },
+  BA: { zh: "铁路线", geom: 1, z: [11, 19], cls: ["A6", "Z5"], conf: "高" },
+  AG: { zh: "界线（省/地区界，灰虚线）", geom: 1, z: [4, 11], cls: ["O4", "A6"], conf: "中高" },
+  AE: { zh: "国界线", geom: 1, z: [2, 11], cls: [], conf: "中高" },
+  BE: { zh: "国界虚线段（z2-6）", geom: 1, z: [2, 6], cls: ["A6"], conf: "中" },
+  BG: { zh: "低 zoom 背景线（z1-6）", geom: 1, z: [1, 6], cls: [], conf: "低" },
+  AK: { zh: "铁路/界线低 zoom 底图线", geom: 1, z: [4, 11], cls: [], conf: "低" },
+  CF: { zh: "快速路/高架（黄橙线）", geom: 1, z: [9, 11], cls: [], conf: "中低" },
+  CH: { zh: "桥梁/高架面边线", geom: 1, z: [6, 11], cls: [], conf: "低" },
+  AH: { zh: "低 zoom 界线补充", geom: 1, z: [4, 7], cls: [], conf: "低" },
+  AC: { zh: "低 zoom 线（灰）", geom: 1, z: [4, 6], cls: [], conf: "低" },
+  AU: { zh: "低 zoom 线（灰）", geom: 1, z: [2, 4], cls: [], conf: "低" },
+  AV: { zh: "红色虚线要素", geom: 1, z: [2, 19], cls: [], conf: "低" },
+  Q5: { zh: "低 zoom 干线（A6 过滤）", geom: 1, z: [5, 10], cls: [], conf: "低" },
+  Z1: { zh: "低 zoom 线（z5-6）", geom: 1, z: [5, 6], cls: [], conf: "低" },
+  Z2: { zh: "低 zoom 线（z6-10）", geom: 1, z: [6, 10], cls: [], conf: "低" },
+  Z6: { zh: "低 zoom 线（z1-7）", geom: 1, z: [1, 7], cls: [], conf: "低" },
+  Z7: { zh: "低 zoom 线（z9-10）", geom: 1, z: [9, 10], cls: [], conf: "低" },
+  Z9: { zh: "低 zoom 线（z3-5）", geom: 1, z: [3, 5], cls: [], conf: "低" },
+  t8ji: { zh: "分级底图线（z7-8）", geom: 1, z: [7, 8], cls: [], conf: "低" },
+  t9ji: { zh: "分级底图线（z8-9）", geom: 1, z: [8, 9], cls: [], conf: "低" },
+  huangyandao34: { zh: "黄岩岛专线（z1-5）", geom: 1, z: [1, 5], cls: [], conf: "中低" },
+  AR: { zh: "低 zoom 面状水体（海/大湖/大河面）", geom: 2, z: [2, 11], cls: ["S8", "Z8"], conf: "高" },
+  AW: { zh: "低 zoom 水系线（岸线/河线）", geom: 1, z: [4, 11], cls: ["S8"], conf: "高" },
+  Y1: { zh: "低 zoom 面（背景）", geom: 1, z: [1, 2], cls: [], conf: "低" },
+  Y2: { zh: "低 zoom 线（背景）", geom: 1, z: [1, 3], cls: [], conf: "低" },
+  Y3: { zh: "低 zoom 面（S8 过滤）", geom: 2, z: [2, 4], cls: [], conf: "低" },
+  Y5: { zh: "低 zoom 面（浅黄，滩涂/沙地候选）", geom: 2, z: [8, 19], cls: [], conf: "低" },
+  Y6: { zh: "低 zoom 面（z7-8）", geom: 2, z: [7, 8], cls: [], conf: "低" },
+  Y9: { zh: "低 zoom 面（IS 分级，已关闭）", geom: 2, z: [1, 5], cls: [], conf: "低" },
+  AL: { zh: "面要素（C8=1，z17+）", geom: 2, z: [17, 19], cls: [], conf: "低" },
+  TA: { zh: "天安门专指点", geom: 4, z: [10, 19], cls: [], conf: "高" },
+  sea_poihy: { zh: "海域 POI 注记", geom: 4, z: [11, 19], cls: [], conf: "中" },
+  zangnan: { zh: "特定区域注记层", geom: 4, z: [10, 19], cls: [], conf: "中" },
+  tdt_ditie: { zh: "地铁相关面（底图专用）", geom: 2, z: [1, 19], cls: [], conf: "中低" },
+  tdt_ditie_poi: { zh: "地铁 POI 注记（底图专用）", geom: 4, z: [1, 19], cls: [], conf: "中低" },
+  country_3level_w_vec: { zh: "国界三级注记（z2-3）", geom: 4, z: [2, 3], cls: [], conf: "中" },
+  country_5level_w_vec: { zh: "国界五级注记（z4-5）", geom: 4, z: [4, 5], cls: [], conf: "中" },
+};
+const ALL_LAYERS = Object.keys(LAYER_SPEC);
+// 默认抓 20 层：原 12 码 + 8 个扩展层（铁路/水面轮廓/低zoom水系/地名点/河名注记/补充POI）。
+// 低 zoom 层在 z15+ 自然为空，不增加请求数与耗时；其余 55 码需显式 --layers 指定。
+const DEFAULT_LAYERS = [
+	"BI", "BV", "CE", "CK", "BM", "BK", "AA", "AB", "AP", "AD", "AM", "respt",
+	"BA", "AN", "AR", "AW", "AF", "CA", "BN", "AX",
+];
+const POINT_SPECIAL = new Set(["respt", "BI", "AD", "AX"]);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /* ================= protobuf reader ================= */
@@ -217,7 +310,8 @@ function parseValue(buf) {
 			const st = s.toString("utf8");
 			if (!st.includes("�") && Buffer.from(st, "utf8").equals(s)) { value = st; kind = "string"; }
 			else { value = { __raw_hex: s.toString("hex") }; kind = "rawhex"; }
-		} else if (f.fl === 3 && f.wt === 5) {
+		} else if ((f.fl === 2 || f.fl === 3) && f.wt === 5) {
+			// 标准 MVT：field2=float_value(fixed32)；本变体实测把 float 写在 field3/fixed32，两者都收
 			value = buf.readFloatLE(f.start); kind = "float32";
 		} else if (f.fl === 3 && f.wt === 1) {
 			value = buf.readDoubleLE(f.start); kind = "float64";
@@ -1217,6 +1311,147 @@ function labelFromProps(props) {
 	return null;
 }
 
+/* ================= 字段字典（输出属性含义；单文件自包含） ================= */
+/** key -> { zh 中文名, type 类型, use 含义, note 注意 } —— 供 --zh-keys 与 field_dictionary.json 使用 */
+const FIELD_DICT = {
+	Z5: { zh: "名称", type: "string", use: "道路名/楼名/ POI名/行政区名/水名/站名", note: "BI 用 “|” 分行；respt/CE 的楼栋名也在此" },
+	B7: { zh: "地名", type: "string", use: "注记类文字：行政地名、河流名、山名、国名", note: "注记层用 B7，POI 层用 Z5" },
+	J9: { zh: "道路编号", type: "string", use: "G104/S103/G311 等公路编号", note: "G=国道 S=省道；与 Z5 路名可互校" },
+	G6: { zh: "要素全名", type: "string", use: "低 zoom 干线全名（京台线/南三环）、海域要素名", note: "CC/sea_poihy 专用" },
+	A6: { zh: "数据包码", type: "string", use: "数据生产批次码，形似行政区码但与地理位置无关", note: "切勿当行政区！北京道路=440300/440100；全国建筑恒 3103xx；AD 例外（450101站/450190口）" },
+	V1: { zh: "数据包码2", type: "string", use: "道路数据包码，多与 A6 相同", note: "同 A6，不可当选址依据" },
+	K0: { zh: "城市码", type: "string", use: "真正的行政区代码（410100=郑州）", note: "仅地铁层 AD/AM 携带；需要城市归属时用它" },
+	X3: { zh: "道路类型码", type: "string", use: "00~07 / 0a / 0b / 12 / 14~17，用于分级设线宽", note: "字符串比较；0a/0b 是十六进制式两位码" },
+	D3: { zh: "道路等级", type: "string", use: "1~5，1 最高", note: "与 X3 组合判断等级" },
+	JF: { zh: "道路标记", type: "string", use: "0/1/2/3/4，样式里按它分色/分宽", note: "实测是字符串 \"0\"/\"4\"" },
+	QQ: { zh: "道路标记2", type: "string", use: "1/2/3，z16+ 两个通用层按它开关", note: "含义未定，勿当车道数" },
+	JP: { zh: "标记", type: "string", use: "CC 层布尔样式标记（true/false）", note: "含义未定" },
+	S8: { zh: "子类码", type: "string", use: "按图层各自分表的要素类/符号编码", note: "CK 绿地 / BM 水体 / BI-POI 各一套，数值可重叠但语义不同，跨层不可比" },
+	B1: { zh: "POI分类码", type: "string", use: "6 位 POI 分类，前 2 位为大类（17医院/15金融/19政府…）", note: "来自官方样式 icon 分支反推，非全表" },
+	P5: { zh: "POI子类码", type: "string", use: "银行品牌等子类码（130001=工行）", note: "需与 B1=150101 联用" },
+	F5: { zh: "POI编号", type: "string", use: "POI/地名点稳定 ID（10 位）", note: "跨瓦去重键" },
+	M2: { zh: "大类码", type: "string", use: "BI 的 POI 大类码（160201/170101 等）", note: "与 B1 并存，含义相近，优先用 B1" },
+	W2: { zh: "备用字段", type: "string", use: "BI 备用文本（实测多为空串）", note: "空串≠缺失，是源数据显式空值" },
+	elemid: { zh: "要素ID", type: "string", use: "建筑物稳定 ID（14 位数字或含字母方案）", note: "CE/respt 靠它挂接；跨瓦会重复，需 Union" },
+	objectid: { zh: "对象ID", type: "sint64", use: "AP 街区/地块单元 ID（数值）", note: "单瓦唯一；跨瓦重复属接缝" },
+	h: { zh: "高度", type: "number", use: "建筑高度，单位米", note: "0=无高度/平房；3D 拉伸直接乘此值" },
+	floor: { zh: "楼层", type: "string", use: "楼层数（字符串）", note: "恒等于 h/3" },
+	I8: { zh: "类型码", type: "string", use: "各层分级/类型序号（如 CE 的“无底座”）", note: "语义按图层不同" },
+	O4: { zh: "地名等级", type: "string", use: "1首都 / 2市 / 4区县；\" \"=空", note: "AF 的 O4 可直接映射行政级别" },
+	C8: { zh: "标记", type: "string", use: "地铁/构筑物标记（实测恒 1）", note: "含义未定" },
+	L1: { zh: "线路号", type: "string", use: "地铁线路号", note: "与 AM.C2 对应" },
+	H7: { zh: "出入口号", type: "string", use: "地铁出入口字母 A/B/C/D…", note: "与 L1+A6 组成出入口唯一键" },
+	C2: { zh: "线路号2", type: "string", use: "AM 的线路编号（01=1号线）", note: "—" },
+	E0: { zh: "标记2", type: "string", use: "AD 的状态标记（实测 0）", note: "含义未定" },
+	E4: { zh: "标记3", type: "string", use: "AJ 的样式/分级码", note: "含义未定" },
+	Z8: { zh: "标记4", type: "string", use: "AR 的低 zoom 水体标记（实测空串）", note: "—" },
+	U0: { zh: "标记5", type: "string", use: "首都类注记的分级码", note: "含义未定" },
+	R7: { zh: "排序", type: "string", use: "注记避让/优先级排序码", note: "样式用于 symbol 排序" },
+	Y4: { zh: "标记6", type: "string", use: "CD 城市名注记的分级码", note: "含义未定" },
+	N3: { zh: "标记7", type: "string", use: "AC 低 zoom 线标记", note: "含义未定" },
+	A0: { zh: "标记8", type: "string", use: "AU 低 zoom 线标记", note: "含义未定" },
+	lzh: { zh: "楼号", type: "string", use: "楼栋号（全角数字，“4栋”）", note: "respt 专用" },
+	display: { zh: "显示开关", type: "string", use: "注记显示控制字段", note: "—" },
+	height_m: { zh: "高度_米", type: "number", use: "派生：由 h 转来，单位米", note: "与 h 同值；h=0 时不输出" },
+	floors: { zh: "楼层数", type: "number", use: "派生：由 floor 转数值", note: "≡ height_m/3" },
+	name: { zh: "名称", type: "string", use: "派生：CE 取 Z5，缺失时由 respt 按 elemid 补", note: "与 Z5 同源" },
+	_tile: { zh: "来源瓦片", type: "string", use: "z_x_y，要素来自哪块瓦", note: "融合要素取首个片" },
+	_seam_merged: { zh: "接缝已合并", type: "number", use: "1=跨瓦同 id 做过 Union", note: "—" },
+	_fused_from: { zh: "融合片数", type: "number", use: "CK/BM 按 S8 融合了几个环片", note: ">1 表示由多片并成" },
+	_topo_review: { zh: "拓扑待核", type: "number", use: "1=存在残余重叠/包含，几何未改", note: "人工复核标记" },
+	_geom_partial: { zh: "几何截断", type: "number", use: "1=源几何不完整（缺闭合环/命令流中断）", note: "不是解析失败，是源瓦片截断" },
+	_poi_group: { zh: "POI大类", type: "string", use: "派生：B1 前两位映射的大类（政府机构/金融…）", note: "粗分，细类看 B1/P5" },
+};
+
+/** --zh-keys 输出用：ASCII 键 -> 中文键（未收录的键原样保留） */
+function zhKey(k) {
+	const d = FIELD_DICT[k];
+	return d && d.zh ? d.zh : k;
+}
+
+/* ================= 通用兜底导出（未专门处理的已识别图层） ================= */
+/** POI 大类：由官方样式 74 个 icon-image 反推（B1 前两位），仅作粗分，细类看 B1/P5 原值 */
+const POI_GROUP = {
+	"12": "住宿餐饮", "13": "购物/生活服务", "15": "金融", "16": "教育文化",
+	"17": "医疗", "18": "休闲娱乐", "19": "政府机构", "20": "商业楼宇",
+	"21": "公共设施", "23": "交通", "26": "自然地理",
+};
+function poiGroup(b1) {
+	if (typeof b1 !== "string" || b1.length < 2) return null;
+	return POI_GROUP[b1.slice(0, 2)] || null;
+}
+
+/**
+ * 兜底导出：不做跨瓦融合、不做语义推断，只保证「数据不静默丢失」。
+ * 面：裁到核心瓦 → 同要素多环嵌套为 Polygon/MultiPolygon → 完全一致去重；
+ * 线：逐段裁剪 → 完全一致去重；点：全留 → 坐标+属性去重。
+ * 所有输出带 _tile；几何被截断的带 _geom_partial；无法判定的置信度层仅按几何直出。
+ */
+function exportFallback(name, feats, st) {
+	const spec = LAYER_SPEC[name] || {};
+	const want = spec.geom; // 1|2|4；undefined 时按要素自身类型
+	const out = [];
+	const seen = new Set();
+	const tag = (props, z, tx, ty) => ({ ...props, _tile: `${z}_${tx}_${ty}` });
+	for (const f of feats) {
+		const type = f.type;
+		if (want && type !== want) continue;
+		const z = f.zoom, tx = f.tx, ty = f.ty;
+		if (type === 4) {
+			const pts = [];
+			for (const p of f.paths) for (const [px, py] of p.points) pts.push(pointToLngLat(px, py, tx, ty, z));
+			if (!pts.length) continue;
+			const key = "p:" + pts.map((q) => q.map(round7).join(",")).join(";") + "|" + stableProps(f.props);
+			if (seen.has(key)) { st.dedup = (st.dedup || 0) + 1; continue; }
+			seen.add(key);
+			const props = tag(f.props, z, tx, ty);
+			if (f.partial) props._geom_partial = 1;
+			out.push({
+				type: "Feature", properties: props,
+				geometry: pts.length > 1 ? { type: "MultiPoint", coordinates: pts } : { type: "Point", coordinates: pts[0] },
+			});
+			continue;
+		}
+		if (type === 1) {
+			for (const p of f.paths) {
+				for (const piece of clipPolylineToTile(p.points)) {
+					const ll = piece.map(([px, py]) => pointToLngLat(px, py, tx, ty, z));
+					const key = "l:" + ll.map((q) => q.map(round7).join(",")).join(";") + "|" + stableProps(f.props);
+					if (seen.has(key)) { st.dedup = (st.dedup || 0) + 1; continue; }
+					seen.add(key);
+					const props = tag(f.props, z, tx, ty);
+					if (f.partial) props._geom_partial = 1;
+					out.push({ type: "Feature", properties: props, geometry: { type: "LineString", coordinates: ll } });
+				}
+			}
+			continue;
+		}
+		if (type === 2) {
+			const rings = [];
+			for (const p of f.paths) {
+				if (p.points.length < 3) continue;
+				const ring = p.points.slice();
+				if (!samePoint(ring[0], ring[ring.length - 1])) ring.push(ring[0]);
+				for (const c of clipRingToTile(ring)) {
+					if (c.length >= 4) rings.push(c.map(([px, py]) => pointToLngLat(px, py, tx, ty, z)));
+				}
+			}
+			if (!rings.length) { st.clipped = (st.clipped || 0) + 1; continue; }
+			const key = "a:" + rings.map((r) => r.map((q) => q.map(round7).join(",")).join(";")).join("|") + "=" + stableProps(f.props);
+			if (seen.has(key)) { st.dedup = (st.dedup || 0) + 1; continue; }
+			seen.add(key);
+			const nested = nestRings(rings);
+			const props = tag(f.props, z, tx, ty);
+			if (f.partial) props._geom_partial = 1;
+			out.push({
+				type: "Feature", properties: props,
+				geometry: nested.length > 1 ? { type: "MultiPolygon", coordinates: nested } : { type: "Polygon", coordinates: nested[0] },
+			});
+		}
+	}
+	return out;
+}
+
 /* ================= 驱动 ================= */
 function parseArgs(argv) {
 	const o = {};
@@ -1247,11 +1482,21 @@ async function main() {
 	const zoom = Number(args.zoom || 16);
 	if (!Number.isInteger(zoom)) { console.error("--zoom 须为整数"); process.exit(2); }
 	if (zoom < 15 || zoom > 18) console.error(`警告: --zoom=${zoom} 超出已验证范围15~18，结果仅供参考`);
-	let layers = ALL_LAYERS.slice();
-	if (args.layers && String(args.layers).toLowerCase() !== "all") {
-		layers = String(args.layers).split(",").map((s) => s.trim().toUpperCase()).filter(Boolean);
-		for (const l of layers) {
-			if (!ALL_LAYERS.includes(l)) { console.error(`未知图层 ${l}，可用：${ALL_LAYERS.join(",")} / all`); process.exit(2); }
+	let layers = DEFAULT_LAYERS.slice();
+	if (args.layers) {
+		const raw = String(args.layers).toLowerCase();
+		if (raw === "all") layers = ALL_LAYERS.slice();
+		else {
+			layers = String(args.layers).split(",").map((s) => s.trim()).filter(Boolean);
+			// 图层码大小写混排（AA/AA、respt、t8ji、country_5level_w_vec），按 key 原样匹配，不做强制大写
+			const byLower = new Map(ALL_LAYERS.map((k) => [k.toLowerCase(), k]));
+			const picked = [];
+			for (const l of layers) {
+				const hit = ALL_LAYERS.includes(l) ? l : byLower.get(l.toLowerCase());
+				if (!hit) { console.error(`未知图层 ${l}，可用：${ALL_LAYERS.join(",")} / all`); process.exit(2); }
+				picked.push(hit);
+			}
+			layers = picked;
 		}
 	}
 	const outdir = String(args.outdir || "./tdt_out");
@@ -1291,11 +1536,19 @@ async function main() {
 
 	// 通用拓扑（分层）
 	const stats = {};
+	const zhKeys = Boolean(args["zh-keys"]);
 	const writeFC = (name, features) => {
+		const fsOut = zhKeys
+			? features.map((ft) => {
+				const props = {};
+				for (const [k, v] of Object.entries(ft.properties || {})) props[zhKey(k)] = v;
+				return { ...ft, properties: props };
+			})
+			: features;
 		fs.writeFileSync(path.join(outdir, `${name}.geojson`), JSON.stringify({
 			type: "FeatureCollection",
 			crs: { type: "name", properties: { name: "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-			features,
+			features: fsOut,
 		}, null, 1));
 	};
 
@@ -1333,10 +1586,12 @@ async function main() {
 					id: f.props.elemid,
 					rings, tx: f.tx, ty: f.ty, zoom: f.zoom,
 					extra: {
+						raw: { ...f.props },
 						h: typeof f.props.h === "number" ? f.props.h : null,
 						floors: f.props.floor ?? null,
 						A6: f.props.A6 ?? null,
-						name: f._name || null,
+						// 官方实测：约一半建筑自带 Z5 楼名（如"和平新村２栋"），优先于 respt 挂接
+						name: typeof f.props.Z5 === "string" && f.props.Z5.trim() ? f.props.Z5.trim() : null,
 					},
 					partial: !!f.partial,
 				});
@@ -1354,16 +1609,17 @@ async function main() {
 			const { features, unionCount, fallbackCount } = mergeIdPolygons(recs, {
 				idProp: "elemid",
 				fillExtra: (dst, src) => {
+					for (const [k, v] of Object.entries(src.raw || {})) if (dst.raw && dst.raw[k] == null) dst.raw[k] = v;
 					if (dst.h == null && src.h != null) dst.h = src.h;
 					if (dst.floors == null && src.floors != null) dst.floors = src.floors;
 					if (dst.A6 == null && src.A6 != null) dst.A6 = src.A6;
 					if (!dst.name && src.name) dst.name = src.name;
 				},
 				props: (ex) => {
-					const p = {};
+					// 原始键全部保留（elemid/A6/h/floor/Z5/I8…）+ 追加语义化派生键
+					const p = { ...(ex.raw || {}) };
 					if (ex.h != null && ex.h > 0) p.height_m = ex.h;
 					if (ex.floors != null) p.floors = Number(ex.floors);
-					if (ex.A6 != null) p.A6 = ex.A6;
 					if (ex.name) p.name = ex.name;
 					return p;
 				},
@@ -1387,17 +1643,17 @@ async function main() {
 					}
 				}
 				if (!rings.length) continue;
-				recs.push({ id: String(id), rings, tx: f.tx, ty: f.ty, zoom: f.zoom, extra: {}, partial: !!f.partial });
+				recs.push({ id: String(id), rings, tx: f.tx, ty: f.ty, zoom: f.zoom, extra: { raw: { ...f.props } }, partial: !!f.partial });
 			}
 			const { features, unionCount, fallbackCount } = mergeIdPolygons(recs, {
 				idProp: "objectid",
-				props: () => ({}),
+				props: (ex) => ({ ...(ex.raw || {}) }),
 			});
 			for (const ft of features) ft.properties.objectid = Number(ft.properties.objectid);
 			st.union = unionCount;
 			if (fallbackCount) st.union_fallback = fallbackCount;
 			out = features;
-		} else if (name === "respt" || name === "BI" || name === "AD") {
+		} else if (POINT_SPECIAL.has(name)) {
 			// 点：buffer亦保留＋同id去重（respt按elemid；BI按F5；AD按Z5+H7+L1+A6，无id按坐标）
 			const seen = new Set();
 			for (const f of feats) {
@@ -1417,6 +1673,11 @@ async function main() {
 				seen.add(key);
 				const props = { ...f.props, _tile: `${f.zoom}_${f.tx}_${f.ty}` };
 				if (f.partial) props._geom_partial = 1;
+				// B1 是 POI 分类码（6 位），前 2 位为大类；S8 不是类别，勿混用
+				if (name === "BI" || name === "AX") {
+					const g = poiGroup(f.props.B1);
+					if (g) props._poi_group = g;
+				}
 				out.push({
 					type: "Feature", properties: props,
 					geometry: pts.length > 1 ? { type: "MultiPoint", coordinates: pts } : { type: "Point", coordinates: pts[0] },
@@ -1477,7 +1738,7 @@ async function main() {
 					const clippedRings = clipRingToTile(ring);
 					if (!clippedRings.length) { st.clipped = (st.clipped || 0) + 1; continue; }
 					for (const c of clippedRings) {
-						byS8.get(s8).push({ ring: c, tx: f.tx, ty: f.ty, zoom: f.zoom, partial: !!f.partial, s8v: f.props.S8 ?? null });
+						byS8.get(s8).push({ ring: c, tx: f.tx, ty: f.ty, zoom: f.zoom, partial: !!f.partial, s8v: f.props.S8 ?? null, props: { ...f.props } });
 					}
 				}
 			}
@@ -1551,7 +1812,10 @@ async function main() {
 					if (!outRings) outRings = members.map((mb) => mb.ring);
 					const ll = outRings.map((r) => r.map(([x, y]) => globalTileToLngLat(x, y, z)));
 					const nested = nestRings(ll);
-					const props = members[0].s8v == null ? {} : { S8: members[0].s8v };
+					// 属性取各片并集（同名取首个非空），不再只留 S8
+					const props = {};
+					for (const mb of members) for (const [k, v] of Object.entries(mb.props || {})) if (props[k] == null) props[k] = v;
+					if (props.S8 == null && members[0].s8v != null) props.S8 = members[0].s8v;
 					props._tile = members[0].tile;
 					if (members.length > 1) props._fused_from = members.length;
 					if (fused) props._seam_merged = 1;
@@ -1562,9 +1826,12 @@ async function main() {
 					});
 				}
 			}
+		} else {
+			// 已识别但未专门处理的图层（BA铁路/AR水体面/AF地名点/CA街道…）：按几何保守直出
+			out = exportFallback(name, feats, st);
 		}
 		// 残余重叠只打标不改几何（BV原样直出，不参与审计）
-		// AP=区级行政区划面：跨要素“纯包含”是正常层级（区含乡/功能区），只报部分重叠
+		// AP=街区/地块单元（非区级区划）：纯包含仍属正常（被更粗行政面包含），只报部分重叠
 		if (name === "CE" || name === "AP" || name === "CK" || name === "BM") {
 			const flagged = auditResidualOverlap(out, { allowContainment: name === "AP" });
 			for (const idx of flagged) out[idx].properties._topo_review = 1;
@@ -1574,6 +1841,10 @@ async function main() {
 		stats[name] = st;
 		if (out.length) writeFC(name, out);
 	}
+	fs.writeFileSync(path.join(outdir, "field_dictionary.json"), JSON.stringify({
+		note: "本目录 GeoJSON 的字段含义（--zh-keys 时输出中文键，此表仍按 ASCII 键给出对照）",
+		fields: FIELD_DICT,
+	}, null, 1));
 	fs.writeFileSync(path.join(outdir, "merge_stats.json"), JSON.stringify({ layers: stats, failures }, null, 1));
 	fs.writeFileSync(path.join(outdir, "run_info.json"), JSON.stringify({ bbox, zoom, tiles: tiles.length, layers, tk_tail: String(tk).slice(-4), failures: failures.length }, null, 1));
 	console.log(`完成 tiles=${tiles.length} 图层=${layers.join(",")}`);

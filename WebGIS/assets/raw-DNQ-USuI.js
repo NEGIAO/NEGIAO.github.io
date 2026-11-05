@@ -1,1 +1,0 @@
-import{BaseDecoder as e}from"./geotiff-Df-Fo0P9.js";var o=class extends e{decodeBlock(e){return e}};export{o as default};

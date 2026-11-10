@@ -226,6 +226,10 @@ function detectLayers(body) {
 		if (!res.ok) continue;
 		if (!res.fields.some((x) => x.fl === 5 && x.wt === 0)) continue;
 		if (!res.fields.some((x) => x.fl === 15 && x.wt === 0)) continue;
+		const nameField = res.fields.find((x) => x.fl === 2 && x.wt === 2);
+		if (!nameField) continue;
+		const nameStr = content.slice(nameField.start, nameField.start + nameField.L).toString("utf8");
+		if (!/^[A-Za-z0-9_-]{2,30}$/.test(nameStr)) continue;
 		layers.push({ bodyPos: i, content, L, total: rr.pos + L });
 	}
 	return layers;
@@ -246,17 +250,20 @@ function parseCommands(buf) {
 			if (c < 0) return fail();
 			const id = c & 7;
 			left = c >>> 3;
-			if (![2, 3, 7].includes(id) || left > 5000) return fail();
+			// 低级别世界瓦片大陆多边形点数常超过 7000~20000+ 点，放宽上限至 200000
+			if (![2, 3, 7].includes(id) || left > 200000) return fail();
 			if (!seenCmd && id !== 2) return fail();
 			seenCmd = true;
 			if (id === 2) { if (cur) paths.push(cur); cur = { points: [], closed: false }; }
 			if (id === 7) {
-				if (!cur || cur.points.length < 2) return fail();
-				cur.points.push(cur.points[0]);
-				cur.closed = true;
-				paths.push(cur);
+				// 遭遇退化闭合环（如1个点）时跳过该退化环并清零状态，不提前退出整体几何流，保障后续主体多边形解析
+				if (cur && cur.points.length >= 2) {
+					cur.points.push(cur.points[0]);
+					cur.closed = true;
+					paths.push(cur);
+					sawClose = true;
+				}
 				cur = null;
-				sawClose = true;
 				left = 0;
 				continue;
 			}
@@ -265,7 +272,8 @@ function parseCommands(buf) {
 		const a = r.u32(), b = r.u32();
 		if (a < 0 || b < 0) return fail();
 		x += zig(a); y += zig(b);
-		if (x < -1000 || x > 5100 || y < -1000 || y > 5100) {
+		// 低比例尺跨瓦片缓冲多边形坐标跨度可达更大范围
+		if (x < -20000 || x > 25000 || y < -20000 || y > 25000) {
 			if (graceful()) return { paths, partial };
 			return null;
 		}
@@ -500,7 +508,7 @@ function parsePreambleLayer(raw) {
 		}
 		break;
 	}
-	if (!name || !feature || !feature.geom) return null;
+	if (!name || !/^[A-Za-z0-9_-]{2,30}$/.test(name) || !feature || !feature.geom || !keys.length) return null;
 	const props = {};
 	for (let i = 0; i + 1 < feature.tags.length; i += 2) {
 		const k = feature.tags[i], v = feature.tags[i + 1];
@@ -648,7 +656,16 @@ function decodeTileFull(buf, tx, ty, tz) {
 	const preamble = parsePreambleLayer(raw);
 	const firstStd = layerRecs.length ? Math.min(...layerRecs.map((r) => r.bodyPos)) : body.length;
 	let bare = null;
-	if (firstStd > 0) bare = parseBareBlock(body.slice(0, firstStd));
+	if (firstStd > 0) {
+		// 低级别瓦片（z=1~3 大陆/省份边界）头部存在 0~12 字节的前导偏移，使用滑动窗口精确探测
+		for (let h = 0; h < Math.min(firstStd, 12); h++) {
+			const b = parseBareBlock(body.slice(h, firstStd));
+			if (b && b.features && b.features.length) {
+				bare = b;
+				break;
+			}
+		}
+	}
 	const mapPaths = (f) => (f.pathGroups ? f.pathGroups.flat() : f.paths).map((p) => ({ points: p.points, closed: p.closed }));
 	const mapStd = (L) => layers.push({
 		name: L.name, extent: L.extent, version: L.version,
@@ -668,36 +685,86 @@ function decodeTileFull(buf, tx, ty, tz) {
 		})),
 		source,
 	});
-	if (bare && preamble && bare.name === preamble.name) mapRaw(bare, "bare");
-	else {
-		if (preamble) mapRaw(preamble, "preamble");
-		if (bare) mapRaw(bare, "bare");
+	if (bare && preamble && bare.name === preamble.name) {
+		mapRaw(bare.features.length >= preamble.features.length ? bare : preamble, "merged_lead");
+	} else {
+		if (preamble && preamble.features && preamble.features.length) mapRaw(preamble, "preamble");
+		if (bare && bare.features && bare.features.length) mapRaw(bare, "bare");
 	}
 	for (const lr of layerRecs) mapStd(parseLayer(lr));
 	return { tx, ty, tz, layers };
 }
 
-async function fetchTile(x, y, z, tk, retries = 3) {
-	const host = `tile${(x + y) % 3}.tianditu.gov.cn`;
-	const url = `https://${host}/vts?t=vt&pk=${encodeURIComponent(pkEncode(x, y, z))}&tk=${encodeURIComponent(tk)}&v=1.0`;
+const TDT_CANDIDATE_HOSTS = [
+	'tile0.tianditu.gov.cn',
+	'tile1.tianditu.gov.cn',
+	'tile2.tianditu.gov.cn'
+];
+
+async function fetchTile(x, y, z, tk, retries = 5) {
+	const baseIndex = (x + y) % TDT_CANDIDATE_HOSTS.length;
 	let lastErr = null;
-	for (let a = 0; a < retries; a++) {
+
+	for (let attempt = 0; attempt < retries; attempt++) {
+		const host = TDT_CANDIDATE_HOSTS[(baseIndex + attempt) % TDT_CANDIDATE_HOSTS.length];
+		const url = `https://${host}/vts?t=vt&pk=${encodeURIComponent(pkEncode(x, y, z))}&tk=${encodeURIComponent(tk)}&v=1.0`;
+
 		try {
-			const resp = await fetch(url, { headers: { Referer: REFERER, "User-Agent": UA } });
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+			const resp = await fetch(url, {
+				headers: {
+					Referer: REFERER,
+					"User-Agent": UA,
+					Accept: "*/*",
+					Connection: "keep-alive"
+				},
+				signal: controller.signal
+			});
+			clearTimeout(timeoutId);
+
+			if (resp.status === 404) {
+				if (attempt < 2) continue;
+				return Buffer.alloc(0);
+			}
+
 			const buf = Buffer.from(await resp.arrayBuffer());
 			const ct = resp.headers.get("content-type") || "";
+
 			if (ct.includes("json") || (buf.length && buf[0] === 0x7b)) {
 				try {
 					const body = JSON.parse(buf.toString("utf8"));
-					if (String(body?.code) === "301010") throw new Error("tdt_permission(令牌无权/过期/域名白名单)");
-					if (body?.code != null || body?.msg) throw new Error(String(body.msg || `tdt_code_${body.code}`));
-				} catch (e) { if (String(e.message).startsWith("tdt_")) throw e; }
+					if (String(body?.code) === "301010") {
+						throw new Error("tdt_permission(令牌无权/过期/域名白名单)");
+					}
+					if (body?.code != null || body?.msg) {
+						throw new Error(String(body.msg || `tdt_code_${body.code}`));
+					}
+				} catch (e) {
+					if (String(e.message).startsWith("tdt_")) throw e;
+				}
 			}
-			if (!resp.ok) throw new Error(`tdt_http_${resp.status}`);
+
+			if (!resp.ok) {
+				throw new Error(`tdt_http_${resp.status} on ${host}`);
+			}
+
 			return buf;
-		} catch (e) { lastErr = e; await sleep(1500); }
+		} catch (e) {
+			lastErr = e;
+			const isAbort = e.name === 'AbortError' || e.message?.includes('aborted');
+			const errMsg = isAbort ? `请求超时(6s) on ${host}` : (e.message || String(e));
+
+			if (attempt < retries - 1) {
+				const delay = Math.min(2500, Math.floor(250 * Math.pow(1.5, attempt) + Math.random() * 150));
+				console.warn(`[TDT-Retry] 切片 (${z}/${x}/${y}) 第 ${attempt + 1}/${retries} 次失败: ${errMsg}，切换至 ${TDT_CANDIDATE_HOSTS[(baseIndex + attempt + 1) % TDT_CANDIDATE_HOSTS.length]} 将在 ${delay}ms 后重试...`);
+				await new Promise(r => setTimeout(r, delay));
+			}
+		}
 	}
-	throw lastErr;
+
+	throw new Error(`切片 (${z}/${x}/${y}) 重试 ${retries} 次全部失败: ${lastErr?.message || '网络连接异常'}`);
 }
 
 /* ================= 通用拓扑（与前端 tdtBuildingTopology.js 同规则，面/线/点分治） ================= */
@@ -1935,4 +2002,5 @@ if (__isMain) {
 export {
 	unionRings, clipRingToTile, clipRingToRect, clipRingToRectMulti, clipPolylineToTile,
 	globalRing, globalTileToLngLat, pointToLngLat, nestRings, ringsArea,
+	fetchTile, decodeTileFull, pkEncode,
 };

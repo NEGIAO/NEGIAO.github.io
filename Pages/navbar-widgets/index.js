@@ -16,7 +16,7 @@
         return '';
     })();
 
-    var VERSION = '20260728b';
+    var VERSION = '20261112b';
 
     var WIDGETS = [
         'theme-toggle.js',

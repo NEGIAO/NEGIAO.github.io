@@ -1,1014 +1,998 @@
 <!doctype html>
 <html lang="zh-CN">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="theme-color" content="#0D1117" />
-		<meta
-			name="description"
-			content="NEGIAO's Personal GitHub Page - WebGIS, Data Visualization and Geospatial Technologies"
-		/>
-		<meta
-			name="keywords"
-			content="WebGIS, GIS, Data Visualization, Frontend Development, OpenLayers, Leaflet, Map, NEGIAO"
-		/>
-		<meta name="author" content="NEGIAO" />
 
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://negiao.github.io/" />
-		<meta property="og:title" content="NEGIAO - WebGIS & Data Visualization" />
-		<meta
-			property="og:description"
-			content="Personal portfolio focusing on WebGIS, Data Visualization and Geospatial Technologies."
-		/>
-		<meta
-			property="og:image"
-			content="https://negiao.github.io/Pages/public/avatar.webp"
-		/>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0D1117" />
+  <meta name="description"
+    content="NEGIAO's Personal GitHub Page - WebGIS, Geospatial Reverse Engineering, Data Visualization and Full-Stack Development" />
+  <meta name="keywords"
+    content="NEGIAO, WebGIS, GIS, OpenLayers, 瓦片逆向, 高德瓦片, Google瓦片, 空间数据可视化, 全栈开发" />
+  <meta name="author" content="NEGIAO" />
 
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://negiao.github.io/" />
-		<meta
-			property="twitter:title"
-			content="NEGIAO - WebGIS & Data Visualization"
-		/>
-		<meta
-			property="twitter:description"
-			content="Personal portfolio focusing on WebGIS, Data Visualization and Geospatial Technologies."
-		/>
-		<meta
-			property="twitter:image"
-			content="https://negiao.github.io/Pages/public/avatar.webp"
-		/>
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://negiao.github.io/" />
+  <meta property="og:title" content="NEGIAO — WebGIS & Geospatial Engineering" />
+  <meta property="og:description"
+    content="聚焦 WebGIS 渲染引擎、多源时空瓦片逆向解析与全栈地理信息工程实践。" />
+  <meta property="og:image" content="https://negiao.github.io/Pages/public/avatar.webp" />
 
-		<title>NEGIAO - GitHub Page</title>
-		<link
-			rel="icon"
-			type="image/webp"
-			sizes="32x32 192x192 512x512"
-			href="/images/icon.webp"
-		/>
-		<link rel="shortcut icon" type="image/webp" href="/images/icon.webp" />
-		<link rel="canonical" href="https://negiao.github.io/" />
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://negiao.github.io/" />
+  <meta property="twitter:title" content="NEGIAO — WebGIS & Geospatial Engineering" />
+  <meta property="twitter:description"
+    content="聚焦 WebGIS 渲染引擎、多源时空瓦片逆向解析与全栈地理信息工程实践。" />
+  <meta property="twitter:image" content="https://negiao.github.io/Pages/public/avatar.webp" />
 
-		<!-- 结构化数据 -->
-		<script type="application/ld+json">
-			{
-				"@context": "https://schema.org",
-				"@type": "Person",
-				"name": "NEGIAO",
-				"url": "https://negiao.github.io/",
-				"image": "https://negiao.github.io/Pages/public/avatar.webp",
-				"sameAs": ["https://github.com/NEGIAO"],
-				"jobTitle": "WebGIS Developer",
-				"knowsAbout": [
-					"WebGIS",
-					"GIS",
-					"Data Visualization",
-					"OpenLayers",
-					"Frontend Development"
-				]
-			}
-		</script>
+  <title>NEGIAO — WebGIS &amp; Geospatial Engineering</title>
+  <link rel="icon" type="image/webp" sizes="32x32 192x192 512x512" href="/images/icon.webp" />
+  <link rel="shortcut icon" type="image/webp" href="/images/icon.webp" />
+  <link rel="canonical" href="https://negiao.github.io/" />
 
-		<!-- 预连接第三方资源 -->
-		<link rel="preconnect" href="https://cdnjs.loli.net" />
-		<link rel="preconnect" href="https://fonts.loli.net" />
-		<link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
-		<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-		<link rel="dns-prefetch" href="https://visitor-badge.laobi.icu" />
+  <!-- 结构化数据 -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "NEGIAO",
+      "url": "https://negiao.github.io/",
+      "image": "https://negiao.github.io/Pages/public/avatar.webp",
+      "sameAs": ["https://github.com/NEGIAO"],
+      "jobTitle": "WebGIS & Geospatial Engineer",
+      "knowsAbout": [
+        "WebGIS",
+        "GIS",
+        "Data Visualization",
+        "OpenLayers",
+        "Vector Tiles",
+        "Frontend Development"
+      ]
+    }
+  </script>
 
-		<!-- 首屏关键资源 -->
-		<link
-			rel="preload"
-			href="Pages/public/avatar.webp"
-			as="image"
-			fetchpriority="high"
-		/>
+  <!-- 预连接第三方资源 -->
+  <link rel="preconnect" href="https://cdnjs.loli.net" />
+  <link rel="preconnect" href="https://fonts.loli.net" />
+  <link rel="preconnect" href="https://gstatic.loli.net" crossorigin />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://visitor-badge.laobi.icu" />
 
-		<!-- 站点样式：首页合并为单文件（源文件改动后重跑 Pages/css/build-home-css.mjs 重新生成） -->
-		<link rel="stylesheet" href="Pages/css/home.css?v=20260830" />
+  <!-- 首屏关键头像预加载 -->
+  <link rel="preload" href="Pages/public/avatar.webp" as="image" fetchpriority="high" />
 
-		<!-- 第三方样式异步加载：不阻塞首屏渲染（图标/字体就绪后自动应用） -->
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css"
-			media="print"
-			onload="this.media = 'all'"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css"
-			media="print"
-			onload="this.media = 'all'"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css"
-			media="print"
-			onload="this.media = 'all'"
-		/>
-		<link
-			href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&display=swap"
-			rel="stylesheet"
-			media="print"
-			onload="this.media = 'all'"
-		/>
-		<noscript>
-			<link
-				rel="stylesheet"
-				href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css"
-			/>
-			<link
-				rel="stylesheet"
-				href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css"
-			/>
-			<link
-				rel="stylesheet"
-				href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css"
-			/>
-			<link
-				href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700&display=swap"
-				rel="stylesheet"
-			/>
-		</noscript>
+  <!-- 站点合并样式（修改源 CSS 后运行 node Pages/css/build-home-css.mjs 重新打包） -->
+  <link rel="stylesheet" href="Pages/css/home.css?v=20261112e" />
 
-		<!-- 内联关键样式：避免样式就绪前的白屏闪烁 -->
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-				overflow-x: hidden;
-				background: #0D1117;
-				color: #f7fafc;
-			}
-			body[data-theme="light"] {
-				background: #eff1f5;
-				color: #111827;
-			}
-			.mobile-menu-toggle {
-				display: none;
-			}
-		</style>
+  <!-- 第三方图标与字体异步加载 -->
+  <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css"
+    media="print" onload="this.media = 'all'" />
+  <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css" media="print"
+    onload="this.media = 'all'" />
+  <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css" media="print"
+    onload="this.media = 'all'" />
+  <link
+    href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media = 'all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css" />
+    <link
+      href="https://fonts.loli.net/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+  </noscript>
 
-		<script src="Pages/public/main-enhanced.js?v=20260727" defer></script>
-		<script src="/Pages/navbar-widgets/index.js?v=20260727" defer></script>
-		<script src="/Pages/public/route-guard.js" defer></script>
-	</head>
+  <!-- 内联关键防闪烁样式 -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background: #0D1117;
+      color: #f7fafc;
+    }
 
-	<body class="home-page">
-		<!-- 侧边导航栏 (Desktop Sidebar) -->
-		<aside class="sidebar home-sidebar">
-			<a href="#main" class="sidebar__logo" aria-label="回到首页">
-				<span class="sidebar__logo-mark" aria-hidden="true">N</span>
-				<span class="sidebar__logo-text">NEGIAO</span>
-			</a>
+    body[data-theme="light"] {
+      background: #eff1f5;
+      color: #111827;
+    }
 
-			<nav class="sidebar__nav" aria-label="侧边导航">
-				<a href="#projects" class="sidebar__link" data-title="项目展示">
-					<span class="sidebar__link-icon"><i class="fas fa-rocket"></i></span>
-				</a>
-				<a href="Pages/notes.html" class="sidebar__link" data-title="技术笔记">
-					<span class="sidebar__link-icon"
-						><i class="fas fa-book-open"></i
-					></span>
-				</a>
-				<a href="Pages/schedule.html" class="sidebar__link" data-title="课程表">
-					<span class="sidebar__link-icon"
-						><i class="fas fa-calendar-alt"></i
-					></span>
-				</a>
-				<a href="#contact" class="sidebar__link" data-title="联系我">
-					<span class="sidebar__link-icon"
-						><i class="fas fa-envelope"></i
-					></span>
-				</a>
-			</nav>
+    @media (min-width: 769px) {
+      .mobile-menu-toggle {
+        display: none;
+      }
+    }
+  </style>
 
-			<div class="sidebar__footer">
-				<a
-					href="https://github.com/NEGIAO"
-					target="_blank"
-					rel="noopener"
-					class="sidebar__link"
-					data-title="GitHub 项目"
-				>
-					<span class="sidebar__link-icon"><i class="fab fa-github"></i></span>
-				</a>
-			</div>
-		</aside>
+  <script src="Pages/public/main-enhanced.js?v=20260727" defer></script>
+  <script src="/Pages/navbar-widgets/index.js?v=20261112b" defer></script>
+  <script src="/Pages/public/route-guard.js" defer></script>
+</head>
 
-		<!-- 主内容区域 -->
-		<div class="main-content-wrapper">
-			<!-- 顶部导航（移动端） -->
-			<header class="navbar">
-				<div class="container navbar__container">
-					<a href="index.html" class="navbar__brand">NEGIAO</a>
-					<button
-						class="mobile-menu-toggle"
-						id="mobile-menu-toggle"
-						aria-label="打开菜单"
-						aria-expanded="false"
-					>
-						<i class="fas fa-bars"></i>
-					</button>
-					<nav aria-label="主导航">
-						<ul class="navbar__nav">
-							<li><a href="#projects" class="navbar__link">项目</a></li>
-							<li><a href="Pages/notes.html" class="navbar__link">笔记</a></li>
-							<li>
-								<a href="Pages/schedule.html" class="navbar__link">课程表</a>
-							</li>
-							<li><a href="#contact" class="navbar__link">联系我</a></li>
-							<li>
-								<a
-									href="https://github.com/NEGIAO"
-									target="_blank"
-									rel="noopener"
-									class="navbar__link"
-								>
-									<i class="fab fa-github"></i> GitHub
-								</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-			</header>
+<body class="home-page">
+  <!-- 无障碍跳转 -->
+  <a href="#main" class="skip-to-content">跳转到主要内容</a>
 
-			<!-- 移动端菜单 -->
-			<nav
-				class="mobile-menu"
-				id="mobile-menu"
-				aria-label="移动端菜单"
-				aria-hidden="true"
-			>
-				<ul class="mobile-menu__nav">
-					<li class="mobile-menu__item">
-						<a href="#projects" class="mobile-menu__link">
-							<i class="fas fa-rocket"></i><span>项目</span>
-						</a>
-					</li>
-					<li class="mobile-menu__item">
-						<a href="Pages/notes.html" class="mobile-menu__link">
-							<i class="fas fa-book-open"></i><span>笔记</span>
-						</a>
-					</li>
-					<li class="mobile-menu__item">
-						<a href="Pages/schedule.html" class="mobile-menu__link">
-							<i class="fas fa-calendar-alt"></i><span>课程表</span>
-						</a>
-					</li>
-					<li class="mobile-menu__item">
-						<a href="#contact" class="mobile-menu__link">
-							<i class="fas fa-envelope"></i><span>联系我</span>
-						</a>
-					</li>
-				</ul>
-				<div class="mobile-menu__divider"></div>
-				<div class="mobile-menu__footer">
-					<a
-						href="https://github.com/NEGIAO"
-						target="_blank"
-						rel="noopener"
-						class="mobile-menu__social"
-						aria-label="GitHub"
-					>
-						<i class="fab fa-github"></i>
-					</a>
-				</div>
-			</nav>
+  <!-- 桌面端左侧固定导航栏 (Desktop Sidebar) -->
+  <aside class="sidebar home-sidebar">
+    <a href="#main" class="sidebar__logo" aria-label="回到首页">
+      <span class="sidebar__logo-mark" aria-hidden="true">G</span>
+      <span class="sidebar__logo-text">NEGIAO</span>
+    </a>
 
-			<main id="main">
-				<!-- ============ Hero ============ -->
-				<section class="section section--hero" aria-label="个人简介">
-					<div class="hero-bg" aria-hidden="true">
-						<div class="hero-bg__grid"></div>
-						<div class="hero-bg__blob hero-bg__blob--1"></div>
-						<div class="hero-bg__blob hero-bg__blob--2"></div>
-						<div class="hero-bg__blob hero-bg__blob--3"></div>
-					</div>
+    <nav class="sidebar__nav" aria-label="侧边导航">
+      <a href="#projects" class="sidebar__link" data-title="核心工程">
+        <span class="sidebar__link-icon"><i class="fas fa-layer-group"></i></span>
+      </a>
+      <a href="#research" class="sidebar__link" data-title="时空可视">
+        <span class="sidebar__link-icon"><i class="fas fa-chart-area"></i></span>
+      </a>
+      <a href="Pages/notes.html" class="sidebar__link" data-title="技术笔记">
+        <span class="sidebar__link-icon"><i class="fas fa-book-open"></i></span>
+      </a>
+      <a href="Pages/schedule.html" class="sidebar__link" data-title="课程表">
+        <span class="sidebar__link-icon"><i class="fas fa-calendar-alt"></i></span>
+      </a>
+      <a href="#github" class="sidebar__link" data-title="开源动态">
+        <span class="sidebar__link-icon"><i class="fas fa-code-branch"></i></span>
+      </a>
+      <a href="#contact" class="sidebar__link" data-title="联系交流">
+        <span class="sidebar__link-icon"><i class="fas fa-envelope"></i></span>
+      </a>
+    </nav>
 
-					<div class="container">
-						<div class="hero">
-							<div class="avatar-container">
-								<div class="avatar-ring"></div>
-								<div class="avatar-glow"></div>
-								<img
-									src="Pages/public/avatar.webp"
-									alt="NEGIAO 的头像"
-									class="avatar"
-									fetchpriority="high"
-								/>
-							</div>
+    <div class="sidebar__footer">
+      <a href="https://github.com/NEGIAO" target="_blank" rel="noopener" class="sidebar__link" data-title="GitHub 主页">
+        <span class="sidebar__link-icon"><i class="fab fa-github"></i></span>
+      </a>
+    </div>
+  </aside>
 
-							<p class="hero__greeting">你好，我是</p>
-							<h1 class="hero__title">NEGIAO</h1>
+  <!-- 主内容区域包装器 -->
+  <div class="main-content-wrapper">
+    <!-- 顶部导航（移动端） -->
+    <header class="navbar">
+      <div class="container navbar__container">
+        <a href="index.html" class="navbar__brand">NEGIAO</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="打开菜单" aria-expanded="false">
+          <i class="fas fa-bars"></i>
+        </button>
+        <nav aria-label="主导航">
+          <ul class="navbar__nav">
+            <li><a href="#projects" class="navbar__link">工程</a></li>
+            <li><a href="#research" class="navbar__link">可视化</a></li>
+            <li><a href="Pages/notes.html" class="navbar__link">知识库</a></li>
+            <li><a href="Pages/schedule.html" class="navbar__link">课程表</a></li>
+            <li><a href="#contact" class="navbar__link">联系</a></li>
+            <li>
+              <a href="https://github.com/NEGIAO" target="_blank" rel="noopener" class="navbar__link">
+                <i class="fab fa-github"></i> GitHub
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-							<div class="hero__subtitle">
-								<img
-									src="images/typing.svg"
-									alt="WebGIS · 数据可视化 · 全栈开发"
-								/>
-							</div>
+    <!-- 移动端抽屉菜单 -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <div class="mobile-menu__backdrop"></div>
+      <div class="mobile-menu__content" role="dialog" aria-label="移动导航菜单">
+        <button class="mobile-menu__close" aria-label="关闭菜单">
+          <i class="fas fa-times"></i>
+        </button>
+        <nav class="mobile-menu__nav" aria-label="移动端导航">
+          <a href="#projects" class="mobile-menu__link">
+            <i class="fas fa-layer-group"></i> 核心工程
+          </a>
+          <a href="#research" class="mobile-menu__link">
+            <i class="fas fa-chart-area"></i> 时空可视
+          </a>
+          <a href="Pages/notes.html" class="mobile-menu__link">
+            <i class="fas fa-book-open"></i> 技术知识库 (33篇)
+          </a>
+          <a href="Pages/schedule.html" class="mobile-menu__link">
+            <i class="fas fa-calendar-alt"></i> 电子课程表
+          </a>
+          <a href="#github" class="mobile-menu__link">
+            <i class="fas fa-code-branch"></i> 开源动态
+          </a>
+          <a href="#contact" class="mobile-menu__link">
+            <i class="fas fa-envelope"></i> 联系交流
+          </a>
+          <a href="https://github.com/NEGIAO" target="_blank" rel="noopener" class="mobile-menu__link">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+        </nav>
+      </div>
+    </div>
 
-							<div class="hero-tech-badges">
-								<span
-									class="tech-badge tech-badge--primary"
-									title="WebGIS Development"
-								>
-									<i class="fas fa-globe-asia" aria-hidden="true"></i> WebGIS
-								</span>
-								<span
-									class="tech-badge tech-badge--accent"
-									title="Data Visualization"
-								>
-									<i class="fas fa-chart-line" aria-hidden="true"></i>
-									数据可视化
-								</span>
-								<span
-									class="tech-badge tech-badge--success"
-									title="Full Stack Development"
-								>
-									<i class="fas fa-laptop-code" aria-hidden="true"></i> 全栈开发
-								</span>
-							</div>
+    <!-- 主体内容 -->
+    <main id="main">
+      <!-- ==================== 首屏 Hero：双栏工程指挥台 ==================== -->
+      <section class="section section--hero">
+        <!-- 极光、同心星轨与空间网格背景 -->
+        <div class="hero-bg" aria-hidden="true">
+          <span class="hero-bg__blob hero-bg__blob--1"></span>
+          <span class="hero-bg__blob hero-bg__blob--2"></span>
+          <span class="hero-bg__blob hero-bg__blob--3"></span>
+          <span class="hero-bg__grid"></span>
+          <div class="hero-bg__rings">
+            <span class="hero-bg__ring hero-bg__ring--outer"></span>
+            <span class="hero-bg__ring hero-bg__ring--mid"></span>
+            <span class="hero-bg__ring hero-bg__ring--inner"></span>
+          </div>
+        </div>
 
-							<div class="hero__actions">
-								<a href="#projects" class="btn btn--outline">
-									<i class="fas fa-rocket"></i> 探索项目
-								</a>
-								<a
-									id="webgis-link"
-									href="WebGIS/index.html"
-									class="btn btn--primary btn--large"
-									data-webgis-link
-								>
-									<i class="fas fa-map"></i> WebGIS 演示
-								</a>
-								<a href="Pages/notes.html" class="btn btn--outline">
-									<i class="fas fa-book-open"></i> 技术笔记
-								</a>
-							</div>
+        <div class="container hero__container">
+          <div class="hero__deck">
+            <!-- 左栏：核心身份、工程定位与主操作 -->
+            <div class="hero__primary">
+              <div class="hero__telemetry-bar">
+                <span class="hero__status-pill">
+                  <span class="hero__status-dot" aria-hidden="true"></span>
+                  <span>GIS &amp; FULL-STACK R&amp;D</span>
+                </span>
+                <span class="hero__coord-tag" aria-label="空间坐标参考">
+                  <i class="fas fa-crosshairs" aria-hidden="true"></i>
+                  34.81°N, 114.30°E · EPSG:4326
+                </span>
+              </div>
 
-							<!-- 快速通道：中转页高频入口 -->
-							<nav class="quick-nav" aria-label="快速通道">
-								<p class="quick-nav__label">快速通道</p>
-								<div class="quick-nav__grid">
-									<a href="Pages/notes.html" class="quick-tile">
-										<i class="fas fa-book-open" aria-hidden="true"></i>
-										<span>技术笔记</span>
-									</a>
-									<a href="Pages/Note/gallery.html" class="quick-tile">
-										<i class="fas fa-images" aria-hidden="true"></i>
-										<span>笔记画廊</span>
-									</a>
-									<a href="Pages/Note/word-quiz.html" class="quick-tile">
-										<i class="fas fa-spell-check" aria-hidden="true"></i>
-										<span>单词测试</span>
-									</a>
-									<a href="Pages/schedule.html" class="quick-tile">
-										<i class="fas fa-calendar-alt" aria-hidden="true"></i>
-										<span>课程表</span>
-									</a>
-									<a href="Pages/Note/markdown_editor.html" class="quick-tile">
-										<i class="fas fa-pen" aria-hidden="true"></i>
-										<span>MD 编辑器</span>
-									</a>
-									<a
-										href="Others/decoder.html?type=文本&content=Hello！欢迎访问：https%3A%2F%2Fnegiao-qrcode.share.connect.posit.cloud%0A使用本工具！"
-										class="quick-tile"
-									>
-										<i class="fas fa-qrcode" aria-hidden="true"></i>
-										<span>二维码解码</span>
-									</a>
-								</div>
-							</nav>
-						</div>
-					</div>
+              <p class="hero__greeting">HELLO, I'M // 你好，我是</p>
+              <h1 class="hero__title">NEGIAO</h1>
 
-					<div class="hero-scroll-cue" aria-hidden="true">
-						<i class="fas fa-chevron-down"></i>
-					</div>
-				</section>
+              <!-- 动态打字机终端行 -->
+              <div class="hero__typing-frame">
+                <span class="hero__typing-prompt" aria-hidden="true">❯</span>
+                <div class="hero__subtitle">
+                  <img src="images/typing.svg" alt="GIS 开发者 · 空间数据可视化 · 终身学习者" width="460" height="36"
+                    decoding="async" />
+                </div>
+              </div>
 
-				<!-- ============ GitHub 贡献动画 ============ -->
-				<section class="section" id="github" aria-labelledby="github-title">
-					<div class="container">
-						<div class="section-head">
-							<p class="section-head__eyebrow">GitHub</p>
-							<h2 class="section-head__title" id="github-title">贡献日历</h2>
-							<p class="section-head__sub">Coding Activity</p>
-						</div>
+              <p class="hero__bio">
+                专注 <strong>WebGIS 渲染引擎</strong>、<strong>商业瓦片逆向</strong> 与 <strong>全栈地理信息工程</strong>。
+              </p>
 
-						<div class="github-calendar-wrapper">
-							<!-- 外层容器 -->
-							<div class="github-calendar">
-								<!-- Snake 动画图片 + 标签(绝对定位叠在图片上) -->
-								<div class="github-calendar__grid">
-									<!-- 顶部月份标签（JS 按“最右=当前月”动态生成；无 JS 时显示静态兜底） -->
-									<div class="github-calendar__months" id="github-months">
-										<span>Aug</span><span>Sep</span><span>Oct</span
-										><span>Nov</span> <span>Dec</span><span>Jan</span
-										><span>Feb</span><span>Mar</span> <span>Apr</span
-										><span>May</span><span>Jun</span><span>Jul</span>
-									</div>
-									<!-- 左侧星期标签 -->
-									<div class="github-calendar__weekdays">
-										<span>Mon</span><span>Wed</span><span>Fri</span>
-									</div>
-								<img
-									id="contrib-snake"
-									alt="github contribution grid snake animation"
-									src="https://api.negiao.cn/api/snake-dark"
-									loading="lazy"
-									decoding="async"
-									onerror="this.onerror=null;this.src='images/snake-fallback.svg';"
-								 />
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
+              <!-- 技术能力标签 -->
+              <div class="hero-tech-badges" aria-label="核心技术栈">
+                <span class="tech-badge">
+                  <i class="fas fa-globe-asia" aria-hidden="true"></i>
+                  <span>OpenLayers / WebGL</span>
+                </span>
+                <span class="tech-badge">
+                  <i class="fas fa-cubes" aria-hidden="true"></i>
+                  <span>MVT / PBF 瓦片逆向</span>
+                </span>
+                <span class="tech-badge">
+                  <i class="fas fa-server" aria-hidden="true"></i>
+                  <span>FastAPI / PostGIS</span>
+                </span>
+                <span class="tech-badge">
+                  <i class="fas fa-drafting-compass" aria-hidden="true"></i>
+                  <span>ArcPy / C# Engine</span>
+                </span>
+              </div>
 
-				<!-- ============ 项目展示 ============ -->
-				<section
-					class="section projects"
-					id="projects"
-					aria-labelledby="projects-title"
-				>
-					<div class="container">
-						<div class="section-head">
-							<p class="section-head__eyebrow">Projects</p>
-							<h2 class="section-head__title" id="projects-title">项目展示</h2>
-							<p class="section-head__sub">精选作品与比赛项目</p>
-						</div>
+              <!-- 核心行动按钮 -->
+              <div class="hero__actions">
+                <a id="webgis-link" data-webgis-link href="WebGIS/index.html" target="_blank" rel="noopener noreferrer"
+                  class="btn btn--primary btn--large hero__btn-main">
+                  <i class="fas fa-satellite-dish" aria-hidden="true"></i>
+                  <span>启动 WebGIS 系统</span>
+                  <i class="fas fa-external-link-alt hero__btn-ext" aria-hidden="true"></i>
+                </a>
+                <a href="Pages/notes.html" class="btn btn--secondary btn--large">
+                  <i class="fas fa-terminal" aria-hidden="true"></i>
+                  <span>技术知识库</span>
+                  <span class="hero__btn-count">33</span>
+                </a>
+                <a href="#projects" class="btn btn--ghost btn--large">
+                  <i class="fas fa-layer-group" aria-hidden="true"></i>
+                  <span>代表工程</span>
+                </a>
+              </div>
+            </div>
 
-						<div class="projects-grid">
-							<article class="project-item">
-								<div class="project-number" aria-hidden="true">01</div>
-								<div class="project-header">
-									<span class="project-label">比赛项目</span>
-								</div>
-								<h3 class="project-title">Geoscene - 宝藏小城</h3>
-								<p class="project-desc">
-									多地区地理空间数据可视化项目，通过交互式图表展示中国六个城市的时空变化规律。
-								</p>
-								<div class="project-tags">
-									<span class="tag">数据可视化</span>
-									<span class="tag">时空分析</span>
-									<span class="tag">地理数据</span>
-								</div>
-								<a href="Geoscene_宝藏小城/awesome.html" class="project-link">
-									探索项目 <i class="fas fa-arrow-right"></i>
-								</a>
-							</article>
+            <!-- 右栏：身份遥测卡 + 6 宫格快速传送矩阵 -->
+            <aside class="hero__console" aria-label="快速工作台">
+              <!-- 顶部身份与关键指标卡 -->
+              <div class="console-profile">
+                <div class="console-profile__header">
+                  <div class="avatar-container">
+                    <div class="avatar-glow"></div>
+                    <img src="Pages/public/avatar.webp" alt="NEGIAO 头像" class="avatar" width="96" height="96"
+                      fetchpriority="high" decoding="async" />
+                    <div class="avatar-status" title="在线 · 持续构建中"></div>
+                  </div>
+                  <div class="console-profile__meta">
+                    <div class="console-profile__title-row">
+                      <span class="console-profile__handle">@NEGIAO</span>
+                      <span class="console-profile__role-tag">Geospatial Engineer</span>
+                    </div>
+                    <p class="console-profile__desc">GIS 空间算法 · 图商协议逆向 · 全栈开发</p>
+                    <div class="console-profile__metrics">
+                      <div class="console-metric">
+                        <span class="console-metric__val">33</span>
+                        <span class="console-metric__lbl">技术文档</span>
+                      </div>
+                      <div class="console-metric">
+                        <span class="console-metric__val">4+</span>
+                        <span class="console-metric__lbl">图商逆向</span>
+                      </div>
+                      <div class="console-metric">
+                        <span class="console-metric__val">6</span>
+                        <span class="console-metric__lbl">城市专题</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-							<article class="project-item">
-								<div class="project-number" aria-hidden="true">02</div>
-								<div class="project-header">
-									<span class="project-label">Vue 架构</span>
-								</div>
-								<h3 class="project-title">WebGIS 地理信息系统</h3>
-								<p class="project-desc">
-									基于 OpenLayers
-									构建的交互式地图应用，提供丰富的地理信息浏览与空间分析功能。
-								</p>
-								<div class="project-tags">
-									<span class="tag">WebGIS</span>
-									<span class="tag">OpenLayers</span>
-									<span class="tag">JavaScript</span>
-								</div>
-								<div class="project-actions">
-									<a
-										href="WebGIS/index.html"
-										class="project-link"
-										data-webgis-link
-									>
-										查看演示 <i class="fas fa-arrow-right"></i>
-									</a>
-									<a
-										href="https://github.com/NEGIAO/WebGIS_henu_trials_5_28_vue3"
-										target="_blank"
-										rel="noopener"
-										class="project-link-secondary"
-										aria-label="GitHub 仓库"
-									>
-										<i class="fab fa-github"></i>
-									</a>
-								</div>
-							</article>
+              <!-- 6 宫格快速直达矩阵 -->
+              <div class="quick-nav" aria-label="常用工具与页面快速入口">
+                <div class="quick-nav__header">
+                  <span class="quick-nav__title">
+                    <i class="fas fa-bolt" aria-hidden="true"></i>
+                    QUICK PORTALS // 常用直达
+                  </span>
+                  <span class="quick-nav__hint">LAUNCH</span>
+                </div>
+                <div class="quick-nav__grid">
+                  <a href="Pages/notes.html" class="quick-tile">
+                    <div class="quick-tile__top">
+                      <i class="fas fa-book-open" aria-hidden="true"></i>
+                      <span class="quick-tile__code">01</span>
+                    </div>
+                    <span class="quick-tile__name">知识中转站</span>
+                    <span class="quick-tile__sub">33 篇笔记检索</span>
+                  </a>
+                  <a href="Pages/Note/note-viewer/note-viewer.html?note=Amap_tiles" class="quick-tile">
+                    <div class="quick-tile__top">
+                      <i class="fas fa-map-marked-alt" aria-hidden="true"></i>
+                      <span class="quick-tile__code">02</span>
+                    </div>
+                    <span class="quick-tile__name">高德瓦片预览</span>
+                    <span class="quick-tile__sub">全参数在线沙盒</span>
+                  </a>
+                  <a href="Pages/Note/note-viewer/note-viewer.html?note=Google_tiles" class="quick-tile">
+                    <div class="quick-tile__top">
+                      <i class="fas fa-globe" aria-hidden="true"></i>
+                      <span class="quick-tile__code">03</span>
+                    </div>
+                    <span class="quick-tile__name">Google 瓦片</span>
+                    <span class="quick-tile__sub">lyrs 参数沙盒</span>
+                  </a>
+                  <a href="Pages/Note/word-quiz.html" class="quick-tile">
+                    <div class="quick-tile__top">
+                      <i class="fas fa-spell-check" aria-hidden="true"></i>
+                      <span class="quick-tile__code">04</span>
+                    </div>
+                    <span class="quick-tile__name">单词抽测系统</span>
+                    <span class="quick-tile__sub">主动回忆训练</span>
+                  </a>
+                  <a href="Pages/Note/markdown_editor.html" class="quick-tile">
+                    <div class="quick-tile__top">
+                      <i class="fas fa-code" aria-hidden="true"></i>
+                      <span class="quick-tile__code">05</span>
+                    </div>
+                    <span class="quick-tile__name">MD 编辑器</span>
+                    <span class="quick-tile__sub">实时分屏预览</span>
+                  </a>
+                  <a href="Pages/Note/gallery.html" class="quick-tile">
+                    <div class="quick-tile__top">
+                      <i class="fas fa-images" aria-hidden="true"></i>
+                      <span class="quick-tile__code">06</span>
+                    </div>
+                    <span class="quick-tile__name">空间成果画廊</span>
+                    <span class="quick-tile__sub">专题制图集锦</span>
+                  </a>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
 
-							<article class="project-item">
-								<div class="project-number" aria-hidden="true">03</div>
-								<div class="project-header">
-									<span class="project-label">比赛项目</span>
-								</div>
-								<h3 class="project-title">地区词云可视化</h3>
-								<p class="project-desc">
-									通过文本挖掘技术生成的地区特色词云图，直观展示不同地区的关键词特征和文化元素。
-								</p>
-								<div class="project-tags">
-									<span class="tag">词云生成</span>
-									<span class="tag">文本分析</span>
-									<span class="tag">可视化</span>
-								</div>
-								<a href="Geoscene_宝藏小城/wordcloud.html" class="project-link">
-									查看词云 <i class="fas fa-arrow-right"></i>
-								</a>
-							</article>
+        <!-- 向下滚动视觉引导 -->
+        <a href="#projects" class="hero-scroll-cue" aria-label="向下滚动查看核心工程">
+          <span class="hero-scroll-cue__mouse">
+            <span class="hero-scroll-cue__wheel"></span>
+          </span>
+        </a>
+      </section>
 
-							<article class="project-item">
-								<div class="project-number" aria-hidden="true">04</div>
-								<div class="project-header">
-									<span class="project-label">学习笔记</span>
-								</div>
-								<h3 class="project-title">技术笔记分享</h3>
-								<p class="project-desc">
-									个人学习笔记与经验分享，包括WebGIS、数据可视化等领域的技术积累和实践总结。
-								</p>
-								<div class="project-tags">
-									<span class="tag">技术笔记</span>
-									<span class="tag">UI优化</span>
-									<span class="tag">经验分享</span>
-								</div>
-								<a href="Pages/notes.html" class="project-link">
-									查看笔记 <i class="fas fa-arrow-right"></i>
-								</a>
-							</article>
-						</div>
-					</div>
-				</section>
+      <!-- ==================== 核心工程矩阵 (Bento Grid) ==================== -->
+      <section id="projects" class="section section--bento">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-header__eyebrow">
+              <span class="section-header__index">01 // FEATURED ENGINEERING</span>
+              <span class="section-header__line"></span>
+            </div>
+            <div class="section-header__main">
+              <h2 class="section-header__title">核心工程与空间实验矩阵</h2>
+              <p class="section-header__subtitle">
+                全栈 WebGIS 平台、图商瓦片逆向、多城时空可视与桌面 GIS 工具链
+              </p>
+            </div>
+          </div>
 
-				<!-- ============ 研究专题 ============ -->
-				<section class="section" id="research" aria-labelledby="research-title">
-					<div class="container">
-						<div class="section-head">
-							<p class="section-head__eyebrow">Research</p>
-							<h2 class="section-head__title" id="research-title">研究专题</h2>
-							<p class="section-head__sub">六城季节变化数据可视化</p>
-						</div>
+          <div class="bento-grid">
+            <!-- Bento 01: WebGIS 旗舰系统 (跨 7 列) -->
+            <article class="card bento-card bento-card--span-7 bento-card--flagship">
+              <div class="bento-card__top">
+                <div class="bento-card__badges">
+                  <span class="bento-pill bento-pill--primary">
+                    <i class="fas fa-satellite" aria-hidden="true"></i> FLAGSHIP SYSTEM
+                  </span>
+                  <span class="bento-pill">Vue 3 · OpenLayers · FastAPI</span>
+                </div>
+                <span class="bento-card__num" aria-hidden="true">01</span>
+              </div>
 
-						<div class="research-grid">
-							<a
-								href="Geoscene_宝藏小城/季节变化/利川市_季节变化.html"
-								class="research-card"
-							>
-								<span class="research-card__icon"
-									><i class="fas fa-leaf" aria-hidden="true"></i
-								></span>
-								<span class="research-card__body">
-									<span class="research-card__city">利川市</span>
-									<span class="research-card__meta">季节变化 · 湖北</span>
-								</span>
-								<i
-									class="fas fa-arrow-right research-card__arrow"
-									aria-hidden="true"
-								></i>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/淮安市_季节变化.html"
-								class="research-card"
-							>
-								<span class="research-card__icon"
-									><i class="fas fa-water" aria-hidden="true"></i
-								></span>
-								<span class="research-card__body">
-									<span class="research-card__city">淮安市</span>
-									<span class="research-card__meta">季节变化 · 江苏</span>
-								</span>
-								<i
-									class="fas fa-arrow-right research-card__arrow"
-									aria-hidden="true"
-								></i>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/荣成市_季节变化.html"
-								class="research-card"
-							>
-								<span class="research-card__icon"
-									><i class="fas fa-anchor" aria-hidden="true"></i
-								></span>
-								<span class="research-card__body">
-									<span class="research-card__city">荣成市</span>
-									<span class="research-card__meta">季节变化 · 山东</span>
-								</span>
-								<i
-									class="fas fa-arrow-right research-card__arrow"
-									aria-hidden="true"
-								></i>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/象山县_季节变化.html"
-								class="research-card"
-							>
-								<span class="research-card__icon"
-									><i class="fas fa-umbrella-beach" aria-hidden="true"></i
-								></span>
-								<span class="research-card__body">
-									<span class="research-card__city">象山县</span>
-									<span class="research-card__meta">季节变化 · 浙江</span>
-								</span>
-								<i
-									class="fas fa-arrow-right research-card__arrow"
-									aria-hidden="true"
-								></i>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/铜仁市_季节变化.html"
-								class="research-card"
-							>
-								<span class="research-card__icon"
-									><i class="fas fa-mountain" aria-hidden="true"></i
-								></span>
-								<span class="research-card__body">
-									<span class="research-card__city">铜仁市</span>
-									<span class="research-card__meta">季节变化 · 贵州</span>
-								</span>
-								<i
-									class="fas fa-arrow-right research-card__arrow"
-									aria-hidden="true"
-								></i>
-							</a>
-							<a
-								href="Geoscene_宝藏小城/季节变化/隰县_季节变化.html"
-								class="research-card"
-							>
-								<span class="research-card__icon"
-									><i class="fas fa-seedling" aria-hidden="true"></i
-								></span>
-								<span class="research-card__body">
-									<span class="research-card__city">隰县</span>
-									<span class="research-card__meta">季节变化 · 山西</span>
-								</span>
-								<i
-									class="fas fa-arrow-right research-card__arrow"
-									aria-hidden="true"
-								></i>
-							</a>
-						</div>
-					</div>
-				</section>
+              <h3 class="bento-card__title">
+                <a data-webgis-link href="WebGIS/index.html" target="_blank" rel="noopener noreferrer">
+                  WebGIS 全栈地理信息系统
+                </a>
+              </h3>
+              <p class="bento-card__desc">
+                支持 GCJ-02 / BD-09 与 WGS84 实时重投影纠偏，内置 QUAD 四角重采样、WebGL 粒子风场与矢量要素云端持久化。
+              </p>
 
-				<!-- ============ 联系我 ============ -->
-				<section class="section" id="contact" aria-labelledby="contact-title">
-					<div class="container">
-						<div class="section-head">
-							<p class="section-head__eyebrow">Contact</p>
-							<h2 class="section-head__title" id="contact-title">联系我</h2>
-							<p class="section-head__sub">欢迎交流与合作</p>
-						</div>
+              <div class="bento-specs" aria-label="核心架构特性">
+                <div class="bento-spec">
+                  <span class="bento-spec__k">瓦片纠偏</span>
+                  <span class="bento-spec__v">QUAD 实时重采样</span>
+                </div>
+                <div class="bento-spec">
+                  <span class="bento-spec__k">流场可视化</span>
+                  <span class="bento-spec__v">WebGL 粒子流</span>
+                </div>
+                <div class="bento-spec">
+                  <span class="bento-spec__k">云端存储</span>
+                  <span class="bento-spec__v">FastAPI 矢量持久化</span>
+                </div>
+              </div>
 
-						<div class="grid grid--responsive">
-							<div class="card glass">
-								<div class="contact-card-icon">
-									<svg
-										width="26"
-										height="26"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										aria-hidden="true"
-									>
-										<rect width="20" height="16" x="2" y="4" rx="2" />
-										<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-									</svg>
-								</div>
-								<h4 class="contact-card-title">Email</h4>
-								<p class="contact-card-desc">合作与技术交流</p>
-								<a
-									href="mailto:1482918576@qq.com"
-									class="btn btn--outline contact-card-btn"
-								>
-									<svg
-										width="14"
-										height="14"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										aria-hidden="true"
-									>
-										<path d="m22 2-7 20-4-9-9-4Z" />
-										<path d="M22 2 11 13" />
-									</svg>
-									发送邮件
-								</a>
-							</div>
+              <div class="bento-card__footer">
+                <a data-webgis-link href="WebGIS/index.html" target="_blank" rel="noopener noreferrer"
+                  class="btn btn--primary">
+                  <i class="fas fa-play" aria-hidden="true"></i>
+                  <span>进入在线系统</span>
+                </a>
+                <a href="https://github.com/NEGIAO/WebGIS_henu_trials_5_28_vue3" target="_blank"
+                  rel="noopener noreferrer" class="btn btn--secondary">
+                  <i class="fab fa-github" aria-hidden="true"></i>
+                  <span>源码仓库</span>
+                </a>
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=tile-rectify-seam-quad-resampling"
+                  class="btn btn--ghost">
+                  <i class="fas fa-file-code" aria-hidden="true"></i>
+                  <span>纠偏算法详解</span>
+                </a>
+              </div>
+            </article>
 
-							<div class="card glass">
-								<div class="contact-card-icon">
-									<svg
-										width="26"
-										height="26"
-										viewBox="0 0 24 24"
-										fill="currentColor"
-										aria-hidden="true"
-									>
-										<path
-											d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-										/>
-									</svg>
-								</div>
-								<h4 class="contact-card-title">GitHub</h4>
-								<p class="contact-card-desc">开源项目与代码</p>
-								<a
-									href="https://github.com/NEGIAO"
-									target="_blank"
-									rel="noopener"
-									class="btn btn--outline contact-card-btn"
-								>
-									<svg
-										width="14"
-										height="14"
-										viewBox="0 0 24 24"
-										fill="currentColor"
-										aria-hidden="true"
-									>
-										<path
-											d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
-										/>
-									</svg>
-									访问 GitHub
-								</a>
-							</div>
+            <!-- Bento 02: 商业图商瓦片逆向与在线沙盒 (跨 5 列) -->
+            <article class="card bento-card bento-card--span-5">
+              <div class="bento-card__top">
+                <div class="bento-card__badges">
+                  <span class="bento-pill bento-pill--teal">
+                    <i class="fas fa-microchip" aria-hidden="true"></i> REVERSE LAB
+                  </span>
+                  <span class="bento-pill">MVT · Protobuf · XYZ</span>
+                </div>
+                <span class="bento-card__num" aria-hidden="true">02</span>
+              </div>
 
-							<div class="card glass">
-								<div class="contact-card-icon">
-									<svg
-										width="26"
-										height="26"
-										viewBox="0 0 24 24"
-										fill="currentColor"
-										aria-hidden="true"
-									>
-										<path
-											d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"
-										/>
-									</svg>
-								</div>
-								<h4 class="contact-card-title">QQ</h4>
-								<p class="contact-card-desc">在线交流沟通</p>
-								<a
-									href="tencent://message/?uin=1482918576"
-									class="btn btn--outline contact-card-btn"
-								>
-									<svg
-										width="14"
-										height="14"
-										viewBox="0 0 24 24"
-										fill="currentColor"
-										aria-hidden="true"
-									>
-										<path
-											d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"
-										/>
-									</svg>
-									QQ 联系
-								</a>
-							</div>
-						</div>
-					</div>
-				</section>
-			</main>
+              <h3 class="bento-card__title">
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=Amap_tiles">
+                  图商瓦片逆向与在线预览实验室
+                </a>
+              </h3>
+              <p class="bento-card__desc">
+                高德、Google、天地图与腾讯栅格/矢量瓦片协议解析，含在线预览沙盒与单文件 Python 提取工具。
+              </p>
 
-			<!-- ============ 页脚 ============ -->
-			<footer class="footer">
-				<div class="container">
-					<div class="footer__content footer__content--centered">
-						<div class="footer__nav-section">
-							<h4 class="footer__nav-title">快速导航</h4>
-							<nav aria-label="页脚导航">
-								<ul class="footer__nav-list">
-									<li>
-										<a href="#projects" class="footer__nav-link">
-											<i class="fas fa-rocket"></i>项目展示
-										</a>
-									</li>
-									<li>
-										<a href="Pages/notes.html" class="footer__nav-link">
-											<i class="fas fa-book-open"></i>技术笔记
-										</a>
-									</li>
-									<li>
-										<a href="#contact" class="footer__nav-link">
-											<i class="fas fa-envelope"></i>联系我
-										</a>
-									</li>
-								</ul>
-							</nav>
-						</div>
+              <!-- 交互式快速入口列表 -->
+              <div class="bento-links-grid">
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=Amap_tiles" class="bento-mini-link">
+                  <span class="bento-mini-link__tag bento-mini-link__tag--live">LIVE</span>
+                  <span class="bento-mini-link__text">高德切片全参数在线预览器</span>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=Google_tiles" class="bento-mini-link">
+                  <span class="bento-mini-link__tag bento-mini-link__tag--live">LIVE</span>
+                  <span class="bento-mini-link__text">Google 瓦片 lyrs 在线沙盒</span>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=tianditu-vector-full-reverse" class="bento-mini-link">
+                  <span class="bento-mini-link__tag">MVT</span>
+                  <span class="bento-mini-link__text">天地图 VTS 矢量瓦片全量逆向</span>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=amap-vector-full-reverse" class="bento-mini-link">
+                  <span class="bento-mini-link__tag">PBF</span>
+                  <span class="bento-mini-link__text">高德 PBF 五层矢量要素提取</span>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=tencent-vector-full-reverse" class="bento-mini-link">
+                  <span class="bento-mini-link__tag">182层</span>
+                  <span class="bento-mini-link__text">腾讯矢量瓦片 Gzip 解包逆向</span>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+              </div>
+            </article>
 
-						<div class="footer__brand footer__brand-section">
-							<h3 class="gradient-text footer__brand-title">NEGIAO</h3>
-							<p class="footer__brand-desc">
-								专注于 WebGIS 开发、数据可视化与GIS<br />致力于GIS应用、开发领域的学习。
-							</p>
+            <!-- Bento 03: Geoscene 宝藏小城 + 六城季节变化矩阵 (跨 8 列，内嵌 #research 锚点) -->
+            <article id="research" class="card bento-card bento-card--span-8">
+              <div class="bento-card__top">
+                <div class="bento-card__badges">
+                  <span class="bento-pill bento-pill--primary">
+                    <i class="fas fa-chart-area" aria-hidden="true"></i> SPATIOTEMPORAL &amp; NLP
+                  </span>
+                  <span class="bento-pill">Geoscene · ECharts · 时空大数据</span>
+                </div>
+                <span class="bento-card__num" aria-hidden="true">03</span>
+              </div>
 
-							<div class="footer__contact-panel">
-								<h4 class="footer__contact-title">联系方式</h4>
-								<div class="footer__contact-grid">
-									<div class="footer__contact-item">
-										<i class="fab fa-qq"></i>
-										<span class="label">QQ:</span>
-										<span class="value">1482918576</span>
-									</div>
-									<div class="footer__contact-item">
-										<i class="fab fa-weixin"></i>
-										<span class="label">微信:</span>
-										<span class="value">y1482918576</span>
-									</div>
-									<div class="footer__contact-item">
-										<i class="fas fa-envelope"></i>
-										<span class="label">邮箱:</span>
-										<span class="value">yaonaigao@gmail.com</span>
-									</div>
-								</div>
-							</div>
+              <div class="bento-split-header">
+                <div>
+                  <h3 class="bento-card__title">
+                    <a href="Geoscene_宝藏小城/awesome.html" target="_blank" rel="noopener noreferrer">
+                      Geoscene · 宝藏小城时空演化与词云分析
+                    </a>
+                  </h3>
+                  <p class="bento-card__desc">
+                    融合遥感生态指标与社媒文本挖掘，构建六城时空演化专题与情感词云系统。
+                  </p>
+                </div>
+                <div class="bento-split-header__actions">
+                  <a href="Geoscene_宝藏小城/awesome.html" target="_blank" rel="noopener noreferrer"
+                    class="btn btn--primary">
+                    <i class="fas fa-compass" aria-hidden="true"></i>
+                    <span>宝藏小城专题</span>
+                  </a>
+                  <a href="Geoscene_宝藏小城/wordcloud.html" target="_blank" rel="noopener noreferrer"
+                    class="btn btn--secondary">
+                    <i class="fas fa-cloud" aria-hidden="true"></i>
+                    <span>地区词云可视化</span>
+                  </a>
+                </div>
+              </div>
 
-							<div class="social-links footer__social-links">
-								<a
-									href="https://github.com/NEGIAO"
-									target="_blank"
-									rel="noopener"
-									class="social-link"
-									aria-label="GitHub"
-								>
-									<i class="fab fa-github"></i>
-								</a>
-								<a
-									href="mailto:1482918576@qq.com"
-									class="social-link"
-									aria-label="邮箱"
-								>
-									<i class="fas fa-envelope"></i>
-								</a>
-								<a
-									href="tencent://message/?uin=1482918576"
-									class="social-link"
-									aria-label="QQ"
-								>
-									<i class="fab fa-qq"></i>
-								</a>
-							</div>
-						</div>
+              <!-- 内嵌六城季节变化数据可视化矩阵 -->
+              <div class="city-matrix">
+                <div class="city-matrix__header">
+                  <span class="city-matrix__label">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                    SIX-CITY SEASONAL DYNAMICS // 六城季节变化直达
+                  </span>
+                  <span class="city-matrix__count">6 CITIES</span>
+                </div>
+                <div class="city-matrix__grid">
+                  <a href="Geoscene_宝藏小城/季节变化/利川市_季节变化.html" target="_blank" rel="noopener noreferrer"
+                    class="city-chip">
+                    <span class="city-chip__idx">01</span>
+                    <div class="city-chip__body">
+                      <span class="city-chip__name">利川市</span>
+                      <span class="city-chip__meta">生态避暑 · 四季热度</span>
+                    </div>
+                    <i class="fas fa-arrow-right city-chip__arrow" aria-hidden="true"></i>
+                  </a>
+                  <a href="Geoscene_宝藏小城/季节变化/淮安市_季节变化.html" target="_blank" rel="noopener noreferrer"
+                    class="city-chip">
+                    <span class="city-chip__idx">02</span>
+                    <div class="city-chip__body">
+                      <span class="city-chip__name">淮安市</span>
+                      <span class="city-chip__meta">江淮水韵 · 时空动态</span>
+                    </div>
+                    <i class="fas fa-arrow-right city-chip__arrow" aria-hidden="true"></i>
+                  </a>
+                  <a href="Geoscene_宝藏小城/季节变化/荣成市_季节变化.html" target="_blank" rel="noopener noreferrer"
+                    class="city-chip">
+                    <span class="city-chip__idx">03</span>
+                    <div class="city-chip__body">
+                      <span class="city-chip__name">荣成市</span>
+                      <span class="city-chip__meta">滨海天鹅城 · 季节指数</span>
+                    </div>
+                    <i class="fas fa-arrow-right city-chip__arrow" aria-hidden="true"></i>
+                  </a>
+                  <a href="Geoscene_宝藏小城/季节变化/象山县_季节变化.html" target="_blank" rel="noopener noreferrer"
+                    class="city-chip">
+                    <span class="city-chip__idx">04</span>
+                    <div class="city-chip__body">
+                      <span class="city-chip__name">象山县</span>
+                      <span class="city-chip__meta">浙东海岸 · 客流演变</span>
+                    </div>
+                    <i class="fas fa-arrow-right city-chip__arrow" aria-hidden="true"></i>
+                  </a>
+                  <a href="Geoscene_宝藏小城/季节变化/铜仁市_季节变化.html" target="_blank" rel="noopener noreferrer"
+                    class="city-chip">
+                    <span class="city-chip__idx">05</span>
+                    <div class="city-chip__body">
+                      <span class="city-chip__name">铜仁市</span>
+                      <span class="city-chip__meta">梵净生态 · 季节分布</span>
+                    </div>
+                    <i class="fas fa-arrow-right city-chip__arrow" aria-hidden="true"></i>
+                  </a>
+                  <a href="Geoscene_宝藏小城/季节变化/隰县_季节变化.html" target="_blank" rel="noopener noreferrer"
+                    class="city-chip">
+                    <span class="city-chip__idx">06</span>
+                    <div class="city-chip__body">
+                      <span class="city-chip__name">隰县</span>
+                      <span class="city-chip__meta">小西天 · 文旅热度</span>
+                    </div>
+                    <i class="fas fa-arrow-right city-chip__arrow" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </article>
 
-						<div class="footer__meta footer__meta-section">
-							<img
-								src="https://visitor-badge.laobi.icu/badge?page_id=negiao.pages"
-								alt="visitor badge"
-								loading="lazy"
-							/>
-							<p class="footer__meta-text">
-								用 ❤️ 和现代技术构建
-								<span class="footer__version">Version : V2.3.0</span>
-							</p>
+            <!-- Bento 04: 桌面 GIS 工程与开源工具箱 (跨 4 列) -->
+            <article class="card bento-card bento-card--span-4">
+              <div class="bento-card__top">
+                <div class="bento-card__badges">
+                  <span class="bento-pill">
+                    <i class="fas fa-toolbox" aria-hidden="true"></i> DESKTOP &amp; TOOLS
+                  </span>
+                </div>
+                <span class="bento-card__num" aria-hidden="true">04</span>
+              </div>
 
-							<!-- MapMyVisitors Map (Lazy Loaded) -->
-							<div
-								id="mapmyvisitors-container"
-								class="footer__map-container"
-							></div>
-							<div class="footer__tech-tags">
-								<span>WebGIS</span> • <span>数据可视化</span> •
-								<span>全栈开发</span>
-							</div>
-							<p class="footer__copyright-text">
-								&copy; <span id="current-year">2026</span> NEGIAO. All rights
-								reserved.
-							</p>
-						</div>
-					</div>
-				</div>
-			</footer>
-		</div>
+              <h3 class="bento-card__title">
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=negiao-toolbox">
+                  桌面 GIS 工程与效率工具链
+                </a>
+              </h3>
+              <p class="bento-card__desc">
+                ArcGIS Pro Python 工具箱（.atbx）、C# ArcEngine 二三维联动与轻量化 Web 工具。
+              </p>
 
-		<!-- 页面内逻辑：年份 / WebGIS 版本参数 / 延迟统计 -->
-		<script>
-			(function () {
-				"use strict";
+              <div class="bento-links-grid">
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=negiao-toolbox" class="bento-mini-link">
+                  <span class="bento-mini-link__tag">.ATBX</span>
+                  <span class="bento-mini-link__text">NEGIAO ArcGIS Pro 工具箱</span>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="Pages/Note/note-viewer/note-viewer.html?note=arcgis-engine-project" class="bento-mini-link">
+                  <span class="bento-mini-link__tag">C#/.NET</span>
+                  <span class="bento-mini-link__text">ArcGIS Engine 二三维联动系统</span>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="Others/decoder.html?type=文本&content=Hello！欢迎访问：https%3A%2F%2Fnegiao-qrcode.share.connect.posit.cloud%0A使用本工具！"
+                  target="_blank" rel="noopener noreferrer" class="bento-mini-link">
+                  <span class="bento-mini-link__tag">QRCODE</span>
+                  <span class="bento-mini-link__text">在线二维码编解码生成器</span>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="Pages/schedule.html" class="bento-mini-link">
+                  <span class="bento-mini-link__tag">SCHEDULE</span>
+                  <span class="bento-mini-link__text">交互式电子课程表系统</span>
+                  <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+              </div>
 
-				// 版权年份
-				var yearEl = document.getElementById("current-year");
-				if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+              <div class="bento-card__footer" style="margin-top: auto;">
+                <a href="Pages/notes.html" class="btn btn--secondary" style="width: 100%; justify-content: center;">
+                  <i class="fas fa-terminal" aria-hidden="true"></i>
+                  <span>进入知识库浏览全部 33 篇文档</span>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
 
-				// GitHub 贡献日历月份标签：snake.svg 为 53 列周网格（列=周日~周六，7 行），
-				// 最右列 = 含今天的本周（未到的日子留空），最左列 ≈ 一年前。
-				// 锚点：本周周日为第 52 列起点，gridStart = 它再往前推 52 周。
-				// 每个月标签从「当月 1 日所在列」起、到「下月 1 日所在列」止，
-				// 宽度随该月占的列数变化（4~6 列），与 GitHub 官方对齐方式一致。
-				var monthsEl = document.getElementById("github-months");
-				if (monthsEl) {
-					var MONTH_NAMES = [
-						"Jan", "Feb", "Mar", "Apr", "May", "Jun",
-						"Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-					];
-					var today = new Date();
-					today.setHours(0, 0, 0, 0);
+      <!-- ==================== GitHub 开源活跃度遥测面板 ==================== -->
+      <section id="github" class="section section--telemetry">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-header__eyebrow">
+              <span class="section-header__index">02 // OPEN SOURCE TELEMETRY</span>
+              <span class="section-header__line"></span>
+            </div>
+            <div class="section-header__main">
+              <h2 class="section-header__title">GitHub 持续构建与开源足迹</h2>
+              <p class="section-header__subtitle">
+                每日代码提交与地理信息开源工具迭代记录
+              </p>
+            </div>
+          </div>
 
-					var TOTAL_WEEKS = 53;
-					var DAY_MS = 24 * 60 * 60 * 1000;
+          <div class="telemetry-panel">
+            <div class="telemetry-panel__bar">
+              <div class="telemetry-panel__dots" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="telemetry-panel__title">
+                <i class="fab fa-github" aria-hidden="true"></i>
+                <span>github.com/NEGIAO // CONTRIBUTION MATRIX</span>
+              </div>
+              <a href="https://github.com/NEGIAO" target="_blank" rel="noopener noreferrer"
+                class="telemetry-panel__action">
+                <span>访问 GitHub 主页</span>
+                <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+              </a>
+            </div>
 
-					// 本周周日（getDay(): 0=Sun）→ 网格最右列的起点
-					var gridEnd = new Date(today);
-					gridEnd.setDate(gridEnd.getDate() - gridEnd.getDay());
-					// 网格起点 = 最右列往前推 52 周（共 53 列）
-					var gridStart = new Date(gridEnd);
-					gridStart.setDate(gridStart.getDate() - 7 * (TOTAL_WEEKS - 1));
+            <div class="github-calendar-wrapper">
+              <div class="github-calendar">
+                <div class="github-calendar__grid">
+                  <!-- 顶部月份标签：Flex 比例流式分布，彻底杜绝绝对定位重叠 -->
+                  <div class="github-calendar__months" id="github-months" data-no-i18n aria-hidden="true">
+                    <span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span>
+                    <span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+                    <span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
+                  </div>
+                  <!-- 左侧星期标签：精准对齐 SVG 第 1 / 3 / 5 行 -->
+                  <div class="github-calendar__weekdays" data-no-i18n aria-hidden="true">
+                    <span>Mon</span><span>Wed</span><span>Fri</span>
+                  </div>
+                  <!-- 贪吃蛇 SVG 主体（自然尺寸 880×192） -->
+                  <img id="contrib-snake" src="https://api.negiao.cn/api/snake-dark"
+                    alt="NEGIAO GitHub contribution grid snake animation" width="880" height="192"
+                    loading="lazy" decoding="async"
+                    onerror="this.onerror=null;this.src='images/snake-fallback.svg';" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-					// 日期 → 列号
-					function colOf(d) {
-						return Math.floor((d - gridStart) / (7 * DAY_MS));
-					}
+      <!-- ==================== 联系与交流 (去重精炼版) ==================== -->
+      <section id="contact" class="section section--connect">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-header__eyebrow">
+              <span class="section-header__index">03 // CONNECT &amp; COLLABORATE</span>
+              <span class="section-header__line"></span>
+            </div>
+            <div class="section-header__main">
+              <h2 class="section-header__title">建立连接与技术交流</h2>
+              <p class="section-header__subtitle">
+                WebGIS 架构探讨、空间数据处理或开源项目交流，随时欢迎联系
+              </p>
+            </div>
+          </div>
 
-					// 从 gridStart 所在月起逐月推进，记录每个月的起始列
-					var spans = [];
-					var cursor = new Date(gridStart.getFullYear(), gridStart.getMonth(), 1);
-					for (var guard = 0; guard < 16; guard++) {
-						var startCol = Math.max(0, Math.min(TOTAL_WEEKS - 1, colOf(cursor)));
-						spans.push({ name: MONTH_NAMES[cursor.getMonth()], first: startCol });
-						if (cursor.getFullYear() === today.getFullYear() && cursor.getMonth() === today.getMonth()) break;
-						cursor.setMonth(cursor.getMonth() + 1);
-					}
-					// 只保留最后 12 个标签（最左月往往只剩零星几列，裁掉）
-					spans = spans.slice(-12);
+          <div class="connect-grid">
+            <!-- GitHub -->
+            <a href="https://github.com/NEGIAO" target="_blank" rel="noopener noreferrer" class="card connect-card">
+              <div class="connect-card__icon">
+                <i class="fab fa-github" aria-hidden="true"></i>
+              </div>
+              <div class="connect-card__body">
+                <span class="connect-card__label">GITHUB</span>
+                <strong class="connect-card__value">@NEGIAO</strong>
+                <span class="connect-card__hint">开源仓库与代码提交</span>
+              </div>
+              <i class="fas fa-external-link-alt connect-card__ext" aria-hidden="true"></i>
+            </a>
 
-					// 绝对定位渲染：每个标签 left 到下一个标签 left 为止，末月到网格右缘
-					var html = "";
-					for (var i = 0; i < spans.length; i++) {
-						var s = spans[i];
-						var endCol = i + 1 < spans.length ? spans[i + 1].first : TOTAL_WEEKS;
-						var leftPct = (s.first / TOTAL_WEEKS) * 100;
-						var widthPct = ((endCol - s.first) / TOTAL_WEEKS) * 100;
-						html +=
-							'<span style="position:absolute;left:' +
-							leftPct.toFixed(3) +
-							"%;width:" +
-							widthPct.toFixed(3) +
-							'%">' +
-							s.name +
-							"</span>";
-					}
-					monthsEl.innerHTML = html;
-				}
+            <!-- Email -->
+            <a href="mailto:1482918576@qq.com" class="card connect-card">
+              <div class="connect-card__icon">
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+              </div>
+              <div class="connect-card__body">
+                <span class="connect-card__label">EMAIL</span>
+                <strong class="connect-card__value">1482918576@qq.com</strong>
+                <span class="connect-card__hint">备用: yaonaigao@gmail.com</span>
+              </div>
+              <i class="fas fa-paper-plane connect-card__ext" aria-hidden="true"></i>
+            </a>
 
-				// WebGIS 链接统一附加当日版本参数（防缓存），覆盖所有标记 data-webgis-link 的入口
-				var now = new Date();
-				var stamp =
-					now.getFullYear() +
-					String(now.getMonth() + 1).padStart(2, "0") +
-					String(now.getDate()).padStart(2, "0");
-				document.querySelectorAll("a[data-webgis-link]").forEach(function (a) {
-					a.href = "WebGIS/index.html?v=" + stamp;
-				});
+            <!-- WeChat (点击复制) -->
+            <button type="button" class="card connect-card connect-card--copy" data-copy="y1482918576"
+              aria-label="点击复制微信号 y1482918576">
+              <div class="connect-card__icon">
+                <i class="fab fa-weixin" aria-hidden="true"></i>
+              </div>
+              <div class="connect-card__body">
+                <span class="connect-card__label">WECHAT // 微信</span>
+                <strong class="connect-card__value">y1482918576</strong>
+                <span class="connect-card__hint" data-copy-hint>点击复制微信号</span>
+              </div>
+              <i class="fas fa-copy connect-card__ext" aria-hidden="true"></i>
+            </button>
 
-				// 百度统计已移除（保留 51.la / GA / MapMyVisitors）
+            <!-- QQ -->
+            <a href="tencent://message/?uin=1482918576" class="card connect-card">
+              <div class="connect-card__icon">
+                <i class="fab fa-qq" aria-hidden="true"></i>
+              </div>
+              <div class="connect-card__body">
+                <span class="connect-card__label">TENCENT QQ</span>
+                <strong class="connect-card__value">1482918576</strong>
+                <span class="connect-card__hint">点击唤起 QQ 会话</span>
+              </div>
+              <i class="fas fa-comment-dots connect-card__ext" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
 
-				// 贪吃蛇跟随站内主题：<picture> 只认操作系统深浅色，而本站主题是
-				// body[data-theme]（localStorage，不跟随系统），故用 JS 同步 src。
-				// theme-toggle.js 直接写 dataset 无事件，MutationObserver 是唯一可靠钩子。
-				(function () {
-					var img = document.getElementById("contrib-snake");
-					if (!img) return;
-					var URLS = {
-						dark: "https://api.negiao.cn/api/snake-dark",
-						light: "https://api.negiao.cn/api/snake",
-					};
-					function currentTheme() {
-						var t = document.body && document.body.dataset.theme;
-						if (t === "light" || t === "dark") return t;
-						try {
-							var s = localStorage.getItem("site-theme");
-							if (s === "light" || s === "dark") return s;
-						} catch (e) {}
-						return "dark"; // 与 theme-toggle.js 默认一致
-					}
-					function sync() {
-						var url = URLS[currentTheme()] || URLS.dark;
-						if (img.getAttribute("src") !== url) img.setAttribute("src", url);
-					}
-					sync();
-					if (window.MutationObserver && document.body) {
-						new MutationObserver(function (muts) {
-							for (var i = 0; i < muts.length; i++) {
-								if (muts[i].attributeName === "data-theme") {
-									sync();
-									break;
-								}
-							}
-						}).observe(document.body, {
-							attributes: true,
-							attributeFilter: ["data-theme"],
-						});
-					}
-				})();
-			})();
-		</script>
-	</body>
+    <!-- 精简工程感页脚 -->
+    <footer class="footer" role="contentinfo">
+      <div class="container">
+        <div class="footer__bar">
+          <div class="footer__brand-col">
+            <div class="footer__brand-row">
+              <span class="sidebar__brand-dot" aria-hidden="true"></span>
+              <span class="footer__brand-name">NEGIAO</span>
+              <span class="footer__divider">/</span>
+              <span class="footer__tagline">WebGIS &amp; Geospatial Engineering</span>
+            </div>
+            <p class="footer__copyright-text">
+              &copy; <span id="current-year">2026</span> NEGIAO. Crafted with precision &amp; spatial intelligence.
+            </p>
+          </div>
+
+          <div class="footer__telemetry-col">
+            <span class="footer__credit" data-no-i18n>
+              <span class="footer__credit-dot" aria-hidden="true"></span>
+              <span>Designed By Gemini 4 Argon</span>
+            </span>
+            <img src="https://visitor-badge.laobi.icu/badge?page_id=negiao.pages" alt="访客计数徽章" loading="lazy"
+              decoding="async" class="footer__visitor-badge" />
+            <!-- 隐藏的统计容器：保留统计功能但不在页面上显示 -->
+            <div id="mapmyvisitors-container" style="display: none" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 贡献图月份轴对齐、WebGIS 缓存参数、主题同步、微信号一键复制与按钮星轨加速 -->
+  <script>
+    (function () {
+      // 1. 生成与 53 列贪吃蛇 SVG（viewBox="-16 -32 880 192"）精确对齐的月份标签（Flex 比例布局，永不堆叠）
+      function renderContribMonths() {
+        var monthsEl = document.getElementById('github-months');
+        if (!monthsEl) return;
+        var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        var TOTAL_WEEKS = 53;
+        var DAY_MS = 24 * 60 * 60 * 1000;
+        var gridEnd = new Date(today);
+        gridEnd.setDate(gridEnd.getDate() - gridEnd.getDay());
+        var gridStart = new Date(gridEnd);
+        gridStart.setDate(gridStart.getDate() - 7 * (TOTAL_WEEKS - 1));
+
+        function colOf(d) {
+          return Math.floor((d - gridStart) / (7 * DAY_MS));
+        }
+
+        var spans = [];
+        var cursor = new Date(gridStart.getFullYear(), gridStart.getMonth(), 1);
+        for (var guard = 0; guard < 16; guard++) {
+          var startCol = Math.max(0, Math.min(TOTAL_WEEKS - 1, colOf(cursor)));
+          spans.push({ name: MONTH_NAMES[cursor.getMonth()], first: startCol });
+          if (cursor.getFullYear() === today.getFullYear() && cursor.getMonth() === today.getMonth()) break;
+          cursor.setMonth(cursor.getMonth() + 1);
+        }
+        spans = spans.slice(-12);
+
+        var html = '';
+        for (var i = 0; i < spans.length; i++) {
+          var s = spans[i];
+          var endCol = i + 1 < spans.length ? spans[i + 1].first : TOTAL_WEEKS;
+          var cols = Math.max(1, endCol - s.first);
+          html += '<span style="flex:' + cols + ' 1 0%">' + s.name + '</span>';
+        }
+        monthsEl.innerHTML = html;
+      }
+      renderContribMonths();
+
+      // 2. 为所有带 data-webgis-link 的链接追加当日版本参数避免缓存
+      var now = new Date();
+      var v =
+        now.getFullYear().toString() +
+        String(now.getMonth() + 1).padStart(2, '0') +
+        String(now.getDate()).padStart(2, '0');
+      document.querySelectorAll('a[data-webgis-link]').forEach(function (a) {
+        a.href = 'WebGIS/index.html?v=' + v;
+      });
+
+      // 3. 根据当前主题（dark / light）自动切换贪吃蛇 SVG 源
+      var snakeImg = document.getElementById('contrib-snake');
+      if (snakeImg) {
+        var DARK_SRC = 'https://api.negiao.cn/api/snake-dark';
+        var LIGHT_SRC = 'https://api.negiao.cn/api/snake';
+        var syncSnakeTheme = function () {
+          var isLight = document.body.getAttribute('data-theme') === 'light';
+          var target = isLight ? LIGHT_SRC : DARK_SRC;
+          if (snakeImg.getAttribute('src') !== target) {
+            snakeImg.setAttribute('src', target);
+          }
+        };
+        syncSnakeTheme();
+        new MutationObserver(syncSnakeTheme).observe(document.body, {
+          attributes: true,
+          attributeFilter: ['data-theme']
+        });
+      }
+
+      // 4. 一键复制微信号交互反馈
+      document.querySelectorAll('.connect-card--copy').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var text = btn.getAttribute('data-copy');
+          var hint = btn.querySelector('[data-copy-hint]');
+          if (!text) return;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              if (hint) {
+                var orig = hint.textContent;
+                hint.textContent = '✓ 已复制微信号: ' + text;
+                btn.classList.add('is-copied');
+                setTimeout(function () {
+                  hint.textContent = orig;
+                  btn.classList.remove('is-copied');
+                }, 2200);
+              }
+            });
+          }
+        });
+      });
+
+      // 5. 悬停主按钮时平滑加速首屏同心星轨 (参考 LandingView useSpinBoost)
+      var ringsContainer = document.querySelector('.hero-bg__rings');
+      if (ringsContainer && typeof ringsContainer.getAnimations === 'function') {
+        var curRate = 1;
+        var tgtRate = 1;
+        var raf = 0;
+        function applyRate(r) {
+          var anims = ringsContainer.getAnimations({ subtree: true });
+          for (var i = 0; i < anims.length; i++) {
+            try { anims[i].playbackRate = r; } catch (e) {}
+          }
+        }
+        function tick() {
+          var d = tgtRate - curRate;
+          if (Math.abs(d) < 0.03) {
+            curRate = tgtRate;
+            applyRate(curRate);
+            raf = 0;
+            return;
+          }
+          curRate += d * 0.12;
+          applyRate(curRate);
+          raf = requestAnimationFrame(tick);
+        }
+        document.querySelectorAll('.hero__actions .btn').forEach(function (btn) {
+          btn.addEventListener('mouseenter', function () {
+            tgtRate = 8;
+            if (!raf) raf = requestAnimationFrame(tick);
+          });
+          btn.addEventListener('mouseleave', function () {
+            tgtRate = 1;
+            if (!raf) raf = requestAnimationFrame(tick);
+          });
+        });
+      }
+
+      // 6. 移动端抽屉菜单关闭按钮与遮罩点击支持
+      var mmToggle = document.getElementById('mobile-menu-toggle');
+      var mmDrawer = document.getElementById('mobile-menu');
+      if (mmToggle && mmDrawer) {
+        mmDrawer.querySelectorAll('.mobile-menu__close, .mobile-menu__backdrop').forEach(function (el) {
+          el.addEventListener('click', function () {
+            if (mmDrawer.classList.contains('active')) {
+              mmToggle.click();
+            }
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+
 </html>

@@ -62,8 +62,10 @@
         var btn = existing || createButton();
         if (!existing) {
             container.appendChild(btn);
-            // 第一个注入的按钮添加 margin-left: auto 把整个按钮组推到右侧
-            btn.style.marginLeft = 'auto';
+            // 仅在横向导航栏中把右侧控件组推到末尾；垂直侧边栏 .sidebar__footer 内保持居中
+            if (!container.classList.contains('sidebar__footer')) {
+                btn.style.marginLeft = 'auto';
+            }
         }
         bindButton(btn);
     }

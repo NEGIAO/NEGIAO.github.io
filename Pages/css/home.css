@@ -5594,21 +5594,23 @@ body[data-theme='light'].home-page .connect-card {
   }
 
   .home-page .console-profile__metrics {
-    gap: 0.38rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.28rem;
   }
 
   .home-page .console-metric {
-    padding: 0.28rem 0.4rem;
+    padding: 0.24rem 0.25rem;
     justify-content: center;
-    gap: 0.25rem;
+    gap: 0.18rem;
+    min-width: 0;
   }
 
   .home-page .console-metric__val {
-    font-size: 0.82rem;
+    font-size: 0.76rem;
   }
 
   .home-page .console-metric__lbl {
-    font-size: 0.64rem;
+    font-size: 0.58rem;
   }
 
   .home-page .quick-nav__grid {

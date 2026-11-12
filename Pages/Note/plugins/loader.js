@@ -24,6 +24,7 @@
 
     // 已知插件目录映射：noteName → 目录名（目录名与 noteName 不同时才需要配置）
     var pluginDirs = {
+        'Amap_tiles': 'Amap_tiles',
         'Google_tiles': 'Google_tiles',
         'word-learning-record': 'word-learning-record'
     };

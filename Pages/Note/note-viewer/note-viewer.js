@@ -12,7 +12,8 @@
     const NOTE_ALIASES = {
         'amap-building-reverse': 'amap-vector-full-reverse',
         'tencent-building-reverse': 'tencent-vector-full-reverse',
-        'tianditu-building-reverse': 'tianditu-vector-full-reverse'
+        'tianditu-building-reverse': 'tianditu-vector-full-reverse',
+        'XYZTilesFormat': 'xyzTilesFormat'
     };
 
     function resolveNoteAlias(noteName) {

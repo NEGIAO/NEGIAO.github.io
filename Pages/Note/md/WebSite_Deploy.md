@@ -70,62 +70,23 @@
 │  └─ 自动同步到 Hugging Face 备用站点            │
 └─────────────────────────────────────────────────┘
 ```
-## 四、关键技术实现与避坑指南
-### 1. 地图瓦片部署方案：Vue public 目录最优解
-#### 实现方式
-将 XYZ 地图瓦片直接放入 Vue 项目的 `public` 目录，随项目一起打包，部署时自动同步到所有托管平台。
+## 四、前端静态与瓦片部署策略（Vue public 同域方案）
 
-#### 核心优势
-- 无需单独维护静态资源站，一次打包多平台可用
-- 部署到 Posit 时，瓦片与前端同域加载，国内访问速度拉满
-- 无跨域问题，无需额外配置 CORS
-- 适配免费方案，无存储、流量成本
-
-#### 适用场景
-瓦片总大小 500MB 以内的个人项目、毕业设计、小型演示项目。
-
----
-
-### 2. Hugging Face 后端部署与数据持久化
-#### 后端服务部署
-通过 Docker 模板部署 FastAPI 服务，示例 `Dockerfile`：
-```dockerfile
-FROM python:3.10-slim
-
-WORKDIR /app
-
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-EXPOSE 7860
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
-```
-#### 数据持久化方案
-# WebGIS 项目部署与自动化指南
-
-## 四、前端静态实现与部署策略
-
-### 1. 前端项目部署方案：Vue public 目录是最简
-**部署方式：**
-将 WebGIS 的静态资源（HTML, CSS, JS）放入 Vue 项目的 `public` 目录，确保路径引用正确，直接利用现有的前端托管平台。
+### 1. 地图瓦片与静态资源同域打包
+将离线 XYZ 地图瓦片及静态资源直接放入 Vue 项目的 `public/` 目录，随前端工程一起打包并同步到托管平台。
 
 **核心优势：**
-* **无需额外维护**：前端与后端目录分离，一次打包多平台复用。
-* **部署简易**：Posit, Hugging Face 等平台均支持静态资源映射。
-* **无需跨域**：前端调用本地 API，不存在跨域 CORS 问题。
-* **低成本**：利用托管平台的免费额度，适合个人项目。
-
-**适用场景：**
-累计文件大小 100MB 以内的小型项目，专注功能展示，不需要复杂后端。
+- **零独立资源站维护成本**：前端代码与基础离线瓦片同仓构建，一次打包多平台复用。
+- **国内高速同域加载**：部署到 Posit Connect Cloud 时，瓦片与前端应用同源加载，国内访问稳定迅速。
+- **天然规避 CORS 跨域**：同源请求无需额外配置跨域响应头。
+- **适用规模**：瓦片与静态资源总大小在 100MB~500MB 以内的个人项目、课程设计与毕业设计展示。
 
 ---
 
-## 五、Hugging Face 后端部署与数据持久化
+## 五、Hugging Face 后端容器化与数据持久化
 
-### 1. 容器化部署后端
-通过 Docker 容器部署 FastAPI 服务，示例 `Dockerfile`：
+### 1. Docker 容器化部署 FastAPI 后端
+在 Hugging Face Spaces 中选择 **Docker** SDK 模板（默认暴露 `7860` 端口），编写标准 `Dockerfile`：
 
 ```dockerfile
 FROM python:3.10-slim
@@ -141,16 +102,15 @@ EXPOSE 7860
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
 ```
 
-### 2. 数据持久化实现
-* **Hugging Face Spaces** 的代码目录及临时存储，在重启或写入后关闭容器后会丢失。
-* **绑定 Storage Buckets**：将 `/data` 目录与持久化存储挂载，文件将永久保存。
-* **示例**：FastAPI 中使用 SQLite 存储到外部挂载：
+### 2. 数据持久化实现（Storage Buckets）
+- **痛点**：Hugging Face Spaces 容器默认文件系统在重启或休眠唤醒后会被重置。
+- **解决方案**：挂载持久化存储目录 `/data`（Storage Buckets），将 SQLite 数据库或业务 GeoJSON 存入 `/data`：
 
 ```python
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# 数据库文件存入 /data 目录，永久保存
+# 数据库文件存入持久化挂载目录 /data，容器重启不丢失
 DATABASE_URL = "sqlite:////data/webgis_data.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

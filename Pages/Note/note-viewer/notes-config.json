@@ -1,246 +1,428 @@
 {
   "notes": {
-    "word-learning-record": {
-      "title": "英语单词学习记录",
-      "description": "NEGIAO的英语单词学习记录，每日更新，包含单词释义、例句和用法。",
-      "category": "daily",
-      "icon": "📊"
-    },
-    "ZhouDi_learning/word-learning-record": {
-      "title": "周迪的学习记录",
-      "description": "周迪的英语单词学习记录，每日更新，包含单词释义、例句和用法。",
-      "category": "daily",
-      "icon": "👩‍🎓"
-    },
-    "ArcPy": {
-      "title": "ArcPy学习笔记",
-      "description": "ArcPy学习笔记 - 涵盖ArcGIS Python自动化处理、地理处理工具等内容。",
+    "tianditu-vector-full-reverse": {
+      "title": "天地图矢量瓦片全量逆向：VTS 通用结构、数据字典与最终程序",
+      "description": "天地图矢量瓦片（VTS）全量逆向总纲：36个实测图层与75个样式图层码数据字典、f1~f15私有字段与XOR还原、跨瓦接缝Union拓扑融合，附单文件零依赖取数脚本 tdt_vector_fetch.mjs。",
       "category": "tech",
-      "subcategory": "gis",
-      "icon": "📊"
+      "subcategory": "reverse",
+      "tags": ["天地图", "VTS", "Protobuf", "XOR还原", "拓扑融合", "GeoJSON"],
+      "updated": "2026-09",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
-    "gee-coursework": {
-      "title": "GEE结课作业",
-      "description": "Google Earth Engine课程结课作业代码。",
+    "tencent-vector-full-reverse": {
+      "title": "腾讯地图矢量瓦片全量逆向：频段 Schema、解码链与最终程序",
+      "description": "腾讯地图矢量瓦片全量逆向总纲：24字节头+Base64去噪+异或表+zlib解压、182个实测图层频段 Schema、POI UTF-16LE 与 Bezier 弧还原，附单文件取数脚本 tencent_vector_fetch.mjs。",
       "category": "tech",
-      "subcategory": "gis",
-      "icon": "🛰️"
+      "subcategory": "reverse",
+      "tags": ["腾讯地图", "矢量瓦片", "二进制协议", "ZigZag", "GCJ-02", "GeoJSON"],
+      "updated": "2026-09",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
-    "spatial-analysis-R": {
-      "title": "机器学习与智能算法（R）",
-      "description": "ANN、梯度下降、SVM、随机森林、CNN、遗传算法、元胞自动机、ABM等R语言实现。",
+    "amap-vector-full-reverse": {
+      "title": "高德矢量瓦片全量逆向：五层通用结构、数据字典与最终程序",
+      "description": "高德地图 JS API 矢量瓦片（web_map PBF）五层全量逆向总纲：poi/road/region/building/transit 完整数据字典、动态授权链、4字节帧长+gzip+protobuf 解析与子瓦片坐标还原，附 amap_vector_fetch.mjs。",
       "category": "tech",
-      "subcategory": "ml",
-      "icon": "🤖"
+      "subcategory": "reverse",
+      "tags": ["高德地图", "PBF", "Protobuf", "五层全量", "GCJ-02", "GeoJSON"],
+      "updated": "2026-09",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
-    "ml-dl-learning": {
-      "title": "机器学习与深度学习",
-      "description": "核心概念、学习范式、经典模型深度拆解与GIS实践应用指南。",
+    "tile-rectify-seam-quad-resampling": {
+      "title": "瓦片纠偏的接缝问题：从轴对齐近似到精确四角重采样",
+      "description": "深入剖析百度（BD-09）与高德/谷歌（GCJ-02）瓦片实时重采样纠偏中的错位缝与半透明缝根因，给出基于精确逆映射与 Canvas 2D 两步剪切仿射分解的 QUAD 四角重采样算法。",
       "category": "tech",
-      "subcategory": "ml",
-      "icon": "🤖"
+      "subcategory": "reverse",
+      "tags": ["瓦片纠偏", "QUAD重采样", "GCJ-02", "BD-09", "仿射变换", "Canvas2D"],
+      "updated": "2026-09",
+      "hasCode": true,
+      "hasMath": true,
+      "hasMermaid": false
     },
-    "arcgis-engine": {
-      "title": "ArcGIS Engine",
-      "description": "ArcGIS Engine开发实践，包括地图控件、空间分析等功能的实现。",
-      "category": "tech",
-      "subcategory": "gis",
-      "icon": "🌍"
-    },
-    "arcgis-engine-project": {
-      "title": "ArcGIS Engine Project",
-      "description": "基于ArcGIS Engine 10.2.2的桌面GIS系统开发项目。",
-      "category": "project",
-      "icon": "💻"
-    },
-    "negiao-toolbox": {
-      "title": "NEGIAO工具箱",
-      "description": "ArcGIS Pro自定义工具箱(.atbx)，包含常用地理处理脚本与效率工具。",
-      "category": "project",
-      "icon": "🧰"
-    },
-    "qrcode-generator": {
-      "title": "二维码生成器",
-      "description": "基于面向对象设计的二维码生成器，支持自定义样式、图标和数据URL编码。",
-      "category": "project",
-      "icon": "📱"
-    },
-    "note-template": {
-      "title": "笔记模板",
-      "description": "用于创建新笔记的标准模板，包含Markdown渲染和章节索引功能。",
-      "category": "project",
-      "icon": "📖"
-    },
-    "calculus-key-points": {
-      "title": "微积分重要结论与知识点",
-      "description": "用于日常更新和复习的微积分速查笔记，支持复杂数学公式渲染。",
-      "category": "tech",
-      "subcategory": "math",
-      "icon": "📐"
-    },
-    "linearAlgebra": {
-      "title": "线性代数重要结论",
-      "description": "用于日常更新与复习的线性代数结论速查，支持复杂数学公式渲染。",
-      "category": "tech",
-      "subcategory": "math",
-      "icon": "📐"
-    },
-    "non-standard-xyz-and-gcj02": {
-      "title": "非标准XYZ切片与GCJ-02适配",
-      "description": "系统总结目录分级、TMS、QuadKey、百度方案、动态API与GCJ-02纠偏策略，附OpenLayers适配实践。",
+    "Amap_tiles": {
+      "title": "高德地图 XYZ 瓦片服务、style/ltype/scl 全参数拆解与在线预览",
+      "description": "基于 115 张实测采样切片全面拆解高德地图 webrd/webst/wprd 三大集群、style=6/7/8/9/10、ltype 4-Bit 图层位掩码（底色/路网/注记）与 scl/size/scale/lang 参数矩阵，内置在线交互式瓦片预览器。",
       "category": "tech",
       "subcategory": "tiles",
-      "icon": "🗺️"
+      "tags": ["高德地图", "XYZ瓦片", "ltype位掩码", "在线预览", "OpenLayers", "GCJ-02"],
+      "updated": "2026-11",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "Google_tiles": {
+      "title": "谷歌地图 XYZ 瓦片服务、apistyle 自定义样式与坐标纠偏代理全解析",
+      "description": "详解 Google Maps lyrs 图层体系、gl=cn 涉密偏移规律、apistyle 要素级无代码隐藏与调色语法，以及基于 Hugging Face 云代理的 GCJ-02 ↔ WGS-84 实时纠偏方案，内置在线交互预览器。",
+      "category": "tech",
+      "subcategory": "tiles",
+      "tags": ["Google Maps", "XYZ瓦片", "apistyle", "在线预览", "坐标纠偏", "OpenLayers"],
+      "updated": "2026-09",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "non-standard-xyz-and-gcj02": {
+      "title": "非标准 XYZ 切片图源与 GCJ-02 适配实战总结",
+      "description": "系统归纳目录分级型、TMS Y轴反转、QuadKey 四叉树、百度平面墨卡托、ARC/天地图与自定义原点共六类非标准切片的识别方法与 OpenLayers/Leaflet 换算公式，并给出 GCJ-02 底图对齐方案。",
+      "category": "tech",
+      "subcategory": "tiles",
+      "tags": ["非标准XYZ", "TMS", "QuadKey", "GCJ-02", "OpenLayers", "坐标系"],
+      "updated": "2026-08",
+      "hasCode": true,
+      "hasMath": true,
+      "hasMermaid": false
+    },
+    "AmapAPI": {
+      "title": "高德地图全套高阶付费 API 后端无痕实战调用手册",
+      "description": "整理高德地图 AOI 矢量边界、高精建筑+路网矢量、户级地理编码与猎鹰轨迹围栏等核心接口的后端代理无痕调用规范与可直接接入项目的请求模板。",
+      "category": "tech",
+      "subcategory": "tiles",
+      "tags": ["高德API", "AOI边界", "地理编码", "后端代理", "路网矢量"],
+      "updated": "2026-06",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "WebService": {
+      "title": "WebGIS 开发者必知：主流网络地图服务协议全解析",
+      "description": "横向对比 OGC 标准系列（WMS / WMTS / WFS / WCS）与现代互联网事实标准（XYZ 栅格瓦片、MVT 矢量瓦片、3D Tiles / I3S 三维瓦片）的渲染原理、交互能力与工程选型准则。",
+      "category": "tech",
+      "subcategory": "tiles",
+      "tags": ["WMS", "WMTS", "WFS", "MVT矢量切片", "3D Tiles", "OGC标准"],
+      "updated": "2026-05",
+      "hasCode": true,
+      "hasMath": true,
+      "hasMermaid": false
+    },
+    "xyzTilesFormat": {
+      "title": "深入浅出 GIS 图像格式：JPEG、PNG 与 GeoTIFF 的数据结构及异同分析",
+      "description": "剖析 JPEG（DCT有损压缩）、PNG（RGBA真彩色 vs PLTE调色板索引色 vs Terrain-RGB高程编码）与 GeoTIFF（IFD标签体系与六参数仿射变换）的底层结构，附 GDAL 后端处理避坑实践。",
+      "category": "tech",
+      "subcategory": "tiles",
+      "tags": ["GeoTIFF", "PNG调色板", "JPEG", "Terrain-RGB", "GDAL", "栅格瓦片"],
+      "updated": "2026-05",
+      "hasCode": true,
+      "hasMath": true,
+      "hasMermaid": false
     },
     "vue3-webgis-practice-essentials": {
       "title": "Vue 3 实战精要：从基础到 WebGIS 架构思考",
-      "description": "围绕响应式、生命周期、Composables、Pinia 与易错点总结，构建 Vue 3 + WebGIS 的工程化实践框架。",
+      "description": "面向 WebGIS 工程的 Vue 3 架构指南：shallowRef 规避地图实例深度代理性能灾难、生命周期精准销毁地图与事件、Composables 抽离测量/弹窗逻辑，以及 Pinia 全局图层状态管理。",
       "category": "tech",
       "subcategory": "web",
-      "icon": "🧭"
-    },
-    "Hexo": {
-      "title": "从0到1搭建Hexo博客",
-      "description": "详细记录使用 Hexo + GitHub Pages 双分支管理法搭建个人博客的完整流程，包括避坑经验。",
-      "category": "tech",
-      "subcategory": "web",
-      "icon": "📝"
+      "tags": ["Vue 3", "shallowRef", "Composables", "Pinia", "OpenLayers", "Cesium"],
+      "updated": "2026-09",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
     "WebSite_Deploy": {
-      "title": "WebGIS 全栈免费部署方案",
-      "description": "基于 GitHub Actions 实现的零成本 WebGIS 方案：国内高速访问、前后端分离及数据持久化实战总结。",
+      "title": "个人 WebGIS 全栈免费部署方案：GitHub + Posit + Hugging Face 实战总结",
+      "description": "零服务器成本搭建国内高速可访问、前后端分离、数据持久化的全栈 WebGIS 架构：Posit Connect Cloud 托管 Vue3 前端与同域瓦片，Hugging Face Docker 承载 FastAPI + Storage Bucket，GitHub Actions 自动双端同步。",
       "category": "tech",
       "subcategory": "web",
-      "icon": "🌍"
-    },
-    "Wind2D_Prompt": {
-      "title": "agent提示词",
-      "description": "Cesium生成2d风场Prompt。",
-      "category": "tech",
-      "subcategory": "ml",
-      "icon": "🤖"
-    },
-    "WebService": {
-      "title": "WebService",
-      "description": "WebGIS必知：主流网络地图服务协议全解析。",
-      "category": "tech",
-      "subcategory": "tiles",
-      "icon": "📡"
-    },
-    "AmapAPI": {
-      "title": "AmapAPI",
-      "description": "高德地图全套高阶付费API 后端无痕实战调用手册（可直接接入项目）。",
-      "category": "tech",
-      "subcategory": "tiles",
-      "icon": "🗺️"
-    },
-    "WebKnowledge": {
-      "title": "WebKnowledge",
-      "description": "GIS 开发必看：Referer 与 Origin 跨域请求头详解。",
-      "category": "tech",
-      "subcategory": "web",
-      "icon": "🛡️"
+      "tags": ["全栈部署", "GitHub Actions", "Posit Connect", "Hugging Face", "FastAPI", "Docker"],
+      "updated": "2026-05",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
     "Docker": {
-      "title": "Docker",
-      "description": "Docker 容器化技术在 GIS 开发中的应用与实践。",
+      "title": "彻底搞懂 Docker：GIS 开发从本地 WSL2 调试到云端生产全链路实战指南",
+      "description": "专为 GIS 开发者打造的 Docker 容器化指南：彻底解决 GDAL/PROJ/GEOS C++ 底层依赖冲突，涵盖 Windows WSL2 配置、GIS 专属 Dockerfile 编写、高频命令速查及云端一键上线。",
       "category": "tech",
       "subcategory": "web",
-      "icon": "📦"
+      "tags": ["Docker", "WSL2", "GDAL环境", "FastAPI", "容器化部署"],
+      "updated": "2026-05",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
-    "XYZTilesFormat": {
-      "title": "XYZ切片格式解析",
-      "description": "XYZ切片中jpg、png和tif格式数据结构详解。",
+    "WebKnowledge": {
+      "title": "GIS 开发必看：Referer 与 Origin 跨域请求头详解",
+      "description": "结合海图与商用地图瓦片抓包实例，剖析 HTTP Referer 防盗链 403 与 Origin CORS 跨域拦截机制的本质差异，并演示基于 Python httpx 的后端无痕瓦片代理方案。",
       "category": "tech",
-      "subcategory": "tiles",
-      "icon": "🖼️"
+      "subcategory": "web",
+      "tags": ["Referer", "Origin", "CORS跨域", "防盗链", "后端代理", "httpx"],
+      "updated": "2026-04",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
-    "Google_tiles": {
-      "title": "Google切片",
-      "description": "Google切片类型总结、apistyle查询、动态纠偏代理。",
+    "Wind2D_Prompt": {
+      "title": "Cesium 2D 风场粒子系统（Wind2D）架构与 WebGL 着色器规格说明书",
+      "description": "工业级 Cesium 2D 风场粒子渲染引擎完整设计规范：CustomPrimitive 四Pass GPU 管线、浮点粒子状态纹理、双线性风速插值、固定米制步长积分与随高度自适应粒子密度。",
       "category": "tech",
-      "subcategory": "tiles",
-      "icon": "🗺️"
+      "subcategory": "web",
+      "tags": ["Cesium", "WebGL", "GLSL着色器", "风场粒子", "架构规范"],
+      "updated": "2026-04",
+      "hasCode": true,
+      "hasMath": true,
+      "hasMermaid": false
+    },
+    "Hexo": {
+      "title": "从 0 到 1 搭建 Hexo 博客：GitHub Pages 双分支管理与自动化部署指南",
+      "description": "采用同仓库双分支隔离方案（main 存 Markdown 源码与配置、gh-pages 存编译静态网页）搭建免费个人博客，含非空目录初始化避坑、三步日常写作流与 CNAME 防覆盖技巧。",
+      "category": "tech",
+      "subcategory": "web",
+      "tags": ["Hexo", "GitHub Pages", "双分支管理", "静态博客", "Git"],
+      "updated": "2026-04",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "ArcPy": {
+      "title": "ArcPy 空间数据处理与地理处理自动化实战指南",
+      "description": "系统梳理 ArcGIS Pro / ArcMap 下 ArcPy 核心编程范式：arcpy.da 高性能游标与几何令牌、带孔洞多边形与内存拓扑算子、NetCDF 多维气象栅格批量转 TIFF、GCJ-02↔WGS-84 要素纠偏及 .atbx 工具箱封装。",
+      "category": "tech",
+      "subcategory": "gis",
+      "tags": ["ArcPy", "arcpy.da游标", "NetCDF转栅格", "坐标转换", "ArcGIS Pro", "Python"],
+      "updated": "2026-11",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "gee-coursework": {
+      "title": "GEE 遥感分类与 Scikit-Learn 随机森林网格搜索调参实战",
+      "description": "基于 Sentinel-2 九波段光谱特征与 NDVI 植被指数，使用 Python Scikit-Learn GridSearchCV 完成 5 折交叉验证超参数寻优（OA=94.27%）与特征重要性排序，内嵌 Posit Cloud 在线交互演示应用。",
+      "category": "tech",
+      "subcategory": "gis",
+      "tags": ["GEE", "Sentinel-2", "随机森林", "GridSearchCV", "遥感分类", "在线演示"],
+      "updated": "2026-01",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "arcgis-engine": {
+      "title": "ArcGIS Engine (ArcObjects) 二次开发核心体系笔记",
+      "description": "详解 ArcObjects 六大组件库、COM 对象模型图（OMD）三类对象与 QueryInterface 接口查询机制、四大地图控件协同（含主图/鹰眼联动）、空间查询过滤及六大专题图渲染器接口体系。",
+      "category": "tech",
+      "subcategory": "gis",
+      "tags": ["ArcGIS Engine", "ArcObjects", "C#", "COM接口", "MapControl", "专题图渲染"],
+      "updated": "2026-11",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "arcgis-engine-project": {
+      "title": "ArcGIS Engine 桌面 GIS 系统开发实战（完整工程与源码解析）",
+      "description": "基于 C# 与 ArcGIS Engine 10.2.2 构建的完整桌面 GIS 系统：涵盖地图浏览、鹰眼联动、TOC 图层管理、空间/属性查询、距离面积量算、六类专题图符号化 DLL、要素编辑与制图导出。",
+      "category": "tech",
+      "subcategory": "gis",
+      "tags": ["ArcGIS Engine", "C#桌面系统", "开源工程", "符号化DLL", "空间量算"],
+      "updated": "2025-12",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "negiao-toolbox": {
+      "title": "NEGIAO ArcGIS Pro 自定义工具箱（.atbx 下载与使用指南）",
+      "description": "集成日常科研与工程高频脚本的 ArcGIS Pro 工具箱（.atbx）：支持 NetCDF 单文件/文件夹批量转栅格、网络分析图层构建与批量最短路径、GCJ-02 ⇄ WGS-84 双向转换、折线平滑转曲线。",
+      "category": "tools",
+      "subcategory": "gis",
+      "tags": ["ArcGIS Pro", "ATBX工具箱", "NC批量转栅格", "最短路径", "火星坐标转换"],
+      "updated": "2025-11",
+      "hasCode": false,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "spatial-analysis-R": {
+      "title": "空间分析与机器学习智能算法（R 语言全流程实现）",
+      "description": "使用 R 语言（nnet / e1071 / randomForest / keras3 / terra）完整实现神经网络回归、梯度下降动态可视化、SVM、决策树/随机森林及 CNN 遥感影像分类（含兰考县多波段遥感地物分类实战）。",
+      "category": "tech",
+      "subcategory": "ml",
+      "tags": ["R语言", "CNN遥感分类", "随机森林", "SVM", "梯度下降", "空间分析"],
+      "updated": "2026-01",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "ml-dl-learning": {
+      "title": "机器学习与深度学习知识体系：从经典算法到 GIS 遥感决策流",
+      "description": "厘清 AI / ML / DL 层级脉络与监督/非监督/强化学习范式，拆解随机森林、SVM、CNN 与 Transformer 核心机理，并给出面向 GIS 矢量属性与遥感栅格数据的算法选型决策流。",
+      "category": "tech",
+      "subcategory": "ml",
+      "tags": ["机器学习", "深度学习", "随机森林", "CNN", "Transformer", "GIS选型"],
+      "updated": "2025-12",
+      "hasCode": false,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "calculus-key-points": {
+      "title": "微积分重要结论与考研数学复习速查笔记",
+      "description": "面向考研数学与工科基础的微积分结论速查体系：等价无穷小与泰勒展开、导数与三大中值定理证明构造、曲率与拐点、定积分对称性与华里士公式、多元偏导极值、二重积分及常微分方程与级数。",
+      "category": "tech",
+      "subcategory": "math",
+      "tags": ["微积分", "高等数学", "泰勒展开", "中值定理", "重积分", "微分方程"],
+      "updated": "2026-03",
+      "hasCode": false,
+      "hasMath": true,
+      "hasMermaid": false
+    },
+    "linearAlgebra": {
+      "title": "线性代数几何直觉：从基变换、秩到 WebGIS 空间坐标变换闭环",
+      "description": "跳出死记硬背的代数公式，从空间基变换与物理动作视角彻底讲透向量与世界基、矩阵乘法的本质、非方阵跨维投影、矩阵的秩与行列式，以及 A⁻¹MA 相似变换在 WebGIS 三维渲染管线中的对应。",
+      "category": "tech",
+      "subcategory": "math",
+      "tags": ["线性代数", "几何直觉", "基变换", "矩阵的秩", "相似变换", "WebGIS数学"],
+      "updated": "2026-03",
+      "hasCode": false,
+      "hasMath": true,
+      "hasMermaid": false
     },
     "henu-library-reservation": {
       "title": "河大图书馆座位预约 —— 官方接口逆向与自动预约实现",
-      "description": "河大图书馆座位预约系统官方接口逆向分析，包含 9 个接口详情、AES 加密机制、CAS 认证流程、Python 自动预约完整实现与定时抢座逻辑。",
-      "category": "project",
-      "icon": "📚"
+      "description": "河南大学图书馆预约系统（含H5与小程序端）全链路协议逆向：CAS 单点登录 + OAuth 2.0 认证流、动态日期 AES-ECB 预约报文加密、13 个核心查询与提交接口详单及 Python 自动化实战脚本。",
+      "category": "tools",
+      "subcategory": "reverse",
+      "tags": ["接口逆向", "AES加密", "CAS认证", "OAuth2", "Python自动化"],
+      "updated": "2026-09",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "qrcode-generator": {
+      "title": "多样式二维码生成器（Streamlit + 静态解码页架构）",
+      "description": "基于面向对象设计的在线二维码生成工具：支持网址、长文本、VCard 电子名片与批量生成，内置 7 种预设主题配色、中心 Logo 嵌入、中英文字体排版及配套高颜值静态解码器 decoder.html。",
+      "category": "tools",
+      "subcategory": "web",
+      "tags": ["二维码生成", "Streamlit", "VCard名片", "在线工具", "Python"],
+      "updated": "2025-11",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "word-learning-record": {
+      "title": "英语单词学习记录（含词根词缀助记与按月归档词库）",
+      "description": "持续记录日常文献阅读与备考中积累的英语核心词汇、熟词僻义与固定搭配，采用词根词缀拆解与联想助记，支持按月查阅归档（2025-09 至今）并联动在线随机抽查测验系统。",
+      "category": "daily",
+      "subcategory": "english",
+      "tags": ["英语词汇", "词根词缀", "按月归档", "考研英语", "在线测验"],
+      "updated": "2026-09",
+      "hasCode": false,
+      "hasMath": false,
+      "hasMermaid": false
     },
     "njnu-interview-2026-09-16": {
-      "title": "南师大面试复盘 2026.09.16",
-      "description": "南京师范大学 10 分钟面试八连问实录与复盘：小波分析、PCA 与相似方法、择校逻辑、本校信息题，附参考答法与下次检查清单。",
+      "title": "南师大地理科学学院推免面试复盘（2026.09.16）",
+      "description": "10分钟8连问真实推免面试深度复盘：涵盖小波分析（Wavelet Analysis）英文作答骨架、PCA 主成分分析与因子分析/ICA/SVD 追问链条、地学空间分析经典方法及面试前自检清单。",
       "category": "daily",
-      "icon": "🎓"
+      "subcategory": "review",
+      "tags": ["保研推免", "面试复盘", "小波分析", "PCA主成分分析", "空间分析"],
+      "updated": "2026-09",
+      "hasCode": false,
+      "hasMath": true,
+      "hasMermaid": false
     },
-    "tianditu-vector-full-reverse": {
-      "title": "天地图矢量瓦片全量逆向",
-      "description": "天地图 VTS 逆向总纲与最终版：12 层全量解析、三编码/XOR/整数族/ClosePath 修复、接缝拓扑合并与单文件最终程序；建筑提取已并入（同输入 135→139 栋验证，+4/-0）。",
+    "ZhouDi_learning/word-learning-record": {
+      "title": "周迪的英语单词学习记录",
+      "description": "周迪的个人日常英语词汇、词性释义与助记积累记录。",
+      "category": "daily",
+      "subcategory": "english",
+      "tags": ["英语单词", "日常积累"],
+      "updated": "2025-11",
+      "hasCode": false,
+      "hasMath": false,
+      "hasMermaid": false
+    },
+    "amap-building-reverse": {
+      "title": "高德地图建筑矢量逆向：web_map、PBF 与建筑层（历史子集篇）",
+      "description": "高德 3D 建筑层（layer.type=3）专项逆向记录，现已完整并入《高德矢量瓦片全量逆向》。",
       "category": "tech",
       "subcategory": "reverse",
-      "icon": "🗺️"
+      "tags": ["高德地图", "建筑矢量", "PBF"],
+      "updated": "2026-09",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
-    "tencent-vector-full-reverse": {
-      "title": "腾讯地图矢量瓦片全量逆向",
-      "description": "腾讯矢量瓦片逆向总纲与最终版：5 频段 2113 个图层 ID 全量解析、txDecode 解码链、不裁剪+按瓦抽稀的跨瓦面 Union 拓扑与单文件最终程序；建筑提取已并入（同框 270/270 一致）。",
+    "tianditu-building-reverse": {
+      "title": "天地图建筑矢量逆向：私有 VTS、XOR 与跨瓦片拓扑（历史子集篇）",
+      "description": "天地图 CE 建筑面与 respt 楼号挂接专项逆向记录，现已完整并入《天地图矢量瓦片全量逆向》。",
       "category": "tech",
       "subcategory": "reverse",
-      "icon": "🗺️"
+      "tags": ["天地图", "建筑矢量", "VTS", "拓扑融合"],
+      "updated": "2026-09",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
-    "amap-vector-full-reverse": {
-      "title": "高德地图矢量瓦片全量逆向",
-      "description": "高德五层矢量瓦片全量逆向：web/init 授权链、帧式 gzip/protobuf、schema 驱动全字段解码、region 九子类拆分与单文件一键取数。",
-      "category": "tech",
-      "subcategory": "reverse",
-      "icon": "🗺️"
+    "note-template": {
+      "title": "笔记模板",
+      "description": "标准 Markdown 笔记编写模板",
+      "category": "template",
+      "updated": "2025-11",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     },
-    "tile-rectify-seam-quad-resampling": {
-      "title": "瓦片纠偏接缝：精确四角重采样",
-      "description": "复盘 bd2wgs/gcj2wgs 相邻瓦片拼接缝：压扁的平行四边形、int() 截断与精度—清晰度 trade-off，及统一 QUAD 后的性能账本。",
-      "category": "tech",
-      "subcategory": "reverse",
-      "icon": "🧩"
+    "README": {
+      "title": "笔记系统架构与插件开发指南（README）",
+      "description": "统一 Markdown 渲染器（note-viewer）、按需插件加载生命周期、自动目录生成与词库归档工作流说明。",
+      "category": "tools",
+      "updated": "2026-11",
+      "hasCode": true,
+      "hasMath": false,
+      "hasMermaid": false
     }
   },
   "categories": {
-    "daily": {
-      "title": "每日记录",
-      "icon": "fas fa-calendar-check"
-    },
-    "project": {
-      "title": "项目与工具",
-      "icon": "fas fa-tools"
-    },
     "tech": {
-      "title": "技术笔记",
-      "icon": "fas fa-book",
-      "subcategories": {
-        "reverse": {
-          "title": "瓦片逆向",
-          "icon": "🗺️"
-        },
-        "tiles": {
-          "title": "瓦片与地图服务",
-          "icon": "🛰️"
-        },
-        "gis": {
-          "title": "GIS与遥感",
-          "icon": "🌍"
-        },
-        "ml": {
-          "title": "机器学习/AI",
-          "icon": "🤖"
-        },
-        "math": {
-          "title": "数学基础",
-          "icon": "📐"
-        },
-        "web": {
-          "title": "前端与工程",
-          "icon": "🧩"
-        }
-      }
+      "name": "技术笔记",
+      "icon": "fa-laptop-code",
+      "color": "#3b82f6"
+    },
+    "tools": {
+      "name": "工具与项目",
+      "icon": "fa-screwdriver-wrench",
+      "color": "#10b981"
+    },
+    "daily": {
+      "name": "日常与复盘",
+      "icon": "fa-calendar-check",
+      "color": "#f59e0b"
+    },
+    "gallery": {
+      "name": "成果展示",
+      "icon": "fa-images",
+      "color": "#8b5cf6"
+    }
+  },
+  "subcategories": {
+    "reverse": {
+      "name": "瓦片逆向与纠偏算法",
+      "icon": "fa-microchip",
+      "color": "#c084fc"
+    },
+    "tiles": {
+      "name": "地图切片与服务协议",
+      "icon": "fa-layer-group",
+      "color": "#4ea8ff"
+    },
+    "web": {
+      "name": "WebGIS 工程与全栈部署",
+      "icon": "fa-code-branch",
+      "color": "#a78bfa"
+    },
+    "gis": {
+      "name": "桌面 GIS 开发与遥感",
+      "icon": "fa-earth-asia",
+      "color": "#2dd4a7"
+    },
+    "ml": {
+      "name": "机器学习与空间智能",
+      "icon": "fa-brain",
+      "color": "#fbbf24"
+    },
+    "math": {
+      "name": "数学基础与几何直觉",
+      "icon": "fa-square-root-variable",
+      "color": "#f472b6"
     }
   }
 }

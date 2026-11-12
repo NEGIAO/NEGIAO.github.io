@@ -1,644 +1,718 @@
 /**
- * notes-index.css - 笔记索引页专属样式（视觉升级层）
- * 作用域：body.notes-index-page，不影响其他页面
- *
- * 依赖加载顺序（notes.html 中并行 link）：
- *   base.css → components.css → layout.css → notes.css → responsive.css → notes-index.css
+ * notes-index.css - Claude Code 风格工作台布局（保留原站青蓝/暗夜主题色）
+ * 作用域：body.notes-index-page
  */
 
 /* ========================
-   页面级变量与背景
+   页面级变量（严格复用 base.css 主题色）
    ======================== */
 .notes-index-page {
-  --nip-grid-line: rgba(255, 255, 255, 0.03);
-  --nip-blob: color-mix(in srgb, var(--primary) 12%, transparent);
+  --cc-bg: var(--background);
+  --cc-panel: color-mix(in srgb, var(--surface) 75%, var(--background));
+  --cc-card: color-mix(in srgb, var(--surface) 55%, var(--background));
+  --cc-card-hover: color-mix(in srgb, var(--surface-elevated) 75%, var(--primary) 5%);
+  --cc-border: color-mix(in srgb, var(--border) 85%, transparent);
+  --cc-border-strong: color-mix(in srgb, var(--primary) 45%, var(--border));
+  --cc-subtle: rgba(255, 255, 255, 0.03);
 }
 
 body[data-theme='light'].notes-index-page {
-  --nip-grid-line: rgba(0, 0, 0, 0.045);
-  --nip-blob: color-mix(in srgb, var(--primary) 8%, transparent);
+  --cc-bg: var(--background);
+  --cc-panel: #ffffff;
+  --cc-card: #ffffff;
+  --cc-card-hover: color-mix(in srgb, #ffffff 95%, var(--primary) 5%);
+  --cc-border: rgba(15, 23, 42, 0.09);
+  --cc-border-strong: color-mix(in srgb, var(--primary) 45%, rgba(15, 23, 42, 0.15));
+  --cc-subtle: rgba(15, 23, 42, 0.03);
+}
+
+/* 极简微弱点阵背景 */
+.notes-index-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image: radial-gradient(color-mix(in srgb, var(--text-disabled) 16%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, transparent 75%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, transparent 75%);
 }
 
 /* ========================
-   顶部动态导航
+   顶部导航栏（保持全站一致）
    ======================== */
 .notes-index-page .notes-navbar {
   justify-content: flex-start;
-  max-width: 1180px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 clamp(1rem, 3vw, 2rem);
+  padding: 0 clamp(1rem, 2.5vw, 1.75rem);
   gap: 0.55rem;
 }
 
 .notes-index-page .notes-navbar__brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.5rem;
   color: var(--text);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  white-space: nowrap;
-  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .notes-index-page .notes-navbar__brand:hover {
   color: var(--primary);
-  transform: translateY(-1px);
 }
 
 .notes-index-page .notes-navbar__brand-mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.85rem;
-  height: 1.85rem;
-  border: 1px solid color-mix(in srgb, var(--primary) 30%, var(--glass-border));
-  border-radius: 50%;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--cc-border));
+  border-radius: 6px;
   color: var(--primary);
   background: color-mix(in srgb, var(--primary) 10%, transparent);
-  font-size: 0.82rem;
-  font-weight: 900;
-  box-shadow: 0 0 16px color-mix(in srgb, var(--primary) 12%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 800;
 }
 
 .notes-index-page .notes-navbar__home {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  min-height: 2.05rem;
+  gap: 0.38rem;
+  min-height: 1.95rem;
   margin-left: auto;
-  padding: 0 0.72rem;
-  border: 1px solid color-mix(in srgb, var(--primary) 22%, var(--glass-border));
-  border-radius: var(--radius-full);
+  padding: 0 0.7rem;
+  border: 1px solid var(--cc-border);
+  border-radius: 6px;
   color: var(--text-secondary);
-  background: color-mix(in srgb, var(--surface-elevated) 72%, transparent);
+  background: var(--cc-panel);
   text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 700;
-  white-space: nowrap;
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
 }
 
 .notes-index-page .notes-navbar__home:hover {
   color: var(--primary);
-  border-color: color-mix(in srgb, var(--primary) 50%, var(--glass-border));
-  background: color-mix(in srgb, var(--primary) 9%, var(--surface-elevated));
-  transform: translateY(-1px);
-  box-shadow: 0 7px 18px color-mix(in srgb, var(--primary) 10%, transparent);
+  border-color: var(--cc-border-strong);
 }
 
-.notes-index-page .notes-navbar__home i {
-  font-size: 0.76rem;
-}
-
-/* notes navbar 中的 widget 按钮 — 复用基础样式，仅调整间距 */
 .notes-index-page .notes-navbar .negiao-lang-toggle--nav {
   margin-left: 0.3rem;
 }
 
-@media (max-width: 576px) {
-  .notes-index-page .notes-navbar {
-    height: 3.5rem;
-    padding: 0 0.75rem;
-    gap: 0.42rem;
-  }
-
-  .notes-index-page .notes-navbar__brand-text {
-    display: none;
-  }
-
-  .notes-index-page .notes-navbar__brand-mark,
-  .notes-index-page .notes-navbar__home {
-    width: 2rem;
-    height: 2rem;
-    min-width: 2rem;
-    min-height: 2rem;
-  }
-
-  .notes-index-page .notes-navbar__home {
-    padding: 0;
-  }
-
-  .notes-index-page .notes-navbar__home span {
-    display: none;
-  }
-
-  .notes-index-page .notes-navbar .negiao-lang-toggle--nav {
-    font-size: 0.62rem;
-    padding: 0 0.5rem;
-  }
-}
-
-@media (max-width: 420px) {
-  .notes-index-page .notes-navbar .share-note-btn {
-    display: none;
-  }
-}
-
-/* 顶部氛围：网格底纹 + 单个极光色斑（静态，零持续开销） */
-.notes-index-page::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60vh;
-  pointer-events: none;
-  z-index: -1;
-  background-image:
-    radial-gradient(ellipse 640px 380px at 78% -8%, var(--nip-blob) 0%, transparent 68%),
-    linear-gradient(var(--nip-grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--nip-grid-line) 1px, transparent 1px);
-  background-size: auto, 56px 56px, 56px 56px;
-  -webkit-mask-image: linear-gradient(#000 45%, transparent);
-  mask-image: linear-gradient(#000 45%, transparent);
-}
-
 /* ========================
-   通用（原 style-new.css 尾部规则的本页副本）
+   主容器与 Claude Code 顶部命令行栏
    ======================== */
-.notes-index-page .section {
-  padding: var(--space-4xl) 0;
-  position: relative;
+.notes-index-page .cc-shell {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 5.2rem clamp(1rem, 2.5vw, 1.75rem) 3.5rem;
 }
 
-.notes-index-page .notes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--space-xl);
+/* 终端风状态头 */
+.notes-index-page .cc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
 }
 
-.notes-index-page .footer {
-  padding: var(--space-2xl) 0;
-  border-top: 1px solid var(--border);
-  text-align: center;
-  color: var(--text-muted);
-  background: var(--background-secondary);
-}
-
-.notes-index-page * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) var(--background-secondary);
-}
-
-/* ========================
-   页头
-   ======================== */
-.notes-index-page .page-head {
-  text-align: center;
-  margin-bottom: var(--space-2xl);
-}
-
-.notes-index-page .page-head__eyebrow {
+.notes-index-page .cc-path {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--primary);
-  margin: 0 0 var(--space-sm);
-}
-
-.notes-index-page .page-head__eyebrow::before,
-.notes-index-page .page-head__eyebrow::after {
-  content: '';
-  width: 28px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--primary));
-}
-
-.notes-index-page .page-head__eyebrow::after {
-  background: linear-gradient(90deg, var(--primary), transparent);
-}
-
-.notes-index-page .page-head__title {
-  font-size: clamp(2rem, 4.5vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  margin: 0 0 var(--space-sm);
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 4px 14px color-mix(in srgb, var(--primary) 22%, transparent));
-}
-
-.notes-index-page .page-head__sub {
+  font-size: 0.84rem;
   color: var(--text-muted);
-  font-size: 1rem;
-  margin: 0;
 }
 
-/* ========================
-   工具栏：搜索 + 分类筛选
-   ======================== */
-.notes-index-page .notes-toolbar {
-  max-width: 880px;
-  margin: 0 auto var(--space-3xl);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  align-items: center;
+.notes-index-page .cc-path__prompt {
+  color: var(--primary);
+  font-weight: 700;
 }
 
-.notes-index-page .notes-search {
-  position: relative;
-  width: min(480px, 100%);
-}
-
-.notes-index-page .notes-search i {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-disabled);
-  font-size: 0.85rem;
-  pointer-events: none;
-}
-
-.notes-index-page .notes-search__input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.7rem 2.6rem;
-  background: color-mix(in srgb, var(--surface) 80%, transparent);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-full);
+.notes-index-page .cc-path__dir {
   color: var(--text);
-  font-size: 0.9rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  font-weight: 600;
 }
 
-.notes-index-page .notes-search__input::placeholder {
+.notes-index-page .cc-path__branch {
+  font-size: 0.72rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  border: 1px solid var(--cc-border);
+  background: var(--cc-subtle);
+  color: var(--text-muted);
+}
+
+.notes-index-page .cc-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   color: var(--text-disabled);
 }
 
-.notes-index-page .notes-search__input:focus {
-  outline: none;
-  border-color: color-mix(in srgb, var(--primary) 55%, transparent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+.notes-index-page .cc-meta strong {
+  color: var(--primary);
+  font-weight: 600;
 }
 
-.notes-index-page .notes-search__clear {
-  position: absolute;
-  right: 0.55rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
+/* 命令式搜索条 */
+.notes-index-page .cc-command-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--cc-panel);
+  border: 1px solid var(--cc-border);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.notes-index-page .cc-command-bar:focus-within {
+  border-color: var(--cc-border-strong);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.notes-index-page .cc-command-bar__prompt {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary);
+  user-select: none;
+  padding-left: 0.2rem;
+}
+
+.notes-index-page .cc-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  outline: none;
+}
+
+.notes-index-page .cc-search-input::placeholder {
+  color: var(--text-disabled);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.notes-index-page .cc-clear-btn {
   display: none;
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--text-disabled);
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-
-.notes-index-page .notes-search__clear:hover {
-  color: var(--text);
-  background: color-mix(in srgb, var(--text-disabled) 18%, transparent);
-}
-
-.notes-index-page .notes-search.has-value .notes-search__clear {
-  display: inline-flex;
-}
-
-.notes-index-page .notes-filter {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.notes-index-page .filter-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.42rem 0.95rem;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-full);
-  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  background: var(--cc-subtle);
   color: var(--text-muted);
-  font-size: 0.82rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-size: 0.72rem;
+}
+
+.notes-index-page .cc-clear-btn:hover {
+  color: var(--text);
+}
+
+.notes-index-page .cc-command-bar.has-query .cc-clear-btn {
+  display: inline-flex;
+}
+
+.notes-index-page .cc-kbd {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 0.1rem 0.38rem;
+  border-radius: 4px;
+  border: 1px solid var(--cc-border);
+  color: var(--text-disabled);
+  background: var(--cc-subtle);
   user-select: none;
 }
 
-.notes-index-page .filter-chip:hover {
-  color: var(--text);
-  border-color: color-mix(in srgb, var(--primary) 40%, transparent);
-  transform: translateY(-1px);
-}
-
-.notes-index-page .filter-chip.is-active {
-  color: var(--primary);
-  border-color: color-mix(in srgb, var(--primary) 55%, transparent);
-  background: color-mix(in srgb, var(--primary) 12%, transparent);
-  font-weight: 600;
-}
-
-.notes-index-page .filter-chip__count {
-  font-size: 0.72rem;
-  color: var(--text-disabled);
-}
-
-.notes-index-page .filter-chip.is-active .filter-chip__count {
-  color: color-mix(in srgb, var(--primary) 75%, var(--text));
-}
-
-/* ========================
-   二级分类（子筛选）条
-   ======================== */
-.notes-index-page .sub-filter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin: 0 0 var(--space-xl);
-}
-
-.notes-index-page .sub-filter.is-hidden {
+.notes-index-page .cc-command-bar.has-query .cc-kbd {
   display: none;
 }
 
-.notes-index-page .sub-chip {
+/* 视图切换按钮组（紧凑网格 vs 终端列表） */
+.notes-index-page .cc-view-switch {
   display: inline-flex;
-  align-items: center;
-  padding: 0.3rem 0.78rem;
-  border: 1px dashed var(--glass-border);
-  border-radius: var(--radius-full);
+  border-left: 1px solid var(--cc-border);
+  padding-left: 0.5rem;
+  gap: 0.2rem;
+}
+
+.notes-index-page .cc-view-btn {
+  border: 1px solid transparent;
   background: transparent;
-  color: var(--text-muted);
-  font-size: 0.78rem;
+  color: var(--text-disabled);
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  padding: 0.24rem 0.5rem;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-}
-
-.notes-index-page .sub-chip:hover {
-  color: var(--text);
-  border-color: color-mix(in srgb, var(--primary) 40%, transparent);
-  transform: translateY(-1px);
-}
-
-.notes-index-page .sub-chip.is-active {
-  color: var(--primary);
-  border-style: solid;
-  border-color: color-mix(in srgb, var(--primary) 55%, transparent);
-  background: color-mix(in srgb, var(--primary) 12%, transparent);
-  font-weight: 600;
-}
-
-/* ========================
-   分类区头
-   ======================== */
-.notes-index-page .notes-category {
-  margin-bottom: var(--space-3xl);
-}
-
-.notes-index-page .notes-section-title {
-  font-size: 1.45rem;
-  font-weight: 700;
-  color: var(--text);
-  margin: 0 0 var(--space-xl);
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-.notes-index-page .notes-section-title i {
-  flex: none;
-  width: 40px;
-  height: 40px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--primary) 13%, transparent);
-  border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+  gap: 0.3rem;
+  transition: all 0.15s ease;
+}
+
+.notes-index-page .cc-view-btn:hover {
+  color: var(--text-secondary);
+}
+
+.notes-index-page .cc-view-btn.is-active {
   color: var(--primary);
-  font-size: 1rem;
-}
-
-.notes-index-page .notes-section-title .cat-count {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-disabled);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
-  padding: 0.18rem 0.6rem;
-}
-
-.notes-index-page .notes-section-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, var(--border), transparent);
+  background: color-mix(in srgb, var(--primary) 11%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 28%, transparent);
 }
 
 /* ========================
-   笔记卡片精修
+   双栏工作台布局（左树状导航 + 右主面板）
    ======================== */
-.notes-index-page .note-card {
+.notes-index-page .cc-workbench {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 1.75rem;
+  align-items: start;
+}
+
+/* 左侧边栏（目录树 + 快捷入口） */
+.notes-index-page .cc-sidebar {
+  position: sticky;
+  top: 4.8rem;
   display: flex;
   flex-direction: column;
-  isolation: isolate;
+  gap: 1.25rem;
 }
 
-.notes-index-page .note-card::before {
-  height: 2px;
+.notes-index-page .cc-side-group {
+  background: var(--cc-panel);
+  border: 1px solid var(--cc-border);
+  border-radius: 8px;
+  padding: 0.65rem;
 }
 
-.notes-index-page .note-icon {
-  font-size: 1.6rem;
-  width: 52px;
-  height: 52px;
+.notes-index-page .cc-side-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-disabled);
+  padding: 0.15rem 0.45rem 0.45rem;
+  border-bottom: 1px solid var(--cc-border);
+  margin-bottom: 0.35rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--surface-elevated) 85%, var(--primary) 15%);
-  border: 1px solid var(--glass-border);
-  transition: transform 0.22s ease;
+  justify-content: space-between;
 }
 
-.notes-index-page .note-card:hover .note-icon {
-  transform: scale(1.08) rotate(-4deg);
-}
-
-.notes-index-page .note-card__header {
-  margin-bottom: var(--space-md);
-}
-
-.notes-index-page .note-card__header h3 {
-  font-size: 1.12rem;
-  line-height: 1.35;
-  margin-bottom: 0.4rem;
-  transition: color 0.22s ease;
-}
-
-.notes-index-page .note-card:hover .note-card__header h3 {
-  color: var(--primary);
-}
-
-.notes-index-page .note-card__description {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin-bottom: var(--space-md);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  min-height: 2.9em;
-}
-
-.notes-index-page .note-card__meta {
-  margin-top: auto;
-  margin-bottom: var(--space-md);
-  padding-top: var(--space-sm);
-  border-top: 1px dashed color-mix(in srgb, var(--border) 70%, transparent);
-}
-
-.notes-index-page .note-meta__item {
-  font-size: 0.78rem;
-}
-
-.notes-index-page .note-meta__item i {
-  color: var(--primary);
-  opacity: 0.7;
-}
-
-.notes-index-page .note-card__actions {
+.notes-index-page .cc-nav-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-top: 0;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.notes-index-page .note-card__actions .btn {
-  padding: 0.5rem 1rem;
-  font-size: 0.82rem;
+.notes-index-page .cc-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border: none;
+  border-left: 2px solid transparent;
+  border-radius: 0 5px 5px 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.12s ease;
 }
 
-/* 筛选状态 */
-.notes-index-page .note-card.is-filtered {
-  display: none;
+.notes-index-page .cc-nav-item:hover {
+  color: var(--text);
+  background: var(--cc-subtle);
+}
+
+.notes-index-page .cc-nav-item.is-active {
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  border-left-color: var(--primary);
+  font-weight: 600;
+}
+
+.notes-index-page .cc-nav-item__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notes-index-page .cc-nav-item__idx {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-disabled);
+}
+
+.notes-index-page .cc-nav-item.is-active .cc-nav-item__idx {
+  color: var(--primary);
+}
+
+.notes-index-page .cc-nav-item__count {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-disabled);
+}
+
+.notes-index-page .cc-nav-item.is-active .cc-nav-item__count {
+  color: var(--primary);
+}
+
+/* 左侧快捷应用列表 */
+.notes-index-page .cc-quick-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.36rem 0.5rem;
+  border-radius: 5px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.78rem;
+  transition: all 0.12s ease;
+}
+
+.notes-index-page .cc-quick-link:hover {
+  color: var(--primary);
+  background: var(--cc-subtle);
+}
+
+.notes-index-page .cc-quick-link__tag {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  padding: 0.05rem 0.32rem;
+  border-radius: 3px;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+/* ========================
+   右侧主内容面板与分组
+   ======================== */
+.notes-index-page .cc-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  min-width: 0;
+}
+
+.notes-index-page .notes-category {
+  margin: 0;
 }
 
 .notes-index-page .notes-category.is-empty {
+  display: none !important;
+}
+
+/* 极简终端分节线 */
+.notes-index-page .cc-sec-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.65rem;
+}
+
+.notes-index-page .cc-sec-idx {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.notes-index-page .cc-sec-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.notes-index-page .cc-sec-line {
+  flex: 1;
+  height: 1px;
+  background: var(--cc-border);
+}
+
+.notes-index-page .cc-sec-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-disabled);
+}
+
+/* ========================
+   笔记条目卡片（Claude Code 极简风）
+   ======================== */
+.notes-index-page .notes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.notes-index-page .note-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.38rem;
+  padding: 0.78rem 0.95rem;
+  background: var(--cc-card);
+  border: 1px solid var(--cc-border);
+  border-radius: 7px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  transform: none !important;
+  opacity: 1 !important;
+  transition: border-color 0.14s ease, background-color 0.14s ease;
+}
+
+.notes-index-page .note-card::before {
   display: none;
 }
 
-/* 无结果提示 */
+.notes-index-page .note-card:hover {
+  background: var(--cc-card-hover);
+  border-color: var(--cc-border-strong);
+  box-shadow: none;
+  transform: none !important;
+}
+
+.notes-index-page .note-card.is-filtered {
+  display: none !important;
+}
+
+/* 整卡可点击覆盖层 */
+.notes-index-page .note-card__link {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.35;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.notes-index-page .note-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.notes-index-page .note-card:hover .note-card__link {
+  color: var(--primary);
+}
+
+.notes-index-page .note-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.notes-index-page .note-card__desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.notes-index-page .note-card__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* 极简等宽标签 */
+.notes-index-page .cc-tag {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  padding: 0.08rem 0.38rem;
+  border-radius: 4px;
+  border: 1px solid var(--cc-border);
+  background: var(--cc-subtle);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.notes-index-page .cc-tag--live {
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+/* 卡片附属小按钮（如下载脚本、测验入口，层级高于整卡链接） */
+.notes-index-page .cc-sublink {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  padding: 0.08rem 0.42rem;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, var(--cc-border));
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  color: var(--primary);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.12s ease;
+}
+
+.notes-index-page .cc-sublink:hover {
+  background: color-mix(in srgb, var(--primary) 20%, transparent);
+  color: var(--text);
+}
+
+/* ========================
+   列表视图模式（CLI 单行模式）
+   ======================== */
+.notes-index-page.view-list .notes-grid {
+  grid-template-columns: 1fr;
+  gap: 0;
+  border: 1px solid var(--cc-border);
+  border-radius: 7px;
+  overflow: hidden;
+  background: var(--cc-card);
+}
+
+.notes-index-page.view-list .note-card {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.85rem;
+  padding: 0.55rem 0.85rem;
+  border: none;
+  border-bottom: 1px solid var(--cc-border);
+  border-radius: 0;
+}
+
+.notes-index-page.view-list .note-card:last-child {
+  border-bottom: none;
+}
+
+.notes-index-page.view-list .note-card__top {
+  flex: 0 0 260px;
+}
+
+.notes-index-page.view-list .note-card__desc {
+  flex: 1;
+}
+
+/* ========================
+   无结果提示与页脚
+   ======================== */
 .notes-index-page .notes-empty {
   display: none;
   text-align: center;
+  padding: 3rem 1rem;
+  border: 1px dashed var(--cc-border);
+  border-radius: 8px;
   color: var(--text-muted);
-  padding: var(--space-3xl) 0;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
 }
 
 .notes-index-page .notes-empty.is-visible {
   display: block;
 }
 
-.notes-index-page .notes-empty i {
-  font-size: 2rem;
+.notes-index-page .footer {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--cc-border);
+  text-align: center;
   color: var(--text-disabled);
-  margin-bottom: var(--space-md);
-  display: block;
-}
-
-/* 卡片入场（由 JS 添加 .is-revealed） */
-.notes-index-page .note-card {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.4s ease, transform 0.4s ease,
-    border-color var(--transition-normal), box-shadow var(--transition-normal);
-}
-
-.notes-index-page .note-card.is-revealed {
-  opacity: 1;
-  transform: translateY(0);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: transparent;
 }
 
 /* ========================
-   使用说明 + 统计
+   响应式适配
    ======================== */
-.notes-index-page .notes-info {
-  margin-bottom: var(--space-3xl);
-}
-
-.notes-index-page .notes-info h2 {
-  font-size: 1.45rem;
-}
-
-.notes-index-page .info-item {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  transition: transform 0.22s ease, border-color 0.22s ease;
-}
-
-.notes-index-page .info-item:hover {
-  transform: translateY(-3px);
-  border-color: color-mix(in srgb, var(--primary) 35%, transparent);
-}
-
-.notes-index-page .notes-stats {
-  border-top: 1px solid var(--border);
-  padding-top: var(--space-2xl);
-}
-
-.notes-index-page .stats-item h3 {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* ========================
-   响应式
-   ======================== */
-@media (max-width: 768px) {
-  .notes-index-page .section {
-    padding: var(--space-2xl) 0;
+@media (max-width: 960px) {
+  .notes-index-page .cc-workbench {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
   }
 
-  .notes-index-page .page-head {
-    margin-top: var(--space-xl);
+  .notes-index-page .cc-sidebar {
+    position: static;
+    gap: 0.6rem;
   }
 
-  .notes-index-page .notes-toolbar {
-    margin-bottom: var(--space-2xl);
+  .notes-index-page .cc-nav-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.35rem;
   }
 
+  .notes-index-page .cc-nav-item {
+    width: auto;
+    border-left: none;
+    border: 1px solid var(--cc-border);
+    border-radius: 5px;
+    padding: 0.3rem 0.55rem;
+    gap: 0.4rem;
+  }
+
+  .notes-index-page .cc-nav-item.is-active {
+    border-color: var(--cc-border-strong);
+  }
+
+  .notes-index-page .cc-side-group--quick {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
   .notes-index-page .notes-grid {
     grid-template-columns: 1fr;
-    gap: var(--space-lg);
   }
-}
 
-/* ========================
-   动效偏好
-   ======================== */
-@media (prefers-reduced-motion: reduce) {
-  .notes-index-page .note-card {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none;
+  .notes-index-page.view-list .note-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+
+  .notes-index-page.view-list .note-card__top {
+    flex: 1 1 auto;
   }
 }

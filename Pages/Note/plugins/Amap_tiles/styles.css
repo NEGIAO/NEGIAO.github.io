@@ -1,0 +1,386 @@
+/* ============================================
+   Amap Tiles Full-Parameter Preview Plugin Styles
+   ============================================ */
+
+.amap-preview-panel {
+    margin: 24px 0 32px;
+    border-radius: var(--radius-lg, 12px);
+    border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 4%, transparent), color-mix(in srgb, var(--primary) 2%, transparent));
+    overflow: hidden;
+}
+
+.amap-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 18px;
+    background: color-mix(in srgb, var(--primary) 7%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+.amap-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.amap-header-left i {
+    color: var(--primary);
+    font-size: 16px;
+}
+
+.amap-header-left span {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary, var(--text));
+}
+
+.amap-underlay-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary, var(--text-muted));
+    cursor: pointer;
+    user-select: none;
+}
+
+.amap-underlay-toggle input {
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.amap-preview-controls {
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.amap-url-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.amap-url-input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 12px;
+    border-radius: var(--radius-md, 8px);
+    border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+    background: rgba(0, 0, 0, 0.22);
+    color: var(--text-primary, var(--text));
+    font-family: var(--font-mono, 'Fira Code', monospace);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.amap-url-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.amap-apply-btn {
+    padding: 8px 16px;
+    border-radius: var(--radius-md, 8px);
+    border: 1px solid var(--primary);
+    background: color-mix(in srgb, var(--primary) 15%, transparent);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.amap-apply-btn:hover {
+    background: color-mix(in srgb, var(--primary) 25%, transparent);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+/* 参数组合网格 */
+.amap-builder-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.amap-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.amap-field > span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.amap-field select,
+.amap-sel-ltype-mode {
+    padding: 6px 8px;
+    border-radius: var(--radius-sm, 6px);
+    border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
+    background: rgba(0, 0, 0, 0.22);
+    color: var(--text-primary, var(--text));
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+}
+
+.amap-field select:focus,
+.amap-sel-ltype-mode:focus {
+    border-color: var(--primary);
+}
+
+/* ltype 位掩码面板 */
+.amap-ltype-box {
+    padding: 10px 12px;
+    border-radius: var(--radius-md, 8px);
+    border: 1px solid color-mix(in srgb, var(--primary) 16%, transparent);
+    background: rgba(0, 0, 0, 0.14);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.amap-ltype-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.amap-ltype-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary, var(--text));
+}
+
+.amap-ltype-badge {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-family: var(--font-mono, 'Fira Code', monospace);
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+.amap-ltype-bits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+}
+
+.amap-bit-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary, var(--text-muted));
+    cursor: pointer;
+    user-select: none;
+}
+
+.amap-bit-chip input {
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.amap-bit-chip input:disabled + span {
+    opacity: 0.45;
+}
+
+/* 智能参数提示栏 */
+.amap-hint-bar {
+    padding: 7px 12px;
+    border-radius: var(--radius-sm, 6px);
+    font-size: 12px;
+    line-height: 1.5;
+    border-left: 3px solid var(--primary);
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
+    color: var(--text-secondary, var(--text));
+}
+
+.amap-hint-bar.is-warn {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+    color: #fbbf24;
+}
+
+.amap-hint-bar.is-info {
+    border-left-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+}
+
+/* 预设与定位按钮 */
+.amap-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.amap-preset-btn {
+    padding: 5px 11px;
+    border-radius: 20px;
+    border: 1px solid color-mix(in srgb, var(--primary) 20%, transparent);
+    background: rgba(0, 0, 0, 0.15);
+    color: var(--text-secondary, var(--text-muted));
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.amap-preset-btn:hover,
+.amap-preset-btn.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.amap-loc-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.amap-loc-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-right: 2px;
+}
+
+.amap-loc-btn {
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px dashed color-mix(in srgb, var(--primary) 28%, transparent);
+    background: transparent;
+    color: var(--text-secondary, var(--text-muted));
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.amap-loc-btn:hover {
+    border-style: solid;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* 棋盘格透底：让 style=8 / ltype=2 / ltype=4 透明区域在地图上清晰可见 */
+.amap-map-container {
+    width: 100%;
+    height: 440px;
+    position: relative;
+    border-top: 1px solid color-mix(in srgb, var(--primary) 12%, transparent);
+    background-color: #f3f4f6;
+    background-image:
+        linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(-45deg, #e5e7eb 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e5e7eb 75%),
+        linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+}
+
+.amap-map-container .ol-viewport {
+    border-radius: 0 0 var(--radius-lg, 12px) var(--radius-lg, 12px);
+}
+
+.amap-zoom-info {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 10;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--background) 85%, transparent);
+    backdrop-filter: blur(6px);
+    color: var(--primary);
+    font-size: 11px;
+    font-family: var(--font-mono, 'Fira Code', monospace);
+    pointer-events: none;
+}
+
+/* ---- Light theme ---- */
+body[data-theme='light'] .amap-url-input,
+body[data-theme='light'] .amap-field select,
+body[data-theme='light'] .amap-sel-ltype-mode {
+    background: rgba(255, 255, 255, 0.88);
+    color: #111827;
+}
+
+body[data-theme='light'] .amap-ltype-box {
+    background: rgba(255, 255, 255, 0.55);
+}
+
+body[data-theme='light'] .amap-preset-btn {
+    background: color-mix(in srgb, var(--primary) 5%, transparent);
+    color: #4b5563;
+}
+
+body[data-theme='light'] .amap-hint-bar.is-warn {
+    color: #b45309;
+}
+
+body[data-theme='light'] .amap-zoom-info {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .amap-builder-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .amap-map-container {
+        height: 320px;
+    }
+
+    .amap-url-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .amap-ltype-badge {
+        margin-left: 0;
+    }
+}
+
+.amap-ol-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 1rem;
+    background: var(--surface, #161b22);
+}
+
+.amap-ol-fallback i {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--warning, #f59e0b);
+}
+
+.amap-ol-fallback p {
+    margin: 0 0 0.5rem;
+    font-weight: 600;
+}
+
+.amap-ol-fallback span {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.75;
+}

@@ -109,4 +109,11 @@ OGC (Open Geospatial Consortium) 定义了一系列开放标准，确保了不�
 
 作为 GISer，理解这些协议的差异不仅能优化项目性能，更能让你在处理跨平台数据集成时游刃有余。
 
----**参考资料**
+---
+
+## 6. 延伸阅读（站内瓦片与地图服务专题）
+
+- [高德地图 XYZ 瓦片服务、`style/ltype/scl` 全参数拆解与在线预览](?note=Amap_tiles)
+- [谷歌地图 XYZ 瓦片服务、`apistyle` 自定义样式与坐标纠偏代理全解析](?note=Google_tiles)
+- [非标准 XYZ 切片图源与 GCJ-02 适配实战总结](?note=non-standard-xyz-and-gcj02)
+- [深入浅出 GIS 图像格式：JPEG、PNG 与 TIFF 的数据结构及异同分析](?note=xyzTilesFormat)

@@ -2,1003 +2,711 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NEGIAO的技术笔记索引 - WebGIS、数据可视化和前端开发学习心得与实践总结">
-    <meta name="keywords" content="WebGIS, GIS, 学习笔记, 前端开发, ArcGIS, Python, 数据可视化">
-    <meta name="author" content="NEGIAO">
-    <meta name="theme-color" content="#0D1117">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NEGIAO 笔记索引：瓦片逆向、地图切片、WebGIS、桌面GIS、智能算法与工具集">
+  <meta name="author" content="NEGIAO">
+  <meta name="theme-color" content="#0D1117">
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://negiao.github.io/Pages/notes.html">
-    <meta property="og:title" content="技术笔记索引 - NEGIAO">
-    <meta property="og:description" content="NEGIAO的技术笔记索引 - WebGIS、数据可视化和前端开发学习心得与实践总结">
-    <meta property="og:image" content="https://negiao.github.io/Pages/public/avatar.webp">
+  <title>笔记索引 - NEGIAO</title>
+  <link rel="icon" type="image/webp" href="../images/icon.webp">
 
-    <title>笔记索引 - NEGIAO</title>
-    <link rel="icon" type="image/webp" href="/images/icon.webp">
+  <link rel="preconnect" href="https://cdnjs.loli.net" crossorigin>
 
-    <!-- 预连接第三方资源 -->
-    <link rel="preconnect" href="https://cdnjs.loli.net" crossorigin>
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <!-- 站点模块化样式（保留原站青蓝/暗夜主题色） -->
+  <link rel="stylesheet" href="css/base.css?v=20261112">
+  <link rel="stylesheet" href="css/components.css?v=20261112">
+  <link rel="stylesheet" href="css/layout.css?v=20261112">
+  <link rel="stylesheet" href="css/notes.css?v=20261112">
+  <link rel="stylesheet" href="css/responsive.css?v=20261112">
+  <link rel="stylesheet" href="css/notes-index.css?v=20261112">
 
-    <!-- 站点样式：并行加载所需模块（替代 style-new.css 的 @import 串行链） -->
-    <link rel="stylesheet" href="css/base.css?v=20260727">
-    <link rel="stylesheet" href="css/components.css?v=20260727">
-    <link rel="stylesheet" href="css/layout.css?v=20260727">
-    <link rel="stylesheet" href="css/notes.css?v=20260727">
-    <link rel="stylesheet" href="css/responsive.css?v=20260727">
-    <link rel="stylesheet" href="css/notes-index.css?v=20260727">
+  <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
+  </noscript>
 
-    <!-- Font Awesome 异步加载：不阻塞首屏渲染 -->
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css">
-        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/solid.min.css">
-        <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
-        <style>.notes-index-page .note-card { opacity: 1 !important; transform: none !important; }</style>
-    </noscript>
+  <style>
+    body { margin: 0; padding: 0; overflow-x: hidden; background: #0A0E13; color: #F7FAFC; }
+    body[data-theme='light'] { background: #EFF1F5; color: #111827; }
+  </style>
 
-    <!-- 内联关键样式：避免样式就绪前的白屏闪烁 -->
-    <style>
-        body { margin: 0; padding: 0; overflow-x: hidden; background: #0D1117; color: #F7FAFC; }
-        body[data-theme='light'] { background: #EFF1F5; color: #111827; }
-    </style>
-
-    <script src="/Pages/navbar-widgets/index.js?v=20260727" defer></script>
-    <script src="public/main-enhanced.js?v=20260727" defer></script>
+  <script src="navbar-widgets/index.js?v=20260727" defer></script>
+  <script src="public/main-enhanced.js?v=20260727" defer></script>
 </head>
 
 <body class="notes-index-page">
-    <nav class="navbar" aria-label="主导航">
-        <div class="navbar__container notes-navbar">
-            <a href="../index.html" class="notes-navbar__brand" aria-label="NEGIAO 首页">
-                <span class="notes-navbar__brand-mark" aria-hidden="true">N</span>
-                <span class="notes-navbar__brand-text">NEGIAO</span>
+  <!-- 顶部导航栏 -->
+  <nav class="navbar" aria-label="主导航">
+    <div class="navbar__container notes-navbar">
+      <a href="../index.html" class="notes-navbar__brand" aria-label="NEGIAO 首页">
+        <span class="notes-navbar__brand-mark" aria-hidden="true">N</span>
+        <span class="notes-navbar__brand-text">NEGIAO</span>
+      </a>
+      <a href="../index.html" class="notes-navbar__home" aria-label="返回首页">
+        <i class="fas fa-home" aria-hidden="true"></i>
+        <span>首页</span>
+      </a>
+    </div>
+  </nav>
+
+  <main class="cc-shell">
+    <!-- 终端风极简状态行 -->
+    <header class="cc-header">
+      <div class="cc-path">
+        <span class="cc-path__prompt">❯</span>
+        <span class="cc-path__dir">~/negiao/notes</span>
+        <span class="cc-path__branch">main</span>
+      </div>
+      <div class="cc-meta">
+        <span><strong id="stat-visible">33</strong> / <span id="stat-total">33</span> docs</span>
+        <span>7 modules</span>
+      </div>
+    </header>
+
+    <!-- 命令式检索栏 -->
+    <div class="cc-command-bar" id="cc-command-bar">
+      <span class="cc-command-bar__prompt">/</span>
+      <input id="notes-search" class="cc-search-input" type="search"
+        placeholder="grep 标题、协议、标签... (按 / 聚焦, Esc 清空)" autocomplete="off" aria-label="搜索笔记">
+      <kbd class="cc-kbd">/</kbd>
+      <button id="notes-search-clear" class="cc-clear-btn" type="button" aria-label="清空">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="cc-view-switch" role="group" aria-label="视图切换">
+        <button type="button" id="view-grid-btn" class="cc-view-btn is-active" title="双列卡片">⊞ Grid</button>
+        <button type="button" id="view-list-btn" class="cc-view-btn" title="单行列表">≡ List</button>
+      </div>
+    </div>
+
+    <!-- 双栏工作台：左侧目录树 + 右侧内容区 -->
+    <div class="cc-workbench">
+
+      <!-- 左侧导航栏 -->
+      <aside class="cc-sidebar" aria-label="分类目录">
+        <div class="cc-side-group">
+          <div class="cc-side-title">
+            <span>MODULES</span>
+            <span>COUNT</span>
+          </div>
+          <nav class="cc-nav-list" role="tablist">
+            <button class="cc-nav-item is-active" type="button" data-filter="all">
+              <span class="cc-nav-item__label"><span class="cc-nav-item__idx">*</span> 全部笔记</span>
+              <span class="cc-nav-item__count" data-count-for="all">33</span>
+            </button>
+            <button class="cc-nav-item" type="button" data-filter="reverse">
+              <span class="cc-nav-item__label"><span class="cc-nav-item__idx">01</span> 瓦片逆向</span>
+              <span class="cc-nav-item__count" data-count-for="reverse">4</span>
+            </button>
+            <button class="cc-nav-item" type="button" data-filter="tiles">
+              <span class="cc-nav-item__label"><span class="cc-nav-item__idx">02</span> 地图切片</span>
+              <span class="cc-nav-item__count" data-count-for="tiles">6</span>
+            </button>
+            <button class="cc-nav-item" type="button" data-filter="web">
+              <span class="cc-nav-item__label"><span class="cc-nav-item__idx">03</span> WebGIS 工程</span>
+              <span class="cc-nav-item__count" data-count-for="web">6</span>
+            </button>
+            <button class="cc-nav-item" type="button" data-filter="gis">
+              <span class="cc-nav-item__label"><span class="cc-nav-item__idx">04</span> 桌面 GIS</span>
+              <span class="cc-nav-item__count" data-count-for="gis">4</span>
+            </button>
+            <button class="cc-nav-item" type="button" data-filter="ml-math">
+              <span class="cc-nav-item__label"><span class="cc-nav-item__idx">05</span> 算法与数学</span>
+              <span class="cc-nav-item__count" data-count-for="ml-math">4</span>
+            </button>
+            <button class="cc-nav-item" type="button" data-filter="tools">
+              <span class="cc-nav-item__label"><span class="cc-nav-item__idx">06</span> 工具与项目</span>
+              <span class="cc-nav-item__count" data-count-for="tools">6</span>
+            </button>
+            <button class="cc-nav-item" type="button" data-filter="daily">
+              <span class="cc-nav-item__label"><span class="cc-nav-item__idx">07</span> 日常与复盘</span>
+              <span class="cc-nav-item__count" data-count-for="daily">3</span>
+            </button>
+          </nav>
+        </div>
+
+        <div class="cc-side-group cc-side-group--quick">
+          <div class="cc-side-title">
+            <span>QUICK LAUNCH</span>
+            <span>⚡</span>
+          </div>
+          <div class="cc-nav-list">
+            <a class="cc-quick-link" href="Note/note-viewer/note-viewer.html?note=Amap_tiles">
+              <span>高德切片预览</span>
+              <span class="cc-quick-link__tag">LIVE</span>
             </a>
-            <a href="../index.html" class="notes-navbar__home" aria-label="返回首页">
-                <i class="fas fa-home" aria-hidden="true"></i>
-                <span>首页</span>
+            <a class="cc-quick-link" href="Note/note-viewer/note-viewer.html?note=Google_tiles">
+              <span>Google 切片预览</span>
+              <span class="cc-quick-link__tag">LIVE</span>
             </a>
+            <a class="cc-quick-link" href="Note/word-quiz.html">
+              <span>英语词库抽测</span>
+              <span class="cc-quick-link__tag">QUIZ</span>
+            </a>
+            <a class="cc-quick-link" href="Note/markdown_editor.html">
+              <span>Markdown 编辑器</span>
+              <span class="cc-quick-link__tag">TOOL</span>
+            </a>
+            <a class="cc-quick-link" href="Note/gallery.html">
+              <span>成果画廊</span>
+              <span class="cc-quick-link__tag">VIEW</span>
+            </a>
+          </div>
         </div>
-    </nav>
+      </aside>
 
-    <main class="container section">
-        <!-- 页头 -->
-        <header class="page-head">
-            <p class="page-head__eyebrow">Notes</p>
-            <h1 class="page-head__title">笔记索引</h1>
-            <p class="page-head__sub">技术学习心得与实践总结</p>
-        </header>
+      <!-- 右侧主面板 -->
+      <div class="cc-main">
 
-        <!-- 工具栏：搜索 + 分类筛选 -->
-        <div class="notes-toolbar">
-            <div class="notes-search">
-                <i class="fas fa-search" aria-hidden="true"></i>
-                <input type="text" id="notes-search-input" class="notes-search__input" placeholder="搜索笔记..." aria-label="搜索笔记">
-                <button type="button" id="notes-search-clear" class="notes-search__clear" aria-label="清空搜索">
-                    <i class="fas fa-times" aria-hidden="true"></i>
-                </button>
-            </div>
-            <div class="notes-filter" role="tablist" aria-label="分类筛选">
-                <button type="button" class="filter-chip is-active" data-filter="all">
-                    <span>全部笔记</span><span class="filter-chip__count"></span>
-                </button>
-                <button type="button" class="filter-chip" data-filter="daily">
-                    <span>每日记录</span><span class="filter-chip__count"></span>
-                </button>
-                <button type="button" class="filter-chip" data-filter="tools">
-                    <span>项目与工具</span><span class="filter-chip__count"></span>
-                </button>
-                <button type="button" class="filter-chip" data-filter="tech">
-                    <span>技术笔记</span><span class="filter-chip__count"></span>
-                </button>
-                <button type="button" class="filter-chip" data-filter="gallery">
-                    <span>成果展示</span><span class="filter-chip__count"></span>
-                </button>
-            </div>
-        </div>
-
-        <!-- 每日记录 -->
-        <div class="notes-category" data-category="daily">
-            <h2 class="notes-section-title"><i class="fas fa-calendar-check"></i> 每日记录 <span class="cat-count"></span></h2>
-            <section class="notes-grid">
-                <!-- 单词学习记录 -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">📊</div>
-                        <div>
-                            <h3>单词学习记录</h3>
-                            <span class="note-badge note-badge--data">单词</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">记录学习过的单词，方便复习和巩固记忆</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> updating
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=word-learning-record" class="btn btn--primary">
-                            <i class="fas fa-book"></i> 阅读笔记
-                        </a>
-                        <a href="Note/word-quiz.html" class="btn btn--secondary">
-                            <i class="fas fa-gamepad"></i> 开始测试
-                        </a>
-                    </div>
+        <!-- 01. 瓦片逆向 -->
+        <section class="notes-category" data-domain="reverse">
+          <div class="cc-sec-head">
+            <span class="cc-sec-idx">01</span>
+            <h2 class="cc-sec-title">瓦片逆向与纠偏</h2>
+            <span class="cc-sec-line"></span>
+            <span class="cc-sec-count">4</span>
+          </div>
+          <div class="notes-grid">
+            <article class="note-card" data-tags="tianditu 天地图 VTS Protobuf XOR 拓扑 建筑 矢量瓦片">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=tianditu-vector-full-reverse">天地图矢量瓦片全量逆向</a>
+                <div class="note-card__meta">
+                  <a class="cc-sublink" href="Note/resources/tdt-full-reverse/tdt_vector_fetch.mjs" download>.mjs ↓</a>
+                  <span class="cc-tag">VTS</span>
                 </div>
+              </div>
+              <p class="note-card__desc">36层字典 · XOR还原 · elemid跨瓦拓扑融合</p>
+            </article>
 
-                <!-- 周迪的学习记录 -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">👩‍🎓</div>
-                        <div>
-                            <h3>周迪的学习记录</h3>
-                            <span class="note-badge note-badge--data">单词</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">周迪的英语单词学习记录，每日更新，包含释义与用法</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> updating
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=ZhouDi_learning/word-learning-record" class="btn btn--primary">
-                            <i class="fas fa-chart-bar"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="tencent 腾讯地图 矢量瓦片 Base64 zlib Bezier 建筑">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=tencent-vector-full-reverse">腾讯地图矢量瓦片全量逆向</a>
+                <div class="note-card__meta">
+                  <a class="cc-sublink" href="Note/resources/tencent-full-reverse/tencent_vector_fetch.mjs" download>.mjs ↓</a>
+                  <span class="cc-tag">182层</span>
                 </div>
-            </section>
-        </div>
+              </div>
+              <p class="note-card__desc">频段Schema · 异或解压 · UTF-16LE与弧线还原</p>
+            </article>
 
-        <!-- 项目与工具 -->
-        <div class="notes-category" data-category="tools">
-            <h2 class="notes-section-title"><i class="fas fa-tools"></i> 项目与工具 <span class="cat-count"></span></h2>
-            <section class="notes-grid">
-                <!-- ArcGIS Engine Project -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">💻</div>
-                        <div>
-                            <h3>ArcGIS Engine Project</h3>
-                            <span class="note-badge note-badge--tech">C#</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">基于 ArcGIS Engine 10.2.2 的桌面 GIS 系统开发项目，包含地图操作、空间分析等功能</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-code-branch"></i> GitHub
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=arcgis-engine-project" class="btn btn--primary">
-                            <i class="fas fa-project-diagram"></i> 查看项目
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="amap 高德地图 矢量瓦片 PBF Protobuf 五层 建筑">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=amap-vector-full-reverse">高德矢量瓦片全量逆向</a>
+                <div class="note-card__meta">
+                  <a class="cc-sublink" href="Note/resources/amap-full-reverse/amap_vector_fetch.mjs" download>.mjs ↓</a>
+                  <span class="cc-tag">PBF</span>
                 </div>
+              </div>
+              <p class="note-card__desc">五层通用结构 · 动态授权链 · z15子瓦片还原</p>
+            </article>
 
-                <!-- NEGIAO 工具箱 -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">🧰</div>
-                        <div>
-                            <h3>NEGIAO 工具箱</h3>
-                            <span class="note-badge note-badge--tool">工具</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">ArcGIS Pro 自定义工具箱 (.atbx)，包含常用地理处理脚本与效率工具</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-download"></i> 资源下载
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=negiao-toolbox" class="btn btn--primary">
-                            <i class="fas fa-box-open"></i> 查看详情
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="tile-rectify 瓦片纠偏 接缝 QUAD 四角重采样 GCJ-02 BD-09">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=tile-rectify-seam-quad-resampling">瓦片纠偏四角重采样算法</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">QUAD</span>
                 </div>
+              </div>
+              <p class="note-card__desc">消除BD-09/GCJ-02接缝 · Canvas两步剪切仿射</p>
+            </article>
+          </div>
+        </section>
 
-                <!-- Markdown Editor -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">✏️</div>
-                        <div>
-                            <h3>实时 Markdown 编辑器</h3>
-                            <span class="note-badge note-badge--tool">工具</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">在线实时预览的 Markdown 编辑器，方便快速编写和测试笔记内容</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-tools"></i> 在线工具
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/markdown_editor.html" class="btn btn--primary">
-                            <i class="fas fa-edit"></i> 打开编辑器
-                        </a>
-                    </div>
+        <!-- 02. 地图切片与协议 -->
+        <section class="notes-category" data-domain="tiles">
+          <div class="cc-sec-head">
+            <span class="cc-sec-idx">02</span>
+            <h2 class="cc-sec-title">地图切片与服务协议</h2>
+            <span class="cc-sec-line"></span>
+            <span class="cc-sec-count">6</span>
+          </div>
+          <div class="notes-grid">
+            <article class="note-card" data-tags="Amap_tiles 高德切片 style ltype scl XYZ 在线预览">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=Amap_tiles">高德地图切片全参数解析</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag cc-tag--live">LIVE 预览</span>
                 </div>
+              </div>
+              <p class="note-card__desc">webrd/webst · style与ltype 4-Bit掩码实测</p>
+            </article>
 
-                <!-- QR Code Generator -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">📱</div>
-                        <div>
-                            <h3>二维码生成器</h3>
-                            <span class="note-badge note-badge--tool">工具</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">简单易用的二维码生成工具，支持自定义颜色和大小</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-qrcode"></i> 在线工具
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=qrcode-generator" class="btn btn--primary">
-                            <i class="fas fa-qrcode"></i> 打开工具
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="Google_tiles 谷歌切片 lyrs apistyle 纠偏代理 在线预览">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=Google_tiles">Google 切片与 apistyle 解析</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag cc-tag--live">LIVE 预览</span>
                 </div>
+              </div>
+              <p class="note-card__desc">lyrs图层 · 自定义样式语法 · HF云代理纠偏</p>
+            </article>
 
-                <!-- Note Template -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">📖</div>
-                        <div>
-                            <h3>笔记模板</h3>
-                            <span class="note-badge note-badge--template">模板</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">用于创建新笔记的标准模板，包含Markdown渲染和章节索引功能</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 模板文件
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=note-template" class="btn btn--primary">
-                            <i class="fas fa-eye"></i> 查看模板
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="non-standard-xyz 非标准XYZ TMS QuadKey 百度 GCJ-02">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=non-standard-xyz-and-gcj02">非标准 XYZ 切片与 GCJ-02 适配</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">CRS</span>
                 </div>
+              </div>
+              <p class="note-card__desc">TMS / QuadKey / 百度墨卡托等六类非标换算</p>
+            </article>
 
-                <!-- 河大图书馆座位预约 -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">📚</div>
-                        <div>
-                            <h3>河大图书馆座位预约</h3>
-                            <span class="note-badge note-badge--tool">Python</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">官方接口逆向分析：9 个接口详情、AES 加密机制、CAS 认证流程、Python 自动预约完整实现与定时抢座逻辑</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-09-02
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=henu-library-reservation" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="AmapAPI 高德API AOI 建筑 地理编码 猎鹰 后端代理">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=AmapAPI">高德高阶 API 无痕调用手册</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">API</span>
                 </div>
-            </section>
-        </div>
+              </div>
+              <p class="note-card__desc">AOI边界 · 建筑路网 · 户级地理编码代理规范</p>
+            </article>
 
-        <!-- 技术笔记 -->
-        <div class="notes-category" data-category="tech">
-            <h2 class="notes-section-title"><i class="fas fa-book"></i> 技术笔记 <span class="cat-count"></span></h2>
-            <div class="sub-filter is-hidden" data-subfilter="tech" role="tablist" aria-label="技术笔记二级分类">
-                <button type="button" class="sub-chip is-active" data-sub="all">全部</button>
-                <button type="button" class="sub-chip" data-sub="reverse">瓦片逆向</button>
-                <button type="button" class="sub-chip" data-sub="tiles">瓦片与地图服务</button>
-                <button type="button" class="sub-chip" data-sub="gis">GIS与遥感</button>
-                <button type="button" class="sub-chip" data-sub="ml">机器学习/AI</button>
-                <button type="button" class="sub-chip" data-sub="math">数学基础</button>
-                <button type="button" class="sub-chip" data-sub="web">前端与工程</button>
-            </div>
-            <section class="notes-grid">
-                <!-- ML/DL -->
-                <div class="note-card" data-subcategory="ml">
-                    <div class="note-card__header">
-                        <div class="note-icon">🤖</div>
-                        <div>
-                            <h3>机器学习与深度学习</h3>
-                            <span class="note-badge note-badge--ml">机器学习/AI</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">核心概念、学习范式、经典模型深度拆解与 GIS 实践应用指南</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-brain"></i> 知识体系
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=ml-dl-learning" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="WebService WMS WMTS WFS WCS MVT 3D Tiles OGC">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=WebService">主流网络地图服务协议解析</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">OGC</span>
                 </div>
+              </div>
+              <p class="note-card__desc">WMS / WMTS / WFS / MVT / 3D Tiles 对比选型</p>
+            </article>
 
-                <!-- ArcGIS Engine -->
-                <div class="note-card" data-subcategory="gis">
-                    <div class="note-card__header">
-                        <div class="note-icon">🌍</div>
-                        <div>
-                            <h3>ArcGIS Engine</h3>
-                            <span class="note-badge note-badge--gis">GIS与遥感</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">ArcGIS Engine开发实践，包括地图控件、空间分析等功能的实现</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> updating
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=arcgis-engine" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="xyzTilesFormat JPEG PNG GeoTIFF PLTE Terrain-RGB GDAL">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=xyzTilesFormat">GIS 图像与瓦片格式底层结构</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">GDAL</span>
                 </div>
+              </div>
+              <p class="note-card__desc">JPEG / 索引色PNG / Terrain-RGB / GeoTIFF</p>
+            </article>
+          </div>
+        </section>
 
-                <!-- ArcPy -->
-                <div class="note-card" data-subcategory="gis">
-                    <div class="note-card__header">
-                        <div class="note-icon">📊</div>
-                        <div>
-                            <h3>ArcPy</h3>
-                            <span class="note-badge note-badge--gis">GIS与遥感</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">基于ArcPy的代码示例与实践</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> updating
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=ArcPy" class="btn btn--primary">
-                            <i class="fas fa-chart-bar"></i> 代码示例
-                        </a>
-                    </div>
+        <!-- 03. WebGIS 工程 -->
+        <section class="notes-category" data-domain="web">
+          <div class="cc-sec-head">
+            <span class="cc-sec-idx">03</span>
+            <h2 class="cc-sec-title">WebGIS 与全栈工程</h2>
+            <span class="cc-sec-line"></span>
+            <span class="cc-sec-count">6</span>
+          </div>
+          <div class="notes-grid">
+            <article class="note-card" data-tags="vue3-webgis Vue3 shallowRef Composables Pinia OpenLayers Cesium">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=vue3-webgis-practice-essentials">Vue 3 + WebGIS 架构精要</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">Vue 3</span>
                 </div>
+              </div>
+              <p class="note-card__desc">shallowRef防卡顿 · Composables抽离 · Pinia状态</p>
+            </article>
 
-                <!-- Spatial Analysis R -->
-                <div class="note-card" data-subcategory="ml">
-                    <div class="note-card__header">
-                        <div class="note-icon">🤖</div>
-                        <div>
-                            <h3>机器学习与智能算法（R）</h3>
-                            <span class="note-badge note-badge--ml">机器学习/AI</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">ANN、梯度下降、SVM、随机森林、CNN、遗传算法、元胞自动机、ABM等R语言实现</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2025-12-23
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=spatial-analysis-R" class="btn btn--primary">
-                            <i class="fas fa-code"></i> 查看代码
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="WebSite_Deploy 全栈部署 GitHub Actions Posit Hugging Face FastAPI">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=WebSite_Deploy">WebGIS 全栈免费部署方案</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">CI/CD</span>
                 </div>
+              </div>
+              <p class="note-card__desc">GitHub + Posit同域瓦片 + HF FastAPI持久化</p>
+            </article>
 
-                <!-- GEE Coursework -->
-                <div class="note-card" data-subcategory="gis">
-                    <div class="note-card__header">
-                        <div class="note-icon">🛰️</div>
-                        <div>
-                            <h3>GEE结课作业</h3>
-                            <span class="note-badge note-badge--gis">GIS与遥感</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">GEE结课作业相关的代码，包括随机森林分类和特征重要性分析</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2025-12-21
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=gee-coursework" class="btn btn--primary">
-                            <i class="fas fa-code"></i> 查看代码
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="Docker WSL2 GDAL PROJ 容器化">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=Docker">Docker GIS 容器化实战指南</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">Docker</span>
                 </div>
+              </div>
+              <p class="note-card__desc">WSL2配置 · 解决GDAL依赖冲突 · 云端上线</p>
+            </article>
 
-                <!-- Calculus Key Points -->
-                <div class="note-card" data-subcategory="math">
-                    <div class="note-card__header">
-                        <div class="note-icon">📐</div>
-                        <div>
-                            <h3>微积分重要结论</h3>
-                            <span class="note-badge note-badge--math">数学基础</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">用于日常更新与复习的微积分结论速查，支持复杂数学公式渲染</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calculator"></i> 复习笔记
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=calculus-key-points" class="btn btn--primary">
-                            <i class="fas fa-square-root-alt"></i> 开始复习
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="WebKnowledge Referer Origin CORS 跨域 防盗链 httpx">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=WebKnowledge">Referer 与 Origin 跨域详解</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">HTTP</span>
                 </div>
+              </div>
+              <p class="note-card__desc">403防盗链 · CORS机制 · httpx后端无痕代理</p>
+            </article>
 
-                <!-- Linear Algebra Key Points -->
-                <div class="note-card" data-subcategory="math">
-                    <div class="note-card__header">
-                        <div class="note-icon">📐</div>
-                        <div>
-                            <h3>线性代数重要结论</h3>
-                            <span class="note-badge note-badge--math">数学基础</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">用于日常更新与复习的线性代数结论速查，支持复杂数学公式渲染</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calculator"></i> 复习笔记
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=linearAlgebra" class="btn btn--primary">
-                            <i class="fas fa-square-root-alt"></i> 开始复习
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="Wind2D_Prompt Cesium WebGL GLSL 风场 粒子系统">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=Wind2D_Prompt">Cesium 2D 风场粒子引擎规格</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">WebGL</span>
                 </div>
+              </div>
+              <p class="note-card__desc">CustomPrimitive 四Pass管线 · 浮点状态纹理</p>
+            </article>
 
-                <!-- Non-standard XYZ + GCJ-02 -->
-                <div class="note-card" data-subcategory="tiles">
-                    <div class="note-card__header">
-                        <div class="note-icon">🗺️</div>
-                        <div>
-                            <h3>非标准XYZ与GCJ-02适配</h3>
-                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">总结目录分级、TMS、QuadKey、百度与GCJ-02切片适配策略，配套OpenLayers请求与排障流程</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-map-marked-alt"></i> 实战总结
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=non-standard-xyz-and-gcj02" class="btn btn--primary">
-                            <i class="fas fa-layer-group"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="Hexo GitHub Pages 双分支 博客">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=Hexo">Hexo 博客双分支建站指南</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">Hexo</span>
                 </div>
+              </div>
+              <p class="note-card__desc">main存源码 · gh-pages发静态站 · 三步工作流</p>
+            </article>
+          </div>
+        </section>
 
-                <!-- Tianditu Vector Full Reverse -->
-                <div class="note-card" data-subcategory="reverse">
-                    <div class="note-card__header">
-                        <div class="note-icon">🗺️</div>
-                        <div>
-                            <h3>天地图矢量瓦片全量逆向</h3>
-                            <span class="note-badge note-badge--reverse">瓦片逆向</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">12 层全量解析、三编码/XOR/整数族/ClosePath 修复、通用拓扑接缝合并，最终单文件程序一键取数（建筑提取已并入）</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-map-marked-alt"></i> 逆向实战
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=tianditu-vector-full-reverse" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+        <!-- 04. 桌面 GIS 与遥感 -->
+        <section class="notes-category" data-domain="gis">
+          <div class="cc-sec-head">
+            <span class="cc-sec-idx">04</span>
+            <h2 class="cc-sec-title">桌面 GIS 与遥感分析</h2>
+            <span class="cc-sec-line"></span>
+            <span class="cc-sec-count">4</span>
+          </div>
+          <div class="notes-grid">
+            <article class="note-card" data-tags="ArcPy arcpy.da 游标 NetCDF 坐标转换 ArcGIS Pro Python">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=ArcPy">ArcPy 空间数据处理实战</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">ArcPy</span>
                 </div>
+              </div>
+              <p class="note-card__desc">da游标令牌 · NetCDF批量转TIFF · 要素纠偏</p>
+            </article>
 
-                <!-- Tencent Vector Full Reverse -->
-                <div class="note-card" data-subcategory="reverse">
-                    <div class="note-card__header">
-                        <div class="note-icon">🗺️</div>
-                        <div>
-                            <h3>腾讯地图矢量瓦片全量逆向</h3>
-                            <span class="note-badge note-badge--reverse">瓦片逆向</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">5 频段 2113 个图层 ID 全量解析、txDecode 解码链、不裁剪整要素重复的精确去重拓扑，最终单文件程序一键取数（建筑提取已并入）</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-map-marked-alt"></i> 逆向实战
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=tencent-vector-full-reverse" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="gee-coursework GEE Sentinel-2 随机森林 GridSearchCV 遥感">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=gee-coursework">GEE 遥感随机森林网格调参</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag cc-tag--live">DEMO</span>
                 </div>
+              </div>
+              <p class="note-card__desc">Sentinel-2 + NDVI · 5折寻优 (OA 94.27%)</p>
+            </article>
 
-                <!-- Amap Vector Full Reverse -->
-                <div class="note-card" data-subcategory="reverse">
-                    <div class="note-card__header">
-                        <div class="note-icon">🗺️</div>
-                        <div>
-                            <h3>高德地图矢量瓦片全量逆向</h3>
-                            <span class="note-badge note-badge--reverse">瓦片逆向</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">高德五层矢量瓦片全量逆向：web/init 授权链、帧式 gzip/protobuf、schema 驱动全字段解码、region 九子类拆分与单文件一键取数</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-map-marked-alt"></i> 逆向实战
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=amap-vector-full-reverse" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="arcgis-engine ArcObjects COM OMD QueryInterface C#">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=arcgis-engine">ArcGIS Engine 二次开发体系</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">C# / AO</span>
                 </div>
+              </div>
+              <p class="note-card__desc">OMD对象模型 · QI接口查询 · 控件联动与渲染</p>
+            </article>
 
-                <!-- Tile Rectify Seam QUAD Resampling -->
-                <div class="note-card" data-subcategory="reverse">
-                    <div class="note-card__header">
-                        <div class="note-icon">🧩</div>
-                        <div>
-                            <h3>瓦片纠偏接缝：精确四角重采样</h3>
-                            <span class="note-badge note-badge--reverse">瓦片逆向</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">复盘 bd2wgs/gcj2wgs 相邻瓦片拼接缝：压扁的平行四边形、int() 截断与精度—清晰度 trade-off，及统一 QUAD 后的性能账本</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-map-marked-alt"></i> 实战复盘
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=tile-rectify-seam-quad-resampling" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="arcgis-engine-project 桌面GIS C# 符号化DLL 源码">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=arcgis-engine-project">ArcGIS Engine 桌面系统项目</a>
+                <div class="note-card__meta">
+                  <a class="cc-sublink" href="https://github.com/NEGIAO/GIS-Engine-CSharp" target="_blank" rel="noopener">GitHub ↗</a>
+                  <span class="cc-tag">Project</span>
                 </div>
+              </div>
+              <p class="note-card__desc">鹰眼联动 · 空间查询量算 · 六类专题图DLL</p>
+            </article>
+          </div>
+        </section>
 
-                <!-- Vue3 WebGIS Essentials -->
-                <div class="note-card" data-subcategory="web">
-                    <div class="note-card__header">
-                        <div class="note-icon">🧭</div>
-                        <div>
-                            <h3>Vue 3 实战精要：从基础到 WebGIS 架构思考</h3>
-                            <span class="note-badge note-badge--web">前端与工程</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">系统梳理响应式、生命周期、Composables 与 Pinia 在 WebGIS 项目中的落地方法，附高频避坑清单</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-compass"></i> 团队分享
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=vue3-webgis-practice-essentials" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+        <!-- 05. 算法与数学 -->
+        <section class="notes-category" data-domain="ml-math">
+          <div class="cc-sec-head">
+            <span class="cc-sec-idx">05</span>
+            <h2 class="cc-sec-title">空间智能与数学基础</h2>
+            <span class="cc-sec-line"></span>
+            <span class="cc-sec-count">4</span>
+          </div>
+          <div class="notes-grid">
+            <article class="note-card" data-tags="spatial-analysis-R R语言 ANN SVM 随机森林 CNN 遥感分类">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=spatial-analysis-R">机器学习与空间智能（R 语言）</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">R / CNN</span>
                 </div>
+              </div>
+              <p class="note-card__desc">ANN / 梯度下降可视化 / SVM / RF / CNN遥感分类</p>
+            </article>
 
-                <!-- Hexo 博客建站 -->
-                <div class="note-card" data-subcategory="web">
-                    <div class="note-card__header">
-                        <div class="note-icon">📝</div>
-                        <div>
-                            <h3>从0到1搭建Hexo博客</h3>
-                            <span class="note-badge note-badge--web">前端与工程</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">详细记录使用 Hexo + GitHub Pages 双分支管理法搭建个人博客的完整流程，包括避坑经验</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-04-05
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=Hexo" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="ml-dl-learning 机器学习 深度学习 CNN Transformer GIS">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=ml-dl-learning">机器学习与深度学习知识体系</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">AI / ML</span>
                 </div>
+              </div>
+              <p class="note-card__desc">三大范式 · RF/SVM/CNN/Transformer · GIS选型流</p>
+            </article>
 
-                <!-- 网站部署 -->
-                <div class="note-card" data-subcategory="web">
-                    <div class="note-card__header">
-                        <div class="note-icon">🌍</div>
-                        <div>
-                            <h3>WebGIS 全栈免费部署方案</h3>
-                            <span class="note-badge note-badge--web">前端与工程</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">基于 GitHub Actions 实现的零成本 WebGIS 方案：国内高速访问、前后端分离及数据持久化实战总结</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-04-19
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=WebSite_Deploy" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="calculus-key-points 微积分 泰勒 中值定理 重积分 级数 考研">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=calculus-key-points">微积分重要结论速查笔记</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">Math</span>
                 </div>
+              </div>
+              <p class="note-card__desc">极限泰勒 · 中值定理 · 重积分 · 微分方程与级数</p>
+            </article>
 
-                <!-- agent提示词 -->
-                <div class="note-card" data-subcategory="ml">
-                    <div class="note-card__header">
-                        <div class="note-icon">🤖</div>
-                        <div>
-                            <h3>agent提示词</h3>
-                            <span class="note-badge note-badge--ml">机器学习/AI</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">Cesium生成2d风场Prompt</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-04-23
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=Wind2D_Prompt" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="linearAlgebra 线性代数 基变换 秩 相似变换 WebGIS">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=linearAlgebra">线性代数几何直觉与空间变换</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">Matrix</span>
                 </div>
+              </div>
+              <p class="note-card__desc">基变换 · 矩阵的秩 · A⁻¹MA与WebGIS投影闭环</p>
+            </article>
+          </div>
+        </section>
 
-                <!-- WebService -->
-                <div class="note-card" data-subcategory="tiles">
-                    <div class="note-card__header">
-                        <div class="note-icon">📡</div>
-                        <div>
-                            <h3>WebService</h3>
-                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">WebGIS必知：主流网络地图服务协议全解析</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-04-24
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=WebService" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+        <!-- 06. 工具与项目 -->
+        <section class="notes-category" data-domain="tools">
+          <div class="cc-sec-head">
+            <span class="cc-sec-idx">06</span>
+            <h2 class="cc-sec-title">工具、扩展与项目</h2>
+            <span class="cc-sec-line"></span>
+            <span class="cc-sec-count">6</span>
+          </div>
+          <div class="notes-grid">
+            <article class="note-card" data-tags="henu-library-reservation 河大图书馆 预约 逆向 CAS OAuth2 AES">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=henu-library-reservation">河大图书馆预约接口逆向</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">AES</span>
                 </div>
+              </div>
+              <p class="note-card__desc">CAS+OAuth2认证 · 动态AES加密 · 13接口详单</p>
+            </article>
 
-                <!-- AmapAPI -->
-                <div class="note-card" data-subcategory="tiles">
-                    <div class="note-card__header">
-                        <div class="note-icon">🗺️</div>
-                        <div>
-                            <h3>AmapAPI</h3>
-                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">高德地图全套高阶付费API 后端无痕实战调用手册（可直接接入项目）</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-04-28
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=AmapAPI" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="negiao-toolbox ArcGIS Pro 工具箱 atbx NC转栅格 最短路径 坐标转换">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=negiao-toolbox">NEGIAO ArcGIS Pro 工具箱</a>
+                <div class="note-card__meta">
+                  <a class="cc-sublink" href="../Others/NEGIAO工具_V1_0_1.zip" download>.atbx ↓</a>
+                  <span class="cc-tag">Pro</span>
                 </div>
+              </div>
+              <p class="note-card__desc">NC批量转栅格 · 最短路径 · 火星坐标双向转换</p>
+            </article>
 
-                <!-- WebKnowledge -->
-                <div class="note-card" data-subcategory="web">
-                    <div class="note-card__header">
-                        <div class="note-icon">🛡️</div>
-                        <div>
-                            <h3>WebKnowledge</h3>
-                            <span class="note-badge note-badge--web">前端与工程</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">GIS 开发必看：Referer 与 Origin 跨域请求头详解</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-04-28
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=WebKnowledge" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="markdown_editor Markdown 编辑器 LaTeX 代码高亮">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/markdown_editor.html">实时 Markdown 编辑器</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag cc-tag--live">APP</span>
                 </div>
+              </div>
+              <p class="note-card__desc">本地文件直读直写 · 双栏同步 · 公式与代码高亮</p>
+            </article>
 
-                <!-- Docker -->
-                <div class="note-card" data-subcategory="web">
-                    <div class="note-card__header">
-                        <div class="note-icon">📦</div>
-                        <div>
-                            <h3>Docker</h3>
-                            <span class="note-badge note-badge--web">前端与工程</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">Docker 容器化技术在 GIS 开发中的应用与实践</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-05-03
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=Docker" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="qrcode-generator 二维码 Streamlit VCard 解码器">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=qrcode-generator">多样式二维码生成器</a>
+                <div class="note-card__meta">
+                  <a class="cc-sublink" href="https://negiao-qrcode.share.connect.posit.cloud/" target="_blank" rel="noopener">Run ↗</a>
+                  <span class="cc-tag">Tool</span>
                 </div>
+              </div>
+              <p class="note-card__desc">7种配色 · VCard电子名片 · 静态解码页架构</p>
+            </article>
 
-                <!-- XYZ切片格式解析 -->
-                <div class="note-card" data-subcategory="tiles">
-                    <div class="note-card__header">
-                        <div class="note-icon">🖼️</div>
-                        <div>
-                            <h3>XYZ切片格式解析</h3>
-                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">XYZ切片中jpg、png和tif格式数据结构详解</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-05-07
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=XYZTilesFormat" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="gallery 成果展示 画廊 地图 可视化">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/gallery.html">项目与制图成果画廊</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">Gallery</span>
                 </div>
+              </div>
+              <p class="note-card__desc">WebGIS三维可视化 · 遥感分类与专题地图集</p>
+            </article>
 
-                <!-- Google切片 -->
-                <div class="note-card" data-subcategory="tiles">
-                    <div class="note-card__header">
-                        <div class="note-icon">🗺️</div>
-                        <div>
-                            <h3>Google切片</h3>
-                            <span class="note-badge note-badge--tiles">瓦片与地图服务</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">Google切片类型总结、apistyle查询、动态纠偏代理</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-calendar"></i> 2026-05-27
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/note-viewer/note-viewer.html?note=Google_tiles" class="btn btn--primary">
-                            <i class="fas fa-book-open"></i> 阅读笔记
-                        </a>
-                    </div>
+            <article class="note-card" data-tags="README note-template 笔记系统 插件 架构">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=README">笔记系统与插件开发说明</a>
+                <div class="note-card__meta">
+                  <a class="cc-sublink" href="Note/note-viewer/note-viewer.html?note=note-template">模板</a>
+                  <span class="cc-tag">Docs</span>
                 </div>
-            </section>
+              </div>
+              <p class="note-card__desc">note-viewer渲染器 · 插件生命周期 · 词库归档</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 07. 日常与复盘 -->
+        <section class="notes-category" data-domain="daily">
+          <div class="cc-sec-head">
+            <span class="cc-sec-idx">07</span>
+            <h2 class="cc-sec-title">日常与复盘</h2>
+            <span class="cc-sec-line"></span>
+            <span class="cc-sec-count">3</span>
+          </div>
+          <div class="notes-grid">
+            <article class="note-card" data-tags="word-learning-record 英语单词 词根词缀 抽测">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=word-learning-record">英语单词学习记录</a>
+                <div class="note-card__meta">
+                  <a class="cc-sublink" href="Note/word-quiz.html">Quiz ↗</a>
+                  <span class="cc-tag">3500+</span>
+                </div>
+              </div>
+              <p class="note-card__desc">词根词缀助记 · 释义遮挡 · 2025.09至今按月归档</p>
+            </article>
+
+            <article class="note-card" data-tags="njnu-interview 南师大 推免 面试复盘 小波分析 PCA 空间分析">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=njnu-interview-2026-09-16">南师大推免面试复盘</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">26.09</span>
+                </div>
+              </div>
+              <p class="note-card__desc">小波分析英文作答 · PCA追问链条 · 自检清单</p>
+            </article>
+
+            <article class="note-card" data-tags="ZhouDi_learning 周迪 英语单词">
+              <div class="note-card__top">
+                <a class="note-card__link" href="Note/note-viewer/note-viewer.html?note=ZhouDi_learning/word-learning-record">周迪的单词学习记录</a>
+                <div class="note-card__meta">
+                  <span class="cc-tag">Daily</span>
+                </div>
+              </div>
+              <p class="note-card__desc">日常词汇释义与助记积累</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 空结果提示 -->
+        <div id="notes-empty" class="notes-empty" role="status">
+          0 matches found. Press [Esc] to clear filter.
         </div>
 
-        <!-- 成果展示 -->
-        <div class="notes-category" data-category="gallery">
-            <h2 class="notes-section-title"><i class="fas fa-images"></i> 成果展示 <span class="cat-count"></span></h2>
-            <section class="notes-grid">
-                <!-- Gallery -->
-                <div class="note-card">
-                    <div class="note-card__header">
-                        <div class="note-icon">🎨</div>
-                        <div>
-                            <h3>成果展示</h3>
-                            <span class="note-badge note-badge--tech">作品</span>
-                        </div>
-                    </div>
-                    <p class="note-card__description">往期可视化成果、地图作品及项目截图展示</p>
-                    <div class="note-card__meta">
-                        <span class="note-meta__item">
-                            <i class="fas fa-images"></i> 画廊
-                        </span>
-                    </div>
-                    <div class="note-card__actions">
-                        <a href="Note/gallery.html" class="btn btn--primary">
-                            <i class="fas fa-eye"></i> 浏览作品
-                        </a>
-                    </div>
-                </div>
-            </section>
-        </div>
+      </div>
+    </div>
+  </main>
 
-        <!-- 无结果提示 -->
-        <div class="notes-empty" id="notes-empty">
-            <i class="fas fa-search" aria-hidden="true"></i>
-            <p>未找到匹配的笔记</p>
-            <p class="notes-empty__hint">尝试更换关键词或切换分类</p>
-        </div>
+  <footer class="footer">
+    <div class="container">
+      <span>&copy; <span id="current-year">2026</span> NEGIAO · ~/negiao/notes</span>
+    </div>
+  </footer>
 
-        <!-- 使用说明 -->
-        <div class="notes-info">
-            <h2>📝 使用说明</h2>
-            <div class="info-grid">
-                <div class="info-item">
-                    <div class="info-icon">📋</div>
-                    <h4>创建新笔记</h4>
-                    <p>复制模板文件，重命名后编辑其中的Markdown内容即可创建新笔记</p>
-                </div>
-                <div class="info-item">
-                    <div class="info-icon">🔗</div>
-                    <h4>章节导航</h4>
-                    <p>每个笔记页面右侧都有自动生成的章节目录，方便快速跳转到不同章节，支持长章节目录滚动</p>
-                </div>
-                <div class="info-item">
-                    <div class="info-icon">📱</div>
-                    <h4>响应式设计</h4>
-                    <p>支持桌面和移动设备，TOC在移动端会自动调整到内容下方</p>
-                </div>
-            </div>
-        </div>
+  <script>
+    (function () {
+      'use strict';
 
-        <!-- 统计 -->
-        <div class="notes-stats">
-            <div class="stats-item">
-                <h3 id="stat-note-count">17</h3>
-                <p>笔记文件</p>
-            </div>
-            <div class="stats-item">
-                <h3>∞</h3>
-                <p>学习机会</p>
-            </div>
-            <div class="stats-item">
-                <h3>📚</h3>
-                <p>知识积累</p>
-            </div>
-        </div>
-    </main>
+      var searchInput = document.getElementById('notes-search');
+      var clearBtn = document.getElementById('notes-search-clear');
+      var cmdBar = document.getElementById('cc-command-bar');
+      var navItems = Array.prototype.slice.call(document.querySelectorAll('.cc-nav-item'));
+      var categories = Array.prototype.slice.call(document.querySelectorAll('.notes-category'));
+      var allCards = Array.prototype.slice.call(document.querySelectorAll('.note-card'));
+      var emptyHint = document.getElementById('notes-empty');
+      var statVisible = document.getElementById('stat-visible');
+      var statTotal = document.getElementById('stat-total');
+      var viewGridBtn = document.getElementById('view-grid-btn');
+      var viewListBtn = document.getElementById('view-list-btn');
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; <span id="current-year">2026</span> NEGIAO. 持续学习，记录成长。</p>
-        </div>
-    </footer>
+      var activeDomain = 'all';
 
-    <!-- 页面内逻辑：分类计数 / 搜索筛选 / 入场动画 / 年份 -->
-    <script>
-        (function () {
-            'use strict';
+      // 1. 初始化计数
+      if (statTotal) statTotal.textContent = allCards.length;
+      categories.forEach(function (cat) {
+        var d = cat.getAttribute('data-domain');
+        var n = cat.querySelectorAll('.note-card').length;
+        var el = document.querySelector('[data-count-for="' + d + '"]');
+        if (el) el.textContent = n;
+      });
+      var allCountEl = document.querySelector('[data-count-for="all"]');
+      if (allCountEl) allCountEl.textContent = allCards.length;
 
-            var cards = Array.prototype.slice.call(document.querySelectorAll('.note-card'));
-            var cats = Array.prototype.slice.call(document.querySelectorAll('.notes-category'));
-            var chips = Array.prototype.slice.call(document.querySelectorAll('.filter-chip'));
-            var input = document.getElementById('notes-search-input');
-            var clearBtn = document.getElementById('notes-search-clear');
-            var emptyEl = document.getElementById('notes-empty');
-            var activeCat = 'all';
-            var activeSub = 'all';
-            var subFilter = document.querySelector('.sub-filter[data-subfilter="tech"]');
-            var subChips = Array.prototype.slice.call(document.querySelectorAll('.sub-chip'));
+      // 2. 视图切换（Grid vs List）
+      function setView(mode) {
+        var isList = mode === 'list';
+        document.body.classList.toggle('view-list', isList);
+        if (viewGridBtn) viewGridBtn.classList.toggle('is-active', !isList);
+        if (viewListBtn) viewListBtn.classList.toggle('is-active', isList);
+        try { localStorage.setItem('negiao_cc_view', isList ? 'list' : 'grid'); } catch (e) {}
+      }
+      try {
+        if (localStorage.getItem('negiao_cc_view') === 'list') setView('list');
+      } catch (e) {}
+      if (viewGridBtn) viewGridBtn.addEventListener('click', function () { setView('grid'); });
+      if (viewListBtn) viewListBtn.addEventListener('click', function () { setView('list'); });
 
-            // 分类计数（区头 + 筛选chip）
-            cats.forEach(function (cat) {
-                var span = cat.querySelector('.cat-count');
-                if (span) span.textContent = String(cat.querySelectorAll('.note-card').length);
-            });
-            chips.forEach(function (chip) {
-                var f = chip.getAttribute('data-filter');
-                var c = chip.querySelector('.filter-chip__count');
-                if (!c) return;
-                c.textContent = f === 'all'
-                    ? String(cards.length)
-                    : String(document.querySelectorAll('.notes-category[data-category="' + f + '"] .note-card').length);
-            });
+      // 3. 过滤逻辑
+      function applyFilter() {
+        var q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        if (cmdBar) cmdBar.classList.toggle('has-query', q.length > 0);
 
-            // 笔记文件统计：自动统计指向 note-viewer 的卡片数
-            var stat = document.getElementById('stat-note-count');
-            if (stat) stat.textContent = String(document.querySelectorAll('.note-card a[href*="note-viewer"]').length);
+        var visibleTotal = 0;
+        categories.forEach(function (cat) {
+          var domain = cat.getAttribute('data-domain');
+          var domainMatch = (activeDomain === 'all' || activeDomain === domain);
+          var cards = Array.prototype.slice.call(cat.querySelectorAll('.note-card'));
+          var catVisible = 0;
 
-            // 版权年份
-            var yearEl = document.getElementById('current-year');
-            if (yearEl) yearEl.textContent = String(new Date().getFullYear());
-
-            // 搜索 + 分类筛选
-            function applyFilter() {
-                var q = (input && input.value || '').trim().toLowerCase();
-                if (input) input.parentElement.classList.toggle('has-value', !!q);
-
-                var anyVisible = false;
-                cats.forEach(function (cat) {
-                    var catName = cat.getAttribute('data-category');
-                    var visibleCount = 0;
-                    cat.querySelectorAll('.note-card').forEach(function (card) {
-                        var okCat = activeCat === 'all' || catName === activeCat;
-                        var okQuery = !q || card.textContent.toLowerCase().indexOf(q) !== -1;
-                        var okSub = !(activeCat === 'tech' && catName === 'tech')
-                            || activeSub === 'all'
-                            || card.getAttribute('data-subcategory') === activeSub;
-                        var show = okCat && okQuery && okSub;
-                        card.classList.toggle('is-filtered', !show);
-                        if (show) visibleCount++;
-                    });
-                    cat.classList.toggle('is-empty', visibleCount === 0);
-                    if (visibleCount) anyVisible = true;
-                });
-                if (emptyEl) emptyEl.classList.toggle('is-visible', !anyVisible);
+          cards.forEach(function (card) {
+            if (!domainMatch) {
+              card.classList.add('is-filtered');
+              return;
             }
+            var text = (card.textContent + ' ' + (card.getAttribute('data-tags') || '')).toLowerCase();
+            var show = !q || text.indexOf(q) !== -1;
+            card.classList.toggle('is-filtered', !show);
+            if (show) catVisible++;
+          });
 
-            var debounceId = null;
-            if (input) {
-                input.addEventListener('input', function () {
-                    clearTimeout(debounceId);
-                    debounceId = setTimeout(applyFilter, 120);
-                });
-            }
-            if (clearBtn) {
-                clearBtn.addEventListener('click', function () {
-                    input.value = '';
-                    applyFilter();
-                    input.focus();
-                });
-            }
-            function updateSubFilterVisibility() {
-                if (!subFilter) return;
-                subFilter.classList.toggle('is-hidden', activeCat !== 'tech');
-            }
+          cat.classList.toggle('is-empty', catVisible === 0);
+          var countEl = cat.querySelector('.cc-sec-count');
+          if (countEl) countEl.textContent = catVisible;
+          visibleTotal += catVisible;
+        });
 
-            chips.forEach(function (chip) {
-                chip.addEventListener('click', function () {
-                    chips.forEach(function (c) { c.classList.remove('is-active'); });
-                    chip.classList.add('is-active');
-                    activeCat = chip.getAttribute('data-filter');
-                    if (activeCat !== 'tech') {
-                        activeSub = 'all';
-                        subChips.forEach(function (c) {
-                            c.classList.toggle('is-active', c.getAttribute('data-sub') === 'all');
-                        });
-                    }
-                    updateSubFilterVisibility();
-                    applyFilter();
-                });
-            });
+        if (statVisible) statVisible.textContent = visibleTotal;
+        if (emptyHint) emptyHint.classList.toggle('is-visible', visibleTotal === 0);
+      }
 
-            subChips.forEach(function (chip) {
-                chip.addEventListener('click', function () {
-                    subChips.forEach(function (c) { c.classList.remove('is-active'); });
-                    chip.classList.add('is-active');
-                    activeSub = chip.getAttribute('data-sub');
-                    applyFilter();
-                });
-            });
+      // 4. 侧栏模块切换
+      navItems.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          activeDomain = btn.getAttribute('data-filter') || 'all';
+          navItems.forEach(function (b) { b.classList.toggle('is-active', b === btn); });
+          applyFilter();
+        });
+      });
 
-            // 卡片入场动画（IntersectionObserver，逐个揭示）
-            if ('IntersectionObserver' in window) {
-                var io = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (entry) {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('is-revealed');
-                            io.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+      // 5. 搜索与快捷键
+      if (searchInput) searchInput.addEventListener('input', applyFilter);
+      if (clearBtn && searchInput) {
+        clearBtn.addEventListener('click', function () {
+          searchInput.value = '';
+          searchInput.focus();
+          applyFilter();
+        });
+      }
 
-                cards.forEach(function (card, i) {
-                    card.style.transitionDelay = (i % 4) * 60 + 'ms';
-                    io.observe(card);
-                });
-            } else {
-                cards.forEach(function (card) { card.classList.add('is-revealed'); });
-            }
-        })();
-    </script>
+      document.addEventListener('keydown', function (e) {
+        if (e.key === '/' && document.activeElement !== searchInput &&
+            !['INPUT', 'TEXTAREA'].includes((document.activeElement && document.activeElement.tagName) || '')) {
+          e.preventDefault();
+          if (searchInput) searchInput.focus();
+        } else if (e.key === 'Escape') {
+          if (searchInput && searchInput.value) {
+            searchInput.value = '';
+            applyFilter();
+          } else if (activeDomain !== 'all' && navItems[0]) {
+            navItems[0].click();
+          }
+          if (searchInput) searchInput.blur();
+        }
+      });
+
+      var yearEl = document.getElementById('current-year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+    })();
+  </script>
 </body>
 
 </html>

@@ -1,1 +1,0 @@
-import{BaseDecoder as e}from"./geotiff-02AVtREB.js";var o=class extends e{decodeBlock(e){return e}};export{o as default};

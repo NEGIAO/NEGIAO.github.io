@@ -66,7 +66,71 @@
             />
         </noscript>
 
-        <title>NEGIAO's WebGIS</title>
+        <title>NEGIAO's WebGIS - 地理信息可视化平台</title>
+
+        <!-- ==================== SEO 元信息（Google/Bing/百度 收录用，V3.6.45） ====================
+             背景：GSC 报「URL is unknown to Google」——站点无 sitemap、无 meta description、
+             无 canonical、首屏纯 SPA 空壳，缺少一切被"发现"和"理解"的信号。
+             此处补齐 description / canonical / Open Graph；sitemap 见 public/sitemap.xml；
+             robots 见 public/robots.txt（注意 Cloudflare 的 Managed robots.txt 会覆盖源站版本）。 -->
+        <meta
+            name="description"
+            content="NEGIAO's WebGIS 是一个开源的二维/三维一体化地理信息可视化平台：基于 Vue 3 + OpenLayers + Cesium，支持三维地球漫游、地形与影像加载、矢量/栅格数据导入（SHP/KML/GeoJSON/GeoTIFF/GLTF）、建筑白模、空间分析与在线地图服务聚合。"
+        />
+        <meta
+            name="keywords"
+            content="WebGIS,三维地图,地理信息系统,GIS可视化,Cesium,OpenLayers,地图开发,地形,空间分析,倾斜摄影,数字地球"
+        />
+        <meta
+            name="author"
+            content="NEGIAO"
+        />
+        <link
+            rel="canonical"
+            href="https://webgis.negiao.cn/"
+        />
+
+        <!-- Open Graph / 社交分享卡片 -->
+        <meta
+            property="og:type"
+            content="website"
+        />
+        <meta
+            property="og:site_name"
+            content="NEGIAO's WebGIS"
+        />
+        <meta
+            property="og:title"
+            content="NEGIAO's WebGIS - 三维地理信息可视化平台"
+        />
+        <meta
+            property="og:description"
+            content="基于 Vue 3 + OpenLayers + Cesium 的二维/三维一体化 WebGIS 平台：三维漫游、地形影像、矢量栅格导入、建筑白模与空间分析。"
+        />
+        <meta
+            property="og:url"
+            content="https://webgis.negiao.cn/"
+        />
+        <meta
+            property="og:image"
+            content="https://webgis.negiao.cn/images/icon.webp"
+        />
+        <meta
+            name="twitter:card"
+            content="summary_large_image"
+        />
+        <meta
+            name="twitter:title"
+            content="NEGIAO's WebGIS - 三维地理信息可视化平台"
+        />
+        <meta
+            name="twitter:description"
+            content="基于 Vue 3 + OpenLayers + Cesium 的二维/三维一体化 WebGIS 平台。"
+        />
+        <meta
+            name="twitter:image"
+            content="https://webgis.negiao.cn/images/icon.webp"
+        />
         <!-- Google Identity Services 不在此处加载：
              V3.6.35 起改由 RegisterView.vue 的 ensureGsiScript() 按需注入（仅登录/注册页），
              本文件曾遗留一个 async 的 <script>，会让落地页/地图页等无关页面
@@ -83,7 +147,27 @@
     </head>
 
     <body>
-        <div id="app"></div>
+        <!-- 首屏静态兜底内容（爬虫/无 JS/弱网可见；Vue 挂载时整体替换，正常用户几乎无感）。
+             SEO 目的：SPA 空壳会让 Google 判「无内容」而长期不索引；
+             此块提供可解析的标题与描述文本，作为被抓取与理解的最小静态内容。 -->
+        <div id="app">
+            <header>
+                <h1>NEGIAO's WebGIS - 三维地理信息可视化平台</h1>
+                <p>
+                    这是一个基于 Vue 3 + OpenLayers + Cesium 构建的开源二维 / 三维一体化
+                    WebGIS 平台，提供三维地球漫游、地形与影像底图、矢量与栅格数据导入
+                    （SHP / KML / GeoJSON / GeoTIFF / GLTF / 3D Tiles）、建筑白模、
+                    卷帘对比、空间分析与在线地图服务（WMS / WMTS / ArcGIS）聚合等能力。
+                </p>
+                <nav>
+                    <ul>
+                        <li><a href="/">首页 / 地图工作台</a></li>
+                        <li><a href="/#/terms">服务条款</a></li>
+                        <li><a href="/#/privacy">隐私政策</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
         <!-- 导入js文件 -->
 
         <script defer src="./min-enhanced.js"></script>

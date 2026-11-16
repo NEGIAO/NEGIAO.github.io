@@ -1,0 +1,43 @@
+# NEGIAO 个人主页 robots.txt
+# 搜索引擎允许抓取；AI 训练爬虫禁止。sitemap 见文件末尾。
+
+User-agent: *
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Sogou web spider
+Allow: /
+
+User-agent: 360Spider
+Allow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+# WebGIS 应用的正式地址在独立域名，此路径为历史静态拷贝
+Disallow: /WebGIS/
+
+Sitemap: https://www.negiao.cn/sitemap.xml

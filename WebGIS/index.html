@@ -67,6 +67,12 @@
         </noscript>
 
         <title>NEGIAO's WebGIS</title>
+        <!-- 本目录为 WebGIS 应用的历史静态拷贝；正式地址为独立域名 webgis.negiao.cn。
+             canonical 指过去，避免与正式站点构成重复内容（V3.6.45 SEO 修复）。 -->
+        <link
+            rel="canonical"
+            href="https://webgis.negiao.cn/"
+        />
         <!-- Google Identity Services 不在此处加载：
              V3.6.35 起改由 RegisterView.vue 的 ensureGsiScript() 按需注入（仅登录/注册页），
              本文件曾遗留一个 async 的 <script>，会让落地页/地图页等无关页面

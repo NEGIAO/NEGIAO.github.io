@@ -5,20 +5,39 @@
 -------------------------- */
 (function load51LaStats() {
     try {
-        // 51.la 国内
+        // 51.la SDK
         (function () {
             var s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.src = '//js.users.51.la/22001747.js';
+            s.charset = 'UTF-8';
+            s.id = 'LA_COLLECT';
+            s.src = '//sdk.51.la/js-sdk-pro.min.js';
             s.async = true;
             s.onload = function () {
-                console.log('51.la (国内) 脚本已加载。');
+            s.type = 'text/javascript';
+                try {
+                    if (window.LA && typeof LA.init === 'function') {
+                        LA.init({
+                            id: '3OVJu4iCpXi3wE8k',
+                            ck: '3OVJu4iCpXi3wE8k',
+                            autoTrack: true,
+                            hashMode: true,
+                            // 录屏采集持续消耗运行时性能,学习项目价值低,已关闭
+                            screenRecord: false,
+                        });
+                        console.log('51.la SDK 已加载并初始化。');
+                    } else {
+                        console.log('51.la SDK 已加载，但 LA.init 不可用。');
+                    }
+                } catch (e) {
+                    console.log('初始化 51.la (国际) 时出错：', e);
+                }
             };
             s.onerror = function (e) {
-                console.log('51.la (国内) 脚本加载失败：', e);
+                console.log('加载 51.la (国际) 脚本失败：', e);
             };
-            (document.body || document.head).appendChild(s);
+            document.head.appendChild(s);
         })();
+        
     } catch (err) {
         console.log('加载 51.la 统计脚本时出错：', err);
     }

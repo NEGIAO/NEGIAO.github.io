@@ -78,18 +78,38 @@
              本文件曾遗留一个 async 的 <script>，会让落地页/地图页等无关页面
              也去连 accounts.google.com（国内不可达，白占连接槽并拖 load）。
              如需恢复预加载，先确认这一点是否仍成立。 -->
-      <script type="module" crossorigin src="./assets/index-C_lKWetG.js"></script>
-      <link rel="modulepreload" crossorigin href="./assets/plugin-vue_export-helper-Bs3aakkv.js">
-      <link rel="modulepreload" crossorigin href="./assets/runtime-dom.esm-bundler-CEpF9Y1Z.js">
-      <link rel="modulepreload" crossorigin href="./assets/pinia-JrKpiWM0.js">
+      <script type="module" crossorigin src="./assets/index-BqmLIluZ.js"></script>
+      <link rel="modulepreload" crossorigin href="./assets/plugin-vue_export-helper-DlfxntA_.js">
+      <link rel="modulepreload" crossorigin href="./assets/runtime-dom.esm-bundler-Q4NvWf_w.js">
+      <link rel="modulepreload" crossorigin href="./assets/pinia-0wGps5Dj.js">
       <link rel="modulepreload" crossorigin href="./assets/preload-helper-Ck0A4US8.js">
-      <link rel="modulepreload" crossorigin href="./assets/useLocale-C3W751Ba.js">
-      <link rel="modulepreload" crossorigin href="./assets/info-ATnr4d0D.js">
-      <link rel="stylesheet" crossorigin href="./assets/index-AKQ5wZ_B.css">
+      <link rel="modulepreload" crossorigin href="./assets/useLocale-BzWqCgAT.js">
+      <link rel="modulepreload" crossorigin href="./assets/info-CjxRLk32.js">
+      <link rel="stylesheet" crossorigin href="./assets/index-DeVYGgJZ.css">
     </head>
 
     <body>
-        <div id="app"></div>
+        <!-- 首屏静态兜底内容（爬虫/无 JS/弱网可见；Vue 挂载时整体替换，正常用户几乎无感）。
+             SEO 目的：SPA 空壳会让 Google 判「无内容」而长期不索引；
+             此块提供可解析的标题与描述文本，作为被抓取与理解的最小静态内容。 -->
+        <div id="app">
+            <header>
+                <h1>NEGIAO's WebGIS - 三维地理信息可视化平台</h1>
+                <p>
+                    这是一个基于 Vue 3 + OpenLayers + Cesium 构建的开源二维 / 三维一体化
+                    WebGIS 平台，提供三维地球漫游、地形与影像底图、矢量与栅格数据导入
+                    （SHP / KML / GeoJSON / GeoTIFF / GLTF / 3D Tiles）、建筑白模、
+                    卷帘对比、空间分析与在线地图服务（WMS / WMTS / ArcGIS）聚合等能力。
+                </p>
+                <nav>
+                    <ul>
+                        <li><a href="/">首页 / 地图工作台</a></li>
+                        <li><a href="/#/terms">服务条款</a></li>
+                        <li><a href="/#/privacy">隐私政策</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
         <!-- 导入js文件 -->
 
         <script defer src="./min-enhanced.js"></script>

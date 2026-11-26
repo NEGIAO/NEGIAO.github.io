@@ -1,9 +1,112 @@
 # 河大图书馆座位预约 —— 官方接口逆向与自动预约实现
 
 > **日期**：2026-09-02  
-> **修订**：2026-09-04（线上实测补齐：`subscribe` 我的预约、`signin` 签到、`leave` 暂离、`cancel` 取消四个接口的真实请求形状与返回码；定时抢座改为多任务串行 + 开抢前预热；`run_at` 语义改为开抢时刻）  
+> **修订**：2026-11-26（新增 §〇「系统三大目标总览」与 §十五「保底与主动取消机制」：两轮保底按轮次占位、第二轮由前端配置决定「重约续命 / 主动取消规避违约」；标注官方每日 2 次取消额度约束与三次违约进黑名单的防护链路）  
+> **历史修订**：2026-09-04（线上实测补齐：`subscribe` 我的预约、`signin` 签到、`leave` 暂离、`cancel` 取消四个接口的真实请求形状与返回码；定时抢座改为多任务串行 + 开抢前预热；`run_at` 语义改为开抢时刻）  
 > **来源**：服务器 Azure-NEGIAO 源码分析 + 抓包逆向 + 线上真实预约/签到/暂离全链路实测  
-> **关键词**：Python、AES 加密、CAS 认证、定时任务、座位预约、签到
+> **关键词**：Python、AES 加密、CAS 认证、定时任务、座位预约、签到、保底、规避违约、Mermaid
+
+---
+
+## 〇、系统三大目标总览（2026-11-26 确立）
+
+本自动化系统存在的意义可归结为**三个递进目标**，所有代码与定时任务都围绕它们展开：
+
+| # | 目标 | 实现机制 | 关键代码 / 配置 |
+|---|---|---|---|
+| ① | **自动预约次日座位** | cron 提前 1 分钟唤醒 → 登录预热 → 开抢时刻高频提交 → 首选失败按区域链兜底 | `henu_main.reserve()` + `reservation_tasks` + `day_offset=1` |
+| ② | **自动兜底，避免违约** | 巡检窗口内每 10 分钟读官方签到截止，现算动作时刻（截止 − lead），到点取消重约续命 | `henu_main.guard_rebook()` + `guard_window_*` + `.done`/`.round2.done` 占位 |
+| ③ | **次数用尽后主动取消，彻底杜绝黑名单** | 第二轮改为「只取消不重约」（截止前 30 秒），当日不再有未签到预约 | `guard_round2_action=cancel` + `guard_cancel_lead_seconds` |
+
+### 0.1  overall 架构（目标 → 触发 → 执行 → 数据）
+
+```mermaid
+flowchart TB
+    subgraph GOALS["🎯 三大目标"]
+        G1["① 自动预约次日"]
+        G2["② 自动兜底避违约"]
+        G3["③ 额度尽→主动取消<br/>杜绝 3 次违约黑名单"]
+    end
+
+    subgraph TRIGGER["⏰ 触发层：/etc/cron.d/henu-seat"]
+        C1["开抢时刻 T-1min<br/>henu_runner.sh &lt;用户&gt; &lt;任务ID&gt;"]
+        C2["每日签到<br/>henu_runner.sh &lt;用户&gt; signin"]
+        C3["保底巡检窗口 07:00–10:00<br/>每 10min 一行 guard"]
+    end
+
+    subgraph EXEC["⚙️ 执行层：henu_main.py（subprocess 每次新起）"]
+        E1["reserve()<br/>登录→预热→抢座→区域兜底链"]
+        E2["signin_today()<br/>只签当日未签，门禁未到=waitgate"]
+        E3["guard_rebook()<br/>读截止→现算动作时刻→到点动手"]
+    end
+
+    subgraph ACTION["动作层（共享取消接口，每日 2 次额度）"]
+        A1["cancel_booking()<br/>取消 + 重约 = 1 次额度"]
+        A2["主动取消<br/>只取消不重约 = 1 次额度"]
+    end
+
+    subgraph DATA["💾 数据层：/srv/negiao/src/database/data/"]
+        D1[("henu.db<br/>accounts / tasks / history / logs / settings")]
+        D2["state/guard_*.done<br/>按轮次占位去重"]
+    end
+
+    G1 --> C1 --> E1 --> A1
+    G2 --> C3 --> E3 --> A1
+    G3 --> C3 --> E3 --> A2
+    C2 --> E2
+    E1 --> D1
+    E2 --> D1
+    E3 --> D2
+    E3 --> D1
+    A1 --> D1
+    A2 --> D1
+```
+
+### 0.2  一条座位的完整生命周期（时序）
+
+以「约次日座位，次日 08:00 开场、08:45 签到截止」为例：
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Cron as cron
+    participant Main as henu_main.py
+    participant Official as 官方 zwyy
+    participant DB as henu.db
+    participant User as 用户
+
+    Note over Cron,User: 目标① 自动预约（前一天 06:29）
+    Cron->>Main: runner 任务(day_offset=1)
+    Main->>Official: 06:30 高频 confirm 抢座
+    Official-->>Main: code=0 预约成功
+    Main->>DB: 写 reservation_history(success)
+    Note over Official: 生成座位 A，签到截止 08:45
+
+    Note over Cron,User: 目标② 自动兜底第一轮（当日 08:40）
+    Cron->>Main: guard 巡检（每 10min）
+    Main->>Official: subscribe 读截止=08:45
+    Main->>Main: 现算动作时刻=08:45−5min=08:40，精等
+    Main->>Official: cancel(A) + confirm(同座)
+    Official-->>Main: 新座位 A′，截止推到 09:25
+    Main->>DB: 占位 guard_用户_日期.done + history
+
+    Note over Cron,User: 目标③ 第二轮（当日 09:24:30）
+    Cron->>Main: guard 巡检
+    Main->>Official: subscribe 读截止=09:25
+    alt guard_round2_action = cancel（推荐杜绝黑名单）
+        Main->>Main: 动作时刻=09:25−30s=09:24:30
+        Main->>Official: 只 cancel(A′)，不重约
+        Official-->>Main: 取消成功，当日无预约
+        Main->>DB: 占位 .round2.done + history(主动取消规避违约)
+        Note over User: 睡过头也不会违约 → 不进黑名单
+    else guard_round2_action = rebook（续命）
+        Main->>Official: cancel(A′) + confirm(同座 A″)
+        Official-->>Main: 新座位 A″，截止推到 10:10
+        Note over User: 若仍未签到，10:10 违约（额度已尽，无法再救）
+    end
+```
+
+> **关键**：官方「每日最多 2 次取消」是硬约束，手动与自动化共享额度。两次兜底（各 1 次取消）会吃光额度，导致目标③无额度可用。因此**第二轮必须二选一**：要么再续命一次（承担违约风险），要么主动放弃（彻底杜绝黑名单）。详见 [§十五](#十五保底与主动取消机制)。
 
 ---
 
@@ -949,5 +1052,156 @@ Content-Type: application/json
 ```
 
 依据：官方 H5 取消按钮直调此接口（普通座位用它，研讨间用 `/v4/space/studyCancel`，参数同为 `{id}`）。**成功码是 `0` 或 `287`**（从取消按钮的成功判定逻辑确认）。因取消是不可逆写动作，从未真实触发过——要用它时务必先 dry-run 把参数打出来人工核对 id。
+
+---
+
+## 十五、保底与主动取消机制（2026-11-26）
+
+> 本章对应 [§〇 目标②③](#〇系统三大目标总览2026-11-26-确立)。核心矛盾：**官方每日只有 2 次取消额度，手动与自动化共享**。保底（取消重约）和主动取消（规避违约）都要消耗它，因此第二轮动作必须二选一。
+
+### 15.1 额度约束与三次违约黑名单
+
+| 规则 | 值 | 出处 |
+|---|---|---|
+| 每日取消额度 | **2 次**（手动 + 自动化共享） | `cancel_booking()` 内 `used >= 2` 本地拦截；官方超限直接拒绝 |
+| 累计违约阈值 | **3 次 → 禁止预约 7 天** | 官方规则；2026-11-26 因睡过头踩满三次 |
+| 一次保底 | 取消 1 次 + 重约（生成新截止，续命约 45 分钟） | 消耗 1 次取消额度 |
+| 一次主动取消 | 只取消、不重约（当日不再有未签到预约） | 消耗 1 次取消额度 |
+
+**推导**：两轮都重约会用满 2 次额度，此时若用户仍未签到，新预约到点必然违约，且已无额度再救。所以第二轮改成「只取消不重约」即可从源头杜绝违约累计——这是目标③的全部逻辑。
+
+### 15.2 保底决策流程（henu_main.guard_rebook）
+
+```mermaid
+flowchart TD
+    S["guard 巡检唤醒<br/>(窗口内每10min)"] --> DONE{"两轮占位<br/>都用尽?"}
+    DONE -- 是 --> SKIP["skipped<br/>不登录官方"]
+    DONE -- 否 --> ROUND{"第几轮?<br/>_guard_next_round"}
+    ROUND -- 第1轮 --> ACT1["动作时刻 = 截止 − guard_lead_seconds"]
+    ROUND -- 第2轮 --> Q{"guard_round2_action?"}
+    Q -- rebook --> ACT2["动作时刻 = 截止 − guard_lead_seconds"]
+    Q -- cancel --> ACT3["动作时刻 = 截止 − guard_cancel_lead_seconds<br/>(默认30s)"]
+
+    ACT1 --> WAIT{"距动作时刻<br/>≤ 一个tick?"}
+    ACT2 --> WAIT
+    ACT3 --> WAIT
+    WAIT -- 否 --> W["waiting<br/>交下一轮巡检"]
+    WAIT -- 是 --> HOLD["就地精等(≤9min)<br/>期间重查：已签/截止变了则放弃本轮"]
+
+    HOLD --> CLAIM["原子占位 O_CREAT<br/>.done 或 .round2.done"]
+    CLAIM --> CANCEL["cancel_booking()<br/>消耗 1 次额度"]
+    CANCEL --> COK{"取消成功?"}
+    COK -- 否 --> REL["撤占位(额度用尽则保留)<br/>fail"]
+    COK -- 是 --> BRANCH{"本轮 action?"}
+
+    BRANCH -- cancel --> FIN["只取消不重约<br/>当日无预约 → 不违约<br/>写 history:主动取消规避违约"]
+    BRANCH -- rebook --> RB["reserve() 重约同座<br/>新截止 = 原截止 + 45min<br/>写 history:保底重约"]
+
+    FIN --> END["两轮用满，今日不再动作"]
+    RB --> END
+```
+
+### 15.3 占位去重（为什么不会被 N 轮巡检烧穿额度）
+
+巡检一天会醒十几轮，但真正动手最多两次。去重靠 `state/` 下的原子占位文件（`O_CREAT|O_EXCL`），与数据库解耦——因为 runner 落库可能滞后于巡检：
+
+```python
+# henu_main.py —— 按轮次占位，第1轮沿用旧文件名兼容历史
+def _guard_marker(username, day, round_no=1):
+    base = "guard_%s_%s" % (username, day)
+    return os.path.join(DATA_DIR, "state", base + ".done") if round_no <= 1 \
+        else os.path.join(DATA_DIR, "state", "%s.round%d.done" % (base, round_no))
+
+def _guard_next_round(username, day):
+    """返回本次应占的轮次号(1/2)，用尽返回 None。"""
+    done = _guard_done_rounds(username, day)   # 检查 .done / .round2.done 是否存在
+    for n in range(1, GUARD_MAX_ROUNDS + 1):
+        if n not in done:
+            return n
+    return None
+
+# 动手前原子占位；取消失败（非额度耗尽）则撤占位把机会留给下一轮
+round_no = _guard_next_round(username, day)
+if not _guard_claim(username, day, round_no):
+    return skipped   # 另一轮已占位，本次跳过
+```
+
+| 占位文件 | 含义 | 兼容性 |
+|---|---|---|
+| `guard_<学号>_<日期>.done` | 第 1 轮已动手 | 沿用旧名，历史占位继续有效（升级当天不会重复兜底） |
+| `guard_<学号>_<日期>.round2.done` | 第 2 轮已动手 | 2026-11-26 新增 |
+
+### 15.4 第二轮策略：取消 or 重约（关键代码）
+
+```python
+# henu_main.py —— guard_rebook() 取消成功后的分支
+if action == "cancel":
+    # 第二轮主动放弃：在截止前 30s 取消后直接收手，
+    # 当日不再有预约，从源头杜绝"三次违约 → 7 天黑名单"
+    return {"status": "success", "action": "cancel",
+            "reason": "第2轮主动取消规避违约（原截止 %s）：当日不再有未签到预约" % dl_hm}
+
+# 否则 rebook：取消后立即重约同座，续命 45 分钟
+rebook = reserve(token, spec, day, max_per_seat=1, dry_run=False)
+```
+
+动作提前量按轮次取（`_guard_pick`）：
+
+```python
+if round_no >= 2 and _guard_round2_action() == "cancel":
+    lead = _setting_int("guard_cancel_lead_seconds", 30)  # 贴近截止，留最后签到机会
+else:
+    lead = _setting_int("guard_lead_seconds", 60)
+return b, deadline - timedelta(seconds=lead), deadline
+```
+
+### 15.5 相关配置（settings 表）
+
+| 键 | 默认 | 作用 | 是否触发 cron 重建 |
+|---|---|---|---|
+| `guard_enabled` | `1` | 保底总开关 | ✅ 是 |
+| `guard_window_from/to` | `07:00`/`10:00` | 巡检窗口（须覆盖可能出现截止 − lead） | ✅ 是 |
+| `guard_tick_minutes` | `10` | 巡检间隔（分钟） | ✅ 是 |
+| `guard_lead_seconds` | `60` | 第 1 轮（及 rebook 模式）提前秒数 | ✅ 是 |
+| `guard_round2_action` | `rebook` | **第二轮策略**：`rebook` / `cancel` | ❌ 否（不改 cron 行数/时刻） |
+| `guard_cancel_lead_seconds` | `30` | cancel 模式提前秒数（10–120） | ❌ 否 |
+
+> 前端「设置」页提供第二轮策略下拉与提前秒数输入；`guard_round2_action` 有白名单校验，脏值一律回退 `rebook`。
+
+### 15.6 两种策略对比与选型建议
+
+```mermaid
+flowchart LR
+    subgraph R["rebook（续命）"]
+        R1["08:45 截止"] --> R2["08:40 重约→09:25"]
+        R2 --> R3["09:20 重约→10:10"]
+        R3 --> R4{"10:10 前签到?"}
+        R4 -- 否 --> RX["违约 ⚠️<br/>额度已尽无法再救<br/>累计 3 次→7天黑名单"]
+        R4 -- 是 --> RO["安全 ✓"]
+    end
+    subgraph C["cancel（主动放弃，推荐）"]
+        C1["08:45 截止"] --> C2["08:40 重约→09:25"]
+        C2 --> C3["09:24:30 只取消"]
+        C3 --> CX["当日无预约<br/>绝不违约 ✓<br/>代价：失去座位"]
+    end
+```
+
+| 场景 | 推荐策略 | 理由 |
+|---|---|---|
+| 起床不稳定、容易睡过头 | **`cancel`** | 宁可放弃座位也绝不累计违约；7 天黑名单代价远高于一天座位 |
+| 确信能在最后截止前赶到馆内 | `rebook` | 多一次 45 分钟续命，保住座位 |
+| 已接近 3 次违约阈值 | **`cancel`** | 任何一次违约都会触发 7 天封禁 |
+
+### 15.7 故障对照
+
+| 现象 | 先查 | 常见原因 |
+|---|---|---|
+| 第二轮没动作（只兜底一次） | `state/guard_<学号>_<日期>.done` 是否只有第 1 轮占位 | 旧版单占位 bug（已修：按轮次占位）；先确认是否已 push 2026-11-26 代码 |
+| 主动取消没生效，仍违约 | settings `guard_round2_action` 是否为 `cancel`；默认 `rebook` 不会主动取消 | 未在前端切换第二轮策略 |
+| cancel 模式动作太早/太晚 | `guard_cancel_lead_seconds`（默认 30s） | 调大=更早取消（更保守），调小=更贴近截止（留更多签到机会，但风险高） |
+| 巡检窗口没覆盖第二轮截止 | `guard_window_to` 是否 ≥ 第二轮截止 − lead | 第二轮截止约 09:25，30s 前是 09:24:30；窗口到 10:00 足够覆盖 |
+| 取消报「额度已用尽」 | 当日手动取消次数 | 手动 + 自动化共享 2 次额度；手动取消过就没额度保底了 |
+
+---
 
 > **声明**：本文档仅供学习研究，使用请遵守学校规定。

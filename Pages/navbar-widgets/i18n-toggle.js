@@ -1546,11 +1546,14 @@
         var pressed = String(lang === 'en');
         var labelElement = button.querySelector('.negiao-lang-label');
 
-        if (labelElement) {
-            if (labelElement.textContent !== text) labelElement.textContent = text;
-        } else {
-            button.textContent = text;
+        // 强制保持“纯文字”形态：清除历史版本中残留的地球图标等装饰元素
+        if (!labelElement) {
+            button.textContent = '';
+            labelElement = document.createElement('span');
+            labelElement.className = 'negiao-lang-label';
+            button.appendChild(labelElement);
         }
+        if (labelElement.textContent !== text) labelElement.textContent = text;
         if (button.getAttribute('aria-label') !== label) button.setAttribute('aria-label', label);
         if (button.getAttribute('title') !== label) button.setAttribute('title', label);
         if (button.getAttribute('aria-pressed') !== pressed) button.setAttribute('aria-pressed', pressed);
@@ -1576,8 +1579,7 @@
         button.className = (isNav ? 'negiao-lang-toggle--nav' : 'negiao-lang-toggle') +
             ' navbar-widget-btn' + (isFloating ? ' negiao-lang-toggle--floating' : '');
         button.setAttribute('aria-pressed', 'false');
-        button.innerHTML = '<i class="fas fa-globe" aria-hidden="true"></i> ' +
-            '<span class="negiao-lang-label">EN</span>';
+        button.innerHTML = '<span class="negiao-lang-label">EN</span>';
         bindButton(button);
         return button;
     }

@@ -115,6 +115,14 @@
     color: var(--primary);
 }
 
+/* main-enhanced.js 的 reveal 动画对超过一屏的 .note-content.card 因 intersection
+   ratio 永远达不到 0.1，会残留 opacity:0 / translateY(20px)，既影响可见性也会
+   让 sticky 搜索栏整体下移 20px；note-viewer 内直接锁定为可见状态 */
+.note-viewer-page .note-content.card {
+    opacity: 1 !important;
+    transform: translateZ(0) !important;
+}
+
 .note-viewer-page #note-content :not(mjx-container):not(mjx-container *) {
     text-align: inherit;
 }
@@ -125,6 +133,46 @@
     margin: 1rem auto !important;
     max-width: 100%;
     height: auto;
+}
+
+/* Markdown 表格：窄屏下仅表格自身横向滚动，不撑破页面 */
+.note-viewer-page .note-table-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-inline: contain;
+    margin: var(--space-lg, 1.5rem) 0;
+}
+
+.note-viewer-page .note-table-wrapper:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+}
+
+.note-viewer-page .note-table-wrapper table {
+    min-width: max-content;
+    margin: 0;
+}
+
+/* 无 JS 包裹时的兜底：表格自身成为滚动容器 */
+@media screen and (max-width: 768px) {
+    .note-viewer-page #note-content > table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-inline: contain;
+    }
+
+    /* MathJax 长公式同样限制在内容区内滚动 */
+    .note-viewer-page #note-content mjx-container[jax='CHTML'][display='true'] {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
 }
 
 .note-viewer-page .note-content pre,
@@ -310,6 +358,7 @@
 .note-viewer-page .note-viewer-navbar__home {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.38rem;
     min-height: 2.05rem;
     padding: 0 0.68rem 0 0.32rem;
@@ -494,15 +543,18 @@
         height: 1.28rem;
     }
 
+    /* overflow-x: hidden + overflow-y: auto 会把 body 变成滚动容器，
+       导致 position: sticky 的站内搜索栏失效；clip 只裁剪不创建滚动容器 */
     html {
-        overflow-y: auto;
+        overflow-x: clip;
+        overflow-y: visible;
         overscroll-behavior-y: none;
         -webkit-overflow-scrolling: touch;
     }
 
     body.note-viewer-page {
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow-x: clip;
+        overflow-y: visible;
         overscroll-behavior-y: none;
         -webkit-overflow-scrolling: touch;
         min-height: 100vh;
@@ -569,6 +621,7 @@
 @media (max-width: 480px) {
     .note-viewer-page .note-viewer-navbar {
         padding-right: var(--space-sm);
+        gap: 0.5rem;
     }
 
     .note-viewer-page .note-viewer-navbar__main {
@@ -599,10 +652,15 @@
         height: 1.32rem;
     }
 
+    /* 小屏仍保留语言/主题/分享入口，仅压缩尺寸，避免功能不可达 */
     .note-viewer-page .note-viewer-navbar .theme-toggle,
     .note-viewer-page .note-viewer-navbar .share-note-btn,
     .note-viewer-page .note-viewer-navbar .negiao-lang-toggle--nav {
-        display: none;
+        width: 2rem;
+        height: 2rem;
+        min-width: 2rem;
+        min-height: 2rem;
+        padding: 0;
     }
 }
 
@@ -677,7 +735,10 @@
 /* Search box and navigation */
 .note-viewer-page .note-search-container {
     position: sticky;
-    top: 1rem;
+    /* 由 note-viewer.js 根据导航栏实际可见高度动态写入；
+       导航栏滚动隐藏时自动上移，避免顶部出现大片空白 */
+    top: var(--note-search-top, calc(4.5rem + 0.75rem));
+    transition: top 0.18s ease;
     display: flex;
     align-items: center;
     flex-wrap: wrap;

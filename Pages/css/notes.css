@@ -128,6 +128,8 @@
   padding: var(--space-sm) var(--space-md);
   border: 1px solid var(--border);
   text-align: left;
+  /* 长 URL / 连续标识符不应把表格撑破 */
+  overflow-wrap: anywhere;
 }
 
 .note-content th {
@@ -164,6 +166,12 @@
 
 .note-content a:hover {
   border-bottom-color: var(--primary);
+}
+
+/* 行内代码、链接等长串内容在窄屏下换行；pre/code 仍保持横向滚动 */
+.note-content a,
+.note-content :not(pre) > code {
+  overflow-wrap: anywhere;
 }
 
 .note-content img,

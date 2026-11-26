@@ -284,6 +284,7 @@
         // 导致正文手动锚点链接（如 #1-极限与连续）跳转失效。
         // 在 DOM 生成后修正 id，确保与手动编写的锚点格式一致。
         fixHeadingIds(container);
+        wrapTablesForScroll(container);
         container.classList.add('animate-in');
 
         // 保存原始 md 供插件使用（如 word-learning-record 需要重新渲染）
@@ -482,6 +483,7 @@
                 if (pluginRendered) {
                     // 插件渲染的 DOM 同样需要修正中文标题 id，保证 TOC/锚点可用
                     fixHeadingIds(container);
+                    wrapTablesForScroll(container);
                 }
             }
 
@@ -527,6 +529,8 @@
                 } catch (pluginError) {
                     console.warn('插件加载失败，继续执行:', pluginError);
                 }
+                // 插件可能在通用渲染后再次写入表格，补做一次滚动包裹
+                wrapTablesForScroll(container);
             }
         } catch (error) {
             if (error.code) {
@@ -630,6 +634,26 @@
         });
     }
 
+    /**
+     * 为 Markdown 表格添加可滚动容器，避免窄屏下表格把 body 撑破。
+     * 幂等：插件重新渲染后可重复调用。
+     */
+    function wrapTablesForScroll(container) {
+        if (!container) return;
+        container.querySelectorAll('table').forEach((table) => {
+            if (table.parentElement && table.parentElement.classList.contains('note-table-wrapper')) {
+                return;
+            }
+            const wrapper = document.createElement('div');
+            wrapper.className = 'note-table-wrapper';
+            wrapper.tabIndex = 0;
+            wrapper.setAttribute('role', 'region');
+            wrapper.setAttribute('aria-label', '可横向滚动的表格');
+            table.parentNode.insertBefore(wrapper, table);
+            wrapper.appendChild(table);
+        });
+    }
+
     function enhanceCodeBlocks(container) {
         const codeBlocks = container.querySelectorAll('pre');
 
@@ -682,6 +706,49 @@
             wrapper.appendChild(header);
             wrapper.appendChild(pre);
         });
+    }
+
+    /**
+     * 文章内搜索栏的 sticky 停靠位置跟随导航栏实际状态：
+     * 导航栏可见时停靠在其下方；滚动隐藏后上移，避免顶部出现大片空白。
+     */
+    function initSearchStickyOffset() {
+        const navbar = document.querySelector('.navbar');
+        if (!navbar) return;
+
+        const GAP_PX = 12;
+        let ticking = false;
+
+        function update() {
+            ticking = false;
+            // main-enhanced.js 用内联 transform: translateY(-100%) 隐藏导航栏；
+            // 直接读 inline style 比读 transform 动画中的 rect 更稳定
+            const hiddenByTransform = /translateY\(\s*-100%\s*\)/.test(navbar.style.transform || '');
+            const hiddenByRect = navbar.getBoundingClientRect().bottom <= 0;
+            const navHeight = (hiddenByTransform || hiddenByRect) ? 0 : (navbar.offsetHeight || 72);
+            document.documentElement.style.setProperty(
+                '--note-search-top',
+                Math.round(navHeight + GAP_PX) + 'px'
+            );
+        }
+
+        function requestUpdate() {
+            if (ticking) return;
+            ticking = true;
+            if (typeof requestAnimationFrame === 'function') requestAnimationFrame(update);
+            else setTimeout(update, 0);
+        }
+
+        window.addEventListener('scroll', requestUpdate, { passive: true });
+        window.addEventListener('resize', requestUpdate);
+        // main-enhanced.js 通过内联 style.transform 控制导航栏显隐
+        if (typeof MutationObserver === 'function') {
+            new MutationObserver(requestUpdate).observe(navbar, {
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
+        }
+        update();
     }
 
     function initSearch(container) {
@@ -861,6 +928,7 @@
     // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
         init();
+        initSearchStickyOffset();
         if (window.initTocToggle) window.initTocToggle();
 
         const missingLibs = detectMissingLibraries();

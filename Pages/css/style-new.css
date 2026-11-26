@@ -14,7 +14,7 @@
 
 @import url('base.css');
 @import url('components.css');
-@import url('layout.css');
+@import url('layout.css?v=20261126b');
 @import url('hero.css');
 @import url('notes.css');
 @import url('projects.css');

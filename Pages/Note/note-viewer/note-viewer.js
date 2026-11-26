@@ -531,6 +531,10 @@
                 }
                 // 插件可能在通用渲染后再次写入表格，补做一次滚动包裹
                 wrapTablesForScroll(container);
+                // 插件沙盒改变了文章高度，刷新目录的标题位置否则 active 会错位
+                if (window.NoteTOC && window.NoteTOC.refreshPositions) {
+                    window.NoteTOC.refreshPositions();
+                }
             }
         } catch (error) {
             if (error.code) {

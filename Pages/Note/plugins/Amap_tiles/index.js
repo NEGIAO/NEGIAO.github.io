@@ -27,6 +27,11 @@
             state: { host: 'webrd01', style: '8', lang: 'zh_cn', scl: '', size: '1', scale: '1', ltypeMode: 'omit', ltypeBits: 15 }
         },
         {
+            label: '干净电子底图（无道路/无注记，ltype=1）',
+            underlay: false,
+            state: { host: 'webrd01', style: '8', lang: 'zh_cn', scl: '', size: '1', scale: '1', ltypeMode: 'mask', ltypeBits: 1 }
+        },
+        {
             label: '旧版经典电子图 (webrd s=7)',
             underlay: false,
             state: { host: 'webrd01', style: '7', lang: 'zh_cn', scl: '', size: '1', scale: '1', ltypeMode: 'omit', ltypeBits: 15 }

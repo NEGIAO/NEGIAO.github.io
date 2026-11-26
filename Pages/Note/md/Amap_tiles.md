@@ -153,6 +153,16 @@ https://webst0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&style=8&ltype=4&x={x}&
 
 ### 3. 去标注 / 定制要素 / 多语言与高清系列
 
+#### 干净电子底图（去道路、去注记）
+
+```text
+https://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&ltype=1&x={x}&y={y}&z={z}
+```
+
+这是**不透明的电子底图**，不是卫星图或透明叠加层。`ltype=1` 只开启 Bit 0（地貌、绿地、水系等面状底图），关闭 Bit 1 的道路/轨道交通、Bit 2 的文字与 POI 注记，以及 Bit 3 的建筑轮廓，因此能得到更干净的电子底色。
+
+关键是保留 `lang=zh_cn`，否则 `ltype` 可能被服务端忽略。不要把它换成 `webst + style=8`：该组合是透明叠加管线，`ltype=1` 会成为空白瓦片。已有的 `ltype=3` 虽然去掉注记，但它是 Bit 0 + Bit 1，**仍保留道路**；`scl=2` 也只负责高清与去注记，不会单独去掉道路。
+
 #### 无标注标准底图（适合叠加业务热力图、轨迹与自定义标注）
 
 ```text
@@ -204,7 +214,7 @@ https://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_en&style=8&x={x}&y={y}&z=
 与谷歌地图（卫星图 WGS-84、国内街道图 GCJ-02）不同，高德地图的**卫星影像（`style=6`）与电子路网/透明叠加层（`style=7/8`）在国内全部统一采用 GCJ-02（火星坐标系）**：
 
 - **高德内部混用零偏移**：将高德 `style=6` 卫星底图与高德 `webst style=8` 透明路网叠加时，天然完全对齐，无需任何纠偏。
-- **跨源混用需纠偏**：当项目底层使用 **WGS-84**（如天地图、OSM、谷歌纯卫星 `lyrs=s`、原始 GPS 轨迹点）而想叠加高德路网/底图时，会产生数百米偏移。此时可配合 Hugging Face 部署的动态切片重投影代理 `https://negiao-webgis.hf.space/proxy/gcj2wgs/{target_url}` 将高德瓦片实时转换为 WGS-84。
+- **跨源混用需纠偏**：当项目底层使用 **WGS-84**（如天地图、OSM、谷歌纯卫星 `lyrs=s`、原始 GPS 轨迹点）而想叠加高德路网/底图时，会产生数百米偏移。此时可配合 Hugging Face 部署的动态切片重投影代理 `https://vpn.negiao.cn/proxy/gcj2wgs/{target_url}` 将高德瓦片实时转换为 WGS-84。
 
 ---
 
@@ -266,7 +276,7 @@ const rawAmapRoadUrl =
 const wgsAmapRoadLayer = new TileLayer({
   name: '高德纠偏纯路网(WGS-84)',
   source: new XYZ({
-    url: `https://negiao-webgis.hf.space/proxy/gcj2wgs/${rawAmapRoadUrl}`,
+    url: `https://vpn.negiao.cn/proxy/gcj2wgs/${rawAmapRoadUrl}`,
     crossOrigin: 'anonymous',
     maxZoom: 18
   }),

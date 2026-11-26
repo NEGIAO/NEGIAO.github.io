@@ -124,7 +124,7 @@
     linear-gradient(var(--surface-elevated), var(--surface-elevated)) padding-box,
     var(--gradient-primary) border-box;
   display: block;
-  transition: all var(--transition-slow);
+  transition: transform var(--transition-slow), box-shadow var(--transition-slow), border-color var(--transition-slow);
   box-shadow:
     var(--shadow-xl),
     0 0 40px rgba(0, 217, 255, 0.2);

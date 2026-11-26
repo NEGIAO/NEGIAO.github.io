@@ -16,7 +16,7 @@
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--glass-border);
   z-index: var(--z-fixed);
-  transition: all var(--transition-normal);
+  transition: background-color var(--transition-normal), box-shadow var(--transition-normal);
   box-shadow: var(--shadow-sm);
 }
 
@@ -224,7 +224,7 @@
 }
 
 .navbar-nav-btn:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 .navbar-nav-btn__icon {
@@ -289,7 +289,7 @@
 }
 
 .navbar-widget-btn:active {
-  transform: scale(0.94);
+  transform: scale(0.96);
 }
 
 .navbar-widget-btn i {
@@ -793,7 +793,7 @@
 }
 
 .contact-method:hover {
-  background-color: var(--surface-alt);
+  background-color: var(--surface-elevated);
   transform: translateX(5px);
 }
 
@@ -842,7 +842,7 @@
 }
 
 .contact-description {
-  color: var(--text-light);
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin: 0;
 }

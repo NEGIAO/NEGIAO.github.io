@@ -65,6 +65,7 @@
     display: flex;
     align-items: center;
     gap: 0.3rem;
+    font-variant-numeric: tabular-nums;
 }
 
 .note-viewer-page .note-reading-meta i {
@@ -86,17 +87,25 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 30px;
-    height: 30px;
-    padding: 0 0.4rem;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.5rem;
     background: transparent;
     border: 1px solid var(--border);
     color: var(--text-muted);
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 0.78rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition:
+        color 0.15s ease-out,
+        background-color 0.15s ease-out,
+        border-color 0.15s ease-out,
+        scale 0.15s ease-out;
+}
+
+.note-viewer-page .note-font-btn:active:not(:disabled) {
+    scale: 0.96;
 }
 
 .note-viewer-page .note-font-btn:hover:not(:disabled) {
@@ -133,6 +142,12 @@
     margin: 1rem auto !important;
     max-width: 100%;
     height: auto;
+    outline: 1px solid oklch(1 0 0 / 0.1);
+    outline-offset: -1px;
+}
+
+body[data-theme='light'].note-viewer-page #note-content img {
+    outline-color: oklch(0 0 0 / 0.1);
 }
 
 /* Markdown 表格：窄屏下仅表格自身横向滚动，不撑破页面 */
@@ -312,7 +327,12 @@
     padding: 0.6rem 1.5rem;
     border-radius: 6px;
     font-size: 0.9rem;
-    transition: all 0.3s ease;
+    transition:
+        color 0.3s ease,
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        scale 0.15s ease-out;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -454,6 +474,11 @@
     box-shadow: 0 8px 20px color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
+.note-viewer-page .note-viewer-navbar__home:active,
+.note-viewer-page .note-viewer-navbar__back:active {
+    transform: scale(0.96);
+}
+
 .note-viewer-page .note-viewer-navbar__back-icon {
     display: inline-flex;
     align-items: center;
@@ -590,14 +615,6 @@
         max-height: min(72vh, calc(100dvh - 8rem)) !important;
     }
 
-    .note-viewer-page .note-toc__list--children {
-        padding-left: 0.82rem;
-    }
-
-    .note-viewer-page .note-toc__link {
-        padding: 0.42rem 0.5rem;
-    }
-
     .note-viewer-page .note-toc.note-toc--hidden {
         transform: translateY(-50%) translateX(150%);
         opacity: 0;
@@ -669,9 +686,18 @@
     position: relative;
     margin: 1rem 0;
     background: var(--surface-elevated);
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    border: 0;
+    border-radius: var(--radius-lg, 10px);
+    box-shadow:
+        0 0 0 1px oklch(1 0 0 / 0.08),
+        0 8px 22px -12px oklch(0 0 0 / 0.5);
     overflow: hidden;
+}
+
+body[data-theme='light'].note-viewer-page .code-block-wrapper {
+    box-shadow:
+        0 0 0 1px oklch(0 0 0 / 0.08),
+        0 8px 22px -12px oklch(0 0 0 / 0.22);
 }
 
 .note-viewer-page .code-block-wrapper pre {
@@ -710,14 +736,23 @@
     align-items: center;
     justify-content: center;
     gap: 0.35rem;
+    min-height: 40px;
     background: transparent;
     border: 1px solid var(--border);
     color: var(--text-muted);
-    padding: 0.3rem 0.65rem;
-    border-radius: 4px;
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
     font-size: 0.7rem;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition:
+        color 0.15s ease-out,
+        background-color 0.15s ease-out,
+        border-color 0.15s ease-out,
+        scale 0.15s ease-out;
+}
+
+.note-viewer-page .code-block-copy-btn:active {
+    scale: 0.96;
 }
 
 .note-viewer-page .code-block-copy-btn:hover {
@@ -746,10 +781,18 @@
     padding: 0.75rem 0.9rem;
     margin-bottom: 1.5rem;
     background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: var(--shadow-sm);
+    border-color: transparent;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 1px oklch(1 0 0 / 0.08),
+        0 10px 28px -10px oklch(0 0 0 / 0.55);
     z-index: 900;
+}
+
+body[data-theme='light'].note-viewer-page .note-search-container {
+    box-shadow:
+        0 0 0 1px oklch(0 0 0 / 0.08),
+        0 10px 28px -12px oklch(0 0 0 / 0.2);
 }
 
 .note-viewer-page .note-search-input {
@@ -784,14 +827,22 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background: transparent;
     border: 1px solid var(--border);
     color: var(--text-muted);
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition:
+        color 0.15s ease-out,
+        background-color 0.15s ease-out,
+        border-color 0.15s ease-out,
+        scale 0.15s ease-out;
+}
+
+.note-viewer-page .note-search-nav-btn:active:not(:disabled) {
+    scale: 0.96;
 }
 
 .note-viewer-page .note-search-nav-btn:hover:not(:disabled) {
@@ -810,6 +861,7 @@
     color: var(--text-muted);
     padding: 0 0.5rem;
     white-space: nowrap;
+    font-variant-numeric: tabular-nums;
 }
 
 /* Search highlight */
@@ -845,6 +897,12 @@ mark.search-highlight.active {
 .note-viewer-page #note-content h5,
 .note-viewer-page #note-content h6 {
     color: var(--primary);
+    text-wrap: balance;
+}
+
+.note-viewer-page #note-content p,
+.note-viewer-page #note-content li {
+    text-wrap: pretty;
 }
 
 .note-viewer-page #note-content strong {
@@ -877,5 +935,13 @@ mark.search-highlight.active {
         border-left: none;
         padding-left: 0;
         margin-left: 0;
+    }
+
+    .note-viewer-page .note-font-btn,
+    .note-viewer-page .note-search-nav-btn,
+    .note-viewer-page .code-block-copy-btn {
+        min-width: 44px;
+        min-height: 44px;
+        height: 44px;
     }
 }

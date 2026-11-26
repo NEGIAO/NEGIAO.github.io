@@ -34,7 +34,7 @@ https://mt{n}.google.com/vt/lyrs={type}&hl={lang}&x={x}&y={y}&z={z}
 | `s` | 纯卫星影像 (Satellite Only) | 纯遥感高分影像，不包含任何路网、边界、地名等矢量叠加物 |
 | `y` | 混合影像图 (Hybrid) | 卫星影像底图 + 矢量路网 + 行政边界 + 中文文字注记（开发最常用） |
 | `t` | 纯地形图 (Terrain Only) | 包含山体阴影、等高线绿地等，不含路网与社会要素 |
-| `p` | 地形混合图 (Terrain Hybrid) | 地形图底图 + 矢量路网 + 边界 + 标注信息 |
+| `p` | 地形混合图 (Terrain Hybrid) | 以地形晕渲为基础，并可能叠加道路、边界、地名等要素；实际内容会受样式参数及 Google 瓦片服务版本影响 |
 | `h` | 仅注记/路网图 (Labels Only) | 背景完全透明，仅保留行政边界、路网骨架及地名标注 |
 
 ---
@@ -139,6 +139,39 @@ https://mt0.google.com/vt/lyrs=h&hl=zh-CN&x={x}&y={y}&z={z}
 
 ### 2. 基于 `apistyle` 的高阶定制底图
 
+#### 干净地形底图（保留山体阴影）
+
+```text
+https://mt0.google.com/vt/lyrs=p&x={x}&y={y}&z={z}&s=Ga&apistyle=s.e:l%7Cp.v:off,s.t:1%7Cs.e.g%7Cp.v:off,s.t:2%7Cs.e.g%7Cp.v:off
+```
+
+将 `apistyle` 解码后可读为：
+
+```text
+s.e:l|p.v:off,s.t:1|s.e.g|p.v:off,s.t:2|s.e.g|p.v:off
+```
+
+- `lyrs=p`：请求地形混合类型瓦片，底图核心是地形渲染（通常可见山体晕渲），不是卫星影像。
+- `s.e:l|p.v:off`：关闭标签层，隐藏地名等文字/标签。
+- `s.t:1|s.e.g|p.v:off`：隐藏行政区划要素的几何部分。
+- `s.t:2|s.e.g|p.v:off`：隐藏土地利用要素的几何部分。
+
+因此，“干净底图（带山体阴影）”是合适的使用名称：它是**经过样式简化的地形混合底图**，不是严格意义上只含山体阴影的透明 hillshade 图层。该样式没有显式关闭所有要素，也没有关闭 `s.t:3` 道路几何，因此道路或其他未被规则覆盖的内容仍可能显示；若要求完全无地物的纯晕渲图，不能仅凭这组参数保证。`s=Ga` 不属于这里解析的 `apistyle` 规则，不改变 `lyrs=p` 所表示的图层类型。
+
+#### 干净地形底图（关闭道路，保留山体阴影）
+
+```text
+https://mt0.google.com/vt/lyrs=p&x={x}&y={y}&z={z}&s=Ga&apistyle=s.e:l%7Cp.v:off,s.t:1%7Cs.e.g%7Cp.v:off,s.t:2%7Cs.e.g%7Cp.v:off,s.t:3%7Cs.e.g%7Cp.v:off,s.t:4%7Cs.e.g%7Cp.v:off
+```
+
+此预设在上一条基础上增加了道路几何隐藏规则：
+
+```text
+s.t:3|s.e.g|p.v:off,s.t:4|s.e.g|p.v:off
+```
+
+其中 `s.t:3` 用于关闭道路要素几何，`s.t:4` 进一步关闭高速等高等级道路几何；标签层也已由 `s.e:l|p.v:off` 关闭。`lyrs=p` 地形底图未被关闭，因而保留地形晕渲/山体阴影。该预设适合作为叠加业务数据的简洁地形背景；Google 瓦片样式属于非稳定的服务参数，实际效果仍可能随服务端规则变化，若仍看到道路，可检查当前瓦片服务对 `apistyle` 类型编号的支持。
+
 #### 纯路网底图（中文注记 + 道路骨架，无任何绿地水体背景，全透明）
 
 ```text
@@ -214,7 +247,7 @@ https://www.google.com/maps/vt/pb=!1m4!1m3!1i{z}!2i{x}!3i{y}!2m1!1e5
 
 ### 3. 纠偏代理接口规范
 
-后端代理服务的基地址（Base URL）为：`https://negiao-webgis.hf.space`
+后端代理服务的基地址（Base URL）为：`https://vpn.negiao.cn`
 
 #### 接口 A：GCJ-02 转换为 WGS-84 瓦片（火星转地球）
 
@@ -223,7 +256,7 @@ https://www.google.com/maps/vt/pb=!1m4!1m3!1i{z}!2i{x}!3i{y}!2m1!1e5
 - **URL 格式**：
 
 ```text
-https://negiao-webgis.hf.space/proxy/gcj2wgs/{target_url}
+https://vpn.negiao.cn/proxy/gcj2wgs/{target_url}
 ```
 
 #### 接口 B：WGS-84 转换为 GCJ-02 瓦片（地球转火星）
@@ -233,7 +266,7 @@ https://negiao-webgis.hf.space/proxy/gcj2wgs/{target_url}
 - **URL 格式**：
 
 ```text
-https://negiao-webgis.hf.space/proxy/wgs2gcj/{target_url}
+https://vpn.negiao.cn/proxy/wgs2gcj/{target_url}
 ```
 
 ---
@@ -255,7 +288,7 @@ const rawGoogleUrl = 'https://mt1.google.com/vt/lyrs=m&hl=zh-CN&x={x}&y={y}&z={z
 const wgsCorrectedRoadLayer = new TileLayer({
   name: '谷歌纠偏纯路网(WGS-84)',
   source: new XYZ({
-    url: `https://negiao-webgis.hf.space/proxy/gcj2wgs/${rawGoogleUrl}`,
+    url: `https://vpn.negiao.cn/proxy/gcj2wgs/${rawGoogleUrl}`,
     maxZoom: 20,
     crossOrigin: 'anonymous' // 避免可能存在的跨域画布污染
   }),
@@ -278,7 +311,7 @@ const rawSatelliteUrl = 'https://mt2.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
 const gcjShiftedSatelliteLayer = new TileLayer({
   name: '谷歌卫星影像(GCJ-02火星化)',
   source: new XYZ({
-    url: `https://negiao-webgis.hf.space/proxy/wgs2gcj/${rawSatelliteUrl}`,
+    url: `https://vpn.negiao.cn/proxy/wgs2gcj/${rawSatelliteUrl}`,
     maxZoom: 20
   }),
   zIndex: 1

@@ -19,6 +19,8 @@
         { label: '纯路网骨架', url: 'https://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&apistyle=s.t:0|p.v:off,s.t:3|p.v:on,s.t:3|s.e:l|p.v:off' },
         { label: '纯水体', url: 'https://mt0.google.com/vt/lyrs=m&x={x}&&hl=zh-CN&y={y}&z={z}&apistyle=s.t:0|p.v:off,s.t:6|p.v:on' },
         { label: '山体阴影(Protobuf)', url: 'https://www.google.com/maps/vt/pb=!1m4!1m3!1i{z}!2i{x}!3i{y}!2m1!1e5' },
+        { label: '干净底图（带山体阴影）', url: 'https://mt0.google.com/vt/lyrs=p&x={x}&y={y}&z={z}&s=Ga&apistyle=s.e:l%7Cp.v:off,s.t:1%7Cs.e.g%7Cp.v:off,s.t:2%7Cs.e.g%7Cp.v:off' },
+        { label: '干净地形底图（关闭道路，保留山体阴影）', url: 'https://mt0.google.com/vt/lyrs=p&x={x}&y={y}&z={z}&s=Ga&apistyle=s.e:l%7Cp.v:off,s.t:1%7Cs.e.g%7Cp.v:off,s.t:2%7Cs.e.g%7Cp.v:off,s.t:3%7Cs.e.g%7Cp.v:off,s.t:4%7Cs.e.g%7Cp.v:off' },
     ];
 
     // 插件内部状态（供 destroy 清理）

@@ -9,6 +9,9 @@
   const TOC_NAV_SELECTOR = '#note-toc';
   const TOC_ROOT_SELECTOR = '.note-toc';
   const ACTIVE_OFFSET_EXTRA = 16;
+  // 点击目录后目标标题会停在 navbar 触发线下方 1–2px；
+  // 留 4px 容差，避免滚动跟踪把刚点击的章节判成上一节。
+  const ACTIVE_EPSILON = 4;
 
   const state = {
     contentEl: null,
@@ -24,6 +27,8 @@
     activePathItems: [],
     scrollRaf: 0,
     resizeTimer: 0,
+    contentResizeTimer: 0,
+    contentResizeObserver: null,
     userScrollTimer: 0,
     isUserTocScrolling: false,
     initialized: false,
@@ -158,7 +163,8 @@
     item.classList.toggle('is-collapsed', !expanded);
     if (button) {
       button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-      button.setAttribute('aria-label', `${expanded ? '折叠' : '展开'} ${link ? link.textContent : '子章节'}`);
+      const label = link ? (link.dataset.text || link.textContent.trim()) : '子章节';
+      button.setAttribute('aria-label', `${expanded ? '折叠' : '展开'} ${label}`);
     }
   }
 
@@ -182,6 +188,8 @@
       const row = document.createElement('div');
       const toggle = hasChildren ? document.createElement('button') : document.createElement('span');
       const link = document.createElement('a');
+      const levelBadge = document.createElement('span');
+      const linkText = document.createElement('span');
 
       li.className = `note-toc__item ${hasChildren ? 'has-children is-collapsed' : 'is-leaf'}`;
       li.dataset.level = String(node.level);
@@ -203,9 +211,20 @@
       link.className = 'note-toc__link';
       link.dataset.level = String(node.level);
       link.dataset.headingId = node.id;
+      link.dataset.text = node.text;
       link.href = `#${node.id}`;
-      link.textContent = node.text;
+      link.title = node.text;
+      link.setAttribute('aria-label', `H${node.level} ${node.text}`);
       link.addEventListener('click', handleTocClick);
+
+      levelBadge.className = 'note-toc__level';
+      levelBadge.textContent = `H${node.level}`;
+      levelBadge.setAttribute('aria-hidden', 'true');
+
+      linkText.className = 'note-toc__text';
+      linkText.textContent = node.text;
+      link.appendChild(levelBadge);
+      link.appendChild(linkText);
 
       row.appendChild(toggle);
       row.appendChild(link);
@@ -233,6 +252,8 @@
     const fragment = document.createDocumentFragment();
     const title = document.createElement('h4');
     const accent = document.createElement('span');
+    const heading = document.createElement('span');
+    const eyebrow = document.createElement('span');
     const label = document.createElement('span');
     const count = document.createElement('span');
     const tree = createHeadingTree(headings);
@@ -242,13 +263,20 @@
     accent.className = 'toc-accent';
     accent.setAttribute('aria-hidden', 'true');
 
+    heading.className = 'note-toc__heading';
+    eyebrow.className = 'note-toc__eyebrow';
+    eyebrow.textContent = 'CONTENTS';
+    label.className = 'note-toc__heading-text';
     label.textContent = '文章目录';
+    heading.appendChild(eyebrow);
+    heading.appendChild(label);
 
     count.className = 'note-toc__count';
     count.textContent = String(headings.length);
+    count.setAttribute('aria-label', `${headings.length} 个章节`);
 
     title.appendChild(accent);
-    title.appendChild(label);
+    title.appendChild(heading);
     title.appendChild(count);
     fragment.appendChild(title);
     fragment.appendChild(renderTreeNodes(tree, { isRoot: true }));
@@ -337,7 +365,7 @@
 
     let activeId = null;
     for (let i = 0; i < state.headingPositions.length; i++) {
-      if (state.headingPositions[i].top <= readLine) {
+      if (state.headingPositions[i].top <= readLine + ACTIVE_EPSILON) {
         activeId = state.headingPositions[i].id;
       } else {
         break;
@@ -418,6 +446,26 @@
 
   function refresh() { build(); }
 
+  /**
+   * 仅重算标题位置，保留当前目录 DOM 与折叠状态。
+   * 插件沙盒、图片或 MathJax 注入内容后文章高度会变化，
+   * 必须刷新位置，否则点击目录后 active 会落在前一章节。
+   */
+  function refreshPositions() {
+    if (!state.headings.length) return;
+    buildHeadingPositions();
+    scheduleActiveUpdate();
+  }
+
+  function watchContentResize() {
+    if (state.contentResizeObserver || !state.contentEl || !window.ResizeObserver) return;
+    state.contentResizeObserver = new ResizeObserver(() => {
+      clearTimeout(state.contentResizeTimer);
+      state.contentResizeTimer = setTimeout(refreshPositions, 120);
+    });
+    state.contentResizeObserver.observe(state.contentEl);
+  }
+
   function initProgressBar() {
     if (state.progressInitialized || document.getElementById('scroll-progress')) {
       state.progressInitialized = true;
@@ -447,7 +495,12 @@
     window.removeEventListener('resize', handleResize);
     if (state.tocNavEl) state.tocNavEl.removeEventListener('scroll', onTocNavScroll);
     clearTimeout(state.resizeTimer);
+    clearTimeout(state.contentResizeTimer);
     clearTimeout(state.userScrollTimer);
+    if (state.contentResizeObserver) {
+      state.contentResizeObserver.disconnect();
+      state.contentResizeObserver = null;
+    }
     if (state.scrollRaf) window.cancelAnimationFrame(state.scrollRaf);
     state.initialized = false;
   }
@@ -470,6 +523,7 @@
         state.tocNavEl.addEventListener('scroll', onTocNavScroll, { passive: true });
       }
       build();
+      watchContentResize();
       initProgressBar();
     };
 
@@ -485,6 +539,6 @@
 
   init();
 
-  window.NoteTOC = { init, build, refresh, clear, destroy, setActive };
+  window.NoteTOC = { init, build, refresh, refreshPositions, clear, destroy, setActive };
   window.buildNoteTOC = () => refresh();
 })();

@@ -9,6 +9,10 @@ body[data-theme='light'].schedule-page{--sch-line:rgba(0, 0, 0, .09);--sch-line-
 .schedule-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:var(--space-xl);margin-bottom:var(--space-xl)}
 .schedule-eyebrow{display:flex;align-items:center;gap:.55rem;margin:0 0 .55rem;color:var(--primary);font-family:var(--font-mono);font-size:.75rem;font-weight:700;letter-spacing:.16em}.schedule-eyebrow::before{content:'';width:1.75rem;height:2px;background:var(--primary)}
 .schedule-title{margin:0 0 .55rem;color:var(--text);font-size:clamp(2rem,4vw,3rem);font-weight:850;letter-spacing:-.035em}.schedule-subtitle{max-width:620px;margin:0;color:var(--text-muted);font-size:.98rem}
+.schedule-archive-notice{display:flex;align-items:flex-start;gap:.75rem;margin:0 0 var(--space-xl);padding:.9rem 1.1rem;border:1px solid color-mix(in srgb,var(--warning) 38%,var(--sch-line));border-radius:var(--radius-lg);color:var(--text);background:color-mix(in srgb,var(--warning) 8%,var(--sch-panel))}
+.schedule-archive-notice i{flex:0 0 auto;margin-top:.18rem;color:var(--warning)}
+.schedule-archive-notice p{margin:0;color:var(--text-muted);font-size:.88rem;line-height:1.6}
+.schedule-archive-notice strong{color:var(--warning)}
 .live-clock{display:flex;align-items:center;gap:.85rem;min-width:330px;padding:.95rem 1.1rem;border:1px solid var(--sch-line);border-radius:var(--radius-lg);background:var(--sch-panel);box-shadow:var(--shadow-md);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .live-clock__icon{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;flex:0 0 auto;border-radius:var(--radius-md);color:var(--primary);background:var(--sch-cyan);font-size:1rem}.live-clock__content{min-width:0}.live-clock__label{display:block;margin-bottom:.1rem;color:var(--text-disabled);font-size:.7rem;font-weight:700;letter-spacing:.12em}.live-clock__value{display:block;color:var(--text);font-family:var(--font-mono);font-size:.88rem;font-weight:650;white-space:nowrap}
 .schedule-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-md);margin-bottom:var(--space-xl)}

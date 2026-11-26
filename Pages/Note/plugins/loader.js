@@ -122,7 +122,8 @@
         var basePath = '../plugins/' + dirName + '/';
 
         // 自动加载插件目录下的 styles.css（如果存在）
-        var stylesLoaded = await loadCSS(basePath + 'styles.css');
+        // 插件 CSS 无固定版本号，追加构建后缀避免浏览器沿用旧缓存
+        var stylesLoaded = await loadCSS(basePath + 'styles.css?v=20261126b');
         if (stylesLoaded) {
             console.log('[PluginLoader] 自动加载 styles.css: "' + noteName + '"');
         }

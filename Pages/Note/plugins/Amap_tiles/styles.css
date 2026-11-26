@@ -35,7 +35,7 @@
 .amap-header-left span {
     font-size: 14px;
     font-weight: 600;
-    color: var(--text-primary, var(--text));
+    color: var(--text);
 }
 
 .amap-underlay-toggle {
@@ -73,7 +73,7 @@
     border-radius: var(--radius-md, 8px);
     border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
     background: rgba(0, 0, 0, 0.22);
-    color: var(--text-primary, var(--text));
+    color: var(--text);
     font-family: var(--font-mono, 'Fira Code', monospace);
     font-size: 12px;
     outline: none;
@@ -128,7 +128,7 @@
     border-radius: var(--radius-sm, 6px);
     border: 1px solid color-mix(in srgb, var(--primary) 22%, transparent);
     background: rgba(0, 0, 0, 0.22);
-    color: var(--text-primary, var(--text));
+    color: var(--text);
     font-size: 12px;
     outline: none;
     cursor: pointer;
@@ -160,7 +160,7 @@
 .amap-ltype-title {
     font-size: 12px;
     font-weight: 600;
-    color: var(--text-primary, var(--text));
+    color: var(--text);
 }
 
 .amap-ltype-badge {

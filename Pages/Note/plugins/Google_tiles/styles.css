@@ -27,7 +27,7 @@
 .gt-preview-header span {
     font-size: 14px;
     font-weight: 600;
-    color: var(--text-primary, var(--text-secondary));
+    color: var(--text-secondary);
 }
 
 .gt-preview-controls {
@@ -49,7 +49,7 @@
     border-radius: var(--radius-md, 8px);
     border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
     background: rgba(0, 0, 0, 0.2);
-    color: var(--text-primary, var(--text-secondary));
+    color: var(--text-secondary);
     font-family: var(--font-mono, 'Fira Code', monospace);
     font-size: 12px;
     outline: none;
@@ -144,7 +144,11 @@ body[data-theme='light'] .gt-preview-header {
 body[data-theme='light'] .gt-url-input {
     background: rgba(255, 255, 255, 0.8);
     border-color: color-mix(in srgb, var(--primary) 25%, transparent);
-    color: var(--surface);
+    color: var(--text);
+}
+
+body[data-theme='light'] .gt-url-input::placeholder {
+    color: var(--text-muted);
 }
 
 body[data-theme='light'] .gt-preset-btn {

@@ -21,7 +21,7 @@
 
 .home-page .skip-to-content:focus {
   top: var(--space-md);
-  outline: 2px solid var(--text-primary);
+  outline: 2px solid var(--text);
   outline-offset: 2px;
 }
 
@@ -378,8 +378,9 @@
   font-size: clamp(1.65rem, 2.8vw, 2.35rem);
   font-weight: 800;
   letter-spacing: -0.025em;
-  color: var(--text-primary);
+  color: var(--text);
   margin: 0;
+  text-wrap: balance;
 }
 
 .home-page .section-header__subtitle {
@@ -388,6 +389,7 @@
   max-width: 560px;
   margin: 0;
   line-height: 1.6;
+  text-wrap: pretty;
 }
 
 /* ========================
@@ -611,8 +613,8 @@ body[data-theme='light'].home-page .hero-bg__grid {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success);
   animation: statusPulse 2.2s ease-in-out infinite;
 }
 
@@ -716,6 +718,12 @@ body[data-theme='light'].home-page .hero-bg__grid {
   max-width: min(420px, 72vw);
   height: auto;
   max-height: 32px;
+  outline: 1px solid oklch(1 0 0 / 0.1);
+  outline-offset: -1px;
+}
+
+body[data-theme='light'].home-page .hero__subtitle img {
+  outline-color: oklch(0 0 0 / 0.1);
 }
 
 .home-page .hero__bio {
@@ -724,10 +732,11 @@ body[data-theme='light'].home-page .hero-bg__grid {
   color: var(--text-secondary);
   margin: 0 0 1.35rem;
   max-width: 580px;
+  text-wrap: pretty;
 }
 
 .home-page .hero__bio strong {
-  color: var(--text-primary);
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -762,7 +771,7 @@ body[data-theme='light'].home-page .hero-bg__grid {
 .home-page .hero-tech-badges .tech-badge:hover {
   transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--primary) 45%, transparent);
-  color: var(--text-primary);
+  color: var(--text);
 }
 
 /* 主操作按钮组 & 全局首页按钮细节质感 (参考 LandingView 按钮光泽与层次) */
@@ -818,7 +827,7 @@ body[data-theme='light'].home-page .hero-bg__grid {
 }
 
 .home-page .btn:active {
-  transform: translateY(0) scale(0.985) !important;
+  transform: translateY(0) scale(0.96);
 }
 
 .home-page .btn i {
@@ -870,7 +879,7 @@ body[data-theme='light'].home-page .btn--primary:hover {
 
 .home-page .btn--secondary {
   background: color-mix(in srgb, var(--surface-elevated) 82%, transparent);
-  color: var(--text-primary);
+  color: var(--text);
   border: 1px solid color-mix(in srgb, var(--primary) 26%, var(--glass-border));
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
@@ -881,7 +890,7 @@ body[data-theme='light'].home-page .btn--primary:hover {
 
 body[data-theme='light'].home-page .btn--secondary {
   background: #ffffff;
-  color: var(--text-primary);
+  color: var(--text);
   border-color: color-mix(in srgb, var(--primary) 24%, rgba(15, 23, 42, 0.1));
   box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.04),
@@ -953,6 +962,7 @@ body[data-theme='light'].home-page .btn--ghost:hover {
 
 .home-page .hero__btn-count {
   font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
   font-size: 0.72rem;
   font-weight: 600;
   padding: 0.1rem 0.45rem;
@@ -971,7 +981,7 @@ body[data-theme='light'].home-page .btn--ghost:hover {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid color-mix(in srgb, var(--primary) 20%, var(--glass-border));
-  border-radius: var(--radius-xl);
+  border-radius: 1.75rem;
   padding: 1.25rem;
   box-shadow:
     0 24px 48px -18px rgba(0, 0, 0, 0.45),
@@ -1039,7 +1049,7 @@ body[data-theme='light'].home-page .hero__console {
   font-family: var(--font-mono);
   font-size: 1rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text);
 }
 
 .home-page .console-profile__role-tag {
@@ -1172,7 +1182,7 @@ body[data-theme='light'].home-page .hero__console {
 .home-page .quick-tile__name {
   font-size: 0.86rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text);
   line-height: 1.25;
 }
 
@@ -1311,21 +1321,13 @@ body[data-theme='light'].home-page .hero__console {
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.045), transparent);
   transform: translateX(-140%) skewX(-18deg);
+  transition: transform 0.68s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   z-index: 1;
 }
 
 .home-page .bento-card:hover::after {
-  animation: bentoCardSheen 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes bentoCardSheen {
-  0% {
-    transform: translateX(-140%) skewX(-18deg);
-  }
-  100% {
-    transform: translateX(260%) skewX(-18deg);
-  }
+  transform: translateX(260%) skewX(-18deg);
 }
 
 .home-page .bento-card:hover {
@@ -1470,7 +1472,7 @@ body[data-theme='light'].home-page .bento-card:hover {
 }
 
 .home-page .bento-card__title a {
-  color: var(--text-primary);
+  color: var(--text);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -1515,7 +1517,7 @@ body[data-theme='light'].home-page .bento-card:hover {
 .home-page .bento-spec__v {
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text);
 }
 
 .home-page .bento-card__footer {
@@ -1543,7 +1545,7 @@ body[data-theme='light'].home-page .bento-card:hover {
   background: color-mix(in srgb, var(--background) 55%, transparent);
   border: 1px solid var(--glass-border);
   text-decoration: none;
-  color: var(--text-primary);
+  color: var(--text);
   font-size: 0.84rem;
   font-weight: 500;
   transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
@@ -1567,8 +1569,8 @@ body[data-theme='light'].home-page .bento-card:hover {
 }
 
 .home-page .bento-mini-link__tag--live {
-  background: color-mix(in srgb, #10b981 18%, transparent);
-  color: #10b981;
+  background: color-mix(in srgb, var(--success) 18%, transparent);
+  color: var(--success);
 }
 
 .home-page .bento-mini-link__text {
@@ -1694,7 +1696,7 @@ body[data-theme='light'].home-page .bento-card:hover {
 .home-page .city-chip__name {
   font-size: 0.88rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--text);
   line-height: 1.25;
 }
 
@@ -1767,7 +1769,7 @@ body[data-theme='light'].home-page .telemetry-panel {
 }
 
 .home-page .telemetry-panel__dots span:nth-child(3) {
-  background: #10b981;
+  background: var(--success);
   opacity: 0.75;
 }
 
@@ -1919,8 +1921,8 @@ body[data-theme='light'].home-page .connect-card {
 }
 
 .home-page .connect-card.is-copied {
-  border-color: #10b981;
-  background: color-mix(in srgb, #10b981 10%, var(--surface));
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 10%, var(--surface));
 }
 
 .home-page .connect-card__icon {
@@ -1962,7 +1964,7 @@ body[data-theme='light'].home-page .connect-card {
 .home-page .connect-card__value {
   font-size: 0.92rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1977,7 +1979,7 @@ body[data-theme='light'].home-page .connect-card {
 }
 
 .home-page .connect-card.is-copied .connect-card__hint {
-  color: #10b981;
+  color: var(--success);
   font-weight: 600;
 }
 
@@ -2028,12 +2030,12 @@ body[data-theme='light'].home-page .connect-card {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.92rem;
-  color: var(--text-primary);
+  color: var(--text);
   letter-spacing: 0.06em;
 }
 
 .home-page .footer__divider {
-  color: var(--border);
+  color: var(--text-muted);
 }
 
 .home-page .footer__tagline {
@@ -2247,7 +2249,7 @@ body[data-theme='light'].home-page .connect-card {
     border-radius: 0.8rem;
     font-size: 0.92rem !important;
     font-weight: 600 !important;
-    color: var(--text-primary);
+    color: var(--text);
     background: color-mix(in srgb, var(--background) 45%, transparent);
     border: 1px solid var(--glass-border);
     text-decoration: none;

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NEGIAO的日常课表 - 实时显示当前课程和下节课安排">
+    <meta name="description" content="NEGIAO大三上学期（2025秋季学期）历史课表存档，课程安排已停用，仅供回顾。">
     <meta name="keywords" content="课程表, 日程安排, 学习计划, NEGIAO">
     <meta name="author" content="NEGIAO">
     <meta name="theme-color" content="#0D1117">
@@ -12,17 +12,17 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://negiao.github.io/Pages/schedule.html">
-    <meta property="og:title" content="课程表 - NEGIAO">
-    <meta property="og:description" content="NEGIAO的日常课表 - 实时显示当前课程和下节课安排">
+    <meta property="og:title" content="2025秋季学期历史课表 - NEGIAO">
+    <meta property="og:description" content="NEGIAO大三上学期（2025秋季学期）历史课表存档，课程安排已停用，仅供回顾。">
     <meta property="og:image" content="https://negiao.github.io/Pages/public/avatar.webp">
 
-    <title>课程表 - NEGIAO</title>
+    <title>2025秋季学期历史课表 - NEGIAO</title>
     <link rel="icon" type="image/webp" href="/images/icon.webp">
-    <link rel="stylesheet" href="css/style-new.css?v=20260527">
+    <link rel="stylesheet" href="css/style-new.css?v=20261126b">
     <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="public/main-enhanced.js" defer></script>
 
-    <link rel="stylesheet" href="css/schedule.css?v=20260728-2">
+    <link rel="stylesheet" href="css/schedule.css?v=20261126-archive">
     <script src="/Pages/navbar-widgets/index.js" defer></script>
 </head>
 
@@ -43,9 +43,9 @@
     <main class="schedule-main">
         <section class="schedule-hero" aria-labelledby="scheduleTitle">
             <div>
-                <p class="schedule-eyebrow">学习日程</p>
-                <h1 class="schedule-title" id="scheduleTitle">本周课程表</h1>
-                <p class="schedule-subtitle">集中查看课程时间、上课地点与当日进度，当前课程和下一节安排会自动更新。</p>
+                <p class="schedule-eyebrow">历史课表存档</p>
+                <h1 class="schedule-title" id="scheduleTitle">大三上学期课程表</h1>
+                <p class="schedule-subtitle">2025 秋季学期 · 课程安排已停用，仅作历史记录。</p>
             </div>
             <div class="live-clock" role="status" aria-live="polite">
                 <span class="live-clock__icon" aria-hidden="true"><i class="fas fa-clock"></i></span>
@@ -56,26 +56,31 @@
             </div>
         </section>
 
+        <aside class="schedule-archive-notice" role="note" aria-label="历史课表说明">
+            <i class="fas fa-box-archive" aria-hidden="true"></i>
+            <p><strong>历史课表，已停用。</strong>这是我大三上学期（2025 秋季学期）的课程安排，早已不再使用。页面中的当前课程、下一节课和出发提示仅按这份旧课表与当前时间演算，不代表现在的实际安排。</p>
+        </aside>
+
         <section class="schedule-overview" aria-label="课程概览">
             <article class="schedule-summary schedule-summary--current">
                 <div class="schedule-summary__top">
-                    <span class="schedule-summary__label"><i class="fas fa-circle-play" aria-hidden="true"></i>当前状态</span>
-                    <span class="schedule-summary__state" id="currentCourseState">实时</span>
+                    <span class="schedule-summary__label"><i class="fas fa-circle-play" aria-hidden="true"></i>旧表时段匹配</span>
+                    <span class="schedule-summary__state" id="currentCourseState">历史模拟</span>
                 </div>
                 <p class="schedule-summary__value" id="currentCourseText">正在判断课程状态...</p>
                 <span class="schedule-summary__meta" id="currentCourseMeta">请稍候</span>
             </article>
             <article class="schedule-summary schedule-summary--next">
                 <div class="schedule-summary__top">
-                    <span class="schedule-summary__label"><i class="fas fa-forward-step" aria-hidden="true"></i>下一节课</span>
-                    <span class="schedule-summary__state">自动更新</span>
+                    <span class="schedule-summary__label"><i class="fas fa-forward-step" aria-hidden="true"></i>旧表后续课程</span>
+                    <span class="schedule-summary__state">历史模拟</span>
                 </div>
                 <p class="schedule-summary__value" id="nextCourseText">正在读取课程安排...</p>
                 <span class="schedule-summary__meta" id="nextCourseMeta">请稍候</span>
             </article>
             <article class="schedule-summary schedule-summary--week">
                 <div class="schedule-summary__top">
-                    <span class="schedule-summary__label"><i class="fas fa-calendar-week" aria-hidden="true"></i>本周概览</span>
+                    <span class="schedule-summary__label"><i class="fas fa-calendar-week" aria-hidden="true"></i>历史安排概览</span>
                     <span class="schedule-summary__state">周一至周五</span>
                 </div>
                 <p class="schedule-summary__value">9 门课程</p>
@@ -86,13 +91,13 @@
         <section class="schedule-panel" aria-labelledby="weeklyScheduleTitle">
             <div class="schedule-panel__header">
                 <div class="schedule-panel__heading">
-                    <h2 class="schedule-panel__title" id="weeklyScheduleTitle"><i class="fas fa-table-cells-large" aria-hidden="true"></i>每周安排</h2>
-                    <p class="schedule-panel__description">时间按每日教学节次排列，连续课程会自动合并显示。</p>
+                    <h2 class="schedule-panel__title" id="weeklyScheduleTitle"><i class="fas fa-table-cells-large" aria-hidden="true"></i>2025 秋季每周安排</h2>
+                    <p class="schedule-panel__description">时间按当时的每日教学节次排列，连续课程会自动合并显示。</p>
                 </div>
                 <div class="status-indicators" aria-label="课程状态图例">
-                    <span class="status-indicator"><span class="indicator-dot current-dot"></span>当前课程</span>
-                    <span class="status-indicator"><span class="indicator-dot next-dot"></span>下一节课</span>
-                    <span class="status-indicator"><span class="indicator-dot commute-dot"></span>40 分钟内需出发</span>
+                    <span class="status-indicator"><span class="indicator-dot current-dot"></span>旧表时段匹配</span>
+                    <span class="status-indicator"><span class="indicator-dot next-dot"></span>旧表后续课程</span>
+                    <span class="status-indicator"><span class="indicator-dot commute-dot"></span>旧表出发提示</span>
                 </div>
             </div>
             <div class="schedule-scroll-hint" aria-hidden="true"><i class="fas fa-arrows-left-right"></i>左右滑动查看完整课程表</div>
@@ -371,7 +376,7 @@
             if (currentDay < 1 || currentDay > 5) {
                 domCache.currentCourseText.textContent = '今天没有课程';
                 domCache.currentCourseMeta.textContent = '周末可以整理学习计划或适当休息';
-                domCache.currentCourseState.textContent = '休息日';
+                domCache.currentCourseState.textContent = '旧表模拟';
                 domCache.nextCourseText.textContent = '下周一：空间数据库';
                 domCache.nextCourseMeta.textContent = '10:00–11:40 · 113机房';
                 return;
@@ -382,10 +387,10 @@
                 const endSlot = timeSlots.find(slot => slot.period === status.current.endPeriod);
                 domCache.currentCourseText.textContent = status.current.courseName;
                 domCache.currentCourseMeta.textContent = `${startSlot.start}–${endSlot.end} · ${status.current.location}`;
-                domCache.currentCourseState.textContent = '进行中';
+                domCache.currentCourseState.textContent = '旧表模拟';
             } else {
                 domCache.currentCourseText.textContent = '当前没有课程';
-                domCache.currentCourseState.textContent = '课间';
+                domCache.currentCourseState.textContent = '旧表模拟';
                 if (status.next) {
                     const minutesUntilNext = status.next.startTime - currentTime;
                     domCache.currentCourseMeta.textContent = minutesUntilNext > 0
@@ -393,7 +398,7 @@
                         : '今日课程状态正在更新';
                 } else {
                     domCache.currentCourseMeta.textContent = '今天的课程已经结束';
-                    domCache.currentCourseState.textContent = '已结束';
+                    domCache.currentCourseState.textContent = '旧表模拟';
                 }
             }
 
